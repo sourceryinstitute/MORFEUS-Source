@@ -5,6 +5,7 @@ set -o errexit
 # configure git
 git config --global user.name "Sourcery-Bot"
 git config --global user.email "si-bot@izaakbeekman.com"
+git config --global url."git@github.com:".insteadOf "https://github.com/"
 
 # Print diagnostic info
 echo "Workflow name: $GITHUB_WORKFLOW"
@@ -30,9 +31,14 @@ git status
 # setup SSH
 mkdir ~/.ssh
 chmod 700 ~/.ssh
-echo "$MIRROR_DEPLOYMENT_KEY" > ~/.ssh/id_ed25519
+echo "$SI_BOT_KEY" > ~/.ssh/id_ed25519
 chmod 600 ~/.ssh/id_ed25519
-git config --global core.sshCommand "ssh -i ~/.ssh/id_ed25519 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+echo "$MIRROR_DEPLOYMENT_KEY" > ~/.ssh/MIRROR_KEY.id_ed25519
+chmod 600 ~/.ssh/MIRROR_KEY.id_ed25519
+eval "$(ssh-agent -s)"
+cat "$SI_BOT_KEY_PW" | ssh-add -p ~/.ssh/id_ed25519 > /dev/null 2>&1
+ssh-add ~/.ssh/MIRROR_KEY.id_ed25519
+git config --global core.sshCommand "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
 # Ensure our local repo has EV-ER-Y-THING
 git fetch --tags --prune --prune-tags --force --update-head-ok --progress
