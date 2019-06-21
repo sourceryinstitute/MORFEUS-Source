@@ -31,6 +31,8 @@ mkdir ~/.ssh
 chmod 700 ~/.ssh
 echo "$IBB_PWLESS_DEPLOY_KEY" > ~/.ssh/id_ed25519
 chmod 600 ~/.ssh/id_ed25519
+echo "Checking the sha256 checksum of the ssh key..."
+sha256sum ~/.ssh/id_ed25519
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 
@@ -56,7 +58,7 @@ git config --global user.email "ibeekman@paratools.com"
 git remote -v
 
 echo "Testing ssh connection to mirror repo"
-ssh -T git@github.com
+ssh -T git@github.com || echo "FAILED TO AUTHENTICATE!!!"
 
 echo "Attempting to clone mirror"
 git clone --mirror "$MIRROR_URL"
