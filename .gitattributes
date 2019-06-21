@@ -1,0 +1,22 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+*.vcproj text eol=crlf
+*.bat text eol=crlf
+vendor/cmake-*/** -text
+**/*.pdf -text
+**/*.PDF -text
+*.pdf binary
+*.PDF binary
+
+# Custom for Visual Studio
+*.cs     diff=csharp
+
+# Standard to msysgit
+*.doc	 diff=astextplain
+*.DOC	 diff=astextplain
+*.docx diff=astextplain
+*.DOCX diff=astextplain
+*.dot  diff=astextplain
+*.DOT  diff=astextplain
+*.rtf	 diff=astextplain
+*.RTF	 diff=astextplain
