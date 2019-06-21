@@ -19,5 +19,5 @@ action "Mirror to repo" {
   env = {
       MIRROR_URL = "git@github.com:nrc-fuels/MORFEUS-mirror.git"
   }
-  secrets = ["MIRROR_DEPLOYMENT_KEY", "SI_BOT_KEY", "GITHUB_TOKEN"]
+  secrets = ["IBB_PWLESS_DEPLOY_KEY", "SI_BOT_KEY", "GITHUB_TOKEN"]
 }

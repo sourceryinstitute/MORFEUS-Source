@@ -29,7 +29,7 @@ git status
 echo "Setting up SSH"
 mkdir ~/.ssh
 chmod 700 ~/.ssh
-echo "$MIRROR_DEPLOYMENT_KEY" > ~/.ssh/id_ed25519
+echo "$IBB_PWLESS_DEPLOY_KEY" > ~/.ssh/id_ed25519
 chmod 600 ~/.ssh/id_ed25519
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
@@ -49,9 +49,6 @@ git branch -avvv
 echo "Seting up the mirror remote..."
 git remote set-url --push origin "$MIRROR_URL"
 
-echo "Switching to use the deployment key..."
-git config --global core.sshCommand "ssh -i ~/.ssh/MIRROR_KEY.id_ed25519 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-
 echo "Configure git for authorized user"
 git config --global user.name "Izaak Beekman"
 git config --global user.email "ibeekman@paratools.com"
@@ -61,8 +58,9 @@ git remote -v
 echo "Testing ssh connection to mirror repo"
 ssh -T git@github.com
 
+echo "Attempting to clone mirror"
 git clone --mirror "$MIRROR_URL"
 
 echo "Attempting push to MIRROR repository..."
-# # Push to the mirrored repository
+# Push to the mirrored repository
 git push --mirror --force --progress
