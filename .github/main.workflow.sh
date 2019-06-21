@@ -36,8 +36,19 @@ chmod 600 ~/.ssh/id_ed25519
 echo "$MIRROR_DEPLOYMENT_KEY" > ~/.ssh/MIRROR_KEY.id_ed25519
 chmod 600 ~/.ssh/MIRROR_KEY.id_ed25519
 eval "$(ssh-agent -s)"
-echo "$SI_BOT_KEY_PW" | ssh-add -p ~/.ssh/id_ed25519
 ssh-add ~/.ssh/MIRROR_KEY.id_ed25519
+
+echo "$SI_BOT_KEY_PW" | ssh-add -p ~/.ssh/id_ed25519
+
+
+/usr/bin/expect <<- EOF
+spawn ssh-add ${HOME}/.ssh/id_ed25519
+expect "Enter passphrase for ${HOME}/.ssh/id_ed25519:"
+send "${SI_BOT_KEY_PW}\n";
+expect "Identity added: ${HOME}/.ssh/id_ed25519 (${HOME}/.ssh/id_ed25519)"
+interact
+EOF
+
 git config --global core.sshCommand "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
 # Ensure our local repo has EV-ER-Y-THING
