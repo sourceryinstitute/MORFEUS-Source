@@ -50,7 +50,7 @@ git fetch --tags --prune --prune-tags --force --update-head-ok --progress
 
 echo "Seting up the mirror remote..."
 git remote set-url --push origin "$MIRROR_URL"
-git remot -v
+git remote -v
 
 echo "Switching to use the deployment key..."
 git config --global core.sshCommand "ssh -i ~/.ssh/MIRROR_KEY.id_ed25519 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
