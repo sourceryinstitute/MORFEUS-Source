@@ -1,0 +1,14 @@
+ :;exec emacs -batch -l   "$0" -f : "$@" --no-site-file -q  # -*- Emacs-Lisp -*-
+;     @emacs -batch -l "%~f0" -f :  %*  --no-site-file -q  & goto :EOF
+;
+; This script will delete trailing whitespace in a file
+;
+; Usage:  script-name  text-file-name
+;
+(defun : ()
+  (find-file (nth 5 command-line-args))
+  (condition-case nil
+      (delete-trailing-whitespace 0 nil)
+    (error nil) )
+  (save-buffer) )
+;:EOF
