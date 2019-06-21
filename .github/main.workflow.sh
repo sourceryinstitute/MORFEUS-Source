@@ -38,9 +38,6 @@ chmod 600 ~/.ssh/MIRROR_KEY.id_ed25519
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/MIRROR_KEY.id_ed25519
 
-echo "$SI_BOT_KEY_PW" | ssh-add -p ~/.ssh/id_ed25519
-
-
 /usr/bin/expect <<- EOF
 spawn ssh-add ${HOME}/.ssh/id_ed25519
 expect "Enter passphrase for ${HOME}/.ssh/id_ed25519:"
