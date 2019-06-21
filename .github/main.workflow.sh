@@ -40,7 +40,7 @@ ssh-add ~/.ssh/MIRROR_KEY.id_ed25519
 
 echo "Checking git remotes, and setting up git's SSH"
 git remote -v
-git remote set-url origin git@github.com:${GITHUB_REPOSITORY}.git
+git remote set-url origin https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
 git config --global core.sshCommand "ssh -i ~/.ssh/id_ed25519 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 git config --show-origin --list
 git remote -v
