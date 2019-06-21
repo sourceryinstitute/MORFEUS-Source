@@ -48,4 +48,4 @@ git fetch --tags --prune --prune-tags --force --update-head-ok --progress
 git remote set-url --push origin "$MIRROR_URL"
 
 # # Push to the mirrored repository
-# git push --mirror --force --progress
+git push --mirror --force --progress
