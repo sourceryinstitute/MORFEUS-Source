@@ -41,7 +41,7 @@ ssh-add ~/.ssh/MIRROR_KEY.id_ed25519
 echo "Checking git remotes, and setting up git's SSH"
 git remote -v
 git remote set-url origin git@github.com:${GITHUB_REPOSITORY}.git
-git config --global core.sshCommand "ssh -o -i ~/.ssh/id_ed25519 UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+git config --global core.sshCommand "ssh -i ~/.ssh/id_ed25519 UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 git config --show-origin --list
 git remote -v
 
@@ -53,7 +53,7 @@ git remote set-url --push origin "$MIRROR_URL"
 git remot -v
 
 echo "Switching to use the deployment key..."
-git config --global core.sshCommand "ssh -o -i ~/.ssh/MIRROR_KEY.id_ed25519 UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+git config --global core.sshCommand "ssh -i ~/.ssh/MIRROR_KEY.id_ed25519 UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
 # # configure git
 # git config --global user.name "Izaak Beekman"
