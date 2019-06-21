@@ -5,7 +5,6 @@ set -o errexit
 # configure git
 git config --global user.name "Sourcery-Bot"
 git config --global user.email "si-bot@izaakbeekman.com"
-git config --global url."git@github.com:".insteadOf "https://github.com/"
 
 # Print diagnostic info
 echo "Workflow name: $GITHUB_WORKFLOW"
@@ -39,7 +38,11 @@ eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 ssh-add ~/.ssh/MIRROR_KEY.id_ed25519
 
+git remote -v
+git remote --set-url origin git@github.com:${GITHUB_REPOSITORY}.git
+git remote -v
 git config --global core.sshCommand "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+
 
 # Ensure our local repo has EV-ER-Y-THING
 git fetch --tags --prune --prune-tags --force --update-head-ok --progress
