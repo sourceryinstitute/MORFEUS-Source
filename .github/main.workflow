@@ -16,5 +16,8 @@ workflow "Delete-ref" {
 action "Mirror to repo" {
   uses = "docker://buildpack-deps:testing-scm"
   runs = ".github/main.workflow.sh"
-  secrets = ["MIRROR_DEPLOYMENT_KEY", "MIRROR_URL", "SI_BOT_KEY", "GITHUB_TOKEN"]
+  env = {
+      MIRROR_URL = "git@github.com:nrc-fuels/MORFEUS-mirror.git"
+  }
+  secrets = ["MIRROR_DEPLOYMENT_KEY", "SI_BOT_KEY", "GITHUB_TOKEN"]
 }
