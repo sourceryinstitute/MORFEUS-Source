@@ -57,10 +57,7 @@ git config --show-origin --list
 git remote -v
 
 echo "Testing ssh connection to mirror repo"
-ssh -T git@github.com || echo "FAILED TO AUTHENTICATE!!!"
-
-echo "Attempting to clone mirror"
-git clone --mirror "$MIRROR_URL"
+ssh -i ~/.ssh/id_ed25519 -T git@github.com || echo "FAILED TO AUTHENTICATE!!!"
 
 echo "Attempting push to MIRROR repository..."
 # Push to the mirrored repository
