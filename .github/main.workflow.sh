@@ -35,7 +35,7 @@ chmod 600 ~/.ssh/id_ed25519
 git config --global core.sshCommand "ssh -i ~/.ssh/id_ed25519 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
 # Ensure our local repo has EV-ER-Y-THING
-git fetch --unshallow --tags --prune --prune-tags --force --update-head-ok --progress
+git fetch --tags --prune --prune-tags --force --update-head-ok --progress
 
 # Setup the mirror remote
 git remote set-url --push origin "$MIRROR_URL"
