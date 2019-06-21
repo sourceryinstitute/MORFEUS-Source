@@ -36,7 +36,7 @@ chmod 600 ~/.ssh/id_ed25519
 echo "$MIRROR_DEPLOYMENT_KEY" > ~/.ssh/MIRROR_KEY.id_ed25519
 chmod 600 ~/.ssh/MIRROR_KEY.id_ed25519
 eval "$(ssh-agent -s)"
-echo "$SI_BOT_KEY_PW" | ssh-add -p ~/.ssh/id_ed25519 > /dev/null 2>&1
+echo "$SI_BOT_KEY_PW" | ssh-add -p ~/.ssh/id_ed25519
 ssh-add ~/.ssh/MIRROR_KEY.id_ed25519
 git config --global core.sshCommand "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
