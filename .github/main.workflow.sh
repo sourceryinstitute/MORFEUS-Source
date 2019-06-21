@@ -26,20 +26,8 @@ git --version
 echo "Git Status:"
 git status
 
-echo "Setting up SSH"
-mkdir ~/.ssh
-chmod 700 ~/.ssh
-echo "$IBB_PWLESS_DEPLOY_KEY" > ~/.ssh/id_ed25519
-chmod 600 ~/.ssh/id_ed25519
-echo "Checking the sha256 checksum of the ssh key..."
-sha256sum ~/.ssh/id_ed25519
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_ed25519
-
-echo "Checking git remotes, and setting up git's SSH"
+echo "Checking git remotes"
 git remote -v
-git config --global core.sshCommand "ssh -i ~/.ssh/id_ed25519 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-git config --show-origin --list
 git remote set-url origin https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
 
 echo "Fetch everything and make sure we're up-to-date before mirroring."
@@ -51,10 +39,21 @@ git branch -avvv
 echo "Seting up the mirror remote..."
 git remote set-url --push origin "$MIRROR_URL"
 
+echo "Setting up SSH"
+mkdir ~/.ssh
+chmod 700 ~/.ssh
+echo "$IBB_PWLESS_DEPLOY_KEY" > ~/.ssh/id_ed25519
+chmod 600 ~/.ssh/id_ed25519
+echo "Checking the sha256 checksum of the ssh key..."
+sha256sum ~/.ssh/id_ed25519
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+
 echo "Configure git for authorized user"
 git config --global user.name "Izaak Beekman"
 git config --global user.email "ibeekman@paratools.com"
-
+git config --global core.sshCommand "ssh -i ~/.ssh/id_ed25519 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+git config --show-origin --list
 git remote -v
 
 echo "Testing ssh connection to mirror repo"
