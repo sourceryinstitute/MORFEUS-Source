@@ -39,7 +39,7 @@ ssh-add ~/.ssh/id_ed25519
 ssh-add ~/.ssh/MIRROR_KEY.id_ed25519
 
 git remote -v
-git remote --set-url origin git@github.com:${GITHUB_REPOSITORY}.git
+git remote set-url origin git@github.com:${GITHUB_REPOSITORY}.git
 git remote -v
 git config --global core.sshCommand "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
