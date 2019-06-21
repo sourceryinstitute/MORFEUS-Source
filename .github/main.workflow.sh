@@ -27,7 +27,7 @@ echo "Git Status:"
 git status
 
 
-# setup SSH
+echo "Setting up SSH"
 mkdir ~/.ssh
 chmod 700 ~/.ssh
 echo "$SI_BOT_KEY" > ~/.ssh/id_ed25519
@@ -38,17 +38,27 @@ eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 ssh-add ~/.ssh/MIRROR_KEY.id_ed25519
 
+echo "Checking git remotes, and setting up git's SSH"
 git remote -v
 git remote set-url origin git@github.com:${GITHUB_REPOSITORY}.git
+git config --global core.sshCommand "ssh -o -i ~/.ssh/id_ed25519 UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+git config --show-origin --list
 git remote -v
-git config --global core.sshCommand "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
-
-# Ensure our local repo has EV-ER-Y-THING
+echo "Fetch everything and make sure we're up-to-date before mirroring."
 git fetch --tags --prune --prune-tags --force --update-head-ok --progress
 
-# Setup the mirror remote
+echo "Seting up the mirror remote..."
 git remote set-url --push origin "$MIRROR_URL"
+git remot -v
 
+echo "Switching to use the deployment key..."
+git config --global core.sshCommand "ssh -o -i ~/.ssh/MIRROR_KEY.id_ed25519 UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+
+# # configure git
+# git config --global user.name "Izaak Beekman"
+# git config --global user.email "ibeekman@paratools.com"
+
+echo "Attempting push to MIRROR repository..."
 # # Push to the mirrored repository
 git push --mirror --force --progress
