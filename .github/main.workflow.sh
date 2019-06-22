@@ -28,16 +28,16 @@ git status
 
 echo "Checking git remotes"
 git remote -v
-git remote set-url origin https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+# git remote set-url origin https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
 
-echo "Fetch everything and make sure we're up-to-date before mirroring."
-git fetch --tags --prune --prune-tags --force --update-head-ok --progress
+# echo "Fetch everything and make sure we're up-to-date before mirroring."
+# git fetch --tags --prune --prune-tags --force --update-head-ok --progress
 
 echo "Branches found:"
 git branch -avvv
 
-echo "Seting up the mirror remote..."
-git remote set-url --push origin "$MIRROR_URL"
+# echo "Seting up the mirror remote..."
+# git remote set-url --push origin "$MIRROR_URL"
 
 echo "Setting up SSH"
 mkdir ~/.ssh
@@ -54,11 +54,22 @@ git config --global user.name "Izaak Beekman"
 git config --global user.email "ibeekman@paratools.com"
 git config --global core.sshCommand "ssh -i ~/.ssh/id_ed25519 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 git config --show-origin --list
-git remote -v
 
-echo "Testing ssh connection to mirror repo"
-ssh -i ~/.ssh/id_ed25519 -T git@github.com || echo "FAILED TO AUTHENTICATE!!!"
+echo "Creating a local mirror of ${GITHUB_REPOSITORY}"
+cd ~ || exit 77
+git clone --mirror https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
 
 echo "Attempting push to MIRROR repository..."
+cd ${GITHUB_REPOSITORY#*/}.git || exit 77
+
+echo "Setting mirror remote url"
+git remote set-url --push origin "${MIRROR_URL}"
+
+echo "Pruning PR refs"
+git show-ref | cut -d' ' -f2 | grep 'refs/pull/' | xargs -r -L1 git update-ref -d
+git show-ref
+
+git config --show-origin --list
+
 # Push to the mirrored repository
 git push --mirror --force --progress

@@ -3,13 +3,13 @@ workflow "Push" {
   resolves = ["Mirror to repo"]
 }
 
-workflow "Create-ref" {
-  on = "create"
+workflow "Delete-ref" {
+  on = "delete"
   resolves = ["Mirror to repo"]
 }
 
-workflow "Delete-ref" {
-  on = "delete"
+workflow "Create-ref" {
+  on = "create"
   resolves = ["Mirror to repo"]
 }
 
