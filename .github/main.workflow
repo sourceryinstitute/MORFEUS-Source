@@ -19,7 +19,7 @@ workflow "Wiki-update" {
 }
 
 workflow "Nightly-mirror" {
-  on = "schedule(49 3 * * *)" # 03:49 daily
+  on = "schedule(49 7 * * *)" # 07:49 UTC daily
   resolves = ["Mirror to repo", "Mirror wiki"]
 }
 
