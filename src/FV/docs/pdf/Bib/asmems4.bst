@@ -13,8 +13,8 @@
 %     1/24/88	(OP&HWT) Updated for BibTeX version 0.99a, Oren Patashnik;
 %                        corrected the abbreviations to "Mar." and "Sept.";
 %                        SINCE THE `acm' VERSION ON WHICH THIS 'asmems4'
-%                        version WAS BASED DOES NOT WORK WITH BIBTEX 0.98i, 
-%                        DON"T EXPECT 'asmems4' TO WORK WITH 
+%                        version WAS BASED DOES NOT WORK WITH BIBTEX 0.98i,
+%                        DON"T EXPECT 'asmems4' TO WORK WITH
 %                        BIBTEX 0.98i EITHER.
 %     1/1/03    (GRS)   `acm' blended with 'unsrt' and 'apalike' to create
 %                       'asmems4'
@@ -373,7 +373,7 @@ FUNCTION {format.date}
 %	'year                     % ASME wants the year after the author
 %	{ month " " * year * }    % rather than here so
 	{ "" }                    % print nothing if month is empty
-	
+
 	{  month }                % or just the month if month is full.
       if$
     }
@@ -560,7 +560,7 @@ FUNCTION {format.in.ed.booktitle}
   if$
 }
 
-% Proceedings titles don't have an (address, date) appended in ASME 
+% Proceedings titles don't have an (address, date) appended in ASME
 % bibliographies so forget the following function.
 
 % The proceedings title (it's on the stack) gets an (address, date) appended
@@ -582,7 +582,7 @@ FUNCTION {format.in.ed.booktitle}
 %	    'skip$
 %	    { address * ", " * }
 %	  if$
-%	  format.date * 
+%	  format.date *
 %	  ")" *
 %	}
 %      if$

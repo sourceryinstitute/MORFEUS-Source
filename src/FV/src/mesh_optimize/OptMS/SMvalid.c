@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -28,7 +28,7 @@ int SMvalidityCheck(SMlocal_mesh *local_mesh, SMparam *smooth_param, int *valid)
 
     opt_info = local_mesh->opt_info;
 
-    /* check that the mesh is still valid, based on right handedness. 
+    /* check that the mesh is still valid, based on right handedness.
        Returns a 1 or a 0 */
     ierr = SMvalidMesh(local_mesh, valid); OPTMS_CHKERR(ierr);
 
@@ -47,7 +47,7 @@ int SMvalidityCheck(SMlocal_mesh *local_mesh, SMparam *smooth_param, int *valid)
         int i;
         printf("The mesh is no longer valid\n");
         OPTMS_WRITE_BINARY_ORDERED_PTS(local_mesh);
-        for (i=0;i<local_mesh->dimension;i++) 
+        for (i=0;i<local_mesh->dimension;i++)
    	   fprintf(stderr,"free_new[%d] = %f;  ",i,local_mesh->free_vtx[i]);
         fprintf(stderr,"\n");
 
@@ -55,7 +55,7 @@ int SMvalidityCheck(SMlocal_mesh *local_mesh, SMparam *smooth_param, int *valid)
       }
     });
     return(ierr=0);
-}    
+}
 
 #undef __FUNC__
 #define __FUNC__ "SMvalidMesh"
@@ -72,20 +72,20 @@ int SMvalidMesh(SMlocal_mesh *local_mesh, int *valid)
 
     if (local_mesh->dimension == 2) {
       for (i=0;i<num_tri && (*valid);i++) {
-        ind1 = local_mesh->vtx_connectivity[i][0]; 
-        ind2 = local_mesh->vtx_connectivity[i][1]; 
-        ierr = SMorient2D(free_vtx, 
-                           local_mesh->incident_vtx[ind1], 
+        ind1 = local_mesh->vtx_connectivity[i][0];
+        ind2 = local_mesh->vtx_connectivity[i][1];
+        ierr = SMorient2D(free_vtx,
+                           local_mesh->incident_vtx[ind1],
                            local_mesh->incident_vtx[ind2],valid);
                OPTMS_CHKERR(ierr);
       }
     } else if (local_mesh->dimension == 3) {
       for (i=0;i<num_tri && (*valid);i++) {
-         ind1 = local_mesh->vtx_connectivity[i][0]; 
-         ind2 = local_mesh->vtx_connectivity[i][1]; 
-         ind3 = local_mesh->vtx_connectivity[i][2]; 
-         ierr = SMorient3D(free_vtx,local_mesh->incident_vtx[ind1], 
-                           local_mesh->incident_vtx[ind2], 
+         ind1 = local_mesh->vtx_connectivity[i][0];
+         ind2 = local_mesh->vtx_connectivity[i][1];
+         ind3 = local_mesh->vtx_connectivity[i][2];
+         ierr = SMorient3D(free_vtx,local_mesh->incident_vtx[ind1],
+                           local_mesh->incident_vtx[ind2],
                            local_mesh->incident_vtx[ind3], valid);
                 OPTMS_CHKERR(ierr);
 	 if (*valid == -1) *valid = 0; /* if it's left handed consider it invalid */
@@ -113,7 +113,7 @@ int SMorient2D(double *vtx1, double *vtx2, double *vtx3, int *valid)
 
 #undef __FUNC__
 #define __FUNC__ "SMorient3D"
-int SMorient3D(double *vtx1, double *vtx2, double *vtx3, double *free_vtx, int *valid) 
+int SMorient3D(double *vtx1, double *vtx2, double *vtx3, double *free_vtx, int *valid)
      /* Returns 1 if tet ABCD is right-handed, -1 if it's left-handed,
 	and 0 if it's essentially a tie. */
 {
@@ -184,10 +184,3 @@ int SMorient3D(double *vtx1, double *vtx2, double *vtx3, double *free_vtx, int *
   }
   return (ierr=0);
 }
-
-
-
-
-
-
-

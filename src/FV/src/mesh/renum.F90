@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -61,7 +61,7 @@ MODULE renum
     INTEGER, PARAMETER :: to_b_       = 2
     INTEGER, PARAMETER :: to_a_and_b_ = 3
 
- INTERFACE 
+ INTERFACE
 
     ! ----- Constructor -----
 

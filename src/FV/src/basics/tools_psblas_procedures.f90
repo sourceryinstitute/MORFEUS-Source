@@ -46,7 +46,7 @@
 ! PSB_HGATHERV:        gathers an array of strings
 ! PSB_CHECK_ERROR:     checks the error code returned by a PSBLAS call.
 !
-SUBMODULE(tools_psblas) tools_psblas_procedures 
+SUBMODULE(tools_psblas) tools_psblas_procedures
 
     USE psb_base_mod
     USE psb_prec_mod

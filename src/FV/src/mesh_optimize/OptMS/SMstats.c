@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -21,7 +21,7 @@ extern int fclose (FILE *);
 
 #undef __FUNC__
 #define __FUNC__ "SMaccumulateStats"
-int SMaccumulateStats(SMlocal_mesh *local_mesh, SMparam *smooth_param, 
+int SMaccumulateStats(SMlocal_mesh *local_mesh, SMparam *smooth_param,
 		   SMstats *smooth_stats)
 {
     int ierr;
@@ -47,7 +47,7 @@ int SMaccumulateStats(SMlocal_mesh *local_mesh, SMparam *smooth_param,
         (smooth_param->smooth_technique != OPTMS_SMART_LAPLACIAN_ONLY) &&
         (local_mesh->lap_done) &&
         (local_mesh->lap_info->lap_accepted) &&
-        (local_mesh->lap_info->laplacian_value > 
+        (local_mesh->lap_info->laplacian_value >
          smooth_param->lap_accept_value) ) {
         smooth_stats->num_lap_enough += 1;
     }
@@ -96,7 +96,7 @@ int SMaccumulateStats(SMlocal_mesh *local_mesh, SMparam *smooth_param,
     /* improvement in local submesh */
     imp = local_mesh->current_active_value - local_mesh->original_value;
     smooth_stats->avg_improvement += imp;
-        
+
     /* was there actually any improvement */
     if (imp == 0) {
 	smooth_stats->no_improvement += 1;
@@ -187,7 +187,7 @@ int SMwriteStatsFile(SMstats *smooth_stats, int smooth_count)
 
     if ((fp = fopen("OptMS.stats","a")) == NULL) {
          OPTMS_SETERR(OPTMS_FILE_OPEN_ERR,0,"Can't open OptMS.stats for appending\n");
-    } 
+    }
     fprintf(fp,"\n");
     fprintf(fp,"******************************************************************\n");
     fprintf(fp,"                            ITERATION  %d                        \n",smooth_count);
@@ -210,16 +210,3 @@ int SMwriteStatsFile(SMstats *smooth_stats, int smooth_count)
     fclose(fp);
     return(ierr=0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

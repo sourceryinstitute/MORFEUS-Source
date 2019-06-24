@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -14,8 +14,8 @@
 #include "SMsmooth.h"
 
 #undef __FUNC__
-#define __FUNC__ "SMcomputeFunction" 
-int  SMcomputeFunction(SMlocal_mesh *local_mesh, SMparam *smooth_param, 
+#define __FUNC__ "SMcomputeFunction"
+int  SMcomputeFunction(SMlocal_mesh *local_mesh, SMparam *smooth_param,
                         double *function)
 {
     int ierr = 0;
@@ -32,7 +32,7 @@ int  SMcomputeFunction(SMlocal_mesh *local_mesh, SMparam *smooth_param,
 
     dimension = local_mesh->dimension;
 
-    SM_LOG_EVENT_BEGIN(__SM_FUNCTION__); 
+    SM_LOG_EVENT_BEGIN(__SM_FUNCTION__);
     if (dimension==2) {
       ComputeFunctionValues2D = smooth_param->ComputeFunctionValues2D;
       fcn_ind=0; ind1=0; ind2=0;
@@ -48,7 +48,7 @@ int  SMcomputeFunction(SMlocal_mesh *local_mesh, SMparam *smooth_param,
                      function1,&num_values);  OPTMS_CHKERR(ierr);
           for (j=0;j<num_values;j++)  function[fcn_ind++] = function1[j];
        }
-    } else if (dimension ==3) { 
+    } else if (dimension ==3) {
       ComputeFunctionValues3D = smooth_param->ComputeFunctionValues3D;
       fcn_ind=0; ind1=0; ind2=0;
       OPTMS_MALLOC(function1,(double *),
@@ -56,9 +56,9 @@ int  SMcomputeFunction(SMlocal_mesh *local_mesh, SMparam *smooth_param,
 
       num_tri = local_mesh->num_tri;
       for (i=0;i<num_tri;i++) {
-         ind1 = local_mesh->vtx_connectivity[i][0]; 
-         ind2 = local_mesh->vtx_connectivity[i][1]; 
-         ind3 = local_mesh->vtx_connectivity[i][2]; 
+         ind1 = local_mesh->vtx_connectivity[i][0];
+         ind2 = local_mesh->vtx_connectivity[i][1];
+         ind3 = local_mesh->vtx_connectivity[i][2];
          ComputeFunctionValues3D(local_mesh->free_vtx,
                    local_mesh->incident_vtx[ind1],
                    local_mesh->incident_vtx[ind2],
@@ -71,13 +71,13 @@ int  SMcomputeFunction(SMlocal_mesh *local_mesh, SMparam *smooth_param,
     }
 
     /* free the temporary function memory */
-    OPTMS_FREE(function1); 
-    SM_LOG_EVENT_END(__SM_FUNCTION__); 
+    OPTMS_FREE(function1);
+    SM_LOG_EVENT_END(__SM_FUNCTION__);
     return(ierr=0);
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMcomputeGradient" 
+#define __FUNC__ "SMcomputeGradient"
 int SMcomputeGradient(SMlocal_mesh *local_mesh, SMparam *smooth_param,
                        double **gradient)
 {
@@ -95,16 +95,16 @@ int SMcomputeGradient(SMlocal_mesh *local_mesh, SMparam *smooth_param,
     OPTMS_CHECK_NULL(gradient);
 
     dimension = local_mesh->dimension;
-  
-    SM_LOG_EVENT_BEGIN(__SM_GRADIENT__); 
+
+    SM_LOG_EVENT_BEGIN(__SM_GRADIENT__);
     if (dimension == 2) {
       num_tri = local_mesh->num_tri;
       num_val_per_tri = 3;
       ComputeGradientValues2D = smooth_param->ComputeGradientValues2D;
       OPTMS_MALLOC(gradient1,(double **),sizeof(double *)*num_val_per_tri,1);
-      for (i=0;i<num_val_per_tri;i++) 
+      for (i=0;i<num_val_per_tri;i++)
            OPTMS_MALLOC(gradient1[i],(double *),sizeof(double)*dimension,1);
-	    
+
       ind1=0; ind2=0; grad_ind = 0;
       for (i=0;i<num_tri;i++) {
             ind1=local_mesh->vtx_connectivity[i][0];
@@ -116,12 +116,12 @@ int SMcomputeGradient(SMlocal_mesh *local_mesh, SMparam *smooth_param,
                                   gradient1,&num_values);
                    OPTMS_CHKERR(ierr);
             for (j=0;j<num_values;j++) {
-                OPTMS_COPY_VECTOR(gradient[grad_ind],gradient1[j],2); 
+                OPTMS_COPY_VECTOR(gradient[grad_ind],gradient1[j],2);
                 grad_ind++;
             }
         }
-        for (i=0;i<num_val_per_tri;i++) OPTMS_FREE(gradient1[i]); 
-        OPTMS_FREE(gradient1);  
+        for (i=0;i<num_val_per_tri;i++) OPTMS_FREE(gradient1[i]);
+        OPTMS_FREE(gradient1);
     } else if (dimension == 3) {
         num_val_per_tri = 6;
         ComputeGradientValues3D = smooth_param->ComputeGradientValues3D;
@@ -133,25 +133,24 @@ int SMcomputeGradient(SMlocal_mesh *local_mesh, SMparam *smooth_param,
         ind1=0; ind2=0; ind3 = 0; grad_ind=0;
         num_tri = local_mesh->num_tri;
         for (i=0;i<num_tri;i++) {
-            ind1 = local_mesh->vtx_connectivity[i][0]; 
-            ind2 = local_mesh->vtx_connectivity[i][1]; 
-            ind3 = local_mesh->vtx_connectivity[i][2]; 
+            ind1 = local_mesh->vtx_connectivity[i][0];
+            ind2 = local_mesh->vtx_connectivity[i][1];
+            ind3 = local_mesh->vtx_connectivity[i][2];
             ComputeGradientValues3D(local_mesh->free_vtx,
                        local_mesh->incident_vtx[ind1],
                        local_mesh->incident_vtx[ind2],
                        local_mesh->incident_vtx[ind3],
                        gradient1,&num_values);
             for (j=0;j<num_values;j++) {
-                OPTMS_COPY_VECTOR(gradient[grad_ind],gradient1[j],dimension); 
+                OPTMS_COPY_VECTOR(gradient[grad_ind],gradient1[j],dimension);
                 grad_ind++;
             }
         }
         for (i=0;i<num_val_per_tri ;i++) OPTMS_FREE(gradient1[i]); /* was <3 */
-        OPTMS_FREE(gradient1); 
+        OPTMS_FREE(gradient1);
     } else {
         OPTMS_SETERR(OPTMS_INPUT_ERR,0,"Dimension must be 2 or 3");
     }
-    SM_LOG_EVENT_END(__SM_GRADIENT__); 
+    SM_LOG_EVENT_END(__SM_GRADIENT__);
     return(ierr=0);
 }
-

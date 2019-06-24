@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -55,7 +55,7 @@ MODULE class_motion
     PUBLIC :: surface_motion_, vertex_motion_, & ! Getters
         &    get_displacement, get_velocity
     PUBLIC :: move_boundary                      ! Setters
-  
+
 
     TYPE motion
         PRIVATE
@@ -141,7 +141,7 @@ MODULE class_motion
         REAL(psb_dpk_), INTENT(IN) :: x
     END FUNCTION get_motion_velocity
   END INTERFACE get_velocity
-  
+
   INTERFACE
 
     MODULE SUBROUTINE move_boundary(ib,this_motion,displacement,msh)

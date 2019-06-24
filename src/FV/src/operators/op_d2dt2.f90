@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -44,10 +44,10 @@
 !
 MODULE op_d2dt2
     USE class_scalar_pde, ONLY : scalar_pde
-      !! A gfortran 8.3.0 bug precludes putting this in the scalar_pde_d2dt2_phi and 
+      !! A gfortran 8.3.0 bug precludes putting this in the scalar_pde_d2dt2_phi and
       !! scalar_pde_d2dt2_fld_phi interface bodies
     USE class_vector_pde, ONLY : vector_pde
-      !! A gfortran 8.3.0 bug precludes putting this in the vector_pde_d2dt2_phi and 
+      !! A gfortran 8.3.0 bug precludes putting this in the vector_pde_d2dt2_phi and
       !! vector_pde_d2dt2_fld_phi interface bodies
     USE class_scalar_field, ONLY : scalar_field
       !! An Intel 18.0.5 bug precludes putting this in the interface bodies

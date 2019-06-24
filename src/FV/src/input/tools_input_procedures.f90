@@ -13,4 +13,3 @@ CONTAINS
   include "read_par_v.f90"
   include "find_section.f90"
 END SUBMODULE tools_input_procedures
-

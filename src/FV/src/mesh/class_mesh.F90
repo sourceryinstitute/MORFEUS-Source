@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -138,7 +138,7 @@ MODULE class_mesh
     ! - faster access
     ! - no need to encapsulate the implementation
 
-    INTERFACE 
+    INTERFACE
 
       !! ----- Constructors -----
 
@@ -154,7 +154,7 @@ MODULE class_mesh
           !! ----- Destructor -----
           IMPLICIT NONE
           CLASS(mesh), INTENT(INOUT) :: msh
-      END SUBROUTINE 
+      END SUBROUTINE
 
       !! ----- Check Operations -----
 
@@ -178,6 +178,6 @@ MODULE class_mesh
         CHARACTER(len=*), INTENT(IN) :: WHERE
       END SUBROUTINE check_mesh_consistency
 
-    END INTERFACE 
+    END INTERFACE
 
 END MODULE class_mesh

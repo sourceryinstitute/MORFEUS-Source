@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -151,7 +151,7 @@ MODULE class_plane
         TYPE(plane), INTENT(INOUT) :: this_plane       ! the plane we are moving
         TYPE(vector),  INTENT(IN)    :: offset           ! translation vector
     END SUBROUTINE translate_plane
-  
+
   END INTERFACE
 
 END MODULE class_plane

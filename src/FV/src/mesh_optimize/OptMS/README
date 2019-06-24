@@ -1,9 +1,9 @@
-This library, known as OptMS, is a modified version of Lori (nee Freitag) 
-Diachin's Opt-MS-1.0.3 code.  This library performs mesh smoothing and is 
-used in the NEMO code.  The OptMS source has been modified to comply with 
+This library, known as OptMS, is a modified version of Lori (nee Freitag)
+Diachin's Opt-MS-1.0.3 code.  This library performs mesh smoothing and is
+used in the NEMO code.  The OptMS source has been modified to comply with
 ANSI-C and some of the more strict compilation checks of gcc 4.2.  For example,
-all declarations of unused variables have been removed, a few macros have 
-changed, and an explicit prototyping of malloc is now used.  The copyright 
+all declarations of unused variables have been removed, a few macros have
+changed, and an explicit prototyping of malloc is now used.  The copyright
 notification of OptMS is below.
 
 ******************************************************************************

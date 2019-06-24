@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -37,7 +37,7 @@ and threshold usage.
 .  technique - a integer argument to set the smoothing technique used to
         adjust grid point location.
 .vb
-         Input one of:   
+         Input one of:
                 OPTMS_LAPLACIAN_ONLY        (or 1)
                 OPTMS_SMART_LAPLACIAN_ONLY  (or 2)
                 OPTMS_OPTIMIZATION_ONLY     (or 3)
@@ -49,7 +49,7 @@ and threshold usage.
                 OPTMS_TECHNIQUE_DEFAULT     (or 4)
                 OPTMS_DEFAULT               (or -1)
 
-           Note that either the COMBINED or FLOATING_THRESHOLD technique 
+           Note that either the COMBINED or FLOATING_THRESHOLD technique
            is recommended.  The COMBINED approach is the default.
 .ve
 
@@ -58,19 +58,19 @@ and threshold usage.
 
 .vb
        In 2D input one of
-              OPTMS_MAX_MIN_ANGLE  (or 1): maximize the minimum angle 
+              OPTMS_MAX_MIN_ANGLE  (or 1): maximize the minimum angle
               OPTMS_MIN_MAX_COSINE (or 2): minimize the maximum cosine of the angle
               OPTMS_MAX_MIN_COSINE (or 3): maximize the minimum cosine of the angle
               OPTMS_MAX_MIN_SINE   (or 4): maximize the minimum sine of the angle
               OPTMS_MIN_MAX_ANGLE  (or 5): minimize the maximum angle
-              OPTMS_MIN_MAX_JACOBIAN_DIFF (or 6): minimize the maximum square of the 
+              OPTMS_MIN_MAX_JACOBIAN_DIFF (or 6): minimize the maximum square of the
                   difference of the current jacobian and the jacobian of an equilateral
                   triangle (scaled by the jacobian of an equilateral triangle)
               OPTMS_MAX_MIN_SCALED_JACOBIAN (or 7): maximize the minimum scaled jacobian
                     for each of the three vertices of a triangle (J/(L1*L2)) where L1 and L2 are
                     the lengths of the incident edges.  Same as OPTMS_MAX_MIN_SINE in the feasible
                     region, but returns negative angles for inverted elements
-              OPTMS_MAX_MIN_AREA_LENGTH_RATIO (or 8):  Computes the ratio of the the area 
+              OPTMS_MAX_MIN_AREA_LENGTH_RATIO (or 8):  Computes the ratio of the the area
                     of the triangle and the sum of the squares of the length of the edges
               OPTMS_MIN_MAX_LENGTH_AREA_RATIO (or 9): Computes the negtive inverse of the
                     OPTMS_MAX_MIN_AREA_LENGTH_RATIO
@@ -85,15 +85,15 @@ and threshold usage.
                OPTMS_MAX_SINE_DIHEDRAL (or 25): maximize the minimum sine of the angle
                OPTMS_FUNCTION3D_DEFAULT (which is OPTMS_MAX_SINE_DIHEDRAL) (or 25)
                OPTMS_DEFAULT (-1, which will result in a choice of OPTMS_MAX_SINE_DIHEDRAL)
-            
+
          The default in 2D is OPTMS_MAX_MIN_SINE and in 3D is OPTMS_MAX_SINE_DIHEDRAL.
 .ve
 -  Threshold - a double argument that sets the degree value of the threshold
         used in either the COMBINED technique, which has a fixed value, or
         the FLOATING_THRESHOLD technique, which allows the threshold to vary.
-        The default values for the quality measures that depend on angle measures 
-        are 30 and 15 degrees for the COMBINED approach for 2D and 3D, respectively, 
-        and 10 and 15 degrees for the FLOATING_THRESHOLD approach.  For the 
+        The default values for the quality measures that depend on angle measures
+        are 30 and 15 degrees for the COMBINED approach for 2D and 3D, respectively,
+        and 10 and 15 degrees for the FLOATING_THRESHOLD approach.  For the
         measures that depend on Jacobian ratios the default is .25.
 
    Output Parameters:
@@ -108,8 +108,8 @@ and threshold usage.
 .seealso  SMsetSmoothTechnique(), SMsetSmoothFunction(), SMsetSmoothThreshold(),
               SMfinalizeSmoothing()
 @*/
-int SMinitSmoothing(int argc, char** argv, int dimension, 
-                     int technique, int FunctionID, double Threshold, 
+int SMinitSmoothing(int argc, char** argv, int dimension,
+                     int technique, int FunctionID, double Threshold,
                      void **ext_smooth_data)
 {
     SMsmooth_data *smooth_data;
@@ -131,7 +131,7 @@ int SMinitSmoothing(int argc, char** argv, int dimension,
     smooth_data->dimension=dimension;
     (*ext_smooth_data) = (SMsmooth_data *)smooth_data;
 
-    ierr = SMinitSmoothParam(technique,FunctionID,Threshold,(*ext_smooth_data)); 
+    ierr = SMinitSmoothParam(technique,FunctionID,Threshold,(*ext_smooth_data));
            OPTMS_CHKERR(ierr);
 
     ierr = SMmallocLocalMesh(&smooth_data->local_mesh);  OPTMS_CHKERR(ierr);
@@ -159,7 +159,7 @@ int SMinitSmoothing(int argc, char** argv, int dimension,
 #define __FUNC__ "SMsetProblemDimension"
 /*@
   SMsetProblemDimension - This function allows the user to set the dimension of the smoothing
-       problem.  Opt-MS currently supports 2D planar smoothing (in the x-y plane) 
+       problem.  Opt-MS currently supports 2D planar smoothing (in the x-y plane)
        and 3D smoothing.  This function call be called any time after SMinitSmoothing
        to set or change the dimension of the problem.
 
@@ -199,7 +199,7 @@ int SMsetProblemDimension(void *smooth_data, int dimension)
 #undef __FUNC__
 #define __FUNC__ "SMsetSmoothTechnique"
 /*@
-  SMsetSmoothTechnique - This function allows the user to change the technique used for mesh 
+  SMsetSmoothTechnique - This function allows the user to change the technique used for mesh
        smoothing at any time during the mesh improvement process.
 
    Input Parameters:
@@ -221,10 +221,10 @@ int SMsetProblemDimension(void *smooth_data, int dimension)
                 OPTMS_TECHNIQUE_DEFAULT    (or 4)
                 OPTMS_DEFAULT              (or -1)
 
-           Note that either the COMBINED or FLOATING_THRESHOLD technique 
+           Note that either the COMBINED or FLOATING_THRESHOLD technique
            is recommended.  The COMBINED approach is the default.
 
-      Note that either the COMBINED or FLOATING_THRESHOLD technique 
+      Note that either the COMBINED or FLOATING_THRESHOLD technique
       is recommended.  The COMBINED approach is the default.
 .ve
 
@@ -254,7 +254,7 @@ int SMsetSmoothTechnique(void *ext_smooth_data, int technique)
 #undef __FUNC__
 #define __FUNC__ "SMsetUntangleTechnique"
 /*@
-  SMsetUntangleTechnique - This function allows the user to change the technique used for mesh 
+  SMsetUntangleTechnique - This function allows the user to change the technique used for mesh
        untangling
 
    Input Parameters:
@@ -300,9 +300,9 @@ int SMsetUntangleTechnique(void *ext_smooth_data, int technique)
 #undef __FUNC__
 #define __FUNC__ "SMsetSmoothFunction"
 /*@
-    SMsetSmoothFunction - This function allows the user to change the mesh quality function that 
+    SMsetSmoothFunction - This function allows the user to change the mesh quality function that
          is optimized at any time during the smoothing process.
-   
+
     Input Parameters:
 +   smooth_data - a void data structure that contains the context and data structures
        for smoothing.  This structure is created in SMinitSmoothing, which must be called
@@ -311,19 +311,19 @@ int SMsetUntangleTechnique(void *ext_smooth_data, int technique)
            optimized.
 .vb
        In 2D input one of
-              OPTMS_MAX_MIN_ANGLE  (or 1): maximize the minimum angle 
+              OPTMS_MAX_MIN_ANGLE  (or 1): maximize the minimum angle
               OPTMS_MIN_MAX_COSINE (or 2): minimize the maximum cosine of the angle
               OPTMS_MAX_MIN_COSINE (or 3): maximize the minimum cosine of the angle
               OPTMS_MAX_MIN_SINE   (or 4): maximize the minimum sine of the angle
               OPTMS_MIN_MAX_ANGLE  (or 5): minimize the maximum angle
-              OPTMS_MIN_MAX_JACOBIAN_DIFF (or 6): minimize the maximum square of the 
+              OPTMS_MIN_MAX_JACOBIAN_DIFF (or 6): minimize the maximum square of the
                   difference of the current jacobian and the jacobian of an equilateral
                   triangle (scaled by the jacobian of an equilateral triangle)
               OPTMS_MAX_MIN_SCALED_JACOBIAN (or 7): maximize the minimum scaled jacobian
                     for each of the three vertices of a triangle (J/(L1*L2)) where L1 and L2 are
                     the lengths of the incident edges.  Same as OPTMS_MAX_MIN_SINE in the feasible
                     region, but returns negative angles for inverted elements
-              OPTMS_MAX_MIN_AREA_LENGTH_RATIO (or 8):  Computes the ratio of the the area 
+              OPTMS_MAX_MIN_AREA_LENGTH_RATIO (or 8):  Computes the ratio of the the area
                     of the triangle and the sum of the squares of the length of the edges
               OPTMS_MIN_MAX_LENGTH_AREA_RATIO (or 9): Computes the negtive inverse of the
                     OPTMS_MAX_MIN_AREA_LENGTH_RATIO
@@ -338,7 +338,7 @@ int SMsetUntangleTechnique(void *ext_smooth_data, int technique)
                OPTMS_MAX_SINE_DIHEDRAL (or 25): maximize the minimum sine of the angle
                OPTMS_FUNCTION3D_DEFAULT (which is OPTMS_MAX_SINE_DIHEDRAL) (or 25)
                OPTMS_DEFAULT (-1, which will result in a choice of OPTMS_MAX_SINE_DIHEDRAL)
-            
+
          The default in 2D is OPTMS_MAX_MIN_SINE and in 3D is OPTMS_MAX_SINE_DIHEDRAL.
 .ve
 
@@ -353,7 +353,7 @@ int SMsetSmoothFunction(void *ext_smooth_data,int FunctionID)
 {
     int ierr;
     SMsmooth_data *smooth_data;
-    SMparam *smooth_param; 
+    SMparam *smooth_param;
     int dimension;
 
     smooth_data =(SMsmooth_data *)ext_smooth_data;
@@ -372,7 +372,7 @@ int SMsetSmoothFunction(void *ext_smooth_data,int FunctionID)
     smooth_param->ComputeGradientValues2D = SMcomputeSineGradients;
     smooth_param->ComputeFunctionValues3D = vSineDihedrals;
     smooth_param->ComputeGradientValues3D = vGradSineDihedrals;
-    
+
     switch(FunctionID) {
       case OPTMS_MAX_MIN_ANGLE:
         smooth_param->function_values_per_tri=3;
@@ -514,7 +514,7 @@ int SMsetSmoothFunction(void *ext_smooth_data,int FunctionID)
         OPTMS_DEBUG_PRINT(1,"Setting the 3D function to OPTMS_MIN_MAX_CONDITION\n");
         break;
       default:
-        OPTMS_DEBUG_PRINT(1,"Using the default functions in both 2 and 3D\n"); 
+        OPTMS_DEBUG_PRINT(1,"Using the default functions in both 2 and 3D\n");
         break;
    }
    return(ierr=0);
@@ -522,7 +522,7 @@ int SMsetSmoothFunction(void *ext_smooth_data,int FunctionID)
 
 #undef __FUNC__
 #define __FUNC__ "SMset2DUserQualityFunction"
-void SMset2DUserQualityFunction(void *ext_smooth_data, 
+void SMset2DUserQualityFunction(void *ext_smooth_data,
                               int values_per_tri,
                               SMfunction_ptr2D userQualityFunc,
                               SMgradfunc_ptr2D userQualityGrad)
@@ -544,9 +544,9 @@ void SMset2DUserQualityFunction(void *ext_smooth_data,
 #undef __FUNC__
 #define __FUNC__ "SMsetSmoothThreshold"
 /*@
-   SMsetSmoothThreshold - This function allows the user to change the value of the threshold 
+   SMsetSmoothThreshold - This function allows the user to change the value of the threshold
          when using the combined or the FLOATING_THRESHOLD techniques at any
-         time in the smoothing process. 
+         time in the smoothing process.
 
     Input Parameters:
 +   smooth_data - a void data structure that contains the context and data structures
@@ -555,8 +555,8 @@ void SMset2DUserQualityFunction(void *ext_smooth_data,
 -  Threshold - a double argument that sets the degree value of the threshold
         used in either the COMBINED technique, which has a fixed value, or
         the FLOATING_THRESHOLD technique, which allows the threshold to vary.
-        The default values for the quality measures that depend on angles are 15 and 
-        30 degrees for the COMBINED approach for 3D and 2D respectively, and 10 and 
+        The default values for the quality measures that depend on angles are 15 and
+        30 degrees for the COMBINED approach for 3D and 2D respectively, and 10 and
         15 degrees for the FLOATING_THRESHOLD approach.  For the measures that
         depend on Jacobian ratios the default is .25.
 
@@ -589,7 +589,7 @@ int SMsetSmoothThreshold(void *ext_smooth_data, double Threshold)
        set the thresholds for the functions that rely on angles
        for their measure of quality
     ***********************************************************/
-       
+
     if (function_id == OPTMS_MAX_MIN_ANGLE ||
         function_id == OPTMS_MIN_MAX_COSINE ||
         function_id == OPTMS_MAX_MIN_COSINE ||
@@ -601,7 +601,7 @@ int SMsetSmoothThreshold(void *ext_smooth_data, double Threshold)
         function_id == OPTMS_MAX_MIN_COSINE_DIHEDRAL ||
         function_id == OPTMS_MIN_MAX_COSINE_DIHEDRAL ||
         function_id == OPTMS_MAX_SINE_DIHEDRAL ) {
- 
+
         if (dimension ==2) {
            /* set the default values */
            if (Threshold == OPTMS_DEFAULT) {
@@ -621,7 +621,7 @@ int SMsetSmoothThreshold(void *ext_smooth_data, double Threshold)
       radians = Threshold * 3.14159/180;
 
     /* modify if necessary for the floating technique */
-    if ((technique == OPTMS_FLOATING_THRESHOLD) && 
+    if ((technique == OPTMS_FLOATING_THRESHOLD) &&
        (smooth_param->global_min_value != OPTMS_BIG_POS_NMBR)) {
       ierr = SMconvertToDegrees(smooth_param->function_id,
                          &(smooth_param->global_min_value)); OPTMS_CHKERR(ierr);
@@ -629,7 +629,7 @@ int SMsetSmoothThreshold(void *ext_smooth_data, double Threshold)
       if (smooth_param->global_min_value < 180 &&
 	  smooth_param->global_min_value > 0 ) {
           radians = (smooth_param->global_min_value+add_value) * 3.14159/180.;
-          OPTMS_DEBUG_ACTION(1,{ 
+          OPTMS_DEBUG_ACTION(1,{
              fprintf(stdout,"Set floating threshold: min value %f threshold %f\n",
 		 smooth_param->global_min_value,
                  smooth_param->global_min_value+5);
@@ -642,7 +642,7 @@ int SMsetSmoothThreshold(void *ext_smooth_data, double Threshold)
        set the thresholds for the functions that rely on jacobians
        for their measure of quality (note that scaled jacobian is really sine)
     ***********************************************************/
-       
+
     if ( (function_id == OPTMS_MIN_MAX_JACOBIAN_DIFF) ||
          (function_id == OPTMS_MAX_MIN_AREA_LENGTH_RATIO)) {
        if (Threshold==OPTMS_DEFAULT) {
@@ -706,7 +706,7 @@ int SMsetSmoothThreshold(void *ext_smooth_data, double Threshold)
       case OPTMS_MAX_MIN_DIHEDRAL:
         OPTMS_DEBUG_ACTION(1,{
           fprintf(stdout,"Setting the threshold value for OPTMS_MAX_MIN_DIHEDRAL: %f\n",
-                  radians); 
+                  radians);
         });
         smooth_param->lap_accept_value = radians; break;
       case OPTMS_MIN_MAX_DIHEDRAL:
@@ -766,7 +766,7 @@ int SMsetSmoothThreshold(void *ext_smooth_data, double Threshold)
 
     Input Parameter:
 .   smooth_data - a void data structure that contains the context and data structures
-              for smoothing.  This structure is created in SMinitSmoothing which must be 
+              for smoothing.  This structure is created in SMinitSmoothing which must be
               called  prior to calling this routine.  SMinitSmoothingStats must also have been
               called prior to calling this routine.
 
@@ -796,13 +796,13 @@ int SMinitGlobalMinValue(void *ext_smooth_data)
 #define __FUNC__ "SMinitSmoothStats"
 /*@
     SMinitSmoothStats - If statistics gathering has been enabled in the configure process,
-         then this routine intializes the statistics structure that records the number 
-         of cells smoothed, the number of equilibrium points found, and the reason for 
+         then this routine intializes the statistics structure that records the number
+         of cells smoothed, the number of equilibrium points found, and the reason for
          algorithm termination.
 
     Input Parameter:
 .   smooth_data - a void data structure that contains the context and data structures
-              for smoothing.  This structure is created in SMinitSmoothing, which must be 
+              for smoothing.  This structure is created in SMinitSmoothing, which must be
               called  prior to calling this routine.
 
    Return Values:
@@ -816,7 +816,7 @@ int SMinitGlobalMinValue(void *ext_smooth_data)
 
 .seealso SMprintSmoothStats()
 @*/
-int SMinitSmoothStats(void *ext_smooth_data) 
+int SMinitSmoothStats(void *ext_smooth_data)
 {
     int ierr;
     OPTMS_STATS_ON({
@@ -836,23 +836,23 @@ int SMinitSmoothStats(void *ext_smooth_data)
 /*@
     SMprintSmoothStats - If statistics gathering has been enabled in the configure process,
          then this routine prints the statistics that have been accumulated by the smoothing
-         code since the last call to SMinitSmoothStats.  
+         code since the last call to SMinitSmoothStats.
 
     Input Parameter:
 .   smooth_data - a void data structure that contains the context and data structures
-              for smoothing.  This structure is created in SMinitSmoothing which must be 
+              for smoothing.  This structure is created in SMinitSmoothing which must be
               called  prior to calling this routine.  SMinitSmoothingStats must also have been
               called prior to calling this routine.
 
     Note:
 .vb
-   The information printed includes 
-        - the total number of nodes smoothed, 
-        - the number for which Laplacian smoothing was used and the number 
-           of the those that resulted in an invalid mesh and/or no improvement to 
+   The information printed includes
+        - the total number of nodes smoothed,
+        - the number for which Laplacian smoothing was used and the number
+           of the those that resulted in an invalid mesh and/or no improvement to
            the mesh
-        - the number of nodes for which optimization-based smoothing was used 
-           (including the average iteration count), 
+        - the number of nodes for which optimization-based smoothing was used
+           (including the average iteration count),
         - the number of cells with no improvement,
         - the averate active value and average improvement, and
         - the termination status for the cells that were smoothed.
@@ -866,7 +866,7 @@ int SMinitSmoothStats(void *ext_smooth_data)
 .seealso SMinitSmoothing(), SMinitSmoothStats()
 @*/
 int  SMprintSmoothStats(void *ext_smooth_data)
-{ 
+{
     int ierr;
     OPTMS_STATS_ON({
        SMsmooth_data *smooth_data;
@@ -894,7 +894,7 @@ int  SMprintSmoothStats(void *ext_smooth_data)
 
     Input Parameter:
 .   smooth_data - a void data structure that contains the context and data structures
-              for smoothing.  This structure is created in SMinitSmoothing, which must be 
+              for smoothing.  This structure is created in SMinitSmoothing, which must be
               called  prior to calling this routine.   This routine should be called before each
               global pass of measuring quality or information from the previous pass will
               continue to be accumulated.
@@ -952,8 +952,8 @@ int SMinitQualityTable(void *ext_smooth_data)
 
     Input Parameters:
 +   smooth_data - a void data structure that contains the context and data structures
-              for smoothing.  This structure is created in SMinitSmoothing, which must be 
-              called  prior to calling this routine.   
+              for smoothing.  This structure is created in SMinitSmoothing, which must be
+              called  prior to calling this routine.
 -   vtx - a matrix containing the coordinates of the nodes of the triangle or tetrahedra.
              Of dimension 3 x 2 for triangles, and 4 x 3 for tetrahedra.
 
@@ -1006,7 +1006,7 @@ int SMaccumulateQualityInformation(void *ext_smooth_data, double **vtx)
 	      if (inverted) {
                 for (j=0;j<3;j++) function[j]=1E6;
               } else {
-                ierr = SMcomputeTriAngles(vtx[0],vtx[1],vtx[2],function,&num_values); 
+                ierr = SMcomputeTriAngles(vtx[0],vtx[1],vtx[2],function,&num_values);
                        OPTMS_CHKERR(ierr);
                 for (j=0;j<num_values;j++) function[j]=function[j]/3.14159*180;
               }
@@ -1016,10 +1016,10 @@ int SMaccumulateQualityInformation(void *ext_smooth_data, double **vtx)
 	      if (inverted) {
                 for (j=0;j<1;j++) function[j]=1E6;
               } else {
-                ierr = SMcomputeTriJacobians(vtx[0],vtx[1],vtx[2],function,&num_values); 
+                ierr = SMcomputeTriJacobians(vtx[0],vtx[1],vtx[2],function,&num_values);
                        OPTMS_CHKERR(ierr);
               }
-              ierr = SMinsertQualityInfo(quality_table,i,function,num_values); OPTMS_CHKERR(ierr); 
+              ierr = SMinsertQualityInfo(quality_table,i,function,num_values); OPTMS_CHKERR(ierr);
               break;
           case 3:
 	      if (inverted) {
@@ -1028,7 +1028,7 @@ int SMaccumulateQualityInformation(void *ext_smooth_data, double **vtx)
                 ierr = SMcomputeScaledTriJacobians(vtx[0],vtx[1],vtx[2],function,&num_values);
                        OPTMS_CHKERR(ierr);
               }
-              ierr = SMinsertQualityInfo(quality_table,i,function,num_values); OPTMS_CHKERR(ierr); 
+              ierr = SMinsertQualityInfo(quality_table,i,function,num_values); OPTMS_CHKERR(ierr);
               break;
           case 4:
 	      if (inverted) {
@@ -1045,7 +1045,7 @@ int SMaccumulateQualityInformation(void *ext_smooth_data, double **vtx)
           switch(i) {
           /* 3D functions */
           case 5:
-              ierr = vComputeTetVolume(vtx[0],vtx[1],vtx[2],vtx[3],function,&num_values); 
+              ierr = vComputeTetVolume(vtx[0],vtx[1],vtx[2],vtx[3],function,&num_values);
                      OPTMS_CHKERR(ierr);
               ierr = SMinsertQualityInfo(quality_table,i,function,num_values); OPTMS_CHKERR(ierr);
               if (function[0] <= OPTMS_MACHINE_EPS) {
@@ -1067,7 +1067,7 @@ int SMaccumulateQualityInformation(void *ext_smooth_data, double **vtx)
 	      if (inverted) {
                 for (j=0;j<6;j++) function[j]=1E6;
               } else {
-                ierr = vScaledJacobian(vtx[0],vtx[1],vtx[2],vtx[3],function,&num_values); 
+                ierr = vScaledJacobian(vtx[0],vtx[1],vtx[2],vtx[3],function,&num_values);
                        OPTMS_CHKERR(ierr);
               }
               ierr = SMinsertQualityInfo(quality_table,i,function,num_values); OPTMS_CHKERR(ierr);
@@ -1076,7 +1076,7 @@ int SMaccumulateQualityInformation(void *ext_smooth_data, double **vtx)
 	      if (inverted) {
                 for (j=0;j<1;j++) function[j]=1E6;
               } else {
-                ierr = vSMRSVolumeRatio(vtx[0],vtx[1],vtx[2],vtx[3],function,&num_values); 
+                ierr = vSMRSVolumeRatio(vtx[0],vtx[1],vtx[2],vtx[3],function,&num_values);
                        OPTMS_CHKERR(ierr);
                 for (j=0;j<num_values;j++) function[j]=-function[j];
               }
@@ -1096,10 +1096,10 @@ int SMaccumulateQualityInformation(void *ext_smooth_data, double **vtx)
     }
     return(ierr);
 }
- 
+
 #undef __FUNC__
 #define __FUNC__ "SMinsertQualityInfo"
-int SMinsertQualityInfo(SMquality_table *quality_table, int measure_id, 
+int SMinsertQualityInfo(SMquality_table *quality_table, int measure_id,
                                       double *function, int num_values)
 {
     int ierr;
@@ -1140,8 +1140,8 @@ int SMinsertQualityInfo(SMquality_table *quality_table, int measure_id,
 
     Input Parameters:
 .   smooth_data - a void data structure that contains the context and data structures
-              for smoothing.  This structure is created in SMinitSmoothing, which must be 
-              called  prior to calling this routine.   
+              for smoothing.  This structure is created in SMinitSmoothing, which must be
+              called  prior to calling this routine.
 
    Return Values:
 .   ierr - an integer error code that is equal to zero if the function call is successful.
@@ -1186,11 +1186,11 @@ int SMprintQualityInformation(void *ext_smooth_data)
      for (i=0;i<quality_table->num_functions;i++) {
        if (quality_table->measure[i]->dimension == dimension) {
          measure = quality_table->measure[i];
-         printf("%20s (%3.2e) %10.2e %10.2e %10.2e %10.2e %10.2e (%d)\n", 
-                     measure->name, 
+         printf("%20s (%3.2e) %10.2e %10.2e %10.2e %10.2e %10.2e (%d)\n",
+                     measure->name,
                      measure->target,
-                     measure->min_value, 
-                     measure->max_value, 
+                     measure->min_value,
+                     measure->max_value,
                      measure->avg_value/measure->num_function_values,
                      measure->avg_min_value/measure->num_elements,
                      measure->avg_max_value/measure->num_elements,
@@ -1215,8 +1215,8 @@ int SMprintQualityInformation(void *ext_smooth_data)
 
     Input Parameters:
 .   smooth_data - a void data structure that contains the context and data structures
-              for smoothing.  This structure is created in SMinitSmoothing, which must be 
-              called  prior to calling this routine.   
+              for smoothing.  This structure is created in SMinitSmoothing, which must be
+              called  prior to calling this routine.
 .   valid - an pointer to an integer value.  On return, this value will equal 1 if the mesh
             is valid, 0 if it is not.
 
@@ -1238,7 +1238,7 @@ int SMisValidMesh(void *ext_smooth_data, int *valid)
    *valid=1;
    if (smooth_data->quality_table->mesh_validity == 0) *valid=0;
    return(ierr=0);
-} 
+}
 
 /********************************************************************************************************
                                           SMsetMeshValidity
@@ -1247,16 +1247,16 @@ int SMisValidMesh(void *ext_smooth_data, int *valid)
 #define __FUNC__ "SMsetMeshValidity"
 /*@
     SMsetMeshValidity - This function allows the user to set the mesh validity without using the
-        quality functions provided by the Opt-MS package.  This is useful if the user knows the 
+        quality functions provided by the Opt-MS package.  This is useful if the user knows the
         mesh requires untangling and doesn't want to evaluate the quality of the entire mesh to
         determine if there are inverted elements.
 
     Input Parameters:
-+   mesh_validity - a Boolean value of 1 if the mesh is valid and 0 if the mesh contains 
++   mesh_validity - a Boolean value of 1 if the mesh is valid and 0 if the mesh contains
               elements with negative area
 -   smooth_data - a void data structure that contains the context and data structures
-              for smoothing.  This structure is created in SMinitSmoothing, which must be 
-              called  prior to calling this routine.   
+              for smoothing.  This structure is created in SMinitSmoothing, which must be
+              called  prior to calling this routine.
 
    Return Values:
 .   ierr - an integer error code that is equal to zero if the function call is successful.
@@ -1274,13 +1274,13 @@ int SMsetMeshValidity(int mesh_validity, void *ext_smooth_data)
    smooth_data = (SMsmooth_data *) ext_smooth_data;
    smooth_data->quality_table->mesh_validity=mesh_validity;
    return(ierr=0);
-} 
+}
 
 #undef __FUNC__
 #define __FUNC__ "SMfinalizeSmoothing"
 /*@
 SMfinalizeSmoothing - This routine frees all the memory allocated in SMinitSmoothing
-including the data structure smooth_data.  This routine should be called when mesh 
+including the data structure smooth_data.  This routine should be called when mesh
 optimization is complete.
 
    Input Parameters:
@@ -1302,7 +1302,7 @@ int SMfinalizeSmoothing(void *ext_smooth_data)
     smooth_data = (SMsmooth_data *) ext_smooth_data;
 
 #ifdef PARALLEL_LOG
-    SM_LOG_PRINT(smooth_data->smooth_procinfo->nprocs, 
+    SM_LOG_PRINT(smooth_data->smooth_procinfo->nprocs,
                  smooth_data->smooth_procinfo->myid,
                  smooth_data->smooth_procinfo->procset);
 #else
@@ -1321,4 +1321,3 @@ int SMfinalizeSmoothing(void *ext_smooth_data)
     OPTMS_FREE(smooth_data);
     return(ierr=0);
 }
-

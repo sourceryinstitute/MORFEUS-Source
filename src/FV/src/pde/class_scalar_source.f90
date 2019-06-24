@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -115,7 +115,7 @@ MODULE class_scalar_source
   END INTERFACE sc_
 
   INTERFACE sp_
- 
+
     MODULE FUNCTION get_scalar_source_sp(src)
         REAL(psb_dpk_) :: get_scalar_source_sp
         TYPE(scalar_source), INTENT(IN) :: src

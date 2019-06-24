@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -13,7 +13,7 @@
 #define ad_intrinsic_h 1
 
 #ifdef IN_AD_INTRINSIC_C
-#define EXTERN 
+#define EXTERN
 #else
 #define EXTERN extern
 #endif
@@ -26,7 +26,7 @@
 
 /* Maybe some C++ does not define __STDC__ ? */
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 #define USE_PROTOTYPES
 #define USE_FN_ARGS
 #endif

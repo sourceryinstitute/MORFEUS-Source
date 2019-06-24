@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -14,7 +14,7 @@
 #include "SMsmooth.h"
 
 /*@
-   SMuntangle - This is the main routine that attempts to untangle a local submesh by 
+   SMuntangle - This is the main routine that attempts to untangle a local submesh by
       maximizing the minimum area of a triangle or tetrahedra in a local submesh.  The
       value of the function assumes a right-hand ordering of the vertices.  If the user is not
       sure if the mesh is invalid, a quality assessment should be done to compute the
@@ -22,23 +22,23 @@
       the routine SMinvalidMesh returns OPTMS_TRUE (1) if the mesh contains inverted elements.
 
    Input Parameters:
-+  num_incident_vtx - the number of incident vertices in the local mesh 
++  num_incident_vtx - the number of incident vertices in the local mesh
 .  num_tri - the number of incident triangles or tetrahedra
-.  free_vtx - the coordinates of the free vertex in a 
+.  free_vtx - the coordinates of the free vertex in a
            vector of length problem dimensions in x, y, z order
 .  vtx_list - a matrix of the coordinates of the incident vtx;
            matrix dimensions are num_incident_vtx by problem dimension
 .  vtx_connectivity - a matrix that gives the connectivity info for the
-           incident vertices. matrix dimensions are num_incident_vtx by 
-           the problem dimension.  Note: this assumes that the connectivity given 
-           is for a right handed triangle or tetrahedra with the free vertex 
+           incident vertices. matrix dimensions are num_incident_vtx by
+           the problem dimension.  Note: this assumes that the connectivity given
+           is for a right handed triangle or tetrahedra with the free vertex
            ordered first
--  ext_smooth_data - data structure for mesh smoothing; created in 
+-  ext_smooth_data - data structure for mesh smoothing; created in
           SMinitSmoothing and cast to the local data structure
 
    Output Parameter:
 .  free_vtx - contains the new coordinates of the free vertex
- 
+
    Note:
    This function can only be called after SMinitSmoothing has been called to create
     the smooth_data data structure.  Once the mesh has been untangled, SMsmooth
@@ -49,8 +49,8 @@
 @*/
 #undef __FUNC__
 #define __FUNC__ "SMuntangle"
-int SMuntangle(int num_incident_vtx, int num_tri, double *free_vtx, 
-              double **vtx_list, int **vtx_connectivity, 
+int SMuntangle(int num_incident_vtx, int num_tri, double *free_vtx,
+              double **vtx_list, int **vtx_connectivity,
               void *ext_smooth_data)
 {
     int ierr;
@@ -90,13 +90,13 @@ int SMuntangle(int num_incident_vtx, int num_tri, double *free_vtx,
 	    OPTMS_DEBUG_PRINT(1,"Plotting the initial tangled local mesh \n");
 	    if ((fp = fopen("local_tangle.m","w")) == NULL) {
                OPTMS_SETERR(OPTMS_FILE_OPEN_ERR,0,"Can't open local_tangle.m for writing\n");
-            } 
+            }
 	    ierr = SMwriteLocalMesh(fp,local_mesh); OPTMS_CHKERR(ierr);
 	    fclose(fp);
 	}
     OPTMS_MATLAB_OFF});
 
-    /* the choices for technique are OPTMS_LAPLACE_ONLY, OPTMS_LINEAR_PROGRAM_ONLY, 
+    /* the choices for technique are OPTMS_LAPLACE_ONLY, OPTMS_LINEAR_PROGRAM_ONLY,
        OPTMS_COMBINED_UNTANGLING*/
     do_linear_program = OPTMS_FALSE;
 
@@ -104,7 +104,7 @@ int SMuntangle(int num_incident_vtx, int num_tri, double *free_vtx,
     case OPTMS_LAPLACIAN_ONLY:
         SM_LOG_EVENT_BEGIN(__SM_LAP_SMOOTH__);
         ierr = SMinitLap(local_mesh->num_values,local_mesh->lap_info); OPTMS_CHKERR(ierr);
-        ierr = SMcentroidSmoothMesh(local_mesh->num_incident_vtx, 
+        ierr = SMcentroidSmoothMesh(local_mesh->num_incident_vtx,
                              local_mesh->incident_vtx, local_mesh->free_vtx,
                              local_mesh->dimension); OPTMS_CHKERR(ierr);
         SM_LOG_EVENT_END(__SM_LAP_SMOOTH__);
@@ -116,7 +116,7 @@ int SMuntangle(int num_incident_vtx, int num_tri, double *free_vtx,
         /* compute the original function values */
         SM_LOG_EVENT_BEGIN(__SM_LAP_SMOOTH__);
         ierr = SMinitLap(local_mesh->num_values,local_mesh->lap_info); OPTMS_CHKERR(ierr);
-        ierr = SMcentroidSmoothMesh(local_mesh->num_incident_vtx,local_mesh->incident_vtx, 
+        ierr = SMcentroidSmoothMesh(local_mesh->num_incident_vtx,local_mesh->incident_vtx,
                              local_mesh->free_vtx,local_mesh->dimension); OPTMS_CHKERR(ierr);
         SM_LOG_EVENT_END(__SM_LAP_SMOOTH__);
         ierr = SMvalidMesh(local_mesh, &valid); OPTMS_CHKERR(ierr);
@@ -128,7 +128,7 @@ int SMuntangle(int num_incident_vtx, int num_tri, double *free_vtx,
     }
 
     /* untangle the mesh, or if it's a degenerate problem do laplace smoothing */
-    if (do_linear_program) {  
+    if (do_linear_program) {
        ierr = SMuntangle_mesh(local_mesh, &degenerate); OPTMS_CHKERR(ierr);
        if (degenerate) {
 
@@ -151,7 +151,7 @@ int SMuntangle(int num_incident_vtx, int num_tri, double *free_vtx,
 	    OPTMS_DEBUG_PRINT(1,"Plotting the untangled local mesh \n");
 	    if ((fp = fopen("local_tangle.m","w")) == NULL) {
                OPTMS_SETERR(OPTMS_FILE_OPEN_ERR,0,"Can't open local_tangle.m for writing\n");
-            } 
+            }
 	    ierr = SMwriteLocalMesh(fp,local_mesh); OPTMS_CHKERR(ierr);
 	    fclose(fp);
 	}
@@ -177,15 +177,15 @@ int SMuntangle_mesh(SMlocal_mesh *local_mesh, int *degenerate)
    SMlp *lp_info;
 
    /* In this linear program we will maximize the minumum area of the local
-       submesh using the simplex measure.  This measure is always convex, regardless 
-       of the initial submesh, and we therefore expect to converge, unless the problem 
-       is degenerate.  If the problem is degenerate, we exit and perform laplacian 
+       submesh using the simplex measure.  This measure is always convex, regardless
+       of the initial submesh, and we therefore expect to converge, unless the problem
+       is degenerate.  If the problem is degenerate, we exit and perform laplacian
        smoothing */
 
    /* set the number of active points and the number of constraints */
    num_constraints = local_mesh->num_tri;
    num_active = local_mesh->dimension;
-   num_free = num_constraints - num_active;   
+   num_free = num_constraints - num_active;
    *degenerate=0;
 
    ierr = SMinitLP(local_mesh);  OPTMS_CHKERR(ierr);
@@ -203,17 +203,17 @@ int SMuntangle_mesh(SMlocal_mesh *local_mesh, int *degenerate)
    SMcomputeConstraintMatrix(local_mesh,num_constraints,Amat,b);
    /* create the tanspose matrix for the phase one solution to find a feasible point for the LP */
    ierr = SMtransposeMatrix2(Amat,num_constraints,num_active,Amat_T); OPTMS_CHKERR(ierr);
-  
+
    ierr = SMdegenerate(num_active, num_constraints, Amat_T, b, degenerate); OPTMS_CHKERR(ierr);
    if (!(*degenerate)) {
-        
+
         /* entering the phase 1 solution to find a feasible point for the linear program */
         /* send in the matrix of constraints and it will return a feasible X */
         SM_LOG_EVENT_BEGIN(__SM_PHASE1__);
-        ierr = SMphaseOneLP(num_constraints,num_active,Amat_T,feasible_x,lp_info,&feasible); 
+        ierr = SMphaseOneLP(num_constraints,num_active,Amat_T,feasible_x,lp_info,&feasible);
                OPTMS_CHKERR(ierr);
         SM_LOG_EVENT_END(__SM_PHASE1__);
-        
+
         if (feasible) {
 
             SM_LOG_EVENT_BEGIN(__SM_LINEAR_PROG__);
@@ -226,7 +226,7 @@ int SMuntangle_mesh(SMlocal_mesh *local_mesh, int *degenerate)
            for (i=0;i<num_constraints;i++) {
                feasible_x[i] = feasible_x[i]/x_sum;
                b[i] = -b[i];
-           }   
+           }
            for (i=0;i<num_active+1;i++) {
                if (i<num_active) {
                    for (j=0;j<num_constraints;j++)  Amat_T_O[i][j] = -Amat_T[i][j];
@@ -273,10 +273,10 @@ int SMuntangle_mesh(SMlocal_mesh *local_mesh, int *degenerate)
        }
        /* regardless, return the corresponding x,y,z coordinate in space why? */
        return(ierr=0);
-    } else { 
+    } else {
        OPTMS_DEBUG_PRINT(2,"Degenerate problem\n");
-       return(ierr=0); 
-    }  
+       return(ierr=0);
+    }
 }
 
 #undef __FUNC__
@@ -320,12 +320,12 @@ int SMsolveLP(int num_constraints, int num_active, double **Amat, double *feasib
    for (i=0;i<num_active*num_active;i++) {
      Bmat[i] = 0;     Bmat_T[i] = 0;
    }
-     
+
    /* determine which are the active and which are the free unknowns */
    free_count = 0; active_count=0;
    for (i=0;i<num_constraints;i++) {
      if ((fabs(feasible_x[i]))<1E-15) {
-          free_ind[free_count++]=i; 
+          free_ind[free_count++]=i;
      } else {
           active_ind[active_count++]=i;
      }
@@ -335,7 +335,7 @@ int SMsolveLP(int num_constraints, int num_active, double **Amat, double *feasib
    /* initialize c=(0 0 0 ... 0 1) */
   for (i=0;i<num_active-1;i++)  c[i] = 0;
   c[num_active-1]=1;
-  
+
   /* check that we in fact have a feasible point, using the array step as temp work space*/
   for (i=0;i<num_active-1;i++) {
     step[i]=0;
@@ -343,14 +343,14 @@ int SMsolveLP(int num_constraints, int num_active, double **Amat, double *feasib
         step[i]+=Amat[i][j]*feasible_x[j];
      }
      if (fabs(step[i]) > 10*OPTMS_MACHINE_EPS) {
-       OPTMS_DEBUG_ACTION(2,{fprintf(stderr,"Not a feasible point %f\n",step[i]);}); 
+       OPTMS_DEBUG_ACTION(2,{fprintf(stderr,"Not a feasible point %f\n",step[i]);});
        *success=0;
        return(ierr=0);
      }
    }
   for (j=0;j<num_constraints;j++) {
      if ((feasible_x[j] < 0) && (fabs(feasible_x[j]) > 10*OPTMS_MACHINE_EPS)) {
-          OPTMS_DEBUG_ACTION(2,{fprintf(stderr,"Not a feasible point \n");}); 
+          OPTMS_DEBUG_ACTION(2,{fprintf(stderr,"Not a feasible point \n");});
          *success=0;
          return(ierr=0);
      }
@@ -364,7 +364,7 @@ int SMsolveLP(int num_constraints, int num_active, double **Amat, double *feasib
       iter++;
       if (iter == 100) {
         done=1;
-        OPTMS_DEBUG_PRINT(2,"Exceeded max number of iterations in LP solve\n"); 
+        OPTMS_DEBUG_PRINT(2,"Exceeded max number of iterations in LP solve\n");
         *success=0;
         return(ierr=0);
       }
@@ -392,10 +392,10 @@ int SMsolveLP(int num_constraints, int num_active, double **Amat, double *feasib
          }
          if (s[i]<mins) {
             mins=s[i];  min_s_ind = i;
-         }  
+         }
       }
- 
-      /* if all of the slack variables are greater than 0, done 
+
+      /* if all of the slack variables are greater than 0, done
           the complemintarity condition is satisfied */
       if (mins>-10*OPTMS_MACHINE_EPS) {
          done = 1;
@@ -409,10 +409,10 @@ int SMsolveLP(int num_constraints, int num_active, double **Amat, double *feasib
           in_ind = free_ind[min_s_ind];
 
           /* find the steps that we can take in each direction before we get to
-          an infeasible region; the right hand side is the in_ind column of the 
+          an infeasible region; the right hand side is the in_ind column of the
           A matrix */
           for (i=0;i<num_active;i++)  step[i] = Amat[i][in_ind];
-    
+
           DGESV(&num_active, &one, Bmat,  &num_active, ipivot, step, &num_active, &info);
           if (info!=0) {
             *success=0;
@@ -437,7 +437,7 @@ int SMsolveLP(int num_constraints, int num_active, double **Amat, double *feasib
         feasible_x[in_ind] = min_alpha;
         free_ind[min_s_ind] = out_ind;
         active_ind[min_alpha_ind] = in_ind;
-         
+
       } /* end else */
       SM_LOG_EVENT_END(__SM_LP_ITER__);
    } /* end while */
@@ -500,7 +500,7 @@ int SMphaseOneLP(int num_constraints, int num_active, double **Amat, double *fea
    }
 
    /* initialize an active set */
-   for (i=0;i<num_active-1;i++) active_ind[i]=i;   
+   for (i=0;i<num_active-1;i++) active_ind[i]=i;
    active_ind[num_active-1]=num_constraints-1;
 
    if (num_active == 3) {
@@ -515,7 +515,7 @@ int SMphaseOneLP(int num_constraints, int num_active, double **Amat, double *fea
        vCross(vec1,vec2,result); if (dMagnitude(result) < 1E-13) degenerate = 1;
        while (degenerate && active_ind[1]<num_constraints-1) {
           degenerate=0;
-          active_ind[1]++; 
+          active_ind[1]++;
           vec1[0]=AAmat[0][active_ind[0]];    vec2[0]=AAmat[0][active_ind[1]];
           vec1[1]=AAmat[1][active_ind[0]];    vec2[1]=AAmat[1][active_ind[1]];
           vec1[2]=AAmat[2][active_ind[0]];    vec2[2]=AAmat[2][active_ind[1]];
@@ -567,7 +567,7 @@ int SMphaseOneLP(int num_constraints, int num_active, double **Amat, double *fea
    }
 
    /* Get ready to enter the loop to find a feasible point */
-   done = 0;  iter = 0; 
+   done = 0;  iter = 0;
    while (!done) {
       iter++;
       if (iter == 100) {
@@ -576,7 +576,7 @@ int SMphaseOneLP(int num_constraints, int num_active, double **Amat, double *fea
         *feasible=0;
         return(ierr=0);
       }
-      
+
       /* get the current constraint matrix */
       ierr = SMgetActiveMatrix(AAmat,num_active,active_ind,Bmat); OPTMS_CHKERR(ierr);
       ierr = SMgetActiveRHS(c,num_active,active_ind,pi); OPTMS_CHKERR(ierr);
@@ -587,7 +587,7 @@ int SMphaseOneLP(int num_constraints, int num_active, double **Amat, double *fea
       /* note; on input pi contains rhs, on output pi contains the solution */
       DGESV(&num_active, &one, Bmat_T, &num_active, ipivot, pi, &num_active, &info);
       if (info != 0) {
-         OPTMS_DEBUG_PRINT(2,"Problem in linear solve, phase 1\n"); 
+         OPTMS_DEBUG_PRINT(2,"Problem in linear solve, phase 1\n");
          *feasible=0;
          return(ierr=0);
       }
@@ -600,7 +600,7 @@ int SMphaseOneLP(int num_constraints, int num_active, double **Amat, double *fea
          for (j=0;j<num_active;j++)  s[i] -= AAmat[j][free_ind[i]]*pi[j];
          if (s[i]<mins) {
             mins=s[i];  min_s_ind = i;
-         }  
+         }
       }
 
        /* if all of the slack variables are greater than 0, done */
@@ -615,14 +615,14 @@ int SMphaseOneLP(int num_constraints, int num_active, double **Amat, double *fea
           in_ind = free_ind[min_s_ind];
 
           /* find the steps that we can take in each direction before we get to
-          an infeasible region; the right hand side is the in_ind column of the 
+          an infeasible region; the right hand side is the in_ind column of the
           A matrix */
-          for (i=0;i<num_active;i++)  step[i] = Amat[i][in_ind]; 
+          for (i=0;i<num_active;i++)  step[i] = Amat[i][in_ind];
 
          /* solve the system to get the step sizes before each constraint goes infeasible */
           DGESV(&num_active, &one, Bmat, &num_active, ipivot, step, &num_active, &info);
           if (info != 0) {
-              OPTMS_DEBUG_PRINT(2,"Problem in linear solve, phase 1\n"); 
+              OPTMS_DEBUG_PRINT(2,"Problem in linear solve, phase 1\n");
               *feasible=0;
               return(ierr=0);
           }
@@ -651,7 +651,7 @@ int SMphaseOneLP(int num_constraints, int num_active, double **Amat, double *fea
                  done = 1;
                  min_alpha = feasible_x[num_constraints-1]/step[num_active-1];
                  out_ind = num_active-1;
-              } 
+              }
         }
 
         /* update x, active_ind, and free_ind for the new basis */
@@ -689,7 +689,7 @@ int  SMdegenerate(int num_active, int num_constraints, double **A, double *b, in
 
    OPTMS_MALLOC(Atest,(double **),sizeof(double *)*num_active,1);
    for (i=0;i<num_active;i++) OPTMS_MALLOC(Atest[i],(double *),sizeof(double)*num_active,1);
-  
+
    if (num_active==2) {
        dependent_col = num_constraints -1;
        *degenerate = OPTMS_FALSE;
@@ -726,7 +726,7 @@ int  SMdegenerate(int num_active, int num_constraints, double **A, double *b, in
                 vec1[2] = A[2][icol1];         vec2[2] = A[2][icol2];       vec3[2] = A[2][dependent_col];
                 vCross(vec1,vec3,result);  if (dMagnitude(result) < 1E-13) *degenerate = OPTMS_TRUE;
                 vCross(vec2,vec3,result);  if (dMagnitude(result) < 1E-13) *degenerate = OPTMS_TRUE;
-                vCross(vec1,vec2,result);  
+                vCross(vec1,vec2,result);
                 if (dMagnitude(result) > 1E-13) {
                    Atest[0][0] = A[0][icol1];  Atest[0][1] = A[0][icol2]; Atest[0][2] = A[0][dependent_col];
                    Atest[1][0] = A[1][icol1];  Atest[1][1] = A[1][icol2]; Atest[1][2] = A[1][dependent_col];
@@ -749,11 +749,11 @@ int  SMdegenerate(int num_active, int num_constraints, double **A, double *b, in
                       vec1[0] = A[0][icol1];     vec2[0] = A[0][icol2];     vec3[0] = A[0][dependent_col];
                       vec1[1] = A[1][icol1];     vec2[1] = A[1][icol2];     vec3[1] = A[1][dependent_col];
                       vec1[2] = A[2][icol1];     vec2[2] = A[2][icol2];     vec3[2] = A[2][dependent_col];
-                      vCross(vec1,vec3,result);  
+                      vCross(vec1,vec3,result);
                       if (dMagnitude(result) < 1E-13) *degenerate = OPTMS_TRUE;
-                      vCross(vec2,vec3,result);  
+                      vCross(vec2,vec3,result);
                       if (dMagnitude(result) < 1E-13) *degenerate = OPTMS_TRUE;
-                      vCross(vec1,vec2,result);  
+                      vCross(vec1,vec2,result);
                       if (dMagnitude(result) > 1E-13) {
                         Atest[0][0]=A[0][icol1];  Atest[0][1]=A[0][icol2]; Atest[0][2]=A[0][dependent_col];
                         Atest[1][0]=A[1][icol1];  Atest[1][1]=A[1][icol2]; Atest[1][2]=A[1][dependent_col];
@@ -773,7 +773,7 @@ int  SMdegenerate(int num_active, int num_constraints, double **A, double *b, in
    OPTMS_FREE(Atest);
 
    if (*degenerate) {
-     OPTMS_DEBUG_ACTION(2,{ 
+     OPTMS_DEBUG_ACTION(2,{
           printf("A degenerate problem, no idea what to do\n");
           for (i=0;i<num_constraints;i++) {
              printf("A(1,%d)=%e;\n",i+1,A[0][i]);
@@ -847,7 +847,7 @@ int SMcomputeConstraintMatrix(SMlocal_mesh *local_mesh, int num_constriants,
    if (local_mesh->dimension == 2 ) {
     /* compute the matrix and right hand side such that A*X-B=Tri Area for any X */
        for (i=0;i<local_mesh->num_tri;i++) {
-           ind1 = vtx_connectivity[i][0];      
+           ind1 = vtx_connectivity[i][0];
            ind2 = vtx_connectivity[i][1];
            x1 = incident_vtx[ind1][0];       y1 = incident_vtx[ind1][1];
            x2 = incident_vtx[ind2][0];       y2 = incident_vtx[ind2][1];
@@ -858,7 +858,7 @@ int SMcomputeConstraintMatrix(SMlocal_mesh *local_mesh, int num_constriants,
        }
    } else if (local_mesh->dimension == 3) {
        for (i=0;i<local_mesh->num_tri;i++) {
-           ind1 = vtx_connectivity[i][0];      
+           ind1 = vtx_connectivity[i][0];
            ind2 = vtx_connectivity[i][1];
            ind3 = vtx_connectivity[i][2];
            x1 = incident_vtx[ind1][0];       y1 = incident_vtx[ind1][1];    z1 = incident_vtx[ind1][2];
@@ -881,7 +881,7 @@ int SMcomputeConstraintMatrix(SMlocal_mesh *local_mesh, int num_constriants,
 
 #undef __FUNC__
 #define __FUNC__ "SMremoveIdenticalVtx"
-int SMremoveIdenticalVtx(int dimension, int *num_incident_vtx,int *num_tri, 
+int SMremoveIdenticalVtx(int dimension, int *num_incident_vtx,int *num_tri,
                          double ***vtx_list, int ***vtx_connectivity, int *point_removed)
 {
     int ierr;
@@ -896,7 +896,7 @@ int SMremoveIdenticalVtx(int dimension, int *num_incident_vtx,int *num_tri,
     double *coord2;
 
     *point_removed=OPTMS_FALSE;
-    
+
     OPTMS_MALLOC(coord1,(double *),sizeof(double)*dimension,1);
     OPTMS_MALLOC(coord2,(double *),sizeof(double)*dimension,1);
     OPTMS_MALLOC(ind,(int *),sizeof(int)*dimension,1);
@@ -906,7 +906,7 @@ int SMremoveIdenticalVtx(int dimension, int *num_incident_vtx,int *num_tri,
 
     /* identify the identical vertices */
     for (i=0;i<(*num_incident_vtx);i++) {
-      for (k=0;k<dimension;k++) coord1[k] = (*vtx_list)[i][k]; 
+      for (k=0;k<dimension;k++) coord1[k] = (*vtx_list)[i][k];
       for (j=0;j<i;j++) {
          number_identical = 0;
          for (k=0;k<dimension;k++) {
@@ -920,7 +920,7 @@ int SMremoveIdenticalVtx(int dimension, int *num_incident_vtx,int *num_tri,
          }
        }
     }
-      
+
     if ((id1 != -1) && (id2 != -1)) {
     /* remove one of the vertices from the vertex list */
       count = 0;
@@ -937,7 +937,7 @@ int SMremoveIdenticalVtx(int dimension, int *num_incident_vtx,int *num_tri,
       *point_removed=OPTMS_FALSE;
       /*      printf("The problem is degenerate but I couldn't find identical vertices \n"); */
     }
-     
+
     /* clean up the connectivity list
          - remove any tet that contains both id1 and id2
          - replace any occurance of id2 with id1
@@ -954,7 +954,7 @@ int SMremoveIdenticalVtx(int dimension, int *num_incident_vtx,int *num_tri,
         }
         if (matches_id1 && matches_id2) {
 	    /* remove the tetrahedra */
-            (*num_tri)-- ;          
+            (*num_tri)-- ;
         } else if (matches_id2 && !matches_id1) {
             /* replace id2 with id2 */
             for (k=0;k<dimension;k++) {
@@ -993,4 +993,3 @@ int SMremoveIdenticalVtx(int dimension, int *num_incident_vtx,int *num_tri,
   OPTMS_FREE(ind);
   return(ierr=0);
 }
-

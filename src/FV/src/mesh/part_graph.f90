@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -66,12 +66,12 @@ MODULE part_graph
         IMPLICIT NONE
         INTEGER, INTENT(IN) :: xadj_glob(:), adjncy_glob(:)
         INTEGER, INTENT(IN) :: ipart
-      END SUBROUTINE 
+      END SUBROUTINE
 
       MODULE SUBROUTINE get_part_graph(part)
         IMPLICIT NONE
         INTEGER, ALLOCATABLE, INTENT(OUT) :: part(:)
-      END SUBROUTINE 
+      END SUBROUTINE
 
       SUBROUTINE METIS_PartGraphKway(n,xadj_glob,adjncy_glob,vwgt,adjwgt,&
           & wgtflag,numflag,nparts,options,edgecut,part)

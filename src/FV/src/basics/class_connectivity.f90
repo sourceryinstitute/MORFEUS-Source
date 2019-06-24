@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -335,7 +335,7 @@ MODULE class_connectivity
 
         MODULE FUNCTION nel_(a2b,gl)
         ! get number of elements (either local or global)
-            IMPLICIT NONE 
+            IMPLICIT NONE
             INTEGER :: nel_
             TYPE(connectivity), INTENT(IN) :: a2b
             CHARACTER(len=1), INTENT(IN), OPTIONAL :: gl

@@ -71,7 +71,7 @@ Eqn. \ref{eq:LaplacianSmoothing}.
 \begin{equation}
   \label{eq:LaplacianSmoothing}
   \overrightarrow{x} ={1 \over N_{neighbors}} \sum_{neighbors} \overrightarrow{x} _{i}
-\end{equation} 
+\end{equation}
 
 On a regular mesh, Eqn. \ref{eq:LaplacianSmoothing} is exactly the
 same finite difference equation that occurs if one solves Laplace's
@@ -121,7 +121,7 @@ quality) is very fast, while point--wise optimization is more directly
 tied to the quality of the worst cells.
 
 Ideally, the location of all the mesh vertices would be optimized
-simulataneously.  However, finding a truly global optimum is prohibitively expensive.  
+simulataneously.  However, finding a truly global optimum is prohibitively expensive.
 The point--wise approach is adopted here using the
 OptMS\footnote{\url{http://www-unix.mcs.anl.gov/~freitag/Opt-MS/}}
 library (\cite{optms:manual}).  Because the surface mesh serves as a
@@ -130,7 +130,7 @@ optimized first.  Next, the interior mesh is optimized.
 
 In point--wise optimization, the location of each mobile vertex is considered independently of the larger mesh.  The vertex location is chosen to optimize the quality of the local sub-mesh, that consists of cells that are directly connected to the mobile, or "free" vertex.  Thus, optimization is reduced to a local calculation.
 
-A challenge for both interior and surface optimizaiton originates 
+A challenge for both interior and surface optimizaiton originates
 from the goal of improving the quality of the worst cell.  For
 both the interior and surface mesh smoothing, the quality function
 does not have a continous first derivative, which also presents
@@ -140,8 +140,8 @@ problem is of the form shown in Eqn. \ref{eq:min_max}.
 \begin{equation}
   \label{eq:min_max}
   f=max \left\lbrace min \left\lbrace q_i \left(
-        x\right)\right\rbrace \right\rbrace 
-\end{equation} 
+        x\right)\right\rbrace \right\rbrace
+\end{equation}
 
 Equation \ref{eq:min_max} indicates that we seek to optimize the
 qualities in the local sub-mesh, numbered from $i=1 \mbox{ to } N_{cells}$, by varying the
@@ -206,11 +206,11 @@ flat planes for two--dimensional optimization.  Once the new position
 of the free vertex is calculated, the new vertex location must be
 translated back into the corresponding location on the curved surface.
 
-This optimization on surfaces can be considered a three-dimensional optimization that is constrained to  two-dimensional curved surfaces.  
+This optimization on surfaces can be considered a three-dimensional optimization that is constrained to  two-dimensional curved surfaces.
  The mesh points are constrained to
 slide along surfaces, but unless the surface happens to be a plane,
 the tangent of the surface will vary with the location of the vertex.
-Thus surface mesh optimization is more complex than in the interior optimization, since the directions in which points can move is a function of where the points are currently located.  
+Thus surface mesh optimization is more complex than in the interior optimization, since the directions in which points can move is a function of where the points are currently located.
 
 If significant discretization error occured during the calculation of
 the new vertex position, then the location of the boundary vertices
@@ -242,9 +242,9 @@ canonical surface shapes, such as a plane or cylindrical surface. The
 surface need only conform to any portion of an infinite plane or
 cylinder (e.g. the algorithm recognizes a curved surface that might be
 only twenty degrees of a cylindral surface).  The algorithm uses a
-least--squares fitting process to test every surface.  
+least--squares fitting process to test every surface.
 
-For a plane, the least-squares fit requires the solution of a linear system of four equations.  The procedure for fitting more general surfaces requires an iterative approach.  In the code, treatment of a more general surface is demonstrated by recognizing cylindrical surfaces.  A general cylinder equation is represented by an infinite cylindrical surface with rotation and translation.  The Levenberg-Marquardt algorithm is used to find the cylinder orientation, location, and radius that best fits the surface points (\cite{SLATEC:Vandervender}).  This fitting is performed only once; if a surface moves during the calculation, the constants representing the cylinder or plane position are updated analytically.  
+For a plane, the least-squares fit requires the solution of a linear system of four equations.  The procedure for fitting more general surfaces requires an iterative approach.  In the code, treatment of a more general surface is demonstrated by recognizing cylindrical surfaces.  A general cylinder equation is represented by an infinite cylindrical surface with rotation and translation.  The Levenberg-Marquardt algorithm is used to find the cylinder orientation, location, and radius that best fits the surface points (\cite{SLATEC:Vandervender}).  This fitting is performed only once; if a surface moves during the calculation, the constants representing the cylinder or plane position are updated analytically.
 
 Currently, only
 recognition of planes and cylinders have been implemented, however
@@ -253,7 +253,7 @@ is neither a plane or a cylinder, then the algorithm tags the surface
 as ``unrecognized'' and moves on.  An example is shown in Fig. \ref{fig:Surfaces}.  Only recognized surfaces may have
 sliding vertex optimization, since the surface normal of an
 unrecognized surface cannot be known exactly.
- 
+
 \begin{figure}
 	\centering
 	\includegraphics[height=0.4\textwidth]{Images/surfaces.eps}
@@ -401,14 +401,14 @@ cells are not permitted to move in the current implementation.
 \subsection{Interior untangling and optimization}
 The final phase of optimization is the point--wise sweeps over the mesh
 interior.   Depending on the kind of cells and the validity of the local sub-mesh, several different treatments of the vertex are applied. Consistent with the Laplacian smoothing phase, when vertices are connected to a mixture of cell types, the vertex is
-left in place.  For vertices used by non-tetrahedral cells, simple averaging of locations is performed, equivalent to Laplacian smoothing.  
+left in place.  For vertices used by non-tetrahedral cells, simple averaging of locations is performed, equivalent to Laplacian smoothing.
 
 For vertices that are used only by tetrahedra, true optimization is applied.  Because optimization must be preceeded by untangling when any
 cells in the sub--mesh are inverted, the algorithm first checks that all
 the cells in the sub--mesh are valid.  If any local cells are tangled,
 then untangling is applied.   For valid local sub-meshes, containing only tetrahedra,
 three--dimensional optimization using the OptMS library is
-performed.  Between four to ten sweeps through the mesh interior are sufficent to achieve an optimally smoothed mesh. 
+performed.  Between four to ten sweeps through the mesh interior are sufficent to achieve an optimally smoothed mesh.
 
 \bibliographystyle{Bib/acmtrans}
 %\bibliographystyle{Bib/asmems4}

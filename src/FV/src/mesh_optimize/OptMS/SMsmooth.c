@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -10,42 +10,42 @@
 #include "SMsmooth.h"
 
 /*@
-   SMsmooth - This is the main routine that optimizes a local submesh.  Most of the quality 
-      functions available require that the local submesh is initially valid.  
-      If the user suspects that the mesh contains invalid elements, a quality 
-      assessment should be done, and, if necessary, SMuntangle should be used 
+   SMsmooth - This is the main routine that optimizes a local submesh.  Most of the quality
+      functions available require that the local submesh is initially valid.
+      If the user suspects that the mesh contains invalid elements, a quality
+      assessment should be done, and, if necessary, SMuntangle should be used
       to try to rectify the problem.
 
    Input Parameters:
-+  num_incident_vtx - the number of incident vertices in the local mesh 
++  num_incident_vtx - the number of incident vertices in the local mesh
 .  num_tri - the number of incident triangles or tetrahedra
-.  free_vtx - the coordinates of the free vertex 
+.  free_vtx - the coordinates of the free vertex
            a vector of length equal to the problem dimension in x, y, z order
 .  vtx_list - a matrix of the coordinates of the incident vtx;
            matrix dimensions are num_incident_vtx by problem dimension
 .  vtx_connectivity - a matrix that gives the connectivity info for the
-           incident vertices. matrix dimensions are num_incident_vtx by 
-           the problem dimension. Note: this assumes that the connectivity 
-           given is for a right handed triangle or tetrahedra the free vertex 
+           incident vertices. matrix dimensions are num_incident_vtx by
+           the problem dimension. Note: this assumes that the connectivity
+           given is for a right handed triangle or tetrahedra the free vertex
            ordered first
--  ext_smooth_data - data structure for mesh smoothing; created in 
+-  ext_smooth_data - data structure for mesh smoothing; created in
           SMinitSmoothing and cast to the local data structure
 
    Output Parameter:
 .  free_vtx -  contains the new coordinates of the free vertex
- 
+
    Note:
    This function can be called only after SMinitSmoothing has been called to create
     the ext_smooth_data data structure.  Once the mesh has been optimized,
     SMfinalizeSmoothing should be called to release the memory.
 
-.seealso SMinitSmoothing(), SMsetSmoothTechnique(), SMsetSmoothFunction(), 
+.seealso SMinitSmoothing(), SMsetSmoothTechnique(), SMsetSmoothFunction(),
              SMsetSmoothThreshold(), SMfinializeSmoothing()
 @*/
 #undef __FUNC__
 #define __FUNC__ "SMsmooth"
-int SMsmooth(int num_incident_vtx, int num_tri, double *free_vtx, 
-              double **vtx_list, int **vtx_connectivity, 
+int SMsmooth(int num_incident_vtx, int num_tri, double *free_vtx,
+              double **vtx_list, int **vtx_connectivity,
               void *ext_smooth_data)
 {
     int ierr;
@@ -98,15 +98,15 @@ int SMsmooth(int num_incident_vtx, int num_tri, double *free_vtx,
 	    OPTMS_DEBUG_PRINT(1,"Plotting the initial local mesh \n");
 	    if ((fp = fopen("initlocal.m","w")) == NULL) {
                OPTMS_SETERR(OPTMS_FILE_OPEN_ERR,0,"Can't open initlocal.m for writing\n");
-            } 
+            }
 	    ierr = SMwriteLocalMesh(fp,local_mesh); OPTMS_CHKERR(ierr);
 	    fclose(fp);
 	}
         OPTMS_MATLAB_OFF});
 
-        ierr = SMcentroidSmoothMesh(local_mesh->num_incident_vtx, 
-                      local_mesh->incident_vtx, 
-                      local_mesh->free_vtx,local_mesh->dimension); 
+        ierr = SMcentroidSmoothMesh(local_mesh->num_incident_vtx,
+                      local_mesh->incident_vtx,
+                      local_mesh->free_vtx,local_mesh->dimension);
                OPTMS_CHKERR(ierr);
         OPTMS_COPY_VECTOR(free_vtx,local_mesh->free_vtx,dimension);
 
@@ -116,7 +116,7 @@ int SMsmooth(int num_incident_vtx, int num_tri, double *free_vtx,
 	    OPTMS_DEBUG_PRINT(1,"Plotting the laplaced local mesh \n");
 	    if ((fp = fopen("laplace_local.m","w")) == NULL) {
                OPTMS_SETERR(OPTMS_FILE_OPEN_ERR,0,"Can't open local_laplace.m for writing\n");
-            } 
+            }
 	    ierr = SMwriteLocalMesh(fp,local_mesh); OPTMS_CHKERR(ierr);
 	    fclose(fp);
 	}
@@ -140,20 +140,20 @@ int SMsmooth(int num_incident_vtx, int num_tri, double *free_vtx,
          OPTMS_SETERR(OPTMS_INVALID_MESH_ERR,0,"Invalid Mesh: Use SMuntangle to create a valid triangulation");
     }
     local_mesh->validity=OPTMS_VALID_MESH;
-      
+
     /* compute the original function values */
     ierr = SMcomputeFunction(local_mesh,smooth_param,local_mesh->original_function);
            OPTMS_CHKERR(ierr);
 
     /* find the minimum value */
     min_value = 1E300;
-    for (i=0;i<local_mesh->num_values;i++) 
+    for (i=0;i<local_mesh->num_values;i++)
        min_value = OPTMS_MIN(local_mesh->original_function[i],min_value);
 
     local_mesh->original_value = local_mesh->current_active_value = min_value;
-	
+
     OPTMS_DEBUG_ACTION(3,
-        {fprintf(stdout,"The initial minimum value is %f\n",min_value); 
+        {fprintf(stdout,"The initial minimum value is %f\n",min_value);
     });
 
     OPTMS_MATLAB_ON({
@@ -162,7 +162,7 @@ int SMsmooth(int num_incident_vtx, int num_tri, double *free_vtx,
 	    OPTMS_DEBUG_PRINT(1,"Plotting the initial local mesh \n");
 	    if ((fp = fopen("initlocal.m","w")) == NULL) {
                OPTMS_SETERR(OPTMS_FILE_OPEN_ERR,0,"Can't open local_laplace.m for writing\n");
-            } 
+            }
 	    ierr = SMwriteLocalMesh(fp,local_mesh); OPTMS_CHKERR(ierr);
 	    fclose(fp);
 	}
@@ -175,7 +175,7 @@ int SMsmooth(int num_incident_vtx, int num_tri, double *free_vtx,
     OPTMS_LAPLACIAN_ONLY: take a laplacian step only if it improves the mesh and leave
     OPTMS_OPTIMIZATION_ONLY: for each local submesh do optimization based smoothing.
           This method is not recommended due to it's expense
-    OPTMS COMBINED 1: if the minimum value in the local submesh is too small, do 
+    OPTMS COMBINED 1: if the minimum value in the local submesh is too small, do
            optimization based smoothing, otherwise do Laplacian smoothing
     OPTMS COMBINED 2: always do a Laplacian step; if the minimum value of the local
            submesh is too small following this step, perform optimization-based smoothing.
@@ -273,5 +273,3 @@ int SMsmooth(int num_incident_vtx, int num_tri, double *free_vtx,
 
     return(ierr = 0);
 }
-
-

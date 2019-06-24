@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -10,8 +10,8 @@
 #include "SMsmooth.h"
 
 #undef __FUNC__
-#define __FUNC__ "SMfreeLocalMesh" 
-int  SMfreeLocalMesh(SMlocal_mesh *local_mesh) 
+#define __FUNC__ "SMfreeLocalMesh"
+int  SMfreeLocalMesh(SMlocal_mesh *local_mesh)
 {
     int     ierr;
     int     i,num_tri,num_pts;
@@ -32,12 +32,12 @@ int  SMfreeLocalMesh(SMlocal_mesh *local_mesh)
     OPTMS_FREE(local_mesh->lap_info);
     ierr = SMfreeOpt(local_mesh->opt_info);  OPTMS_CHKERR(ierr);
     ierr = SMfreeLP(local_mesh,5,num_tri); OPTMS_CHKERR(ierr);
-    OPTMS_FREE(local_mesh); 
+    OPTMS_FREE(local_mesh);
     return(ierr=0);
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMfreeOpt" 
+#define __FUNC__ "SMfreeOpt"
 int SMfreeOpt(SMoptimal *opt_info)
 {
     int        ierr;
@@ -69,13 +69,13 @@ int SMfreeOpt(SMoptimal *opt_info)
     SMfreeActive(opt_info->active);
     SMfreeActive(opt_info->test_active);
     SMfreeActive(opt_info->original_active);
-    
+
     OPTMS_FREE(opt_info);
     return(ierr=0);
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMfreeLP" 
+#define __FUNC__ "SMfreeLP"
 int SMfreeLP(SMlocal_mesh *local_mesh, int num_active, int num_constraints)
 {
     int        ierr;
@@ -114,7 +114,7 @@ int SMfreeLP(SMlocal_mesh *local_mesh, int num_active, int num_constraints)
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMfreeActive" 
+#define __FUNC__ "SMfreeActive"
 int SMfreeActive(SMactive *active)
 {
     int ierr;
@@ -124,7 +124,7 @@ int SMfreeActive(SMactive *active)
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMfreeParam" 
+#define __FUNC__ "SMfreeParam"
 int SMfreeParam(SMparam *smooth_param)
 {
     int ierr;
@@ -133,7 +133,7 @@ int SMfreeParam(SMparam *smooth_param)
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMfreeProcinfo" 
+#define __FUNC__ "SMfreeProcinfo"
 int SMfreeProcinfo(SMprocinfo *procinfo)
 {
     int ierr;
@@ -142,7 +142,7 @@ int SMfreeProcinfo(SMprocinfo *procinfo)
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMfreeQualityTable" 
+#define __FUNC__ "SMfreeQualityTable"
 int SMfreeQualityTable(SMquality_table *quality_table)
 {
     int  i, ierr;
@@ -156,5 +156,3 @@ int SMfreeQualityTable(SMquality_table *quality_table)
     OPTMS_FREE(quality_table);
     return(ierr=0);
 }
-
-

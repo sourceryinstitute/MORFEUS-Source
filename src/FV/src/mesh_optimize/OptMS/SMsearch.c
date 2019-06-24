@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -14,7 +14,7 @@
 #include "SMsmooth.h"
 
 #undef __FUNC__
-#define __FUNC__ "SMsearchDirection" 
+#define __FUNC__ "SMsearchDirection"
 int SMsearchDirection(SMlocal_mesh *local_mesh)
 {
     int        ierr;
@@ -32,19 +32,19 @@ int SMsearchDirection(SMlocal_mesh *local_mesh)
 
     OPTMS_CHECK_NULL(local_mesh);
 
-    SM_LOG_EVENT_BEGIN(__SM_SEARCH__); 
+    SM_LOG_EVENT_BEGIN(__SM_SEARCH__);
     opt_info = local_mesh->opt_info;
     gradient = opt_info->gradient;
     num_active = opt_info->active->num_active;
     active_ind = opt_info->active->active_ind;
- 
-    if (num_active==0) 
+
+    if (num_active==0)
        OPTMS_SETERR(OPTMS_INPUT_ERR,0,"No active values in search");
 
     dimension = local_mesh->dimension;
 
     switch(num_active) {
-    case 1: 
+    case 1:
         OPTMS_COPY_VECTOR(opt_info->search,gradient[active_ind[0]],dimension);
         opt_info->steepest = active_ind[0];
         break;
@@ -52,7 +52,7 @@ int SMsearchDirection(SMlocal_mesh *local_mesh)
         /* if there are two active points, move in the direction of the
 	   intersection of the planes.  This is the steepest descent
            direction found by analytically solving the QP */
-        
+
         /* set up the active gradient directions */
         ierr = SMgetActiveDirections(num_active,gradient,active_ind,dimension,&dir);
                OPTMS_CHKERR(ierr);
@@ -66,7 +66,7 @@ int SMsearchDirection(SMlocal_mesh *local_mesh)
         viable = 1;
         if (fabs(denom) > OPTMS_MACHINE_EPS) {
 	  /* gradients are LI, move along their intersection */
-           b = (G[0][0] - G[0][1])/denom;  
+           b = (G[0][0] - G[0][1])/denom;
            a = 1 - b;
            if ((b < 0) || (b > 1)) viable=0;  /* 0 < b < 1 */
            if (viable) {
@@ -90,7 +90,7 @@ int SMsearchDirection(SMlocal_mesh *local_mesh)
     default:
         /* as in case 2: solve the QP problem to find the steepest
            descent direction.  This can be done analytically - as
-           is done in Gill, Murray and Wright 
+           is done in Gill, Murray and Wright
              for 3 active points in 3 directions - test PD of G
              otherwise we know it's SP SD so search edges and faces */
 
@@ -120,13 +120,13 @@ int SMsearchDirection(SMlocal_mesh *local_mesh)
                 if (x!=NULL) {
                 	a = 1 - x[0] - x[1];  b = x[0];  c = x[1];
                 	for (i=0;i<dimension;i++) {
-                    	opt_info->search[i] = a*dir[0][i] + b*dir[1][i] + 
+                    	opt_info->search[i] = a*dir[0][i] + b*dir[1][i] +
                        	                      c*dir[2][i];
                 	}
                 	opt_info->steepest = active_ind[0];
-                	for (i=0;i<num_active-1;i++)  OPTMS_FREE(P[i]);  
+                	for (i=0;i<num_active-1;i++)  OPTMS_FREE(P[i]);
                 	OPTMS_FREE(P);  OPTMS_FREE(x);
-                } else { 
+                } else {
                   	ierr = SMsearchEdgesFaces(num_active, G, dir, opt_info);
                         OPTMS_CHKERR(ierr);
                 }
@@ -148,14 +148,14 @@ int SMsearchDirection(SMlocal_mesh *local_mesh)
     if (fabs(search_mag)<1E-13) opt_info->status = OPTMS_ZERO_SEARCH;
     else OPTMS_NORMALIZE(opt_info->search,dimension);
 
-    SM_LOG_EVENT_END(__SM_SEARCH__); 
+    SM_LOG_EVENT_END(__SM_SEARCH__);
     return(ierr=0);
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMsearchEdgesFaces" 
-int SMsearchEdgesFaces(int num_active, double **G, double **dir, 
-                        SMoptimal *opt_info) 
+#define __FUNC__ "SMsearchEdgesFaces"
+int SMsearchEdgesFaces(int num_active, double **G, double **dir,
+                        SMoptimal *opt_info)
 {
     int ierr;
     int i,j,k;
@@ -173,7 +173,7 @@ int SMsearchEdgesFaces(int num_active, double **G, double **dir,
        OPTMS_SETERR(OPTMS_INPUT_ERR,0,"Dimension must be 2 or 3");
     }
 
-    SM_LOG_EVENT_BEGIN(__SM_EDGE_FACE__); 
+    SM_LOG_EVENT_BEGIN(__SM_EDGE_FACE__);
     /* initialize the search direction to 0,0 */
     for (i=0;i<dimension;i++) search[i] = 0;
 
@@ -187,19 +187,19 @@ int SMsearchEdgesFaces(int num_active, double **G, double **dir,
         for (j=0;j<num_active;j++) {       /* lagrange multipliers>0 */
              if (G[j][i] < 0) viable = 0;
         }
-       
+
         /* find the minimum of viable directions */
         if ((viable) && (G[i][i] < min_projection)) {
             min_projection = G[i][i];
             OPTMS_COPY_VECTOR(search,dir[i],dimension);
             opt_info->steepest = opt_info->active->active_ind[i];
         }
-    
+
        /* INTERSECTION IJ */
        for (j=i+1; j<num_active; j++) {
           viable = 1;
 
-          /* find the coefficients of the intersection 
+          /* find the coefficients of the intersection
              and test the viability */
           denom = 2*G[i][j] - G[i][i] - G[j][j];
           a = b = 0;
@@ -231,13 +231,13 @@ int SMsearchEdgesFaces(int num_active, double **G, double **dir,
     if (opt_info->status != OPTMS_EQUILIBRIUM) {
         OPTMS_COPY_VECTOR(opt_info->search,search,dimension);
     }
-    SM_LOG_EVENT_END(__SM_EDGE_FACE__); 
+    SM_LOG_EVENT_END(__SM_EDGE_FACE__);
     return(ierr=0);
-}         
+}
 
 #undef __FUNC__
-#define __FUNC__ "SMgetActiveDirections" 
-int SMgetActiveDirections(int num_active, double **gradient,          
+#define __FUNC__ "SMgetActiveDirections"
+int SMgetActiveDirections(int num_active, double **gradient,
                           int *active_ind, int dimension, double ***dir)
 {
     int ierr;
@@ -250,4 +250,3 @@ int SMgetActiveDirections(int num_active, double **gradient,
     }
     return(ierr=0);
 }
-

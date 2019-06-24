@@ -71,7 +71,7 @@ CONTAINS
         USE class_vector
         USE class_vertex
         USE tools_math
-         
+
         ! Local variables
         INTEGER                    :: nverts, info
         REAL(psb_dpk_),TARGET,ALLOCATABLE   :: x(:),y(:),z(:)

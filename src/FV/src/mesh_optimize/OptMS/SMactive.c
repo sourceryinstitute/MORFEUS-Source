@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -25,10 +25,10 @@
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMfindActiveSet" 
-int SMfindActiveSet(int num_values, double *function, double active_eps, 
+#define __FUNC__ "SMfindActiveSet"
+int SMfindActiveSet(int num_values, double *function, double active_eps,
 		     SMactive *active_info)
-{   
+{
     int         ierr;
     int         i, ind;
     int         num_active, num_equal;
@@ -41,12 +41,12 @@ int SMfindActiveSet(int num_values, double *function, double active_eps,
     if (num_values > OPTMS_MAX_NUM_TRI*OPTMS_DEFAULT_FUNC_PER_TRI)
        OPTMS_SETERR(OPTMS_INPUT_ERR,0,"Number of function values exceeds maximum");
 
-    active_info->num_active = 0; 
-    active_info->num_equal = 0; 
-    active_info->true_active_value = 0; 
-    for (i=0;i<num_values;i++) { 
-        active_info->active_ind[i] = 0; 
-    } 
+    active_info->num_active = 0;
+    active_info->num_equal = 0;
+    active_info->true_active_value = 0;
+    for (i=0;i<num_values;i++) {
+        active_info->active_ind[i] = 0;
+    }
 
     /* the first function value is our initial active value */
     num_active = 1;
@@ -54,7 +54,7 @@ int SMfindActiveSet(int num_values, double *function, double active_eps,
     active_info->active_ind[0] = 0;
     true_active = function[0];
 
-    /* first sort out the active set... 
+    /* first sort out the active set...
        all vals within active_eps of smallest val */
 
     for (i=1;i<num_values;i++) {
@@ -93,7 +93,7 @@ int SMfindActiveSet(int num_values, double *function, double active_eps,
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMprintActiveSet" 
+#define __FUNC__ "SMprintActiveSet"
 int SMprintActiveSet(SMactive *active, double *function)
 {
     int ierr;
@@ -103,16 +103,10 @@ int SMprintActiveSet(SMactive *active, double *function)
 
     /* print the active set */
     for (i=0;i<active->num_active;i++) {
-       OPTMS_DEBUG_ACTION(2,{ 
+       OPTMS_DEBUG_ACTION(2,{
            fprintf(stdout,"Active value %d:   %f \n",
-	               i+1,function[active->active_ind[i]]); 
+	               i+1,function[active->active_ind[i]]);
        });
     }
     return(ierr=0);
 }
-
-
-
-
-
-

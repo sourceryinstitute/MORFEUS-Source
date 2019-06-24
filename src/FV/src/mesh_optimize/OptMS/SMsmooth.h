@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -11,7 +11,7 @@
 
 /* define the structures associated with both geometric and octree
    representations of geometric entities... the void data type allows
-   us to switch contexts 
+   us to switch contexts
 */
 
 #ifdef SUMAA_LOG

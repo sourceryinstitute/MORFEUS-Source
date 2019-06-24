@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -239,7 +239,7 @@ MODULE class_vector
             IMPLICIT NONE
             TYPE(vector), ALLOCATABLE :: vect(:)
             INTEGER, INTENT(IN) :: n
-        END SUBROUTINE alloc_vector 
+        END SUBROUTINE alloc_vector
     END INTERFACE
 
     ! ----- Destructor -----
@@ -256,7 +256,7 @@ MODULE class_vector
             IMPLICIT NONE
             TYPE(vector), ALLOCATABLE :: vect(:)
         END SUBROUTINE bcast_vector
-        
+
         MODULE SUBROUTINE g2l_vector(verts,desc_v)
             USE psb_base_mod
             IMPLICIT NONE
@@ -282,7 +282,7 @@ MODULE class_vector
              IMPLICIT NONE
              TYPE(vector), INTENT(INOUT) :: v(:)
              TYPE(psb_desc_type), INTENT(IN) :: desc
-         END SUBROUTINE update_vector_halo 
+         END SUBROUTINE update_vector_halo
      END INTERFACE
 
     ! ----- Named Constants -----

@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -34,13 +34,13 @@ int	SMwriteLocalAxes(FILE *fp, SMlocal_mesh *mesh)
     OPTMS_CHECK_NULL(mesh);
 
     if (mesh->dimension == 2) {
-       if (mesh->free_vtx[OPTMS_XDIR] < mesh->min[OPTMS_XDIR]) 
+       if (mesh->free_vtx[OPTMS_XDIR] < mesh->min[OPTMS_XDIR])
                  mesh->min[OPTMS_XDIR]=mesh->free_vtx[OPTMS_XDIR];
-       if (mesh->free_vtx[OPTMS_YDIR] < mesh->min[OPTMS_YDIR]) 
+       if (mesh->free_vtx[OPTMS_YDIR] < mesh->min[OPTMS_YDIR])
                  mesh->min[OPTMS_YDIR]=mesh->free_vtx[OPTMS_YDIR];
-       if (mesh->free_vtx[OPTMS_XDIR] > mesh->max[OPTMS_XDIR]) 
+       if (mesh->free_vtx[OPTMS_XDIR] > mesh->max[OPTMS_XDIR])
                  mesh->max[OPTMS_XDIR]=mesh->free_vtx[OPTMS_XDIR];
-       if (mesh->free_vtx[OPTMS_YDIR] > mesh->max[OPTMS_YDIR]) 
+       if (mesh->free_vtx[OPTMS_YDIR] > mesh->max[OPTMS_YDIR])
                 mesh->max[OPTMS_YDIR]=mesh->free_vtx[OPTMS_YDIR];
 
         fprintf(fp,"axes('Xlim',[%16.10f,%16.10f],'Ylim',[%16.10f,%16.10f],'Box','on ',",
@@ -54,7 +54,7 @@ int	SMwriteLocalAxes(FILE *fp, SMlocal_mesh *mesh)
         OPTMS_SETERR(OPTMS_INPUT_ERR,0,"Dimensions must be 2 or 3\n");
     }
     return(ierr=0);
-}  
+}
 
 #undef __FUNC__
 #define __FUNC__ "SMwriteLocalTriangleList"
@@ -136,7 +136,7 @@ int SMwriteActiveSet(FILE *fp,SMlocal_mesh *local_mesh)
 	    x_2  = local_mesh->incident_vtx[ind1][OPTMS_XDIR];
 	    y_2  = local_mesh->incident_vtx[ind1][OPTMS_YDIR];
 	}
- 
+
 	midx = (x_1 + x_2) / 2;  midy = (y_1 + y_2) / 2;
 	xdiff = x_pt - midx;
 
@@ -160,7 +160,7 @@ int SMwriteActiveSet(FILE *fp,SMlocal_mesh *local_mesh)
       for (i=0;i<local_mesh->opt_info->active->num_active;i++) {
         ind = local_mesh->opt_info->active->active_ind[i];
 
-        tri_num = (int) ind;	
+        tri_num = (int) ind;
         ind1 = local_mesh->vtx_connectivity[tri_num][0];
         ind2 = local_mesh->vtx_connectivity[tri_num][1];
         x_pt = local_mesh->free_vtx[OPTMS_XDIR];
@@ -169,7 +169,7 @@ int SMwriteActiveSet(FILE *fp,SMlocal_mesh *local_mesh)
         x_2  = local_mesh->incident_vtx[ind2][OPTMS_XDIR];
         y_1  = local_mesh->incident_vtx[ind1][OPTMS_YDIR];
         y_2  = local_mesh->incident_vtx[ind2][OPTMS_YDIR];
- 
+
         fprintf(fp,"line([%f, %f],[%f, %f],'Color','c');\n",x_1,x_2,y_1,y_2);
         fprintf(fp,"line([%f, %f],[%f, %f],'Color','c');\n",x_pt,x_2,y_pt,y_2);
         fprintf(fp,"line([%f, %f],[%f, %f],'Color','c');\n",x_1,x_pt,y_1,y_pt);

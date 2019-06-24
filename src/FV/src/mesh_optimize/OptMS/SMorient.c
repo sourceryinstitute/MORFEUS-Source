@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -13,9 +13,9 @@
 
 /* 3D orientation predicate, without exact arithmetic */
 #undef __FUNC__
-#define __FUNC__ "Orient3D" 
+#define __FUNC__ "Orient3D"
 int iOrient3D(const double adLocA[3], const double adLocB[3],
-	      const double adLocC[3], const double adLocD[3]) 
+	      const double adLocC[3], const double adLocD[3])
      /* Returns 1 if tet ABCD is right-handed, -1 if it's left-handed,
 	and 0 if it's essentially a tie. */
 {
@@ -73,9 +73,8 @@ int iOrient3D(const double adLocA[3], const double adLocB[3],
 
   if (dDet > dEps)
     return (1);
-  else if (dDet < -dEps) 
+  else if (dDet < -dEps)
     return (-1);
   else
     return (0);
 }
-

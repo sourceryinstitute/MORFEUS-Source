@@ -2,16 +2,16 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
 /* intrinsic.c */
-/* 
+/*
    Andrew Mauer
    Options:
 
-   SILENT_EXCEPTIONS: No message is printed out when an exception 
+   SILENT_EXCEPTIONS: No message is printed out when an exception
                       occurs if this is defined.
 
    BIG_FABS_PARTIAL: If an exception occurs for in g_ad_fabs, the
@@ -46,13 +46,13 @@
 /* This is a hack --- this function should be provided somewhere sensible. */
 
 #undef __FUNC__
-#define __FUNC__ "is_zero_vector" 
+#define __FUNC__ "is_zero_vector"
 static int
 is_zero_vector (DERIV_TYPE x)
 {
      int i;
      int result = 1;
-     
+
      for (i=0; i<PMAX; i++)
      {
 	  if ( DERIV_GRAD(x)[i] != 0 )
@@ -112,7 +112,7 @@ extern int is_zero_vector Proto((void *));
 	   &aLpHa2,				\
 	   DERIV_GRAD_FOR_SAXPY(invec2));	\
 }
- 
+
 #endif /* AD_SAXPY_INDIRECT */
 
 #ifdef AD_SAXPY_DIRECT
@@ -217,8 +217,8 @@ do {									      \
 
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_log" 
-void 
+#define __FUNC__ "g_ad_log"
+void
 g_ad_log (DERIV_TYPE *result, DERIV_TYPE arg1)
 {
      DERIV_VAL(*result) = log (DERIV_VAL(arg1));
@@ -228,14 +228,14 @@ g_ad_log (DERIV_TYPE *result, DERIV_TYPE arg1)
 
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_sqrt" 
-void 
+#define __FUNC__ "g_ad_sqrt"
+void
 g_ad_sqrt (DERIV_TYPE *result, DERIV_TYPE arg1)
 {
      double x = DERIV_VAL(arg1);
      double fx;
      double z = sqrt(x);
-     
+
      DERIV_VAL(*result) = z;
 
      if ( x > ZERO )
@@ -256,7 +256,7 @@ g_ad_sqrt (DERIV_TYPE *result, DERIV_TYPE arg1)
 }
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_cos" 
+#define __FUNC__ "g_ad_cos"
 void
 g_ad_cos (DERIV_TYPE *result, DERIV_TYPE arg1)
 {
@@ -271,7 +271,7 @@ g_ad_cos (DERIV_TYPE *result, DERIV_TYPE arg1)
 
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_sin" 
+#define __FUNC__ "g_ad_sin"
 void
 g_ad_sin (DERIV_TYPE *result, DERIV_TYPE arg1)
 {
@@ -285,7 +285,7 @@ g_ad_sin (DERIV_TYPE *result, DERIV_TYPE arg1)
 }
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_exp" 
+#define __FUNC__ "g_ad_exp"
 void
 g_ad_exp (DERIV_TYPE *result, DERIV_TYPE arg1)
 {
@@ -300,7 +300,7 @@ g_ad_exp (DERIV_TYPE *result, DERIV_TYPE arg1)
 
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_tan" 
+#define __FUNC__ "g_ad_tan"
 void
 g_ad_tan (DERIV_TYPE *result, DERIV_TYPE arg1)
 {
@@ -319,7 +319,7 @@ g_ad_tan (DERIV_TYPE *result, DERIV_TYPE arg1)
   */
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_pow" 
+#define __FUNC__ "g_ad_pow"
 void
 g_ad_pow (DERIV_TYPE *result, DERIV_TYPE arg1, DERIV_TYPE arg2)
 {
@@ -329,7 +329,7 @@ g_ad_pow (DERIV_TYPE *result, DERIV_TYPE arg1, DERIV_TYPE arg2)
      double fx, fy;
 
      z = pow(x,y);
-     
+
      DERIV_VAL(*result) = z;
 
      if ( x != ZERO )
@@ -342,7 +342,7 @@ g_ad_pow (DERIV_TYPE *result, DERIV_TYPE arg1, DERIV_TYPE arg2)
      }
      else
      {
-	  if ( HAS_NONZERO_DERIV (arg1) 
+	  if ( HAS_NONZERO_DERIV (arg1)
 	      || HAS_NONZERO_DERIV(arg2) )
 	  {
 	       PRINT_ERR_2 ("g_ad_power: Exception at pow(%f,%f)\n",x,y);
@@ -384,7 +384,7 @@ g_ad_pow (DERIV_TYPE *result, DERIV_TYPE arg1, DERIV_TYPE arg2)
 
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_fmin" 
+#define __FUNC__ "g_ad_fmin"
 void
 g_ad_fmin (DERIV_TYPE *result, DERIV_TYPE arg1, DERIV_TYPE arg2)
 {
@@ -424,7 +424,7 @@ g_ad_fmin (DERIV_TYPE *result, DERIV_TYPE arg1, DERIV_TYPE arg2)
 
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_fmax" 
+#define __FUNC__ "g_ad_fmax"
 void
 g_ad_fmax (DERIV_TYPE *result, DERIV_TYPE arg1, DERIV_TYPE arg2)
 {
@@ -457,23 +457,23 @@ g_ad_fmax (DERIV_TYPE *result, DERIV_TYPE arg1, DERIV_TYPE arg2)
 	  z = x;
      }
 
-     DERIV_VAL(*result) = z; 
+     DERIV_VAL(*result) = z;
      AXPY2 (*result, fx, arg1, fy, arg2);
 }
 
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_fabs" 
+#define __FUNC__ "g_ad_fabs"
 void
 g_ad_fabs (DERIV_TYPE *result, DERIV_TYPE arg1)
 {
      double x = DERIV_VAL(arg1);
      double z;
      double fx;
-     
+
 #ifdef DEBUG
-     int never = 0; 
-     if ( never ) 
+     int never = 0;
+     if ( never )
      {
 	  user_adprint(arg1);
      }
@@ -509,7 +509,7 @@ g_ad_fabs (DERIV_TYPE *result, DERIV_TYPE arg1)
 
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_sinh" 
+#define __FUNC__ "g_ad_sinh"
 void
 g_ad_sinh (DERIV_TYPE *result, DERIV_TYPE arg1)
 {
@@ -523,7 +523,7 @@ g_ad_sinh (DERIV_TYPE *result, DERIV_TYPE arg1)
 }
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_cosh" 
+#define __FUNC__ "g_ad_cosh"
 void
 g_ad_cosh (DERIV_TYPE *result, DERIV_TYPE arg1)
 {
@@ -538,7 +538,7 @@ g_ad_cosh (DERIV_TYPE *result, DERIV_TYPE arg1)
 
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_tanh" 
+#define __FUNC__ "g_ad_tanh"
 void
 g_ad_tanh (DERIV_TYPE *result, DERIV_TYPE arg1)
 {
@@ -553,7 +553,7 @@ g_ad_tanh (DERIV_TYPE *result, DERIV_TYPE arg1)
 
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_acos" 
+#define __FUNC__ "g_ad_acos"
 void
 g_ad_acos (DERIV_TYPE *result, DERIV_TYPE arg1)
 {
@@ -579,7 +579,7 @@ g_ad_acos (DERIV_TYPE *result, DERIV_TYPE arg1)
 
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_asin" 
+#define __FUNC__ "g_ad_asin"
 void
 g_ad_asin (DERIV_TYPE *result, DERIV_TYPE arg1)
 {
@@ -591,7 +591,7 @@ g_ad_asin (DERIV_TYPE *result, DERIV_TYPE arg1)
 	  fx = ONE / sqrt ( (ONE + x)*(ONE - x) );
      }
      else {
-	  if (HAS_NONZERO_DERIV(arg1)) 
+	  if (HAS_NONZERO_DERIV(arg1))
 	  {
 	       PRINT_ERR_1 ("g_ad_asin: Exception at asin(%f)\n",x);
 	  }
@@ -605,7 +605,7 @@ g_ad_asin (DERIV_TYPE *result, DERIV_TYPE arg1)
 
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_atan" 
+#define __FUNC__ "g_ad_atan"
 void
 g_ad_atan (DERIV_TYPE *result, DERIV_TYPE arg1)
 {
@@ -620,7 +620,7 @@ g_ad_atan (DERIV_TYPE *result, DERIV_TYPE arg1)
 
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_log10" 
+#define __FUNC__ "g_ad_log10"
 void
 g_ad_log10 (DERIV_TYPE *result, DERIV_TYPE arg1)
 {
@@ -634,7 +634,7 @@ g_ad_log10 (DERIV_TYPE *result, DERIV_TYPE arg1)
 }
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_atan2" 
+#define __FUNC__ "g_ad_atan2"
 void
 g_ad_atan2 (DERIV_TYPE *result, DERIV_TYPE arg1, DERIV_TYPE arg2)
 {
@@ -651,7 +651,7 @@ g_ad_atan2 (DERIV_TYPE *result, DERIV_TYPE arg1, DERIV_TYPE arg2)
 }
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_fmod" 
+#define __FUNC__ "g_ad_fmod"
 void
 g_ad_fmod (DERIV_TYPE *result, DERIV_TYPE arg1, DERIV_TYPE arg2)
 {

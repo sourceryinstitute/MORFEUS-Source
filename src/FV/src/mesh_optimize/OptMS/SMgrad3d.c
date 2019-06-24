@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -15,7 +15,7 @@
 #include "SMdihed_func.h"
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_vCross" 
+#define __FUNC__ "g_ad_vCross"
 int  g_ad_vCross(DERIV_TYPE adVecA[3], DERIV_TYPE adVecB[3], DERIV_TYPE adResult[3])
 {
   int ierr;
@@ -57,8 +57,8 @@ int  g_ad_vCross(DERIV_TYPE adVecA[3], DERIV_TYPE adVecB[3], DERIV_TYPE adResult
 }
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_dMagnitude" 
-int  g_ad_dMagnitude(DERIV_TYPE  *g_ad_var_, DERIV_TYPE adVec[3]) 
+#define __FUNC__ "g_ad_dMagnitude"
+int  g_ad_dMagnitude(DERIV_TYPE  *g_ad_var_, DERIV_TYPE adVec[3])
 {
   int ierr;
   int g_i_;
@@ -89,8 +89,8 @@ int  g_ad_dMagnitude(DERIV_TYPE  *g_ad_var_, DERIV_TYPE adVec[3])
 }
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_dDot" 
-int  g_ad_dDot(DERIV_TYPE  *g_ad_var_, DERIV_TYPE adVecA[3], DERIV_TYPE adVecB[3]) 
+#define __FUNC__ "g_ad_dDot"
+int  g_ad_dDot(DERIV_TYPE  *g_ad_var_, DERIV_TYPE adVecA[3], DERIV_TYPE adVecB[3])
 {
   int ierr;
   double g_ad_adj_3;
@@ -126,7 +126,7 @@ int  g_ad_dDot(DERIV_TYPE  *g_ad_var_, DERIV_TYPE adVecA[3], DERIV_TYPE adVecB[3
 }
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_dNegDot" 
+#define __FUNC__ "g_ad_dNegDot"
 int  g_ad_dNegDot(DERIV_TYPE  *g_ad_var_, DERIV_TYPE adVecA[3], DERIV_TYPE adVecB[3])
 {
   int ierr;
@@ -163,9 +163,9 @@ int  g_ad_dNegDot(DERIV_TYPE  *g_ad_var_, DERIV_TYPE adVecA[3], DERIV_TYPE adVec
 }
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_vUnitNormal" 
-int  g_ad_vUnitNormal(DERIV_TYPE adCoord0[3], DERIV_TYPE adCoord1[3], 
-                       DERIV_TYPE adCoord2[3], DERIV_TYPE adResult[3]) 
+#define __FUNC__ "g_ad_vUnitNormal"
+int  g_ad_vUnitNormal(DERIV_TYPE adCoord0[3], DERIV_TYPE adCoord1[3],
+                       DERIV_TYPE adCoord2[3], DERIV_TYPE adResult[3])
 {
   int ierr;
   DERIV_TYPE adVecA[3], adVecB[3], dMag;
@@ -190,7 +190,7 @@ int  g_ad_vUnitNormal(DERIV_TYPE adCoord0[3], DERIV_TYPE adCoord1[3],
 
     DERIV_VAL(adVecA[i]) = DERIV_VAL(adCoord1[i]) - DERIV_VAL(adCoord0[i]);
     DERIV_VAL(adVecB[i]) = DERIV_VAL(adCoord2[i]) - DERIV_VAL(adCoord0[i]);
-     
+
   }
   g_ad_vCross(adVecA, adVecB, adResult);
   g_ad_dMagnitude( &dMag, adResult);
@@ -217,10 +217,10 @@ int  g_ad_vUnitNormal(DERIV_TYPE adCoord0[3], DERIV_TYPE adCoord1[3],
 }
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_vSineDihedrals" 
-int g_ad_vSineDihedrals(DERIV_TYPE adCoord0[3], DERIV_TYPE adCoord1[3], 
-                         DERIV_TYPE adCoord2[3], DERIV_TYPE adCoord3[3], 
-                         DERIV_TYPE adResult[6], int  *piNResult) 
+#define __FUNC__ "g_ad_vSineDihedrals"
+int g_ad_vSineDihedrals(DERIV_TYPE adCoord0[3], DERIV_TYPE adCoord1[3],
+                         DERIV_TYPE adCoord2[3], DERIV_TYPE adCoord3[3],
+                         DERIV_TYPE adResult[6], int  *piNResult)
 {
   int ierr;
   DERIV_TYPE adNormA[3], adNormB[3], adNormC[3], adNormD[3];
@@ -246,10 +246,10 @@ int g_ad_vSineDihedrals(DERIV_TYPE adCoord0[3], DERIV_TYPE adCoord1[3],
 }
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_vCosineDihedrals" 
-int  g_ad_vCosineDihedrals(DERIV_TYPE adCoord0[3], DERIV_TYPE adCoord1[3], 
-                                   DERIV_TYPE adCoord2[3], DERIV_TYPE adCoord3[3], 
-                                   DERIV_TYPE adResult[6], int  *piNResult) 
+#define __FUNC__ "g_ad_vCosineDihedrals"
+int  g_ad_vCosineDihedrals(DERIV_TYPE adCoord0[3], DERIV_TYPE adCoord1[3],
+                                   DERIV_TYPE adCoord2[3], DERIV_TYPE adCoord3[3],
+                                   DERIV_TYPE adResult[6], int  *piNResult)
 {
   int ierr;
   DERIV_TYPE adNormA[3], adNormB[3], adNormC[3], adNormD[3];
@@ -269,10 +269,10 @@ int  g_ad_vCosineDihedrals(DERIV_TYPE adCoord0[3], DERIV_TYPE adCoord1[3],
 }
 
 #undef __FUNC__
-#define __FUNC__ "g_ad_vDihedrals" 
-int g_ad_vDihedrals(DERIV_TYPE adCoord0[3], DERIV_TYPE adCoord1[3], 
-                             DERIV_TYPE adCoord2[3], DERIV_TYPE adCoord3[3], 
-                             DERIV_TYPE adResult[6], int  *piNResult) 
+#define __FUNC__ "g_ad_vDihedrals"
+int g_ad_vDihedrals(DERIV_TYPE adCoord0[3], DERIV_TYPE adCoord1[3],
+                             DERIV_TYPE adCoord2[3], DERIV_TYPE adCoord3[3],
+                             DERIV_TYPE adResult[6], int  *piNResult)
 {
   int ierr;
   DERIV_TYPE adNormA[3], adNormB[3], adNormC[3], adNormD[3];
@@ -296,5 +296,3 @@ int g_ad_vDihedrals(DERIV_TYPE adCoord0[3], DERIV_TYPE adCoord1[3],
   g_ad_acos( &adResult[0], dTemp);
   return(ierr=0);
 }
-
-

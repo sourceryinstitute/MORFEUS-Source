@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -14,7 +14,7 @@
 #include "SMsmooth.h"
 
 #undef __FUNC__
-#define __FUNC__ "SMformGrammian" 
+#define __FUNC__ "SMformGrammian"
 int SMformGrammian(int num_active, double **vec, double **G, int dimension)
 {
    int ierr;
@@ -28,14 +28,14 @@ int SMformGrammian(int num_active, double **vec, double **G, int dimension)
       for (j=i; j<num_active; j++) {
          G[i][j] = 0.;
 	 OPTMS_DOT(G[i][j],vec[i],vec[j],dimension);
-	 G[j][i] = G[i][j];	 
+	 G[j][i] = G[i][j];
       }
    }
    return(ierr=0);
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMformPDGrammian" 
+#define __FUNC__ "SMformPDGrammian"
 int SMformPDGrammian(SMoptimal *opt_info)
 {
     int ierr;
@@ -44,7 +44,7 @@ int SMformPDGrammian(SMoptimal *opt_info)
     int    num_active, *active_ind, *PDG_ind;
     int    singular;
     double **G, **PDG;
-    
+
     OPTMS_CHECK_NULL(opt_info);
 
     dimension = opt_info->dimension;
@@ -88,7 +88,7 @@ int SMformPDGrammian(SMoptimal *opt_info)
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMformVerticalMatrix" 
+#define __FUNC__ "SMformVerticalMatrix"
 int SMformVerticalMatrix(int num, double **PDG, double ***N)
 {
     int ierr;
@@ -107,14 +107,14 @@ int SMformVerticalMatrix(int num, double **PDG, double ***N)
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMformReducedMatrix" 
+#define __FUNC__ "SMformReducedMatrix"
 int SMformReducedMatrix(int num_active,double **G, double ***P)
 {
     int ierr;
     int i,j;
 
     OPTMS_MALLOC((*P),(double **),sizeof(double *)*(num_active-1),1);
-    for (i=0; i<num_active-1; i++) 
+    for (i=0; i<num_active-1; i++)
         OPTMS_MALLOC((*P)[i],(double *),sizeof(double)*(num_active-1),1);
 
     for (i=0;i<num_active-1;i++) {
@@ -128,8 +128,8 @@ int SMformReducedMatrix(int num_active,double **G, double ***P)
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMsingularTest" 
-int SMsingularTest(int n, double **A, int *singular) 
+#define __FUNC__ "SMsingularTest"
+int SMsingularTest(int n, double **A, int *singular)
 {
     int ierr;
     double cond;
@@ -144,7 +144,7 @@ int SMsingularTest(int n, double **A, int *singular)
         if (A[0][0] > 0) (*singular) = OPTMS_FALSE;
         break;
     case 2:
-        if (fabs(A[0][0]*A[1][1] - A[0][1]*A[1][0]) > OPTMS_MACHINE_EPS)           
+        if (fabs(A[0][0]*A[1][1] - A[0][1]*A[1][0]) > OPTMS_MACHINE_EPS)
             (*singular) = OPTMS_FALSE;
         break;
     case 3:
@@ -157,8 +157,8 @@ int SMsingularTest(int n, double **A, int *singular)
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMsolve2x2" 
-int SMsolve2x2(double a11, double a12, double a21, double a22, 
+#define __FUNC__ "SMsolve2x2"
+int SMsolve2x2(double a11, double a12, double a21, double a22,
 		   double b1, double b2, double **x)
 {
     int ierr;
@@ -183,14 +183,14 @@ int SMsolve2x2(double a11, double a12, double a21, double a22,
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMsolveSPD3x3" 
+#define __FUNC__ "SMsolveSPD3x3"
 int SMsolveSPD3x3(double **A, double *B, double **x)
 {
     int ierr;
     double L11, L21, L31, L22, L32, L33;
     double Y1, Y2, Y3;
 
-    /* solves a 3x3 symmetric positive definite system 
+    /* solves a 3x3 symmetric positive definite system
        using cholesky factorization */
 
     OPTMS_MALLOC((*x),(double *),sizeof(double)*3,1);
@@ -221,7 +221,7 @@ int SMsolveSPD3x3(double **A, double *B, double **x)
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMtransposeMatrix" 
+#define __FUNC__ "SMtransposeMatrix"
 int  SMtransposeMatrix(double *mat, int rows, int cols, double *mat_T)
 {
    int ierr;
@@ -238,7 +238,7 @@ int  SMtransposeMatrix(double *mat, int rows, int cols, double *mat_T)
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMtransposeMatrix2" 
+#define __FUNC__ "SMtransposeMatrix2"
 int  SMtransposeMatrix2(double **mat, int rows, int cols, double **mat_T)
 {
    int ierr;
@@ -254,8 +254,8 @@ int  SMtransposeMatrix2(double **mat, int rows, int cols, double **mat_T)
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMcondition3x3" 
-int SMcondition3x3(double **A, double *cond) 
+#define __FUNC__ "SMcondition3x3"
+int SMcondition3x3(double **A, double *cond)
 {
    int ierr;
    double a11, a12, a13;
@@ -273,15 +273,15 @@ int SMcondition3x3(double **A, double *cond)
    denom = -a11*a22*a33+a11*a23*a32+a21*a12*a33-a21*a13*a32-
             a31*a12*a23+a31*a13*a22;
 
-   if ( (fabs(a11) > OPTMS_MACHINE_EPS) && 
+   if ( (fabs(a11) > OPTMS_MACHINE_EPS) &&
         (fabs(denom/a11) > OPTMS_MACHINE_EPS)) {
          zero_denom = OPTMS_FALSE;
    }
-   if ( (fabs(a22) > OPTMS_MACHINE_EPS) && 
+   if ( (fabs(a22) > OPTMS_MACHINE_EPS) &&
         (fabs(denom/a22) > OPTMS_MACHINE_EPS)) {
          zero_denom = OPTMS_FALSE;
-   }       
-   if ( (fabs(a33) > OPTMS_MACHINE_EPS) && 
+   }
+   if ( (fabs(a33) > OPTMS_MACHINE_EPS) &&
         (fabs(denom/a33) > OPTMS_MACHINE_EPS)) {
          zero_denom = OPTMS_FALSE;
    }
@@ -289,8 +289,8 @@ int SMcondition3x3(double **A, double *cond)
    if (zero_denom) {
      (*cond) = OPTMS_BIG_POS_NMBR;
    } else {
-     s1 = sqrt(a11*a11 + a12*a12 + a13*a13 + 
-               a21*a21 + a22*a22 + a23*a23 + 
+     s1 = sqrt(a11*a11 + a12*a12 + a13*a13 +
+               a21*a21 + a22*a22 + a23*a23 +
                a31*a31 + a32*a32 + a33*a33);
 
      temp = (-a22*a33+a23*a32)/denom;
@@ -319,7 +319,7 @@ int SMcondition3x3(double **A, double *cond)
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMdeterminant2x2" 
+#define __FUNC__ "SMdeterminant2x2"
 int SMdeterminant2x2(double a1[2], double a2[2], double *det)
 {
   int ierr;
@@ -328,7 +328,7 @@ int SMdeterminant2x2(double a1[2], double a2[2], double *det)
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMfrobenius_norm_squared2x2" 
+#define __FUNC__ "SMfrobenius_norm_squared2x2"
 int SMfrobenius_norm_squared2x2(double a1[2], double a2[2], double *norma)
 {
   int ierr;
@@ -340,7 +340,7 @@ int SMfrobenius_norm_squared2x2(double a1[2], double a2[2], double *norma)
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMadjoint2x2" 
+#define __FUNC__ "SMadjoint2x2"
 int SMadjoint2x2(double a1[2], double a2[2],
                  double b1[2], double b2[2])
 {
@@ -353,7 +353,7 @@ int SMadjoint2x2(double a1[2], double a2[2],
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMmultiply2x2" 
+#define __FUNC__ "SMmultiply2x2"
 int SMmultiply2x2(double a1[2], double a2[2],
                    double b1[2], double b2[2],
                    double r1[2], double r2[2])
@@ -368,18 +368,18 @@ int SMmultiply2x2(double a1[2], double a2[2],
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMtranspose2x2" 
+#define __FUNC__ "SMtranspose2x2"
 int SMtranspose2x2(double a1[2], double a2[2],
 		    double b1[2], double b2[2])
 {
   int ierr;
-  b1[0] = a1[0];  b1[1] = a2[0]; 
-  b2[0] = a1[1];  b2[1] = a2[1]; 
+  b1[0] = a1[0];  b1[1] = a2[0];
+  b2[0] = a1[1];  b2[1] = a2[1];
   return(ierr=0);
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMdeterminant3x3" 
+#define __FUNC__ "SMdeterminant3x3"
 int SMdeterminant3x3(double a1[3], double a2[3], double a3[3], double *determinant)
 {
   int ierr;
@@ -392,7 +392,7 @@ int SMdeterminant3x3(double a1[3], double a2[3], double a3[3], double *determina
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMmultiply3x3" 
+#define __FUNC__ "SMmultiply3x3"
 int SMmultiply3x3(double a1[3], double a2[3], double a3[3],
                    double b1[3], double b2[3], double b3[3],
                    double r1[3], double r2[3], double r3[3])
@@ -413,7 +413,7 @@ int SMmultiply3x3(double a1[3], double a2[3], double a3[3],
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMtranspose3x3" 
+#define __FUNC__ "SMtranspose3x3"
 int SMtranspose3x3(double a1[3], double a2[3], double a3[3],
 		    double b1[3], double b2[3], double b3[3])
 {
@@ -425,7 +425,7 @@ int SMtranspose3x3(double a1[3], double a2[3], double a3[3],
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMadjoint3x3" 
+#define __FUNC__ "SMadjoint3x3"
 int SMadjoint3x3(double a1[3], double a2[3], double a3[3],
                   double b1[3], double b2[3], double b3[3])
 {
@@ -445,8 +445,8 @@ int SMadjoint3x3(double a1[3], double a2[3], double a3[3],
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMfrobenius_norm_squared3x3" 
-int SMfrobenius_norm_squared3x3(double a1[3], double a2[3], double a3[3], double *norma) 
+#define __FUNC__ "SMfrobenius_norm_squared3x3"
+int SMfrobenius_norm_squared3x3(double a1[3], double a2[3], double a3[3], double *norma)
 {
   int ierr;
 
@@ -459,13 +459,13 @@ int SMfrobenius_norm_squared3x3(double a1[3], double a2[3], double a3[3], double
 
 
 #undef __FUNC__
-#define __FUNC__ "SMfrobenius_norm_squared_adj3x3" 
+#define __FUNC__ "SMfrobenius_norm_squared_adj3x3"
 int SMfrobenius_norm_squared_adj3x3(double a1[3], double a2[3], double a3[3],
                double *norm_adja)
 {
   int ierr;
   double tmp[3];
-  
+
   tmp[0] =  a1[1]*a2[2] - a1[2]*a2[1];
   tmp[1] = -(a1[0]*a2[1] - a1[2]*a2[0]);
   tmp[2] =  a1[0]*a2[1] - a1[1]*a2[0];
@@ -483,4 +483,3 @@ int SMfrobenius_norm_squared_adj3x3(double a1[3], double a2[3], double a3[3],
 
   return (ierr=0);
 }
-

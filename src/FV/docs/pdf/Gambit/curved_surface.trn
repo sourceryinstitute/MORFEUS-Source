@@ -1,8 +1,8 @@
 / File opened for write Thu Apr  5 17:55:38 2007.
- 
+
 *** LISTING "default_id" FILES IN DIRECTORY:
     .
- 
+
     default_id.dbs
     default_id.jou
     default_id.lok
@@ -11,28 +11,28 @@ WARN:  Reading old format of database (version 2.2.14).  The current version is
 2.3.14, and in this format the current session will be saved.
 Copyright(c) 1988-2007, Fluent Inc. All rights reserved.
 http://www.fluent.com
- 
+
 Gambit incorporates Simulation Modeling Suite(TM) software by Simmetrix Inc.
- 
+
 Portions of this software are owned by Parametric Technology Corporation.
 Copyright(c) 2002. All Rights Reserved.
- 
+
 Portions of this software are owned by Unigraphics Solutions Corporation or its subsidiaries.
 Copyright(c) 2004. All Rights Reserved.
- 
+
 Spatial Indexing Library version 0.81b (beta) provided under GNU Lesser General Public License
 (http://www.gnu.org/copyleft/lesser.html)
- 
+
 Command> volume create height 2 radius1 0.2 radius2 0.2 radius3 0.2 offset 0 0 1 zaxis frustum
 Created volume: volume.2
 Transformed volume: volume.2
 Command> undo
-Undone to: volume create height 2 radius1 0.2 radius2 0.2 radius3 0.2 offset 0 0.  
+Undone to: volume create height 2 radius1 0.2 radius2 0.2 radius3 0.2 offset 0 0.
 Command> window modify volume shade
 Command> face create width 0.05 height 0.05 xyplane rectangle
 Created face: face.4
 Command> undo
-Undone to: face create width 0.05 height 0.05 xyplane rectangle.  
+Undone to: face create width 0.05 height 0.05 xyplane rectangle.
 Command> face create width 0.05 height 0.05 offset 0 0.025 0.025 yzplane rectangle
 Created face: face.4
 Command> face move "face.4" offset 0.1 0 0

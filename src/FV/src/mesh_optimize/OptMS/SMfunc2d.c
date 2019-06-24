@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -13,14 +13,14 @@
 #include <math.h>
 #include "SMsmooth.h"
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeTriCosines"
-int SMcomputeTriCosines(double *vtx1, double *vtx2, double *vtx3, 
+int SMcomputeTriCosines(double *vtx1, double *vtx2, double *vtx3,
                                    double *function, int *num_values)
 {
     int ierr;
     double xlen, ylen;
-    double L1, L2, L3;    
+    double L1, L2, L3;
 
     xlen = vtx2[OPTMS_XDIR] - vtx3[OPTMS_XDIR];
     ylen = vtx2[OPTMS_YDIR] - vtx3[OPTMS_YDIR];
@@ -29,7 +29,7 @@ int SMcomputeTriCosines(double *vtx1, double *vtx2, double *vtx3,
     xlen = vtx1[OPTMS_XDIR] - vtx3[OPTMS_XDIR];
     ylen = vtx1[OPTMS_YDIR] - vtx3[OPTMS_YDIR];
     L2 = xlen*xlen + ylen*ylen;
-    
+
     xlen = vtx1[OPTMS_XDIR] - vtx2[OPTMS_XDIR];
     ylen = vtx1[OPTMS_YDIR] - vtx2[OPTMS_YDIR];
     L3 = xlen*xlen + ylen*ylen;
@@ -45,14 +45,14 @@ int SMcomputeTriCosines(double *vtx1, double *vtx2, double *vtx3,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeInteriorTriCosines"
-int SMcomputeInteriorTriCosines(double *vtx1, double *vtx2, double *vtx3, 
+int SMcomputeInteriorTriCosines(double *vtx1, double *vtx2, double *vtx3,
                                    double *function, int *num_values)
 {
     int ierr;
     double xlen, ylen;
-    double L1, L2, L3;    
+    double L1, L2, L3;
 
     xlen = vtx2[OPTMS_XDIR] - vtx3[OPTMS_XDIR];
     ylen = vtx2[OPTMS_YDIR] - vtx3[OPTMS_YDIR];
@@ -61,7 +61,7 @@ int SMcomputeInteriorTriCosines(double *vtx1, double *vtx2, double *vtx3,
     xlen = vtx1[OPTMS_XDIR] - vtx3[OPTMS_XDIR];
     ylen = vtx1[OPTMS_YDIR] - vtx3[OPTMS_YDIR];
     L2 = xlen*xlen + ylen*ylen;
-    
+
     xlen = vtx1[OPTMS_XDIR] - vtx2[OPTMS_XDIR];
     ylen = vtx1[OPTMS_YDIR] - vtx2[OPTMS_YDIR];
     L3 = xlen*xlen + ylen*ylen;
@@ -74,9 +74,9 @@ int SMcomputeInteriorTriCosines(double *vtx1, double *vtx2, double *vtx3,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeNegTriCosines"
-int SMcomputeNegTriCosines(double *vtx1, double *vtx2, 
+int SMcomputeNegTriCosines(double *vtx1, double *vtx2,
                   double *vtx3, double *function, int *num_values)
 {
     int ierr;
@@ -87,9 +87,9 @@ int SMcomputeNegTriCosines(double *vtx1, double *vtx2,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeTriAngles"
-int SMcomputeTriAngles(double *vtx1, double *vtx2, double *vtx3, 
+int SMcomputeTriAngles(double *vtx1, double *vtx2, double *vtx3,
                                   double *function, int *num_values)
 {
     int ierr;
@@ -101,9 +101,9 @@ int SMcomputeTriAngles(double *vtx1, double *vtx2, double *vtx3,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeInteriorTriAngles"
-int SMcomputeInteriorTriAngles(double *vtx1, double *vtx2, double *vtx3, 
+int SMcomputeInteriorTriAngles(double *vtx1, double *vtx2, double *vtx3,
                                   double *function, int *num_values)
 {
     int ierr;
@@ -115,9 +115,9 @@ int SMcomputeInteriorTriAngles(double *vtx1, double *vtx2, double *vtx3,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeNegTriAngles"
-int SMcomputeNegTriAngles(double *vtx1, double *vtx2, 
+int SMcomputeNegTriAngles(double *vtx1, double *vtx2,
                   double *vtx3, double *function, int *num_values)
 {
     int ierr;
@@ -129,18 +129,18 @@ int SMcomputeNegTriAngles(double *vtx1, double *vtx2,
 }
 
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeTriSines"
-int SMcomputeTriSines(double *vtx1, double *vtx2, double *vtx3, 
+int SMcomputeTriSines(double *vtx1, double *vtx2, double *vtx3,
                                  double *function, int *num_values)
 {
     int ierr;
     double xlen, ylen;
-    double L1, L2, L3;    
+    double L1, L2, L3;
     double sL1, sL2, sL3;
     double cos0;
 
-    /* Computes the sine of the angles of the triangle, but only returns 
+    /* Computes the sine of the angles of the triangle, but only returns
         positive values - as it stands this function cannot be used for mesh
         untangling */
 
@@ -153,7 +153,7 @@ int SMcomputeTriSines(double *vtx1, double *vtx2, double *vtx3,
     ylen = vtx1[OPTMS_YDIR] - vtx3[OPTMS_YDIR];
     L2 = xlen*xlen + ylen*ylen;
     sL2 = sqrt(L2);
-    
+
     xlen = vtx1[OPTMS_XDIR] - vtx2[OPTMS_XDIR];
     ylen = vtx1[OPTMS_YDIR] - vtx2[OPTMS_YDIR];
     L3 = xlen*xlen + ylen*ylen;
@@ -171,18 +171,18 @@ int SMcomputeTriSines(double *vtx1, double *vtx2, double *vtx3,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeInteriorTriSines"
-int SMcomputeInteriorTriSines(double *vtx1, double *vtx2, double *vtx3, 
+int SMcomputeInteriorTriSines(double *vtx1, double *vtx2, double *vtx3,
                                  double *function, int *num_values)
 {
     int ierr;
     double xlen, ylen;
-    double L1, L2, L3;    
+    double L1, L2, L3;
     double sL1, sL2, sL3;
     double cos0;
 
-    /* Computes the sine of the angles of the triangle, but only returns 
+    /* Computes the sine of the angles of the triangle, but only returns
         positive values - as it stands this function cannot be used for mesh
         untangling */
 
@@ -195,7 +195,7 @@ int SMcomputeInteriorTriSines(double *vtx1, double *vtx2, double *vtx3,
     ylen = vtx1[OPTMS_YDIR] - vtx3[OPTMS_YDIR];
     L2 = xlen*xlen + ylen*ylen;
     sL2 = sqrt(L2);
-    
+
     xlen = vtx1[OPTMS_XDIR] - vtx2[OPTMS_XDIR];
     ylen = vtx1[OPTMS_YDIR] - vtx2[OPTMS_YDIR];
     L3 = xlen*xlen + ylen*ylen;
@@ -210,9 +210,9 @@ int SMcomputeInteriorTriSines(double *vtx1, double *vtx2, double *vtx3,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeTriJacobians"
-int SMcomputeTriJacobians(double *vtx1, double *vtx2, double *vtx3, 
+int SMcomputeTriJacobians(double *vtx1, double *vtx2, double *vtx3,
                                    double *function, int *num_values)
 {
     int ierr;
@@ -223,8 +223,8 @@ int SMcomputeTriJacobians(double *vtx1, double *vtx2, double *vtx3,
 
     /* Computes the square of the difference between the actual jacbian
         and the jacobian of an equilateral triangle based on the edge opposite
-        the free vertex.  We need to minimize the maximum difference and 
-        the function is therefore negated.  The corresponing gradient code 
+        the free vertex.  We need to minimize the maximum difference and
+        the function is therefore negated.  The corresponing gradient code
         is in SMcomputeJacobianGradients.  There is one value per triangle */
 
     x1=vtx1[OPTMS_XDIR];     y1=vtx1[OPTMS_YDIR];
@@ -241,15 +241,15 @@ int SMcomputeTriJacobians(double *vtx1, double *vtx2, double *vtx3,
     c = x3 - x2;
     function[0] = a + b*x1 + c*y1;
     function[0] = -((function[0] - equal_jac)/equal_jac)*
-                   ((function[0]-equal_jac)/equal_jac); 
+                   ((function[0]-equal_jac)/equal_jac);
 
     *num_values = 1;
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeTriArea"
-int SMcomputeTriArea(double *vtx1, double *vtx2, double *vtx3, 
+int SMcomputeTriArea(double *vtx1, double *vtx2, double *vtx3,
                                    double *function, int *num_values)
 {
     int ierr;
@@ -269,9 +269,9 @@ int SMcomputeTriArea(double *vtx1, double *vtx2, double *vtx3,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeScaledTriJacobians"
-int SMcomputeScaledTriJacobians(double *vtx1, double *vtx2, double *vtx3, 
+int SMcomputeScaledTriJacobians(double *vtx1, double *vtx2, double *vtx3,
                                    double *function, int *num_values)
 {
     int ierr;
@@ -282,8 +282,8 @@ int SMcomputeScaledTriJacobians(double *vtx1, double *vtx2, double *vtx3,
     /* This function computes the scaled jacobian for each angle of the triangle
         -- Jac/(L1*L2) where L1 and L2 are the length of the edges containing the angle.
         Note that this is equivalent to the sine of the angle but is an efficient way to compute
-        both positive and negative sines for mesh untangling.  There are 3 function values 
-        per triangle and we need to maximize the minimum scaled jacobian.  The 
+        both positive and negative sines for mesh untangling.  There are 3 function values
+        per triangle and we need to maximize the minimum scaled jacobian.  The
         corresponding gradient code is in the function SMcomputeScaledJacobianGradients*/
 
     x1=vtx1[OPTMS_XDIR];     y1=vtx1[OPTMS_YDIR];
@@ -314,9 +314,9 @@ int SMcomputeScaledTriJacobians(double *vtx1, double *vtx2, double *vtx3,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeInteriorScaledTriJacobians"
-int SMcomputeInteriorScaledTriJacobians(double *vtx1, double *vtx2, double *vtx3, 
+int SMcomputeInteriorScaledTriJacobians(double *vtx1, double *vtx2, double *vtx3,
                                    double *function, int *num_values)
 {
     int ierr;
@@ -327,8 +327,8 @@ int SMcomputeInteriorScaledTriJacobians(double *vtx1, double *vtx2, double *vtx3
     /* This function computes the scaled jacobian for each angle of the triangle
         -- Jac/(L1*L2) where L1 and L2 are the length of the edges containing the angle.
         Note that this is equivalent to the sine of the angle but is an efficient way to compute
-        both positive and negative sines for mesh untangling.  There are 3 function values 
-        per triangle and we need to maximize the minimum scaled jacobian.  The 
+        both positive and negative sines for mesh untangling.  There are 3 function values
+        per triangle and we need to maximize the minimum scaled jacobian.  The
         corresponding gradient code is in the function SMcomputeScaledJacobianGradients*/
 
     x1=vtx1[OPTMS_XDIR];     y1=vtx1[OPTMS_YDIR];
@@ -350,7 +350,7 @@ int SMcomputeInteriorScaledTriJacobians(double *vtx1, double *vtx2, double *vtx3
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeAreaLengthRatio"
 int SMcomputeAreaLengthRatio(double *vtx1, double *vtx2, double *vtx3,
                          double *function, int *num_values)
@@ -363,7 +363,7 @@ int SMcomputeAreaLengthRatio(double *vtx1, double *vtx2, double *vtx3,
     double x1, x2, x3, y1, y2, y3;
 
     /* comptes the SMcomputeAreaLengthRatio function which
-        gives the ratio of the the area of the triangle and the sum of the squares of 
+        gives the ratio of the the area of the triangle and the sum of the squares of
         the length of the edges */
 
     x1=vtx1[OPTMS_XDIR];     y1=vtx1[OPTMS_YDIR];
@@ -378,18 +378,18 @@ int SMcomputeAreaLengthRatio(double *vtx1, double *vtx2, double *vtx3,
     L2 = L2_xdiff*L2_xdiff + L2_ydiff*L2_ydiff;
     L3 = L3_xdiff*L3_xdiff + L3_ydiff*L3_ydiff;
 
-    if ((L1+L2+L3)<OPTMS_MACHINE_EPS) 
+    if ((L1+L2+L3)<OPTMS_MACHINE_EPS)
         OPTMS_SETERR(OPTMS_INPUT_ERR,0,"Colocated vertices");
 
     a = x2*y3 - x3*y2;    b = y2 - y3;    c = x3 - x2;
-    function[0] = .5*(a + b*x1 + c*y1);   
+    function[0] = .5*(a + b*x1 + c*y1);
     function[0] =12./sqrt(3)*function[0]/(L1 + L2 + L3);
 
     *num_values = 1;
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeLengthAreaRatio"
 int SMcomputeLengthAreaRatio(double *vtx1, double *vtx2, double *vtx3,
                          double *function, int *num_values)
@@ -402,9 +402,9 @@ int SMcomputeLengthAreaRatio(double *vtx1, double *vtx2, double *vtx3,
    return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeAngGradients"
-int SMcomputeAngGradients(double *vtx1, double *vtx2, double *vtx3, 
+int SMcomputeAngGradients(double *vtx1, double *vtx2, double *vtx3,
                          double **gradient, int *num_values)
 {
     int ierr;
@@ -414,9 +414,9 @@ int SMcomputeAngGradients(double *vtx1, double *vtx2, double *vtx3,
 
      OPTMS_MALLOC(cosines,(double *),sizeof(double)*num_vert,1);
 
-     ierr = SMcomputeTriCosines(vtx1,vtx2,vtx3,cosines,num_values); 
+     ierr = SMcomputeTriCosines(vtx1,vtx2,vtx3,cosines,num_values);
             OPTMS_CHKERR(ierr);
-     ierr = SMcomputeCosGradients(vtx1,vtx2,vtx3,gradient,num_values); 
+     ierr = SMcomputeCosGradients(vtx1,vtx2,vtx3,gradient,num_values);
             OPTMS_CHKERR(ierr);
 
      /* compute the gradient of the angle */
@@ -433,9 +433,9 @@ int SMcomputeAngGradients(double *vtx1, double *vtx2, double *vtx3,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeInteriorAngGradients"
-int SMcomputeInteriorAngGradients(double *vtx1, double *vtx2, double *vtx3, 
+int SMcomputeInteriorAngGradients(double *vtx1, double *vtx2, double *vtx3,
                          double **gradient, int *num_values)
 {
     int ierr;
@@ -464,9 +464,9 @@ int SMcomputeInteriorAngGradients(double *vtx1, double *vtx2, double *vtx3,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeNegAngGradients"
-int SMcomputeNegAngGradients(double *vtx1, double *vtx2, 
+int SMcomputeNegAngGradients(double *vtx1, double *vtx2,
                         double *vtx3, double **gradient, int *num_values)
 {
     int ierr;
@@ -480,9 +480,9 @@ int SMcomputeNegAngGradients(double *vtx1, double *vtx2,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeCosGradients"
-int SMcomputeCosGradients(double *vtx1, double *vtx2, double *vtx3, 
+int SMcomputeCosGradients(double *vtx1, double *vtx2, double *vtx3,
                                      double **gradient, int *num_values)
 {
     int ierr;
@@ -496,7 +496,7 @@ int SMcomputeCosGradients(double *vtx1, double *vtx2, double *vtx3,
 
     x_1 = vtx1[OPTMS_XDIR];    x_2 = vtx2[OPTMS_XDIR];    x_3 = vtx3[OPTMS_XDIR];
     y_1 = vtx1[OPTMS_YDIR];    y_2 = vtx2[OPTMS_YDIR];    y_3 = vtx3[OPTMS_YDIR];
-	
+
     a2 = (x_2 - x_1)*(x_2 - x_1) + (y_2 - y_1)*(y_2 - y_1);
     b2 = (x_1 - x_3)*(x_1 - x_3) + (y_1 - y_3)*(y_1 - y_3);
     c2 = (x_3 - x_2)*(x_3 - x_2) + (y_3 - y_2)*(y_3 - y_2);
@@ -522,7 +522,7 @@ int SMcomputeCosGradients(double *vtx1, double *vtx2, double *vtx3,
 	    term2 = (b2 + a2 - c2) / (2*b2*c) * (1/b);
 	    /* SM_LOG_FLOPS(__SM_GRADIENT__,9); */
 	}
-	    
+
 	gx = term1*(x_1 - x_2) + term2*(x_1 - x_3);
 	gy = term1*(y_1 - y_2) + term2*(y_1 - y_3);
     	/* SM_LOG_FLOPS(__SM_GRADIENT__,10); */
@@ -534,9 +534,9 @@ int SMcomputeCosGradients(double *vtx1, double *vtx2, double *vtx3,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeInteriorCosGradients"
-int SMcomputeInteriorCosGradients(double *vtx1, double *vtx2, double *vtx3, 
+int SMcomputeInteriorCosGradients(double *vtx1, double *vtx2, double *vtx3,
                                      double **gradient, int *num_values)
 {
     int ierr;
@@ -548,7 +548,7 @@ int SMcomputeInteriorCosGradients(double *vtx1, double *vtx2, double *vtx3,
 
     x_1 = vtx1[OPTMS_XDIR];    x_2 = vtx2[OPTMS_XDIR];    x_3 = vtx3[OPTMS_XDIR];
     y_1 = vtx1[OPTMS_YDIR];    y_2 = vtx2[OPTMS_YDIR];    y_3 = vtx3[OPTMS_YDIR];
-	
+
     a2 = (x_2 - x_1)*(x_2 - x_1) + (y_2 - y_1)*(y_2 - y_1);
     b2 = (x_1 - x_3)*(x_1 - x_3) + (y_1 - y_3)*(y_1 - y_3);
     c2 = (x_3 - x_2)*(x_3 - x_2) + (y_3 - y_2)*(y_3 - y_2);
@@ -561,7 +561,7 @@ int SMcomputeInteriorCosGradients(double *vtx1, double *vtx2, double *vtx3,
     /* compute the gradient of the cosine */
     term1 = (a2 + c2 - b2) / (2*a2*b) * (1/a);
     term2 = (b2 + c2 - a2) / (2*a*b2) * (1/b);
-	    
+
     gx = term1*(x_1 - x_2) + term2*(x_1 - x_3);
     gy = term1*(y_1 - y_2) + term2*(y_1 - y_3);
 
@@ -571,9 +571,9 @@ int SMcomputeInteriorCosGradients(double *vtx1, double *vtx2, double *vtx3,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeNegCosGradients"
-int SMcomputeNegCosGradients(double *vtx1, double *vtx2, 
+int SMcomputeNegCosGradients(double *vtx1, double *vtx2,
                         double *vtx3, double **gradient, int *num_values)
 {
     int ierr;
@@ -587,9 +587,9 @@ int SMcomputeNegCosGradients(double *vtx1, double *vtx2,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeSineGradients"
-int SMcomputeSineGradients(double *vtx1, double *vtx2, 
+int SMcomputeSineGradients(double *vtx1, double *vtx2,
                         double *vtx3, double **gradient, int *num_values)
 {
     int ierr;
@@ -603,7 +603,7 @@ int SMcomputeSineGradients(double *vtx1, double *vtx2,
 
     OPTMS_MALLOC(cosine,(double *),sizeof(double)*num_vert,1);
     OPTMS_MALLOC(cos_gradient,(double **),sizeof(double *)*num_vert,1);
-    for (i=0;i<num_vert;i++) 
+    for (i=0;i<num_vert;i++)
        OPTMS_MALLOC(cos_gradient[i],(double *),sizeof(double)*2,1);
 
     ierr = SMcomputeTriCosines(vtx1,vtx2,vtx3,cosine,num_values);
@@ -635,9 +635,9 @@ int SMcomputeSineGradients(double *vtx1, double *vtx2,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeInteriorSineGradients"
-int SMcomputeInteriorSineGradients(double *vtx1, double *vtx2, 
+int SMcomputeInteriorSineGradients(double *vtx1, double *vtx2,
                         double *vtx3, double **gradient, int *num_values)
 {
     int ierr;
@@ -651,7 +651,7 @@ int SMcomputeInteriorSineGradients(double *vtx1, double *vtx2,
 
     OPTMS_MALLOC(cosine,(double *),sizeof(double)*num_vert,1);
     OPTMS_MALLOC(cos_gradient,(double **),sizeof(double *)*num_vert,1);
-    for (i=0;i<num_vert;i++) 
+    for (i=0;i<num_vert;i++)
        OPTMS_MALLOC(cos_gradient[i],(double *),sizeof(double)*2,1);
 
     SMcomputeInteriorTriCosines(vtx1,vtx2,vtx3,cosine,num_values);
@@ -660,8 +660,8 @@ int SMcomputeInteriorSineGradients(double *vtx1, double *vtx2,
     sqrtcos0 = sqrt(1. - cosine[0]*cosine[0]);
     sqrtcos1 = sqrt(1. - cosine[1]*cosine[1]);
     sqrtcos2 = sqrt(1. - cosine[2]*cosine[2]);
- 
-    if (sqrtcos0<OPTMS_MACHINE_EPS) 
+
+    if (sqrtcos0<OPTMS_MACHINE_EPS)
        OPTMS_SETERR(OPTMS_INPUT_ERR,0,"Colocated vertices");
 
     gradient[0][OPTMS_XDIR] = (-1./sqrtcos0) * cosine[0] * cos_gradient[0][OPTMS_XDIR];
@@ -675,9 +675,9 @@ int SMcomputeInteriorSineGradients(double *vtx1, double *vtx2,
 }
 
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeJacobianGradients"
-int SMcomputeJacobianGradients(double *vtx1, double *vtx2, double *vtx3, 
+int SMcomputeJacobianGradients(double *vtx1, double *vtx2, double *vtx3,
                                    double **gradient, int *num_values)
 {
     int ierr;
@@ -703,9 +703,9 @@ int SMcomputeJacobianGradients(double *vtx1, double *vtx2, double *vtx3,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeScaledJacobianGradients"
-int SMcomputeScaledJacobianGradients(double *vtx1, double *vtx2, double *vtx3, 
+int SMcomputeScaledJacobianGradients(double *vtx1, double *vtx2, double *vtx3,
                                    double **gradient, int *num_values)
 {
     int ierr;
@@ -715,13 +715,13 @@ int SMcomputeScaledJacobianGradients(double *vtx1, double *vtx2, double *vtx3,
     double dL1, dL2, dL3;
     double x1, x2, x3, y1, y2, y3;
 
-    /* This function computes the scaled jacobian for each angle of the 
-       triangle -- Jac/(L1*L2) where L1 and L2 are the length of the 
-       edges containing the angle. Note that this is equivalent to the 
-       sine of the angle but is an efficient way to compute both 
-       positive and negative sines for mesh untangling.  There are 3 
-       function values per triangle and we need to maximize the minimum 
-       scaled jacobian.  The corresponding gradient code is in the function 
+    /* This function computes the scaled jacobian for each angle of the
+       triangle -- Jac/(L1*L2) where L1 and L2 are the length of the
+       edges containing the angle. Note that this is equivalent to the
+       sine of the angle but is an efficient way to compute both
+       positive and negative sines for mesh untangling.  There are 3
+       function values per triangle and we need to maximize the minimum
+       scaled jacobian.  The corresponding gradient code is in the function
        SMcomputeScaledJacobianGradients*/
 
     x1=vtx1[OPTMS_XDIR];     y1=vtx1[OPTMS_YDIR];
@@ -763,9 +763,9 @@ int SMcomputeScaledJacobianGradients(double *vtx1, double *vtx2, double *vtx3,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeInteriorScaledJacobianGradients"
-int SMcomputeInteriorScaledJacobianGradients(double *vtx1, double *vtx2, double *vtx3, 
+int SMcomputeInteriorScaledJacobianGradients(double *vtx1, double *vtx2, double *vtx3,
                                    double **gradient, int *num_values)
 {
     int ierr;
@@ -775,13 +775,13 @@ int SMcomputeInteriorScaledJacobianGradients(double *vtx1, double *vtx2, double 
     double dL1, dL2, dL3;
     double x1, x2, x3, y1, y2, y3;
 
-    /* This function computes the scaled jacobian for each angle of the 
-       triangle  Jac/(L1*L2) where L1 and L2 are the length of the 
-       edges containing the angle.  Note that this is equivalent to 
-       the sine of the angle but is an efficient way to compute both 
-       positive and negative sines for mesh untangling.  There are 3 
-       function values per triangle and we need to maximize the minimum 
-       scaled jacobian.  The corresponding gradient code is in the function 
+    /* This function computes the scaled jacobian for each angle of the
+       triangle  Jac/(L1*L2) where L1 and L2 are the length of the
+       edges containing the angle.  Note that this is equivalent to
+       the sine of the angle but is an efficient way to compute both
+       positive and negative sines for mesh untangling.  There are 3
+       function values per triangle and we need to maximize the minimum
+       scaled jacobian.  The corresponding gradient code is in the function
        SMcomputeScaledJacobianGradients*/
 
     x1=vtx1[OPTMS_XDIR];     y1=vtx1[OPTMS_YDIR];
@@ -813,7 +813,7 @@ int SMcomputeInteriorScaledJacobianGradients(double *vtx1, double *vtx2, double 
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeAreaLengthRatioGradients"
 int SMcomputeAreaLengthRatioGradients(double *vtx1, double *vtx2, double *vtx3,
                          double **gradient, int *num_values)
@@ -826,7 +826,7 @@ int SMcomputeAreaLengthRatioGradients(double *vtx1, double *vtx2, double *vtx3,
     double x1, x2, x3, y1, y2, y3;
 
     /* comptes the gradient of the SMcomputeAreaLengthRatio function which
-       gives the ratio of the the area of the triangle and the sum of 
+       gives the ratio of the the area of the triangle and the sum of
        the squares of the length of the edges */
 
     x1=vtx1[OPTMS_XDIR];     y1=vtx1[OPTMS_YDIR];
@@ -847,12 +847,12 @@ int SMcomputeAreaLengthRatioGradients(double *vtx1, double *vtx2, double *vtx3,
        OPTMS_SETERR(OPTMS_INPUT_ERR,0,"Colocated vertices");
     }
 
-    gradient[0][OPTMS_XDIR] = .5*b/(L1+L2+L3) - 
+    gradient[0][OPTMS_XDIR] = .5*b/(L1+L2+L3) -
                                  (.5*(a+b*x1+c*y1)*(4*x1-2*x3-2*x2))
-                                 /((L1+L2+L3)*(L1+L2+L3));   
-    gradient[0][OPTMS_YDIR] = .5*c/(L1+L2+L3) - 
+                                 /((L1+L2+L3)*(L1+L2+L3));
+    gradient[0][OPTMS_YDIR] = .5*c/(L1+L2+L3) -
                                  (.5*(a+b*x1+c*y1)*(4*y1-2*y3-2*y2))
-                                 /((L1+L2+L3)*(L1+L2+L3));  
+                                 /((L1+L2+L3)*(L1+L2+L3));
     gradient[0][OPTMS_XDIR] = 12./sqrt(3)*gradient[0][OPTMS_XDIR];
     gradient[0][OPTMS_YDIR] = 12./sqrt(3)*gradient[0][OPTMS_YDIR];
 
@@ -860,9 +860,9 @@ int SMcomputeAreaLengthRatioGradients(double *vtx1, double *vtx2, double *vtx3,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMNormJacSquared2D"
-int SMNormJacSquared2D(double *vtx1, double *vtx2, double *vtx3, 
+int SMNormJacSquared2D(double *vtx1, double *vtx2, double *vtx3,
                      double *function, int *num_values)
 {
     int ierr;
@@ -877,14 +877,14 @@ int SMNormJacSquared2D(double *vtx1, double *vtx2, double *vtx3,
 
     ierr = SMfrobenius_norm_squared2x2(a1,a2,&function[0]); OPTMS_CHKERR(ierr);
     function[0] *= -1.;
-    
+
     *num_values = 1;
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcomputeNormJacSquaredGradients2D"
-int SMcomputeNormJacSquaredGradients2D(double *vtx1, double *vtx2, 
+int SMcomputeNormJacSquaredGradients2D(double *vtx1, double *vtx2,
              double *vtx3, double **gradient, int *num_values)
 {
     int ierr;
@@ -903,9 +903,9 @@ int SMcomputeNormJacSquaredGradients2D(double *vtx1, double *vtx2,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMcondition2D"
-int SMcondition2D(double *vtx1, double *vtx2, double *vtx3, 
+int SMcondition2D(double *vtx1, double *vtx2, double *vtx3,
                      double *function, int *num_values)
 {
     int ierr;
@@ -950,9 +950,9 @@ int SMcondition2D(double *vtx1, double *vtx2, double *vtx3,
     return(ierr=0);
 }
 
-#undef __FUNC__ 
+#undef __FUNC__
 #define __FUNC__ "SMgradCondition2D"
-int SMgradCondition2D(double *vtx1, double *vtx2, double *vtx3, 
+int SMgradCondition2D(double *vtx1, double *vtx2, double *vtx3,
                                double **gradient, int *num_values)
 {
     int ierr;
@@ -1019,5 +1019,3 @@ int SMgradCondition2D(double *vtx1, double *vtx2, double *vtx3,
     *num_values = 3;
     return(ierr=0);
 }
-
-

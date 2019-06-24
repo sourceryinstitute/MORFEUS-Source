@@ -2,15 +2,15 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
-#include <stdio.h> 
+#include <stdio.h>
 #ifdef WIN32
 #define _USE_MATH_DEFINES
 #endif
-#include <math.h> 
+#include <math.h>
 #include <string.h>
 #include "SMsmooth.h"
 
@@ -73,7 +73,7 @@ int SMmallocOpt(int num_values, SMoptimal **opt_info)
 {
     int i, ierr;
 
-    OPTMS_MALLOC((*opt_info),(SMoptimal *),sizeof(SMoptimal),1); 
+    OPTMS_MALLOC((*opt_info),(SMoptimal *),sizeof(SMoptimal),1);
 
     OPTMS_MALLOC((*opt_info)->function,(double *),sizeof(double)*num_values,1);
     OPTMS_MALLOC((*opt_info)->test_function,(double *),sizeof(double)*num_values,1);
@@ -87,7 +87,7 @@ int SMmallocOpt(int num_values, SMoptimal **opt_info)
        OPTMS_MALLOC((*opt_info)->PDG[i],(double *),sizeof(double)*OPTMS_MAX_DIM,1);
     }
     for (i=0;i<num_values;i++) {
-       OPTMS_MALLOC((*opt_info)->gradient[i],(double *),sizeof(double)*OPTMS_MAX_DIM,1);      
+       OPTMS_MALLOC((*opt_info)->gradient[i],(double *),sizeof(double)*OPTMS_MAX_DIM,1);
     }
     for (i=0;i<OPTMS_MAX_G_NUM;i++) {
        OPTMS_MALLOC((*opt_info)->G[i],(double *),sizeof(double)*OPTMS_MAX_G_NUM,1);
@@ -131,13 +131,13 @@ int SMmallocLP(int num_active, int num_constraints, SMlp **lp_info)
     OPTMS_MALLOC((*lp_info)->Bmat,(double *),sizeof(double)*num_active*num_active,1);
     OPTMS_MALLOC((*lp_info)->Bmat_T,(double *),sizeof(double)*num_active*num_active,1);
     OPTMS_MALLOC((*lp_info)->AAmat,(double **),sizeof(double *)*num_active,1);
-    
+
     for (i=0;i<num_active;i++) {
         OPTMS_MALLOC((*lp_info)->AAmat[i],(double*),sizeof(double)*num_constraints,1);
         OPTMS_MALLOC((*lp_info)->Amat_T_O[i],(double *),sizeof(double)*num_constraints,1);
         OPTMS_MALLOC((*lp_info)->Amat_T[i],(double *),sizeof(double)*num_constraints,1);
     }
-    for (i=0;i<num_constraints;i++) 
+    for (i=0;i<num_constraints;i++)
          OPTMS_MALLOC((*lp_info)->Amat[i],(double *),sizeof(double)*num_active,1);
 
     return (ierr=0);
@@ -164,7 +164,7 @@ int SMmallocQualityTable(SMquality_table **quality_table)
 
     OPTMS_MALLOC((*quality_table),(SMquality_table *),sizeof(SMquality_table),1);
 
-    (*quality_table)->num_functions = 10;    
+    (*quality_table)->num_functions = 10;
     /* 2D functions */
     strcpy(function_name[0],"Triangle Area");         target[0]=0; dimension[0]=2;
     strcpy(function_name[1],"Angle");                 target[1]=60; dimension[1]=2;
@@ -197,7 +197,7 @@ int SMmallocQualityTable(SMquality_table **quality_table)
 
 #undef __FUNC__
 #define __FUNC__ "SMinitLocalMesh"
-int  SMinitLocalMesh(int num_incident_vtx, int num_tri, double *free_vtx, 
+int  SMinitLocalMesh(int num_incident_vtx, int num_tri, double *free_vtx,
                       double **vtx_list, int **vtx_connectivity,
                       SMlocal_mesh *local_mesh, SMparam *smooth_param)
 {
@@ -208,7 +208,7 @@ int  SMinitLocalMesh(int num_incident_vtx, int num_tri, double *free_vtx,
     double        min[3], max[3];
     double        coord;
 
-    SM_LOG_EVENT_BEGIN(__SM_INIT__); 
+    SM_LOG_EVENT_BEGIN(__SM_INIT__);
 
     /* check for null data */
     OPTMS_CHECK_NULL(free_vtx);
@@ -218,17 +218,17 @@ int  SMinitLocalMesh(int num_incident_vtx, int num_tri, double *free_vtx,
     OPTMS_CHECK_NULL(smooth_param);
 
     /* check the input argurments for bad data */
-    if (num_incident_vtx==0) 
+    if (num_incident_vtx==0)
         OPTMS_SETERR(OPTMS_INPUT_ERR,0,"No incident vertices\n");
-    if (num_tri==0) 
+    if (num_tri==0)
         OPTMS_SETERR(OPTMS_INPUT_ERR,0,"No incident elements\n");
 
     if (num_incident_vtx>OPTMS_MAX_NUM_TRI) {
-        OPTMS_SETERR(OPTMS_INPUT_ERR,0, 
+        OPTMS_SETERR(OPTMS_INPUT_ERR,0,
                "Number of incident vertices exceeds OPTMS_MAX_NUM_TRI\n");
     }
     if (num_tri>2*OPTMS_MAX_NUM_TRI) {
-        OPTMS_SETERR(OPTMS_INPUT_ERR,0, 
+        OPTMS_SETERR(OPTMS_INPUT_ERR,0,
                "Number of incident triangles exceeds 2*OPTMS_MAX_NUM_TRI\n");
     }
 
@@ -245,7 +245,7 @@ int  SMinitLocalMesh(int num_incident_vtx, int num_tri, double *free_vtx,
     /* copy data to the local mesh data structure */
     local_mesh->num_incident_vtx = num_incident_vtx;
     local_mesh->num_tri = num_tri;
-	
+
     num_values = num_tri * smooth_param->function_values_per_tri;
     local_mesh->num_values = num_values;
 
@@ -285,9 +285,9 @@ int  SMinitLocalMesh(int num_incident_vtx, int num_tri, double *free_vtx,
     local_mesh->opt_done = OPTMS_FALSE;
 
     OPTMS_DEBUG_ACTION(3,{OPTMS_PRINT_ORDERED_PTS(local_mesh); });
-    OPTMS_DEBUG_ACTION(3,{OPTMS_WRITE_BINARY_ORDERED_PTS(local_mesh);}); 
+    OPTMS_DEBUG_ACTION(3,{OPTMS_WRITE_BINARY_ORDERED_PTS(local_mesh);});
 
-    SM_LOG_EVENT_END(__SM_INIT__); 
+    SM_LOG_EVENT_END(__SM_INIT__);
     return(ierr=0);
 }
 
@@ -298,7 +298,7 @@ int SMinitLap(int num_values, SMlap_info *lap_info)
     int i;
     int ierr;
 
-    SM_LOG_EVENT_BEGIN(__SM_INIT__); 
+    SM_LOG_EVENT_BEGIN(__SM_INIT__);
 
     OPTMS_CHECK_NULL(lap_info);
 
@@ -309,9 +309,9 @@ int SMinitLap(int num_values, SMlap_info *lap_info)
     for (i=0;i<num_values;i++) {
       lap_info->laplacian_function[i] = 0.;
     }
-    SM_LOG_EVENT_END(__SM_INIT__); 
+    SM_LOG_EVENT_END(__SM_INIT__);
     return(ierr=0);
-}        
+}
 
 #undef __FUNC__
 #define __FUNC__ "SMinitLP"
@@ -360,7 +360,7 @@ int SMinitLP(SMlocal_mesh *local_mesh)
 
 #undef __FUNC__
 #define __FUNC__ "SMinitSmoothParam"
-int  SMinitSmoothParam(int technique, int FunctionID, 
+int  SMinitSmoothParam(int technique, int FunctionID,
                        double Threshold, void *ext_smooth_data)
 {
     int ierr;
@@ -376,7 +376,7 @@ int  SMinitSmoothParam(int technique, int FunctionID,
     smooth_param->iter_count = 0;
     smooth_param->new_init_pt_option = OPTMS_NONE;
     smooth_param->maxit = OPTMS_MAX_OPT_ITER;
-    smooth_param->conv_eps = 1E-10;    
+    smooth_param->conv_eps = 1E-10;
     smooth_param->active_eps = .00003;
     smooth_param->min_acceptable_imp = 1E-06;
     smooth_param->min_step_size = 1E-6;
@@ -420,7 +420,7 @@ int SMinitOpt(int num_values, SMoptimal *opt_info)
     int        ierr;
     int        i, j;
 
-    SM_LOG_EVENT_BEGIN(__SM_INIT__); 
+    SM_LOG_EVENT_BEGIN(__SM_INIT__);
 
     OPTMS_CHECK_NULL(opt_info);
     if (num_values > 900) {
@@ -464,9 +464,9 @@ int SMinitOpt(int num_values, SMoptimal *opt_info)
        for (j=0;j<num_values;j++) opt_info->G[i][j] = -1;
       }
     }
- 
+
     for (i=0;i<20;i++) opt_info->prev_active_values[i] = 0;
-    SM_LOG_EVENT_END(__SM_INIT__); 
+    SM_LOG_EVENT_END(__SM_INIT__);
     return(ierr=0);
 }
 
@@ -499,7 +499,7 @@ int SMinitMaxStepLength(SMlocal_mesh *local_mesh)
         diff += (coord1[k]-coord2[k])*(coord1[k]-coord2[k]);
       }
       if (max_diff < diff) max_diff=diff;
-    } 
+    }
   }
   max_diff = sqrt(max_diff);
   if (max_diff==0) {
@@ -541,7 +541,7 @@ int SMinitStats(SMstats *smooth_stats)
     smooth_stats->avg_active_val = 0.0;
     smooth_stats->global_minimum_val = OPTMS_BIG_POS_NMBR;
 
-    SM_LOG_EVENT_END(__SM_INIT_STATS__); 
+    SM_LOG_EVENT_END(__SM_INIT_STATS__);
     return(ierr=0);
 }
 
