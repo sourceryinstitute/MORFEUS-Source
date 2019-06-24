@@ -1,4 +1,5 @@
-<div align="centered">
+<div align="center">
+
 # MORFEUS
 
 **M**ulti-physics **O**bject-oriented ...
@@ -8,7 +9,7 @@
 
 - [Repository Mirror and Source](#repository-mirror-and-source)
   * [NRC Mirror](#nrc-mirror)
-  * [Sourcery Institute Source Repository](#sourcery-institute-source-repositorysi-source-repository)
+  * [Sourcery Institute Source Repository](#sourcery-institute-source-repository)
   * [Mirroring and Updating Mechanism](#mirroring-and-updating-mechanism)
 - [Workflow and Roadmap](#workflow-and-roadmap)
   * [Workflow](#workflow)
