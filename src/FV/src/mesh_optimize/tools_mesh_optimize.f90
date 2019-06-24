@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -43,15 +43,17 @@
 !    to be added...
 !
 MODULE tools_mesh_optimize
-    USE class_psblas
+!    USE class_psblas
+    USE class_vertex, ONLY : vertex
+    USE class_mesh,   ONLY : mesh
+    USE class_iterating, ONLY : iterating
+    USE class_bc, ONLY : bc_poly
+    USE class_connectivity, ONLY : connectivity
     IMPLICIT NONE
 
     INTERFACE
 
         MODULE SUBROUTINE smooth_mesh(msh,bc,surface_iter,interior_iter)
-            USE class_iterating, ONLY : iterating
-            USE class_mesh, ONLY : mesh
-            USE class_bc, ONLY : bc_poly
             IMPLICIT NONE
             TYPE(mesh), INTENT(INOUT) :: msh
             TYPE(bc_poly), INTENT(IN) :: bc(:)
@@ -62,9 +64,6 @@ MODULE tools_mesh_optimize
 
         MODULE SUBROUTINE mobile_verts(msh,bc,c2v,shared_flag,unconstrained, &
             & n_unconstrained,constrained, n_constrained, all_tets, mixed)
-            USE class_bc, ONLY : bc_poly
-            USE class_connectivity, ONLY : connectivity
-            USE class_mesh, ONLY : mesh
             IMPLICIT NONE
             TYPE(mesh), INTENT(IN)    :: msh
             TYPE(bc_poly), INTENT(IN) :: bc(:)
@@ -80,10 +79,7 @@ MODULE tools_mesh_optimize
         END SUBROUTINE mobile_verts
 
         MODULE SUBROUTINE smooth_interior_vtx(iv,msh,c2v,shared_flag,all_tets)
-            USE class_connectivity, ONLY : connectivity
-            USE class_mesh, ONLY : mesh
             IMPLICIT NONE
-
             INTEGER,INTENT(IN)             :: iv             ! id # of this vertex
             TYPE(mesh), INTENT(INOUT)      :: msh            ! the mesh
             TYPE(connectivity), INTENT(IN) :: c2v            ! given vertices, find the cells
@@ -93,7 +89,6 @@ MODULE tools_mesh_optimize
         END SUBROUTINE smooth_interior_vtx
 
         MODULE SUBROUTINE check_right_handed(msh,shared,shared_flag,tangled,all_tets)
-            USE class_mesh, ONLY : mesh
             IMPLICIT NONE
             TYPE(mesh), INTENT(IN) :: msh
             INTEGER, ALLOCATABLE, INTENT(IN) :: shared(:)
@@ -103,8 +98,6 @@ MODULE tools_mesh_optimize
         END SUBROUTINE check_right_handed
 
         MODULE SUBROUTINE smooth_surf_vtx(iv,ib,msh,f2v,shared_flag,tangled,all_tets)
-            USE class_connectivity, ONLY : connectivity
-            USE class_mesh,         ONLY : mesh
             IMPLICIT NONE
             INTEGER,INTENT(IN)             :: iv             ! id # of this vertex
             INTEGER,INTENT(IN)             :: ib             ! id # of the boundary
@@ -116,10 +109,7 @@ MODULE tools_mesh_optimize
         END SUBROUTINE smooth_surf_vtx
 
         MODULE SUBROUTINE laplacian_smooth(desc_v, v2v, n_unconstrained, unconstrained, verts, mixed)
-            USE psb_base_mod!,       ONLY : psb_desc_type
-            USE psb_desc_mod
-            USE class_connectivity, ONLY : connectivity
-            USE class_vertex,       ONLY : vertex
+            USE class_psblas,       ONLY : psb_desc_type
             IMPLICIT NONE
             TYPE(psb_desc_type),INTENT(INOUT) :: desc_v      ! Vertices
               !! Note: Had to change to INTENT(INOUT) rather than INTENT(IN) due to the procedures
@@ -130,24 +120,21 @@ MODULE tools_mesh_optimize
             TYPE(vertex), ALLOCATABLE, INTENT(INOUT) :: verts(:)       ! Vertex coordinates
             LOGICAL, INTENT(IN)            :: mixed(:)
         END SUBROUTINE laplacian_smooth
-
-        SUBROUTINE optimize_vertex_rand(msh,c2v,iv)
-
-            ! right now, only for serial use
-
-            USE class_connectivity, ONLY : connectivity
-            USE class_mesh, ONLY : mesh
-
-            IMPLICIT NONE
-
-            ! Variable parameters
-
-            TYPE(mesh), INTENT(INOUT) :: msh      ! mesh structure
-            TYPE(connectivity), INTENT(IN) :: c2v ! given a vertex, finds connected cells
-            INTEGER, INTENT(IN) :: iv             ! index of the vertex to be moved
-
-        END SUBROUTINE optimize_vertex_rand
-
+! Commented out below b/c causes Intel ICE and not used in code
+!        SUBROUTINE optimize_vertex_rand(msh,c2v,iv)
+!            ! right now, only for serial use
+!            USE class_connectivity, ONLY : connectivity
+!            USE class_mesh, ONLY : mesh
+!            IMPLICIT NONE
+!
+!            ! Variable parameters
+!
+!            TYPE(mesh), INTENT(INOUT) :: msh      ! mesh structure
+!            TYPE(connectivity), INTENT(IN) :: c2v ! given a vertex, finds connected cells
+!            INTEGER, INTENT(IN) :: iv             ! index of the vertex to be moved
+!
+!        END SUBROUTINE optimize_vertex_rand
+!
     ! ----- Routines for interfacing with OptMS -----
 
         FUNCTION initoptms(dims,technique,functionID)
@@ -178,6 +165,7 @@ MODULE tools_mesh_optimize
 
         FUNCTION right_handed(p1,p2,p3,p4)
             USE class_psblas, ONLY : psb_dpk_
+            IMPLICIT NONE
             INTEGER :: right_handed
             REAL(psb_dpk_) :: p1(3)
             REAL(psb_dpk_) :: p2(3)
@@ -187,6 +175,7 @@ MODULE tools_mesh_optimize
 
         FUNCTION right_handed2d(p1,p2,p3)
             USE class_psblas, ONLY : psb_dpk_
+            IMPLICIT NONE
             INTEGER :: right_handed2d
             REAL(psb_dpk_) :: p1(2)
             REAL(psb_dpk_) :: p2(2)
@@ -196,6 +185,7 @@ MODULE tools_mesh_optimize
         FUNCTION call_smooth (num_incident_vtx,num_incident_tet,free_pos, &
             & tet_pos,tet_verts,tangled)
             USE class_psblas, ONLY : psb_dpk_
+            IMPLICIT NONE
             INTEGER :: call_smooth
             INTEGER :: num_incident_vtx
             INTEGER :: num_incident_tet
@@ -213,8 +203,8 @@ MODULE tools_mesh_optimize
 
         FUNCTION call_smooth2d (num_incident_vtx,num_incident_tri,free_pos, &
             & tri_pos,tri_verts,tangled) BIND(C)
-            USE class_psblas, ONLY : psb_dpk_
             USE iso_c_binding, ONLY : c_int, c_ptr, c_double
+            IMPLICIT NONE
             INTEGER(c_int) :: call_smooth2d
             TYPE(c_ptr), VALUE :: num_incident_vtx
             TYPE(c_ptr), VALUE :: num_incident_tri

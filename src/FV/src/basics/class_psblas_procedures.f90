@@ -89,7 +89,7 @@ CONTAINS
         CALL psb_barrier(icontxt)
 
         ! Starts timing of parallel job
-        CALL tic(sw_tot)
+        CALL sw_tot%tic()
 
         ! Echoes status of processes
         IF(mypnum == 0) THEN
@@ -187,54 +187,54 @@ CONTAINS
 
     MODULE PROCEDURE stop_timing
         ! Stops timing of parallel job
-        CALL toc(sw_tot)
+        CALL sw_tot%toc()
 
         ! Synchronizes stopwatches
-        CALL synchro(sw_msh)
-        CALL synchro(sw_ord)
-        CALL synchro(sw_par)
-        CALL synchro(sw_dsc)
-        CALL synchro(sw_g2l)
-        CALL synchro(sw_geo)
-        CALL synchro(sw_lsr)
+        CALL sw_msh%synchro()
+        CALL sw_ord%synchro()
+        CALL sw_par%synchro()
+        CALL sw_dsc%synchro()
+        CALL sw_g2l%synchro()
+        CALL sw_geo%synchro()
+        CALL sw_lsr%synchro()
 
-        CALL synchro(sw_ins)
-        CALL synchro(sw_asb)
-        CALL synchro(sw_pre)
-        CALL synchro(sw_sol)
+        CALL sw_ins%synchro()
+        CALL sw_asb%synchro()
+        CALL sw_pre%synchro()
+        CALL sw_sol%synchro()
 
-        CALL synchro(sw_pde)
-        CALL synchro(sw_out)
-        CALL synchro(sw_tot)
+        CALL sw_pde%synchro()
+        CALL sw_out%synchro()
+        CALL sw_tot%synchro()
 
         ! Time consumption log message
         IF(mypnum == 0) THEN
             WRITE(*,*)   '---------- PHASES TIMINGS ----------'
             WRITE(*,*)
             WRITE(*,*)   '* mesh:'
-            WRITE(*,100) '  Importing:        ', total_(sw_msh), ' s'
-            WRITE(*,100) '  Reordering:       ', total_(sw_ord), ' s'
-            WRITE(*,100) '  Partitioning:     ', total_(sw_par), ' s'
-            WRITE(*,100) '  Descriptor bld.:  ', total_(sw_dsc), ' s'
-            WRITE(*,100) '  G2L reallocation: ', total_(sw_g2l), ' s'
-            WRITE(*,100) '  Geometry comp.:   ', total_(sw_geo), ' s'
+            WRITE(*,100) '  Importing:        ', sw_msh%total_(), ' s'
+            WRITE(*,100) '  Reordering:       ', sw_ord%total_(), ' s'
+            WRITE(*,100) '  Partitioning:     ', sw_par%total_(), ' s'
+            WRITE(*,100) '  Descriptor bld.:  ', sw_dsc%total_(), ' s'
+            WRITE(*,100) '  G2L reallocation: ', sw_g2l%total_(), ' s'
+            WRITE(*,100) '  Geometry comp.:   ', sw_geo%total_(), ' s'
             WRITE(*,*)
             WRITE(*,*)   '* PSBLAS:'
-            WRITE(*,100) '  Inserting:        ', total_(sw_ins), ' s'
-            WRITE(*,100) '  Assembling:       ', total_(sw_asb), ' s'
-            WRITE(*,100) '  Preconditioning:  ', total_(sw_pre), ' s'
-            WRITE(*,100) '  System solving:   ', total_(sw_sol), ' s'
+            WRITE(*,100) '  Inserting:        ', sw_ins%total_(), ' s'
+            WRITE(*,100) '  Assembling:       ', sw_asb%total_(), ' s'
+            WRITE(*,100) '  Preconditioning:  ', sw_pre%total_(), ' s'
+            WRITE(*,100) '  System solving:   ', sw_sol%total_(), ' s'
             WRITE(*,*)
             WRITE(*,*)   '* PDE operators:'
-            WRITE(*,100) '  w   asb/ins:      ', total_(sw_pde), ' s'
-            WRITE(*,100) '  w/o asb/ins:      ', total_(sw_pde) - &
-                &                               total_(sw_ins) - &
-                &                               total_(sw_asb), ' s'
-            WRITE(*,100) '  Least squares:    ', total_(sw_lsr), ' s'
+            WRITE(*,100) '  w   asb/ins:      ', sw_pde%total_(), ' s'
+            WRITE(*,100) '  w/o asb/ins:      ', sw_pde%total_() - &
+                &                               sw_ins%total_() - &
+                &                               sw_asb%total_(), ' s'
+            WRITE(*,100) '  Least squares:    ', sw_lsr%total_(), ' s'
             WRITE(*,*)
-            WRITE(*,100) '* Results writing:  ', total_(sw_out), ' s'
+            WRITE(*,100) '* Results writing:  ', sw_out%total_(), ' s'
             WRITE(*,*)
-            WRITE(*,100) '* Total running:    ', total_(sw_tot), ' s'
+            WRITE(*,100) '* Total running:    ', sw_tot%total_(), ' s'
             WRITE(*,*)
             WRITE(*,*)   '------------------------------------'
             WRITE(*,*)

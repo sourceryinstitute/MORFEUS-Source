@@ -76,12 +76,8 @@ MODULE class_connectivity
     PUBLIC :: connectivity                   ! Class
     PUBLIC :: alloc_conn, free_conn          ! Constructor/Destructor
     PUBLIC :: bcast_conn, g2l_conn, l2g_conn ! Parallel ops.
-    PUBLIC :: get_ith_conn, get_conn_csr, &
-        &    get_dual_conn, nel_, nconn_    ! Getters
-    PUBLIC :: set_ith_conn, ASSIGNMENT(=)    ! Setters
-    PUBLIC :: max_conn                       ! Other
+    PUBLIC :: ASSIGNMENT(=)    ! Setters
     PUBLIC :: print_conn
-    PUBLIC :: unused_elements
 
     ! `public :: assignment(=)'  ==  `public :: copy_conn'
 
@@ -104,6 +100,11 @@ MODULE class_connectivity
         INTEGER :: nel_glob
         INTEGER :: nconn_glob
     CONTAINS
+        PROCEDURE :: get_ith_conn, get_conn_csr, get_dual_conn    ! Getters
+        PROCEDURE :: nel_, nconn_                                 ! Getters cont.
+        PROCEDURE :: set_ith_conn                   ! Setter
+        PROCEDURE :: max_conn                       ! Other
+        PROCEDURE :: unused_elements
         PROCEDURE, PRIVATE :: nemo_connectivity_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_connectivity_sizeof
         PROCEDURE, PRIVATE :: g2l_conn_core
@@ -265,7 +266,7 @@ MODULE class_connectivity
     !
     !*******
 
-        MODULE SUBROUTINE get_ith_conn(ith_conn,a2b,i)
+        MODULE SUBROUTINE get_ith_conn(a2b,ith_conn,i)
         ! Retrieves connectivity data for the B(i) element.
         !
         ! NOTE: this getter has been designed for high frequency access,
@@ -275,7 +276,7 @@ MODULE class_connectivity
         ! connectivity data.
             IMPLICIT NONE
             INTEGER, POINTER :: ith_conn(:)
-            TYPE(connectivity), INTENT(IN), TARGET :: a2b
+            CLASS(connectivity), INTENT(IN), TARGET :: a2b
             INTEGER, INTENT(IN) :: i
         END SUBROUTINE get_ith_conn
 
@@ -312,7 +313,7 @@ MODULE class_connectivity
         ! They can be manipulated in the calling unit without affecting the
         ! original class content.
             IMPLICIT NONE
-            TYPE(connectivity), INTENT(IN) :: a2b
+            CLASS(connectivity), INTENT(IN) :: a2b
             INTEGER, ALLOCATABLE :: lookup(:), conn(:)
         END SUBROUTINE get_conn_csr
 
@@ -329,7 +330,7 @@ MODULE class_connectivity
         ! vocabulary of the programming science, i.e. as a special container
         ! implemented with pointers etc.
             IMPLICIT NONE
-            TYPE(connectivity), INTENT(IN) :: a2b
+            CLASS(connectivity), INTENT(IN) :: a2b
             TYPE(connectivity), INTENT(OUT) :: b2a
         END SUBROUTINE get_dual_conn
 
@@ -337,14 +338,14 @@ MODULE class_connectivity
         ! get number of elements (either local or global)
             IMPLICIT NONE 
             INTEGER :: nel_
-            TYPE(connectivity), INTENT(IN) :: a2b
+            CLASS(connectivity), INTENT(IN) :: a2b
             CHARACTER(len=1), INTENT(IN), OPTIONAL :: gl
         END FUNCTION nel_
 
         MODULE FUNCTION nconn_(a2b,gl)
             IMPLICIT NONE
             INTEGER :: nconn_
-            TYPE(connectivity), INTENT(IN) :: a2b
+            CLASS(connectivity), INTENT(IN) :: a2b
             CHARACTER(len=1), INTENT(IN), OPTIONAL :: gl
         END FUNCTION nconn_
 
@@ -352,7 +353,7 @@ MODULE class_connectivity
 
         MODULE SUBROUTINE set_ith_conn(a2b,i,ith_conn)
             IMPLICIT NONE
-            TYPE(connectivity), INTENT(INOUT) :: a2b
+            CLASS(connectivity), INTENT(INOUT) :: a2b
             INTEGER, INTENT(IN) :: i
             INTEGER, INTENT(IN) :: ith_conn(:)
         ! WARNING: if A2B is declared only as INTENT(OUT), it becomes UNDEFINED
@@ -365,7 +366,7 @@ MODULE class_connectivity
         ! Computes the maximum connectivity degree
         IMPLICIT NONE
             INTEGER :: max_conn
-            TYPE(connectivity), INTENT(IN) :: a2b
+            CLASS(connectivity), INTENT(IN) :: a2b
             INTEGER, INTENT(IN), OPTIONAL :: lb
         END FUNCTION max_conn
 
@@ -379,7 +380,7 @@ MODULE class_connectivity
         ! is wrong with the mesh.
             IMPLICIT NONE
             INTEGER :: unused_elements             ! > 0 indicates a problem
-            TYPE(connectivity), INTENT(IN) :: a2b  ! connectivity structure
+            CLASS(connectivity), INTENT(IN) :: a2b  ! connectivity structure
         END FUNCTION unused_elements
 
         MODULE FUNCTION count_references(a2b,nb)

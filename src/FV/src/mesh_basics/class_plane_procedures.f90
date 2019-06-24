@@ -48,7 +48,7 @@
 ! To be done :: a move plane function
 
 SUBMODULE(class_plane) class_plane_procedures
-
+    USE class_vertex
     IMPLICIT NONE
 
 CONTAINS
@@ -69,7 +69,6 @@ CONTAINS
     MODULE PROCEDURE alloc_plane
         USE class_psblas
         USE class_vector
-        USE class_vertex
         USE tools_math
          
         ! Local variables
@@ -106,9 +105,9 @@ CONTAINS
             CALL abort_psblas
         ENDIF
 
-        x = x_(vertices)
-        y = y_(vertices)
-        z = z_(vertices)
+        x = vertices%x_()
+        y = vertices%y_()
+        z = vertices%z_()
 
         ! Decide which will be our independent variable and which will be the dependent
         ! varible. Make the variable with the minimum range our independent variable.

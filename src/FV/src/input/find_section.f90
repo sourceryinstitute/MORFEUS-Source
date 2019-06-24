@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -42,49 +42,55 @@
 ! Description:
 !    To be added...
 !
-MODULE PROCEDURE find_section
-    USE class_psblas
-
+SUBMODULE (tools_input) find_section_implementation
     IMPLICIT NONE
-    !
-    CHARACTER(len=80) :: input_file
-    CHARACTER(len=80) :: str
-    INTEGER :: i, ir, n
+
+    CONTAINS
+
+        MODULE PROCEDURE find_section
+            USE class_psblas
+            IMPLICIT NONE
+            !
+            CHARACTER(len=80) :: input_file
+            CHARACTER(len=80) :: str
+            INTEGER :: i, ir, n
 
 
-    INQUIRE(unit=inp,name=input_file)
+            INQUIRE(unit=inp,name=input_file)
 
-    REWIND(inp)
+            REWIND(inp)
 
-    i = 0
-    n = 0
-    findSec: DO
-        READ(inp,'(a)',END=999) str
-        i = i + 1
-        IF(str == sec) THEN
-            n = n + 1
-            IF(n == 1) ir = i
-        END IF
-    END DO findSec
+            i = 0
+            n = 0
+            findSec: DO
+                READ(inp,'(a)',END=999) str
+                i = i + 1
+                IF(str == sec) THEN
+                    n = n + 1
+                    IF(n == 1) ir = i
+                END IF
+            END DO findSec
 
-999 CONTINUE
+999         CONTINUE
 
-    IF(n == 0) THEN
-        WRITE(*,100) TRIM(sec), TRIM(input_file)
-        CALL abort_psblas
-    ELSEIF(n > 1) THEN
-        WRITE(*,200) TRIM(sec), TRIM(input_file)
-        CALL abort_psblas
-    END IF
+            IF(n == 0) THEN
+                WRITE(*,100) TRIM(sec), TRIM(input_file)
+                CALL abort_psblas
+            ELSEIF(n > 1) THEN
+                WRITE(*,200) TRIM(sec), TRIM(input_file)
+                CALL abort_psblas
+            END IF
 
-    REWIND(inp)
+            REWIND(inp)
 
-    ! Repositions file pointer at section beginning
-    DO i = 1, ir
-        READ(inp,'()')
-    END DO
+            ! Repositions file pointer at section beginning
+            DO i = 1, ir
+                READ(inp,'()')
+            END DO
 
-100 FORMAT(' ERROR! "',a,'" section not found in "',a,'" file.')
-200 FORMAT(' ERROR! Multiple ',a,' sections found in ',a,' file.')
+100         FORMAT(' ERROR! "',a,'" section not found in "',a,'" file.')
+200         FORMAT(' ERROR! Multiple ',a,' sections found in ',a,' file.')
 
-END PROCEDURE find_section
+        END PROCEDURE find_section
+
+END SUBMODULE find_section_implementation

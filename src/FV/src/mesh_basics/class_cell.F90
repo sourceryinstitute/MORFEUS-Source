@@ -64,7 +64,7 @@ MODULE class_cell
     PUBLIC :: cell                           !! Class
     PUBLIC :: cell_, alloc_cell, free_cell   !! Constructor/destructor
     PUBLIC :: bcast_cell, g2l_cell, l2g_cell !! Parallel ops.
-    PUBLIC :: nv_, geo_, group_, get_cells_type      ! Getters
+    PUBLIC :: get_cells_type      ! Getters
     PUBLIC :: itri_, iqua_, &                !! Named constants
         &    itet_, ipyr_, ipri_, ihex_
 
@@ -78,6 +78,10 @@ MODULE class_cell
         INTEGER :: group !! group ID of cell
         CHARACTER(len=nlen) :: geo  !! abbreviation for kind of cell
     CONTAINS
+        PROCEDURE, PRIVATE :: get_cell_nv, get_cell_geo, get_cell_group  !Getters
+        GENERIC, PUBLIC :: nv_ => get_cell_nv
+        GENERIC, PUBLIC :: geo_ => get_cell_geo
+        GENERIC, PUBLIC :: group_ => get_cell_group
         PROCEDURE, PRIVATE :: nemo_cell_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_cell_sizeof
     END TYPE cell
@@ -147,38 +151,26 @@ MODULE class_cell
         TYPE(psb_desc_type), INTENT(IN) :: desc_c
     END SUBROUTINE l2g_cell
 
-  END INTERFACE
-
-
-
   ! ----- Generic Interfaces -----
 
   ! ----- Getters -----
-  INTERFACE nv_
     ELEMENTAL MODULE FUNCTION get_cell_nv(c)
         IMPLICIT NONE
         INTEGER :: get_cell_nv
-        TYPE(cell), INTENT(IN) :: c
+        CLASS(cell), INTENT(IN) :: c
     END FUNCTION get_cell_nv
-  END INTERFACE nv_
 
-  INTERFACE geo_
     MODULE FUNCTION get_cell_geo(c)
         IMPLICIT NONE
         CHARACTER(len=nlen) :: get_cell_geo
-        TYPE(cell), INTENT(IN) :: c
+        CLASS(cell), INTENT(IN) :: c
     END FUNCTION get_cell_geo
-  END INTERFACE geo_
 
-  INTERFACE group_
     MODULE FUNCTION get_cell_group(c)
         IMPLICIT NONE
         INTEGER :: get_cell_group
-        TYPE(cell), INTENT(IN) :: c
+        CLASS(cell), INTENT(IN) :: c
     END FUNCTION get_cell_group
-  END INTERFACE group_
-
-  INTERFACE
 
     MODULE SUBROUTINE get_cells_type(cells,nctype,ictype,desc)
         USE psb_base_mod

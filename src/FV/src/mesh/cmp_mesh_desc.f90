@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -37,6 +37,7 @@
 !
 !---------------------------------------------------------------------------------
 SUBMODULE (tools_mesh) cmp_mesh_desc_implementation
+    USE class_connectivity
     IMPLICIT NONE
 
     CONTAINS
@@ -45,6 +46,7 @@ SUBMODULE (tools_mesh) cmp_mesh_desc_implementation
         USE class_connectivity
         USE class_psblas
         USE tools_part
+        USE tools_mesh_basics
         IMPLICIT NONE
         !!
         !! $Id: cmp_mesh_desc.f90 8157 2014-10-09 13:02:44Z sfilippo $
@@ -61,7 +63,7 @@ SUBMODULE (tools_mesh) cmp_mesh_desc_implementation
         INTEGER, POINTER :: if2f(:) => NULL()
         INTEGER, POINTER :: iv2v(:) => NULL()
 
-        CALL tic(sw_dsc)
+        CALL sw_dsc%tic()
 
         ! Sets error handling for PSBLAS-2 routines
         info = 0
@@ -73,7 +75,7 @@ SUBMODULE (tools_mesh) cmp_mesh_desc_implementation
         ! CELL broadcasting
         CALL bcast_conn(c2c)
 
-        ncells = nel_(c2c)
+        ncells = c2c%nel_()
 
         ! Checks status and size of PART_CELLS vector
         IF (mypnum == 0) THEN
@@ -105,7 +107,7 @@ SUBMODULE (tools_mesh) cmp_mesh_desc_implementation
         ! ----- CELL Descriptor Inserting -----
 
         ! Maximum number of elements in the CELL connectivity stencil
-        nelst = max_conn(c2c) + 1
+        nelst = c2c%max_conn() + 1
 
         ALLOCATE(ia(nelst),ja(nelst),stat=info)
         IF(info /= 0) THEN
@@ -125,7 +127,7 @@ SUBMODULE (tools_mesh) cmp_mesh_desc_implementation
             ja(k) = ic
 
             ! ... then off-diagonal elements...
-            CALL get_ith_conn(ic2c,c2c,ic)
+            CALL c2c%get_ith_conn(ic2c,ic)
             nconn = SIZE(ic2c)
             DO i = 1, nconn
                 k = k + 1
@@ -160,10 +162,10 @@ SUBMODULE (tools_mesh) cmp_mesh_desc_implementation
         CALL bcast_conn(f2f)
         CALL bcast_conn(f2c)
 
-        nfaces = nel_(f2f)
+        nfaces = f2f%nel_()
 
         ! Creates C2F connectivities, stored in the TOOLS_PART module
-        CALL get_dual_conn(f2c,c2f)
+        CALL f2c%get_dual_conn(c2f)
 
         ! ----- FACE  Descriptor Allocation -----
         CALL psb_cdall(icontxt,desc_f,info,mg=nfaces,parts=part_faces)
@@ -172,7 +174,7 @@ SUBMODULE (tools_mesh) cmp_mesh_desc_implementation
         ! ----- FACE Descriptor Inserting -----
 
         ! Maximum number of elements in the FACE connectivity stencil
-        nelst = max_conn(f2f) + 1
+        nelst = f2f%max_conn() + 1
 
         ALLOCATE(ia(nelst),ja(nelst),stat=info)
         IF(info /= 0) THEN
@@ -192,7 +194,7 @@ SUBMODULE (tools_mesh) cmp_mesh_desc_implementation
             ja(k) = IF
 
             ! ... then off-diagonal elements...
-            CALL get_ith_conn(if2f,f2f,IF)
+            CALL f2f%get_ith_conn(if2f,IF)
             nconn = SIZE(if2f)
             DO i = 1, nconn
                 k = k + 1
@@ -230,10 +232,10 @@ SUBMODULE (tools_mesh) cmp_mesh_desc_implementation
         CALL bcast_conn(v2v)
         CALL bcast_conn(v2c)
 
-        nverts = nel_(v2v)
+        nverts = v2v%nel_()
 
         ! Creates C2V , stored in the TOOLS_PART module
-        CALL get_dual_conn(v2c,c2v)
+        CALL v2c%get_dual_conn(c2v)
 
         ! ----- VERTEX Descriptor Allocation -----
         CALL psb_cdall(icontxt,desc_v,info,mg=nverts,parts=part_verts)
@@ -242,7 +244,7 @@ SUBMODULE (tools_mesh) cmp_mesh_desc_implementation
         ! ----- VERTEX Descriptor Inserting -----
 
         ! Maximum number of elements in the VERTEX connectivity stencil
-        nelst = max_conn(v2v) + 1
+        nelst = v2v%max_conn() + 1
 
         ALLOCATE(ia(nelst),ja(nelst),stat=info)
         IF(info /= 0) THEN
@@ -262,7 +264,7 @@ SUBMODULE (tools_mesh) cmp_mesh_desc_implementation
             ja(k) = iv
 
             ! ... then off-diagonal elements...
-            CALL get_ith_conn(iv2v,v2v,iv)
+            CALL v2v%get_ith_conn(iv2v,iv)
             nconn = SIZE(iv2v)
             DO i = 1, nconn
                 k = k + 1
@@ -303,7 +305,7 @@ SUBMODULE (tools_mesh) cmp_mesh_desc_implementation
         ! ----- Normal termination -----
         CALL psb_erractionrestore(err_act)
 
-        CALL toc(sw_dsc)
+        CALL sw_dsc%toc()
 
 100     FORMAT(' ERROR! PART_CELLS pointer in CMP_MESH_DESC is not associated')
 200     FORMAT(' ERROR! Size mismatch of PART_CELLS pointer in CMP_MESH_DESC')

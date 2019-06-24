@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -42,31 +42,37 @@
 ! Description:
 !    To be added...
 !
-MODULE PROCEDURE read_par_l
-    USE class_psblas
-    USE tools_input, ONLY : get_par, open_file, find_section
-
+SUBMODULE (tools_input) read_par_l_implementation
     IMPLICIT NONE
-    !
-    INTEGER :: icontxt, mypnum
-    INTEGER :: inp
 
-    icontxt = icontxt_()
-    mypnum  = mypnum_()
+    CONTAINS
+
+        MODULE PROCEDURE read_par_l
+            USE class_psblas
+            USE tools_input, ONLY : get_par, open_file, find_section
+            IMPLICIT NONE
+            !
+            INTEGER :: icontxt, mypnum
+            INTEGER :: inp
+
+            icontxt = icontxt_()
+            mypnum  = mypnum_()
 
 
-    IF(mypnum == 0) THEN
+            IF(mypnum == 0) THEN
 
-        CALL open_file(input_file,inp)
-        CALL find_section(sec,inp)
+                CALL open_file(input_file,inp)
+                CALL find_section(sec,inp)
 
-        read_par_l = get_par(inp,sec,par,default)
+                read_par_l = get_par(inp,sec,par,default)
 
-        CALL psb_bcast(icontxt,read_par_l)
+                CALL psb_bcast(icontxt,read_par_l)
 
-        CLOSE(inp)
-    ELSE
-        CALL psb_bcast(icontxt,read_par_l)
-    END IF
+                CLOSE(inp)
+            ELSE
+                CALL psb_bcast(icontxt,read_par_l)
+            END IF
 
-END PROCEDURE read_par_l
+        END PROCEDURE read_par_l
+
+END SUBMODULE read_par_l_implementation

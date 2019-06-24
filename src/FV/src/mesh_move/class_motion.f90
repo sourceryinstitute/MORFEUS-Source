@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -51,11 +51,8 @@ MODULE class_motion
 
     PRIVATE ! Default
     PUBLIC :: motion ! Class
-    PUBLIC :: create_motion, free_motion         ! Constructor/destructor
-    PUBLIC :: surface_motion_, vertex_motion_, & ! Getters
-        &    get_displacement, get_velocity
     PUBLIC :: move_boundary                      ! Setters
-  
+
 
     TYPE motion
         PRIVATE
@@ -66,8 +63,15 @@ MODULE class_motion
         REAL(psb_dpk_), ALLOCATABLE :: law_x(:)
         TYPE(vector), ALLOCATABLE :: law_y(:)
     CONTAINS
+        PROCEDURE, PUBLIC :: create_motion ! Constructor
+        PROCEDURE :: free_motion ! Destructor
+        PROCEDURE :: surface_motion_
+        PROCEDURE, PRIVATE :: get_motion_displacement, get_motion_velocity
+        GENERIC, PUBLIC :: get_displacement => get_motion_displacement
+        GENERIC, PUBLIC :: get_velocity => get_motion_velocity
         PROCEDURE, PRIVATE :: nemo_motion_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_motion_sizeof
+        PROCEDURE, PUBLIC :: vertex_motion_
     END TYPE motion
 
 
@@ -84,10 +88,8 @@ MODULE class_motion
     ! ----- Constructor -----
 
     MODULE SUBROUTINE create_motion(mot,surface_motion,vertex_motion,ml_file)
-        USE class_psblas
-        USE tools_mesh_move
         IMPLICIT NONE
-        TYPE(motion), INTENT(INOUT) :: mot
+        CLASS(motion), INTENT(INOUT) :: mot
         INTEGER, INTENT(IN) :: surface_motion
         INTEGER, INTENT(IN) :: vertex_motion
         CHARACTER(len=*), INTENT(IN) :: ml_file
@@ -98,7 +100,7 @@ MODULE class_motion
 
     MODULE SUBROUTINE free_motion(mot)
         IMPLICIT NONE
-        TYPE(motion), INTENT(INOUT) :: mot
+        CLASS(motion), INTENT(INOUT) :: mot
     END SUBROUTINE free_motion
 
 
@@ -107,50 +109,41 @@ MODULE class_motion
     MODULE FUNCTION surface_motion_(mot)
         IMPLICIT NONE
         INTEGER :: surface_motion_
-        TYPE(motion), INTENT(IN) :: mot
+        CLASS(motion), INTENT(IN) :: mot
     END FUNCTION surface_motion_
 
 
     MODULE FUNCTION vertex_motion_(mot)
         IMPLICIT NONE
         INTEGER :: vertex_motion_
-        TYPE(motion), INTENT(IN) :: mot
+        CLASS(motion), INTENT(IN) :: mot
     END FUNCTION vertex_motion_
 
-  END INTERFACE
-
-  INTERFACE get_displacement
     MODULE FUNCTION get_motion_displacement(mot,x1,x2)
         USE tools_math
         USE tools_mesh_move
         IMPLICIT NONE
         TYPE(vector) :: get_motion_displacement
-        TYPE(motion), INTENT(IN) :: mot
+        CLASS(motion), INTENT(IN) :: mot
         REAL(psb_dpk_), INTENT(IN) :: x1, x2
     END FUNCTION get_motion_displacement
-  END INTERFACE get_displacement
 
-
-  INTERFACE get_velocity
     MODULE FUNCTION get_motion_velocity(mot,x)
         USE tools_math
         USE tools_mesh_move
         IMPLICIT NONE
         TYPE(vector) :: get_motion_velocity
-        TYPE(motion), INTENT(IN) :: mot
+        CLASS(motion), INTENT(IN) :: mot
         REAL(psb_dpk_), INTENT(IN) :: x
     END FUNCTION get_motion_velocity
-  END INTERFACE get_velocity
-  
-  INTERFACE
 
     MODULE SUBROUTINE move_boundary(ib,this_motion,displacement,msh)
       !! Moves the boundary vertices and the associated surface
         USE class_psblas
-        USE class_connectivity
+        !USE class_connectivity
         USE class_mesh
-        USE class_surface
-        USE class_vertex
+        !USE class_surface
+        !USE class_vertex
         USE tools_mesh_move, ONLY: stationary_, moving_, sticky_, sliding_
         IMPLICIT NONE
         INTEGER, INTENT(IN)        :: ib

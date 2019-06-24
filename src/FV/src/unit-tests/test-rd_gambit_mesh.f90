@@ -62,8 +62,8 @@ PROGRAM check_mesh
     CALL start_psblas
 
     CALL msh%create_mesh(input_file,'MESH')
-    CALL create_field(quality,msh)
-    CALL create_output(out,input_file,'OUTPUT')
+    CALL quality%create_field(msh)
+    CALL out%create_output(input_file,'OUTPUT')
 
     tol = read_par(input_file,'MESH','quality_tol',default = 0.0d0)
     CALL check_mesh_quality(msh,quality,tol,bad_cells)
@@ -71,7 +71,7 @@ PROGRAM check_mesh
     CALL write_vtk_morfeus(msh, [ quality ], [ 'qual' ], out=out)
 
     IF(ALLOCATED(bad_cells)) DEALLOCATE(bad_cells)
-    CALL free_field(quality)
+    CALL quality%free_field()
     CALL msh%free_mesh()
 
     CALL stop_psblas

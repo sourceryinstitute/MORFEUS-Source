@@ -77,34 +77,34 @@ SUBMODULE(op_field) rhie_chow_implementation
             CALL phi%get_mesh(msh)
 
             ! Gets BASE, X and BX members of the face-centered scalar field
-            IF(on_faces_(fld)) THEN
-                CALL get_x(fld,fld_x)
-                CALL get_bx(fld,fld_bx)
-                CALL get_base(fld,base)
+            IF(fld%on_faces_()) THEN
+                CALL fld%get_x(fld_x)
+                CALL fld%get_bx(fld_bx)
+                CALL fld%get_base(base)
 
             ELSE
                 ! If FLD is cell-centered, first interpolate it
-                fld_f = interp_on_faces(fld)
+                fld_f = fld%interp_on_faces()
 
-                CALL get_x(fld_f,fld_x)
-                CALL get_bx(fld_f,fld_bx)
-                CALL get_base(fld_f,base)
-                CALL free_field(fld_f)
+                CALL fld_f%get_x(fld_x)
+                CALL fld_f%get_bx(fld_bx)
+                CALL fld_f%get_base(base)
+                CALL fld_f%free_field()
             END IF
 
-            CALL get_x(phi,phi_x)
-            CALL get_bx(phi,phi_bx)
+            CALL phi%get_x(phi_x)
+            CALL phi%get_bx(phi_bx)
 
-            phi_f = interp_on_faces(phi)
-            CALL get_x(phi_f,phi_fx)
-            CALL get_bx(phi_f,phi_fbx)
+            phi_f = phi%interp_on_faces()
+            CALL phi_f%get_x(phi_fx)
+            CALL phi_f%get_bx(phi_fbx)
 
 
             ! Computes result dimensions
-            dim = dim_(phi) * dim_(fld) * surface_ * surface_ /mass_
+            dim = phi%dim_() * fld%dim_() * surface_ * surface_ /mass_
 
             ! Sets DIM member in the base field object
-            CALL set_field_dim(base,dim)
+            CALL base%set_field_dim(dim)
 
             ! Allocates arrays for storing result values
             ALLOCATE(r_x(SIZE(fld_x)),r_bx(SIZE(fld_bx)),stat=info)
@@ -116,13 +116,13 @@ SUBMODULE(op_field) rhie_chow_implementation
             ! First computes fluxes on faces with flag = 0 and flag = -1...
             ib_offset = 0
             DO ib = 0, -1, -1
-                CALL get_ith_conn(if2b,msh%f2b,ib)
+                CALL msh%f2b%get_ith_conn(if2b,ib)
                 n = SIZE(if2b)
 
                 DO i = 1, n
                     IF = if2b(i)
-                    im = master_(msh%faces(IF))
-                    is = slave_(msh%faces(IF))
+                    im = msh%faces(IF)%master_()
+                    is = msh%faces(IF)%slave_()
                     ibf = ib_offset + i
                     r_x(ibf) =  msh%area(IF)*((msh%df(IF) .dot. msh%af(IF))*fld_x(ibf)*&
                         & ((phi_x(is)-phi_x(im))/msh%dist(IF)-phi_fx(ibf)))
@@ -154,7 +154,7 @@ SUBMODULE(op_field) rhie_chow_implementation
 
             NULLIFY(if2b)
             DEALLOCATE(r_x,r_bx, fld_x, fld_bx, phi_x, phi_bx, phi_fx,phi_fbx)
-            CALL free_field(base)
+            CALL base%free_field()
             NULLIFY(msh)
 
         100 FORMAT(' ERROR! Memory allocation failure in VECTOR_FIELD_FLUX')

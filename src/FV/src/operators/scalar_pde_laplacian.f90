@@ -81,29 +81,29 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
         TYPE(dimensions) :: dim
         TYPE(mesh), POINTER :: msh => NULL()
         TYPE(mesh), POINTER :: msh_phi => NULL(), msh_gamma => NULL()
-        TYPE(vector) :: delta_rm, delta_rs, nf, proj_m, proj_s
+        TYPE(vector) :: delta_rm, delta_rs, nf, proj_m, proj_s, proj_temp
         TYPE(vector), ALLOCATABLE :: grad(:)
 
 
-        CALL tic(sw_pde)
+        CALL sw_pde%tic()
 
         IF(mypnum_() == 0) THEN
-            WRITE(*,*) '* ', TRIM(name_(pde)), ': applying the Laplacian ',&
-                & 'operator to the ', TRIM(name_(phi)), ' field'
+            WRITE(*,*) '* ', TRIM(pde%name_()), ': applying the Laplacian ',&
+                & 'operator to the ', TRIM(phi%name_()), ' field'
         END IF
 
         ! Possible reinit of PDE
-        CALL reinit_pde(pde)
+        CALL pde%reinit_pde()
 
         ! Is PHI cell-centered?
-        IF(on_faces_(phi)) THEN
+        IF(phi%on_faces_()) THEN
             WRITE(*,100) TRIM(op_name)
             CALL abort_psblas
         END IF
 
         ! Is GAMMA face-centered?
         IF(PRESENT(gamma)) THEN
-            IF(.NOT.on_faces_(gamma)) THEN
+            IF(.NOT.gamma%on_faces_()) THEN
                 WRITE(*,200) TRIM(op_name)
                 CALL abort_psblas
             END IF
@@ -132,9 +132,9 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
         NULLIFY(msh_phi)
 
         ! Equation dimensional check
-        dim = dim_(phi) * volume_ / (length_ * length_)
-        IF(PRESENT(gamma)) dim = dim_(gamma) * dim
-        IF(dim /= dim_(pde)) THEN
+        dim = phi%dim_() * volume_ / (length_ * length_)
+        IF(PRESENT(gamma)) dim = gamma%dim_() * dim
+        IF(dim /= pde%dim_()) THEN
             WRITE(*,300) TRIM(op_name)
             CALL abort_psblas
         END IF
@@ -148,17 +148,17 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
         fsign = -pde_sign(sign,side_) ! WARNING it's MINUS!
 
         ! Gets PHI boundary conditions
-        bc => bc_(phi)
+        bc => phi%bc_()
 
         ! Gets PHI "x" internal values
-        CALL get_x(phi,phi_x)
+        CALL phi%get_x(phi_x)
 
         IF(PRESENT(gamma)) THEN
-            CALL get_x(gamma,gamma_x)
-            CALL get_bx(gamma,gamma_bx)
+            CALL gamma%get_x(gamma_x)
+            CALL gamma%get_bx(gamma_bx)
         ELSE
-            nf_fluid    = COUNT(flag_(msh%faces) <= 0)
-            nf_boundary = COUNT(flag_(msh%faces) > 0)
+            nf_fluid    = COUNT(msh%faces%flag_() <= 0)
+            nf_boundary = COUNT(msh%faces%flag_() > 0)
             ALLOCATE(gamma_x(nf_fluid),gamma_bx(nf_boundary),stat=info)
             IF(info /= 0) THEN
                 WRITE(*,400) TRIM(op_name)
@@ -189,7 +189,7 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
 
 
         ! Total number of matrix coefficients associated to the fluid faces
-        ncoeff = 4 * COUNT(flag_(msh%faces) == 0)
+        ncoeff = 4 * COUNT(msh%faces%flag_() == 0)
 
         ! Computes maximum size of blocks to be inserted
         nmax = size_blk(1,ncoeff)
@@ -208,7 +208,7 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
         ia = 0
         ja = 0
 
-        CALL get_ith_conn(if2b,msh%f2b,0)
+        CALL msh%f2b%get_ith_conn(if2b,0)
 
         ifirst = 1; i = 0
         insert_fluid: DO
@@ -219,8 +219,8 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
                 ! Local indices
                 i = i + 1
                 IF = if2b(i)
-                im = master_(msh%faces(IF))
-                is = slave_(msh%faces(IF))
+                im = msh%faces(IF)%master_()
+                is = msh%faces(IF)%slave_()
                 ! Global indices
                 im_glob = iloc_to_glob(im)
                 is_glob = iloc_to_glob(is)
@@ -277,7 +277,7 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
 
         ! Total number of RHS coefficients associated to the correction
         ! of the non-orthogonality.
-        ncoeff = 2 * COUNT(flag_(msh%faces) == 0)
+        ncoeff = 2 * COUNT(msh%faces%flag_() == 0)
 
         ifirst = 1; i = 0
         insert_nonortho: DO
@@ -288,8 +288,8 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
                 ! Local indices
                 i = i + 1
                 IF = if2b(i)
-                im = master_(msh%faces(IF))
-                is = slave_(msh%faces(IF))
+                im = msh%faces(IF)%master_()
+                is = msh%faces(IF)%slave_()
                 ! Global indices
                 im_glob = iloc_to_glob(im)
                 is_glob = iloc_to_glob(is)
@@ -314,7 +314,9 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
                 phi_proj_s = phi_x(is) + (grad(is) .dot. delta_rs)
 
                 ! Distance between projection points
-                r = mag(proj_s - proj_m)
+                proj_temp = proj_s - proj_m
+                !r = (proj_s - proj_m)%mag()
+                r = proj_temp%mag()
 
                 s_no1 = (phi_proj_s - phi_proj_m) / r
 
@@ -359,10 +361,10 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
         ia = 0
         ja = 0
         nbc = msh%nbc
-        nf_fluid = COUNT(flag_(msh%faces) <= 0) !serve?
+        nf_fluid = COUNT(msh%faces%flag_() <= 0) !serve?
         nfaces   = SIZE(msh%faces)              !serve?
 
-        nmax = max_conn(msh%f2b,lb=1)
+        nmax = msh%f2b%max_conn(lb=1)
         ALLOCATE(bc_a(nmax),bc_b(nmax),bc_c(nmax),&
             & sc_bc(nmax,nbc), sp_bc(nmax,nbc),stat=info)
         IF(info /= 0) THEN
@@ -379,15 +381,15 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
         sp_bc = 0.d0
 
         bc_loop: DO ib = 1, nbc
-            CALL get_ith_conn(if2b,msh%f2b,ib)
+            CALL msh%f2b%get_ith_conn(if2b,ib)
             n = SIZE(if2b)
             ! Gets analytical boundary conditions and builds source terms
             IF(n == 0) CYCLE bc_loop
 
-            CALL get_abc(bc(ib),dim_(phi),id_math,bc_a(1:n),bc_b(1:n),bc_c(1:n))
+            CALL bc(ib)%get_abc(phi%dim_(),id_math,bc_a(1:n),bc_b(1:n),bc_c(1:n))
 
             ! Boundary faces with flag < IB
-            ib_offset = COUNT(flag_(msh%faces) > 0 .AND. flag_(msh%faces) < ib)
+            ib_offset = COUNT(msh%faces%flag_() > 0 .AND. msh%faces%flag_() < ib)
 
             SELECT CASE(id_math)
             CASE(bc_dirichlet_, bc_dirichlet_map_)
@@ -433,7 +435,7 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
         DEALLOCATE(bc_a,bc_b,bc_c)
 
         DO ib = 1, nbc
-            CALL get_ith_conn(if2b,msh%f2b,ib)
+            CALL msh%f2b%get_ith_conn(if2b,ib)
             n = SIZE(if2b)
 
             ifirst = 1; i = 0
@@ -445,7 +447,7 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
                     ! Local index
                     i = i + 1
                     IF = if2b(i)
-                    im = master_(msh%faces(IF))
+                    im = msh%faces(IF)%master_()
                     ! Global index
                     im_glob = iloc_to_glob(im)
 
@@ -485,7 +487,7 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
         NULLIFY(msh)
         NULLIFY(bc)
 
-        CALL toc(sw_pde)
+        CALL sw_pde%toc()
 
     100 FORMAT(' ERROR! Unknown PHI in ',a,' is face-centered')
     200 FORMAT(' ERROR! Diffusivity GAMMA in ',a,' is cell-centered')

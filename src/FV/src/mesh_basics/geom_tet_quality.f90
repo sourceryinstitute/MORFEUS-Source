@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !    NEMO - Numerical Engine (for) Multiphysics Operators
@@ -40,30 +40,38 @@
 !
 ! Description:
 !
-MODULE PROCEDURE geom_tet_quality
-
-    USE class_psblas
-    USE class_vector
-    USE class_vertex
-
+SUBMODULE(tools_mesh_basics) geom_tet_quality_implementation
     IMPLICIT NONE
-    !
-    INTEGER :: iv1, iv2
-    REAL(psb_dpk_) :: sum_edge_sq
-    TYPE(vertex) :: verts(4)
 
-    verts = (/ v1, v2, v3, v4 /)
+    CONTAINS
 
-    sum_edge_sq = 0.d0
+        MODULE PROCEDURE geom_tet_quality
+            USE class_psblas, ONLY : psb_dpk_
+            USE class_vector !, ONLY : mag
+            USE class_vertex, ONLY : vertex, OPERATOR(-)
+            IMPLICIT NONE
+            !
+            INTEGER :: iv1, iv2
+            REAL(psb_dpk_) :: sum_edge_sq
+            TYPE(vertex) :: verts(4)
+            TYPE(vector) :: verts_temp
 
-    ! All vertices are connected to all others, so just permutate to find all edge lengths
-    DO iv2 = 1, 3
-        DO iv1 = iv2 + 1, 4
-            sum_edge_sq = sum_edge_sq + mag(verts(iv2) - verts(iv1))**2
-        ENDDO
-    ENDDO
+            verts = [ v1, v2, v3, v4 ]
 
-    geom_tet_quality = SIGN((vol*vol)**(1.0d0/3.d0) * 6.0d0**(5.d0/3.d0) * 2.0**(1.d0/3.d0) / &
-        &               sum_edge_sq, vol)  ! signed quality, must handle neg. volume
+            sum_edge_sq = 0.d0
 
-END PROCEDURE geom_tet_quality
+            ! All vertices are connected to all others, so just permutate to find all edge lengths
+            DO iv2 = 1, 3
+                DO iv1 = iv2 + 1, 4
+                    verts_temp = verts(iv2) - verts(iv1)
+                    !sum_edge_sq = sum_edge_sq + (verts(iv2) - verts(iv1))%mag()**2
+                    sum_edge_sq = sum_edge_sq + verts_temp%mag()**2
+                ENDDO
+            ENDDO
+
+            geom_tet_quality = SIGN((vol*vol)**(1.0d0/3.d0) * 6.0d0**(5.d0/3.d0) * 2.0**(1.d0/3.d0) / &
+                &               sum_edge_sq, vol)  ! signed quality, must handle neg. volume
+
+        END PROCEDURE geom_tet_quality
+
+END SUBMODULE geom_tet_quality_implementation

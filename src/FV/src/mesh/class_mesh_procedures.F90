@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 SUBMODULE(class_mesh) class_mesh_procedures
@@ -10,7 +10,6 @@ SUBMODULE(class_mesh) class_mesh_procedures
     USE class_cell
     USE class_connectivity
     USE class_face
-    USE class_least_squares
     USE class_vector
     USE class_keytable
     USE class_surface
@@ -22,9 +21,13 @@ SUBMODULE(class_mesh) class_mesh_procedures
     ! ----- Constructors -----
 
     MODULE PROCEDURE create_mesh
-        ! Global constructor
-        USE tools_mesh
-        USE tools_output_basics
+        !! Global constructor
+        USE tools_mesh,          ONLY : rd_inp_mesh, rd_gambit_mesh, rd_cgns_mesh, cmp_mesh_c2c, cmp_mesh_desc,  &
+          &                             cmp_mesh_f2b, cmp_mesh_f2f, cmp_mesh_part, cmp_mesh_renum, cmp_mesh_v2b, &
+          &                             cmp_mesh_v2ve, cmp_moving_surf, supplement_v2c, supplement_v2f
+        USE tools_mesh_basics,   ONLY : geom_face, geom_cell, geom_diff
+        USE tools_output_basics, ONLY : wr_mtx_pattern
+        USE class_least_squares, ONLY : set_least_squares
 
         LOGICAL :: mtx_pat
         INTEGER :: icontxt, mypnum, nprocs
@@ -137,7 +140,7 @@ SUBMODULE(class_mesh) class_mesh_procedures
             WRITE(*,*)
         END IF
 
-        CALL tic(sw_geo)
+        CALL sw_geo%tic()
 
         ! Computes face-related metrics members MSH%FACE_CNTR, MSH%AF, MSH%AREA
         CALL geom_face(msh%verts,msh%v2f,msh%ncd,&
@@ -155,11 +158,11 @@ SUBMODULE(class_mesh) class_mesh_procedures
         CALL set_least_squares(msh%lsr,msh%ncd,msh%desc_c,msh%c2c,msh%f2b, &
             & msh%faces,msh%cell_cntr,msh%face_cntr)
 
-        CALL toc(sw_geo)
+        CALL sw_geo%toc()
 
         ! Sets MSH%SET logical flag on .true.
         msh%set = .TRUE.
-        msh%ngp = nel_(msh%c2g)
+        msh%ngp = msh%c2g%nel_()
 
         IF(mypnum == 0) THEN
             WRITE(*,200) 'Mesh summary'
@@ -183,6 +186,7 @@ SUBMODULE(class_mesh) class_mesh_procedures
 
     SUBROUTINE import_mesh(msh,mesh_file)
         USE tools_mesh
+        IMPLICIT NONE
         !
         TYPE(mesh), INTENT(INOUT) :: msh
         CHARACTER(len=*), INTENT(INOUT) :: mesh_file
@@ -195,7 +199,7 @@ SUBMODULE(class_mesh) class_mesh_procedures
         icontxt = icontxt_()
         mypnum  = mypnum_()
 
-        CALL tic(sw_msh)
+        CALL sw_msh%tic()
 
         ! Reads the mesh object on P0...
         IF(mypnum == 0) THEN
@@ -255,7 +259,7 @@ SUBMODULE(class_mesh) class_mesh_procedures
             msh%ncd = intbuf(2)
         END IF
 
-        CALL toc(sw_msh)
+        CALL sw_msh%toc()
 
 100     FORMAT('ERROR! Unsupported mesh filename in IMPORT_MESH')
 200     FORMAT('ERROR! Unsupported mesh format in IMPORT_MESH')
@@ -265,9 +269,11 @@ SUBMODULE(class_mesh) class_mesh_procedures
     ! ----- Global To Local -----
 
     SUBROUTINE g2l_mesh(msh)
+        IMPLICIT NONE
+        !!
         TYPE(mesh), INTENT(INOUT) :: msh
 
-        CALL tic(sw_g2l)
+        CALL sw_g2l%tic()
 
         IF(mypnum_() == 0) THEN
             WRITE(*,*) 'Global to local reallocation of MESH object'
@@ -289,13 +295,15 @@ SUBMODULE(class_mesh) class_mesh_procedures
         CALL bcast_conn(msh%v2b)                        ! Broadcast   MSH%V2B
         CALL g2l_conn(msh%v2b,msh%desc_v)               ! Reallocates MSH%V2B
 
-        CALL toc(sw_g2l)
+        CALL sw_g2l%toc()
 
     END SUBROUTINE g2l_mesh
 
     MODULE PROCEDURE free_mesh
       !! ----- Destructor -----
         USE psb_base_mod
+        USE class_least_squares, ONLY : free_least_squares
+        IMPLICIT NONE
         !
         INTEGER :: err_act, icontxt, info
         INTEGER :: ib
@@ -322,7 +330,7 @@ SUBMODULE(class_mesh) class_mesh_procedures
 
         IF ( ALLOCATED(msh%surf) ) THEN
             DO ib = 1, msh%nbc
-                CALL free_surface(msh%surf(ib))
+                CALL msh%surf(ib)%free_surface()
             END DO
             DEALLOCATE(msh%surf)
         ENDIF
@@ -330,11 +338,11 @@ SUBMODULE(class_mesh) class_mesh_procedures
         ! these supplemental info keytables are only filled for
         ! parallel runs, so check before freeing
 
-        IF ( msh%ov2c_sup%exists() ) CALL free_keytable(msh%ov2c_sup)
-        IF ( msh%c2ov_sup%exists() ) CALL free_keytable(msh%c2ov_sup)
+        IF ( msh%ov2c_sup%exists() ) CALL msh%ov2c_sup%free_keytable()
+        IF ( msh%c2ov_sup%exists() ) CALL msh%c2ov_sup%free_keytable()
 
-        IF ( msh%ov2f_sup%exists() ) CALL free_keytable(msh%ov2f_sup)
-        IF ( msh%f2ov_sup%exists() ) CALL free_keytable(msh%f2ov_sup)
+        IF ( msh%ov2f_sup%exists() ) CALL msh%ov2f_sup%free_keytable()
+        IF ( msh%f2ov_sup%exists() ) CALL msh%f2ov_sup%free_keytable()
 
         CALL free_vertex(msh%verts)
         CALL free_face(msh%faces)
@@ -374,6 +382,7 @@ SUBMODULE(class_mesh) class_mesh_procedures
     END PROCEDURE free_mesh
 
     MODULE PROCEDURE check_mesh_consistency
+        IMPLICIT NONE
         !! Checks the consistency of two meshes: MSH1 and MSH2
 
         IF(.NOT. ASSOCIATED(msh1, msh2)) THEN
@@ -388,6 +397,7 @@ SUBMODULE(class_mesh) class_mesh_procedures
     ! ----- Check Operations -----
 
     MODULE PROCEDURE check_mesh_unused_el
+        IMPLICIT NONE
         ! Scans through numerous connectivities, ensuring that in each one,
         ! all faces & cells are referenced at least once.
 
@@ -397,28 +407,28 @@ SUBMODULE(class_mesh) class_mesh_procedures
         mypnum = mypnum_()
 
         IF(mypnum == 0) WRITE(*,*) ' Checking C2C connectivity...'
-        failures = unused_elements(msh%c2c)
+        failures = msh%c2c%unused_elements()
         IF (failures > 0) THEN
             WRITE(*,100) failures, 'cells', 'MSH%C2C', mypnum
             CALL abort_psblas
         END IF
 
         IF(mypnum == 0) WRITE(*,*) ' Checking F2C connectivity...'
-        failures = unused_elements(msh%f2c)
+        failures = msh%f2c%unused_elements()
         IF (failures > 0) THEN
             WRITE(*,100) failures, 'faces', 'MSH%F2C', mypnum
             CALL abort_psblas
         END IF
 
         IF(mypnum == 0) WRITE(*,*) ' Checking V2C connectivity...'
-        failures = unused_elements(msh%v2c)
+        failures = msh%v2c%unused_elements()
         IF (failures > 0) THEN
             WRITE(*,100) failures, 'vertices', 'MSH%V2C', mypnum
             CALL abort_psblas
         END IF
 
         IF(mypnum == 0) WRITE(*,*) ' Checking V2F connectivity...'
-        failures = unused_elements(msh%v2f )
+        failures = msh%v2f%unused_elements()
         IF (failures > 0) THEN
             WRITE(*,100) failures, 'vertices', 'MSH%V2F', mypnum
             CALL abort_psblas
@@ -430,6 +440,7 @@ SUBMODULE(class_mesh) class_mesh_procedures
     END PROCEDURE check_mesh_unused_el
 
     SUBROUTINE nemo_mesh_size(msh)
+        IMPLICIT NONE
         TYPE(mesh), INTENT(IN) :: msh
         INTEGER(kind=nemo_int_long_)   ::isz
         REAL:: sz,sz1
@@ -521,6 +532,7 @@ SUBMODULE(class_mesh) class_mesh_procedures
 
     SUBROUTINE pr_mesh_size(msh)
         USE psb_base_mod
+        IMPLICIT NONE
 
         TYPE(mesh), INTENT(IN) :: msh
 

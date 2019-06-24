@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -43,12 +43,15 @@
 !    To be added...
 !
 MODULE tools_bc
-
+    USE class_motion, only : motion
     IMPLICIT NONE
 
+    PUBLIC
+    PRIVATE :: motion
+
     INTERFACE
+
         MODULE SUBROUTINE rd_inp_bc(input_file,sec,nbc_msh,id,mot)
-            USE class_motion
             IMPLICIT NONE
             CHARACTER(len=*), INTENT(IN) :: input_file
             CHARACTER(len=*), INTENT(IN) :: sec
@@ -56,10 +59,7 @@ MODULE tools_bc
             INTEGER, INTENT(INOUT) :: id(nbc_msh)
             TYPE(motion), INTENT(INOUT) :: mot(nbc_msh)
         END SUBROUTINE rd_inp_bc
-    END INTERFACE
 
-
-    INTERFACE
         MODULE SUBROUTINE rd_inp_bc_math(input_file,sec,nbf,id,a,b,c)
             USE class_psblas, ONLY : psb_dpk_
             CHARACTER(len=*), INTENT(IN) :: input_file
@@ -68,8 +68,8 @@ MODULE tools_bc
             INTEGER, INTENT(OUT) :: id
             REAL(psb_dpk_), ALLOCATABLE, INTENT(OUT)  :: a(:), b(:), c(:)
         END SUBROUTINE rd_inp_bc_math
-    END INTERFACE
 
+    END INTERFACE
 
     ! ----- Named Constants -----
 

@@ -146,9 +146,9 @@ CONTAINS
         alpha = 0.0d0 ; beta = 0.0d0
 
         ! used for initial guesses
-        x = x_(vertices)
-        y = y_(vertices)
-        z = z_(vertices)
+        x = vertices%x_()
+        y = vertices%y_()
+        z = vertices%z_()
 
         xrange = MAXVAL(x) - MINVAL(x)
         yrange = MAXVAL(y) - MINVAL(y)
@@ -262,7 +262,7 @@ CONTAINS
 
         ! return unit vector
 
-        get_cylinder_normal = unit(xrad)
+        get_cylinder_normal = xrad%unit()
 
     END PROCEDURE get_cylinder_normal
 
@@ -287,7 +287,7 @@ CONTAINS
         xrad = xrel - ( xrel .dot. this_cylinder%axis) * this_cylinder%axis
 
         ! subtract a vector from the closest spot on the axis to the cyl. surface
-        offset = xrad - ( this_cylinder%radius / mag(xrad) )  * xrad
+        offset = xrad - ( this_cylinder%radius / xrad%mag() )  * xrad
 
         ! offset is now the difference between the point and the cylinder surface
         get_pt_cylinder = point - offset
@@ -379,7 +379,7 @@ CONTAINS
 
         DO i = 1,nverts
 
-            centroid = centroid + position_(vertices(i))
+            centroid = centroid + vertices(i)%position_()
 
         ENDDO
 
@@ -391,9 +391,9 @@ CONTAINS
         DO i = 1,nverts
 
             ! calculate position relative to the centroid
-            xrad = centroid - position_(vertices(i))
+            xrad = centroid - vertices(i)%position_()
 
-            s_t = s_t + mag(xrad)**2
+            s_t = s_t + xrad%mag()**2
 
         ENDDO
 
@@ -432,7 +432,7 @@ CONTAINS
         ! calculate cumulative error
         DO i = 1,nverts
 
-            x = position_(vertices(i))
+            x = vertices(i)%position_()
 
             ! calculate position relative to the cylinder's center
             xrel = x - center
@@ -443,7 +443,7 @@ CONTAINS
             ! because our ideal cylinder is infinitely long, the error is only
             ! the vector difference in the radial direction
 
-            err = err + ( mag(xrad) - radius)**2
+            err = err + ( xrad%mag() - radius)**2
 
         ENDDO
 
@@ -513,7 +513,7 @@ CONTAINS
         ! calculate cumulative error
         DO i = 1,nverts
 
-            x = position_(my_vertices(i))
+            x = my_vertices(i)%position_()
 
             ! calculate position relative to the cylinder's center
             xrel = x - center
@@ -524,7 +524,7 @@ CONTAINS
             ! because our ideal cylinder is infinitely long, the error is only
             ! the vector difference in the radial direction
 
-            err(i) =  ( mag(xrad) - radius)**2
+            err(i) =  ( xrad%mag() - radius)**2
 
         ENDDO
 

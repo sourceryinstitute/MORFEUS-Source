@@ -71,11 +71,11 @@ SUBMODULE(op_grad) scalar_field_grad_implementation
             TYPE(mesh), POINTER :: msh => NULL()
 
             ! Gets internal and boundary values
-            CALL get_x(phi,phi_x)
-            CALL get_bx(phi,phi_b)
+            CALL phi%get_x(phi_x)
+            CALL phi%get_bx(phi_b)
 
             ! Face-centered fields are not supported
-            IF(on_faces_(phi)) THEN
+            IF(phi%on_faces_()) THEN
                 WRITE(*,100)
                 CALL abort_psblas
             END IF
@@ -111,33 +111,33 @@ SUBMODULE(op_grad) scalar_field_grad_implementation
             DO ic = 1, ncells
                 ! IC
                 rhs(1,ic) = phi_x(ic)
-                rhs(2,ic) = phi_x(ic) * x_(msh%cell_cntr(ic))
-                rhs(3,ic) = phi_x(ic) * y_(msh%cell_cntr(ic))
+                rhs(2,ic) = phi_x(ic) * msh%cell_cntr(ic)%x_()
+                rhs(3,ic) = phi_x(ic) * msh%cell_cntr(ic)%y_()
 
                 ! IC's neighbors
-                CALL get_ith_conn(ic2c,msh%c2c,ic)
+                CALL msh%c2c%get_ith_conn(ic2c,ic)
                 n = SIZE(ic2c)
                 DO i = 1, n
                     nb = ic2c(i)
                     rhs(1,ic) = rhs(1,ic) + phi_x(nb)
-                    rhs(2,ic) = rhs(2,ic) + phi_x(nb) * x_(msh%cell_cntr(nb))
-                    rhs(3,ic) = rhs(3,ic) + phi_x(nb) * y_(msh%cell_cntr(nb))
+                    rhs(2,ic) = rhs(2,ic) + phi_x(nb) * msh%cell_cntr(nb)%x_()
+                    rhs(3,ic) = rhs(3,ic) + phi_x(nb) * msh%cell_cntr(nb)%y_()
                 END DO
             END DO
 
             ! Center(s) of possible boundary faces
             DO ib = 1, nbc
-                CALL get_ith_conn(if2b,msh%f2b,ib)
+                CALL msh%f2b%get_ith_conn(if2b,ib)
                 n = SIZE(if2b)
-                ib_offset = COUNT(flag_(msh%faces) > 0 .AND. flag_(msh%faces) < ib)
+                ib_offset = COUNT(msh%faces%flag_() > 0 .AND. msh%faces%flag_() < ib)
 
                 DO i = 1, n
                     IF = if2b(i)
                     ibf = ib_offset + i
-                    im = master_(msh%faces(IF))
+                    im = msh%faces(IF)%master_()
                     rhs(1,im) = rhs(1,im) + phi_b(ibf)
-                    rhs(2,im) = rhs(2,im) + phi_b(ibf) * x_(msh%face_cntr(IF))
-                    rhs(3,im) = rhs(3,im) + phi_b(ibf) * y_(msh%face_cntr(IF))
+                    rhs(2,im) = rhs(2,im) + phi_b(ibf) * msh%face_cntr(IF)%x_()
+                    rhs(3,im) = rhs(3,im) + phi_b(ibf) * msh%face_cntr(IF)%y_()
                 END DO
             END DO
 
@@ -145,35 +145,35 @@ SUBMODULE(op_grad) scalar_field_grad_implementation
             IF(ncd == 3) THEN
                 DO ic = 1, ncells
                     ! IC
-                    rhs(4,ic) = phi_x(ic) * z_(msh%cell_cntr(ic))
+                    rhs(4,ic) = phi_x(ic) * msh%cell_cntr(ic)%z_()
 
                     ! IC's neighbors
-                    CALL get_ith_conn(ic2c,msh%c2c,ic)
+                    CALL msh%c2c%get_ith_conn(ic2c,ic)
                     n = SIZE(ic2c)
                     DO i = 1, n
                         nb = ic2c(i)
-                        rhs(4,ic) = rhs(4,ic) + phi_x(nb) * z_(msh%cell_cntr(nb))
+                        rhs(4,ic) = rhs(4,ic) + phi_x(nb) * msh%cell_cntr(nb)%z_()
                     END DO
                 END DO
 
                 ! Center(s) of possible boundary faces
                 DO ib = 1, nbc
-                    CALL get_ith_conn(if2b,msh%f2b,ib)
+                    CALL msh%f2b%get_ith_conn(if2b,ib)
                     n = SIZE(if2b)
-                    ib_offset = COUNT(flag_(msh%faces) > 0 .AND. flag_(msh%faces) < ib)
+                    ib_offset = COUNT(msh%faces%flag_() > 0 .AND. msh%faces%flag_() < ib)
 
                     DO i = 1, n
                         IF = if2b(i)
                         ibf = ib_offset + i
-                        im = master_(msh%faces(IF))
-                        rhs(4,im) = rhs(4,im) + phi_b(ibf) * z_(msh%face_cntr(IF))
+                        im = msh%faces(IF)%master_()
+                        rhs(4,im) = rhs(4,im) + phi_b(ibf) * msh%face_cntr(IF)%z_()
                     END DO
                 END DO
             END IF
 
             ! Solves least squares problem
             DO ic = 1, ncells
-                CALL solve_least_squares(msh%lsr(ic),rhs(:,ic))
+                CALL msh%lsr(ic)%solve_least_squares(rhs(:,ic))
             END DO
 
             ! Sets grad values

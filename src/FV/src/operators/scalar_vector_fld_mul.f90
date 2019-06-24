@@ -65,21 +65,21 @@ SUBMODULE(op_field) scalar_vector_fld_mul_implementation
 
 
             ! Check consistency of operands
-            CALL get_base(fld_s,base_s)
-            CALL get_base(fld_v,base_v)
-            CALL check_field_operands(base_s,base_v,'SCALAR_VECTOR_FLD_MUL')
+            CALL fld_s%get_base(base_s)
+            CALL fld_v%get_base(base_v)
+            CALL base_s%check_field_operands(base_v,'SCALAR_VECTOR_FLD_MUL')
 
             ! Computes result dimensions
-            dim = dim_(fld_s) * dim_(fld_v)
+            dim = fld_s%dim_() * fld_v%dim_()
 
             ! Sets DIM member in the base field object
-            CALL set_field_dim(base_v,dim)
+            CALL base_v%set_field_dim(dim)
 
             ! Gets X and BX members of operands
-            CALL get_x(fld_s,x_s)
-            CALL get_x(fld_v,x_v)
-            CALL get_bx(fld_s,bx_s)
-            CALL get_bx(fld_v,bx_v)
+            CALL fld_s%get_x(x_s)
+            CALL fld_v%get_x(x_v)
+            CALL fld_s%get_bx(bx_s)
+            CALL fld_v%get_bx(bx_v)
 
             ! Construct the result object
             res = vector_field_(base_v, &
@@ -87,8 +87,8 @@ SUBMODULE(op_field) scalar_vector_fld_mul_implementation
                 &            bx = bx_s * bx_v)
 
             DEALLOCATE(bx_v,bx_s,x_v,x_s)
-            CALL free_field(base_v)
-            CALL free_field(base_s)
+            CALL base_v%free_field()
+            CALL base_s%free_field()
 
         END PROCEDURE scalar_vector_fld_mul
 

@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -42,38 +42,44 @@
 ! Description:
 !    To be added...
 !
-MODULE PROCEDURE read_par_v
-    USE class_psblas
-    USE class_vector
-    USE tools_input, ONLY : get_par, open_file, find_section
-
+SUBMODULE (tools_input) read_par_v_implementation
     IMPLICIT NONE
-    !
-    INTEGER :: icontxt, mypnum
-    INTEGER :: inp
-    REAL(psb_dpk_) :: x(3)
 
-    icontxt = icontxt_()
-    mypnum  = mypnum_()
+    CONTAINS
+
+        MODULE PROCEDURE read_par_v
+            USE class_psblas
+            USE class_vector
+            USE tools_input, ONLY : get_par, open_file, find_section
+            IMPLICIT NONE
+            !
+            INTEGER :: icontxt, mypnum
+            INTEGER :: inp
+            REAL(psb_dpk_) :: x(3)
+
+            icontxt = icontxt_()
+            mypnum  = mypnum_()
 
 
-    IF(mypnum == 0) THEN
+            IF(mypnum == 0) THEN
 
-        CALL open_file(input_file,inp)
-        CALL find_section(sec,inp)
+                CALL open_file(input_file,inp)
+                CALL find_section(sec,inp)
 
-        read_par_v = get_par(inp,sec,par,default)
-        x(1) = x_(read_par_v)
-        x(2) = y_(read_par_v)
-        x(3) = z_(read_par_v)
+                read_par_v = get_par(inp,sec,par,default)
+                x(1) = read_par_v%x_()
+                x(2) = read_par_v%y_()
+                x(3) = read_par_v%z_()
 
-        CALL psb_bcast(icontxt,x)
+                CALL psb_bcast(icontxt,x)
 
-        CLOSE(inp)
-    ELSE
-        CALL psb_bcast(icontxt,x)
+                CLOSE(inp)
+            ELSE
+                CALL psb_bcast(icontxt,x)
 
-        read_par_v = vector_(x(1),x(2),x(3))
-    END IF
+                read_par_v = vector_(x(1),x(2),x(3))
+            END IF
 
-END PROCEDURE read_par_v
+        END PROCEDURE read_par_v
+
+END SUBMODULE read_par_v_implementation

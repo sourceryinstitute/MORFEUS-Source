@@ -150,7 +150,7 @@ SUBROUTINE rd_exodus_mesh(mesh_file, mesh_id, nbc, ncd, &
 
     ! Allocation of face-related connectivity tables
     !call alloc_table(f2c,nel=ncells,ntab=nfaces)
-    CALL alloc_table(v2f,nel=nfaces,ntab=n)
+    CALL v2f%alloc_table(nel=nfaces,ntab=n)
 
     ! Allocation of temporary face-related arrays
     ALLOCATE(iflag(nfaces), fnv(nfaces),  &
@@ -247,7 +247,7 @@ SUBROUTINE rd_exodus_mesh(mesh_file, mesh_id, nbc, ncd, &
 
     ! Builds connection table f2v, dual of v2f
 
-    CALL get_dual_table(v2f,f2v)
+    CALL v2f%get_dual_table(f2v)
 
     ! Initializes face permutation array
     ALLOCATE(perm(nfaces), stat=info)
@@ -334,7 +334,7 @@ SUBROUTINE rd_exodus_mesh(mesh_file, mesh_id, nbc, ncd, &
         END DO pile_3D
         DEALLOCATE(buf)
     END IF
-    CALL free_table(f2v)
+    CALL f2v%free_table()
 
     ! ###########################################################################
     IF (debug) THEN
@@ -423,7 +423,7 @@ SUBROUTINE rd_exodus_mesh(mesh_file, mesh_id, nbc, ncd, &
         k = j + facenv(IF)
     END DO
     !
-    CALL alloc_table(dmy,nel=nfaces,ntab=k)
+    CALL dmy%alloc_table(nel=nfaces,ntab=k)
     i1 = 1; i2 = 0; dmy%lookup(1) = 1
     DO IF = 1, nfaces
         j = pinv(IF)
@@ -434,9 +434,9 @@ SUBROUTINE rd_exodus_mesh(mesh_file, mesh_id, nbc, ncd, &
         i1 = i2 + 1
         dmy%lookup(IF+1) = i1
     END DO
-    CALL free_table(v2f)
+    CALL v2f%free_table()
 
-    CALL alloc_table(v2f,nel=nfaces,ntab=k)
+    CALL v2f%alloc_table(nel=nfaces,ntab=k)
     v2f%lookup = dmy%lookup(1:nfaces+1)
     v2f%tab = dmy%tab(1:k)
 
@@ -450,7 +450,7 @@ SUBROUTINE rd_exodus_mesh(mesh_file, mesh_id, nbc, ncd, &
         END DO
     END DO
 
-    CALL free_table(dmy)
+    CALL dmy%free_table()
     DEALLOCATE(perm,pinv)
 
     ! ###########################################################################

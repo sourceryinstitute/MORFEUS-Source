@@ -54,11 +54,7 @@ MODULE class_vector_pde
 
     PRIVATE ! Default
     PUBLIC :: vector_pde                       ! Class
-    PUBLIC :: create_pde, free_pde             ! Constructor/Destructor
-    PUBLIC :: name_, dim_, msh_                ! Getters
-    PUBLIC :: get_diag, get_A                         ! Getters
-    PUBLIC :: spins_pde, geins_pde, & ! Linear System Solving
-        &    solve_pde, reinit_pde            !           "
+    PUBLIC :: spins_pde, geins_pde             ! Linear System Solving
     PRIVATE :: pde ! Required by INTEL FC!
     ! INTEL Bug!
     ! The Intel compiler for some reason ignores the default PRIVATE
@@ -70,8 +66,24 @@ MODULE class_vector_pde
         TYPE(pde) :: base
         REAL(psb_dpk_), ALLOCATABLE :: b(:,:)
     CONTAINS
+        PROCEDURE, PRIVATE :: create_vector_pde, free_vector_pde
+        GENERIC, PUBLIC :: create_pde => create_vector_pde   ! Constructor
+        GENERIC, PUBLIC :: free_pde => free_vector_pde       ! Destructor
+        PROCEDURE, PRIVATE :: get_vector_pde_dim, get_vector_pde_msh_fun  ! Getters
+        GENERIC, PUBLIC :: dim_ => get_vector_pde_dim
+        GENERIC, PUBLIC :: msh_ => get_vector_pde_msh_fun
+        PROCEDURE, PRIVATE :: get_vector_pde_diag
+        GENERIC, PUBLIC :: get_diag => get_vector_pde_diag
+        PROCEDURE, PRIVATE :: get_vector_pde_A
+        GENERIC, PUBLIC :: get_A => get_vector_pde_A
+        PROCEDURE, PRIVATE :: reinit_vector_pde
+        GENERIC, PUBLIC :: reinit_pde => reinit_vector_pde
+        PROCEDURE, PRIVATE :: get_vector_pde_name
+        GENERIC, PUBLIC :: name_ => get_vector_pde_name
         PROCEDURE, PRIVATE :: nemo_vector_pde_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_vector_pde_sizeof
+        PROCEDURE, PRIVATE :: solve_vector_pde
+        GENERIC, PUBLIC :: solve_pde => solve_vector_pde
         PROCEDURE, PRIVATE :: write_vector_pde
         GENERIC, PUBLIC :: write_pde => write_vector_pde
         PROCEDURE, PRIVATE :: get_vector_pde_msh_sub
@@ -79,34 +91,6 @@ MODULE class_vector_pde
         PROCEDURE, PRIVATE :: asb_vector_pde
         GENERIC, PUBLIC :: asb_pde => asb_vector_pde
     END TYPE vector_pde
-
-    INTERFACE create_pde
-        MODULE PROCEDURE :: create_vector_pde
-    END INTERFACE create_pde
-
-    INTERFACE free_pde
-        MODULE PROCEDURE :: free_vector_pde
-    END INTERFACE free_pde
-
-    INTERFACE name_
-        MODULE PROCEDURE :: get_vector_pde_name
-    END INTERFACE name_
-
-    INTERFACE dim_
-        MODULE PROCEDURE :: get_vector_pde_dim
-    END INTERFACE dim_
-
-    INTERFACE get_A
-        MODULE PROCEDURE :: get_vector_pde_A
-    END INTERFACE get_A
-
-    INTERFACE msh_
-        MODULE PROCEDURE :: get_vector_pde_msh_fun
-    END INTERFACE msh_
-
-    INTERFACE get_diag
-        MODULE PROCEDURE :: get_vector_pde_diag
-    END INTERFACE get_diag
 
     INTERFACE spins_pde
         MODULE PROCEDURE :: spins_vector_pde
@@ -116,14 +100,6 @@ MODULE class_vector_pde
         MODULE PROCEDURE :: geins_vector_pde_v
         MODULE PROCEDURE :: geins_vector_pde_r
     END INTERFACE geins_pde
-
-    INTERFACE solve_pde
-        MODULE PROCEDURE :: solve_vector_pde
-    END INTERFACE solve_pde
-
-    INTERFACE reinit_pde
-        MODULE PROCEDURE :: reinit_vector_pde
-    END INTERFACE reinit_pde
 
     ! ----- Generic Interfaces -----
 
@@ -142,7 +118,7 @@ MODULE class_vector_pde
         USE class_dimensions, ONLY : dimensions
         IMPLICIT NONE
 
-        TYPE(vector_pde), INTENT(OUT)           :: pde
+        CLASS(vector_pde), INTENT(OUT)           :: pde
         CHARACTER(len=*), INTENT(IN)            :: input_file
         CHARACTER(len=*), INTENT(IN)            :: sec
         TYPE(mesh),       INTENT(INOUT), TARGET :: msh
@@ -153,7 +129,7 @@ MODULE class_vector_pde
     MODULE SUBROUTINE free_vector_pde(pde)
       !! Destructor
         IMPLICIT NONE
-        TYPE(vector_pde), INTENT(INOUT) :: pde
+        CLASS(vector_pde), INTENT(INOUT) :: pde
     END SUBROUTINE free_vector_pde
 
   ! ----- Getters -----
@@ -162,21 +138,21 @@ MODULE class_vector_pde
     MODULE FUNCTION get_vector_pde_name(pde)
         IMPLICIT NONE
         CHARACTER(len=32) :: get_vector_pde_name
-        TYPE(vector_pde), INTENT(IN) :: pde
+        CLASS(vector_pde), INTENT(IN) :: pde
     END FUNCTION get_vector_pde_name
 
     MODULE FUNCTION get_vector_pde_dim(pde)
         USE class_dimensions, ONLY : dimensions
         IMPLICIT NONE
         TYPE(dimensions) :: get_vector_pde_dim
-        TYPE(vector_pde), INTENT(IN) :: pde
+        CLASS(vector_pde), INTENT(IN) :: pde
     END FUNCTION get_vector_pde_dim
 
   !-----------------------------------------
 
     MODULE SUBROUTINE get_vector_pde_A(pde,A)
         IMPLICIT NONE
-        TYPE(vector_pde), INTENT(INOUT) :: pde
+        CLASS(vector_pde), INTENT(INOUT) :: pde
         TYPE(psb_dspmat_type)  :: A
     END SUBROUTINE get_vector_pde_A
 
@@ -185,12 +161,12 @@ MODULE class_vector_pde
     MODULE FUNCTION get_vector_pde_msh_fun(pde)
         IMPLICIT NONE
         TYPE(mesh), POINTER :: get_vector_pde_msh_fun
-        TYPE(vector_pde), INTENT(IN) :: pde
+        CLASS(vector_pde), INTENT(IN) :: pde
     END FUNCTION get_vector_pde_msh_fun
 
     MODULE SUBROUTINE get_vector_pde_diag(pde,d)
         IMPLICIT NONE
-        TYPE(vector_pde), INTENT(INOUT) :: pde
+        CLASS(vector_pde), INTENT(INOUT) :: pde
         REAL(psb_dpk_), ALLOCATABLE  :: d(:)
     END SUBROUTINE get_vector_pde_diag
 
@@ -240,14 +216,14 @@ MODULE class_vector_pde
     MODULE SUBROUTINE solve_vector_pde(pde,phi,var)
         !! Assigns the solution to the vector field
         IMPLICIT NONE
-        TYPE(vector_pde), INTENT(INOUT) :: pde
+        CLASS(vector_pde), INTENT(INOUT) :: pde
         TYPE(vector_field), INTENT(INOUT) :: phi
         REAL(psb_dpk_), INTENT(OUT), OPTIONAL :: var
     END SUBROUTINE solve_vector_pde
 
     MODULE SUBROUTINE reinit_vector_pde(pde)
         IMPLICIT NONE
-        TYPE(vector_pde), INTENT(INOUT) :: pde
+        CLASS(vector_pde), INTENT(INOUT) :: pde
     END SUBROUTINE reinit_vector_pde
 
   ! Output

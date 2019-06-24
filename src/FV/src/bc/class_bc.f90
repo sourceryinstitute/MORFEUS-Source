@@ -54,10 +54,7 @@ MODULE class_bc
     PRIVATE ! Default
     PUBLIC :: bc_poly                           ! Class
     PUBLIC :: create_bc, free_bc                ! Constructor/Destructor
-    PUBLIC :: get_abc, &
-        &    surface_motion_, vertex_motion_,& ! Getters
-        &    get_displacement, get_velocity
-    PUBLIC :: set_bc, move_boundaries           ! Setter
+    PUBLIC :: move_boundaries           ! Setter
     PUBLIC :: update_boundary                   ! Updater
 
     TYPE bc_poly
@@ -67,6 +64,17 @@ MODULE class_bc
         TYPE(bc_math), POINTER :: math => NULL()
         TYPE(bc_wall), POINTER :: wall => NULL()
     CONTAINS
+        PROCEDURE, PRIVATE :: get_abc_s, get_abc_v
+        GENERIC, PUBLIC :: get_abc => get_abc_s, get_abc_v
+        PROCEDURE, PRIVATE :: set_bc_poly_map_s, set_bc_poly_map_v
+        GENERIC, PUBLIC :: set_bc => set_bc_poly_map_s, set_bc_poly_map_v
+        PROCEDURE, PRIVATE :: get_bc_surface_motion, get_bc_vertex_motion
+        GENERIC, PUBLIC :: surface_motion_ => get_bc_surface_motion
+        GENERIC, PUBLIC :: vertex_motion_ => get_bc_vertex_motion
+        PROCEDURE, PRIVATE :: get_bc_motion_displacement
+        GENERIC, PUBLIC :: get_displacement => get_bc_motion_displacement
+        PROCEDURE, PRIVATE :: get_bc_motion_velocity
+        GENERIC, PUBLIC :: get_velocity => get_bc_motion_velocity
         PROCEDURE, PRIVATE :: nemo_bc_poly_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_bc_poly_sizeof
     END TYPE bc_poly
@@ -100,16 +108,12 @@ MODULE class_bc
         TYPE(bc_poly), ALLOCATABLE  :: bc(:)
     END SUBROUTINE free_bc
 
-  END INTERFACE
-
-
-  INTERFACE get_abc
     !! ----- Getters -----
 
     MODULE SUBROUTINE get_abc_s(bc,dim,id,a,b,c)
         USE class_dimensions
         USE tools_bc
-        TYPE(bc_poly), INTENT(IN) :: bc
+        CLASS(bc_poly), INTENT(IN) :: bc
         TYPE(dimensions), INTENT(IN) :: dim
         INTEGER, INTENT(OUT) :: id
         REAL(psb_dpk_), INTENT(INOUT) :: a(:)
@@ -121,7 +125,7 @@ MODULE class_bc
         USE class_dimensions
         USE class_vector
         USE tools_bc
-        TYPE(bc_poly), INTENT(IN) :: bc
+        CLASS(bc_poly), INTENT(IN) :: bc
         TYPE(dimensions), INTENT(IN) :: dim
         INTEGER, INTENT(OUT) :: id
         REAL(psb_dpk_), INTENT(INOUT) :: a(:)
@@ -129,64 +133,36 @@ MODULE class_bc
         TYPE(vector),     INTENT(INOUT) :: c(:)
     END SUBROUTINE get_abc_v
 
-  END INTERFACE get_abc
-
-
-  INTERFACE surface_motion_
-
-    MODULE PROCEDURE surface_motion_
-
     MODULE FUNCTION get_bc_surface_motion(bc)
         INTEGER :: get_bc_surface_motion
-        TYPE(bc_poly), INTENT(IN) :: bc
+        CLASS(bc_poly), INTENT(IN) :: bc
     END FUNCTION get_bc_surface_motion
 
-
-  END INTERFACE surface_motion_
-
-
-  INTERFACE vertex_motion_
-
-    MODULE PROCEDURE vertex_motion_
-
     MODULE FUNCTION get_bc_vertex_motion(bc)
+        IMPLICIT NONE
+        CLASS(bc_poly), INTENT(IN) :: bc
         INTEGER :: get_bc_vertex_motion
-        TYPE(bc_poly), INTENT(IN) :: bc
     END FUNCTION get_bc_vertex_motion
-
-  END INTERFACE vertex_motion_
-
-
-  INTERFACE get_displacement
 
     MODULE FUNCTION get_bc_motion_displacement(bc,x1,x2)RESULT(res)
         USE class_vector
         TYPE(vector) :: res
-        TYPE(bc_poly), INTENT(IN) :: bc
+        CLASS(bc_poly), INTENT(IN) :: bc
         REAL(psb_dpk_), INTENT(IN) :: x1, x2
     END FUNCTION get_bc_motion_displacement
-
-  END INTERFACE get_displacement
-
-
-  INTERFACE get_velocity
 
     MODULE FUNCTION get_bc_motion_velocity(bc,x)RESULT(res)
         USE class_vector
         TYPE(vector) :: res
-        TYPE(bc_poly), INTENT(IN) :: bc
+        CLASS(bc_poly), INTENT(IN) :: bc
         REAL(psb_dpk_), INTENT(IN) :: x
     END FUNCTION get_bc_motion_velocity
 
-  END INTERFACE get_velocity
-
-
-  INTERFACE set_bc
     !! ----- Setters -----
 
     MODULE SUBROUTINE set_bc_poly_map_s(bc,i,a,b,c)
         USE tools_bc
-        TYPE(bc_poly), INTENT(INOUT) :: bc
+        CLASS(bc_poly), INTENT(INOUT) :: bc
         INTEGER, INTENT(IN) :: i
         REAL(psb_dpk_), INTENT(IN) :: a, b, c
     END SUBROUTINE set_bc_poly_map_s
@@ -194,13 +170,24 @@ MODULE class_bc
     MODULE SUBROUTINE set_bc_poly_map_v(bc,i,a,b,c)
         USE class_vector
         USE tools_bc
-        TYPE(bc_poly), INTENT(INOUT) :: bc
+        CLASS(bc_poly), INTENT(INOUT) :: bc
         INTEGER, INTENT(IN) :: i
         REAL(psb_dpk_), INTENT(IN) :: a, b
         TYPE(vector), INTENT(IN) :: c
     END SUBROUTINE set_bc_poly_map_v
 
-  END INTERFACE set_bc
+    MODULE SUBROUTINE move_boundaries(msh,bc,t1,t2)
+      !! loop over all boundaries, moving the vertices and conceptual surfaces
+      !! from the time interval t1 to t2
+        USE class_mesh
+        USE class_vector
+        TYPE(mesh), INTENT(INOUT) :: msh
+        TYPE(bc_poly), INTENT(IN) :: bc(:)
+        REAL(psb_dpk_)         :: t1
+        REAL(psb_dpk_)         :: t2
+    END SUBROUTINE move_boundaries
+
+  END INTERFACE
 
 
   INTERFACE update_boundary
@@ -236,20 +223,5 @@ MODULE class_bc
     END SUBROUTINE update_boundary_v
 
   END INTERFACE update_boundary
-
-  INTERFACE
-
-    MODULE SUBROUTINE move_boundaries(msh,bc,t1,t2)
-      !! loop over all boundaries, moving the vertices and conceptual surfaces
-      !! from the time interval t1 to t2
-        USE class_mesh
-        USE class_vector
-        TYPE(mesh), INTENT(INOUT) :: msh
-        TYPE(bc_poly), INTENT(IN) :: bc(:)
-        REAL(psb_dpk_)         :: t1
-        REAL(psb_dpk_)         :: t2
-    END SUBROUTINE move_boundaries
-
-  END INTERFACE
 
 END MODULE class_bc

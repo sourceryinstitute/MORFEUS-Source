@@ -408,7 +408,7 @@ CONTAINS
         nel_glob = a2b_loc%nel_glob
         nel_loc = SIZE(a2b_loc%lookup) - 1
 
-        maxconn = max_conn(a2b_loc)            ! Local maximum
+        maxconn = a2b_loc%max_conn()            ! Local maximum
         CALL psb_amx(icontxt,maxconn)          ! Global maximum
 
 
@@ -462,7 +462,7 @@ CONTAINS
                 DO j = 1, n
                     ia2b(j) = itab_glob(i,j)
                 END DO
-                CALL set_ith_conn(a2b_glob,i,ia2b(1:n))
+                CALL a2b_glob%set_ith_conn(i,ia2b(1:n))
             END DO
         END IF
 

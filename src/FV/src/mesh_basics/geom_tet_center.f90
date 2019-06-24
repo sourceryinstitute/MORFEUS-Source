@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -43,14 +43,18 @@
 !    Evaluates the center coordinates for a tetraedron defined by its four vertices
 !    coordinates, by means of exact formulas.
 !
-MODULE PROCEDURE geom_tet_center
-    USE class_psblas
-    USE class_vector
-    USE class_vertex
-
+SUBMODULE(tools_mesh_basics) geom_tet_center_implementation
     IMPLICIT NONE
 
-    ! Computes center of mass
-    geom_tet_center = 0.25d0 * (v1 + v2 + v3 + v4)
+    CONTAINS
 
-END PROCEDURE geom_tet_center
+        MODULE PROCEDURE geom_tet_center
+            USE class_vertex, ONLY : OPERATOR(+), OPERATOR(*)
+            IMPLICIT NONE
+            !! Computes center of mass
+
+            geom_tet_center = 0.25d0 * (v1 + v2 + v3 + v4)
+
+        END PROCEDURE geom_tet_center
+
+END SUBMODULE geom_tet_center_implementation

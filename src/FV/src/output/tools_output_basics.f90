@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -43,58 +43,56 @@
 !    To be added...
 !
 MODULE tools_output_basics
-
+    USE psb_base_mod, ONLY : psb_dspmat_type, psb_desc_type
+    USE class_connectivity
     IMPLICIT NONE
+
+    PRIVATE
+    PUBLIC :: wr_mtx_matrix, wr_mtx_pattern, wr_mtx_vector, itoh, htoi
+    PUBLIC :: vtk_, cgns_
 
     ! ----- Matrix Market Format -----
 
     INTERFACE
-        SUBROUTINE wr_mtx_matrix(A,desc,name)
-            USE psb_base_mod
+
+        MODULE SUBROUTINE wr_mtx_matrix(A,desc,name)
+            IMPLICIT NONE
             TYPE(psb_dspmat_type), INTENT(IN) :: A
             TYPE(psb_desc_type),   INTENT(IN) :: desc
             CHARACTER(len=*),      INTENT(IN) :: name
         END SUBROUTINE wr_mtx_matrix
-    END INTERFACE
 
-    INTERFACE
         MODULE SUBROUTINE wr_mtx_pattern(c2c,name)
-            USE class_connectivity
+            !USE class_connectivity, ONLY : connectivity
             IMPLICIT NONE
             TYPE(connectivity), INTENT(IN) :: c2c
             CHARACTER(len=*),   INTENT(IN) :: name
         END SUBROUTINE wr_mtx_pattern
-    END INTERFACE
 
-    INTERFACE
-        SUBROUTINE wr_mtx_vector(loc_vect,desc,name)
-            USE psb_base_mod
-            REAL(psb_dpk_)                :: loc_vect(:)
+        MODULE SUBROUTINE wr_mtx_vector(loc_vect,desc,name)
+            USE class_psblas, ONLY : psb_dpk_
+            IMPLICIT NONE
+            REAL(psb_dpk_)                 :: loc_vect(:)
             TYPE(psb_desc_type), INTENT(IN) :: desc
             CHARACTER(len=*),    INTENT(IN) :: name
         END SUBROUTINE wr_mtx_vector
-    END INTERFACE
 
     ! ----- String Manipulation ----
 
-    INTERFACE
         MODULE FUNCTION itoh(i,max)
             IMPLICIT NONE
             INTEGER, INTENT(IN) :: i
             INTEGER, INTENT(IN) :: max
             CHARACTER(len=max)  :: itoh
         END FUNCTION itoh
-    END INTERFACE
 
-
-    INTERFACE
         MODULE FUNCTION htoi(h)
             IMPLICIT NONE
             INTEGER :: htoi
             CHARACTER(len=*), INTENT(IN) :: h
         END FUNCTION htoi
-    END INTERFACE
 
+    END INTERFACE
 
     ! ----- Named Constants -----
 

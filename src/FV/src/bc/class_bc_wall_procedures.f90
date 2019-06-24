@@ -46,6 +46,9 @@ SUBMODULE(class_bc_wall) class_bc_wall_procedures
 
     USE class_psblas
     USE class_bc_math
+    USE class_material
+    USE class_vector
+    USE class_face
 
     IMPLICIT NONE
 
@@ -102,11 +105,11 @@ CONTAINS
         !
         INTEGER :: info
 
-        IF(is_allocated(bc%temp)) CALL dealloc_bc_math(bc%temp)
-        IF(ANY(is_allocated(bc%vel)))  THEN
-            CALL dealloc_bc_math(bc%vel(1))
-            CALL dealloc_bc_math(bc%vel(2))
-            CALL dealloc_bc_math(bc%vel(3))
+        IF(bc%temp%is_allocated()) CALL bc%temp%dealloc_bc_math()
+        IF(ANY(bc%vel%is_allocated()))  THEN
+            CALL bc%vel(1)%dealloc_bc_math()
+            CALL bc%vel(2)%dealloc_bc_math()
+            CALL bc%vel(3)%dealloc_bc_math()
         END IF
 
         DEALLOCATE(bc,stat=info)
@@ -143,7 +146,6 @@ CONTAINS
 
     MODULE PROCEDURE get_abc_wall_v
         USE class_dimensions
-        USE class_vector
         IMPLICIT NONE
 
         IF(dim == velocity_) THEN
@@ -166,14 +168,13 @@ CONTAINS
     ! ----- Setter -----
 
     MODULE PROCEDURE set_bc_wall_map_s
-        USE class_vector
         USE tools_bc
         USE class_bc_math
         IMPLICIT NONE
 
         SELECT CASE(bc%id(1))
         CASE(bc_temp_convection_map_)
-            CALL set_bc_math_map(bc%temp,i,a,b,c)
+            CALL bc%temp%set_bc_math_map(i,a,b,c)
         CASE default
             WRITE(*,100)
             CALL abort_psblas
@@ -185,16 +186,15 @@ CONTAINS
 
 
     MODULE PROCEDURE set_bc_wall_map_v
-        USE class_vector
         USE tools_bc
         USE class_bc_math
         IMPLICIT NONE
 
         SELECT CASE(bc%id(2))
         CASE(bc_vel_free_sliding_)
-            CALL set_bc_math_map(bc%vel(1),i,a,b,x_(c))
-            CALL set_bc_math_map(bc%vel(2),i,a,b,y_(c))
-            CALL set_bc_math_map(bc%vel(3),i,a,b,x_(c))
+            CALL bc%vel(1)%set_bc_math_map(i,a,b,c%x_())
+            CALL bc%vel(2)%set_bc_math_map(i,a,b,c%y_())
+            CALL bc%vel(3)%set_bc_math_map(i,a,b,c%x_())
         CASE default
             WRITE(*,100)
             CALL abort_psblas
@@ -208,7 +208,6 @@ CONTAINS
 
     MODULE PROCEDURE update_boundary_wall_s
         USE class_dimensions
-        USE class_face
         USE class_material
         USE class_mesh
         USE tools_bc
@@ -221,9 +220,9 @@ CONTAINS
         ! - Use intent(inout) for BX(:).
 
         ! Number of boundary faces with flag < IB
-        ib_offset = COUNT(flag_(msh%faces) > 0 .AND. flag_(msh%faces) < ib)
+        ib_offset = COUNT(msh%faces%flag_() > 0 .AND. msh%faces%flag_() < ib)
 
-        n = COUNT(flag_(msh%faces) == ib)
+        n = COUNT(msh%faces%flag_() == ib)
 
         ALLOCATE(a(n),b(n),c(n),stat=info)
         IF(info /= 0) THEN
@@ -272,9 +271,7 @@ CONTAINS
 
     MODULE PROCEDURE update_boundary_wall_v
         USE class_dimensions
-        USE class_face
         USE class_mesh
-        USE class_vector
         USE tools_bc
         IMPLICIT NONE
         !
@@ -286,9 +283,9 @@ CONTAINS
         ! - Use intent(inout) for BX(:).
 
         ! Number of boundary faces with flag < IB
-        ib_offset = COUNT(flag_(msh%faces) > 0 .AND. flag_(msh%faces) < ib)
+        ib_offset = COUNT(msh%faces%flag_() > 0 .AND. msh%faces%flag_() < ib)
 
-        n = COUNT(flag_(msh%faces) == ib)
+        n = COUNT(msh%faces%flag_() == ib)
 
         ALLOCATE(a(n),b(n),c(n),stat=info)
         IF(info /= 0) THEN
@@ -457,24 +454,24 @@ SUBROUTINE rd_inp_bc_wall(input_file,sec,nbf,id,bc_temp,bc_conc,bc_vel,bc_stress
     ! TEMPERATURE section
     SELECT CASE(id(bc_temp_))
     CASE(bc_temp_fixed_)      ! Fixed temperature
-        CALL alloc_bc_math(bc_temp,bc_dirichlet_,nbf,&
+        CALL bc_temp%alloc_bc_math(bc_dirichlet_,nbf,&
             & a=(/1.d0/),b=(/0.d0/),c=(/work(1,bc_temp_)/))
 
     CASE(bc_temp_adiabatic_)  ! Adiabatic wall
-        CALL alloc_bc_math(bc_temp,bc_neumann_,nbf,&
+        CALL bc_temp%alloc_bc_math(bc_neumann_,nbf,&
             & a=(/0.d0/),b=(/1.d0/),c=(/0.d0/))
 
     CASE(bc_temp_flux_)       ! Fixed heat flux
-        CALL alloc_bc_math(bc_temp,bc_neumann_flux_,nbf,&
+        CALL bc_temp%alloc_bc_math(bc_neumann_flux_,nbf,&
             & a=(/0.d0/),b=(/1.d0/),c=(/work(1,bc_temp_)/))
 
     CASE(bc_temp_convection_) ! Convection
-        CALL alloc_bc_math(bc_temp,bc_robin_convection_,nbf,&
+        CALL bc_temp%alloc_bc_math(bc_robin_convection_,nbf,&
             & a=(/work(1,bc_temp_)/),b=(/1.d0/),&
             & c=(/work(1,bc_temp_)*work(2,bc_temp_)/))
 
     CASE(bc_temp_convection_map_) ! Convection map
-        CALL alloc_bc_math(bc_temp,bc_robin_map_,nbf,&
+        CALL bc_temp%alloc_bc_math(bc_robin_map_,nbf,&
             & a=(/(0.d0, inp=1,nbf)/),b=(/(1.d0, inp=1,nbf)/),&
             & c=(/(0.d0, inp=1,nbf)/))
 
@@ -485,39 +482,39 @@ SUBROUTINE rd_inp_bc_wall(input_file,sec,nbf,id,bc_temp,bc_conc,bc_vel,bc_stress
     SELECT CASE(id(bc_vel_))
     CASE(bc_vel_no_slip_)
 
-        CALL alloc_bc_math(bc_vel(1),bc_dirichlet_,nbf,&
+        CALL bc_vel(1)%alloc_bc_math(bc_dirichlet_,nbf,&
             & a=(/1.d0/),b=(/0.d0/),c=(/0.d0/))
-        CALL alloc_bc_math(bc_vel(2),bc_dirichlet_,nbf,&
+        CALL bc_vel(2)%alloc_bc_math(bc_dirichlet_,nbf,&
             & a=(/1.d0/),b=(/0.d0/),c=(/0.d0/))
-        CALL alloc_bc_math(bc_vel(3),bc_dirichlet_,nbf,&
+        CALL bc_vel(3)%alloc_bc_math(bc_dirichlet_,nbf,&
             & a=(/1.d0/),b=(/0.d0/),c=(/0.d0/))
 
     CASE(bc_vel_free_slip_)
 
-        CALL alloc_bc_math(bc_vel(1),bc_neumann_,nbf,&
+        CALL bc_vel(1)%alloc_bc_math(bc_neumann_,nbf,&
             & a=(/0.d0/),b=(/1.d0/),c=(/0.d0/))
-        CALL alloc_bc_math(bc_vel(2),bc_neumann_,nbf,&
+        CALL bc_vel(2)%alloc_bc_math(bc_neumann_,nbf,&
             & a=(/0.d0/),b=(/1.d0/),c=(/0.d0/))
-        CALL alloc_bc_math(bc_vel(3),bc_neumann_,nbf,&
+        CALL bc_vel(3)%alloc_bc_math(bc_neumann_,nbf,&
             & a=(/0.d0/),b=(/1.d0/),c=(/0.d0/))
 
     CASE(bc_vel_sliding_)
         WRITE(0,*) 'rd_inp_bc_wall: Debug: setting', work(1:3,bc_vel_)
-        CALL alloc_bc_math(bc_vel(1),bc_dirichlet_,nbf,&
+        CALL bc_vel(1)%alloc_bc_math(bc_dirichlet_,nbf,&
             & a=(/1.d0/),b=(/0.d0/),c=(/work(1,bc_vel_)/))
-        CALL alloc_bc_math(bc_vel(2),bc_dirichlet_,nbf,&
+        CALL bc_vel(2)%alloc_bc_math(bc_dirichlet_,nbf,&
             & a=(/1.d0/),b=(/0.d0/),c=(/work(2,bc_vel_)/))
-        CALL alloc_bc_math(bc_vel(3),bc_dirichlet_,nbf,&
+        CALL bc_vel(3)%alloc_bc_math(bc_dirichlet_,nbf,&
             & a=(/1.d0/),b=(/0.d0/),c=(/work(3,bc_vel_)/))
         WRITE(0,*) 'rd_inp_bc_wall: Debug: set'
 
     CASE(bc_vel_free_sliding_)
 
-        CALL alloc_bc_math(bc_vel(1),bc_dirichlet_map_,nbf,&
+        CALL bc_vel(1)%alloc_bc_math(bc_dirichlet_map_,nbf,&
             & a=(/1.d0/),b=(/0.d0/),c=(/(0.d0, inp=1,nbf)/))
-        CALL alloc_bc_math(bc_vel(2),bc_dirichlet_map_,nbf,&
+        CALL bc_vel(2)%alloc_bc_math(bc_dirichlet_map_,nbf,&
             & a=(/1.d0/),b=(/0.d0/),c=(/(0.d0, inp=1,nbf)/))
-        CALL alloc_bc_math(bc_vel(3),bc_dirichlet_map_,nbf,&
+        CALL bc_vel(3)%alloc_bc_math(bc_dirichlet_map_,nbf,&
             & a=(/1.d0/),b=(/0.d0/),c=(/(0.d0, inp=1,nbf)/))
     CASE(-1)
     CASE default
@@ -528,19 +525,19 @@ SUBROUTINE rd_inp_bc_wall(input_file,sec,nbf,id,bc_temp,bc_conc,bc_vel,bc_stress
     ! Stress section
     SELECT CASE(id(bc_stress_))
     CASE(bc_stress_free_)
-        CALL alloc_bc_math(bc_stress(1),bc_neumann_,nbf,&
+        CALL bc_stress(1)%alloc_bc_math(bc_neumann_,nbf,&
             & a=(/0.d0/),b=(/1.d0/),c=(/0.d0/))
-        CALL alloc_bc_math(bc_stress(2),bc_neumann_,nbf,&
+        CALL bc_stress(2)%alloc_bc_math(bc_neumann_,nbf,&
             & a=(/0.d0/),b=(/1.d0/),c=(/0.d0/))
-        CALL alloc_bc_math(bc_stress(3),bc_neumann_,nbf,&
+        CALL bc_stress(3)%alloc_bc_math(bc_neumann_,nbf,&
             & a=(/0.d0/),b=(/1.d0/),c=(/0.d0/))
 
     CASE(bc_stress_prescribed_)
-        CALL alloc_bc_math(bc_stress(1),bc_dirichlet_,nbf,&
+        CALL bc_stress(1)%alloc_bc_math(bc_dirichlet_,nbf,&
             & a=(/1.d0/),b=(/0.d0/),c=(/work(1,bc_stress_)/))
-        CALL alloc_bc_math(bc_stress(2),bc_dirichlet_,nbf,&
+        CALL bc_stress(2)%alloc_bc_math(bc_dirichlet_,nbf,&
             & a=(/1.d0/),b=(/0.d0/),c=(/work(2,bc_stress_)/))
-        CALL alloc_bc_math(bc_stress(3),bc_dirichlet_,nbf,&
+        CALL bc_stress(3)%alloc_bc_math(bc_dirichlet_,nbf,&
             & a=(/1.d0/),b=(/0.d0/),c=(/work(3,bc_stress_)/))
 
     CASE default
@@ -560,14 +557,14 @@ SUBROUTINE rd_inp_bc_wall(input_file,sec,nbf,id,bc_temp,bc_conc,bc_vel,bc_stress
 
         WRITE(*,600) ' * TEMPERATURE Section *'
         WRITE(*,700) '  BC%id(bc_temp_) = ', id(bc_temp_)
-        IF (id(bc_temp_) > 0) CALL debug_bc_math(bc_temp)
+        IF (id(bc_temp_) > 0) CALL bc_temp%debug_bc_math()
 
         WRITE(*,600) ' * VELOCITY Section *'
         WRITE(*,700) '  BC%id(bc_vel_) = ', id(bc_vel_)
         IF (id(bc_vel_) > 0) THEN
-            CALL debug_bc_math(bc_vel(1))
-            CALL debug_bc_math(bc_vel(2))
-            CALL debug_bc_math(bc_vel(3))
+            CALL bc_vel(1)%debug_bc_math()
+            CALL bc_vel(2)%debug_bc_math()
+            CALL bc_vel(3)%debug_bc_math()
             WRITE(*,*)
         END IF
     END IF

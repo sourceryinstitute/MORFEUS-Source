@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -42,63 +42,65 @@
 ! Description:
 !    Writes a global dense vector in Matrix Market format
 !
-SUBROUTINE wr_mtx_vector(loc_vect,desc,name)
-    USE class_psblas
-
+SUBMODULE (tools_output_basics) wr_mtx_vector_implementation
     IMPLICIT NONE
-    !
-    REAL(psb_dpk_),    INTENT(IN) :: loc_vect(:)
-    TYPE(psb_desc_type), INTENT(IN) :: desc
-    CHARACTER(len=*),    INTENT(IN) :: name
-    !
-    INTEGER, PARAMETER :: vector = 10
-    !
-    INTEGER :: err_act, info
-    INTEGER :: i, ncells_glob
-    REAL(psb_dpk_), ALLOCATABLE :: glob_vect(:)
 
-    CALL tic(sw_out)
+    CONTAINS
 
-    ! Sets error handling for PSBLAS-2 routines
-    info = 0
-    CALL psb_erractionsave(err_act)
+        MODULE PROCEDURE wr_mtx_vector
+            USE class_psblas
+            IMPLICIT NONE
+            !
+            INTEGER, PARAMETER :: vector = 10
+            !
+            INTEGER :: err_act, info
+            INTEGER :: i, ncells_glob
+            REAL(psb_dpk_), ALLOCATABLE :: glob_vect(:)
 
-    IF(mypnum_() == 0) THEN
-        WRITE(*,*) 'Dumping dense  vector on file: ', TRIM(name)
-        OPEN(unit=vector,file=name)
-    END IF
+            CALL sw_out%tic()
 
-    ncells_glob = psb_cd_get_global_cols(desc)
+            ! Sets error handling for PSBLAS-2 routines
+            info = 0
+            CALL psb_erractionsave(err_act)
 
-    ALLOCATE(glob_vect(ncells_glob),stat=info)
-    IF(info /= 0) THEN
-        WRITE(*,100)
-        CALL abort_psblas
-    END IF
+            IF(mypnum_() == 0) THEN
+                WRITE(*,*) 'Dumping dense  vector on file: ', TRIM(name)
+                OPEN(unit=vector,file=name)
+            END IF
 
-    CALL psb_gather(glob_vect,loc_vect,desc,info,root=0)
-    CALL psb_check_error(info,'wr_mtx_vector','psb_gather',icontxt_())
+            ncells_glob = psb_cd_get_global_cols(desc)
+
+            ALLOCATE(glob_vect(ncells_glob),stat=info)
+            IF(info /= 0) THEN
+                WRITE(*,100)
+                CALL abort_psblas
+            END IF
+
+            CALL psb_gather(glob_vect,loc_vect,desc,info,root=0)
+            CALL psb_check_error(info,'wr_mtx_vector','psb_gather',icontxt_())
 
 
-    IF(mypnum_() == 0) THEN
-        ! Writes GLOB_VECT
-        WRITE(vector,*) ncells_glob, 1, ncells_glob
-        DO i = 1, ncells_glob
-            WRITE(vector,*) i, 1, glob_vect(i)
-        END DO
+            IF(mypnum_() == 0) THEN
+                ! Writes GLOB_VECT
+                WRITE(vector,*) ncells_glob, 1, ncells_glob
+                DO i = 1, ncells_glob
+                    WRITE(vector,*) i, 1, glob_vect(i)
+                END DO
 
-        ! Closes file on P0
-        CLOSE(vector)
-    END IF
+                ! Closes file on P0
+                CLOSE(vector)
+            END IF
 
-    ! Cleanups storage
-    DEALLOCATE(glob_vect)
+            ! Cleanups storage
+            DEALLOCATE(glob_vect)
 
-    ! Normal termination
-    CALL psb_erractionrestore(err_act)
+            ! Normal termination
+            CALL psb_erractionrestore(err_act)
 
-    CALL toc(sw_out)
+            CALL sw_out%toc()
 
-100 FORMAT(' ERROR! Memory allocation failure in WR_MTX_VECTOR')
+100         FORMAT(' ERROR! Memory allocation failure in WR_MTX_VECTOR')
 
-END SUBROUTINE wr_mtx_vector
+      END PROCEDURE wr_mtx_vector
+
+END SUBMODULE wr_mtx_vector_implementation

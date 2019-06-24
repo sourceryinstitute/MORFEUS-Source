@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -49,17 +49,23 @@
 !    geom_tet    calculates volume and center of mass of tetrahedra
 
 MODULE tools_mesh_basics
+    USE class_connectivity, ONLY : connectivity
 
     IMPLICIT NONE
 
+    PRIVATE
+    PUBLIC :: geom_tet_center, geom_tet_volume, geom_tet_quality, geom_tet_dihedral_angle
+    PUBLIC :: geom_hex_quality, geom_hex_dihedral_angle
+    PUBLIC :: geom_cell, geom_diff, geom_face
     ! ----- Geometry -----
 
     INTERFACE
+
         MODULE SUBROUTINE geom_face(verts,v2f,ncd, &
             & face_cntr,af,area)
-            USE class_connectivity
-            USE class_vector
-            USE class_vertex
+            !USE class_connectivity, ONLY : connectivity
+            USE class_vector, ONLY : vector
+            USE class_vertex, ONLY : vertex
             USE class_psblas, ONLY : psb_dpk_
             IMPLICIT NONE
             TYPE(vertex),       INTENT(IN), ALLOCATABLE  :: verts(:)
@@ -69,16 +75,15 @@ MODULE tools_mesh_basics
             TYPE(vector),       INTENT(OUT), ALLOCATABLE :: af(:)
             REAL(psb_dpk_),   INTENT(OUT), ALLOCATABLE :: area(:)
         END SUBROUTINE geom_face
-    END INTERFACE
 
-    INTERFACE
         MODULE SUBROUTINE geom_cell(verts,faces,cells,v2f,v2c,f2c,ncd, &
             & cell_cntr,vol,quiet)
-            USE class_cell
-            USE class_connectivity
-            USE class_face
-            USE class_vector
-            USE class_vertex
+            USE class_cell, ONLY : cell
+            !USE class_connectivity, ONLY : connectivity
+            USE class_face,   ONLY : face
+            USE class_vector, ONLY : vector
+            USE class_psblas, ONLY : psb_dpk_
+            USE class_vertex, ONLY : vertex
             USE class_psblas, ONLY : psb_dpk_
             IMPLICIT NONE
             TYPE(vertex),       INTENT(IN), ALLOCATABLE :: verts(:)
@@ -91,14 +96,12 @@ MODULE tools_mesh_basics
             LOGICAL,            INTENT(IN),  OPTIONAL    :: quiet
 
         END SUBROUTINE geom_cell
-    END INTERFACE
 
-    INTERFACE
         MODULE SUBROUTINE geom_diff(faces,f2b,face_cntr,af,cell_cntr, &
             & df,dist,int_fact)
-            USE class_connectivity
-            USE class_face
-            USE class_vector
+            !USE class_connectivity, ONLY : connectivity
+            USE class_face,   ONLY : face
+            USE class_vector, ONLY : vector
             USE class_psblas, ONLY : psb_dpk_
             IMPLICIT NONE
             TYPE(face),         INTENT(IN), ALLOCATABLE  :: faces(:)
@@ -110,71 +113,59 @@ MODULE tools_mesh_basics
             REAL(psb_dpk_),   INTENT(OUT), ALLOCATABLE :: dist(:)
             REAL(psb_dpk_),   INTENT(OUT), ALLOCATABLE :: int_fact(:)
         END SUBROUTINE geom_diff
-    END INTERFACE
 
-    INTERFACE
         MODULE FUNCTION geom_tet_center(v1,v2,v3,v4)
-            USE class_vector
-            USE class_vertex
+            USE class_vector, ONLY : vector
+            USE class_vertex, ONLY : vertex
             IMPLICIT NONE
             TYPE(vector) :: geom_tet_center
             TYPE(vertex), INTENT(IN) :: v1, v2, v3, v4
         END FUNCTION geom_tet_center
-    END INTERFACE
 
-    INTERFACE
         MODULE SUBROUTINE geom_tet_dihedral_angle(af,largest,smallest)
-            USE class_vector
+            USE class_vector, ONLY : vector
             USE class_psblas, ONLY : psb_dpk_
             IMPLICIT NONE
             TYPE(vector), INTENT(IN) :: af(4)
             REAL(psb_dpk_), INTENT(OUT) :: largest, smallest
         END SUBROUTINE geom_tet_dihedral_angle
-    END INTERFACE
 
-    INTERFACE
         MODULE SUBROUTINE geom_hex_dihedral_angle(af,adjacent,largest,smallest)
-            USE class_vector
+            USE class_vector, ONLY : vector
             USE class_psblas, ONLY : psb_dpk_
             IMPLICIT NONE
             TYPE(vector), INTENT(IN) :: af(6)
             INTEGER, INTENT(IN)      :: adjacent(12,2)
             REAL(psb_dpk_), INTENT(OUT) :: largest, smallest
         END SUBROUTINE  geom_hex_dihedral_angle
-    END INTERFACE
 
-    INTERFACE
         MODULE FUNCTION geom_tet_quality(v1,v2,v3,v4,vol)
-            USE class_vertex
+            USE class_vertex, ONLY : vertex
             USE class_psblas, ONLY : psb_dpk_
             IMPLICIT NONE
             REAL(psb_dpk_) :: geom_tet_quality
             TYPE(vertex), INTENT(IN) :: v1, v2, v3, v4
             REAL(psb_dpk_), INTENT(IN) :: vol
         END FUNCTION geom_tet_quality
-    END INTERFACE
 
-    INTERFACE
         MODULE FUNCTION geom_hex_quality(verts, vol)
-            USE class_vertex
+            USE class_vertex, ONLY : vertex
             USE class_psblas, ONLY : psb_dpk_
             IMPLICIT NONE
             REAL(psb_dpk_) :: geom_hex_quality
             TYPE(vertex), INTENT(IN) :: verts(8)
             REAL(psb_dpk_), INTENT(IN) :: vol
         END FUNCTION geom_hex_quality
-    END INTERFACE
 
-    INTERFACE
         MODULE FUNCTION geom_tet_volume(v1,v2,v3,v4)
-            USE class_vertex
+            USE class_vertex, ONLY : vertex
             USE class_psblas, ONLY : psb_dpk_
             IMPLICIT NONE
             REAL(psb_dpk_) :: geom_tet_volume
             TYPE(vertex), INTENT(IN) :: v1, v2, v3, v4
         END FUNCTION geom_tet_volume
-    END INTERFACE
 
+    END INTERFACE
 
     ! ----- Named Constants -----
 

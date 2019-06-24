@@ -40,6 +40,7 @@ SUBMODULE(class_motion) class_motion_procedures
 
     USE class_vector
     USE class_psblas
+    USE class_surface
 
     IMPLICIT NONE
 
@@ -181,9 +182,8 @@ CONTAINS
     MODULE PROCEDURE move_boundary
 
         USE class_psblas
-        USE class_connectivity
+        USE class_connectivity, ONLY : connectivity
         USE class_mesh
-        USE class_surface
         USE class_vertex
         USE tools_mesh_move, ONLY: stationary_, moving_, sticky_, sliding_
 
@@ -195,22 +195,25 @@ CONTAINS
         TYPE(vector)  :: location
         TYPE(vector)             :: normal
         INTEGER                  :: i,iv,nverts
+        TYPE(connectivity) :: conn_temp
 
         IF ( this_motion%surface_motion == stationary_ ) RETURN ! nothing to do !
 
         ! trap error:  we can't move unknown surface types with the sliding flag,
         ! since the normal is ill-defined
 
-        IF (  ( type_(msh%surf(ib)) == iunknown_ ) .AND. &
+        IF (  ( msh%surf(ib)%type_() == iunknown_ ) .AND. &
             &( this_motion%vertex_motion == sliding_ ) ) THEN
             WRITE(6,100)
             CALL abort_psblas
         ENDIF
 
-        CALL translate_surface(msh%surf(ib),displacement)
+        CALL msh%surf(ib)%translate_surface(displacement)
 
         ! Get list of vertices
-        CALL get_ith_conn(iv2b,msh%v2b,ib)
+        !CALL msh%v2b%get_ith_conn(iv2b,ib)
+        conn_temp=msh%v2b
+        CALL conn_temp%get_ith_conn(iv2b,ib)
 
         nverts = SIZE(iv2b)
 
@@ -221,12 +224,12 @@ CONTAINS
             ! get vertices on this boundary
             bndry_vert = msh%verts(iv)
 
-            location  = position_(bndry_vert)
+            location  = bndry_vert%position_()
 
             IF ( this_motion%vertex_motion == sliding_ ) THEN
 
                 ! have to put this in loop, since normal may vary
-                normal = normal_( msh%surf(ib),location )
+                normal = msh%surf(ib)%normal_(location )
                 vert_displ = (displacement .dot. normal) * normal
 
                 ! sliding verts move with only the normal displacement
@@ -243,8 +246,8 @@ CONTAINS
             ! motion where a curved surface moves in a general direction
             ! if the motion is not orthogonal to the surface normal, the points
             ! move off the surface
-            IF ( type_(msh%surf(ib)) /= iunknown_ ) &
-                &call reform_vertex(msh%surf(ib), bndry_vert)
+            IF ( msh%surf(ib)%type_() /= iunknown_ ) &
+                &call msh%surf(ib)%reform_vertex(bndry_vert)
 
             ! save vertex location in the mesh
             msh%verts(iv) = bndry_vert

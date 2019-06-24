@@ -67,7 +67,7 @@ CONTAINS
         CALL psb_erractionsave(err_act)
 
         ! Create PDE%BASE member
-        CALL create_pde(pde%base,input_file,sec,msh,dim)
+        CALL pde%base%create_pde(input_file,sec,msh,dim)
 
         ! Allocates RHS member
         CALL psb_geall(pde%b,msh%desc_c,info)
@@ -103,7 +103,7 @@ CONTAINS
         NULLIFY(msh)
 
         ! Frees storage of BASE member
-        CALL free_pde(pde%base)
+        CALL pde%base%free_pde()
 
         ! ----- Normal Termination -----
         CALL psb_erractionrestore(err_act)
@@ -115,7 +115,7 @@ CONTAINS
 
     MODULE PROCEDURE get_scalar_pde_name
 
-        get_scalar_pde_name = name_(pde%base)
+        get_scalar_pde_name = pde%base%name_()
 
     END PROCEDURE get_scalar_pde_name
 
@@ -123,7 +123,7 @@ CONTAINS
     MODULE PROCEDURE get_scalar_pde_dim
         USE class_dimensions
 
-        get_scalar_pde_dim = dim_(pde%base)
+        get_scalar_pde_dim = pde%base%dim_()
 
     END PROCEDURE get_scalar_pde_dim
 
@@ -131,7 +131,7 @@ CONTAINS
     MODULE PROCEDURE get_scalar_pde_msh_fun
         USE class_mesh
 
-        get_scalar_pde_msh_fun => msh_(pde%base)
+        get_scalar_pde_msh_fun => pde%base%msh_()
 
     END PROCEDURE get_scalar_pde_msh_fun
 
@@ -161,7 +161,7 @@ CONTAINS
         INTEGER :: info, err_act
         TYPE(mesh), POINTER :: msh => NULL()
 
-        CALL tic(sw_ins)
+        CALL sw_ins%tic()
 
         ! Sets error handling for PSBLAS-2 routines
         CALL psb_erractionsave(err_act)
@@ -177,7 +177,7 @@ CONTAINS
         ! ----- Normal Termination -----
         CALL psb_erractionrestore(err_act)
 
-        CALL toc(sw_ins)
+        CALL sw_ins%toc()
 
     END PROCEDURE geins_scalar_pde
 
@@ -193,7 +193,7 @@ CONTAINS
         ! Assemblies sparse matrix in PDE%BASE member
         CALL pde%base%asb_pde()
 
-        CALL tic(sw_asb)
+        CALL sw_asb%tic()
 
         CALL pde%base%get_mesh(msh)
 
@@ -202,7 +202,7 @@ CONTAINS
         CALL psb_geasb(pde%b,msh%desc_c,info)
         CALL psb_check_error(info,'abs_scalar_pde','psb_geasb',icontxt_())
 
-        CALL toc(sw_asb)
+        CALL sw_asb%toc()
 
         NULLIFY(msh)
 
@@ -230,16 +230,16 @@ CONTAINS
         CALL pde%asb_pde()
 
         ! Build preconditioner in PDE%BASE member
-        CALL build_pde_prec(pde%base)
+        CALL pde%base%build_pde_prec()
 
         ! Is PHI cell-centered?
-        IF(on_faces_(phi)) THEN
+        IF(phi%on_faces_()) THEN
             WRITE(*,100)
             CALL abort_psblas
         END IF
 
         CALL pde%get_mesh(msh)
-        CALL get_x(phi,x)
+        CALL phi%get_x(x)
 
         IF (PRESENT(var)) THEN
             ! Allocates X_OLD
@@ -254,16 +254,16 @@ CONTAINS
         END IF
 
         ! Solves linear system associated to PDE%BASE
-        CALL solve_pde_sys(pde%base,pde%b,x,iter,err)
+        CALL pde%base%solve_pde_sys(pde%b,x,iter,err)
 
         ! Assigns solution to scalar field
         phi = x
 
         ! Free preconditioner storage in base member
-        CALL free_pde_prec(pde%base)
+        CALL pde%base%free_pde_prec()
 
         ! Updates phi
-        CALL update_field(phi, mats)
+        CALL phi%update_field(mats)
 
         IF(PRESENT(var)) THEN
             ! Computes the norm of the relative variation
@@ -294,10 +294,10 @@ CONTAINS
     MODULE PROCEDURE reinit_scalar_pde
 
 !!$    write(0,*) 'Scalar_pde_reinit :',is_pde_asb(pde%base)
-        IF(is_pde_asb(pde%base)) THEN
+        IF(pde%base%is_pde_asb()) THEN
             pde%b = 0.d0
         END IF
-        CALL reinit_pde(pde%base)
+        CALL pde%base%reinit_pde()
 
     END PROCEDURE reinit_scalar_pde
 
@@ -311,7 +311,7 @@ CONTAINS
         LOGICAL :: mtx_rhs
         TYPE(mesh), POINTER :: msh => NULL()
 
-        CALL write_pde(pde%base,mat,mtx_rhs)
+        CALL pde%base%write_pde(mat,mtx_rhs)
 
         IF(.NOT.mtx_rhs) RETURN
 

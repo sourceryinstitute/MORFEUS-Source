@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !    NEMO - Numerical Engine (for) Multiphysics Operators
@@ -43,36 +43,41 @@
 !    Note that dihedral angle is equal to the angle between normal vectors.
 !    WARNING! Only tets are currently supported.
 !
-MODULE PROCEDURE geom_tet_dihedral_angle
-
-    USE class_psblas
-    USE class_vector
-    USE tools_math
-
+SUBMODULE(tools_mesh_basics) geom_tet_dihedral_angle_implementation
+    USE class_vector, ONLY : vector, OPERATOR(.dot.)
     IMPLICIT NONE
-    !
-    INTEGER :: if1, if2
-    REAL(psb_dpk_) :: arg   ! argument of the acos function
-    REAL(psb_dpk_) :: angle ! between two faces
-    TYPE(vector)     :: unitnorm(4)
 
-    unitnorm(:) = unit(af(:))
+    CONTAINS
 
-    largest  =0.d0 ! Initialize to smallest possible value
-    smallest = pi  ! Initialize to largest possible value
+        MODULE PROCEDURE geom_tet_dihedral_angle
+            USE class_psblas, ONLY : psb_dpk_
+            USE tools_math,   ONLY : Pi
+            IMPLICIT NONE
+            !!
+            INTEGER :: if1, if2
+            REAL(psb_dpk_) :: arg   !! argument of the acos function
+            REAL(psb_dpk_) :: angle !! between two faces
+            TYPE(vector)   :: unitnorm(4)
 
-    DO if2 = 1, 3
-        DO if1 = if2 + 1, 4
-            ! cosine = dot product of two vectors/divided by the product of their magnitude
+            unitnorm(:) = af(:)%unit()
 
-            ! area contains the normal scaled so the mag. = the face area
-            arg = (unitnorm(if1) .dot. unitnorm(if2))
+            largest  = 0.d0 !! Initialize to smallest possible value
+            smallest = pi   !! Initialize to largest possible value
 
-            angle = ACOS(arg)
+            DO if2 = 1, 3
+                DO if1 = if2 + 1, 4
+                    ! cosine = dot product of two vectors/divided by the product of their magnitude
 
-            largest  = MAX(largest,angle)
-            smallest = MIN(smallest,angle)
-        ENDDO
-    ENDDO
+                    ! area contains the normal scaled so the mag. = the face area
+                    arg = (unitnorm(if1) .dot. unitnorm(if2))
 
-END PROCEDURE geom_tet_dihedral_angle
+                    angle = ACOS(arg)
+
+                    largest  = MAX(largest,angle)
+                    smallest = MIN(smallest,angle)
+                ENDDO
+            ENDDO
+
+        END PROCEDURE geom_tet_dihedral_angle
+
+END SUBMODULE geom_tet_dihedral_angle_implementation

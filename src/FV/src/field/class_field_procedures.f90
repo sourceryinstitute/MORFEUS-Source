@@ -43,8 +43,8 @@ SUBMODULE(class_field) class_field_procedures
 CONTAINS
 
     MODULE PROCEDURE nemo_field_sizeof
-        ! use psb_base_mod
-        USE class_psblas
+        USE class_psblas, ONLY : nemo_sizeof_int
+        IMPLICIT NONE
 
         !
         ! msh, bc and mat are independent objects.
@@ -56,7 +56,8 @@ CONTAINS
     ! ----- Constructor -----
 
     MODULE PROCEDURE create_field
-        USE tools_material
+        USE class_dimensions, ONLY : null_dim_
+        IMPLICIT NONE
 
         ! Assigns mandatory arguments
         fld%msh => msh
@@ -87,7 +88,7 @@ CONTAINS
         END IF
 
         ! Field name
-        fld%name = quantity(fld%dim)
+        fld%name = fld%dim%quantity()
 
     END PROCEDURE create_field
 
@@ -95,6 +96,8 @@ CONTAINS
     ! ----- Destructor -----
 
     MODULE PROCEDURE free_field
+        IMPLICIT NONE
+
         NULLIFY(fld%msh)
         NULLIFY(fld%bc)
         NULLIFY(fld%mats)
@@ -104,6 +107,7 @@ CONTAINS
     ! ----- Getters -----
 
     MODULE PROCEDURE get_field_name
+        IMPLICIT NONE
 
         get_field_name = fld%name
 
@@ -111,6 +115,7 @@ CONTAINS
 
 
     MODULE PROCEDURE get_field_dim
+        IMPLICIT NONE
 
         get_field_dim = fld%dim
 
@@ -118,12 +123,14 @@ CONTAINS
 
 
     MODULE PROCEDURE get_field_msh_sub
+        IMPLICIT NONE
 
         msh => fld%msh
 
     END PROCEDURE get_field_msh_sub
-     
+
     MODULE PROCEDURE get_field_msh_fun
+        IMPLICIT NONE
 
         get_field_msh_fun => fld%msh
 
@@ -131,6 +138,7 @@ CONTAINS
 
 
     MODULE PROCEDURE get_field_on_faces
+        IMPLICIT NONE
 
         get_field_on_faces = fld%on_faces
 
@@ -138,6 +146,7 @@ CONTAINS
 
 
     MODULE PROCEDURE get_field_bc
+        IMPLICIT NONE
 
         get_field_bc => fld%bc
 
@@ -145,6 +154,7 @@ CONTAINS
 
 
     MODULE PROCEDURE get_field_mat_sub
+        IMPLICIT NONE
 
         IF (PRESENT(i) .AND. i < SIZE(fld%mats)) THEN
             mat => fld%mats(i)%mat
@@ -155,6 +165,7 @@ CONTAINS
     END PROCEDURE get_field_mat_sub
     !
     MODULE PROCEDURE get_field_mat_fun
+        IMPLICIT NONE
 
         IF (PRESENT(i) .AND. i < SIZE(fld%mats)) THEN
             get_field_mat_fun => fld%mats(i)%mat
@@ -166,31 +177,33 @@ CONTAINS
 
 
     MODULE PROCEDURE get_field_size
-        USE class_face
+        IMPLICIT NONE
 
         ! Number of internal elements
         IF(fld%on_faces) THEN
             ! Face-centered
-            isize(fld_internal_) = COUNT(flag_(fld%msh%faces) <= 0)
+            isize(fld_internal_) = COUNT(fld%msh%faces%flag_() <= 0)
         ELSE
             ! Cell-centered
             isize(fld_internal_) = SIZE(fld%msh%cells)
         END IF
 
         ! Number of boundary faces
-        isize(fld_boundary_) = COUNT(flag_(fld%msh%faces) > 0)
+        isize(fld_boundary_) = COUNT(fld%msh%faces%flag_() > 0)
 
     END PROCEDURE get_field_size
 
     ! ----- Setter -----
 
     MODULE PROCEDURE set_field_dim
+        IMPLICIT NONE
 
         fld%dim = dim
 
     END PROCEDURE set_field_dim
 
     MODULE PROCEDURE set_field_on_faces
+        IMPLICIT NONE
 
         fld%on_faces = on_faces
 
@@ -201,6 +214,7 @@ CONTAINS
 
     MODULE PROCEDURE check_mesh_consistency_bf
         USE class_mesh, ONLY : check_mesh_consistency
+        IMPLICIT NONE
 
         CALL check_mesh_consistency(f1%msh,f2%msh,WHERE)
 
@@ -209,8 +223,10 @@ CONTAINS
 
 
     MODULE PROCEDURE check_field_operands
-        USE class_mesh, ONLY : check_mesh_consistency
-        INTEGER :: i
+        USE class_mesh,     ONLY : check_mesh_consistency
+        USE class_material, ONLY : check_material_consistency
+        USE class_psblas,   ONLY : abort_psblas
+        IMPLICIT NONE
 
         CALL check_mesh_consistency(f1%msh,f2%msh,'CHECk_FIELD_OPERANDS')
 
@@ -221,8 +237,8 @@ CONTAINS
 
         CALL check_material_consistency(f1%mats,f2%mats,'CHECK_FIELD_OPERANDS')
 
-        IF(on_faces_(f1) .AND. .NOT.(on_faces_(f2)) &
-            & .OR. (on_faces_(f2) .AND. .NOT.(on_faces_(f1)))) THEN
+        IF(f1%on_faces_() .AND. .NOT.(f2%on_faces_()) &
+            & .OR. (f2%on_faces_() .AND. .NOT.(f1%on_faces_()))) THEN
             WRITE(*,100) TRIM(WHERE)
             CALL abort_psblas
         END IF

@@ -309,21 +309,21 @@ CONTAINS
 
     MODULE PROCEDURE get_vertex_x
 
-        get_vertex_x = x_(vert%position)
+        get_vertex_x = vert%position%x_()
 
     END PROCEDURE get_vertex_x
 
 
     MODULE PROCEDURE get_vertex_y
 
-        get_vertex_y = y_(vert%position)
+        get_vertex_y = vert%position%y_()
 
     END PROCEDURE get_vertex_y
 
 
     MODULE PROCEDURE get_vertex_z
 
-        get_vertex_z = z_(vert%position)
+        get_vertex_z = vert%position%z_()
 
     END PROCEDURE get_vertex_z
 
@@ -383,7 +383,7 @@ CONTAINS
 
     MODULE PROCEDURE vert_mag
 
-        vert_mag = mag(v%position)
+        vert_mag = v%position%mag()
 
     END PROCEDURE vert_mag
 

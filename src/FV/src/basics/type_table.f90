@@ -46,18 +46,18 @@
 !
 MODULE type_table
 
-    USE class_psblas
+    USE class_psblas, ONLY : nemo_int_long_
 
     IMPLICIT NONE
 
     PRIVATE ! Default
     PUBLIC :: table
-    PUBLIC :: alloc_table, free_table, get_dual_table
 
     TYPE table
         INTEGER, ALLOCATABLE :: lookup(:)
         INTEGER, ALLOCATABLE :: tab(:)
     CONTAINS
+        PROCEDURE:: alloc_table, free_table, get_dual_table
         PROCEDURE, PRIVATE :: nemo_table_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_table_sizeof
     END TYPE table
@@ -74,22 +74,18 @@ MODULE type_table
 
         MODULE SUBROUTINE alloc_table(a2b, nel, ntab)
             IMPLICIT NONE
-            TYPE(table), INTENT(INOUT) :: a2b
+            CLASS(table), INTENT(INOUT) :: a2b
             INTEGER, INTENT(IN), OPTIONAL :: nel, ntab
         END SUBROUTINE alloc_table
-    END INTERFACE
 
     ! ----- Destructor -----
 
-    INTERFACE
         MODULE SUBROUTINE free_table(a2b)
             IMPLICIT NONE
-            TYPE(table), INTENT(INOUT) :: a2b
+            CLASS(table), INTENT(INOUT) :: a2b
         END SUBROUTINE free_table
-    END INTERFACE
 
     ! ----- Other -----
-    INTERFACE
         MODULE SUBROUTINE get_dual_table(a2b,b2a)
         ! The B2A dual TABLE can be thought as a set of stacks which are
         ! eventually sticked together sequentially.
@@ -103,7 +99,7 @@ MODULE type_table
         ! vocabulary of the programming science, i.e. as a special container
         ! implemented with pointers etc.
             IMPLICIT NONE
-            TYPE(table), INTENT(IN) :: a2b
+            CLASS(table), INTENT(IN) :: a2b
             TYPE(table), INTENT(OUT) :: b2a
         END SUBROUTINE get_dual_table
     END INTERFACE

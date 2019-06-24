@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !    NEMO - Numerical Engine (for) Multiphysics Operators
@@ -55,7 +55,7 @@ SUBMODULE (tools_mesh_optimize) smooth_interior_vtx_implementation
         USE class_vertex
         USE tools_mesh_basics
         USE tools_mesh_check
-        USE tools_mesh_optimize, ONLY: call_smooth,optimize_vertex_rand,right_handed
+        USE tools_mesh_optimize, ONLY: call_smooth, right_handed !, optimize_vertex_rand
         IMPLICIT NONE
 
         ! Local Variables
@@ -83,13 +83,13 @@ SUBMODULE (tools_mesh_optimize) smooth_interior_vtx_implementation
 
             ! simply average with neighbor vertex positions
 
-            CALL get_ith_conn(iv2v, msh%v2v,iv) ! get neighbors
+            CALL msh%v2v%get_ith_conn(iv2v,iv) ! get neighbors
 
             new_pos = vector_(0.0d0,0.0d0,0.0d0)
 
             DO j = 1,SIZE(iv2v)
                 jv = iv2v(j)
-                new_pos = new_pos + position_(msh%verts(jv))
+                new_pos = new_pos + msh%verts(jv)%position_()
             ENDDO
 
             msh%verts(iv) = (1.0d0/SIZE(iv2v)) * new_pos
@@ -110,7 +110,7 @@ SUBMODULE (tools_mesh_optimize) smooth_interior_vtx_implementation
         END IF
 
         ! prepare info for calling OptMS
-        CALL get_ith_conn(iv2v,msh%v2v,iv)  !list of verts connected to ith vert
+        CALL msh%v2v%get_ith_conn(iv2v,iv)  !list of verts connected to ith vert
 
         num_incident_vtx = SIZE(iv2v)
 
@@ -123,11 +123,11 @@ SUBMODULE (tools_mesh_optimize) smooth_interior_vtx_implementation
 
             jv = loc_to_glob_(msh%desc_v,iv) ! j is now global index number
 
-            CALL get_kt_row(msh%c2ov_sup, jv, ic2v) ! get global cell numbers
+            CALL msh%c2ov_sup%get_kt_row(jv, ic2v) ! get global cell numbers
 
         ELSE
 
-            CALL get_ith_conn(ic2v, c2v, iv)  !list of tets connected to ith vert
+            CALL c2v%get_ith_conn(ic2v,iv)  !list of tets connected to ith vert
 
         ENDIF
 
@@ -139,9 +139,9 @@ SUBMODULE (tools_mesh_optimize) smooth_interior_vtx_implementation
         ENDIF
 
         ! note location of the free vertex, whoose position will be optimized
-        free_pos(1) = x_(msh%verts(iv))
-        free_pos(2) = y_(msh%verts(iv))
-        free_pos(3) = z_(msh%verts(iv))
+        free_pos(1) = msh%verts(iv)%x_()
+        free_pos(2) = msh%verts(iv)%y_()
+        free_pos(3) = msh%verts(iv)%z_()
 
         ! load up an array with the positions of the other vertices
         DO j=1,num_incident_vtx
@@ -149,9 +149,9 @@ SUBMODULE (tools_mesh_optimize) smooth_interior_vtx_implementation
             jv=iv2v(j)  ! look up vertex id number from ith conn
             relative_numbering(jv)=j ! store array position so that we can go backward
 
-            tet_pos(1,j) = x_(msh%verts(jv))
-            tet_pos(2,j) = y_(msh%verts(jv))
-            tet_pos(3,j) = z_(msh%verts(jv))
+            tet_pos(1,j) = msh%verts(jv)%x_()
+            tet_pos(2,j) = msh%verts(jv)%y_()
+            tet_pos(3,j) = msh%verts(jv)%z_()
         ENDDO
 
         ! set up connectivity array and check if any cells are tangled
@@ -163,7 +163,7 @@ SUBMODULE (tools_mesh_optimize) smooth_interior_vtx_implementation
                 ic = ic2v(itet)
 
                 !lookup vertex numbers, global cell and vertex id's
-                CALL get_kt_row (msh%ov2c_sup, ic, iv2c)
+                CALL msh%ov2c_sup%get_kt_row (ic, iv2c)
 
                 ! make a copy to dereference iv2c
                 index_copy(1:4) = iv2c(1:4)
@@ -175,7 +175,7 @@ SUBMODULE (tools_mesh_optimize) smooth_interior_vtx_implementation
                 ic = ic2v(itet)  ! look up cell id number from ith conn
 
                 !get the vertices for this cell
-                CALL get_ith_conn(iv2c,msh%v2c,ic)
+                CALL msh%v2c%get_ith_conn(iv2c,ic)
 
                 ! make a copy to dereference iv2c
                 index_copy(1:4) = iv2c(1:4)
@@ -187,10 +187,10 @@ SUBMODULE (tools_mesh_optimize) smooth_interior_vtx_implementation
             iv3 = index_copy(3)
             iv4 = index_copy(4)
 
-            vtx1 = position_( msh%verts(iv1) )
-            vtx2 = position_( msh%verts(iv2) )
-            vtx3 = position_( msh%verts(iv3) )
-            vtx4 = position_( msh%verts(iv4) )
+            vtx1 = msh%verts(iv1)%position_()
+            vtx2 = msh%verts(iv2)%position_()
+            vtx3 = msh%verts(iv3)%position_()
+            vtx4 = msh%verts(iv4)%position_()
 
             ! if any cells are invalid, the local mesh is tangled
             valid_flag =  right_handed(vtx1, vtx2, vtx3, vtx4)
@@ -272,8 +272,8 @@ SUBMODULE (tools_mesh_optimize) smooth_interior_vtx_implementation
             WRITE(6,*)
             WRITE(6,*)"The problem vertex is:"
             WRITE(6,*)"ID #",iv
-            WRITE(6,*)"Located at: (",x_(msh%verts(iv)),",",y_(msh%verts(iv)),",", &
-                & z_(msh%verts(iv)),")"
+            WRITE(6,*)"Located at: (",msh%verts(iv)%x_(),",",msh%verts(iv)%y_(),",", &
+                & msh%verts(iv)%z_(),")"
             WRITE(6,*)"With ",num_incident_vtx," incident vertices and ",num_incident_tet, &
                 &" incident tets."
             WRITE(6,*)

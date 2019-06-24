@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -39,115 +39,117 @@
 !
 ! $Id: write_mesh.f90 9099 2015-04-24 15:34:00Z sfilippo $
 !
-MODULE PROCEDURE write_mesh
-    USE class_psblas
-    USE class_cell
-    USE class_connectivity
-    USE class_face
-    USE class_iterating
-    USE class_mesh
-    USE class_output
-    USE class_vertex
-    !
-    USE tools_output_basics
-
+SUBMODULE (tools_output) write_mesh_implementation
     IMPLICIT NONE
-    !
-    INTEGER :: info, err_act
-    INTEGER :: icontxt, mypnum
-    INTEGER :: i, ic, ig, ncells, ngc, ngroups
-    INTEGER, POINTER :: ic2g(:) => NULL()
-    INTEGER, ALLOCATABLE  :: igroup(:), iproc(:)
-    INTEGER, ALLOCATABLE :: i_loc(:)
-    CHARACTER(len=32) :: path
-    TYPE(cell), ALLOCATABLE :: cells(:)
-    TYPE(face), ALLOCATABLE :: faces(:)
-    TYPE(vertex), ALLOCATABLE :: verts(:)
-    TYPE(connectivity) :: v2f, v2c, f2c
+
+    CONTAINS
+
+        MODULE PROCEDURE write_mesh
+            USE class_psblas
+            USE class_cell
+            USE class_connectivity
+            USE class_face
+            USE class_iterating
+            USE class_mesh
+            USE class_output
+            USE class_vertex
+            USE tools_output_basics
+
+            IMPLICIT NONE
+            !
+            INTEGER :: info, err_act
+            INTEGER :: icontxt, mypnum
+            INTEGER :: i, ic, ig, ncells, ngc, ngroups
+            INTEGER, POINTER :: ic2g(:) => NULL()
+            INTEGER, ALLOCATABLE  :: igroup(:), iproc(:)
+            INTEGER, ALLOCATABLE :: i_loc(:)
+            CHARACTER(len=32) :: path
+            TYPE(cell), ALLOCATABLE :: cells(:)
+            TYPE(face), ALLOCATABLE :: faces(:)
+            TYPE(vertex), ALLOCATABLE :: verts(:)
+            TYPE(connectivity) :: v2f, v2c, f2c
+
+            ! Sets error handling for PSBLAS-2 routines
+            CALL psb_erractionsave(err_act)
+
+            mypnum  = mypnum_()
+            icontxt = icontxt_()
+
+            ! Sets output path
+            IF(PRESENT(iter)) CALL out%set_output_path(iter)
+            path = out%path_()
+
+            ! Global number of cells
+            ncells = psb_cd_get_global_cols(msh%desc_c)
+
+            CALL psb_geall(i_loc,msh%desc_c,info)
+            CALL psb_check_error(info,'write_mesh','psb_geall',icontxt)
+
+            ALLOCATE(igroup(ncells),iproc(ncells),stat=info)
+            IF(info /= 0) THEN
+                WRITE(*,100)
+                CALL abort_psblas
+            END IF
+
+            ! Gathers MESH components on P0
+            CALL l2g_vertex(msh%verts,verts,msh%desc_v)
+            CALL l2g_face(msh%faces,faces,msh%desc_f,msh%desc_c)
+            CALL l2g_cell(msh%cells,cells,msh%desc_c)
+            CALL l2g_conn(msh%v2f,v2f,msh%desc_v,msh%desc_f)
+            CALL l2g_conn(msh%v2c,v2c,msh%desc_v,msh%desc_c)
+            CALL l2g_conn(msh%f2c,f2c,msh%desc_f,msh%desc_c)
+
+            ! Gathers processor IDs
+            i_loc(:) = mypnum
+            CALL psb_gather(iproc,i_loc,msh%desc_c,info,root=0)
+            CALL psb_check_error(info,'write_mesh','psb_gather',icontxt)
+
+            ! Gathers group IDs
+            i_loc(:) = 0
+            ngroups = msh%c2g%nel_()
+
+            DO ig = 1, ngroups
+                CALL msh%c2g%get_ith_conn(ic2g,ig)
+                ngc = SIZE(ic2g) ! number of group cells
+                DO i = 1, ngc
+                    ic = ic2g(i)
+                    i_loc(ic) = ig
+                END DO
+            END DO
+
+            CALL psb_gather(igroup,i_loc,msh%desc_c,info,root=0)
+            CALL psb_check_error(info,'write_mesh','psb_gather',icontxt)
+
+            IF(mypnum == 0) THEN
+                SELECT CASE(out%fmt_())
+                CASE(vtk_)
+                    !        call wr_vtk_mesh(msh%ncd,verts,cells,v2c,iproc,path)
+                CASE default
+                    WRITE(*,200)
+                END SELECT
+            END IF
+
+            ! Frees Memory
+            NULLIFY(ic2g)
+            DEALLOCATE(igroup,iproc)
+
+            CALL psb_gefree(i_loc,msh%desc_c,info)
+            CALL psb_check_error(info,'write_mesh','psb_gefree',icontxt)
+
+            CALL free_conn(f2c)
+            CALL free_conn(v2c)
+            CALL free_conn(v2f)
+            IF(ALLOCATED(cells)) CALL free_cell(cells)
+            IF(ALLOCATED(faces)) CALL free_face(faces)
+            IF(ALLOCATED(verts)) CALL free_vertex(verts)
 
 
-    ! Sets error handling for PSBLAS-2 routines
-    CALL psb_erractionsave(err_act)
+            ! ----- Normal termination -----
+            CALL psb_erractionrestore(err_act)
 
-    mypnum  = mypnum_()
-    icontxt = icontxt_()
+100         FORMAT(' ERROR! Memory allocation failure in WRITE_MESH')
+200         FORMAT(' ERROR! Unsupported output format in WRITE_MESH')
 
-    ! Sets output path
-    IF(PRESENT(iter)) CALL set_output_path(out,iter)
-    path = path_(out)
+        END PROCEDURE write_mesh
 
-    ! Global number of cells
-    ncells = psb_cd_get_global_cols(msh%desc_c)
-
-    CALL psb_geall(i_loc,msh%desc_c,info)
-    CALL psb_check_error(info,'write_mesh','psb_geall',icontxt)
-
-    ALLOCATE(igroup(ncells),iproc(ncells),stat=info)
-    IF(info /= 0) THEN
-        WRITE(*,100)
-        CALL abort_psblas
-    END IF
-
-
-    ! Gathers MESH components on P0
-    CALL l2g_vertex(msh%verts,verts,msh%desc_v)
-    CALL l2g_face(msh%faces,faces,msh%desc_f,msh%desc_c)
-    CALL l2g_cell(msh%cells,cells,msh%desc_c)
-    CALL l2g_conn(msh%v2f,v2f,msh%desc_v,msh%desc_f)
-    CALL l2g_conn(msh%v2c,v2c,msh%desc_v,msh%desc_c)
-    CALL l2g_conn(msh%f2c,f2c,msh%desc_f,msh%desc_c)
-
-    ! Gathers processor IDs
-    i_loc(:) = mypnum
-    CALL psb_gather(iproc,i_loc,msh%desc_c,info,root=0)
-    CALL psb_check_error(info,'write_mesh','psb_gather',icontxt)
-
-    ! Gathers group IDs
-    i_loc(:) = 0
-    ngroups = nel_(msh%c2g)
-
-    DO ig = 1, ngroups
-        CALL get_ith_conn(ic2g,msh%c2g,ig)
-        ngc = SIZE(ic2g) ! number of group cells
-        DO i = 1, ngc
-            ic = ic2g(i)
-            i_loc(ic) = ig
-        END DO
-    END DO
-
-
-    CALL psb_gather(igroup,i_loc,msh%desc_c,info,root=0)
-    CALL psb_check_error(info,'write_mesh','psb_gather',icontxt)
-
-    IF(mypnum == 0) THEN
-        SELECT CASE(fmt_(out))
-        CASE(vtk_)
-            !        call wr_vtk_mesh(msh%ncd,verts,cells,v2c,iproc,path)
-        CASE default
-            WRITE(*,200)
-        END SELECT
-    END IF
-
-
-    ! Frees Memory
-    NULLIFY(ic2g)
-    DEALLOCATE(igroup,iproc)
-
-    CALL psb_gefree(i_loc,msh%desc_c,info)
-    CALL psb_check_error(info,'write_mesh','psb_gefree',icontxt)
-
-    CALL free_conn(f2c)
-    CALL free_conn(v2c)
-    CALL free_conn(v2f)
-    IF(ALLOCATED(cells)) CALL free_cell(cells)
-    IF(ALLOCATED(faces)) CALL free_face(faces)
-    IF(ALLOCATED(verts)) CALL free_vertex(verts)
-
-
-    ! ----- Normal termination -----
-    CALL psb_erractionrestore(err_act)
-
-100 FORMAT(' ERROR! Memory allocation failure in WRITE_MESH')
-200 FORMAT(' ERROR! Unsupported output format in WRITE_MESH')
-
-END PROCEDURE write_mesh
+END SUBMODULE write_mesh_implementation

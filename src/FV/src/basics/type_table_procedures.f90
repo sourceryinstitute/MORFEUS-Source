@@ -183,7 +183,7 @@ CONTAINS
             END DO
         END DO
 
-        CALL alloc_table(b2a,nel=nrd,ntab=ntot)
+        CALL b2a%alloc_table(nel=nrd,ntab=ntot)
 
         ! The following operation is equivalent to size the empty stacks
         b2a%lookup(1) = 1

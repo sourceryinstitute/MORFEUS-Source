@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -43,16 +43,16 @@
 !    To be added...
 !
 SUBMODULE(tools_bc) rd_inp_bc_implementation
+    USE class_motion, only : motion
     IMPLICIT NONE
 
     CONTAINS
 
         MODULE PROCEDURE rd_inp_bc
-        USE class_psblas
-        USE class_motion
+        USE class_psblas, ONLY : psb_bcast, icontxt_, mypnum_, abort_psblas
         USE tools_bc, ONLY: bc_math_, bc_wall_, bc_vel_moving_
-        USE tools_input
-        USE tools_mesh_move
+        USE tools_input, ONLY : get_par, find_section, open_file
+        USE tools_mesh_move, ONLY : moving_, stationary_, sticky_
 
         IMPLICIT NONE
         !
@@ -168,7 +168,7 @@ SUBMODULE(tools_bc) rd_inp_bc_implementation
 
         ! Eventually create the motion object according to file inputs
         DO ib = 1, nbc_msh
-            CALL create_motion(mot(ib),surface_motion(ib),vertex_motion(ib),&
+            CALL mot(ib)%create_motion(surface_motion(ib),vertex_motion(ib),&
                 & TRIM(motion_law_file(ib)))
         END DO
 

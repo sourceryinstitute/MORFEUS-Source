@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !    NEMO - Numerical Engine (for) Multiphysics Operators
@@ -56,7 +56,7 @@ SUBMODULE (tools_mesh_check) tools_mesh_check_tet
         USE class_vector
         USE class_vertex
         USE tools_math
-        USE tools_mesh_basics
+        USE tools_mesh_basics, ONLY : geom_tet_quality
         USE tools_output_basics
 
         IMPLICIT NONE
@@ -73,14 +73,14 @@ SUBMODULE (tools_mesh_check) tools_mesh_check_tet
         ic_glob = loc_to_glob_(msh%desc_c,ic)
 
         ! Get vertex indices
-        CALL get_ith_conn(iv2c,msh%v2c,ic)
+        CALL msh%v2c%get_ith_conn(iv2c,ic)
         iv1 = iv2c(1)
         iv2 = iv2c(2)
         iv3 = iv2c(3)
         iv4 = iv2c(4)
 
         ! Get face indices
-        CALL get_ith_conn(if2c,msh%f2c,ic)
+        CALL msh%f2c%get_ith_conn(if2c,ic)
 
         DO i = 1,4
             tet_af(i) = msh%af(if2c(i))
@@ -92,14 +92,14 @@ SUBMODULE (tools_mesh_check) tools_mesh_check_tet
         ! Dumps log message
         WRITE(*,100) 'Debugging cell ',ic,' on proc. ', mypnum_()
         WRITE(*,200) '- Global ID: ', ic_glob
-        WRITE(*,300) '- Cell type: ', geo_(msh%cells(ic))
+        WRITE(*,300) '- Cell type: ', msh%cells(ic)%geo_()
         WRITE(*,400) '- Expecting ', SIZE(iv2c), ' vertices'
         DO i = 1, 4
             iv = iv2c(i)
             WRITE(*,500) '- Coordinates of vertex ',i,': ', &
-                &       x_(msh%verts(iv)), &
-                &       y_(msh%verts(iv)), &
-                &       z_(msh%verts(iv))
+                &       msh%verts(iv)%x_(), &
+                &       msh%verts(iv)%y_(), &
+                &       msh%verts(iv)%z_()
         END DO
         WRITE(*,600) '- Quality: ', geom_tet_quality(&
             & msh%verts(iv1),msh%verts(iv2),msh%verts(iv3),msh%verts(iv4), &

@@ -50,11 +50,11 @@ CONTAINS
 
 
     MODULE PROCEDURE nemo_vector_field_sizeof
-        !use psb_base_mod
+        IMPLICIT NONE
 
         INTEGER(kind=nemo_int_long_)   :: val
 
-        val = nemo_field_sizeof(fld%base)
+        val = fld%base%nemo_sizeof()
         IF (ALLOCATED(fld%x)) &
             & val = val + nemo_sizeof_dp * SIZE(fld%x)
         IF (ALLOCATED(fld%xp)) &
@@ -70,7 +70,8 @@ CONTAINS
     ! ----- Constructor -----
 
     MODULE PROCEDURE vector_field_
-      !! Default public constructor, necessary with ifort
+        IMPLICIT NONE
+        !! Default public constructor, necessary with ifort
 
         !vector_field_ = vector_field(base,x,bx)
         !! Workaround for Intel 18 error #6053: Structure constructor may not have fields with a PRIVATE attribute
@@ -98,6 +99,7 @@ CONTAINS
         USE class_mesh
         USE class_vector
         USE tools_material
+        IMPLICIT NONE
 
         INTEGER          :: info, nel, nbf, isize(2), i, im, ic, ncg, n_mats
         INTEGER, POINTER :: ic2g(:) => NULL()
@@ -106,13 +108,13 @@ CONTAINS
 
 
         ! Creates the base-class member
-        CALL create_field(fld%base,msh,dim,bc,mats,on_faces)
+        CALL fld%base%create_field(msh,dim,bc,mats,on_faces)
 
         ! Gets field dimensions
-        fdim = dim_(fld%base)
+        fdim = fld%base%dim_()
 
         ! Gets field size
-        isize = fld_size(fld%base)
+        isize = fld%base%fld_size()
         nel   = isize(fld_internal_)
         nbf   = isize(fld_boundary_)
 
@@ -133,7 +135,7 @@ CONTAINS
             fld%mat(:) = 1
         ELSE IF(PRESENT(mats)) THEN
             DO im = 1, SIZE(mats)
-                CALL get_ith_conn(ic2g,msh%c2g,im)
+                CALL msh%c2g%get_ith_conn(ic2g,im)
                 ncg = SIZE(ic2g)
                 DO i = 1, ncg
                     ic = ic2g(i)
@@ -161,8 +163,9 @@ CONTAINS
     ! ----- Destructor -----
 
     MODULE PROCEDURE free_vector_field
+        IMPLICIT NONE
 
-        CALL free_field(fld%base)
+        CALL fld%base%free_field()
         CALL free_vector(fld%x)
         CALL free_vector(fld%bx)
 
@@ -172,28 +175,33 @@ CONTAINS
     ! ----- Getters for Inherited Members -----
 
     MODULE PROCEDURE get_vector_field_name
+        IMPLICIT NONE
 
-        get_vector_field_name = name_(fld%base)
+        get_vector_field_name = fld%base%name_()
 
     END PROCEDURE get_vector_field_name
 
 
     MODULE PROCEDURE get_vector_field_dim
         USE class_dimensions
+        IMPLICIT NONE
 
-        get_vector_field_dim = dim_(fld%base)
+        get_vector_field_dim = fld%base%dim_()
 
     END PROCEDURE get_vector_field_dim
 
 
     MODULE PROCEDURE get_vector_field_msh_fun
         USE class_mesh
-        get_vector_field_msh_fun => msh_(fld%base)
+        IMPLICIT NONE
+
+        get_vector_field_msh_fun => fld%base%msh_()
 
     END PROCEDURE get_vector_field_msh_fun
 
 
     MODULE PROCEDURE get_vector_field_msh_sub
+        IMPLICIT NONE
 
         CALL fld%base%get_mesh(msh)
 
@@ -201,40 +209,45 @@ CONTAINS
 
 
     MODULE PROCEDURE get_vector_field_on_faces
+        IMPLICIT NONE
 
-        get_vector_field_on_faces = on_faces_(fld%base)
+        get_vector_field_on_faces = fld%base%on_faces_()
 
     END PROCEDURE get_vector_field_on_faces
 
 
     MODULE PROCEDURE get_vector_field_bc
         USE class_bc
+        IMPLICIT NONE
 
-        get_vector_field_bc => bc_(fld%base)
+        get_vector_field_bc => fld%base%bc_()
 
     END PROCEDURE get_vector_field_bc
 
 
     MODULE PROCEDURE get_vector_field_mat
         USE class_material
+        IMPLICIT NONE
 
-        get_vector_field_mat => mat_(fld%base)
+        get_vector_field_mat => fld%base%mat_()
 
     END PROCEDURE get_vector_field_mat
 
 
     MODULE PROCEDURE get_vector_field_mat_sub
         USE class_material
+        IMPLICIT NONE
 
         IF (PRESENT(i)) THEN
-            CALL get_material(fld%base,i,mat)
+            CALL fld%base%get_material(i,mat)
         ELSE
-            CALL get_material(fld%base,1,mat)
+            CALL fld%base%get_material(1,mat)
         END IF
     END PROCEDURE get_vector_field_mat_sub
 
 
     MODULE PROCEDURE get_vector_field_base
+        IMPLICIT NONE
 
         base = fld%base
 
@@ -244,6 +257,7 @@ CONTAINS
     ! ----- Getters for Additional Members -----
 
     MODULE PROCEDURE get_vector_field_x_r
+        IMPLICIT NONE
         INTEGER :: i, info, n
 
         n = SIZE(fld%x)
@@ -255,9 +269,9 @@ CONTAINS
         END IF
 
         DO i = 1, n
-            x(i,1) = x_(fld%x(i))
-            x(i,2) = y_(fld%x(i))
-            x(i,3) = z_(fld%x(i))
+            x(i,1) = fld%x(i)%x_()
+            x(i,2) = fld%x(i)%y_()
+            x(i,3) = fld%x(i)%z_()
         END DO
 
 100     FORMAT(' ERROR! Memory allocation failure in GET_VECTOR_FIELD_X_R')
@@ -266,6 +280,7 @@ CONTAINS
 
 
     MODULE PROCEDURE get_vector_field_x_v
+        IMPLICIT NONE
 
         CALL alloc_vector(x,SIZE(fld%x))
 
@@ -274,6 +289,7 @@ CONTAINS
     END PROCEDURE get_vector_field_x_v
 
     MODULE PROCEDURE get_vector_field_xp_r
+        IMPLICIT NONE
         INTEGER :: i, info, n
 
         n = SIZE(fld%xp)
@@ -285,9 +301,9 @@ CONTAINS
         END IF
 
         DO i = 1, n
-            xp(i,1) = x_(fld%xp(i))
-            xp(i,2) = y_(fld%xp(i))
-            xp(i,3) = z_(fld%xp(i))
+            xp(i,1) = fld%xp(i)%x_()
+            xp(i,2) = fld%xp(i)%y_()
+            xp(i,3) = fld%xp(i)%z_()
         END DO
 
 100     FORMAT(' ERROR! Memory allocation failure in GET_VECTOR_FIELD_XP_R')
@@ -296,6 +312,7 @@ CONTAINS
 
 
     MODULE PROCEDURE get_vector_field_xp_v
+      IMPLICIT NONE
 
         CALL alloc_vector(xp,SIZE(fld%xp))
 
@@ -305,6 +322,7 @@ CONTAINS
 
 
     MODULE PROCEDURE get_vector_field_bx_r
+        IMPLICIT NONE
         INTEGER :: info
 
         ALLOCATE(bx(SIZE(fld%bx),3),stat=info)
@@ -313,9 +331,9 @@ CONTAINS
             CALL abort_psblas
         END IF
 
-        bx(:,1) = x_(fld%bx)
-        bx(:,2) = y_(fld%bx)
-        bx(:,3) = z_(fld%bx)
+        bx(:,1) = fld%bx%x_()
+        bx(:,2) = fld%bx%y_()
+        bx(:,3) = fld%bx%z_()
 
 100     FORMAT(' ERROR! Memory allocation failure in GET_VECTOR_FIELD_BX_R')
 
@@ -323,6 +341,7 @@ CONTAINS
 
 
     MODULE PROCEDURE get_vector_field_bx_v
+        IMPLICIT NONE
 
         CALL alloc_vector(bx,SIZE(fld%bx))
 
@@ -335,15 +354,15 @@ CONTAINS
 
 
     MODULE PROCEDURE set_vector_field_x
-
+        IMPLICIT NONE
         INTEGER :: i, info, n
 
         n = SIZE(fld%x)
 
         DO i = 1, n
-            CALL set_x_(fld%x(i),x(i,1))
-            CALL set_y_(fld%x(i),x(i,2))
-            CALL set_z_(fld%x(i),x(i,3))
+            CALL fld%x(i)%set_x_(x(i,1))
+            CALL fld%x(i)%set_y_(x(i,2))
+            CALL fld%x(i)%set_z_(x(i,3))
         END DO
 
     END PROCEDURE set_vector_field_x
@@ -354,6 +373,7 @@ CONTAINS
         USE class_dimensions
         USE class_material
         USE class_mesh
+        IMPLICIT NONE
 
         INTEGER :: ib, info, err_act
         TYPE(mesh),     POINTER :: msh   => NULL()
@@ -368,11 +388,11 @@ CONTAINS
         ! Gets pointer base-class members
 !!$    msh => msh_(fld%base)
         CALL fld%base%get_mesh(msh)
-        bc  => bc_(fld%base)
+        bc  => fld%base%bc_()
 
 
         ! Face-centered unknown
-        IF(on_faces_(fld)) THEN
+        IF(fld%on_faces_()) THEN
             WRITE(*,100)
             CALL abort_psblas
         END IF
@@ -380,12 +400,12 @@ CONTAINS
 
         ! Cell-centered unknown
 !!$      mat => mat_(fld%base)
-        CALL get_material(fld%base,1,mat)
+        CALL fld%base%get_material(1,mat)
 
         CALL update_vector_halo(fld%x,msh%desc_c)
 
         DO ib = 1, msh%nbc
-            CALL update_boundary(ib,bc(ib),dim_(fld),msh,fld%x,fld%bx)
+            CALL update_boundary(ib,bc(ib),fld%dim_(),msh,fld%x,fld%bx)
         END DO
 
         NULLIFY(mat)
@@ -405,6 +425,7 @@ CONTAINS
 
     MODULE PROCEDURE assign_vector_field_s
         USE class_vector
+        IMPLICIT NONE
 
         f%x(:) = x
 
@@ -413,6 +434,7 @@ CONTAINS
 
     MODULE PROCEDURE assign_vector_field_v
         USE class_vector
+        IMPLICIT NONE
 
         IF(SIZE(f%x) /= SIZE(x)) THEN
             WRITE(*,100)
@@ -428,6 +450,7 @@ CONTAINS
 
     MODULE PROCEDURE set_vector_field_element
         USE class_vector
+        IMPLICIT NONE
 
         IF(i < 1 .OR. i > SIZE(f%x,1)) THEN
             WRITE(*,100)
@@ -442,6 +465,7 @@ CONTAINS
 
     MODULE PROCEDURE set_vector_field_bound_element
         USE class_vector
+        IMPLICIT NONE
 
         IF(i < 1 .OR. i > SIZE(f%bx,1)) THEN
             WRITE(*,100)
@@ -460,6 +484,7 @@ CONTAINS
         USE class_connectivity
         USE class_mesh
         USE class_vector
+        IMPLICIT NONE
 
         INTEGER :: i, ic, ncg
         INTEGER, POINTER :: ic2g(:) => NULL()
@@ -469,7 +494,7 @@ CONTAINS
 !!$    msh => msh_(f%base)
         CALL f%base%get_mesh(msh)
 
-        IF(on_faces_(f)) THEN
+        IF(f%on_faces_()) THEN
             WRITE(*,100)
             CALL abort_psblas
         END IF
@@ -479,7 +504,7 @@ CONTAINS
             CALL abort_psblas
         END IF
 
-        CALL get_ith_conn(ic2g,msh%c2g,ig)
+        CALL msh%c2g%get_ith_conn(ic2g,ig)
         ncg = SIZE(ic2g)
 
         DO i = 1, ncg
@@ -501,21 +526,21 @@ CONTAINS
 
     MODULE PROCEDURE vector_field_sum
         USE class_dimensions
-        !use class_vector
+        IMPLICIT NONE
 
         INTEGER :: isize(2), nel, nbf, info
 
         ! Check consistency of operands
-        CALL check_field_operands(f1%base,f2%base,'VECTOR_FIELD_SUM')
+        CALL f1%base%check_field_operands(f2%base,'VECTOR_FIELD_SUM')
 
         ! Check consistency of operand dimensions
-        IF(dim_(f1) /= dim_(f2)) THEN
+        IF(f1%dim_() /= f2%dim_()) THEN
             WRITE(*,100)
             CALL abort_psblas
         END IF
         r%base = f1%base
 
-        isize = fld_size(f1%base)
+        isize = f1%base%fld_size()
         nel   = isize(fld_internal_)
         nbf   = isize(fld_boundary_)
 
@@ -537,13 +562,13 @@ CONTAINS
 
     MODULE PROCEDURE vector_field_scal
         USE class_dimensions
-        !use class_vector
+        IMPLICIT NONE
 
         INTEGER :: isize(2), nel, nbf, info
 
         r%base = f2%base
 
-        isize = fld_size(f2%base)
+        isize = f2%base%fld_size()
         nel   = isize(fld_internal_)
         nbf   = isize(fld_boundary_)
 
@@ -566,20 +591,20 @@ CONTAINS
 
     MODULE PROCEDURE vector_field_dif
         USE class_dimensions
-        !use class_vector
+        IMPLICIT NONE
         INTEGER :: isize(2), nel, nbf, info
 
         ! Check consistency of operands
-        CALL check_field_operands(f1%base,f2%base,'VECTOR_FIELD_SUM')
+        CALL f1%base%check_field_operands(f2%base,'VECTOR_FIELD_SUM')
 
         ! Check consistency of operand dimensions
-        IF(dim_(f1) /= dim_(f2)) THEN
+        IF(f1%dim_() /= f2%dim_()) THEN
             WRITE(*,100)
             CALL abort_psblas
         END IF
         r%base = f1%base
 
-        isize = fld_size(f1%base)
+        isize = f1%base%fld_size()
         nel   = isize(fld_internal_)
         nbf   = isize(fld_boundary_)
 
@@ -605,6 +630,7 @@ CONTAINS
         USE class_face
         USE class_mesh
         USE tools_math
+        IMPLICIT NONE
 
         INTEGER :: i, IF, im, inb, is, ioffset
         INTEGER :: k, n, nel, nbf
@@ -613,7 +639,7 @@ CONTAINS
         TYPE(mesh), POINTER :: msh => NULL()
 
 
-        IF(on_faces_(fld)) THEN
+        IF(fld%on_faces_()) THEN
             WRITE(*,100)
             CALL abort_psblas
         END IF
@@ -622,8 +648,8 @@ CONTAINS
         r%base = fld%base
 
         CALL fld%base%get_mesh(msh)
-        nel = COUNT(flag_(msh%faces) <= 0)
-        nbf = COUNT(flag_(msh%faces) > 0)
+        nel = COUNT(msh%faces%flag_() <= 0)
+        nbf = COUNT(msh%faces%flag_() > 0)
 
         ! Allocates arrays for inner and boundary elements
         CALL alloc_vector(r%x,nel)
@@ -631,13 +657,13 @@ CONTAINS
 
 
         ! 1) flag = 0 => interpolates master/slave cell values.
-        CALL get_ith_conn(if2b,msh%f2b,0)
+        CALL msh%f2b%get_ith_conn(if2b,0)
         n = SIZE(if2b) ! # of internal fluid faces
 
         DO i = 1, n
             IF = if2b(i)
-            im = master_(msh%faces(IF))
-            is = slave_(msh%faces(IF))
+            im = msh%faces(IF)%master_()
+            is = msh%faces(IF)%slave_()
             w  = msh%interp(IF)
             r%x(i) = lin_interp(fld%x(im),fld%x(is),w)
         END DO
@@ -645,13 +671,13 @@ CONTAINS
         ioffset = n
 
         ! 2) flag = -1 => uses cell value (same process)
-        CALL get_ith_conn(if2b,msh%f2b,-1)
+        CALL msh%f2b%get_ith_conn(if2b,-1)
         n = SIZE(if2b)
 
         DO i = 1, n
             IF = if2b(i)
-            im = master_(msh%faces(IF))
-            is = slave_(msh%faces(IF))
+            im = msh%faces(IF)%master_()
+            is = msh%faces(IF)%slave_()
             k = ioffset + i
             inb = MAX(im,is)
             r%x(k) = fld%x(inb)
@@ -660,7 +686,7 @@ CONTAINS
 
         ! 3) Copies boundary values
         r%bx = fld%bx
-        CALL set_field_on_faces(r%base,.TRUE.)
+        CALL r%base%set_field_on_faces(.TRUE.)
         NULLIFY(if2b)
         NULLIFY(msh)
 
@@ -672,6 +698,7 @@ CONTAINS
     ! ----- Check Procedures -----
 
     MODULE PROCEDURE check_mesh_consistency_vf
+        IMPLICIT NONE
 
         CALL f1%base%check_mesh_consistency(f2%base,WHERE)
 

@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -43,6 +43,8 @@
 !    To be added...
 !
 SUBMODULE (tools_mesh) rd_gambit_implementation
+    USE type_table, ONLY : table
+    USE class_connectivity
     IMPLICIT NONE
 
     CONTAINS
@@ -50,11 +52,9 @@ SUBMODULE (tools_mesh) rd_gambit_implementation
         MODULE PROCEDURE rd_gambit_mesh
         USE class_psblas
         USE class_cell
-        USE class_connectivity
+        !USE class_connectivity
         USE class_face
         USE class_vertex
-        USE type_table
-
         IMPLICIT NONE
         !
         INTEGER, PARAMETER :: nlen = 80
@@ -159,7 +159,7 @@ SUBMODULE (tools_mesh) rd_gambit_implementation
             CALL abort_psblas
         END IF
 
-        CALL alloc_table(v2c_,nel=ncells)
+        CALL v2c_%alloc_table(nel=ncells)
 
         READ (mesh,'()')
         i1 = 1; i2 = 0; v2c_%lookup(1) = 1
@@ -211,7 +211,7 @@ SUBMODULE (tools_mesh) rd_gambit_implementation
             i1 = i2 + 1
             v2c_%lookup(ic+1) = i1
         END DO
-        CALL alloc_table(v2c_,ntab=i2)
+        CALL v2c_%alloc_table(ntab=i2)
 
         v2c_%tab = work(1:i2)
         DEALLOCATE(work)
@@ -219,7 +219,7 @@ SUBMODULE (tools_mesh) rd_gambit_implementation
 
 
         ! Reads groups definition.
-        CALL alloc_table(c2g_,nel=ngroups,ntab=ncells)
+        CALL c2g_%alloc_table(nel=ngroups,ntab=ncells)
 
         ALLOCATE(groupnc(ngroups),groupmat(ngroups), &
             &   groupname(ngroups),stat=info)
@@ -271,8 +271,8 @@ SUBMODULE (tools_mesh) rd_gambit_implementation
         END DO
 
         ! Allocation of face-related connectivity tables
-        CALL alloc_table(f2c_,nel=ncells,ntab=nfaces)
-        CALL alloc_table(v2f_,nel=nfaces,ntab=n)
+        CALL f2c_%alloc_table(nel=ncells,ntab=nfaces)
+        CALL v2f_%alloc_table(nel=nfaces,ntab=n)
 
         ! Allocation of temporary face-related arrays
         ALLOCATE(iflag(nfaces), fnv(nfaces),  &
@@ -367,7 +367,7 @@ SUBMODULE (tools_mesh) rd_gambit_implementation
         ! ###########################################################################
 
         ! Builds connection table f2v, dual of v2f
-        CALL get_dual_table(v2f_,f2v)
+        CALL v2f_%get_dual_table(f2v)
 
         ! Initializes face permutation array
         ALLOCATE(perm(nfaces), stat=info)
@@ -454,7 +454,7 @@ SUBMODULE (tools_mesh) rd_gambit_implementation
             END DO pile_3D
             DEALLOCATE(buf)
         END IF
-        CALL free_table(f2v)
+        CALL f2v%free_table()
 
         ! ###########################################################################
         IF (debug) THEN
@@ -543,7 +543,7 @@ SUBMODULE (tools_mesh) rd_gambit_implementation
             k = j + facenv(IF)
         END DO
         !
-        CALL alloc_table(dmy,nel=nfaces,ntab=k)
+        CALL dmy%alloc_table(nel=nfaces,ntab=k)
         i1 = 1; i2 = 0; dmy%lookup(1) = 1
         DO IF = 1, nfaces
             j = pinv(IF)
@@ -554,9 +554,9 @@ SUBMODULE (tools_mesh) rd_gambit_implementation
             i1 = i2 + 1
             dmy%lookup(IF+1) = i1
         END DO
-        CALL free_table(v2f_)
+        CALL v2f_%free_table()
 
-        CALL alloc_table(v2f_,nel=nfaces,ntab=k)
+        CALL v2f_%alloc_table(nel=nfaces,ntab=k)
         v2f_%lookup = dmy%lookup(1:nfaces+1)
         v2f_%tab = dmy%tab(1:k)
 
@@ -570,7 +570,7 @@ SUBMODULE (tools_mesh) rd_gambit_implementation
             END DO
         END DO
 
-        CALL free_table(dmy)
+        CALL dmy%free_table()
         DEALLOCATE(perm,pinv)
 
         ! ###########################################################################
@@ -667,7 +667,7 @@ SUBMODULE (tools_mesh) rd_gambit_implementation
             WRITE(*,100)
             CALL abort_psblas
         END IF
-        CALL alloc_table(dmy,nel=nfaces,ntab=k)
+        CALL dmy%alloc_table(nel=nfaces,ntab=k)
 
         ! Builds pinv
         k = 0
@@ -769,8 +769,8 @@ SUBMODULE (tools_mesh) rd_gambit_implementation
         ! ###########################################################################
 
         ! f2b is no longer useful. It can be deallocated
-        CALL free_table(f2b)
-        CALL free_table(dmy)
+        CALL f2b%free_table()
+        CALL dmy%free_table()
         DEALLOCATE(perm,pinv,aux,bcnf)
 
         ! Defines ON_BOUNDARY array
@@ -818,32 +818,32 @@ SUBMODULE (tools_mesh) rd_gambit_implementation
         DO IF = 1, nfaces
             i1 = v2f_%lookup(IF)
             i2 = v2f_%lookup(IF+1) - 1
-            CALL set_ith_conn(v2f,IF,v2f_%tab(i1:i2))
+            CALL v2f%set_ith_conn(IF,v2f_%tab(i1:i2))
         END DO
 
         DO ic = 1, ncells
             i1 = v2c_%lookup(ic)
             i2 = v2c_%lookup(ic+1) - 1
-            CALL set_ith_conn(v2c,ic,v2c_%tab(i1:i2))
+            CALL v2c%set_ith_conn(ic,v2c_%tab(i1:i2))
         END DO
 
         DO ic = 1, ncells
             i1 = f2c_%lookup(ic)
             i2 = f2c_%lookup(ic+1) - 1
-            CALL set_ith_conn(f2c,ic,f2c_%tab(i1:i2))
+            CALL f2c%set_ith_conn(ic,f2c_%tab(i1:i2))
         END DO
 
         DO ig = 1, ngroups
             i1 = c2g_%lookup(ig)
             i2 = c2g_%lookup(ig+1) - 1
-            CALL set_ith_conn(c2g,ig,c2g_%tab(i1:i2))
+            CALL c2g%set_ith_conn(ig,c2g_%tab(i1:i2))
         END DO
 
         ! Deallocates local copies of connectivity data
-        CALL free_table(v2f_)
-        CALL free_table(v2c_)
-        CALL free_table(f2c_)
-        CALL free_table(c2g_)
+        CALL v2f_%free_table()
+        CALL v2c_%free_table()
+        CALL f2c_%free_table()
+        CALL c2g_%free_table()
 
         ! Currently group data GROUPNC, GROUPMAT, GROUPNAME are not exported
         ! to the calling program => deallocation

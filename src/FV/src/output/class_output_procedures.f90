@@ -37,7 +37,7 @@
 !    To be added...
 !
 SUBMODULE(class_output) class_output_procedures
-
+    use class_iterating
     IMPLICIT NONE
 
 CONTAINS
@@ -110,14 +110,13 @@ CONTAINS
 
 
     MODULE PROCEDURE set_output_path_iter
-        USE class_iterating
         USE tools_output_basics
 
         !
         INTEGER :: it, ndigits
 
-        ndigits = INT(LOG10(REAL(nmax_(iter)))) + 1
-        it = current_iteration(iter)
+        ndigits = INT(LOG10(REAL(iter%nmax_()))) + 1
+        it = iter%current_iteration()
 
         out%path = TRIM(out%basepath)//itoh(it,ndigits)
 

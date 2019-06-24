@@ -63,9 +63,6 @@ MODULE class_cylinder
     PRIVATE ! Default
     PUBLIC :: cylinder ! Class
     PUBLIC :: alloc_cylinder, free_cylinder          ! Constructor/Destructor
-    PUBLIC :: get_cylinder_normal, get_cylinder_r2   ! Getters
-    PUBLIC :: get_pt_cylinder                        ! Getters, cont.
-    PUBLIC :: translate_cylinder                     ! Setters
 
     ! The cylinder is arbitrarily rotated and sized, with infinite length.
     TYPE cylinder
@@ -76,6 +73,9 @@ MODULE class_cylinder
         REAL(psb_dpk_) :: radius       ! the radius of the cylinder
         REAL(psb_dpk_) :: r2           ! The correlation parameter for the fit
     CONTAINS
+        PROCEDURE :: get_cylinder_normal, get_cylinder_r2   ! Getters
+        PROCEDURE :: get_pt_cylinder                        ! Getters, cont.
+        PROCEDURE :: translate_cylinder                     ! Setters
         PROCEDURE, PRIVATE :: nemo_cylinder_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_cylinder_sizeof
     END TYPE cylinder
@@ -124,7 +124,7 @@ MODULE class_cylinder
         USE class_vector
         IMPLICIT NONE
         TYPE(vector)              :: get_cylinder_normal
-        TYPE(cylinder), INTENT(IN)   :: this_cylinder
+        CLASS(cylinder), INTENT(IN)   :: this_cylinder
         TYPE(vector),   INTENT(IN)   :: this_point
     END FUNCTION get_cylinder_normal
 
@@ -134,7 +134,7 @@ MODULE class_cylinder
         USE class_vector
         IMPLICIT NONE
         TYPE(vector)              :: get_pt_cylinder   ! function result
-        TYPE(cylinder),  INTENT(IN)  :: this_cylinder     ! the cylinder that we are on
+        CLASS(cylinder),  INTENT(IN)  :: this_cylinder     ! the cylinder that we are on
         TYPE(vector) ,INTENT(IN)  :: point          ! the point off the cylinder
     END FUNCTION get_pt_cylinder
 
@@ -142,7 +142,7 @@ MODULE class_cylinder
     MODULE FUNCTION get_cylinder_r2(this_cylinder)
         IMPLICIT NONE
         REAL(psb_dpk_)  :: get_cylinder_r2
-        TYPE(cylinder),INTENT(IN)        :: this_cylinder
+        CLASS(cylinder),INTENT(IN)        :: this_cylinder
     END FUNCTION get_cylinder_r2
 
     ! ----- Setters -----
@@ -151,7 +151,7 @@ MODULE class_cylinder
       !! moves the definition of a cylinder in the direction of the offset vector
         USE class_vector
         IMPLICIT NONE
-        TYPE(cylinder), INTENT(INOUT) :: this_cylinder       ! the cylinder we are moving
+        CLASS(cylinder), INTENT(INOUT) :: this_cylinder       ! the cylinder we are moving
         TYPE(vector),  INTENT(IN)     :: offset              ! translation vector
     END SUBROUTINE translate_cylinder
 

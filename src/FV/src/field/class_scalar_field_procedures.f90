@@ -38,6 +38,7 @@
 !
 SUBMODULE(class_scalar_field) class_scalar_field_procedures
   USE class_field
+
   IMPLICIT NONE
 
 CONTAINS
@@ -100,13 +101,13 @@ CONTAINS
         TYPE(dimensions) :: fdim
 
         ! Creates the base-class member
-        CALL create_field(fld%base,msh,dim,bc,mats,on_faces)
+        CALL fld%base%create_field(msh,dim,bc,mats,on_faces)
 
         ! Gets field dimensions
-        fdim = dim_(fld%base)
+        fdim = fld%base%dim_()
 
         ! Gets field size
-        isize = fld_size(fld%base)
+        isize = fld%base%fld_size()
         nel   = isize(fld_internal_)
         nbf   = isize(fld_boundary_)
 
@@ -125,30 +126,30 @@ CONTAINS
             fld%mat(:) = 1
             fld%bmat(:) = 1
         ELSE
-            IF (.NOT.on_faces_(fld%base)) THEN
+            IF (.NOT.fld%base%on_faces_()) THEN
                 DO ii = 1, SIZE(fld%mat)
-                    fld%mat(ii) = group_(msh%cells(ii))
+                    fld%mat(ii) = msh%cells(ii)%group_()
                 END DO
             ELSE
                 DO ii = 1, SIZE(fld%mat)
-                    ic = master_(msh%faces(ii))
+                    ic = msh%faces(ii)%master_()
                     IF (ic < 0) THEN
-                        ic = slave_(msh%faces(ii))
+                        ic = msh%faces(ii)%slave_()
                     END IF
-                    fld%mat(ii) = group_(msh%cells(ic))
+                    fld%mat(ii) = msh%cells(ic)%group_()
                 END DO
             END IF
 
             ! for the faces that are on the boundary
             DO ib = 1, msh%nbc
-                CALL get_ith_conn(if2b,msh%f2b,ib)
+                CALL msh%f2b%get_ith_conn(if2b,ib)
                 n = SIZE(if2b)
-                ib_offset = COUNT(flag_(msh%faces) > 0 .AND. flag_(msh%faces) < ib)
+                ib_offset = COUNT(msh%faces%flag_() > 0 .AND. msh%faces%flag_() < ib)
                 DO i = 1, n
                     IF = if2b(i)
                     ibf = ib_offset + i
-                    ic = master_(msh%faces(IF))
-                    fld%bmat(ibf) = group_(msh%cells(ic))
+                    ic = msh%faces(IF)%master_()
+                    fld%bmat(ibf) = msh%cells(ic)%group_()
                 END DO
             END DO
         END IF
@@ -215,7 +216,7 @@ CONTAINS
         !
         INTEGER :: info
 
-        CALL free_field(fld%base)
+        CALL fld%base%free_field()
 
         DEALLOCATE(fld%x,fld%xp,fld%bx,stat=info)
         IF(info /= 0) THEN
@@ -232,7 +233,7 @@ CONTAINS
 
     MODULE PROCEDURE get_scalar_field_name
 
-        get_scalar_field_name = name_(fld%base)
+        get_scalar_field_name = fld%base%name_()
 
     END PROCEDURE get_scalar_field_name
 
@@ -240,7 +241,7 @@ CONTAINS
     MODULE PROCEDURE get_scalar_field_dim
         USE class_dimensions
 
-        get_scalar_field_dim = dim_(fld%base)
+        get_scalar_field_dim = fld%base%dim_()
 
     END PROCEDURE get_scalar_field_dim
 
@@ -248,7 +249,7 @@ CONTAINS
     MODULE PROCEDURE get_scalar_field_msh_fun
         USE class_mesh
 
-        get_scalar_field_msh_fun => msh_(fld%base)
+        get_scalar_field_msh_fun => fld%base%msh_()
 
     END PROCEDURE get_scalar_field_msh_fun
 
@@ -262,7 +263,7 @@ CONTAINS
 
     MODULE PROCEDURE get_scalar_field_on_faces
 
-        get_scalar_field_on_faces = on_faces_(fld%base)
+        get_scalar_field_on_faces = fld%base%on_faces_()
 
     END PROCEDURE get_scalar_field_on_faces
 
@@ -270,7 +271,7 @@ CONTAINS
     MODULE PROCEDURE get_scalar_field_bc
         USE class_bc
 
-        get_scalar_field_bc => bc_(fld%base)
+        get_scalar_field_bc => fld%base%bc_()
 
     END PROCEDURE get_scalar_field_bc
 
@@ -279,9 +280,9 @@ CONTAINS
         USE class_material
         !
         IF (PRESENT(i)) THEN
-            get_scalar_field_mat => mat_(fld%base, fld%mat(i))
+            get_scalar_field_mat => fld%base%mat_(fld%mat(i))
         ELSE
-            get_scalar_field_mat => mat_(fld%base, fld%mat(1))
+            get_scalar_field_mat => fld%base%mat_(fld%mat(1))
         END IF
 
     END PROCEDURE get_scalar_field_mat
@@ -291,9 +292,9 @@ CONTAINS
         USE class_material
 
         IF (PRESENT(i)) THEN
-            CALL get_material(fld%base,fld%mat(i),mat)
+            CALL fld%base%get_material(fld%mat(i),mat)
         ELSE
-            CALL get_material(fld%base,fld%mat(1),mat)
+            CALL fld%base%get_material(fld%mat(1),mat)
         END IF
 
     END PROCEDURE get_scalar_field_mat_sub
@@ -403,12 +404,12 @@ CONTAINS
         ! Gets pointer base-class members
 !!$    msh => msh_(fld%base)
         CALL fld%base%get_mesh(msh)
-        bc  => bc_(fld%base)
+        bc  => fld%base%bc_()
 
 
         ! Preliminary checks based on TEMP
         IF(PRESENT(temp)) THEN
-            IF(dim_(temp) /= temperature_) THEN
+            IF(temp%dim_() /= temperature_) THEN
                 WRITE(*,100)
                 CALL abort_psblas
             END IF
@@ -420,7 +421,7 @@ CONTAINS
             END IF
 
             ! TEMP must be FACE-CENTERED
-            IF(on_faces_(temp)) THEN
+            IF(temp%on_faces_()) THEN
                 WRITE(*,400)
                 CALL abort_psblas
             END IF
@@ -428,47 +429,47 @@ CONTAINS
 
 
         ! 4-ways router
-        IF(.NOT.on_faces_(fld) .AND. .NOT.PRESENT(temp)) THEN
+        IF(.NOT.fld%on_faces_() .AND. .NOT.PRESENT(temp)) THEN
             ! Cell-centered unknown
 
             CALL psb_halo(fld%x,msh%desc_c,info)
             CALL psb_check_error(info,'updscalar_field','psb_halo',icontxt_())
 
             DO ib = 1, msh%nbc
-                CALL update_boundary(ib,bc(ib),dim_(fld),msh,mats,fld%mat,fld%x,fld%bx)
+                CALL update_boundary(ib,bc(ib),fld%dim_(),msh,mats,fld%mat,fld%x,fld%bx)
             END DO
 
-        ELSEIF(.NOT.on_faces_(fld) .AND. PRESENT(temp)) THEN
+        ELSEIF(.NOT.fld%on_faces_() .AND. PRESENT(temp)) THEN
             ! Cell-centered phys. prop.
 
-            CALL matlaw(mats,temp%mat,temp%x,dim_(fld),fld%x)
-            CALL matlaw(mats,temp%bmat,temp%bx,dim_(fld),fld%bx)
+            CALL matlaw(mats,temp%mat,temp%x,fld%dim_(),fld%x)
+            CALL matlaw(mats,temp%bmat,temp%bx,fld%dim_(),fld%bx)
 
-        ELSEIF(on_faces_(fld) .AND. .NOT.PRESENT(temp)) THEN
+        ELSEIF(fld%on_faces_() .AND. .NOT.PRESENT(temp)) THEN
             ! Face-centered unknown
 
             WRITE(*,200)
             CALL abort_psblas
 
-        ELSEIF(on_faces_(fld) .AND. PRESENT(temp)) THEN
+        ELSEIF(fld%on_faces_() .AND. PRESENT(temp)) THEN
             ! Face-centered phys. prop.
 
             ! First compute cell-centered field...
-            CALL matlaw(mats,temp%mat,temp%x,dim_(fld),fld_c)
+            CALL matlaw(mats,temp%mat,temp%x,fld%dim_(),fld_c)
 
             ! ... then Interpolate on faces
-            CALL get_ith_conn(if2b,msh%f2b,0)
+            CALL msh%f2b%get_ith_conn(if2b,0)
             n = SIZE(if2b) ! # of internal fluid faces
 
             DO i = 1, n
                 IF = if2b(i)
-                im = master_(msh%faces(IF))
-                is = slave_(msh%faces(IF))
+                im = msh%faces(IF)%master_()
+                is = msh%faces(IF)%slave_()
                 w  = msh%interp(IF)
                 fld%x(i) = lin_interp(fld_c(im),fld_c(is),w)
             END DO
 
-            CALL matlaw(mats,temp%bmat,temp%bx,dim_(fld),fld%bx)
+            CALL matlaw(mats,temp%bmat,temp%bx,fld%dim_(),fld%bx)
         END IF
 
         IF(ALLOCATED(fld_c)) DEALLOCATE(fld_c)
@@ -536,7 +537,7 @@ CONTAINS
 !!$    msh => msh_(f%base)
         CALL f%base%get_mesh(msh)
 
-        IF(on_faces_(f)) THEN
+        IF(f%on_faces_()) THEN
             WRITE(*,100)
             CALL abort_psblas
         END IF
@@ -546,7 +547,7 @@ CONTAINS
             CALL abort_psblas
         END IF
 
-        CALL get_ith_conn(ic2g,msh%c2g,ig)
+        CALL msh%c2g%get_ith_conn(ic2g,ig)
         ncg = SIZE(ic2g)
 
         DO i = 1, ncg
@@ -633,17 +634,17 @@ CONTAINS
 
 
         ! Check consistency of operands
-        CALL check_field_operands(f1%base,f2%base,'SCALAR_FIELD_SUM')
+        CALL f1%base%check_field_operands(f2%base,'SCALAR_FIELD_SUM')
 
         ! Check consistency of operand dimensions
-        IF(dim_(f1) /= dim_(f2)) THEN
+        IF(f1%dim_() /= f2%dim_()) THEN
             WRITE(*,100)
             CALL abort_psblas
         END IF
 
         r%base = f1%base
 
-        isize = fld_size(f1%base)
+        isize = f1%base%fld_size()
         nel   = isize(fld_internal_)
         nbf   = isize(fld_boundary_)
 
@@ -671,17 +672,17 @@ CONTAINS
 
 
         ! Check consistency of operands
-        CALL check_field_operands(f1%base,f2%base,'SCALAR_FIELD_DIF')
+        CALL f1%base%check_field_operands(f2%base,'SCALAR_FIELD_DIF')
 
         ! Check consistency of operand dimensions
-        IF(dim_(f1) /= dim_(f2)) THEN
+        IF(f1%dim_() /= f2%dim_()) THEN
             WRITE(*,100)
             CALL abort_psblas
         END IF
 
         r%base = f1%base
 
-        isize = fld_size(f1%base)
+        isize = f1%base%fld_size()
         nel   = isize(fld_internal_)
         nbf   = isize(fld_boundary_)
 
@@ -706,7 +707,7 @@ CONTAINS
 
         r%base = f1%base
 
-        isize = fld_size(f1%base)
+        isize = f1%base%fld_size()
         nel   = isize(fld_internal_)
         nbf   = isize(fld_boundary_)
 
@@ -730,7 +731,7 @@ CONTAINS
 
         r%base = f%base
 
-        isize = fld_size(f%base)
+        isize = f%base%fld_size()
         nel   = isize(fld_internal_)
         nbf   = isize(fld_boundary_)
 
@@ -757,17 +758,17 @@ CONTAINS
 
 
         ! Check consistency of operands
-        CALL check_field_operands(f1%base,f2%base,'SCALAR_FIELD_MUL')
+        CALL f1%base%check_field_operands(f2%base,'SCALAR_FIELD_MUL')
 
         r%base = f1%base
 
         ! Computes result dimensions
-        dim = dim_(f1) * dim_(f2)
+        dim = f1%dim_() * f2%dim_()
 
         ! Sets DIM member in the base field object
-        CALL set_field_dim(r%base,dim)
+        CALL r%base%set_field_dim(dim)
 
-        isize = fld_size(f1%base)
+        isize = f1%base%fld_size()
         nel   = isize(fld_internal_)
         nbf   = isize(fld_boundary_)
 
@@ -794,17 +795,17 @@ CONTAINS
 
 
         ! Check consistency of operands
-        CALL check_field_operands(f1%base,f2%base,'SCALAR_FIELD_DIV')
+        CALL f1%base%check_field_operands(f2%base,'SCALAR_FIELD_DIV')
 
         r%base = f1%base
 
         ! Computes result dimensions
-        dim = dim_(f1) / dim_(f2)
+        dim = f1%dim_() / f2%dim_()
 
         ! Sets DIM member in the base field object
-        CALL set_field_dim(r%base,dim)
+        CALL r%base%set_field_dim(dim)
 
-        isize = fld_size(f1%base)
+        isize = f1%base%fld_size()
         nel   = isize(fld_internal_)
         nbf   = isize(fld_boundary_)
 
@@ -836,7 +837,7 @@ CONTAINS
         TYPE(mesh), POINTER :: msh => NULL()
 
 
-        IF(on_faces_(fld)) THEN
+        IF(fld%on_faces_()) THEN
             WRITE(*,100)
             CALL abort_psblas
         END IF
@@ -845,8 +846,8 @@ CONTAINS
         r%base = fld%base
 
         CALL fld%base%get_mesh(msh)
-        nel = COUNT(flag_(msh%faces) <= 0)
-        nbf = COUNT(flag_(msh%faces) > 0)
+        nel = COUNT(msh%faces%flag_() <= 0)
+        nbf = COUNT(msh%faces%flag_() > 0)
 
         ! Allocates arrays for inner and boundary elements
         ALLOCATE(r%x(nel),r%bx(nbf),stat=info)
@@ -856,13 +857,13 @@ CONTAINS
         END IF
 
         ! 1) flag = 0 => interpolates master/slave cell values.
-        CALL get_ith_conn(if2b,msh%f2b,0)
+        CALL msh%f2b%get_ith_conn(if2b,0)
         n = SIZE(if2b) ! # of internal fluid faces
 
         DO i = 1, n
             IF = if2b(i)
-            im = master_(msh%faces(IF))
-            is = slave_(msh%faces(IF))
+            im = msh%faces(IF)%master_()
+            is = msh%faces(IF)%slave_()
             w  = msh%interp(IF)
             r%x(i) = lin_interp(fld%x(im),fld%x(is),w)
         END DO
@@ -870,13 +871,13 @@ CONTAINS
         ioffset = n
 
         ! 2) flag = -1 => uses cell value (same process)
-        CALL get_ith_conn(if2b,msh%f2b,-1)
+        CALL msh%f2b%get_ith_conn(if2b,-1)
         n = SIZE(if2b)
 
         DO i = 1, n
             IF = if2b(i)
-            im = master_(msh%faces(IF))
-            is = slave_(msh%faces(IF))
+            im = msh%faces(IF)%master_()
+            is = msh%faces(IF)%slave_()
             k = ioffset + i
             r%x(k) = fld%x(MAX(im,is))
         END DO
@@ -884,7 +885,7 @@ CONTAINS
 
         ! 3) Copies boundary values
         r%bx = fld%bx
-        CALL set_field_on_faces(r%base,.TRUE.)
+        CALL r%base%set_field_on_faces(.TRUE.)
         NULLIFY(if2b)
         NULLIFY(msh)
 

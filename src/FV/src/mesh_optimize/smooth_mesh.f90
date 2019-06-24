@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !    NEMO - Numerical Engine (for) Multiphysics Operators
@@ -41,6 +41,7 @@
 ! Description: sweeps through the mesh to find the optimum location of all the vertices
 !
 SUBMODULE (tools_mesh_optimize) smooth_mesh_implementation
+    USE class_iterating, ONLY: iterating
     IMPLICIT NONE
 
     CONTAINS
@@ -51,13 +52,12 @@ SUBMODULE (tools_mesh_optimize) smooth_mesh_implementation
         USE class_psblas
         USE class_cell
         USE class_connectivity
-        USE class_iterating
         USE class_keytable
-        USE class_least_squares
+        USE class_least_squares, ONLY : free_least_squares, set_least_squares
         USE class_mesh
         USE class_vector
         USE class_vertex
-        USE tools_mesh_basics
+        USE tools_mesh_basics, ONLY : geom_cell, geom_diff, geom_face
         USE tools_mesh_check
         USE tools_mesh_optimize, nemo_protect_name => smooth_mesh
 
@@ -180,13 +180,13 @@ SUBMODULE (tools_mesh_optimize) smooth_mesh_implementation
         info = initoptms2d(dims,technique,functionID)
 
         ! prepare the c2v connectivity, required for calculating unconstrained vertices
-        CALL get_dual_conn(msh%v2c,c2v)
+        CALL msh%v2c%get_dual_conn(c2v)
 
         ! prepare the f2v connectivity, required for calculating surf. vtx movement
-        CALL get_dual_conn(msh%v2f,f2v)
+        CALL msh%v2f%get_dual_conn(f2v)
 
         ! prepare the b2v connectivity, required for calculating surf. vtx movement
-        CALL get_dual_conn(msh%v2b,b2v)
+        CALL msh%v2b%get_dual_conn(b2v)
 
         ALLOCATE(unconstrained(nverts),constrained(nverts),stat=info)
         IF(info /= 0) THEN
@@ -208,21 +208,21 @@ SUBMODULE (tools_mesh_optimize) smooth_mesh_implementation
         ENDIF
 
         !           ============= repeatedly do surface sweeps ======================
-        CALL reset(surface_iter)
+        CALL surface_iter%reset()
 
         surface_iteration: DO
 
-            CALL increment(surface_iter)
+            CALL surface_iter%increment()
 
             IF (mypnum_() == 0) WRITE(6,'(a,i4,2a)')" - Iteration: ", &
-                & current_iteration(surface_iter), CHAR(27),CHAR(77)
+                & surface_iter%current_iteration(), CHAR(27),CHAR(77)
 
             !  Loop over interior vertices
             DO i=1,n_constrained
 
                 iv = constrained(i) ! get index of unconstrained vertex out of the list
 
-                CALL get_ith_conn(ib2v,b2v,iv)
+                CALL b2v%get_ith_conn(ib2v,iv)
 
                 IF ( SIZE(ib2v) == 1 ) THEN
                     ! a normal sliding vertex can only belong to one boundary,
@@ -240,9 +240,9 @@ SUBMODULE (tools_mesh_optimize) smooth_mesh_implementation
                 DO i = 1,n_shared
 
                     iv = shared(i)
-                    vpos(iv,1) = x_(msh%verts(iv))
-                    vpos(iv,2) = y_(msh%verts(iv))
-                    vpos(iv,3) = z_(msh%verts(iv))
+                    vpos(iv,1) = msh%verts(iv)%x_()
+                    vpos(iv,2) = msh%verts(iv)%y_()
+                    vpos(iv,3) = msh%verts(iv)%z_()
 
                 END DO ! end of loop over shared vertices
 
@@ -266,7 +266,7 @@ SUBMODULE (tools_mesh_optimize) smooth_mesh_implementation
 
             tangled = 0 ! assume that after one surface sweep, things are untangled
 
-            IF ( stop_iterating(surface_iter) ) EXIT surface_iteration
+            IF ( surface_iter%stop_iterating() ) EXIT surface_iteration
         END DO surface_iteration ! end of surface sweep loops
 
         ! Now that the surface is hopefully in good shape, do interior smoothing
@@ -282,10 +282,10 @@ SUBMODULE (tools_mesh_optimize) smooth_mesh_implementation
         ! set all interior points (except at region boundaries) to the avg. position
         CALL laplacian_smooth (msh%desc_v, msh%v2v, n_unconstrained, unconstrained, msh%verts, mixed)
 
-        CALL reset(interior_iter)
+        CALL interior_iter%reset()
 
         IF (mypnum_() == 0) WRITE(6,'(a,i4,2a)')" - Iteration: ",  &
-            &  current_iteration(interior_iter),CHAR(27),CHAR(77)
+            &  interior_iter%current_iteration(),CHAR(27),CHAR(77)
 
         interior_iteration: DO
             !  Loop over interior vertices
@@ -302,9 +302,9 @@ SUBMODULE (tools_mesh_optimize) smooth_mesh_implementation
             IF (tot_n_shared > 0) THEN ! there are shared vertices
                 DO i = 1,n_shared
                     iv = shared(i)
-                    vpos(iv,1) = x_(msh%verts(iv))
-                    vpos(iv,2) = y_(msh%verts(iv))
-                    vpos(iv,3) = z_(msh%verts(iv))
+                    vpos(iv,1) = msh%verts(iv)%x_()
+                    vpos(iv,2) = msh%verts(iv)%y_()
+                    vpos(iv,3) = msh%verts(iv)%z_()
                 END DO
                 CALL psb_ovrl(vpos,msh%desc_v,info,update=psb_avg_)
 
@@ -340,13 +340,13 @@ SUBMODULE (tools_mesh_optimize) smooth_mesh_implementation
 
             ENDIF
 
-            CALL increment(interior_iter)
+            CALL interior_iter%increment()
 
             IF (mypnum_() == 0) WRITE(6,'(a,i4,2a)')" - Iteration: ",  &
-                &  current_iteration(interior_iter),CHAR(27),CHAR(77)
+                &  interior_iter%current_iteration(),CHAR(27),CHAR(77)
 
 
-            IF ( stop_iterating(interior_iter) ) EXIT interior_iteration
+            IF ( interior_iter%stop_iterating() ) EXIT interior_iteration
         END DO interior_iteration
 
         IF (mypnum_() == 0) THEN

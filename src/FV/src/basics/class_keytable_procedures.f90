@@ -115,8 +115,8 @@ CONTAINS
         ! This statement should be redundant.....
         IF ( ALLOCATED(table2%row) ) CALL free_keytable(table2)
 
-        lb  = get_row_lb(table1)
-        ub  = get_row_ub(table1)
+        lb  = table1%get_row_lb()
+        ub  = table1%get_row_ub()
 
         ALLOCATE(table2%row(lb:ub),stat=info)
 
@@ -127,8 +127,8 @@ CONTAINS
 
         DO i = lb, ub
 
-            CALL get_kt_row(table1,i,row)
-            CALL set_kt_row(table2,i,row)
+            CALL table1%get_kt_row(i,row)
+            CALL table2%set_kt_row(i,row)
         ENDDO
 
 100     FORMAT(' ERROR! Memory allocation failure in COPY_KEYTABLE')
@@ -148,7 +148,7 @@ CONTAINS
             RETURN
         ENDIF
 
-        DO i = get_row_lb(table), get_row_ub(table)
+        DO i = table%get_row_lb(), table%get_row_ub()
             IF ( ALLOCATED(table%row(i)%entries) ) DEALLOCATE(table%row(i)%entries)
         ENDDO
 
@@ -164,12 +164,12 @@ CONTAINS
     MODULE PROCEDURE get_kt_row
         USE class_psblas, ONLY : abort_psblas ! Move it to functions
 
-        IF ( i < get_row_lb(table) ) THEN
+        IF ( i < table%get_row_lb() ) THEN
             WRITE(6,100)
             CALL abort_psblas
         ENDIF
 
-        IF ( i > get_row_ub(table) ) THEN
+        IF ( i > table%get_row_ub() ) THEN
             WRITE(6,200)
             CALL abort_psblas
         ENDIF
@@ -219,12 +219,12 @@ CONTAINS
     MODULE PROCEDURE get_row_size
         USE class_psblas, ONLY : abort_psblas ! Move it to functions
 
-        IF ( i < get_row_lb(table) ) THEN
+        IF ( i < table%get_row_lb() ) THEN
             WRITE(6,100)
             CALL abort_psblas
         ENDIF
 
-        IF ( i > get_row_ub(table) ) THEN
+        IF ( i > table%get_row_ub() ) THEN
             WRITE(6,200)
             CALL abort_psblas
         ENDIF
@@ -245,12 +245,12 @@ CONTAINS
         !
         INTEGER :: info
 
-        IF ( i < get_row_lb(table) ) THEN
+        IF ( i < table%get_row_lb() ) THEN
             WRITE(6,200)
             CALL abort_psblas
         ENDIF
 
-        IF ( i > get_row_ub(table) ) THEN
+        IF ( i > table%get_row_ub() ) THEN
             WRITE(6,300)
             CALL abort_psblas
         ENDIF

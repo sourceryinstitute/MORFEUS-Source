@@ -62,10 +62,7 @@ MODULE class_keytable
 
     PRIVATE ! Default
     PUBLIC :: keytable ! Class
-    PUBLIC :: alloc_keytable, free_keytable                 ! Constructor/Destructor
-    PUBLIC :: get_kt_row, get_rows, get_row_ub, get_row_lb  ! Getters
-    PUBLIC :: get_row_size                                  ! Getters, cont.
-    PUBLIC :: set_kt_row, ASSIGNMENT(=)                     ! Setters
+    PUBLIC ::  ASSIGNMENT(=)                     ! Setters
 
     !  `public :: assignment(=)'  ==  `public :: copy_keytable'
 
@@ -81,6 +78,10 @@ MODULE class_keytable
         PRIVATE
         TYPE(a_row), ALLOCATABLE :: row(:)
     CONTAINS
+        PROCEDURE :: alloc_keytable, free_keytable     ! Constructor/Destructor
+        PROCEDURE :: get_kt_row, get_rows, get_row_ub, get_row_lb  ! Getters
+        PROCEDURE :: get_row_size                                  ! Getters, cont.
+        PROCEDURE :: set_kt_row                                    ! Setters
         PROCEDURE, PRIVATE :: nemo_keytable_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_keytable_sizeof
         PROCEDURE, PUBLIC :: exists
@@ -125,7 +126,7 @@ MODULE class_keytable
         MODULE SUBROUTINE alloc_keytable(table,lb,ub)
             USE class_psblas, ONLY : abort_psblas ! Move it to functions
             IMPLICIT NONE
-            TYPE(keytable), INTENT(INOUT) :: table
+            CLASS(keytable), INTENT(INOUT) :: table
             INTEGER, INTENT(IN) :: lb, ub
         END SUBROUTINE alloc_keytable
 
@@ -134,7 +135,7 @@ MODULE class_keytable
         MODULE SUBROUTINE free_keytable(table)
             USE class_psblas, ONLY : abort_psblas, mypnum_ ! Move it to functions
             IMPLICIT NONE
-            TYPE(keytable), INTENT(INOUT) :: table
+            CLASS(keytable), INTENT(INOUT) :: table
         END SUBROUTINE free_keytable
 
     ! ----- Getters -----
@@ -142,7 +143,7 @@ MODULE class_keytable
         MODULE SUBROUTINE get_kt_row(table,i,irow)
             USE class_psblas, ONLY : abort_psblas ! Move it to functions
             IMPLICIT NONE
-            TYPE(keytable), INTENT(IN), TARGET :: table
+            CLASS(keytable), INTENT(IN), TARGET :: table
             INTEGER, INTENT(IN)        :: i
             INTEGER, POINTER           :: irow(:)
         END SUBROUTINE get_kt_row
@@ -161,27 +162,27 @@ MODULE class_keytable
             !use class_psblas ! Move it to functions
             IMPLICIT NONE
             INTEGER :: get_row_lb
-            TYPE (keytable), INTENT(IN) :: table
+            CLASS (keytable), INTENT(IN) :: table
         END FUNCTION get_row_lb
 
 
         MODULE FUNCTION get_row_ub(table)
             IMPLICIT NONE
             INTEGER :: get_row_ub
-            TYPE (keytable), INTENT(IN) :: table
+            CLASS (keytable), INTENT(IN) :: table
         END FUNCTION get_row_ub
 
         MODULE FUNCTION get_rows(table)
             IMPLICIT NONE
             INTEGER :: get_rows
-            TYPE (keytable), INTENT(IN) :: table
+            CLASS(keytable), INTENT(IN) :: table
         END FUNCTION get_rows
 
         MODULE  FUNCTION get_row_size(table,i)
             USE class_psblas, ONLY : abort_psblas ! Move it to functions
             IMPLICIT NONE
             INTEGER :: get_row_size
-            TYPE (keytable), INTENT(IN) :: table
+            CLASS(keytable), INTENT(IN) :: table
             INTEGER,INTENT(IN) :: i
         END FUNCTION get_row_size
 
@@ -190,7 +191,7 @@ MODULE class_keytable
         MODULE SUBROUTINE set_kt_row(table,i,irow)
             USE class_psblas, ONLY : abort_psblas ! Move it to functions
             IMPLICIT NONE
-            TYPE(keytable), INTENT(INOUT) :: table
+            CLASS(keytable), INTENT(INOUT) :: table
             INTEGER, INTENT(IN)        :: i
             INTEGER, INTENT(IN)        :: irow(:)
         END SUBROUTINE set_kt_row

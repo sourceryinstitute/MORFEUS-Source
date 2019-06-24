@@ -65,7 +65,7 @@ CONTAINS
 
         ppv(:) = -nverts
 
-        CALL get_ith_conn(ic2v,c2v,iv)
+        CALL c2v%get_ith_conn(ic2v,iv)
         n = SIZE(ic2v)
 
         DO i = 1, n
@@ -94,7 +94,7 @@ CONTAINS
 
         ppv(:) = -nfaces
 
-        CALL get_ith_conn(ic2f,c2f,IF)
+        CALL c2f%get_ith_conn(ic2f,IF)
         n = SIZE(ic2f)
 
         DO i = 1, n

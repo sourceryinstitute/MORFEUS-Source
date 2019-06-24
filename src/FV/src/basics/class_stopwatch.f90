@@ -51,9 +51,6 @@ MODULE class_stopwatch
     PRIVATE ! Default
     PUBLIC :: stopwatch                ! Class
     PUBLIC :: stopwatch_               ! Constructor
-    PUBLIC :: partial_, total_         ! Getters
-    PUBLIC :: reset, synchro, tic, toc ! Setters
-
 
     TYPE stopwatch
         PRIVATE
@@ -61,63 +58,59 @@ MODULE class_stopwatch
         REAL(psb_dpk_) :: total
         REAL(psb_dpk_) :: split
         REAL(psb_dpk_) :: partial
+      CONTAINS
+        PROCEDURE :: partial_, total_   ! Getters
+        PROCEDURE, PRIVATE :: synchro_stopwatch, tic_stopwatch, toc_stopwatch  !Setters
+        GENERIC, PUBLIC :: synchro => synchro_stopwatch
+        GENERIC, PUBLIC :: tic => tic_stopwatch
+        GENERIC, PUBLIC :: toc => toc_stopwatch
+        PROCEDURE, PRIVATE :: reset_stopwatch
+        GENERIC, PUBLIC:: reset => reset_stopwatch
     END TYPE stopwatch
 
 
     ! ----- Generic Interfaces -----
 
-    INTERFACE reset
+    INTERFACE
         MODULE SUBROUTINE reset_stopwatch(sw)
             IMPLICIT NONE
-            TYPE(stopwatch), INTENT(INOUT) :: sw
+            CLASS(stopwatch), INTENT(INOUT) :: sw
         END SUBROUTINE reset_stopwatch
-    END INTERFACE reset
 
-    INTERFACE tic
         MODULE SUBROUTINE tic_stopwatch(sw)
             IMPLICIT NONE
-            TYPE(stopwatch), INTENT(INOUT) :: sw
+            CLASS(stopwatch), INTENT(INOUT) :: sw
         END SUBROUTINE tic_stopwatch
-    END INTERFACE tic
 
-    INTERFACE toc
         MODULE SUBROUTINE toc_stopwatch(sw)
             IMPLICIT NONE
-            TYPE(stopwatch), INTENT(INOUT) :: sw
+            CLASS(stopwatch), INTENT(INOUT) :: sw
         END SUBROUTINE toc_stopwatch
-    END INTERFACE toc
 
-    INTERFACE synchro
         MODULE SUBROUTINE synchro_stopwatch(sw)
             IMPLICIT NONE
-            TYPE(stopwatch), INTENT(INOUT) :: sw
+            CLASS(stopwatch), INTENT(INOUT) :: sw
         END SUBROUTINE synchro_stopwatch
-    END INTERFACE synchro
 
     ! ----- Constructor -----
 
-    INTERFACE
         MODULE FUNCTION stopwatch_(icontxt)
             IMPLICIT NONE
             TYPE(stopwatch) :: stopwatch_
             INTEGER, INTENT(IN) :: icontxt
         END FUNCTION stopwatch_
-    END INTERFACE
 
     ! ----- Getters -----
-    INTERFACE
         MODULE FUNCTION partial_(sw)
             IMPLICIT NONE
             REAL(psb_dpk_) :: partial_
-            TYPE(stopwatch), INTENT(IN) :: sw
+            CLASS(stopwatch), INTENT(IN) :: sw
         END FUNCTION partial_
-    END INTERFACE
 
-    INTERFACE
         MODULE FUNCTION total_(sw)
             IMPLICIT NONE
             REAL(psb_dpk_) :: total_
-            TYPE(stopwatch), INTENT(IN) :: sw
+            CLASS(stopwatch), INTENT(IN) :: sw
         END FUNCTION total_
     END INTERFACE
 END MODULE class_stopwatch

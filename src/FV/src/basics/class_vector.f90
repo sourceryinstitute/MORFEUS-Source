@@ -52,12 +52,10 @@ MODULE class_vector
     PUBLIC :: vector                                   ! Class
     PUBLIC :: vector_, alloc_vector, free_vector       ! Constructor/destructor
     PUBLIC :: bcast_vector, g2l_vector, l2g_vector     ! Parallel Operations
-    PUBLIC :: x_, y_, z_                               ! Getters
-    PUBLIC :: set_x_, set_y_, set_z_                   ! Setters
     PUBLIC :: update_vector_halo                       ! Setters
     PUBLIC :: OPERATOR(+), OPERATOR(-), OPERATOR(*), & ! Vector Algebra
         &    OPERATOR(.dot.), OPERATOR(.cross.),    &
-        &    mag, unit, OPERATOR(==),  ASSIGNMENT(=)
+        &    OPERATOR(==),  ASSIGNMENT(=)
     PUBLIC :: mandatory_v_
 
     TYPE vector
@@ -66,6 +64,17 @@ MODULE class_vector
         REAL(psb_dpk_) :: y
         REAL(psb_dpk_) :: z
     CONTAINS
+        PROCEDURE, PRIVATE :: get_vector_x, get_vector_y, get_vector_z  ! Getters
+        GENERIC, PUBLIC :: x_ => get_vector_x
+        GENERIC, PUBLIC :: y_ => get_vector_y
+        GENERIC, PUBLIC :: z_ => get_vector_z
+        PROCEDURE, PRIVATE :: set_vector_x, set_vector_y, set_vector_z  ! Setters
+        GENERIC, PUBLIC :: set_x_ => set_vector_x
+        GENERIC, PUBLIC :: set_y_ => set_vector_y
+        GENERIC, PUBLIC :: set_z_ => set_vector_z
+        PROCEDURE, PRIVATE :: vec_mag, vec_unit
+        GENERIC, PUBLIC :: mag => vec_mag
+        GENERIC, PUBLIC :: unit => vec_unit
         PROCEDURE, PRIVATE :: nemo_vector_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_vector_sizeof
     END TYPE vector
@@ -74,55 +83,45 @@ MODULE class_vector
     ! ----- Generic Interfaces -----
 
     ! Getters
-    INTERFACE x_
+    INTERFACE
         ELEMENTAL MODULE FUNCTION get_vector_x(vert)
             IMPLICIT NONE
             REAL(psb_dpk_) :: get_vector_x
-            TYPE(vector), INTENT(IN) :: vert
+            CLASS(vector), INTENT(IN) :: vert
         END FUNCTION get_vector_x
-    END INTERFACE x_
 
-    INTERFACE y_
         ELEMENTAL MODULE FUNCTION get_vector_y(vert)
             IMPLICIT NONE
             REAL(psb_dpk_) :: get_vector_y
-            TYPE(vector), INTENT(IN) :: vert
+            CLASS(vector), INTENT(IN) :: vert
         END FUNCTION get_vector_y
-    END INTERFACE y_
 
-    INTERFACE z_
         ELEMENTAL MODULE FUNCTION get_vector_z(vert)
             IMPLICIT NONE
             REAL(psb_dpk_) :: get_vector_z
-            TYPE(vector), INTENT(IN) :: vert
+            CLASS(vector), INTENT(IN) :: vert
         END FUNCTION get_vector_z
-    END INTERFACE z_
 
     ! Setters
 
-    INTERFACE set_x_
         MODULE SUBROUTINE set_vector_x(vect,r)
             IMPLICIT NONE
             REAL(psb_dpk_)::r
-            TYPE(vector), INTENT(INOUT) :: vect
+            CLASS(vector), INTENT(INOUT) :: vect
         END SUBROUTINE set_vector_x
-    END INTERFACE set_x_
 
-    INTERFACE set_y_
         MODULE SUBROUTINE set_vector_y(vect,r)
             IMPLICIT NONE
             REAL(psb_dpk_)::r
-            TYPE(vector), INTENT(INOUT) :: vect
+            CLASS(vector), INTENT(INOUT) :: vect
         END SUBROUTINE set_vector_y
-    END INTERFACE set_y_
 
-    INTERFACE set_z_
         MODULE SUBROUTINE set_vector_z(vect,r)
             IMPLICIT NONE
             REAL(psb_dpk_)::r
-            TYPE(vector), INTENT(INOUT) :: vect
+            CLASS(vector), INTENT(INOUT) :: vect
         END SUBROUTINE set_vector_z
-    END INTERFACE set_z_
+    END INTERFACE
 
     ! ----- Operators Overloading -----
 
@@ -130,7 +129,7 @@ MODULE class_vector
         ELEMENTAL MODULE FUNCTION vec_sum(a,b)
             IMPLICIT NONE
             TYPE(vector) :: vec_sum
-            TYPE(vector), INTENT(IN) :: a, b
+            TYPE(vector), INTENT(IN)  :: a, b
         END FUNCTION vec_sum
     END INTERFACE OPERATOR(+)
 
@@ -182,23 +181,21 @@ MODULE class_vector
         END FUNCTION cross_prod
     END INTERFACE OPERATOR(.cross.)
 
-    INTERFACE mag
+    INTERFACE
         ELEMENTAL MODULE FUNCTION vec_mag(v)
             IMPLICIT NONE
             REAL(psb_dpk_) :: vec_mag
-            TYPE(vector), INTENT(IN) :: v
+            CLASS(vector), INTENT(IN) :: v
         END FUNCTION vec_mag
-    END INTERFACE mag
 
-    INTERFACE unit
         ELEMENTAL MODULE FUNCTION vec_unit(v)
         ! Returns a unit vector in the direction of V
         !
             IMPLICIT NONE
             TYPE(vector)             :: vec_unit
-            TYPE(vector), INTENT(IN) :: v
+            CLASS(vector), INTENT(IN) :: v
         END FUNCTION vec_unit
-    END INTERFACE unit
+    END INTERFACE
 
     INTERFACE OPERATOR(==)
         PURE MODULE FUNCTION vec_eq(a,b)
@@ -240,18 +237,14 @@ MODULE class_vector
             TYPE(vector), ALLOCATABLE :: vect(:)
             INTEGER, INTENT(IN) :: n
         END SUBROUTINE alloc_vector 
-    END INTERFACE
 
     ! ----- Destructor -----
-    INTERFACE
         MODULE SUBROUTINE free_vector(vect)
             IMPLICIT NONE
             TYPE(vector), ALLOCATABLE :: vect(:)
         END SUBROUTINE free_vector
-    END INTERFACE
 
     ! ----- Parallel Operations -----
-    INTERFACE
         MODULE SUBROUTINE bcast_vector(vect)
             IMPLICIT NONE
             TYPE(vector), ALLOCATABLE :: vect(:)
@@ -274,10 +267,8 @@ MODULE class_vector
             TYPE(vector), ALLOCATABLE  :: verts_glob(:)
             TYPE(psb_desc_type), INTENT(IN) :: desc_v
         END SUBROUTINE l2g_vector
-    END INTERFACE
 
-    INTERFACE
-         MODULE SUBROUTINE update_vector_halo(v,desc)
+        MODULE SUBROUTINE update_vector_halo(v,desc)
              USE psb_base_mod
              IMPLICIT NONE
              TYPE(vector), INTENT(INOUT) :: v(:)

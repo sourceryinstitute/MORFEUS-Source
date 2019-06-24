@@ -75,18 +75,18 @@ SUBMODULE(op_grad) vector_pde_grad_implementation
             TYPE(vector) :: fact
             TYPE(vector), ALLOCATABLE :: b(:), grad(:)
 
-            CALL tic(sw_pde)
+            CALL sw_pde%tic()
 
             IF(mypnum_() == 0) THEN
-                WRITE(*,*) '* ', TRIM(name_(pde)), ': applying the Gradient ',&
-                    & 'operator to the ', TRIM(name_(phi)), ' field'
+                WRITE(*,*) '* ', TRIM(pde%name_()), ': applying the Gradient ',&
+                    & 'operator to the ', TRIM(phi%name_()), ' field'
             END IF
 
             ! Possible reinit of PDE
-            CALL reinit_pde(pde)
+            CALL pde%reinit_pde()
 
             ! Is PHI cell-centered?
-            IF(on_faces_(phi)) THEN
+            IF(phi%on_faces_()) THEN
                 WRITE(*,100) TRIM(op_name)
                 CALL abort_psblas
             END IF
@@ -102,8 +102,8 @@ SUBMODULE(op_grad) vector_pde_grad_implementation
             NULLIFY(msh_phi)
 
             ! Equation dimensional check
-            dim = dim_(phi) / length_ * volume_
-            IF(dim /= dim_(pde)) THEN
+            dim = phi%dim_() / length_ * volume_
+            IF(dim /= pde%dim_()) THEN
                 WRITE(*,200) TRIM(op_name)
                 CALL abort_psblas
             END IF
@@ -117,8 +117,8 @@ SUBMODULE(op_grad) vector_pde_grad_implementation
             fsign = pde_sign(sign,side_)
 
             ! Gets PHI internal ("x") and boundary ("bx") values
-            CALL get_x(phi,x)
-            CALL get_bx(phi,bx)
+            CALL phi%get_x(x)
+            CALL phi%get_bx(bx)
 
             ! Computes gradient for non-orthogonality correction
             ! First allocates the result ...
@@ -186,7 +186,7 @@ SUBMODULE(op_grad) vector_pde_grad_implementation
             DEALLOCATE(x,bx)
 
 
-            CALL toc(sw_pde)
+            CALL sw_pde%toc()
 
         100 FORMAT(' ERROR! Operand in ',a,' is not cell centered')
         200 FORMAT(' ERROR! Dimensional check failure in ',a)

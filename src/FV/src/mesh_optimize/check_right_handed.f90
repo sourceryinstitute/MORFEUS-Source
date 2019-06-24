@@ -56,7 +56,7 @@ SUBMODULE (tools_mesh_optimize) check_right_handed_implementation
         USE tools_mesh_basics
         USE tools_mesh_check
         USE tools_mesh_optimize, ONLY: initoptms,freeoptms,right_handed, &
-            & mobile_verts,smooth_interior_vtx
+            &                          smooth_interior_vtx
         IMPLICIT NONE
 
         ! Local variables
@@ -79,17 +79,17 @@ SUBMODULE (tools_mesh_optimize) check_right_handed_implementation
 
         nverts = psb_cd_get_local_rows(msh%desc_v) !local and shared vertices
 
-        DO i=1,nel_(msh%v2c)  ! check local cells
+        DO i=1,msh%v2c%nel_()  ! check local cells
 
-            CALL get_ith_conn(iv2c,msh%v2c,i)  !list of verts connected to ith cell
+            CALL msh%v2c%get_ith_conn(iv2c,i)  !list of verts connected to ith cell
 
-            IF ( geo_(msh%cells(i)) == 'tet' ) THEN ! is a tet
+            IF ( msh%cells(i)%geo_() == 'tet' ) THEN ! is a tet
 
                 ! get positions of the cell's vertices
                 DO iv=1,SIZE(iv2c)
-                    pos(1,iv) = x_(msh%verts(iv2c(iv)))
-                    pos(2,iv) = y_(msh%verts(iv2c(iv)))
-                    pos(3,iv) = z_(msh%verts(iv2c(iv)))
+                    pos(1,iv) = msh%verts(iv2c(iv))%x_()
+                    pos(2,iv) = msh%verts(iv2c(iv))%y_()
+                    pos(3,iv) = msh%verts(iv2c(iv))%z_()
                 ENDDO
 
                 !if info is 0 then the cell is degenerate, -1 is left-handed
@@ -107,7 +107,7 @@ SUBMODULE (tools_mesh_optimize) check_right_handed_implementation
                     iv = loc_to_glob_(msh%desc_v,i)
 
                     ! get list of global id of cells attached to a vertex
-                    CALL get_kt_row(msh%c2ov_sup, iv, ic2v)
+                    CALL msh%c2ov_sup%get_kt_row(iv, ic2v)
 
                     ! loop over cells connected to vertex..even if we've checked
                     !  them previously
@@ -118,7 +118,7 @@ SUBMODULE (tools_mesh_optimize) check_right_handed_implementation
                         ic=ic2v(j)
 
                         !get vertices of the cell (with global numbering)
-                        CALL get_kt_row(msh%ov2c_sup, ic, iv2c)
+                        CALL msh%ov2c_sup%get_kt_row(ic, iv2c)
 
                         IF ( all_tets(i) ) THEN ! then we can use OptMS code for tet
 
@@ -133,9 +133,9 @@ SUBMODULE (tools_mesh_optimize) check_right_handed_implementation
                             END IF
 
                             DO iv=1,SIZE(iv2c) ! get position of vertices
-                                pos(1,iv) = x_(msh%verts(index_copy(iv)))
-                                pos(2,iv) = y_(msh%verts(index_copy(iv)))
-                                pos(3,iv) = z_(msh%verts(index_copy(iv)))
+                                pos(1,iv) = msh%verts(index_copy(iv))%x_()
+                                pos(2,iv) = msh%verts(index_copy(iv))%y_()
+                                pos(3,iv) = msh%verts(index_copy(iv))%z_()
                             ENDDO
 
                             !if info is 0 then the cell is degenerate, -1 is left-handed

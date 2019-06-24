@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -43,31 +43,29 @@
 !    To be added...
 !
 MODULE class_least_squares
-    USE class_psblas
-
+    USE class_psblas, ONLY : nemo_int_long_, psb_dpk_
+    USE class_connectivity, ONLY : connectivity
     IMPLICIT NONE
 
     PRIVATE ! Default
-    PUBLIC :: least_squares                           ! Class
-    PUBLIC :: alloc_least_squares, free_least_squares ! Constructor/destructor
-    PUBLIC :: set_least_squares                       ! Setter
-    PUBLIC :: solve_least_squares                     ! Math Operations
+    PUBLIC :: least_squares           !! Class
+    PUBLIC :: free_least_squares      !! Procedure
+    PUBLIC :: set_least_squares       !! Procedure
 
     TYPE least_squares
         REAL(psb_dpk_), ALLOCATABLE :: A(:)
     CONTAINS
         PROCEDURE, PRIVATE :: nemo_least_squares_sizeof
-        GENERIC, PUBLIC :: nemo_sizeof => nemo_least_squares_sizeof
+        GENERIC,   PUBLIC  :: nemo_sizeof => nemo_least_squares_sizeof
+        PROCEDURE, PUBLIC  :: solve_least_squares         !! Math Operations
     END TYPE least_squares
-
 
   INTERFACE
 
     ELEMENTAL MODULE FUNCTION nemo_least_squares_sizeof(lsq)
-        USE psb_base_mod
         IMPLICIT NONE
         CLASS(least_squares), INTENT(IN) :: lsq
-        INTEGER(kind=nemo_int_long_)   :: nemo_least_squares_sizeof
+        INTEGER(kind=nemo_int_long_)     :: nemo_least_squares_sizeof
     END FUNCTION nemo_least_squares_sizeof
 
     ! ----- Constructor -----
@@ -78,7 +76,6 @@ MODULE class_least_squares
         INTEGER, INTENT(IN) :: n, ncd
     END SUBROUTINE alloc_least_squares
 
-
     ! ----- Destructor -----
 
     MODULE SUBROUTINE free_least_squares(lsr)
@@ -86,13 +83,11 @@ MODULE class_least_squares
         TYPE(least_squares), ALLOCATABLE  :: lsr(:)
     END SUBROUTINE free_least_squares
 
-
     ! ----- Setter -----
 
     MODULE SUBROUTINE set_least_squares(lsr,ncd,desc,c2c,f2b,faces,cell_cntr,face_cntr)
-        USE class_connectivity
-        USE class_face
-        USE class_vector
+        USE class_face, ONLY : face
+        USE class_vector, ONLY : vector
         USE tools_math
         USE psb_base_mod
         IMPLICIT NONE
@@ -104,13 +99,11 @@ MODULE class_least_squares
         TYPE(vector), INTENT(IN) :: cell_cntr(:), face_cntr(:)
     END SUBROUTINE set_least_squares
 
-
     ! ----- Computational Routines -----
 
     MODULE SUBROUTINE solve_least_squares(lsr,rhs)
-        USE tools_math
         IMPLICIT NONE
-        TYPE(least_squares), INTENT(IN) :: lsr
+        CLASS(least_squares), INTENT(IN) :: lsr
         REAL(psb_dpk_), INTENT(INOUT) :: rhs(:)
     END SUBROUTINE solve_least_squares
 

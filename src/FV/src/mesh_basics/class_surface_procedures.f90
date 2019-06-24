@@ -112,7 +112,7 @@ CONTAINS
         ENDIF
 
         ! Get list of vertices
-        CALL get_ith_conn(iv2b,v2b,ib)
+        CALL v2b%get_ith_conn(iv2b,ib)
 
         nverts = SIZE(iv2b)
 
@@ -134,12 +134,12 @@ CONTAINS
 
         ! check the types of surface by goodness of fit. Note that the acceptable tolerance
         ! must be very high to avoid "false positives."
-        IF ( get_plane_r2( this_surface%my_plane ) >= acceptable ) THEN
+        IF ( this_surface%my_plane%get_plane_r2() >= acceptable ) THEN
 
             this_surface%itype = iplane_
             IF ( mypnum_() == 0) &
                 & WRITE(6,'(a,i3,a,f10.6)')"  BC: ",ib,"  Autodetected plane with certainty    = ", &
-                & get_plane_r2( this_surface%my_plane )
+                & this_surface%my_plane%get_plane_r2()
 
             ! CALL free_cylinder(this_surface%my_cylinder)
 
@@ -170,7 +170,7 @@ CONTAINS
 
         IF ( this_surface%itype /= iunknown_ ) THEN
             DO i = 1, SIZE(bndry_verts)
-                CALL reform_vertex(this_surface, bndry_verts(i))
+                CALL this_surface%reform_vertex(bndry_verts(i))
             ENDDO
         ENDIF
 
@@ -224,10 +224,10 @@ CONTAINS
         SELECT CASE ( this_surface%itype )
 
         CASE (iplane_)
-            get_surface_normal = get_plane_normal(this_surface%my_plane)
+            get_surface_normal = this_surface%my_plane%get_plane_normal()
 
         CASE (icylinder_)
-            get_surface_normal = get_cylinder_normal(this_surface%my_cylinder, this_point)
+            get_surface_normal = this_surface%my_cylinder%get_cylinder_normal(this_point)
 
         CASE default
             WRITE(6,100)
@@ -250,10 +250,10 @@ CONTAINS
         SELECT CASE ( this_surface%itype)
 
         CASE (iplane_)
-            get_surface_r2 = get_plane_r2(this_surface%my_plane)
+            get_surface_r2 = this_surface%my_plane%get_plane_r2()
 
         CASE (icylinder_)
-            get_surface_r2 = get_cylinder_r2(this_surface%my_cylinder)
+            get_surface_r2 = this_surface%my_cylinder%get_cylinder_r2()
 
         CASE default
             WRITE(6,100)
@@ -276,10 +276,10 @@ CONTAINS
         SELECT CASE ( this_surface%itype)
 
         CASE (iplane_)
-            CALL translate_plane(this_surface%my_plane,offset)
+            CALL this_surface%my_plane%translate_plane(offset)
 
         CASE (icylinder_)
-            CALL translate_cylinder(this_surface%my_cylinder,offset)
+            CALL this_surface%my_cylinder%translate_cylinder(offset)
 
         CASE default
             ! do nothing...there are no data describing an irregular surface
@@ -297,10 +297,10 @@ CONTAINS
         SELECT CASE ( this_surface%itype )
 
         CASE (iplane_)
-            get_closest_point = get_pt_plane(this_surface%my_plane, point)
+            get_closest_point = this_surface%my_plane%get_pt_plane(point)
 
         CASE (icylinder_)
-            get_closest_point = get_pt_cylinder(this_surface%my_cylinder,point)
+            get_closest_point = this_surface%my_cylinder%get_pt_cylinder(point)
 
         CASE default
             WRITE(6,100)
@@ -327,20 +327,22 @@ CONTAINS
         ! Local variables
         TYPE(vector) :: old_pos,new_pos
 
-        old_pos = position_(vtx)
+        old_pos = vtx%position_()
 
-        new_pos = get_closest_point(this_surface,old_pos)
+        new_pos = this_surface%get_closest_point(old_pos)
 
         vtx = new_pos
 
     END PROCEDURE reform_vertex
 
 
-    MODULE PROCEDURE get_surface_set
+    !Below is commented out because this procedure is not used
+
+    !MODULE PROCEDURE get_surface_set
       !! returns true if the surface has been set up already
 
-        get_surface_set = this_surface%set
+    !    get_surface_set = this_surface%set
 
-    END PROCEDURE get_surface_set
+    !END PROCEDURE get_surface_set
 
 END SUBMODULE class_surface_procedures

@@ -75,7 +75,7 @@ SUBMODULE (tools_math) psb_solve_implementation
             WRITE(*,*) '  + Solving linear system with: ', TRIM(cmethod)
         END IF
 
-        CALL tic(sw_sol)
+        CALL sw_sol%tic()
         CALL vx%bld(x)
         CALL vb%bld(b)
 
@@ -88,9 +88,9 @@ SUBMODULE (tools_math) psb_solve_implementation
             ax=vx%get_vect()
             x(:) = ax(:)
         END IF
-        CALL toc(sw_sol)
+        CALL sw_sol%toc()
 
-        t_sol = partial_(sw_sol)
+        t_sol = sw_sol%partial_()
 
         ! System solving log message
         IF(mypnum == 0) THEN

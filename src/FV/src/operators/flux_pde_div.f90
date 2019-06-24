@@ -75,18 +75,18 @@ SUBMODULE (op_div) flux_pde_div_implementation
     TYPE(mesh), POINTER :: msh => NULL()
     TYPE(mesh), POINTER :: msh_flux => NULL()
     TYPE(vector) :: vf
-    CALL tic(sw_pde)
+    CALL sw_pde%tic()
 
     IF(mypnum_() == 0) THEN
-        WRITE(*,*) '* ', TRIM(name_(pde)), ': applying the Divergence ',&
-            & 'operator to the ', TRIM(name_(flux)), ' field'
+        WRITE(*,*) '* ', TRIM(pde%name_()), ': applying the Divergence ',&
+            & 'operator to the ', TRIM(flux%name_()), ' field'
     END IF
 
     ! Possible reinit of PDE
-    CALL reinit_pde(pde)
+    CALL pde%reinit_pde()
 
     ! Is FLUX face-centered?
-    IF(.NOT. on_faces_(flux)) THEN
+    IF(.NOT. flux%on_faces_()) THEN
         WRITE(*,200) TRIM(op_name)
         CALL abort_psblas
     END IF
@@ -103,8 +103,8 @@ SUBMODULE (op_div) flux_pde_div_implementation
     NULLIFY(msh_flux)
 
     ! Equation dimensional check
-    dim = dim_(flux)
-    IF(dim /= dim_(pde)) THEN
+    dim = flux%dim_()
+    IF(dim /= pde%dim_()) THEN
         WRITE(*,300) TRIM(op_name)
         CALL abort_psblas
     END IF
@@ -125,10 +125,10 @@ SUBMODULE (op_div) flux_pde_div_implementation
     END IF
 
     ! Gets FLUX "x" internal values
-    CALL get_x(flux,flux_x)
+    CALL flux%get_x(flux_x)
 
     ! Total number of matrix coefficients associated to the fluid faces
-    ncoeff = 2 * COUNT(flag_(msh%faces) == 0)
+    ncoeff = 2 * COUNT(msh%faces%flag_() == 0)
 
     ! Computes maximum size of blocks to be inserted
     nmax = size_blk(1,ncoeff)
@@ -148,7 +148,7 @@ SUBMODULE (op_div) flux_pde_div_implementation
     b = 0.d0
     irow_a = 0
 
-    CALL get_ith_conn(if2b,msh%f2b,0)
+    CALL msh%f2b%get_ith_conn(if2b,0)
 
     ifirst = 1; i = 0
     insert_fluid: DO
@@ -159,8 +159,8 @@ SUBMODULE (op_div) flux_pde_div_implementation
             ! Local indices
             i = i + 1
             IF = if2b(i)
-            im = master_(msh%faces(IF))
-            is = slave_(msh%faces(IF))
+            im = msh%faces(IF)%master_()
+            is = msh%faces(IF)%slave_()
             ! Global indices
             im_glob = iloc_to_glob(im)
             is_glob = iloc_to_glob(is)
@@ -200,7 +200,7 @@ SUBMODULE (op_div) flux_pde_div_implementation
     ! ----- Insert source terms for boundary conditions -----
 
     ! Gets boundary values of FLUX fields
-    CALL get_bx(flux,flux_x)
+    CALL flux%get_bx(flux_x)
 
     b = 0.d0
     irow_a = 0
@@ -211,7 +211,7 @@ SUBMODULE (op_div) flux_pde_div_implementation
     nbc = msh%nbc
 
     bc_loop: DO ib = 1, nbc
-        CALL get_ith_conn(if2b,msh%f2b,ib)
+        CALL msh%f2b%get_ith_conn(if2b,ib)
         n = SIZE(if2b)
         IF(n == 0) CYCLE bc_loop
 
@@ -225,7 +225,7 @@ SUBMODULE (op_div) flux_pde_div_implementation
                 i = i + 1
                 IF = if2b(i)
                 ibf = ib_offset + i
-                im = master_(msh%faces(IF))
+                im = msh%faces(IF)%master_()
                 ! Global index
                 im_glob = iloc_to_glob(im)
 
@@ -256,7 +256,7 @@ SUBMODULE (op_div) flux_pde_div_implementation
     DEALLOCATE(b,irow_a)
     NULLIFY(msh)
 
-    CALL toc(sw_pde)
+    CALL sw_pde%toc()
 
 100 FORMAT(' ERROR! PHI field in ',a,' is not cell centered')
 200 FORMAT(' ERROR! FLUX field in ',a,' is not cell centered')

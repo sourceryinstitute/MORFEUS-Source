@@ -37,7 +37,7 @@
 !    Run-time polymorphism for BC_* classes
 !
 SUBMODULE(class_bc) class_bc_procedures
-
+    USE class_face
     IMPLICIT NONE
 
 CONTAINS
@@ -60,7 +60,6 @@ CONTAINS
 
     MODULE PROCEDURE create_bc
       !! Global constructor
-        USE class_face
         USE class_mesh
         USE tools_bc
         USE tools_input
@@ -111,7 +110,7 @@ CONTAINS
             WRITE(bc_sec,aformat) TRIM(sec),' ',ib
 
             ! Counts number of boundary faces
-            nbf = COUNT(flag_(msh%faces) == ib)
+            nbf = COUNT(msh%faces%flag_() == ib)
             PRINT *, ib, nbf
             SELECT CASE(bc(ib)%id)
             CASE(bc_math_)
@@ -158,7 +157,7 @@ CONTAINS
             END SELECT
             ! ------------------------
 
-            CALL free_motion(bc(ib)%mot)
+            CALL bc(ib)%mot%free_motion()
         END DO
 
         DEALLOCATE(bc,stat=info)
@@ -183,7 +182,7 @@ CONTAINS
         CASE(bc_math_)
             CALL get_abc_math(bc%math,id,a,b,c)
         CASE(bc_wall_)
-            CALL get_abc_wall(bc%wall,dim,id,a,b,c)
+            CALL bc%wall%get_abc_wall(dim,id,a,b,c)
         END SELECT
         ! ------------------------
 
@@ -198,7 +197,7 @@ CONTAINS
         ! ----- POLYMORPHISM -----
         SELECT CASE(bc%id)
         CASE(bc_wall_)
-            CALL get_abc_wall(bc%wall,dim,id,a,b,c)
+            CALL bc%wall%get_abc_wall(dim,id,a,b,c)
         END SELECT
         ! ------------------------
 
@@ -207,14 +206,14 @@ CONTAINS
 
     MODULE PROCEDURE get_bc_surface_motion
 
-        get_bc_surface_motion = surface_motion_(bc%mot)
+        get_bc_surface_motion = bc%mot%surface_motion_()
 
     END PROCEDURE get_bc_surface_motion
 
 
     MODULE PROCEDURE get_bc_vertex_motion
 
-        get_bc_vertex_motion = vertex_motion_(bc%mot)
+        get_bc_vertex_motion = bc%mot%vertex_motion_()
 
     END PROCEDURE get_bc_vertex_motion
 
@@ -222,7 +221,7 @@ CONTAINS
     MODULE PROCEDURE get_bc_motion_displacement
         USE class_vector
 
-        res = get_displacement(bc%mot,x1,x2)
+        res = bc%mot%get_displacement(x1,x2)
 
     END PROCEDURE get_bc_motion_displacement
 
@@ -230,7 +229,7 @@ CONTAINS
     MODULE PROCEDURE get_bc_motion_velocity
         USE class_vector
 
-        res = get_velocity(bc%mot,x)
+        res = bc%mot%get_velocity(x)
 
     END PROCEDURE get_bc_motion_velocity
 
@@ -243,9 +242,9 @@ CONTAINS
         ! ----- POLYMORPHISM -----
         SELECT CASE(bc%id)
         CASE(bc_math_)
-            CALL set_bc_math_map(bc%math,i,a,b,c)
+            CALL bc%math%set_bc_math_map(i,a,b,c)
         CASE(bc_wall_)
-            CALL set_bc_wall_map(bc%wall,i,a,b,c)
+            CALL bc%wall%set_bc_wall_map(i,a,b,c)
         CASE default
             WRITE(*,100)
             CALL abort_psblas
@@ -263,7 +262,7 @@ CONTAINS
         ! ----- POLYMORPHISM -----
         SELECT CASE(bc%id)
         CASE(bc_wall_)
-            CALL set_bc_wall_map(bc%wall,i,a,b,c)
+            CALL bc%wall%set_bc_wall_map(i,a,b,c)
         CASE default
             WRITE(*,100)
             CALL abort_psblas
@@ -335,7 +334,7 @@ CONTAINS
         DO ib = 1 , msh%nbc
 
             this_motion = bc(ib)%mot
-            offset = get_displacement(this_motion,t1,t2)
+            offset = this_motion%get_displacement(t1,t2)
 
             ! move each single boundary
             CALL move_boundary(ib,this_motion,offset,msh)

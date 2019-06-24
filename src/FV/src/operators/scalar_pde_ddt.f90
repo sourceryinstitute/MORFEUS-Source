@@ -44,6 +44,7 @@
 !    Remark: FLD is optional.
 !
 SUBMODULE (op_ddt) scalar_pde_ddt_implementation
+    USE class_dimensions
     IMPLICIT NONE
 
     CONTAINS
@@ -65,30 +66,30 @@ SUBMODULE (op_ddt) scalar_pde_ddt_implementation
     REAL(psb_dpk_), ALLOCATABLE :: fld_x_old(:)
     REAL(psb_dpk_), ALLOCATABLE :: phi_x_old(:)
     REAL(psb_dpk_) :: dtinv, fact, fsign, side_
-    TYPE(dimensions) :: dim
+    TYPE(dimensions) :: dim, dim_temp
     TYPE(mesh), POINTER :: msh => NULL()
     TYPE(mesh), POINTER :: msh_phi => NULL(), msh_fld => NULL()
 
 
-    CALL tic(sw_pde)
+    CALL sw_pde%tic()
 
     IF(mypnum_() == 0) THEN
-        WRITE(*,*) '* ', TRIM(name_(pde)), ': applying the Time Derivative ',&
-            & 'operator to the ', TRIM(name_(phi)), ' field'
+        WRITE(*,*) '* ', TRIM(pde%name_()), ': applying the Time Derivative ',&
+            & 'operator to the ', TRIM(phi%name_()), ' field'
     END IF
 
     ! Possible reinit of PDE
-    CALL reinit_pde(pde)
+    CALL pde%reinit_pde()
 
     ! Is PHI cell-centered?
-    IF(on_faces_(phi)) THEN
+    IF(phi%on_faces_()) THEN
         WRITE(*,100) TRIM(op_name)
         CALL abort_psblas
     END IF
 
     ! Is FLD cell-centered?
     IF(PRESENT(fld)) THEN
-        IF(on_faces_(fld)) THEN
+        IF(fld%on_faces_()) THEN
             WRITE(*,100) TRIM(op_name)
             CALL abort_psblas
         END IF
@@ -115,12 +116,16 @@ SUBMODULE (op_ddt) scalar_pde_ddt_implementation
     NULLIFY(msh_phi)
 
     ! Equation dimensional check
-    dim = dim_(phi) * volume_ / time_
-    IF(PRESENT(fld)) dim = dim_(fld) * dim
-    IF(dim /= dim_(pde)) THEN
-        CALL debug_dim(dim_(phi))
-        CALL debug_dim(dim_(pde))
-        CALL debug_dim(dim)
+    dim = phi%dim_() * volume_ / time_
+    IF(PRESENT(fld)) dim = fld%dim_() * dim
+    IF(dim /= pde%dim_()) THEN
+        dim_temp=phi%dim_()
+        !CALL phi%dim_()%debug_dim()
+        CALL dim_temp%debug_dim()
+        dim_temp=pde%dim_()
+        !CALL pde%dim_()%debug_dim()
+        CALL dim_temp%debug_dim()
+        CALL dim%debug_dim()
         WRITE(*,200) TRIM(op_name)
         CALL abort_psblas
     END IF
@@ -135,11 +140,11 @@ SUBMODULE (op_ddt) scalar_pde_ddt_implementation
 
 
     ! Gets PHI "x" internal values
-    CALL get_x(phi,phi_x_old)
+    CALL phi%get_x(phi_x_old)
 
     ! Gets FLD "x" internal values
     IF(PRESENT(fld)) THEN
-        CALL get_x(fld,fld_x_old)
+        CALL fld%get_x(fld_x_old)
     ELSE
         ncells = SIZE(phi_x_old)
         ALLOCATE(fld_x_old(ncells),stat=info)
@@ -207,7 +212,7 @@ SUBMODULE (op_ddt) scalar_pde_ddt_implementation
     DEALLOCATE(fld_x_old)
     NULLIFY(msh)
 
-    CALL toc(sw_pde)
+    CALL sw_pde%toc()
 
 100 FORMAT(' ERROR! Operands in ',a,' are not cell centered')
 200 FORMAT(' ERROR! Dimensional check failure in ',a)

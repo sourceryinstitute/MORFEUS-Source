@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -48,9 +48,9 @@
 !     interface for rd_cgns_mesh            reads cgns mesh file
 !
 MODULE tools_mesh
-    USE tools_mesh_basics
-    USE class_psblas
-
+    USE class_psblas, ONLY : psb_dpk_, psb_desc_type
+!    USE tools_mesh_basics
+    USE class_connectivity, ONLY : connectivity
     IMPLICIT NONE
 
     PUBLIC
@@ -60,7 +60,6 @@ MODULE tools_mesh
         ! ----- Reading: Input Parameters -----
         MODULE SUBROUTINE rd_inp_mesh(input_file,sec,&
             &mesh_file,scale,irenum,ipart,nswpref,mtx_pat)
-            USE class_psblas, ONLY : psb_dpk_
             IMPLICIT NONE
             INTEGER, PARAMETER :: nlen = 80
             CHARACTER(len=*), INTENT(IN) :: input_file
@@ -78,7 +77,6 @@ MODULE tools_mesh
         MODULE SUBROUTINE rd_gambit_mesh(mesh_file, mesh_id, nbc, ncd, &
             & verts, faces, cells, v2f, v2c, f2c, c2g)
             USE class_cell, ONLY : cell
-            USE class_connectivity, ONLY : connectivity
             USE class_face, ONLY : face
             USE class_vertex, ONLY : vertex
             IMPLICIT NONE
@@ -97,7 +95,6 @@ MODULE tools_mesh
         MODULE SUBROUTINE rd_cgns_mesh(mesh_file, mesh_id, nbc, ncd, &
             & verts, faces, cells, v2f, v2c, f2c, c2g)
             USE class_cell, ONLY : cell
-            USE class_connectivity, ONLY : connectivity
             USE class_face, ONLY : face
             USE class_vertex, ONLY : vertex
             IMPLICIT NONE
@@ -114,7 +111,6 @@ MODULE tools_mesh
     ! ----- Computational Routines -----
 
         MODULE SUBROUTINE supplement_v2c(v2c,desc_v,ov2c_suppl,c2ov_suppl)
-            USE class_connectivity, ONLY : connectivity
             USE class_keytable, ONLY : keytable
             USE psb_base_mod, ONLY : psb_desc_type
             IMPLICIT NONE
@@ -124,7 +120,6 @@ MODULE tools_mesh
         END SUBROUTINE supplement_v2c
 
         MODULE SUBROUTINE supplement_v2f(v2f, faces, desc_v,ov2f_suppl,f2ov_suppl)
-            USE class_connectivity, ONLY : connectivity
             USE class_face, ONLY : face
             USE class_keytable, ONLY : keytable
             USE psb_base_mod, ONLY : psb_desc_type
@@ -136,7 +131,6 @@ MODULE tools_mesh
         END SUBROUTINE supplement_v2f
 
         MODULE SUBROUTINE cmp_mesh_v2v(nverts,v2c,v2v)
-            USE class_connectivity, ONLY : connectivity
             IMPLICIT NONE
             INTEGER, INTENT(IN) :: nverts
             TYPE(connectivity), INTENT(IN) :: v2c
@@ -144,7 +138,6 @@ MODULE tools_mesh
         END SUBROUTINE cmp_mesh_v2v
 
         MODULE SUBROUTINE cmp_mesh_v2ve(ncd,v2f,v2v)
-            USE class_connectivity, ONLY : connectivity
             IMPLICIT NONE
             INTEGER,            INTENT(IN) :: ncd
             TYPE(connectivity), INTENT(IN) :: v2f
@@ -152,7 +145,6 @@ MODULE tools_mesh
         END SUBROUTINE cmp_mesh_v2ve
 
         MODULE SUBROUTINE cmp_mesh_f2f(nfaces,f2c,f2f)
-            USE class_connectivity, ONLY : connectivity
             IMPLICIT NONE
             INTEGER, INTENT(IN) :: nfaces
             TYPE(connectivity), INTENT(IN) :: f2c
@@ -160,7 +152,6 @@ MODULE tools_mesh
         END SUBROUTINE cmp_mesh_f2f
 
         MODULE SUBROUTINE cmp_mesh_c2c(faces,f2c,c2c)
-            USE class_connectivity, ONLY : connectivity
             USE class_face, ONLY : face
             IMPLICIT NONE
             TYPE(face), INTENT(IN) :: faces(:)
@@ -169,7 +160,6 @@ MODULE tools_mesh
         END SUBROUTINE cmp_mesh_c2c
 
         MODULE SUBROUTINE cmp_mesh_f2b(faces,nbc,f2b)
-            USE class_connectivity, ONLY : connectivity
             USE class_face, ONLY : face
             IMPLICIT NONE
             TYPE(face), INTENT(IN) :: faces(:)
@@ -178,7 +168,6 @@ MODULE tools_mesh
         END SUBROUTINE cmp_mesh_f2b
 
         MODULE SUBROUTINE cmp_mesh_v2b(v2f,faces,nbc,v2b)
-            USE class_connectivity, ONLY : connectivity
             USE class_face
             IMPLICIT NONE
             TYPE(connectivity), INTENT(IN) :: v2f
@@ -188,7 +177,7 @@ MODULE tools_mesh
         END SUBROUTINE cmp_mesh_v2b
 
         MODULE SUBROUTINE cmp_mesh_v2e(ncd,v2f,v2e)
-            USE class_connectivity, ONLY : connectivity
+            !USE class_connectivity, ONLY : connectivity
             IMPLICIT NONE
             INTEGER, INTENT(IN) :: ncd
             TYPE(connectivity), INTENT(IN) :: v2f
@@ -197,7 +186,7 @@ MODULE tools_mesh
 
         MODULE SUBROUTINE cmp_mesh_renum(irenum,cells,faces,c2c,f2c,v2c,c2g)
             USE class_cell, ONLY : cell
-            USE class_connectivity, ONLY : connectivity
+            !USE class_connectivity, ONLY : connectivity
             USE class_face, ONLY : face
             IMPLICIT NONE
             INTEGER, INTENT(IN) :: irenum
@@ -207,15 +196,12 @@ MODULE tools_mesh
         END SUBROUTINE cmp_mesh_renum
 
         MODULE SUBROUTINE cmp_mesh_part(ipart,nswpref,c2c)
-            USE class_connectivity, ONLY : connectivity
             IMPLICIT NONE
             INTEGER, INTENT(IN) :: ipart, nswpref
             TYPE(connectivity), INTENT(IN) :: c2c
         END SUBROUTINE cmp_mesh_part
 
         MODULE SUBROUTINE cmp_mesh_desc(v2v,v2c,f2f,f2c,c2c,desc_v,desc_f,desc_c)
-            USE class_connectivity, ONLY : connectivity
-            USE psb_desc_mod, ONLY : psb_desc_type
             IMPLICIT NONE
             !TYPE(connectivity), INTENT(INOUT) :: v2c!, v2v, f2f, f2c, c2c
             !! Note: IP 5/28/2019 - Had to change the variables below to INTENT(INOUT) rather than (IN) due to the
@@ -225,7 +211,6 @@ MODULE tools_mesh
         END SUBROUTINE cmp_mesh_desc
 
         MODULE SUBROUTINE cmp_moving_surf(nbc,v2b,verts,surf)
-            USE class_connectivity, ONLY : connectivity
             USE class_surface, ONLY : surface
             USE class_vertex, ONLY : vertex
             IMPLICIT NONE

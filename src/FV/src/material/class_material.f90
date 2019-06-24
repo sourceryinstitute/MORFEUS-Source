@@ -51,8 +51,6 @@ MODULE class_material
     PRIVATE ! Default
     PUBLIC :: matptr                       ! Array of class_material
     PUBLIC :: material                       ! Class
-    PUBLIC :: create_material, free_material ! Constructor/Destructor
-    PUBLIC :: name_, mat_id_                     ! Getter
     PUBLIC :: matlaw, check_temp, &          ! Other
         &    check_material_consistency
 
@@ -76,6 +74,10 @@ MODULE class_material
         REAL(psb_dpk_), ALLOCATABLE :: lambda(:)
         REAL(psb_dpk_), ALLOCATABLE :: sh(:)
     CONTAINS
+        PROCEDURE :: create_material, free_material ! Constructor/Destructor
+        PROCEDURE, PRIVATE :: get_material_name, get_material_id  ! Getter
+        GENERIC, PUBLIC :: name_ => get_material_name
+        GENERIC, PUBLIC :: mat_id_ => get_material_id
         PROCEDURE, PRIVATE :: nemo_material_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_material_sizeof
     END TYPE material
@@ -88,22 +90,20 @@ MODULE class_material
   ! ----- Generic Interfaces -----
 
   ! ----- Getters -----
-  INTERFACE name_
+  INTERFACE
 
     MODULE FUNCTION get_material_name(mat)
       !! Getter
         CHARACTER(len=name_len) :: get_material_name
-        TYPE(material), INTENT(IN) :: mat
+        CLASS(material), INTENT(IN) :: mat
     END FUNCTION get_material_name
-  END INTERFACE name_
 
-  INTERFACE mat_id_
     MODULE FUNCTION get_material_id(mat)
       !! Getter
         INTEGER :: get_material_id
-        TYPE(material), INTENT(IN) :: mat
+        CLASS(material), INTENT(IN) :: mat
     END FUNCTION get_material_id
-  END INTERFACE mat_id_
+  END INTERFACE
 
 
   INTERFACE matlaw
@@ -115,7 +115,7 @@ MODULE class_material
         USE tools_math
         TYPE(dimensions), INTENT(IN) :: dim
         INTEGER, INTENT(IN) :: im(:)
-        TYPE(matptr),   INTENT(IN), OPTIONAL, TARGET :: mats(:)
+        CLASS(matptr),   INTENT(IN), OPTIONAL, TARGET :: mats(:)
         REAL(psb_dpk_), INTENT(IN) :: t(:)
         REAL(psb_dpk_), INTENT(OUT) :: f(:)
     END SUBROUTINE matlaw_v
@@ -125,15 +125,14 @@ MODULE class_material
         USE class_dimensions
         USE tools_math
         TYPE(dimensions), INTENT(IN) :: dim
-        TYPE(matptr),   INTENT(IN), OPTIONAL, TARGET :: mats(:)
+        CLASS(matptr),   INTENT(IN), OPTIONAL, TARGET :: mats(:)
         INTEGER, INTENT(IN) :: im
         REAL(psb_dpk_), INTENT(IN) :: t
         REAL(psb_dpk_), INTENT(OUT) :: f
     END SUBROUTINE matlaw_s
 
-
     MODULE SUBROUTINE matlaw_fast_s(mat, t, property, f)
-        TYPE(material), INTENT(IN) :: mat
+        CLASS(material), INTENT(IN) :: mat
         REAL(psb_dpk_), INTENT(IN) :: t
         REAL(psb_dpk_), INTENT(OUT) :: f
         CHARACTER(LEN=*), INTENT(IN) :: property
@@ -154,7 +153,7 @@ MODULE class_material
         TYPE(material), INTENT(IN) :: mat
     END SUBROUTINE check_temp_v
 
-    END INTERFACE check_temp
+  END INTERFACE check_temp
 
     LOGICAL, PARAMETER :: debug = .TRUE.
     INTEGER, PARAMETER :: nlen = 80
@@ -177,7 +176,7 @@ MODULE class_material
     MODULE SUBROUTINE create_material(mat,input_file,sec)
       !! Global Constructor
         USE tools_material
-        TYPE(material), INTENT(OUT) :: mat
+        CLASS(material), INTENT(OUT) :: mat
         CHARACTER(len=*), INTENT(IN) :: input_file
         CHARACTER(len=*), INTENT(IN) :: sec
     END SUBROUTINE create_material
@@ -186,7 +185,7 @@ MODULE class_material
     ! ----- Destructor -----
 
     MODULE SUBROUTINE free_material(mat)
-        TYPE(material), INTENT(INOUT) :: mat
+        CLASS(material), INTENT(INOUT) :: mat
     END SUBROUTINE free_material
 
     MODULE SUBROUTINE check_material_consistency(mat1,mat2,WHERE)

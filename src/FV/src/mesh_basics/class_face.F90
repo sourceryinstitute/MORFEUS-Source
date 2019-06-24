@@ -64,8 +64,6 @@ MODULE class_face
     PUBLIC :: face                           ! Class
     PUBLIC :: face_, alloc_face, free_face   ! Constructor/destructor
     PUBLIC :: bcast_face, g2l_face, l2g_face ! Parallel ops.
-    PUBLIC :: nv_, master_, slave_, flag_    ! Getters
-    PUBLIC :: set_face                       ! Setters
 
     TYPE face
         PRIVATE
@@ -74,25 +72,16 @@ MODULE class_face
         INTEGER :: slave
         INTEGER :: flag
     CONTAINS
+        PROCEDURE, PRIVATE :: get_face_nv, get_face_master, get_face_slave, get_face_flag   ! Getters
+        GENERIC, PUBLIC :: nv_ => get_face_nv
+        GENERIC, PUBLIC :: master_ => get_face_master
+        GENERIC, PUBLIC :: slave_ => get_face_slave
+        GENERIC, PUBLIC :: flag_ => get_face_flag
+        PROCEDURE :: set_face                                  ! Setters
         PROCEDURE, PRIVATE :: nemo_face_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_face_sizeof
     END TYPE face
 
-    INTERFACE nv_
-        MODULE PROCEDURE :: get_face_nv
-    END INTERFACE nv_
-
-    INTERFACE master_
-        MODULE PROCEDURE :: get_face_master
-    END INTERFACE master_
-
-    INTERFACE slave_
-        MODULE PROCEDURE :: get_face_slave
-    END INTERFACE slave_
-
-    INTERFACE flag_
-        MODULE PROCEDURE :: get_face_flag
-    END INTERFACE flag_
     !-------------------------|
     ! Face Flag | Face Type   |
     !-------------------------|
@@ -169,13 +158,13 @@ MODULE class_face
     ELEMENTAL MODULE FUNCTION get_face_nv(f)
         IMPLICIT NONE
         INTEGER :: get_face_nv
-        TYPE(face), INTENT(IN) :: f
+        CLASS(face), INTENT(IN) :: f
     END FUNCTION get_face_nv
 
     ELEMENTAL MODULE FUNCTION get_face_master(f)
         IMPLICIT NONE
         INTEGER :: get_face_master
-        TYPE(face), INTENT(IN) :: f
+        CLASS(face), INTENT(IN) :: f
     END FUNCTION get_face_master
 
     ! Getters
@@ -183,19 +172,19 @@ MODULE class_face
     ELEMENTAL MODULE FUNCTION get_face_slave(f)
         IMPLICIT NONE
         INTEGER :: get_face_slave
-        TYPE(face), INTENT(IN) :: f
+        CLASS(face), INTENT(IN) :: f
     END FUNCTION get_face_slave
 
     ELEMENTAL MODULE FUNCTION get_face_flag(f)
         IMPLICIT NONE
         INTEGER :: get_face_flag
-        TYPE(face), INTENT(IN) :: f
+        CLASS(face), INTENT(IN) :: f
     END FUNCTION get_face_flag
 
     ! ----- Setter -----
     MODULE SUBROUTINE set_face(f,nv,master,slave,flag)
         IMPLICIT NONE
-        TYPE(face), INTENT(INOUT) :: f
+        CLASS(face), INTENT(INOUT) :: f
         INTEGER, INTENT(IN), OPTIONAL :: nv, master, slave, flag
     END SUBROUTINE set_face
 

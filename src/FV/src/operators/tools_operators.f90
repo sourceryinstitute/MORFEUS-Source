@@ -47,6 +47,10 @@ MODULE tools_operators
     USE class_psblas, ONLY : psb_dpk_
     IMPLICIT NONE
 
+    PRIVATE
+    PUBLIC :: pde_sign, size_blk
+    PUBLIC :: lhs_, rhs_
+
     REAL(psb_dpk_), PARAMETER :: lhs_ = 1.d0
     REAL(psb_dpk_), PARAMETER :: rhs_ = -1.d0
 

@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -43,26 +43,17 @@
 !    Base class for scalar, vector and tensor field
 !
 MODULE class_field
-
-    USE class_psblas
-    USE class_bc
-    USE class_dimensions
-    USE class_material
-    USE class_mesh
+    USE class_psblas, ONLY : nemo_int_long_
+    USE class_bc, ONLY : bc_poly
+    USE class_dimensions, ONLY : dimensions
+    USE class_material, ONLY : matptr, material
+    USE class_mesh, ONLY : mesh
 
     IMPLICIT NONE
 
     PRIVATE ! Default
-    PUBLIC :: field                           ! Class
-    PUBLIC :: create_field, free_field        ! Constructor/destructor
-    PUBLIC :: name_, dim_, msh_, on_faces_, & ! Getters
-        &    bc_, mat_, fld_size, &          !   "
-        &    get_material          !   "
-    PUBLIC :: set_field_dim                   ! Setters
-    PUBLIC :: set_field_on_faces              !   "
-    PUBLIC :: check_field_operands            !       "
-    PUBLIC :: fld_internal_, fld_boundary_    ! Named constants
-    PUBLIC :: nemo_field_sizeof  !! Expose this because of a gfortran 8.3.0 disambiguation issue
+    PUBLIC :: field                           !! Class
+    PUBLIC :: fld_internal_, fld_boundary_    !! Named constants
 
     TYPE field
         PRIVATE
@@ -71,8 +62,23 @@ MODULE class_field
         TYPE(mesh),     POINTER :: msh   => NULL()
         LOGICAL                 :: on_faces
         TYPE(bc_poly),  POINTER :: bc(:) => NULL()
-        TYPE(matptr), POINTER :: mats(:) => NULL()
+        TYPE(matptr),   POINTER :: mats(:) => NULL()
     CONTAINS
+        PROCEDURE :: create_field, free_field        ! Constructor/destructor
+        PROCEDURE, PRIVATE :: get_field_on_faces, get_field_bc     ! Getters
+        PROCEDURE, PRIVATE :: get_field_size, get_field_mat_fun, get_field_mat_sub
+        GENERIC, PUBLIC :: on_faces_ => get_field_on_faces
+        GENERIC, PUBLIC :: mat_ => get_field_mat_fun
+        GENERIC, PUBLIC :: bc_ => get_field_bc
+        GENERIC, PUBLIC :: fld_size => get_field_size
+        GENERIC, PUBLIC :: get_material => get_field_mat_sub
+        PROCEDURE, PRIVATE :: get_field_dim, get_field_msh_fun ! Getters
+        GENERIC, PUBLIC :: dim_ => get_field_dim
+        GENERIC, PUBLIC :: msh_ => get_field_msh_fun
+        PROCEDURE, PRIVATE :: get_field_name
+        GENERIC, PUBLIC :: name_ => get_field_name
+        PROCEDURE :: set_field_dim, set_field_on_faces    ! Setters
+        PROCEDURE :: check_field_operands
         PROCEDURE, PRIVATE :: nemo_field_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_field_sizeof
         PROCEDURE, PRIVATE :: get_field_msh_sub
@@ -88,125 +94,98 @@ MODULE class_field
 
   INTERFACE
     MODULE FUNCTION nemo_field_sizeof(fld)
-        USE class_psblas, ONLY : nemo_int_long_
         IMPLICIT NONE
         CLASS(field), INTENT(IN) :: fld
         INTEGER(kind=nemo_int_long_)   :: nemo_field_sizeof
     END FUNCTION nemo_field_sizeof
-  END INTERFACE
 
   ! The following interfaces are necessary in order to re-use the
   ! same names for the extended operations defined in the classes
   ! derived by inheritance.
 
   ! ----- Constructor -----
-  INTERFACE create_field
     MODULE SUBROUTINE create_field(fld,msh,dim,bc,mats,on_faces)
-      !! Constructor
-        USE tools_material
+        !! Constructor
         IMPLICIT NONE
-        ! Mandatory arguments
-        TYPE(field),      INTENT(OUT)        :: fld
+        !! Mandatory arguments
+        CLASS(field),     INTENT(OUT)        :: fld
         TYPE(mesh),       INTENT(IN), TARGET :: msh
-        !
-        ! Optional arguments
-        TYPE(dimensions),     INTENT(IN), OPTIONAL :: dim
-        TYPE(bc_poly),        INTENT(IN), OPTIONAL, TARGET :: bc(:)
-        TYPE(matptr),       INTENT(IN), OPTIONAL, TARGET :: mats(:)
-        LOGICAL,              INTENT(IN), OPTIONAL  :: on_faces
+        !! Optional arguments
+        TYPE(dimensions), INTENT(IN), OPTIONAL :: dim
+        TYPE(bc_poly),    INTENT(IN), OPTIONAL, TARGET :: bc(:)
+        TYPE(matptr),     INTENT(IN), OPTIONAL, TARGET :: mats(:)
+        LOGICAL,          INTENT(IN), OPTIONAL :: on_faces
     END SUBROUTINE create_field
-  END INTERFACE create_field
-
 
   ! ----- Destructor -----
 
-  INTERFACE free_field
     MODULE SUBROUTINE free_field(fld)
       !! Destructor
         IMPLICIT NONE
-        TYPE(field), INTENT(INOUT) :: fld
+        CLASS(field), INTENT(INOUT) :: fld
     END SUBROUTINE free_field
-  END INTERFACE free_field
-
 
   ! ----- Getters -----
 
-  INTERFACE name_
     MODULE FUNCTION get_field_name(fld)
       !! Getters
         IMPLICIT NONE
         CHARACTER(len=32) :: get_field_name
-        TYPE(field), INTENT(IN) :: fld
+        CLASS(field), INTENT(IN) :: fld
     END FUNCTION get_field_name
-  END INTERFACE name_
 
-  INTERFACE dim_
     MODULE FUNCTION get_field_dim(fld)
         IMPLICIT NONE
         TYPE(dimensions) :: get_field_dim
-        TYPE(field), INTENT(IN) :: fld
+        CLASS(field), INTENT(IN) :: fld
     END FUNCTION get_field_dim
-  END INTERFACE dim_
 
-  INTERFACE msh_
     MODULE FUNCTION get_field_msh_fun(fld)
         IMPLICIT NONE
         TYPE(mesh), POINTER :: get_field_msh_fun
-        TYPE(field), INTENT(IN) :: fld
+        CLASS(field), INTENT(IN) :: fld
     END FUNCTION get_field_msh_fun
-  END INTERFACE msh_
 
-  INTERFACE on_faces_
     MODULE FUNCTION get_field_on_faces(fld)
         IMPLICIT NONE
         LOGICAL :: get_field_on_faces
-        TYPE(field), INTENT(IN) :: fld
+        CLASS(field), INTENT(IN) :: fld
     END FUNCTION get_field_on_faces
-  END INTERFACE on_faces_
 
-  INTERFACE bc_
     MODULE FUNCTION get_field_bc(fld)
         IMPLICIT NONE
         TYPE(bc_poly), POINTER :: get_field_bc(:)
-        TYPE(field), INTENT(IN), TARGET  :: fld
+        CLASS(field), INTENT(IN), TARGET  :: fld
     END FUNCTION get_field_bc
-  END INTERFACE bc_
 
-  INTERFACE mat_
     MODULE FUNCTION get_field_mat_fun(fld, i)
         IMPLICIT NONE
         TYPE(material), POINTER :: get_field_mat_fun
-        TYPE(field), INTENT(IN) :: fld
+        CLASS(field), INTENT(IN) :: fld
         INTEGER, INTENT(IN), OPTIONAL :: i
     END FUNCTION get_field_mat_fun
-  END INTERFACE mat_
 
-  INTERFACE fld_size
     MODULE FUNCTION get_field_size(fld) RESULT(isize)
         !USE class_face
         IMPLICIT NONE
         INTEGER :: isize(2)
-        TYPE(field), INTENT(IN) :: fld
+        CLASS(field), INTENT(IN) :: fld
     END FUNCTION get_field_size
-  END INTERFACE fld_size
 
   ! ----- Temporary up to Gfortran patch -----
-  INTERFACE
     MODULE SUBROUTINE get_field_msh_sub(fld,msh)
         IMPLICIT NONE
         CLASS(field), INTENT(IN) :: fld
         TYPE(mesh), POINTER :: msh
     END SUBROUTINE get_field_msh_sub
-  END INTERFACE
 
-  INTERFACE get_material
     MODULE SUBROUTINE get_field_mat_sub(fld,i,mat)
         IMPLICIT NONE
-        TYPE(field), INTENT(IN) :: fld
+        CLASS(field), INTENT(IN) :: fld
         INTEGER, INTENT(IN), OPTIONAL :: i
         TYPE(material), POINTER :: mat
     END SUBROUTINE get_field_mat_sub
-  END INTERFACE get_material
+  END INTERFACE
   ! ------------------------------------------
     ! ----- Named Constants -----
 
@@ -227,13 +206,13 @@ MODULE class_field
 
     MODULE SUBROUTINE set_field_dim(fld,dim)
         IMPLICIT NONE
-        TYPE(field),      INTENT(INOUT) :: fld
+        CLASS(field),      INTENT(INOUT) :: fld
         TYPE(dimensions), INTENT(IN)    :: dim
     END SUBROUTINE set_field_dim
 
     MODULE SUBROUTINE set_field_on_faces(fld,on_faces)
         IMPLICIT NONE
-        TYPE(field), INTENT(INOUT) :: fld
+        CLASS(field), INTENT(INOUT) :: fld
         LOGICAL,     INTENT(IN)    :: on_faces
     END SUBROUTINE set_field_on_faces
 
@@ -242,7 +221,7 @@ MODULE class_field
 
     MODULE SUBROUTINE check_field_operands(f1,f2,WHERE)
         IMPLICIT NONE
-        TYPE(field),      INTENT(IN) :: f1
+        CLASS(field),      INTENT(IN) :: f1
         TYPE(field),      INTENT(IN) :: f2
         CHARACTER(len=*), INTENT(IN) :: WHERE
     END SUBROUTINE check_field_operands

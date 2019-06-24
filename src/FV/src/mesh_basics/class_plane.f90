@@ -62,9 +62,6 @@ MODULE class_plane
     PRIVATE ! Default
     PUBLIC :: plane ! Class
     PUBLIC :: alloc_plane, free_plane          ! Constructor/Destructor
-    PUBLIC :: get_plane_normal, get_plane_r2   ! Getters
-    PUBLIC :: get_pt_plane                     ! Getters, cont.
-    PUBLIC :: translate_plane                  ! Setters
 
     TYPE plane
         PRIVATE
@@ -74,6 +71,9 @@ MODULE class_plane
         !  a * x + b * y + c * z =d
         REAL(psb_dpk_) :: r2           ! The correlation parameter for the fit
     CONTAINS
+        PROCEDURE :: get_plane_normal, get_plane_r2   ! Getters
+        PROCEDURE :: get_pt_plane                     ! Getters, cont.
+        PROCEDURE :: translate_plane                  ! Setters
         PROCEDURE, PRIVATE :: nemo_plane_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_plane_sizeof
     END TYPE plane
@@ -120,7 +120,7 @@ MODULE class_plane
         USE class_vector
         IMPLICIT NONE
         TYPE(vector)              :: get_plane_normal
-        TYPE(plane), INTENT(IN)   :: this_plane
+        CLASS(plane), INTENT(IN)   :: this_plane
     END FUNCTION get_plane_normal
 
 
@@ -129,7 +129,7 @@ MODULE class_plane
         USE class_vector
         IMPLICIT NONE
         REAL(psb_dpk_)  :: get_plane_r2
-        TYPE(plane)        :: this_plane
+        CLASS(plane)        :: this_plane
     END FUNCTION get_plane_r2
 
     MODULE FUNCTION get_pt_plane(this_plane,point)
@@ -137,7 +137,7 @@ MODULE class_plane
         USE class_vector
         IMPLICIT NONE
         TYPE(vector)              :: get_pt_plane   ! function result
-        TYPE(plane),  INTENT(IN)  :: this_plane     ! the plane that we are on
+        CLASS(plane),  INTENT(IN)  :: this_plane     ! the plane that we are on
         TYPE(vector) ,INTENT(IN)  :: point          ! the point off the plane
     END FUNCTION get_pt_plane
 
@@ -148,7 +148,7 @@ MODULE class_plane
       !! moves the definition of a plane in the direction of the offset vector
         USE class_vector
         IMPLICIT NONE
-        TYPE(plane), INTENT(INOUT) :: this_plane       ! the plane we are moving
+        CLASS(plane), INTENT(INOUT) :: this_plane       ! the plane we are moving
         TYPE(vector),  INTENT(IN)    :: offset           ! translation vector
     END SUBROUTINE translate_plane
   

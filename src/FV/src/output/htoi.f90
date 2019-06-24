@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -42,25 +42,31 @@
 ! Description:
 !    Converts a string into an integer.
 !
-MODULE PROCEDURE htoi
-    USE class_psblas
-
+SUBMODULE(tools_output_basics) htoi_implementation
     IMPLICIT NONE
-    !
-    INTEGER :: idigit, i, n
 
-    n = LEN(h)
+    CONTAINS
 
-    htoi = 0
-    DO i = 1, n
-        idigit = IACHAR(h(i:i)) - 48
-        IF(idigit < 0 .OR. idigit > 9) THEN
-            WRITE(*,100)
-            CALL abort_psblas
-        END IF
-        htoi = htoi + idigit * (10 ** (n - i))
-    END DO
+        MODULE PROCEDURE htoi
+            USE class_psblas, ONLY : abort_psblas
+            IMPLICIT NONE
+            !
+            INTEGER :: idigit, i, n
 
-100 FORMAT(' ERROR! Non-digit character in HTOI function')
+            n = LEN(h)
 
-END PROCEDURE htoi
+            htoi = 0
+            DO i = 1, n
+                idigit = IACHAR(h(i:i)) - 48
+                IF(idigit < 0 .OR. idigit > 9) THEN
+                    WRITE(*,100)
+                    CALL abort_psblas
+                END IF
+                htoi = htoi + idigit * (10 ** (n - i))
+            END DO
+
+100     FORMAT(' ERROR! Non-digit character in HTOI function')
+
+        END PROCEDURE htoi
+
+END SUBMODULE htoi_implementation

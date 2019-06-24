@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -43,55 +43,61 @@
 !    Dumps the pattern of a sparse matrix in Matrix Market format, starting
 !    from the global C2C adjacency graph.
 !
-MODULE PROCEDURE wr_mtx_pattern
-    USE class_psblas
-    USE class_connectivity
-
+SUBMODULE (tools_output_basics) wr_mtx_pattern_implementation
     IMPLICIT NONE
-    !
-    INTEGER, PARAMETER :: pattern=10
-    INTEGER :: i, j, n, ncells, nnz
-    INTEGER, POINTER :: iconn(:) => NULL()
-    CHARACTER(len=*), PARAMETER :: fmt='(3(i8,1x))'
 
-    CALL tic(sw_out)
+    CONTAINS
 
-    IF(mypnum_() == 0) THEN
-        WRITE(*,'(a)',advance='no') ' Now dumping sparsity pattern...'
+        MODULE PROCEDURE wr_mtx_pattern
+            USE class_psblas
+            USE class_connectivity
+            IMPLICIT NONE
+            !
+            INTEGER, PARAMETER :: pattern=10
+            INTEGER :: i, j, n, ncells, nnz
+            INTEGER, POINTER :: iconn(:) => NULL()
+            CHARACTER(len=*), PARAMETER :: fmt='(3(i8,1x))'
 
-        OPEN(unit=pattern,file=name)
+            CALL sw_out%tic()
 
-        ncells = nel_(c2c)
+            IF(mypnum_() == 0) THEN
+                WRITE(*,'(a)',advance='no') ' Now dumping sparsity pattern...'
 
-        ! REMARK! The adjacency graph C2C contains only the non-diagonal elements.
-        ! One has to add also the elements of the main diagonal in order to get
-        ! the right number of non-zero coefficients.
-        nnz = nconn_(c2c) + ncells
+                OPEN(unit=pattern,file=name)
 
-        WRITE(pattern,fmt) ncells, ncells, nnz
+                ncells = c2c%nel_()
 
-        DO i = 1, ncells
+                ! REMARK! The adjacency graph C2C contains only the non-diagonal elements.
+                ! One has to add also the elements of the main diagonal in order to get
+                ! the right number of non-zero coefficients.
+                nnz = c2c%nconn_() + ncells
 
-            CALL get_ith_conn(iconn,c2c,i)
-            n = SIZE(iconn)
+                WRITE(pattern,fmt) ncells, ncells, nnz
 
-            ! Off-diagonal elements -> 1
-            DO j = 1, n
-                WRITE(pattern,fmt) i, iconn(j), 1
-            END DO
+                DO i = 1, ncells
 
-            ! Main diagonal elements -> -1
-            WRITE(pattern,fmt) i, i, -1
-        END DO
+                    CALL c2c%get_ith_conn(iconn,i)
+                    n = SIZE(iconn)
 
-        NULLIFY(iconn)
+                    ! Off-diagonal elements -> 1
+                    DO j = 1, n
+                        WRITE(pattern,fmt) i, iconn(j), 1
+                    END DO
 
-        WRITE(*,*) 'done.'
-        WRITE(*,*)
+                    ! Main diagonal elements -> -1
+                    WRITE(pattern,fmt) i, i, -1
+                END DO
 
-        CLOSE(pattern)
-    END IF
+                NULLIFY(iconn)
 
-    CALL toc(sw_out)
+                WRITE(*,*) 'done.'
+                WRITE(*,*)
 
-END PROCEDURE wr_mtx_pattern
+                CLOSE(pattern)
+            END IF
+
+            CALL sw_out%toc()
+
+        END PROCEDURE wr_mtx_pattern
+
+END SUBMODULE wr_mtx_pattern_implementation

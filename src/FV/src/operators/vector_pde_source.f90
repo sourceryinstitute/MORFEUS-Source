@@ -66,19 +66,19 @@ SUBROUTINE vector_pde_source(sign,pde,phi,side)
     TYPE(dimensions) :: dim
     TYPE(mesh), POINTER :: msh => NULL()
 
-    CALL tic(sw_pde)
+    CALL sw_pde%tic()
 
     IF(mypnum_() == 0) THEN
-        WRITE(*,*) '* ', TRIM(name_(pde)), ': applying the Source term'
+        WRITE(*,*) '* ', TRIM(pde%name_()), ': applying the Source term'
     END IF
 
     ! Possible reinit of pde
-    CALL reinit_pde(pde)
+    CALL pde%reinit_pde()
 
 
     ! Dimensional check
-    dim = dim_(phi) * volume_
-    IF(dim /= dim_(pde)) THEN
+    dim = phi%dim_() * volume_
+    IF(dim /= pde%dim_()) THEN
         WRITE(*,100)
         CALL abort_psblas
     END IF
@@ -143,7 +143,7 @@ SUBROUTINE vector_pde_source(sign,pde,phi,side)
     DEALLOCATE(iloc_to_glob)
     NULLIFY(msh)
 
-    CALL toc(sw_pde)
+    CALL sw_pde%toc()
 
 100 FORMAT(' ERROR! Dimensional check failure in SCALAR_PDE_SOURCE')
 200 FORMAT(' ERROR! Memory allocation failure in SCALAR_PDE_SOURCE')

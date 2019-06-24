@@ -96,8 +96,8 @@ SUBMODULE (vtkmofo_io) vtkmofo_io_implementation
       icontxt = icontxt_()
 
       ! Sets output path
-      IF(PRESENT(iter)) CALL set_output_path(out,iter)
-      path = path_(out)
+      IF(PRESENT(iter)) CALL out%set_output_path(iter)
+      path = out%path_()
       filename = TRIM(path)
       ! Global number of cells
       ncells = psb_cd_get_global_cols(msh%desc_c)
@@ -126,10 +126,10 @@ SUBMODULE (vtkmofo_io) vtkmofo_io_implementation
 
       ! Gathers group IDs
       i_loc(:) = 0
-      ngroups = nel_(msh%c2g)
+      ngroups = msh%c2g%nel_()
 
       DO ig = 1, ngroups
-          CALL get_ith_conn(ic2g,msh%c2g,ig)
+          CALL msh%c2g%get_ith_conn(ic2g,ig)
           ngc = SIZE(ic2g) ! number of group cells
           DO i = 1, ngc
               ic = ic2g(i)
@@ -217,18 +217,18 @@ SUBMODULE (vtkmofo_io) vtkmofo_io_implementation
       END IF
 
       ! use the getters to pack position arrays
-      xpos = x_(verts(:))
-      ypos = y_(verts(:))
-      zpos = z_(verts(:))
+      xpos = verts(:)%x_()
+      ypos = verts(:)%y_()
+      zpos = verts(:)%z_()
 
       ALLOCATE(points(3,1:SIZE(xpos)),source=0.0_r8k)
       points(1,:) = xpos; points(2,:) = ypos; points(3,:) = zpos  !! Set x,y,z positions
 
       ! VTK format needs v2c connectivity
-      CALL get_conn_csr(v2c,v2clookup,v2cconn)
+      CALL v2c%get_conn_csr(v2clookup,v2cconn)
       v2cnconn = SIZE(v2cconn)
 
-      icverts(:) = nv_(cells)
+      icverts(:) = cells%nv_()
 
       ! passing:
       ! (0) nverts
@@ -290,15 +290,15 @@ SUBMODULE (vtkmofo_io) vtkmofo_io_implementation
       icontxt = icontxt_()
 
       ! Sets output path
-      IF(PRESENT(iter)) CALL set_output_path(out,iter)
-      path = path_(out)
+      IF(PRESENT(iter)) CALL out%set_output_path(iter)
+      path = out%path_()
 
 !!$  msh   => msh_(fld)
       CALL fld%get_mesh(msh)
-      CALL get_x(fld,x_loc)
+      CALL fld%get_x(x_loc)
 
       ! Is FLD cell-centered?
-      IF(on_faces_(fld)) THEN
+      IF(fld%on_faces_()) THEN
           WRITE(*,100)
           CALL abort_psblas
       END IF
@@ -320,7 +320,7 @@ SUBMODULE (vtkmofo_io) vtkmofo_io_implementation
       CALL l2g_cell(msh%cells,cells_glob,msh%desc_c)
 
       IF(mypnum == 0) THEN
-          SELECT CASE(fmt_(out))
+          SELECT CASE(out%fmt_())
           CASE(vtk_)
               ! call wr_vtk_field(field,x_glob,msh%ncd,path)
               ! Only need value for x_glob
@@ -378,15 +378,15 @@ SUBMODULE (vtkmofo_io) vtkmofo_io_implementation
       icontxt = icontxt_()
 
       ! Sets output path
-      IF(PRESENT(iter)) CALL set_output_path(out,iter)
-      path = path_(out)
+      IF(PRESENT(iter)) CALL out%set_output_path(iter)
+      path = out%path_()
 
 !!$  msh   => msh_(fld)
       CALL fld%get_mesh(msh)
-      CALL get_x(fld,x_loc)
+      CALL fld%get_x(x_loc)
 
       ! Is FLD cell-centered?
-      IF(on_faces_(fld)) THEN
+      IF(fld%on_faces_()) THEN
           WRITE(*,100)
           CALL abort_psblas
       END IF

@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -42,31 +42,37 @@
 ! Description:
 !    Converts a positive integer into a string.
 !
-MODULE PROCEDURE itoh
-    USE class_psblas
-
+SUBMODULE(tools_output_basics) itoh_implementation
     IMPLICIT NONE
-    !
-    INTEGER :: a, r
-    INTEGER :: k
 
-    IF(i < 0) THEN
-        WRITE(*,100)
-        CALL abort_psblas
-    END IF
+    CONTAINS
 
-    itoh(:) = '0'
+        MODULE PROCEDURE itoh
+            USE class_psblas, ONLY : abort_psblas
+            IMPLICIT NONE
+            !
+            INTEGER :: a, r
+            INTEGER :: k
 
-    k = max
-    a = i
-    DO
-        r = MOD(a,10)
-        a = a / 10
-        itoh(k:k) = ACHAR(48+r)
-        k = k - 1
-        IF(k == 0) EXIT
-    END DO
+            IF(i < 0) THEN
+                WRITE(*,100)
+                CALL abort_psblas
+            END IF
 
-100 FORMAT(' ERROR! Negative integer argument in ITOH function')
+            itoh(:) = '0'
 
-END PROCEDURE itoh
+            k = max
+            a = i
+            DO
+                r = MOD(a,10)
+                a = a / 10
+                itoh(k:k) = ACHAR(48+r)
+                k = k - 1
+                IF(k == 0) EXIT
+            END DO
+
+100     FORMAT(' ERROR! Negative integer argument in ITOH function')
+
+        END PROCEDURE itoh
+
+END SUBMODULE itoh_implementation

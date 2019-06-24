@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !    NEMO - Numerical Engine (for) Multiphysics Operators
@@ -43,21 +43,21 @@
 !     (2) which vertices can move, but are constrained (sliding on a 2D surface)
 !
 SUBMODULE (tools_mesh_optimize) mobile_verts_implementation
+        USE class_psblas, ONLY : psb_cd_get_local_rows, loc_to_glob_
+!        USE class_bc
+         USE class_connectivity
+!        USE class_cell
+!        USE class_face
+         USE class_keytable, ONLY : keytable
+!        USE class_mesh
+!        USE class_vertex, ONLY : x_, y_, z_
+!        USE tools_mesh_basics
+        USE tools_mesh_move, ONLY : sliding_
     IMPLICIT NONE
 
     CONTAINS
 
         MODULE PROCEDURE mobile_verts
-        USE class_psblas
-        USE class_bc
-        USE class_connectivity
-        USE class_cell
-        USE class_face
-        USE class_keytable
-        USE class_mesh
-        USE class_vertex
-        USE tools_mesh_basics
-        USE tools_mesh_move
         IMPLICIT NONE
 
         ! we potentially waste some memory by allocating unconstrained, constrained,
@@ -89,8 +89,8 @@ SUBMODULE (tools_mesh_optimize) mobile_verts_implementation
         ! we only consider local vertices for movement (incl. overlap)
         nverts = psb_cd_get_local_rows(msh%desc_v)
 
-        CALL get_dual_conn(msh%v2f,f2v)
-        CALL get_dual_conn(msh%v2b,b2v)
+        CALL msh%v2f%get_dual_conn(f2v)
+        CALL msh%v2b%get_dual_conn(b2v)
 
         ! 1.  Loop over all vertices and check their status.
         DO iv=1,nverts
@@ -98,14 +98,14 @@ SUBMODULE (tools_mesh_optimize) mobile_verts_implementation
             ! are strictly local vertices connected only to tets? or more than one kind of cell?
 
             IF (.NOT. shared_flag(iv)) THEN
-                CALL get_ith_conn(ic2v,c2v,iv) ! list of cells connected to this vertex
+                CALL c2v%get_ith_conn(ic2v,iv) ! list of cells connected to this vertex
 
                 all_tets(iv) = .TRUE.
                 mixed(iv)    = .FALSE.
 
                 DO i = 1,SIZE(ic2v)
                     ic = ic2v(i)
-                    CALL get_ith_conn(iv2c,msh%v2c,ic)
+                    CALL msh%v2c%get_ith_conn(iv2c,ic)
                     IF (SIZE(iv2c) /= 4) all_tets(iv)=.FALSE.
 
                     IF ( i == 1) size_first = SIZE(iv2c)
@@ -118,7 +118,7 @@ SUBMODULE (tools_mesh_optimize) mobile_verts_implementation
                 glob_iv = loc_to_glob_(msh%desc_v, iv)
 
                 ! get cells attached to the vertex
-                CALL get_kt_row(msh%c2ov_sup, glob_iv, ic2v)
+                CALL msh%c2ov_sup%get_kt_row(glob_iv, ic2v)
 
                 all_tets(iv)=.TRUE.
                 mixed(iv)    = .FALSE.
@@ -126,7 +126,7 @@ SUBMODULE (tools_mesh_optimize) mobile_verts_implementation
 
                 DO i=1,SIZE(ic2v)  ! if the cell has 4 vertices, we presume it is a tet
                     ic=ic2v(i)
-                    CALL get_kt_row(msh%ov2c_sup, ic, iv2c)
+                    CALL msh%ov2c_sup%get_kt_row(ic, iv2c)
                     IF (SIZE(iv2c) /= 4) all_tets(iv) = .FALSE.
 
                     IF ( i == 1) size_first = SIZE(iv2c)
@@ -138,14 +138,14 @@ SUBMODULE (tools_mesh_optimize) mobile_verts_implementation
 
             !Check to see if the vertex is on a boundary
 
-            IF ( on_boundary_(msh%verts(iv)) ) THEN
+            IF ( msh%verts(iv)%on_boundary_() ) THEN
 
                 ! we are on a physical boundary, so then check if it is stick or slip.
                 ! if it is a slip boundary, then the vertex is mobile, but constrained.
                 ! if we are used by more than one boundary, then we treat this as a stick
                 ! boundary, since motion with two or more constraints would be unworkable.
 
-                CALL get_ith_conn(ib2v,b2v,iv)
+                CALL b2v%get_ith_conn(ib2v,iv)
 
                 is_slip=.FALSE. ! the default for vertices on multiple boundaries
 
@@ -159,12 +159,12 @@ SUBMODULE (tools_mesh_optimize) mobile_verts_implementation
                         WRITE(6,*)"Error:  Boundary condition index out of bounds."
                         WRITE(6,*)"Value for vertex ",iv," is equal to ",bc_id
                         WRITE(6,*)"but the mesh only has ",msh%nbc," boundaries."
-                        WRITE(6,*)"This vertex is located at ",x_(msh%verts(iv)),", ", &
-                            & y_(msh%verts(iv)),", ",z_(msh%verts(iv))
+                        WRITE(6,*)"This vertex is located at ",msh%verts(iv)%x_(),", ", &
+                            & msh%verts(iv)%y_(),", ",msh%verts(iv)%z_()
                     ENDIF
                     !end DEBUG
 
-                    IF (vertex_motion_(bc(bc_id)) == sliding_) is_slip=.TRUE.
+                    IF (bc(bc_id)%vertex_motion_() == sliding_) is_slip = .TRUE.
 
                 ENDIF ! end of if-check for a vertex shared by multiple boundaries
 

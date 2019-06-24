@@ -52,6 +52,7 @@ MODULE op_grad
     USE class_scalar_field, ONLY : scalar_field
       !! An Intel 18.0.5 bug precludes putting this in the interface bodies
     USE class_psblas, ONLY : psb_dpk_
+    USE class_connectivity, ONLY : connectivity
     IMPLICIT NONE
 
     PRIVATE

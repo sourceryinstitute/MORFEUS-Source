@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -45,290 +45,297 @@
 !    cell in elemental triangles (2D) or tetraheadra (3D) for which exact
 !    formulas are available.
 !
-MODULE PROCEDURE geom_cell
-    USE class_psblas
-    USE class_cell
-    USE class_connectivity
+SUBMODULE(tools_mesh_basics) geom_cell_implementation
     USE class_face
-    USE class_vector
-    USE class_vertex
-    USE tools_mesh_basics, ONLY : geom_tet_center, geom_tet_volume
-
+    USE class_cell
     IMPLICIT NONE
-    !
-    LOGICAL, PARAMETER :: debug = .FALSE.
-    INTEGER :: i, ic, IF, info, is, k
-    INTEGER :: iv, iv1, iv2, iv3, iv4, iv5, iv6, iv7, iv8, iv_1, iv_i, iv_im1
-    INTEGER :: nfaces, ncells
-    LOGICAL :: quiet_
-    !
-    ! connectivity of I-th element
-    INTEGER :: nv2c, nf2c
-    INTEGER, POINTER :: iv2c(:) => NULL()
-    INTEGER, POINTER :: if2c(:) => NULL()
-    INTEGER, POINTER :: iv2f(:) => NULL()
-    !
-    INTEGER, ALLOCATABLE :: islave(:), nvc(:), nvf(:)
-    REAL(psb_dpk_) :: r, w
-    REAL(psb_dpk_), PARAMETER :: t3 = 1.d0 / 3.d0
-    CHARACTER(len=3), ALLOCATABLE :: geoc(:)
-    TYPE(vector) :: p, v, v1, v2
 
-    IF (PRESENT(quiet) ) THEN
-        quiet_ = quiet
-    ELSE
-        quiet_ = .FALSE.
-    ENDIF
+    CONTAINS
 
-    ! Preliminary checks
-    IF(    .NOT.ALLOCATED(verts) .OR. &
-        & .NOT.ALLOCATED(faces) .OR. &
-        & .NOT.ALLOCATED(cells)) THEN
-        WRITE(*,100)
-        CALL abort_psblas
-    END IF
-    ! Can do without since they are INTENT(OUT).
-!!$  if(    allocated(cell_cntr) .or. &
-!!$       & allocated(vol)) then
-!!$    call abort_psblas
-!!$  end if
+        MODULE PROCEDURE geom_cell
+            USE class_psblas
+            USE class_connectivity
+            USE class_vector
+            USE class_vertex
+            USE tools_mesh_basics, ONLY : geom_tet_center, geom_tet_volume
 
-    ncells = SIZE(cells)
-    nfaces = SIZE(faces)
+            IMPLICIT NONE
+            !
+            LOGICAL, PARAMETER :: debug = .FALSE.
+            INTEGER :: i, ic, IF, info, is, k
+            INTEGER :: iv, iv1, iv2, iv3, iv4, iv5, iv6, iv7, iv8, iv_1, iv_i, iv_im1
+            INTEGER :: nfaces, ncells
+            LOGICAL :: quiet_
+            !
+            ! connectivity of I-th element
+            INTEGER :: nv2c, nf2c
+            INTEGER, POINTER :: iv2c(:) => NULL()
+            INTEGER, POINTER :: if2c(:) => NULL()
+            INTEGER, POINTER :: iv2f(:) => NULL()
+            !
+            INTEGER, ALLOCATABLE :: islave(:), nvc(:), nvf(:)
+            REAL(psb_dpk_) :: r, w
+            REAL(psb_dpk_), PARAMETER :: t3 = 1.d0 / 3.d0
+            CHARACTER(len=3), ALLOCATABLE :: geoc(:)
+            TYPE(vector) :: p, v, v1, v2
 
-    CALL alloc_vector(cell_cntr,ncells)
-    ALLOCATE(islave(nfaces),nvf(nfaces), &
-        &   geoc(ncells),nvc(ncells),   &
-        &   vol(ncells),stat=info)
-    IF(info /= 0) THEN
-        WRITE(*,200)
-        CALL abort_psblas
-    END IF
+            IF (PRESENT(quiet) ) THEN
+                quiet_ = quiet
+            ELSE
+                quiet_ = .FALSE.
+            ENDIF
 
-    ! Extracts slave cell index of every face
-    islave(:) = slave_(faces)
+            ! Preliminary checks
+            IF(    .NOT.ALLOCATED(verts) .OR. &
+                & .NOT.ALLOCATED(faces) .OR. &
+                & .NOT.ALLOCATED(cells)) THEN
+                WRITE(*,100)
+                CALL abort_psblas
+            END IF
+            ! Can do without since they are INTENT(OUT).
+        !!$  if(    allocated(cell_cntr) .or. &
+        !!$       & allocated(vol)) then
+        !!$    call abort_psblas
+        !!$  end if
 
-    ! Extracts number of vertices of every face
-    nvf(:) = nv_(faces)
+            ncells = SIZE(cells)
+            nfaces = SIZE(faces)
 
-    ! Extracts geometry type of every cell
-    DO ic = 1, ncells
-        geoc(ic) = geo_(cells(ic))
-    END DO
+            CALL alloc_vector(cell_cntr,ncells)
+            ALLOCATE(islave(nfaces),nvf(nfaces), &
+                &   geoc(ncells),nvc(ncells),   &
+                &   vol(ncells),stat=info)
+            IF(info /= 0) THEN
+                WRITE(*,200)
+                CALL abort_psblas
+            END IF
 
-    ! Extracts number of vertices of every cell
-    nvc(:) = nv_(cells)
+            ! Extracts slave cell index of every face
+            islave(:) = faces%slave_()
 
-    ! Loop over cells
-    vol(:) = 0.d0
-    cell_cntr(:) = vector_(0.d0,0.d0,0.d0)
+            ! Extracts number of vertices of every face
+            nvf(:) = faces%nv_()
 
-    IF(ncd == 2) THEN
-        DO ic = 1, ncells
-
-            ! Retrieves V2C connectivity of the cell IC.
-            CALL get_ith_conn(iv2c,v2c,ic)
-
-            iv_1 = iv2c(1)        ! 1st IV in V2C connectivity of the cell IC
-            DO i = 3, nvc(ic)
-                iv_im1 = iv2c(i-1) ! (I-1)-th IV in V2C connectivity of the cell IC
-                v1 = verts(iv_im1) - verts(iv_1)
-
-                iv_i = iv2c(i)     ! I-th IV in V2C connectivity of the cell IC
-                v2 = verts(iv_i) - verts(iv_1)
-
-                p = v1 .cross. v2
-                p = 0.5d0 * p         ! Normal vector of the I-th triangle
-                w = mag(p)            ! `Volume' of the I-th triangle
-                vol(ic) = vol(ic) + w ! `Volume' of the generic polyside 2D cell
-
-                p = verts(iv_1) + verts(iv_im1) + verts(iv_i)
-                p = t3 * p                            ! Barycenter of the I-th triangle
-                cell_cntr(ic) = cell_cntr(ic) + w * p ! Barycenter of the 2D polygonal cell
+            ! Extracts geometry type of every cell
+            DO ic = 1, ncells
+                geoc(ic) = cells(ic)%geo_()
             END DO
-            r = 1.d0 / vol(ic)
-            cell_cntr(ic) = r * cell_cntr(ic)
-        END DO
 
-    ELSEIF(ncd == 3) THEN
-        DO ic = 1, ncells
+            ! Extracts number of vertices of every cell
+            nvc(:) = cells%nv_()
 
-            ! Retrieves V2C connectivity of the cell IC.
-            CALL get_ith_conn(iv2c,v2c,ic)
+            ! Loop over cells
+            vol(:) = 0.d0
+            cell_cntr(:) = vector_(0.d0,0.d0,0.d0)
 
-            iv1 = iv2c(1)
-            iv2 = iv2c(2)
-            iv3 = iv2c(3)
-            iv4 = iv2c(4)
-            SELECT CASE(geoc(ic))
-            CASE('tet')
-                cell_cntr(ic) = geom_tet_center(verts(iv1),verts(iv2),verts(iv3),verts(iv4))
-                vol(ic)       = geom_tet_volume(verts(iv1),verts(iv2),verts(iv3),verts(iv4))
-            CASE('pyr')
-                iv5 = iv2c(5)
+            IF(ncd == 2) THEN
+                DO ic = 1, ncells
 
-                ! 1st tetrahedron: 1, 2, 3, 5
-                v = geom_tet_center(verts(iv1),verts(iv2),verts(iv3),verts(iv5))
-                r = geom_tet_volume(verts(iv1),verts(iv2),verts(iv3),verts(iv5))
-                vol(ic) = vol(ic) + r
-                cell_cntr(ic) = cell_cntr(ic) + r * v
+                    ! Retrieves V2C connectivity of the cell IC.
+                    CALL v2c%get_ith_conn(iv2c,ic)
 
-                ! 2nd tetrahedron: 1, 3, 4, 5
-                v = geom_tet_center(verts(iv1),verts(iv3),verts(iv4),verts(iv5))
-                r = geom_tet_volume(verts(iv1),verts(iv3),verts(iv4),verts(iv5))
-                vol(ic) = vol(ic) + r
-                cell_cntr(ic) =cell_cntr(ic) + r * v
+                    iv_1 = iv2c(1)        ! 1st IV in V2C connectivity of the cell IC
+                    DO i = 3, nvc(ic)
+                        iv_im1 = iv2c(i-1) ! (I-1)-th IV in V2C connectivity of the cell IC
+                        v1 = verts(iv_im1) - verts(iv_1)
 
-                r = 1.d0 / vol(ic)
-                cell_cntr(ic) = r * cell_cntr(ic)
-            CASE('pri')
-                iv5 = iv2c(5)
-                iv6 = iv2c(6)
+                        iv_i = iv2c(i)     ! I-th IV in V2C connectivity of the cell IC
+                        v2 = verts(iv_i) - verts(iv_1)
 
-                ! 1st tetrahedron: 1, 2, 3 ,4
-                v = geom_tet_center(verts(iv1),verts(iv2),verts(iv3),verts(iv4))
-                r = geom_tet_volume(verts(iv1),verts(iv2),verts(iv3),verts(iv4))
-                vol(ic) = vol(ic) + r
-                cell_cntr(ic) = cell_cntr(ic) + r * v
+                        p = v1 .cross. v2
+                        p = 0.5d0 * p         ! Normal vector of the I-th triangle
+                        w = p%mag()            ! `Volume' of the I-th triangle
+                        vol(ic) = vol(ic) + w ! `Volume' of the generic polyside 2D cell
 
-                ! 2nd tetrahedron: 4, 6, 5, 2
-                v = geom_tet_center(verts(iv4),verts(iv6),verts(iv5),verts(iv2))
-                r = geom_tet_volume(verts(iv4),verts(iv6),verts(iv5),verts(iv2))
-                vol(ic) = vol(ic) + r
-                cell_cntr(ic) = cell_cntr(ic) + r * v
-
-                ! 3rd tetrahedron: 2, 3, 4, 6
-                v = geom_tet_center(verts(iv2),verts(iv3),verts(iv4),verts(iv6))
-                r = geom_tet_volume(verts(iv2),verts(iv3),verts(iv4),verts(iv6))
-                vol(ic) = vol(ic) + r
-                cell_cntr(ic) = cell_cntr(ic) + r * v
-
-                r = 1.d0 / vol(ic)
-                cell_cntr(ic) = r * cell_cntr(ic)
-            CASE('hex')
-                iv5 = iv2c(5)
-                iv6 = iv2c(6)
-                iv7 = iv2c(7)
-                iv8 = iv2c(8)
-
-                ! 1st tetrahedron: 1, 2, 4, 5
-                v = geom_tet_center(verts(iv1),verts(iv2),verts(iv4),verts(iv5))
-                r = geom_tet_volume(verts(iv1),verts(iv2),verts(iv4),verts(iv5))
-                vol(ic) = vol(ic) + r
-                cell_cntr(ic) = cell_cntr(ic) + r * v
-
-                ! 2nd tetrahedron: 2, 3, 4, 7
-                v = geom_tet_center(verts(iv2),verts(iv3),verts(iv4),verts(iv7))
-                r = geom_tet_volume(verts(iv2),verts(iv3),verts(iv4),verts(iv7))
-                vol(ic) = vol(ic) + r
-                cell_cntr(ic) = cell_cntr(ic) + r * v
-
-                ! 3rd tetrahedron: 7, 6, 5, 2
-                v = geom_tet_center(verts(iv7),verts(iv6),verts(iv5),verts(iv2))
-                r = geom_tet_volume(verts(iv7),verts(iv6),verts(iv5),verts(iv2))
-                vol(ic) = vol(ic) + r
-                cell_cntr(ic) = cell_cntr(ic) + r * v
-
-                ! 4th tetrahedron: 8, 7, 5, 4
-                v = geom_tet_center(verts(iv8),verts(iv7),verts(iv5),verts(iv4))
-                r = geom_tet_volume(verts(iv8),verts(iv7),verts(iv5),verts(iv4))
-                vol(ic) = vol(ic) + r
-                cell_cntr(ic) = cell_cntr(ic) + r * v
-
-                ! 5th tetrahedron: 4, 5, 2, 7
-                v = geom_tet_center(verts(iv4),verts(iv5),verts(iv2),verts(iv7))
-                r = geom_tet_volume(verts(iv4),verts(iv5),verts(iv2),verts(iv7))
-                vol(ic) = vol(ic) + r
-                cell_cntr(ic) = cell_cntr(ic) + r * v
-
-                r = 1.d0 / vol(ic)
-                cell_cntr(ic) = r * cell_cntr(ic)
-            CASE default
-                ! Generic Polyhedron
-
-                ! Evaluation of tetrahedra "4th" point P, set equal to the
-                ! average of polyhedron vertices coordinates
-
-                ! Retrieves V2C connectivity of the cell IC.
-                CALL get_ith_conn(iv2c,v2c,ic)
-                nv2c = SIZE(iv2c)
-
-                p =  vector_(0.d0,0.d0,0.d0)
-
-                DO i = 1, nv2c
-                    iv = iv2c(i)
-                    p = p + verts(iv)
+                        p = verts(iv_1) + verts(iv_im1) + verts(iv_i)
+                        p = t3 * p                            ! Barycenter of the I-th triangle
+                        cell_cntr(ic) = cell_cntr(ic) + w * p ! Barycenter of the 2D polygonal cell
+                    END DO
+                    r = 1.d0 / vol(ic)
+                    cell_cntr(ic) = r * cell_cntr(ic)
                 END DO
-                r = 1.d0 / nvc(ic)
-                p = r * p
 
-                ! Loop over cell faces
+            ELSEIF(ncd == 3) THEN
+                DO ic = 1, ncells
 
-                ! Retrieves F2C connectivity of the cell IC.
-                CALL get_ith_conn(if2c,f2c,ic)
-                nf2c = SIZE(if2c)
+                    ! Retrieves V2C connectivity of the cell IC.
+                    CALL v2c%get_ith_conn(iv2c,ic)
 
-                DO k = 1, nf2c
-                    IF = if2c(k)
-                    is = islave(IF)
-                    !
-                    ! Loop over face sub-triangles
-                    CALL get_ith_conn(iv2f,v2f,IF)
-                    iv_1 = iv2f(1)        ! 1st IV in V2F connectivity of the face IF
-                    DO i = 3, nvf(IF)
-                        iv_im1 = iv2f(i-1) ! (I-1)-th IV in V2F connectivity of the face IF
-                        iv_i = iv2f(i)     ! I-th IV in V2F connectivity of the face IF
-                        v = geom_tet_center(verts(iv_1),verts(iv_i),verts(iv_im1),vertex_(p))
-                        r = geom_tet_volume(verts(iv_1),verts(iv_i),verts(iv_im1),vertex_(p))
-                        IF(is == ic) THEN
-                            ! IC is slave fo IF --> invert order of tetrahedron base vertices
-                            v = geom_tet_center(verts(iv_1),verts(iv_im1),verts(iv_i),vertex_(p))
-                            r = geom_tet_volume(verts(iv_1),verts(iv_im1),verts(iv_i),vertex_(p))
-                        END IF
+                    iv1 = iv2c(1)
+                    iv2 = iv2c(2)
+                    iv3 = iv2c(3)
+                    iv4 = iv2c(4)
+                    SELECT CASE(geoc(ic))
+                    CASE('tet')
+                        cell_cntr(ic) = geom_tet_center(verts(iv1),verts(iv2),verts(iv3),verts(iv4))
+                        vol(ic)       = geom_tet_volume(verts(iv1),verts(iv2),verts(iv3),verts(iv4))
+                    CASE('pyr')
+                        iv5 = iv2c(5)
+
+                        ! 1st tetrahedron: 1, 2, 3, 5
+                        v = geom_tet_center(verts(iv1),verts(iv2),verts(iv3),verts(iv5))
+                        r = geom_tet_volume(verts(iv1),verts(iv2),verts(iv3),verts(iv5))
                         vol(ic) = vol(ic) + r
                         cell_cntr(ic) = cell_cntr(ic) + r * v
-                    END DO
+
+                        ! 2nd tetrahedron: 1, 3, 4, 5
+                        v = geom_tet_center(verts(iv1),verts(iv3),verts(iv4),verts(iv5))
+                        r = geom_tet_volume(verts(iv1),verts(iv3),verts(iv4),verts(iv5))
+                        vol(ic) = vol(ic) + r
+                        cell_cntr(ic) =cell_cntr(ic) + r * v
+
+                        r = 1.d0 / vol(ic)
+                        cell_cntr(ic) = r * cell_cntr(ic)
+                    CASE('pri')
+                        iv5 = iv2c(5)
+                        iv6 = iv2c(6)
+
+                        ! 1st tetrahedron: 1, 2, 3 ,4
+                        v = geom_tet_center(verts(iv1),verts(iv2),verts(iv3),verts(iv4))
+                        r = geom_tet_volume(verts(iv1),verts(iv2),verts(iv3),verts(iv4))
+                        vol(ic) = vol(ic) + r
+                        cell_cntr(ic) = cell_cntr(ic) + r * v
+
+                        ! 2nd tetrahedron: 4, 6, 5, 2
+                        v = geom_tet_center(verts(iv4),verts(iv6),verts(iv5),verts(iv2))
+                        r = geom_tet_volume(verts(iv4),verts(iv6),verts(iv5),verts(iv2))
+                        vol(ic) = vol(ic) + r
+                        cell_cntr(ic) = cell_cntr(ic) + r * v
+
+                        ! 3rd tetrahedron: 2, 3, 4, 6
+                        v = geom_tet_center(verts(iv2),verts(iv3),verts(iv4),verts(iv6))
+                        r = geom_tet_volume(verts(iv2),verts(iv3),verts(iv4),verts(iv6))
+                        vol(ic) = vol(ic) + r
+                        cell_cntr(ic) = cell_cntr(ic) + r * v
+
+                        r = 1.d0 / vol(ic)
+                        cell_cntr(ic) = r * cell_cntr(ic)
+                    CASE('hex')
+                        iv5 = iv2c(5)
+                        iv6 = iv2c(6)
+                        iv7 = iv2c(7)
+                        iv8 = iv2c(8)
+
+                        ! 1st tetrahedron: 1, 2, 4, 5
+                        v = geom_tet_center(verts(iv1),verts(iv2),verts(iv4),verts(iv5))
+                        r = geom_tet_volume(verts(iv1),verts(iv2),verts(iv4),verts(iv5))
+                        vol(ic) = vol(ic) + r
+                        cell_cntr(ic) = cell_cntr(ic) + r * v
+
+                        ! 2nd tetrahedron: 2, 3, 4, 7
+                        v = geom_tet_center(verts(iv2),verts(iv3),verts(iv4),verts(iv7))
+                        r = geom_tet_volume(verts(iv2),verts(iv3),verts(iv4),verts(iv7))
+                        vol(ic) = vol(ic) + r
+                        cell_cntr(ic) = cell_cntr(ic) + r * v
+
+                        ! 3rd tetrahedron: 7, 6, 5, 2
+                        v = geom_tet_center(verts(iv7),verts(iv6),verts(iv5),verts(iv2))
+                        r = geom_tet_volume(verts(iv7),verts(iv6),verts(iv5),verts(iv2))
+                        vol(ic) = vol(ic) + r
+                        cell_cntr(ic) = cell_cntr(ic) + r * v
+
+                        ! 4th tetrahedron: 8, 7, 5, 4
+                        v = geom_tet_center(verts(iv8),verts(iv7),verts(iv5),verts(iv4))
+                        r = geom_tet_volume(verts(iv8),verts(iv7),verts(iv5),verts(iv4))
+                        vol(ic) = vol(ic) + r
+                        cell_cntr(ic) = cell_cntr(ic) + r * v
+
+                        ! 5th tetrahedron: 4, 5, 2, 7
+                        v = geom_tet_center(verts(iv4),verts(iv5),verts(iv2),verts(iv7))
+                        r = geom_tet_volume(verts(iv4),verts(iv5),verts(iv2),verts(iv7))
+                        vol(ic) = vol(ic) + r
+                        cell_cntr(ic) = cell_cntr(ic) + r * v
+
+                        r = 1.d0 / vol(ic)
+                        cell_cntr(ic) = r * cell_cntr(ic)
+                    CASE default
+                        ! Generic Polyhedron
+
+                        ! Evaluation of tetrahedra "4th" point P, set equal to the
+                        ! average of polyhedron vertices coordinates
+
+                        ! Retrieves V2C connectivity of the cell IC.
+                        CALL v2c%get_ith_conn(iv2c,ic)
+                        nv2c = SIZE(iv2c)
+
+                        p =  vector_(0.d0,0.d0,0.d0)
+
+                        DO i = 1, nv2c
+                            iv = iv2c(i)
+                            p = p + verts(iv)
+                        END DO
+                        r = 1.d0 / nvc(ic)
+                        p = r * p
+
+                        ! Loop over cell faces
+
+                        ! Retrieves F2C connectivity of the cell IC.
+                        CALL f2c%get_ith_conn(if2c,ic)
+                        nf2c = SIZE(if2c)
+
+                        DO k = 1, nf2c
+                            IF = if2c(k)
+                            is = islave(IF)
+                            !
+                            ! Loop over face sub-triangles
+                            CALL v2f%get_ith_conn(iv2f,IF)
+                            iv_1 = iv2f(1)        ! 1st IV in V2F connectivity of the face IF
+                            DO i = 3, nvf(IF)
+                                iv_im1 = iv2f(i-1) ! (I-1)-th IV in V2F connectivity of the face IF
+                                iv_i = iv2f(i)     ! I-th IV in V2F connectivity of the face IF
+                                v = geom_tet_center(verts(iv_1),verts(iv_i),verts(iv_im1),vertex_(p))
+                                r = geom_tet_volume(verts(iv_1),verts(iv_i),verts(iv_im1),vertex_(p))
+                                IF(is == ic) THEN
+                                    ! IC is slave fo IF --> invert order of tetrahedron base vertices
+                                    v = geom_tet_center(verts(iv_1),verts(iv_im1),verts(iv_i),vertex_(p))
+                                    r = geom_tet_volume(verts(iv_1),verts(iv_im1),verts(iv_i),vertex_(p))
+                                END IF
+                                vol(ic) = vol(ic) + r
+                                cell_cntr(ic) = cell_cntr(ic) + r * v
+                            END DO
+                        END DO
+                        r = 1.d0 / vol(ic)
+                        cell_cntr(ic) = r * cell_cntr(ic)
+                    END SELECT
                 END DO
-                r = 1.d0 / vol(ic)
-                cell_cntr(ic) = r * cell_cntr(ic)
-            END SELECT
-        END DO
-    END IF
+            END IF
 
-    IF (.NOT. quiet_) THEN
-        ! Check for non-positive volume cell
-        k = COUNT(vol <= 0.d0)
-        IF(k > 0) THEN
-            WRITE(*,300) k
-            CALL abort_psblas
-        END IF
-    ENDIF
+            IF (.NOT. quiet_) THEN
+                ! Check for non-positive volume cell
+                k = COUNT(vol <= 0.d0)
+                IF(k > 0) THEN
+                    WRITE(*,300) k
+                    CALL abort_psblas
+                END IF
+            ENDIF
 
-    !#############################################################################
-    IF(debug) THEN
-        DO ic = 1, ncells
-            WRITE(*,500) ic, vol(ic)
-        END DO
-        WRITE(*,*)
-500     FORMAT('cell: ',i5,' || VOL:',d13.6)
-    END IF
-    !#############################################################################
+            !#############################################################################
+            IF(debug) THEN
+                DO ic = 1, ncells
+                    WRITE(*,500) ic, vol(ic)
+                END DO
+                WRITE(*,*)
+        500     FORMAT('cell: ',i5,' || VOL:',d13.6)
+            END IF
+            !#############################################################################
 
-    !#############################################################################
-    IF(debug) THEN
-        DO ic = 1, ncells
-            WRITE(*,510) ic, x_(cell_cntr(ic)), y_(cell_cntr(ic)), z_(cell_cntr(ic))
-        END DO
-        WRITE(*,*)
-510     FORMAT('cell:',1x,i6,' | Coordinates:',3(1x,d13.6))
-    END IF
-    !############################################################################
+            !#############################################################################
+            IF(debug) THEN
+                DO ic = 1, ncells
+                    WRITE(*,510) ic, cell_cntr(ic)%x_(), cell_cntr(ic)%y_(), cell_cntr(ic)%z_()
+                END DO
+                WRITE(*,*)
+        510     FORMAT('cell:',1x,i6,' | Coordinates:',3(1x,d13.6))
+            END IF
+            !############################################################################
 
-    DEALLOCATE(islave,nvf,geoc,nvc)
-    NULLIFY(iv2c,if2c,iv2f)
+            DEALLOCATE(islave,nvf,geoc,nvc)
+            NULLIFY(iv2c,if2c,iv2f)
 
-100 FORMAT(' ERROR! Input array not allocated in GEOM_CELL')
-200 FORMAT(' ERROR! Memory allocation failure in GEOM_CELL')
-300 FORMAT(' ERROR!',i8,' cells with NON-POSITIVE VOLUME in GEOM_CELL')
+        100 FORMAT(' ERROR! Input array not allocated in GEOM_CELL')
+        200 FORMAT(' ERROR! Memory allocation failure in GEOM_CELL')
+        300 FORMAT(' ERROR!',i8,' cells with NON-POSITIVE VOLUME in GEOM_CELL')
 
-END PROCEDURE geom_cell
+        END PROCEDURE geom_cell
+
+END SUBMODULE geom_cell_implementation

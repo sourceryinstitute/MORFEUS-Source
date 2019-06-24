@@ -67,6 +67,7 @@ MODULE renum
 
     MODULE SUBROUTINE start_renum(irenum,c2c)
         USE class_connectivity
+        IMPLICIT NONE
         INTEGER, INTENT(IN) :: irenum
         TYPE(connectivity), INTENT(IN) :: c2c
     END SUBROUTINE start_renum
@@ -75,17 +76,20 @@ MODULE renum
     ! ----- Destuctor -----
 
     MODULE SUBROUTINE stop_renum
+        IMPLICIT NONE
     END SUBROUTINE stop_renum
 
 
     ! ----- Broadcast -----
 
     MODULE SUBROUTINE print_renum(iout)
+        IMPLICIT NONE
         INTEGER :: iout
     END SUBROUTINE print_renum
     ! ----- Broadcast -----
 
     MODULE SUBROUTINE build_pinv
+        IMPLICIT NONE
     END SUBROUTINE build_pinv
 
 
@@ -93,7 +97,8 @@ MODULE renum
 
     ! Gibbs-Poole-Stockmeyer renumbering algorithm
     MODULE SUBROUTINE cmp_gps(c2c)
-        USE class_connectivity
+        USE class_connectivity, ONLY : connectivity
+        IMPLICIT NONE
         TYPE(connectivity) :: c2c
     END SUBROUTINE cmp_gps
 
@@ -107,29 +112,32 @@ MODULE renum
 
     ! Integer array
     MODULE SUBROUTINE apply_renum_array(a)
+        IMPLICIT NONE
         INTEGER, INTENT(INOUT) :: a(:)
     END SUBROUTINE apply_renum_array
 
     ! CELL objects array
     MODULE SUBROUTINE apply_renum_cell(c)
-        USE class_cell
+        USE class_cell, ONLY : cell
+        IMPLICIT NONE
         TYPE(cell), INTENT(INOUT) :: c(:)
     END SUBROUTINE apply_renum_cell
 
     ! FACE objects array
     MODULE SUBROUTINE apply_renum_face(f)
-        USE class_face
+        USE class_face, ONLY : face
+        IMPLICIT NONE
         TYPE(face), INTENT(INOUT) :: f(:)
     END SUBROUTINE apply_renum_face
 
     ! CONNECTIVITY object
     MODULE SUBROUTINE apply_renum_conn(a2b,apply)
-        USE class_connectivity
+        USE class_connectivity, ONLY : connectivity
+        IMPLICIT NONE
         TYPE(connectivity), INTENT(INOUT) :: a2b
         INTEGER, INTENT(IN) :: apply
     END SUBROUTINE apply_renum_conn
 
   END INTERFACE apply_renum
-
 
 END MODULE renum

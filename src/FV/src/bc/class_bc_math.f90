@@ -50,13 +50,11 @@ MODULE class_bc_math
 
     PRIVATE ! Default
     PUBLIC :: bc_math                           ! Class
-    PUBLIC :: create_bc_math, alloc_bc_math     ! Constructors
-    PUBLIC :: free_bc_math, dealloc_bc_math     ! Destructors
-    PUBLIC :: get_abc_math, is_allocated        ! Getter
-    PUBLIC :: set_bc_math_map!, set_bc_math_uni ! Setter
+    PUBLIC :: create_bc_math                       ! Constructor
+    PUBLIC :: free_bc_math                      ! Destructors
+    PUBLIC :: get_abc_math                      ! Getter
     PUBLIC :: update_boundary_math, &
         &    apply_abc_to_boundary             ! Updater
-    PUBLIC :: debug_bc_math                     ! Debug
 
     TYPE bc_math
         PRIVATE
@@ -66,6 +64,11 @@ MODULE class_bc_math
         REAL(psb_dpk_), ALLOCATABLE :: b(:)
         REAL(psb_dpk_), ALLOCATABLE :: c(:)
     CONTAINS
+        PROCEDURE :: alloc_bc_math   ! Constructor
+        PROCEDURE :: dealloc_bc_math ! Destructor
+        PROCEDURE :: is_allocated
+        PROCEDURE :: set_bc_math_map
+        PROCEDURE :: debug_bc_math
         PROCEDURE, PRIVATE :: nemo_bc_math_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_bc_math_sizeof
     END TYPE bc_math
@@ -107,11 +110,10 @@ MODULE class_bc_math
         INTEGER, INTENT(IN) :: nbf
     END SUBROUTINE create_bc_math
 
-
     MODULE SUBROUTINE alloc_bc_math(bc,id,nbf,a,b,c)
         USE tools_bc
 
-        TYPE(bc_math), INTENT(INOUT) :: bc
+        CLASS(bc_math), INTENT(INOUT) :: bc
         INTEGER, INTENT(IN) :: id
         INTEGER, INTENT(IN) :: nbf
         REAL(psb_dpk_), INTENT(IN) :: a(:), b(:), c(:)
@@ -128,120 +130,23 @@ MODULE class_bc_math
 
     MODULE SUBROUTINE dealloc_bc_math(bc)
         !! To be invoked when BC_MATH is a member of another BC class.
-        TYPE(bc_math) :: bc
+        CLASS(bc_math) :: bc
     END SUBROUTINE dealloc_bc_math
-
-  END INTERFACE
-
-
-  ! ----- Getter -----
-
-  INTERFACE get_abc_math
-
-    MODULE SUBROUTINE get_abc_math_s(bc,id,a,b,c)
-        USE class_connectivity
-        USE class_face
-        USE class_mesh
-        USE tools_bc
-
-        TYPE(bc_math), INTENT(IN) :: bc
-        INTEGER, INTENT(OUT) :: id
-        REAL(psb_dpk_), INTENT(INOUT) :: a(:)
-        REAL(psb_dpk_), INTENT(INOUT) :: b(:)
-        REAL(psb_dpk_), INTENT(INOUT) :: c(:)
-    END SUBROUTINE get_abc_math_s
-
-
-    MODULE SUBROUTINE get_abc_math_v(bc,id,a,b,c)
-        USE class_connectivity
-        USE class_face
-        USE class_mesh
-        USE class_vector
-        USE tools_bc
-
-        TYPE(bc_math), INTENT(IN) :: bc(:)
-        INTEGER, INTENT(OUT) :: id
-        REAL(psb_dpk_), INTENT(INOUT) :: a(:)
-        REAL(psb_dpk_), INTENT(INOUT) :: b(:)
-        TYPE(vector),     INTENT(INOUT) :: c(:)
-    END SUBROUTINE get_abc_math_v
-
-  END INTERFACE get_abc_math
-
-
-  INTERFACE
 
     ELEMENTAL MODULE FUNCTION is_allocated(bc)
         LOGICAL :: is_allocated
-        TYPE(bc_math), INTENT(IN) :: bc
+        CLASS(bc_math), INTENT(IN) :: bc
     END FUNCTION is_allocated
 
-  END INTERFACE
-
-
     ! ----- Setter -----
-
-  INTERFACE set_bc_math
 
     MODULE SUBROUTINE set_bc_math_map(bc,i,a,b,c)
         USE tools_bc
 
-        TYPE(bc_math), INTENT(INOUT) :: bc
+        CLASS(bc_math), INTENT(INOUT) :: bc
         INTEGER, INTENT(IN) :: i
         REAL(psb_dpk_), INTENT(IN) :: a, b, c
     END SUBROUTINE set_bc_math_map
-
-  END INTERFACE set_bc_math
-
-    ! ----- Boundary Values Updating -----
-
-  INTERFACE apply_abc_to_boundary
-
-    MODULE SUBROUTINE apply_abc_to_boundary_s(id,a,b,c,ib,msh,x,bx)
-        !! WARNING!
-        !! - Use intent(inout) for BX(:)
-        !! - Do loop on the faces subset corresponding to IB bc.
-        !! - Only this section of BX(:) is going to be modified.
-        !! - BX(:) indexing starts from 1: when BX(:) is referenced an offset
-        !!   equal to the # of boundary faces with flag > 0 and < IB must be
-        !!   added to the I counter.
-        USE class_connectivity
-        USE class_face
-        USE class_mesh
-        USE tools_bc
-
-        INTEGER, INTENT(IN) :: id
-        REAL(psb_dpk_), INTENT(IN) :: a(:)
-        REAL(psb_dpk_), INTENT(IN) :: b(:)
-        REAL(psb_dpk_), INTENT(IN) :: c(:)
-        INTEGER, INTENT(IN) :: ib
-        TYPE(mesh), INTENT(IN) :: msh
-        REAL(psb_dpk_), INTENT(IN) :: x(:)
-        REAL(psb_dpk_), INTENT(INOUT) :: bx(:)
-    END SUBROUTINE apply_abc_to_boundary_s
-
-
-    MODULE SUBROUTINE apply_abc_to_boundary_v(id,a,b,c,ib,msh,x,bx)
-        USE class_connectivity
-        USE class_face
-        USE class_mesh
-        USE class_vector
-        USE tools_bc
-
-        INTEGER, INTENT(IN) :: id
-        REAL(psb_dpk_), INTENT(IN) :: a(:)
-        REAL(psb_dpk_), INTENT(IN) :: b(:)
-        TYPE(vector),     INTENT(IN) :: c(:)
-        INTEGER,          INTENT(IN) :: ib
-        TYPE(mesh),       INTENT(IN) :: msh
-        TYPE(vector),     INTENT(IN) :: x(:)
-        TYPE(vector),     INTENT(INOUT) :: bx(:)
-    END SUBROUTINE apply_abc_to_boundary_v
-
-  END INTERFACE apply_abc_to_boundary
-
-
-  INTERFACE
 
     MODULE SUBROUTINE update_boundary_math(ib,bc,msh,x,bx)
         !! WARNING! Use intent(inout) for BX(:)
@@ -260,8 +165,91 @@ MODULE class_bc_math
     MODULE SUBROUTINE debug_bc_math(bc)
         USE tools_bc
 
-        TYPE(bc_math), INTENT(IN) :: bc
+        CLASS(bc_math), INTENT(IN) :: bc
     END SUBROUTINE debug_bc_math
 
   END INTERFACE
+
+
+  ! ----- Getter -----
+
+  INTERFACE get_abc_math
+
+    MODULE SUBROUTINE get_abc_math_s(bc,id,a,b,c)
+        !USE class_connectivity
+        USE class_face
+        USE class_mesh
+        USE tools_bc
+
+        TYPE(bc_math), INTENT(IN) :: bc
+        INTEGER, INTENT(OUT) :: id
+        REAL(psb_dpk_), INTENT(INOUT) :: a(:)
+        REAL(psb_dpk_), INTENT(INOUT) :: b(:)
+        REAL(psb_dpk_), INTENT(INOUT) :: c(:)
+    END SUBROUTINE get_abc_math_s
+
+
+    MODULE SUBROUTINE get_abc_math_v(bc,id,a,b,c)
+        !USE class_connectivity
+        USE class_face
+        USE class_mesh
+        USE class_vector
+        USE tools_bc
+
+        TYPE(bc_math), INTENT(IN) :: bc(:)
+        INTEGER, INTENT(OUT) :: id
+        REAL(psb_dpk_), INTENT(INOUT) :: a(:)
+        REAL(psb_dpk_), INTENT(INOUT) :: b(:)
+        TYPE(vector),     INTENT(INOUT) :: c(:)
+    END SUBROUTINE get_abc_math_v
+
+  END INTERFACE get_abc_math
+
+    ! ----- Boundary Values Updating -----
+
+  INTERFACE apply_abc_to_boundary
+
+    MODULE SUBROUTINE apply_abc_to_boundary_s(id,a,b,c,ib,msh,x,bx)
+        !! WARNING!
+        !! - Use intent(inout) for BX(:)
+        !! - Do loop on the faces subset corresponding to IB bc.
+        !! - Only this section of BX(:) is going to be modified.
+        !! - BX(:) indexing starts from 1: when BX(:) is referenced an offset
+        !!   equal to the # of boundary faces with flag > 0 and < IB must be
+        !!   added to the I counter.
+        !USE class_connectivity
+        USE class_face
+        USE class_mesh
+        USE tools_bc
+
+        INTEGER, INTENT(IN) :: id
+        REAL(psb_dpk_), INTENT(IN) :: a(:)
+        REAL(psb_dpk_), INTENT(IN) :: b(:)
+        REAL(psb_dpk_), INTENT(IN) :: c(:)
+        INTEGER, INTENT(IN) :: ib
+        TYPE(mesh), INTENT(IN) :: msh
+        REAL(psb_dpk_), INTENT(IN) :: x(:)
+        REAL(psb_dpk_), INTENT(INOUT) :: bx(:)
+    END SUBROUTINE apply_abc_to_boundary_s
+
+
+    MODULE SUBROUTINE apply_abc_to_boundary_v(id,a,b,c,ib,msh,x,bx)
+        !USE class_connectivity
+        USE class_face
+        USE class_mesh
+        USE class_vector
+        USE tools_bc
+
+        INTEGER, INTENT(IN) :: id
+        REAL(psb_dpk_), INTENT(IN) :: a(:)
+        REAL(psb_dpk_), INTENT(IN) :: b(:)
+        TYPE(vector),     INTENT(IN) :: c(:)
+        INTEGER,          INTENT(IN) :: ib
+        TYPE(mesh),       INTENT(IN) :: msh
+        TYPE(vector),     INTENT(IN) :: x(:)
+        TYPE(vector),     INTENT(INOUT) :: bx(:)
+    END SUBROUTINE apply_abc_to_boundary_v
+
+  END INTERFACE apply_abc_to_boundary
+
 END MODULE class_bc_math

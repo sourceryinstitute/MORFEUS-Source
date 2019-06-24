@@ -74,26 +74,26 @@ SUBMODULE(op_field) vector_field_flux_implementation
             CALL fld%get_mesh(msh)
 
             ! Gets BASE, X and BX members of the face-centered vector field
-            IF(on_faces_(fld)) THEN
-                CALL get_x(fld,fld_x)
-                CALL get_bx(fld,fld_bx)
-                CALL get_base(fld,base)
+            IF(fld%on_faces_()) THEN
+                CALL fld%get_x(fld_x)
+                CALL fld%get_bx(fld_bx)
+                CALL fld%get_base(base)
 
             ELSE
                 ! If FLD is cell-centered, first interpolate it
-                fld_f = interp_on_faces(fld)
+                fld_f = fld%interp_on_faces()
 
-                CALL get_x(fld_f,fld_x)
-                CALL get_bx(fld_f,fld_bx)
-                CALL get_base(fld_f,base)
-                CALL free_field(fld_f)
+                CALL fld_f%get_x(fld_x)
+                CALL fld_f%get_bx(fld_bx)
+                CALL fld_f%get_base(base)
+                CALL fld_f%free_field()
             END IF
 
             ! Computes result dimensions
-            dim = dim_(fld) * surface_
+            dim = fld%dim_() * surface_
 
             ! Sets DIM member in the base field object
-            CALL set_field_dim(base,dim)
+            CALL base%set_field_dim(dim)
 
             ! Allocates arrays for storing result values
             ALLOCATE(r_x(SIZE(fld_x)),r_bx(SIZE(fld_bx)),stat=info)
@@ -105,7 +105,7 @@ SUBMODULE(op_field) vector_field_flux_implementation
             ! First computes fluxes on faces with flag = 0 and flag = -1...
             ib_offset = 0
             DO ib = 0, 0 !-1, -1
-                CALL get_ith_conn(if2b,msh%f2b,ib)
+                CALL msh%f2b%get_ith_conn(if2b,ib)
                 n = SIZE(if2b)
 
                 DO i = 1, n
@@ -119,7 +119,7 @@ SUBMODULE(op_field) vector_field_flux_implementation
             ! ... then computes fluxes on boundary faces.
             ib_offset = 0
             DO ib = 1, msh%nbc
-                CALL get_ith_conn(if2b,msh%f2b,ib)
+                CALL msh%f2b%get_ith_conn(if2b,ib)
                 n = SIZE(if2b)
 
                 DO i = 1, n
@@ -136,7 +136,7 @@ SUBMODULE(op_field) vector_field_flux_implementation
 
             NULLIFY(if2b)
             DEALLOCATE(r_x,r_bx)
-            CALL free_field(base)
+            CALL base%free_field()
             CALL free_vector(fld_x)
             CALL free_vector(fld_bx)
             NULLIFY(msh)

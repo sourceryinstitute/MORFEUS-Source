@@ -54,18 +54,25 @@ MODULE class_vertex
     PUBLIC :: vertex_, alloc_vertex, free_vertex       ! Constructor/Destructor
     PUBLIC :: bcast_vertex, g2l_vertex, l2g_vertex     ! Parallel Operations
     PUBLIC :: update_vertex_halo                       ! Parallel Operations(2)
-    PUBLIC :: x_, y_, z_, position_, on_boundary_      ! Getters
     PUBLIC :: ASSIGNMENT(=)                            ! Setters
     PUBLIC :: OPERATOR(+), OPERATOR(-), OPERATOR(*), & ! Vector Algerbra
-        &    OPERATOR(.dot.), OPERATOR(.cross.), mag
+        &    OPERATOR(.dot.), OPERATOR(.cross.)
 
     TYPE vertex
         PRIVATE
         TYPE(vector) :: position
         LOGICAL :: on_boundary
     CONTAINS
+        PROCEDURE, PRIVATE :: get_vertex_x, get_vertex_y, get_vertex_z   ! Getters
+        GENERIC, PUBLIC :: x_ => get_vertex_x
+        GENERIC, PUBLIC :: y_ => get_vertex_y
+        GENERIC, PUBLIC :: z_ => get_vertex_z
+        PROCEDURE :: position_                                           ! Getters
+        PROCEDURE, PRIVATE :: vert_mag
+        GENERIC, PUBLIC :: mag => vert_mag
         PROCEDURE, PRIVATE :: nemo_vertex_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_vertex_sizeof
+        PROCEDURE, PUBLIC :: on_boundary_
     END TYPE vertex
 
 
@@ -165,44 +172,36 @@ MODULE class_vertex
     ELEMENTAL MODULE FUNCTION position_(vert)
       IMPLICIT NONE
       TYPE(vector) :: position_
-      TYPE(vertex), INTENT(IN) :: vert
+      CLASS(vertex), INTENT(IN) :: vert
     END FUNCTION position_
 
 
     ELEMENTAL MODULE FUNCTION on_boundary_(vert)
       IMPLICIT NONE
       LOGICAL :: on_boundary_
-      TYPE(vertex), INTENT(IN) :: vert
+      CLASS(vertex), INTENT(IN) :: vert
     END FUNCTION on_boundary_
-
-  END INTERFACE
 
   ! Getters
 
-  INTERFACE x_
     ELEMENTAL MODULE FUNCTION get_vertex_x(vert)
       IMPLICIT NONE
       REAL(psb_dpk_) :: get_vertex_x
-      TYPE(vertex), INTENT(IN) :: vert
+      CLASS(vertex), INTENT(IN) :: vert
     END FUNCTION get_vertex_x
-  END INTERFACE x_
 
-
-  INTERFACE y_
     ELEMENTAL MODULE FUNCTION get_vertex_y(vert)
       IMPLICIT NONE
       REAL(psb_dpk_) :: get_vertex_y
-      TYPE(vertex), INTENT(IN) :: vert
+      CLASS(vertex), INTENT(IN) :: vert
     END FUNCTION get_vertex_y
-  END INTERFACE y_
 
-  INTERFACE z_
     ELEMENTAL MODULE FUNCTION get_vertex_z(vert)
       IMPLICIT NONE
       REAL(psb_dpk_) :: get_vertex_z
-      TYPE(vertex), INTENT(IN) :: vert
+      CLASS(vertex), INTENT(IN) :: vert
     END FUNCTION get_vertex_z
-  END INTERFACE z_
+  END INTERFACE
 
 
   ! ----- Vector Algebra Operations -----
@@ -276,12 +275,12 @@ MODULE class_vertex
     END FUNCTION cross_prod
   END INTERFACE OPERATOR(.cross.)
 
-  INTERFACE mag
+  INTERFACE
     MODULE FUNCTION vert_mag(v)
       IMPLICIT NONE
       REAL(psb_dpk_) :: vert_mag
-      TYPE(vertex), INTENT(IN) :: v
+      CLASS(vertex), INTENT(IN) :: v
     END FUNCTION vert_mag
-  END INTERFACE mag
+  END INTERFACE
 
 END MODULE class_vertex

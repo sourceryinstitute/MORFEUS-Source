@@ -62,16 +62,16 @@ SUBMODULE(op_field) scalar_fld_vector_mul_implementation
             TYPE(dimensions) :: dim
             TYPE(field) :: base_s
 
-            CALL get_base(fld_s,base_s)
+            CALL fld_s%get_base(base_s)
 
-            dim = dim_(fld_s)
+            dim = fld_s%dim_()
 
             ! Sets DIM member in the base field object
-            CALL set_field_dim(base_s,dim)
+            CALL base_s%set_field_dim(dim)
 
             ! Gets X and BX members of operands
-            CALL get_x(fld_s,x_s)
-            CALL get_bx(fld_s,bx_s)
+            CALL fld_s%get_x(x_s)
+            CALL fld_s%get_bx(bx_s)
 
             ! Construct the result object
             res = vector_field_(base_s, &
@@ -79,7 +79,7 @@ SUBMODULE(op_field) scalar_fld_vector_mul_implementation
                 &            bx = bx_s * vector_(0.d0,0.d0,0.d0))
 
             DEALLOCATE(bx_s,x_s)
-            CALL free_field(base_s)
+            CALL base_s%free_field()
 
         END PROCEDURE scalar_fld_vector_mul
 

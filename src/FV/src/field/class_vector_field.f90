@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -47,23 +47,20 @@ MODULE class_vector_field
     USE class_psblas, ONLY : psb_dpk_, nemo_int_long_, nemo_sizeof_dp, nemo_sizeof_int,&
         & icontxt_, psb_erractionsave, abort_psblas, psb_check_error, psb_erractionrestore,&
         & psb_halo
-    USE class_field
-    USE class_vector
+    USE class_field, ONLY : field
+    USE class_vector, ONLY : vector
+    USE class_mesh, ONLY : mesh
+    USE class_dimensions, ONLY : dimensions
+    USE class_bc, ONLY : bc_poly
+    USE class_material, ONLY : matptr, material
 
     IMPLICIT NONE
 
     PRIVATE ! Default
-    PUBLIC :: vector_field                               ! Class
-    PUBLIC :: vector_field_, create_field, free_field    ! Constructor/destructor
-    PUBLIC :: name_, dim_, msh_, on_faces_, bc_, &       ! Getters
-        &    get_material, get_base, &        !   "
-        &    get_x, get_xp, get_bx                      !   "
-    PUBLIC :: update_field, ASSIGNMENT(=), &             ! Setters
-        &    set_field_element, set_field_group,&       !   "
-        &    set_field_bound_element                    !   "
-    PUBLIC :: set_x
-    PUBLIC :: OPERATOR(*)   ! Algebra operations
-    PUBLIC :: interp_on_faces                            !   "
+    PUBLIC :: vector_field      !! Class
+    PUBLIC :: vector_field_     !! Constructor
+    PUBLIC :: ASSIGNMENT(=)     !! Setters
+    PUBLIC :: OPERATOR(*)       !! Algebra operations
 
     TYPE vector_field
         PRIVATE
@@ -73,6 +70,39 @@ MODULE class_vector_field
         TYPE(vector), ALLOCATABLE :: bx(:)
         INTEGER, ALLOCATABLE :: mat(:)
     CONTAINS
+        PROCEDURE, PRIVATE :: create_vector_field, free_vector_field ! Constructor/destructor
+        GENERIC, PUBLIC :: create_field => create_vector_field
+        GENERIC, PUBLIC :: free_field => free_vector_field
+        PROCEDURE, PRIVATE :: get_vector_field_on_faces, get_vector_field_bc
+        GENERIC, PUBLIC :: on_faces_ => get_vector_field_on_faces
+        GENERIC, PUBLIC :: bc_ => get_vector_field_bc
+        PROCEDURE, PRIVATE :: get_vector_field_mat, get_vector_field_mat_sub
+        GENERIC, PUBLIC :: mat_ => get_vector_field_mat
+        GENERIC, PUBLIC :: get_material => get_vector_field_mat_sub
+        PROCEDURE, PRIVATE :: get_vector_field_dim, get_vector_field_msh_fun ! Getters
+        GENERIC, PUBLIC :: dim_ => get_vector_field_dim
+        GENERIC, PUBLIC :: msh_ => get_vector_field_msh_fun
+        PROCEDURE, PRIVATE :: get_vector_field_name
+        GENERIC, PUBLIC :: name_ => get_vector_field_name
+        PROCEDURE, PRIVATE :: get_vector_field_base
+        GENERIC, PUBLIC :: get_base => get_vector_field_base
+        PROCEDURE, PRIVATE :: get_vector_field_x_r, get_vector_field_x_v
+        GENERIC, PUBLIC :: get_x => get_vector_field_x_r, get_vector_field_x_v
+        PROCEDURE, PRIVATE :: get_vector_field_xp_r, get_vector_field_xp_v
+        GENERIC, PUBLIC :: get_xp => get_vector_field_xp_r, get_vector_field_xp_v
+        PROCEDURE, PRIVATE :: get_vector_field_bx_r, get_vector_field_bx_v
+        GENERIC, PUBLIC :: get_bx => get_vector_field_bx_r, get_vector_field_bx_v
+        PROCEDURE, PRIVATE :: update_vector_field
+        GENERIC, PUBLIC :: update_field => update_vector_field
+        PROCEDURE, PRIVATE :: set_vector_field_element, set_vector_field_group
+        GENERIC, PUBLIC :: set_field_element => set_vector_field_element
+        GENERIC, PUBLIC :: set_field_group => set_vector_field_group
+        PROCEDURE, PRIVATE :: set_vector_field_bound_element
+        GENERIC, PUBLIC :: set_field_bound_element => set_vector_field_bound_element
+        PROCEDURE, PRIVATE :: set_vector_field_x
+        GENERIC, PUBLIC :: set_x => set_vector_field_x
+        PROCEDURE, PRIVATE :: interp_on_faces_v
+        GENERIC, PUBLIC :: interp_on_faces => interp_on_faces_v
         PROCEDURE :: vector_field_sum, vector_field_dif
         GENERIC :: OPERATOR(+) => vector_field_sum
         GENERIC :: OPERATOR(-) => vector_field_dif
@@ -84,13 +114,11 @@ MODULE class_vector_field
         GENERIC, PUBLIC :: check_mesh_consistency => check_mesh_consistency_vf
     END TYPE vector_field
 
-
   ! ----- Generic Interfaces -----
 
   INTERFACE
 
     MODULE FUNCTION nemo_vector_field_sizeof(fld)
-        !use psb_base_mod
         IMPLICIT NONE
         CLASS(vector_field), INTENT(IN) :: fld
         INTEGER(kind=nemo_int_long_)   :: nemo_vector_field_sizeof
@@ -100,27 +128,18 @@ MODULE class_vector_field
 
     ! Default public constructor, necessary with ifort
     MODULE FUNCTION vector_field_(base,x,bx)
+        IMPLICIT NONE
         TYPE(vector_field) :: vector_field_
         TYPE(field),      INTENT(IN) :: base
         TYPE(vector), INTENT(IN) :: x(:)
         TYPE(vector), INTENT(IN) :: bx(:)
     END FUNCTION vector_field_
-  END INTERFACE
-
 
   ! Constructor
-  INTERFACE create_field
     MODULE SUBROUTINE create_vector_field(fld,msh,dim,bc,mats,on_faces,x0)
-        USE class_bc
-        USE class_connectivity
-        USE class_dimensions
-        USE class_material
-        USE class_mesh
-        USE class_vector
-        USE tools_material
         IMPLICIT NONE
         ! Mandatory arguments
-        TYPE(vector_field), INTENT(OUT)        :: fld
+        CLASS(vector_field), INTENT(OUT)        :: fld
         TYPE(mesh),         INTENT(IN), TARGET :: msh
         !
         ! Optional arguments
@@ -130,189 +149,185 @@ MODULE class_vector_field
         LOGICAL,          INTENT(IN), OPTIONAL         :: on_faces
         TYPE(vector),     INTENT(IN), OPTIONAL         :: x0
     END SUBROUTINE create_vector_field
-  END INTERFACE create_field
-
 
   ! ----- Destructor -----
 
-  INTERFACE free_field
     !! Destructor
     MODULE SUBROUTINE free_vector_field(fld)
         IMPLICIT NONE
-        TYPE(vector_field), INTENT(INOUT) :: fld
+        CLASS(vector_field), INTENT(INOUT) :: fld
     END SUBROUTINE free_vector_field
-  END INTERFACE free_field
 
 
   ! ----- Getters for Inherited Members -----
 
-  INTERFACE name_
     MODULE FUNCTION get_vector_field_name(fld)
         IMPLICIT NONE
         CHARACTER(len=32) :: get_vector_field_name
-        TYPE(vector_field), INTENT(IN) :: fld
+        CLASS(vector_field), INTENT(IN) :: fld
     END FUNCTION get_vector_field_name
-  END INTERFACE name_
 
-  INTERFACE dim_
     MODULE FUNCTION get_vector_field_dim(fld)
-        USE class_dimensions
         IMPLICIT NONE
         TYPE(dimensions) :: get_vector_field_dim
-        TYPE(vector_field), INTENT(IN) :: fld
+        CLASS(vector_field), INTENT(IN) :: fld
     END FUNCTION get_vector_field_dim
-  END INTERFACE dim_
 
-
-  INTERFACE msh_
     MODULE FUNCTION get_vector_field_msh_fun(fld)
-        USE class_mesh
         IMPLICIT NONE
         TYPE(mesh), POINTER :: get_vector_field_msh_fun
-        TYPE(vector_field), INTENT(IN), TARGET  :: fld
+        CLASS(vector_field), INTENT(IN), TARGET  :: fld
     END FUNCTION get_vector_field_msh_fun
-  END INTERFACE msh_
-
-
-
 
   ! ----- Temporary up to Gfortran patch -----
-  INTERFACE
     MODULE SUBROUTINE get_vector_field_msh_sub(fld,msh)
-        USE class_mesh
         IMPLICIT NONE
         CLASS(vector_field), INTENT(IN) :: fld
         TYPE(mesh), POINTER :: msh
     END SUBROUTINE get_vector_field_msh_sub
-  END INTERFACE
   ! ------------------------------------------
 
 
-  INTERFACE on_faces_
     MODULE FUNCTION get_vector_field_on_faces(fld)
         IMPLICIT NONE
         LOGICAL :: get_vector_field_on_faces
-        TYPE(vector_field), INTENT(IN) :: fld
+        CLASS(vector_field), INTENT(IN) :: fld
     END FUNCTION get_vector_field_on_faces
-  END INTERFACE on_faces_
 
-  INTERFACE bc_
     MODULE FUNCTION get_vector_field_bc(fld)
-        USE class_bc
         IMPLICIT NONE
         TYPE(bc_poly), POINTER :: get_vector_field_bc(:)
-        TYPE(vector_field), INTENT(IN) :: fld
+        CLASS(vector_field), INTENT(IN) :: fld
     END FUNCTION get_vector_field_bc
-  END INTERFACE bc_
 
-
-  INTERFACE mat_
     MODULE FUNCTION get_vector_field_mat(fld)
-        USE class_material
         IMPLICIT NONE
         TYPE(material), POINTER :: get_vector_field_mat
-        TYPE(vector_field), INTENT(IN) :: fld
+        CLASS(vector_field), INTENT(IN) :: fld
     END FUNCTION get_vector_field_mat
-  END INTERFACE mat_
-
 
   ! ----- Temporary up to Gfortran patch -----
-  INTERFACE get_material
     MODULE SUBROUTINE get_vector_field_mat_sub(fld,i,mat)
-        USE class_material
         IMPLICIT NONE
-        TYPE(vector_field), INTENT(IN) :: fld
+        CLASS(vector_field), INTENT(IN) :: fld
         INTEGER, INTENT(IN), OPTIONAL :: i
         TYPE(material), POINTER :: mat
     END SUBROUTINE get_vector_field_mat_sub
-  END INTERFACE get_material
   ! ------------------------------------------
 
-
-  INTERFACE get_base
     MODULE SUBROUTINE get_vector_field_base(fld,base)
-        TYPE(vector_field), INTENT(IN)  :: fld
+        CLASS(vector_field), INTENT(IN)  :: fld
         TYPE(field),        INTENT(OUT) :: base
     END SUBROUTINE get_vector_field_base
-  END INTERFACE get_base
 
 
   ! ----- Getters for Additional Members -----
 
-  INTERFACE get_x
     !! Getters for Additional Members
 
     MODULE SUBROUTINE get_vector_field_x_r(fld,x)
         IMPLICIT NONE
-        TYPE(vector_field), INTENT(IN) :: fld
+        CLASS(vector_field), INTENT(IN) :: fld
         REAL(psb_dpk_),   INTENT(OUT), ALLOCATABLE :: x(:,:)
     END SUBROUTINE get_vector_field_x_r
 
     MODULE SUBROUTINE get_vector_field_x_v(fld,x)
         IMPLICIT NONE
-        TYPE(vector_field), INTENT(IN) :: fld
+        CLASS(vector_field), INTENT(IN) :: fld
         TYPE(vector),       INTENT(OUT), ALLOCATABLE :: x(:)
     END SUBROUTINE get_vector_field_x_v
 
-  END INTERFACE get_x
-
-
-  INTERFACE get_xp
-
     MODULE SUBROUTINE get_vector_field_xp_r(fld,xp)
         IMPLICIT NONE
-        TYPE(vector_field), INTENT(IN) :: fld
+        CLASS(vector_field), INTENT(IN) :: fld
         REAL(psb_dpk_),   INTENT(OUT), ALLOCATABLE :: xp(:,:)
     END SUBROUTINE get_vector_field_xp_r
 
     MODULE SUBROUTINE get_vector_field_xp_v(fld,xp)
         IMPLICIT NONE
-        TYPE(vector_field), INTENT(IN) :: fld
+        CLASS(vector_field), INTENT(IN) :: fld
         TYPE(vector),       INTENT(OUT), ALLOCATABLE :: xp(:)
     END SUBROUTINE get_vector_field_xp_v
 
-  END INTERFACE get_xp
-
-
-  INTERFACE get_bx
 
     MODULE SUBROUTINE get_vector_field_bx_r(fld,bx)
-        TYPE(vector_field), INTENT(IN) :: fld
+        CLASS(vector_field), INTENT(IN) :: fld
         REAL(psb_dpk_),   INTENT(OUT), ALLOCATABLE :: bx(:,:)
     END SUBROUTINE get_vector_field_bx_r
 
     MODULE SUBROUTINE get_vector_field_bx_v(fld,bx)
         IMPLICIT NONE
-        TYPE(vector_field), INTENT(IN) :: fld
+        CLASS(vector_field), INTENT(IN) :: fld
         TYPE(vector),       INTENT(OUT), ALLOCATABLE :: bx(:)
     END SUBROUTINE get_vector_field_bx_v
 
-  END INTERFACE get_bx
-
-
   ! ----- Setters -----
 
-  INTERFACE set_x
     !! Setters
     MODULE SUBROUTINE set_vector_field_x(fld,x)
         IMPLICIT NONE
-        TYPE(vector_field), INTENT(INOUT) :: fld
+        CLASS(vector_field), INTENT(INOUT) :: fld
         REAL(psb_dpk_),   INTENT(IN), ALLOCATABLE :: x(:,:)
     END SUBROUTINE set_vector_field_x
-  END INTERFACE set_x
 
-
-  INTERFACE update_field
     MODULE SUBROUTINE update_vector_field(fld)
-        USE class_bc
-        USE class_dimensions
-        USE class_material
-        USE class_mesh
         IMPLICIT NONE
-        TYPE(vector_field), INTENT(INOUT) :: fld
+        CLASS(vector_field), INTENT(INOUT) :: fld
     END SUBROUTINE update_vector_field
-  END INTERFACE update_field
 
+    MODULE SUBROUTINE set_vector_field_element(f,i,x)
+        IMPLICIT NONE
+        CLASS(vector_field), INTENT(INOUT) :: f
+        INTEGER, INTENT(IN) :: i
+        TYPE(vector), INTENT(IN) :: x
+    END SUBROUTINE set_vector_field_element
+
+    MODULE SUBROUTINE set_vector_field_bound_element(f,i,x)
+        IMPLICIT NONE
+        CLASS(vector_field), INTENT(INOUT) :: f
+        INTEGER, INTENT(IN) :: i
+        TYPE(vector), INTENT(IN) :: x
+    END SUBROUTINE set_vector_field_bound_element
+
+    MODULE SUBROUTINE set_vector_field_group(f,ig,x)
+        IMPLICIT NONE
+        CLASS(vector_field), INTENT(INOUT) :: f
+        INTEGER, INTENT(IN) :: ig
+        TYPE(vector), INTENT(IN) :: x
+    END SUBROUTINE set_vector_field_group
+
+  ! ----- Algebra Operations -----
+
+    MODULE FUNCTION vector_field_sum(f1,f2)RESULT(r)
+        IMPLICIT NONE
+        TYPE(vector_field) :: r
+        CLASS(vector_field), INTENT(IN) :: f1
+        TYPE(vector_field), INTENT(IN) :: f2
+    END FUNCTION vector_field_sum
+
+    MODULE FUNCTION vector_field_dif(f1,f2) RESULT(r)
+        IMPLICIT NONE
+        TYPE(vector_field) :: r
+        CLASS(vector_field), INTENT(IN) :: f1
+        TYPE(vector_field), INTENT(IN) :: f2
+    END FUNCTION vector_field_dif
+
+    MODULE FUNCTION interp_on_faces_v(fld)RESULT(r)
+        IMPLICIT NONE
+        TYPE(vector_field) :: r
+        CLASS(vector_field), INTENT(IN) :: fld
+    END FUNCTION interp_on_faces_v
+
+    ! ----- Check Procedures -----
+
+    MODULE SUBROUTINE check_mesh_consistency_vf(f1,f2,WHERE)
+        IMPLICIT NONE
+        CLASS(vector_field), INTENT(IN) :: f1
+        TYPE(vector_field), INTENT(IN) :: f2
+        CHARACTER(len=*), INTENT(IN) :: WHERE
+    END SUBROUTINE check_mesh_consistency_vf
+
+  END INTERFACE
 
   INTERFACE ASSIGNMENT(=)
     !! User-defined assignemnts
@@ -333,55 +348,6 @@ MODULE class_vector_field
 
   END INTERFACE ASSIGNMENT(=)
 
-
-  INTERFACE set_field_element
-    MODULE SUBROUTINE set_vector_field_element(f,i,x)
-        USE class_vector
-        IMPLICIT NONE
-        TYPE(vector_field), INTENT(INOUT) :: f
-        INTEGER, INTENT(IN) :: i
-        TYPE(vector), INTENT(IN) :: x
-    END SUBROUTINE set_vector_field_element
-  END INTERFACE set_field_element
-
-  INTERFACE set_field_bound_element
-    MODULE SUBROUTINE set_vector_field_bound_element(f,i,x)
-        USE class_vector
-        IMPLICIT NONE
-        TYPE(vector_field), INTENT(INOUT) :: f
-        INTEGER, INTENT(IN) :: i
-        TYPE(vector), INTENT(IN) :: x
-    END SUBROUTINE set_vector_field_bound_element
-  END INTERFACE set_field_bound_element
-
-
-  INTERFACE set_field_group
-    MODULE SUBROUTINE set_vector_field_group(f,ig,x)
-        USE class_connectivity
-        USE class_mesh
-        USE class_vector
-        IMPLICIT NONE
-        TYPE(vector_field), INTENT(INOUT) :: f
-        INTEGER, INTENT(IN) :: ig
-        TYPE(vector), INTENT(IN) :: x
-    END SUBROUTINE set_vector_field_group
-  END INTERFACE set_field_group
-
-
-  ! ----- Algebra Operations -----
-
-  INTERFACE
-    MODULE FUNCTION vector_field_sum(f1,f2)RESULT(r)
-        USE class_dimensions
-        !use class_vector
-        IMPLICIT NONE
-        TYPE(vector_field) :: r
-        CLASS(vector_field), INTENT(IN) :: f1
-        TYPE(vector_field), INTENT(IN) :: f2
-    END FUNCTION vector_field_sum
-  END INTERFACE
-
-
   INTERFACE OPERATOR(*)
     MODULE FUNCTION vector_field_scal(a,f2)RESULT(r)
         USE class_dimensions
@@ -392,41 +358,5 @@ MODULE class_vector_field
         TYPE(vector_field), INTENT(IN) :: f2
     END FUNCTION vector_field_scal
   END INTERFACE OPERATOR(*)
-
-  INTERFACE
-    MODULE FUNCTION vector_field_dif(f1,f2)RESULT(r)
-        USE class_dimensions
-        !use class_vector
-        IMPLICIT NONE
-        TYPE(vector_field) :: r
-        CLASS(vector_field), INTENT(IN) :: f1
-        TYPE(vector_field), INTENT(IN) :: f2
-    END FUNCTION vector_field_dif
-  END INTERFACE
-
-
-  INTERFACE interp_on_faces
-    MODULE FUNCTION interp_on_faces_v(fld)RESULT(r)
-        USE class_connectivity
-        USE class_face
-        USE class_mesh
-        USE tools_math
-        IMPLICIT NONE
-        TYPE(vector_field) :: r
-        TYPE(vector_field), INTENT(IN) :: fld
-    END FUNCTION interp_on_faces_v
-  END INTERFACE interp_on_faces
-
-
-    ! ----- Check Procedures -----
-
-  INTERFACE
-    MODULE SUBROUTINE check_mesh_consistency_vf(f1,f2,WHERE)
-        IMPLICIT NONE
-        CLASS(vector_field), INTENT(IN) :: f1
-        TYPE(vector_field), INTENT(IN) :: f2
-        CHARACTER(len=*), INTENT(IN) :: WHERE
-    END SUBROUTINE check_mesh_consistency_vf
-  END INTERFACE
 
 END MODULE class_vector_field

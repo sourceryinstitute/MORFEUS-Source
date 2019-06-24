@@ -37,7 +37,6 @@
 !    To be added...
 !
 SUBMODULE(class_pde) class_pde_procedures
-
     IMPLICIT NONE
 
     ! ----- Private Named Constants -----
@@ -45,10 +44,11 @@ SUBMODULE(class_pde) class_pde_procedures
     INTEGER, PARAMETER :: asb_ = 1
     INTEGER, PARAMETER :: bld_ = 2
 
-CONTAINS
+    CONTAINS
 
     MODULE PROCEDURE nemo_pde_sizeof
         USE class_psblas
+        IMPLICIT NONE
 
         INTEGER(kind=nemo_int_long_)   :: val
 
@@ -70,6 +70,7 @@ CONTAINS
     MODULE PROCEDURE create_pde
         USE class_connectivity
         USE tools_input
+        IMPLICIT NONE
 
         !
         LOGICAL, PARAMETER :: debug = .FALSE.
@@ -102,9 +103,9 @@ CONTAINS
 
         ! Computes the amount of non-zero elements in the local part of
         !  sparse matrix A (this is what SPALL is asking for!)
-        nnz = nconn_(msh%c2c,gl='l')
+        nnz = msh%c2c%nconn_(gl='l')
         ! Adds diagonal elements
-        nnz = nnz + nel_(msh%c2c,gl='l')
+        nnz = nnz + msh%c2c%nel_(gl='l')
 
         ! Allocates sparse matrix A
         IF (debug) WRITE(0,*) mypnum_(),' Allocating with :',nnz
@@ -141,6 +142,7 @@ CONTAINS
     ! ----- Destructor -----
 
     MODULE PROCEDURE free_pde
+        IMPLICIT NONE
         !
         INTEGER :: err_act, info
 
@@ -161,6 +163,7 @@ CONTAINS
     ! ----- Getters -----
 
     MODULE PROCEDURE get_pde_name
+        IMPLICIT NONE
 
         get_pde_name = eqn%name
 
@@ -168,6 +171,7 @@ CONTAINS
 
 
     MODULE PROCEDURE get_pde_dim
+        IMPLICIT NONE
 
         get_pde_dim = eqn%dim
 
@@ -176,6 +180,7 @@ CONTAINS
     !----------------------------------------
 
     MODULE PROCEDURE get_pde_A
+        IMPLICIT NONE
 
         B = eqn%A
 
@@ -184,6 +189,7 @@ CONTAINS
     !----------------------------------------
 
     MODULE PROCEDURE get_pde_msh_fun
+        IMPLICIT NONE
 
         get_pde_msh_fun => eqn%msh
 
@@ -191,21 +197,24 @@ CONTAINS
 
 
     MODULE PROCEDURE get_pde_msh_sub
+        IMPLICIT NONE
 
         msh => eqn%msh
 
     END PROCEDURE get_pde_msh_sub
 
     MODULE PROCEDURE get_pde_diag
+        IMPLICIT NONE
 
         IF (.NOT. ALLOCATED(eqn%diag)) &
-            & CALL update_diag(eqn)
+            & CALL eqn%update_diag()
         IF (.NOT. ALLOCATED(d)) &
             & ALLOCATE(d(SIZE(eqn%diag)))
         d = eqn%diag
     END PROCEDURE get_pde_diag
 
     MODULE PROCEDURE update_pde_diag
+        IMPLICIT NONE
         INTEGER :: info, n
 
         !    n = psb_cd_get_local_rows(eqn%msh%desc_c)
@@ -221,6 +230,7 @@ CONTAINS
     ! ----- Status Inquirer -----
 
     MODULE PROCEDURE is_pde_bld
+        IMPLICIT NONE
 
         is_pde_bld = (eqn%status == bld_)
 
@@ -228,6 +238,7 @@ CONTAINS
 
 
     MODULE PROCEDURE is_pde_asb
+        IMPLICIT NONE
 
         is_pde_asb = (eqn%status == asb_)
 
@@ -237,10 +248,11 @@ CONTAINS
     ! ----- Linear System Solving -----
 
     MODULE PROCEDURE spins_pde
+        IMPLICIT NONE
         !! Inserts a ``cloud'' of coefficients into eqn%A
         INTEGER :: info, err_act
 
-        CALL tic(sw_ins)
+        CALL sw_ins%tic()
 
         ! Sets error handling for PSBLAS-2 routines
         CALL psb_erractionsave(err_act)
@@ -252,12 +264,13 @@ CONTAINS
         ! ----- Normal Termination -----
         CALL psb_erractionrestore(err_act)
 
-        CALL toc(sw_ins)
+        CALL sw_ins%toc()
 
     END PROCEDURE spins_pde
 
 
     MODULE PROCEDURE asb_pde
+        IMPLICIT NONE
         !
         INTEGER :: err_act, info
         LOGICAL, PARAMETER :: debug=.FALSE.
@@ -265,7 +278,7 @@ CONTAINS
         ! Sets error handling for PSBLAS-2 routines
         CALL psb_erractionsave(err_act)
 
-        IF (is_pde_asb(eqn)) THEN
+        IF (eqn%is_pde_asb()) THEN
             ! What if this is called twice? Make it a no-op for now.
             RETURN
         END IF
@@ -276,7 +289,7 @@ CONTAINS
             WRITE(*,*) '  - assembling sparse matrix'
         END IF
 
-        CALL tic(sw_asb)
+        CALL sw_asb%tic()
 
         ! Assemblies sparse matrix associated to eqn
         IF (.FALSE.) THEN
@@ -298,7 +311,7 @@ CONTAINS
         IF (ALLOCATED(eqn%diag)) THEN
             DEALLOCATE(eqn%diag)
         ENDIF
-        CALL toc(sw_asb)
+        CALL sw_asb%toc()
 
 
         ! ----- Normal Termination -----
@@ -310,13 +323,14 @@ CONTAINS
     MODULE PROCEDURE build_pde_prec
         USE class_psblas, ONLY : abort_psblas
         USE tools_math,   ONLY : build_prec
+        IMPLICIT NONE
 
         ! Make sure we are in the assembled state
-        IF (is_pde_bld(eqn)) THEN
+        IF (eqn%is_pde_bld()) THEN
             CALL eqn%asb_pde()
         END IF
         ! And if not, raise an error.
-        IF (.NOT.is_pde_asb(eqn)) THEN
+        IF (.NOT.eqn%is_pde_asb()) THEN
             WRITE(*,100)
             CALL abort_psblas
         END IF
@@ -336,6 +350,7 @@ CONTAINS
 
 
     MODULE PROCEDURE free_pde_prec
+        IMPLICIT NONE
         !
         INTEGER :: info, err_act
 
@@ -353,6 +368,7 @@ CONTAINS
 
     MODULE PROCEDURE solve_pde_sys
         USE tools_math
+        IMPLICIT NONE
         INTEGER :: i
         IF (debug_mat_bld) THEN
             WRITE(0,*) 'Scalar PDE A'
@@ -378,6 +394,7 @@ CONTAINS
 
 
     MODULE PROCEDURE reinit_pde
+        IMPLICIT NONE
         !
         INTEGER :: err_act, info
 
@@ -402,7 +419,8 @@ CONTAINS
     ! ----- Output -----
 
     MODULE PROCEDURE write_pde
-        USE tools_output_basics
+        USE tools_output_basics, ONLY : wr_mtx_matrix
+        IMPLICIT NONE
 
         mtx_rhs = .FALSE.
         IF(.NOT.eqn%mtx_sys) RETURN

@@ -47,6 +47,9 @@ MODULE tools_material
     USE class_psblas, ONLY : psb_dpk_
     IMPLICIT NONE
 
+    PUBLIC
+    PRIVATE :: psb_dpk_
+
     ! Physical properties IDs
     INTEGER, PARAMETER :: irho    = 1 ! Density
     INTEGER, PARAMETER :: imu     = 2 ! Viscosity

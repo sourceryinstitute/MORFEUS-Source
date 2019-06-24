@@ -79,8 +79,7 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
     USE class_face
     USE class_vertex
     USE tools_math
-    USE type_table
-
+    USE type_table, ONLY : table, alloc_table, free_table, get_dual_table
     IMPLICIT NONE
     !
     INTEGER, PARAMETER :: nlen = 80
@@ -277,7 +276,7 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
         CALL abort_psblas
     END IF
 
-    CALL alloc_table(v2c,nel=ncells)
+    CALL v2c%alloc_table(nel=ncells)
 
     work1 = 0
     work1_cg = 0
@@ -332,7 +331,7 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
             & work1_cg(j1:j2),iparentdata,ier)
         IF(ier /= CG_OK) CALL cg_error_exit_f
     END DO
-    CALL alloc_table(v2c,ntab=i2)
+    CALL v2c%alloc_table(ntab=i2)
 
     work1 = work1_cg
     v2c%tab = work1(1:i2)
@@ -341,7 +340,7 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
 
     ! Defines group
     ! NOTE: only one group is currently supported
-    CALL alloc_table(c2g,nel=ngroups,ntab=ncells)
+    CALL c2g%alloc_table(nel=ngroups,ntab=ncells)
 
     ALLOCATE(groupnc(ngroups),groupmat(ngroups),&
         &   groupname(ngroups),stat=info)
@@ -390,8 +389,8 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
     END DO
 
     ! Allocation of face-related connectivity tables
-    CALL alloc_table(f2c,nel=ncells,ntab=nfaces)
-    CALL alloc_table(v2f,nel=nfaces,ntab=n)
+    CALL f2c%alloc_table(nel=ncells,ntab=nfaces)
+    CALL v2f%alloc_table(nel=nfaces,ntab=n)
 
     ! Allocation of temporary face-related arrays
     ALLOCATE(iflag(nfaces), fnv(nfaces),  &
@@ -573,7 +572,7 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
         END DO pile_3D
         DEALLOCATE(buf)
     END IF
-    CALL free_table(f2v)
+    CALL f2v%free_table()
 
     ! ###########################################################################
     IF (debug) THEN
@@ -662,7 +661,7 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
         k = j + facenv(IF)
     END DO
     !
-    CALL alloc_table(dmy,nel=nfaces,ntab=k)
+    CALL dmy%alloc_table(nel=nfaces,ntab=k)
     i1 = 1; i2 = 0; dmy%lookup(1) = 1
     DO IF = 1, nfaces
         j = pinv(IF)
@@ -673,9 +672,9 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
         i1 = i2 + 1
         dmy%lookup(IF+1) = i1
     END DO
-    CALL free_table(v2f)
+    CALL v2f%free_table()
 
-    CALL alloc_table(v2f,nel=nfaces,ntab=k)
+    CALL v2f%alloc_table(nel=nfaces,ntab=k)
     v2f%lookup = dmy%lookup(1:nfaces+1)
     v2f%tab = dmy%tab(1:k)
 
@@ -689,7 +688,7 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
         END DO
     END DO
 
-    CALL free_table(dmy)
+    CALL dmy%free_table()
     DEALLOCATE(perm,pinv)
 
     ! ###########################################################################
@@ -724,10 +723,10 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
     k = COUNT(faceslave == 0)
 
     IF(nbc /= 0) THEN
-        CALL alloc_table(f2b,nel=nbc,ntab=k)
+        CALL f2b%alloc_table(nel=nbc,ntab=k)
         ALLOCATE(bcnf(nbc),bcname(nbc),stat=info)
     ELSE
-        CALL alloc_table(f2b,nel=1,ntab=k)
+        CALL f2b%alloc_table(nel=1,ntab=k)
         ALLOCATE(bcnf(1),bcname(1),stat=info)
     END IF
     IF(info /= 0) THEN
@@ -801,7 +800,7 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
         END DO
 
         ! Allocates bcface%lookup, bcface%tab
-        CALL alloc_table(bcface,nel=k1,ntab=k2)
+        CALL bcface%alloc_table(nel=k1,ntab=k2)
         ALLOCATE(bcfacetab_cg(k2), stat=info)
         IF(info /= 0) THEN
             WRITE(*,100)
@@ -939,8 +938,8 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
             END DO ib_3D
             DEALLOCATE(work1,work2)
         END IF
-        CALL free_table(f2v)
-        CALL free_table(bcface)
+        CALL f2v%free_table()
+        CALL bcface%free_table()
     ELSE
         ! NBC = 0
         nbc = 1
@@ -970,7 +969,7 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
         WRITE(*,100)
         CALL abort_psblas
     END IF
-    CALL alloc_table(dmy,nel=nfaces,ntab=k)
+    CALL dmy%alloc_table(nel=nfaces,ntab=k)
 
     ! Builds pinv
     k = 0
@@ -1064,8 +1063,8 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
     ! ###########################################################################
 
     ! f2b is no longer useful. It can be deallocated
-    CALL free_table(f2b)
-    CALL free_table(dmy)
+    CALL f2b%free_table()
+    CALL dmy%free_table()
     DEALLOCATE(bcname,bcnf)
     DEALLOCATE(bcnf_cg)
     DEALLOCATE(perm,pinv,aux)
@@ -1115,32 +1114,32 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
     DO IF = 1, nfaces
         i1 = v2f%lookup(IF)
         i2 = v2f%lookup(IF+1) - 1
-        CALL set_ith_conn(v2f_,IF,v2f%tab(i1:i2))
+        CALL v2f_%set_ith_conn(IF,v2f%tab(i1:i2))
     END DO
 
     DO ic = 1, ncells
         i1 = v2c%lookup(ic)
         i2 = v2c%lookup(ic+1) - 1
-        CALL set_ith_conn(v2c_,ic,v2c%tab(i1:i2))
+        CALL v2c_%set_ith_conn(ic,v2c%tab(i1:i2))
     END DO
 
     DO ic = 1, ncells
         i1 = f2c%lookup(ic)
         i2 = f2c%lookup(ic+1) - 1
-        CALL set_ith_conn(f2c_,ic,f2c%tab(i1:i2))
+        CALL f2c_%set_ith_conn(ic,f2c%tab(i1:i2))
     END DO
 
     DO ig = 1, ngroups
         i1 = c2g%lookup(ig)
         i2 = c2g%lookup(ig+1) - 1
-        CALL set_ith_conn(c2g_,ig,c2g%tab(i1:i2))
+        CALL c2g_%set_ith_conn(ig,c2g%tab(i1:i2))
     END DO
 
     ! Deallocates local copies of connectivity data
-    CALL free_table(v2f)
-    CALL free_table(v2c)
-    CALL free_table(f2c)
-    CALL free_table(c2g)
+    CALL v2f%free_table()
+    CALL v2c%free_table()
+    CALL f2c%free_table()
+    CALL c2g%free_table()
 
     ! Currently group data GROUPNC, GROUPMAT, GROUPNAME are not exported
     ! to the calling program => deallocation

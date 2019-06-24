@@ -45,7 +45,7 @@
 !
 MODULE class_psblas
 
-    USE class_stopwatch
+    USE class_stopwatch, ONLY: stopwatch, stopwatch_
     USE tools_psblas
 
     IMPLICIT NONE

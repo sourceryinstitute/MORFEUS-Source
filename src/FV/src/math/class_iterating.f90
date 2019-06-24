@@ -48,11 +48,6 @@ MODULE class_iterating
 
     PRIVATE ! Default
     PUBLIC :: iterating                           ! Class
-    PUBLIC :: create_iterating                    ! Constructor
-    PUBLIC :: nmax_, delta_, tol_, current_iteration, & ! Getters
-        &    next_iteration, previous_iteration  !    "
-    PUBLIC :: increment, reset                    ! Setters
-    PUBLIC :: stop_iterating                      ! Utilities
   
     TYPE iterating
         PRIVATE
@@ -61,6 +56,13 @@ MODULE class_iterating
         REAL(psb_dpk_) :: delta
         REAL(psb_dpk_) :: tol
     CONTAINS
+        PROCEDURE :: create_iterating ! Constructor
+        PROCEDURE :: nmax_, delta_, tol_
+        PROCEDURE :: current_iteration, next_iteration, previous_iteration
+        PROCEDURE :: stop_iterating
+        PROCEDURE, PRIVATE :: increment_iterating, reset_iterating
+        GENERIC, PUBLIC :: increment => increment_iterating
+        GENERIC, PUBLIC :: reset => reset_iterating
         PROCEDURE, PRIVATE :: nemo_iterating_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_iterating_sizeof
     END TYPE iterating
@@ -73,7 +75,7 @@ MODULE class_iterating
       ! ----- Constructor -----
 
       MODULE SUBROUTINE create_iterating(iter,input_file,sec,itype)
-          TYPE(iterating),  INTENT(OUT) :: iter
+          CLASS(iterating),  INTENT(OUT) :: iter
           CHARACTER(len=*), INTENT(IN) :: input_file
           CHARACTER(len=*), INTENT(IN) :: sec
           INTEGER         , INTENT(IN) :: itype
@@ -85,39 +87,39 @@ MODULE class_iterating
       MODULE FUNCTION nmax_(iter)
         IMPLICIT NONE
         INTEGER :: nmax_
-        TYPE(iterating), INTENT(IN) :: iter
+        CLASS(iterating), INTENT(IN) :: iter
       END FUNCTION nmax_
 
 
       MODULE FUNCTION delta_(iter)
         IMPLICIT NONE
         REAL(psb_dpk_) :: delta_
-        TYPE(iterating), INTENT(IN) :: iter
+        CLASS(iterating), INTENT(IN) :: iter
       END FUNCTION delta_
 
       MODULE FUNCTION tol_(iter)
         IMPLICIT NONE
         REAL(psb_dpk_) :: tol_
-        TYPE(iterating), INTENT(IN) :: iter
+        CLASS(iterating), INTENT(IN) :: iter
       END FUNCTION tol_
 
       MODULE FUNCTION current_iteration(iter)
         IMPLICIT NONE
         INTEGER :: current_iteration
-        TYPE(iterating), INTENT(IN) :: iter
+        CLASS(iterating), INTENT(IN) :: iter
       END FUNCTION current_iteration
 
 
       MODULE FUNCTION next_iteration(iter)
         IMPLICIT NONE
         INTEGER :: next_iteration
-        TYPE(iterating) :: iter
+        CLASS(iterating) :: iter
       END FUNCTION next_iteration
 
       MODULE FUNCTION previous_iteration(iter)
         IMPLICIT NONE
         INTEGER :: previous_iteration
-        TYPE(iterating) :: iter
+        CLASS(iterating) :: iter
       END FUNCTION previous_iteration
 
 
@@ -126,32 +128,23 @@ MODULE class_iterating
       MODULE FUNCTION stop_iterating(iter,eps)
         IMPLICIT NONE
         LOGICAL :: stop_iterating
-        TYPE(iterating),  INTENT(IN) :: iter
+        CLASS(iterating),  INTENT(IN) :: iter
         REAL(psb_dpk_), INTENT(IN), OPTIONAL :: eps
       END FUNCTION stop_iterating
-
-    END INTERFACE
 
 
     ! ----- Setters -----
 
-    INTERFACE increment
       MODULE SUBROUTINE increment_iterating(iter)
         IMPLICIT NONE
-        TYPE(iterating), INTENT(INOUT) :: iter
+        CLASS(iterating), INTENT(INOUT) :: iter
       END SUBROUTINE increment_iterating
-    END INTERFACE increment
 
-
-    INTERFACE reset
       MODULE SUBROUTINE reset_iterating(iter)
         IMPLICIT NONE
-        TYPE(iterating), INTENT(INOUT) :: iter
+        CLASS(iterating), INTENT(INOUT) :: iter
       END SUBROUTINE reset_iterating
-    END INTERFACE reset
 
-
-    INTERFACE
       MODULE FUNCTION nemo_iterating_sizeof(iter)
         USE class_psblas, ONLY : nemo_int_long_
         IMPLICIT NONE

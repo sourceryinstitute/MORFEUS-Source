@@ -88,7 +88,7 @@ SUBMODULE(tools_mesh_optimize) laplacian_smooth_implementation
             CALL abort_psblas
         END IF
 
-        fixed = mixed .OR. on_boundary_(verts(1:nverts))
+        fixed = mixed .OR. verts(1:nverts)%on_boundary_()
         !initialize so that all mixed-cell and boundary vertices are fixed
 
         IF (n_unconstrained > 0) THEN
@@ -98,7 +98,7 @@ SUBMODULE(tools_mesh_optimize) laplacian_smooth_implementation
         ENDIF
 
         !NEL is the number of diag. elements and NCONN the off-diag. elements
-        n_entries = NEL_(v2v) + NCONN_(v2v) ! estimated non-zero values
+        n_entries = v2v%nel_() + v2v%nconn_() ! estimated non-zero values
 
         ! Allocate matrices
         CALL psb_spall(Amatrix, desc_v, info, n_entries)
@@ -141,15 +141,15 @@ SUBMODULE(tools_mesh_optimize) laplacian_smooth_implementation
                 CALL psb_check_error(info,name_err,'psb_spins',icontxt)
 
                 ! insert vertex location on the right hand sides
-                rhs = x_(verts(i))
+                rhs = verts(i)%x_()
                 CALL psb_geins(1, (/iglob/), (/rhs/), bx, desc_v, info, psb_dupl_ovwrt_)
                 CALL psb_check_error(info,name_err,'psb_geins',icontxt)
 
-                rhs = y_(verts(i))
+                rhs = verts(i)%y_()
                 CALL psb_geins(1, (/iglob/), (/rhs/), by, desc_v, info, psb_dupl_ovwrt_)
                 CALL psb_check_error(info,name_err,'psb_geins',icontxt)
 
-                rhs = z_(verts(i))
+                rhs = verts(i)%z_()
                 CALL psb_geins(1, (/iglob/), (/rhs/), bz, desc_v, info, psb_dupl_ovwrt_)
                 CALL psb_check_error(info,name_err,'psb_geins',icontxt)
 
@@ -159,7 +159,7 @@ SUBMODULE(tools_mesh_optimize) laplacian_smooth_implementation
                 ! and -1/N on the diagonal.  The RHS is zero
                 ! -1/N*position_p + sum(positions_neighbors) = 0
 
-                CALL get_ith_conn(iv2v, v2v,i) ! get neighbors
+                CALL v2v%get_ith_conn(iv2v,i) ! get neighbors
                 n_entries = SIZE(iv2v) + 1 ! add 1 for the diagonal
 
                 ALLOCATE(acoeffs(n_entries), ia(n_entries), ja(n_entries), stat=info)
@@ -214,13 +214,13 @@ SUBMODULE(tools_mesh_optimize) laplacian_smooth_implementation
 
             iglob = loc_to_glob_(desc_v,i)
 
-            CALL psb_geins(1, (/iglob/), (/x_(verts(i))/), newx, desc_v, info, psb_dupl_ovwrt_)
+            CALL psb_geins(1, (/iglob/), (/verts(i)%x_()/), newx, desc_v, info, psb_dupl_ovwrt_)
             CALL psb_check_error(info,name_err,'psb_geins',icontxt)
 
-            CALL psb_geins(1, (/iglob/), (/y_(verts(i))/), newy, desc_v, info, psb_dupl_ovwrt_)
+            CALL psb_geins(1, (/iglob/), (/verts(i)%y_()/), newy, desc_v, info, psb_dupl_ovwrt_)
             CALL psb_check_error(info,name_err,'psb_geins',icontxt)
 
-            CALL psb_geins(1, (/iglob/), (/z_(verts(i))/), newz, desc_v, info, psb_dupl_ovwrt_)
+            CALL psb_geins(1, (/iglob/), (/verts(i)%z_()/), newz, desc_v, info, psb_dupl_ovwrt_)
             CALL psb_check_error(info,name_err,'psb_geins',icontxt)
 
         ENDDO

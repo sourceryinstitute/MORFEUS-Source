@@ -37,6 +37,7 @@
 !    MATHematical boundary condition class.
 !
 SUBMODULE(class_bc_math) class_bc_math_procedures
+    USE class_face
 
     IMPLICIT NONE
 
@@ -190,8 +191,7 @@ CONTAINS
     ! ----- Getter -----
 
     MODULE PROCEDURE get_abc_math_s
-        USE class_connectivity
-        USE class_face
+        !USE class_connectivity
         USE class_mesh
         USE tools_bc
         !
@@ -249,8 +249,7 @@ CONTAINS
       !! WARNING! Use intent(inout) for A, B and C.
       !! REMARK: BC(:) elements are supposed to differ only in "C" term
 
-        USE class_connectivity
-        USE class_face
+        !USE class_connectivity
         USE class_mesh
         USE class_vector
         USE tools_bc
@@ -348,19 +347,21 @@ CONTAINS
         !!   equal to the # of boundary faces with flag > 0 and < IB must be
         !!   added to the I counter.
         USE class_connectivity
-        USE class_face
         USE class_mesh
         USE tools_bc
 
         INTEGER, POINTER :: if2b(:) => NULL()
         INTEGER :: i, ibf, IF, im, ib_offset, n
         REAL(psb_dpk_) :: d, r
+        TYPE(connectivity) :: conn_temp
 
 
         ! Boundary faces with flag < IB
-        ib_offset = COUNT(flag_(msh%faces) > 0 .AND. flag_(msh%faces) < ib)
+        ib_offset = COUNT(msh%faces%flag_() > 0 .AND. msh%faces%flag_() < ib)
 
-        CALL get_ith_conn(if2b,msh%f2b,ib)
+        !CALL msh%f2b%get_ith_conn(if2b,ib)
+        conn_temp=msh%f2b
+        CALL conn_temp%get_ith_conn(if2b, ib)
         n = SIZE(if2b)
 
         SELECT CASE(id)
@@ -377,7 +378,7 @@ CONTAINS
         CASE(bc_neumann_)
             DO i = 1, n
                 IF = if2b(i)
-                im = master_(msh%faces(IF))
+                im = msh%faces(IF)%master_()
 
                 d = msh%dist(IF)
 
@@ -387,7 +388,7 @@ CONTAINS
         CASE(bc_robin_)
             DO i = 1, n
                 IF = if2b(i)
-                im = master_(msh%faces(IF))
+                im = msh%faces(IF)%master_()
 
                 d = msh%dist(IF)
 
@@ -399,7 +400,7 @@ CONTAINS
         CASE(bc_neumann_flux_)
             DO i = 1, n
                 IF = if2b(i)
-                im = master_(msh%faces(IF))
+                im = msh%faces(IF)%master_()
 
                 d = msh%dist(IF)
 
@@ -409,7 +410,7 @@ CONTAINS
         CASE(bc_robin_convection_)
             DO i = 1, n
                 IF = if2b(i)
-                im = master_(msh%faces(IF))
+                im = msh%faces(IF)%master_()
 
                 d = msh%dist(IF)
 
@@ -421,7 +422,7 @@ CONTAINS
         CASE(bc_robin_map_)
             DO i = 1, n
                 IF = if2b(i)
-                im = master_(msh%faces(IF))
+                im = msh%faces(IF)%master_()
 
                 d = msh%dist(IF)
 
@@ -452,7 +453,6 @@ CONTAINS
         !!   added to the I counter.
 
         USE class_connectivity
-        USE class_face
         USE class_mesh
         USE class_vector
         USE tools_bc
@@ -460,15 +460,19 @@ CONTAINS
         INTEGER, POINTER :: if2b(:) => NULL()
         INTEGER :: i, ibf, IF, im, ib_offset, n
         REAL(psb_dpk_) :: d
+        TYPE(connectivity) :: conn_temp
 
         ! Dummy usage of A and B
         i = SIZE(a)
         i = SIZE(b)
 
         ! Boundary faces with flag < IB
-        ib_offset = COUNT(flag_(msh%faces) > 0 .AND. flag_(msh%faces) < ib)
+        ib_offset = COUNT(msh%faces%flag_() > 0 .AND. msh%faces%flag_() < ib)
 
-        CALL get_ith_conn(if2b,msh%f2b,ib)
+        !CALL msh%f2b%get_ith_conn(if2b,ib)
+        conn_temp=msh%f2b
+        CALL conn_temp%get_ith_conn(if2b,ib)
+
         n = SIZE(if2b)
 
         SELECT CASE(id)
@@ -487,7 +491,7 @@ CONTAINS
         CASE(bc_neumann_)
             DO i = 1, n
                 IF = if2b(i)
-                im = master_(msh%faces(IF))
+                im = msh%faces(IF)%master_()
 
                 d = msh%dist(IF)
 

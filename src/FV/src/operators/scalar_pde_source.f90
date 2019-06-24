@@ -43,7 +43,7 @@
 !    Adds to PDE the source term SRC = sc + sp * phi_P
 !
 SUBMODULE(op_source) scalar_pde_source_implementation
-
+    USE class_scalar_source, ONLY: scalar_source
     IMPLICIT NONE
 
     CONTAINS
@@ -54,7 +54,6 @@ SUBMODULE(op_source) scalar_pde_source_implementation
             USE class_mesh
             USE class_material
             USE class_scalar_field
-            USE class_scalar_source
             USE class_scalar_pde
             USE tools_operators
 
@@ -67,19 +66,21 @@ SUBMODULE(op_source) scalar_pde_source_implementation
             TYPE(dimensions) :: dim
             TYPE(mesh), POINTER :: msh => NULL()
 
-            CALL tic(sw_pde)
+            CALL sw_pde%tic()
 
             IF(mypnum_() == 0) THEN
-                WRITE(*,*) '* ', TRIM(name_(pde)), ': applying the Source term'
+                WRITE(*,*) '* ', TRIM(pde%name_()), ': applying the Source term'
             END IF
 
             ! Possible reinit of pde
-            CALL reinit_pde(pde)
+            CALL pde%reinit_pde()
 
 
             ! Dimensional check
-            dim = dim_(src) * volume_
-            IF(dim /= dim_(pde)) THEN
+
+            ! The dimensional check is commented out due to ICE error
+           dim = volume_*src%dim_()
+           IF(  dim /= pde%dim_()) THEN
                 WRITE(*,100)
                 CALL abort_psblas
             END IF
@@ -97,8 +98,8 @@ SUBMODULE(op_source) scalar_pde_source_implementation
             CALL pde%get_mesh(msh)
 
             ! Gets components of source term once for all
-            sc = sc_(src)
-            sp = sp_(src)
+            sc = src%sc_()
+            sp = src%sp_()
 
             ! Number of strictly local cells
             ncells = psb_cd_get_local_rows(msh%desc_c)
@@ -124,8 +125,8 @@ SUBMODULE(op_source) scalar_pde_source_implementation
                     ! Local indices
                     ic = ic + 1
 
-                    im = get_scalar_field_mat_id(phi,i+ifirst-1)
-                    IF (mat_id_(mats(im)%mat) < 100) THEN
+                    im = phi%get_scalar_field_mat_id(i+ifirst-1)
+                    IF (mats(im)%mat%mat_id_() < 100) THEN
                         fact = fsign * msh%vol(ic)
                     ELSE
                         fact = 0.0
@@ -152,7 +153,7 @@ SUBMODULE(op_source) scalar_pde_source_implementation
             DEALLOCATE(iloc_to_glob)
             NULLIFY(msh)
 
-            CALL toc(sw_pde)
+            CALL sw_pde%toc()
 
         100 FORMAT(' ERROR! Dimensional check failure in SCALAR_PDE_SOURCE')
         200 FORMAT(' ERROR! Memory allocation failure in SCALAR_PDE_SOURCE')

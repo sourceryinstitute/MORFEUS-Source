@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !    NEMO - Numerical Engine (for) Multiphysics Operators
@@ -40,35 +40,51 @@
 !
 ! Description: Returns the quality of a hex, assuming CGNS order, ranging from 0 to 1
 !
-MODULE PROCEDURE geom_hex_quality
-
-    USE class_psblas
-    USE class_vector
-    USE class_vertex
-
+SUBMODULE(tools_mesh_basics) geom_hex_quality_implementation
     IMPLICIT NONE
-    !
-    INTEGER :: iv
-    REAL(psb_dpk_) :: sum_edge_sq
 
-    sum_edge_sq = 0.d0
+    CONTAINS
 
-    DO iv = 2,4
-        sum_edge_sq = sum_edge_sq + mag(verts(iv) - verts(iv-1) )**2
-    ENDDO
-    sum_edge_sq = sum_edge_sq + mag(verts(1) - verts(4) )**2
+        MODULE PROCEDURE geom_hex_quality
+            USE class_psblas, ONLY : psb_dpk_
+            USE class_vector
+            USE class_vertex
+            IMPLICIT NONE
+            !
+            INTEGER :: iv
+            REAL(psb_dpk_) :: sum_edge_sq
+            TYPE(vector) :: verts_temp
 
-    DO iv = 6,8
-        sum_edge_sq = sum_edge_sq + mag(verts(iv) - verts(iv-1) )**2
-    ENDDO
-    sum_edge_sq = sum_edge_sq + mag(verts(5) - verts(8) )**2
+            sum_edge_sq = 0.d0
 
-    DO iv = 5,8
-        sum_edge_sq = sum_edge_sq + mag(verts(iv) - verts(iv-4) )**2
-    ENDDO
+            DO iv = 2,4
+                verts_temp = verts(iv)-verts(iv-1)
+                !sum_edge_sq = sum_edge_sq + ((verts(iv)-verts(iv-1))%mag())**2
+                sum_edge_sq = sum_edge_sq + verts_temp%mag()**2
+            ENDDO
+            verts_temp =verts(1)-verts(4)
+            !sum_edge_sq = sum_edge_sq + ((verts(1)-verts(4))%mag())**2
+            sum_edge_sq = sum_edge_sq + verts_temp%mag()**2
+
+            DO iv = 6,8
+                verts_temp = verts(iv)-verts(iv-1)
+                !sum_edge_sq = sum_edge_sq + ((verts(iv)-verts(iv-1))%mag())**2
+                sum_edge_sq = sum_edge_sq + verts_temp%mag()**2
+            ENDDO
+            verts_temp = verts(5) - verts(8)
+            !sum_edge_sq = sum_edge_sq + ((verts(5) - verts(8) )%mag())**2
+            sum_edge_sq = sum_edge_sq + verts_temp%mag()**2
+
+            DO iv = 5,8
+                verts_temp = verts(iv) - verts(iv-4)
+                !sum_edge_sq = sum_edge_sq + ((verts(iv) - verts(iv-4) )%mag())**2
+                sum_edge_sq = sum_edge_sq + verts_temp%mag()**2
+            ENDDO
 
 
-    geom_hex_quality = SIGN((vol*vol)**(1.0d0/3.d0) * 12.0d0  / &
-        &               sum_edge_sq, vol) ! signed quality, must handle neg. volume
+            geom_hex_quality = SIGN((vol*vol)**(1.0d0/3.d0) * 12.0d0  / &
+                &               sum_edge_sq, vol) ! signed quality, must handle neg. volume
 
-END PROCEDURE geom_hex_quality
+        END PROCEDURE geom_hex_quality
+
+END SUBMODULE geom_hex_quality_implementation

@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -42,57 +42,62 @@
 ! Description:
 !    To be added...
 !
-MODULE PROCEDURE get_par_i
-    USE class_psblas
-    USE tools_input, ONLY : mandatory_i_
-
+SUBMODULE (tools_input) get_par_i_implementation
     IMPLICIT NONE
-    !
-    LOGICAL, PARAMETER :: debug = .FALSE.
-    !
-    LOGICAL :: found
-    CHARACTER(len=15) :: str
-    INTEGER :: i, k
 
-    ! File pointer is supposed to be at the beginning of SEC section.
+    CONTAINS
 
-    found = .FALSE.
+        MODULE PROCEDURE get_par_i
+            USE class_psblas
+            USE tools_input, ONLY : mandatory_i_
+            IMPLICIT NONE
+            !
+            LOGICAL, PARAMETER :: debug = .FALSE.
+            !
+            LOGICAL :: found
+            CHARACTER(len=15) :: str
+            INTEGER :: i, k
 
-    k = 0
-    reading: DO
-        READ(inp,'(a)') str
-        k = k + 1
-        IF(str == par) THEN
-            BACKSPACE(inp)
-            READ(inp,*) str, get_par_i
-            IF(debug) WRITE(*,100) str, get_par_i
-            found = .TRUE.
-            EXIT reading
-        ELSEIF(str == 'END OF SECTION') THEN
-            EXIT reading
-        END IF
-    END DO reading
+            ! File pointer is supposed to be at the beginning of SEC section.
 
-    ! Rewinds the section
-    DO i = 1, k
-        BACKSPACE(inp)
-    END DO
+            found = .FALSE.
 
-    IF(found) RETURN
+            k = 0
+            reading: DO
+                READ(inp,'(a)') str
+                k = k + 1
+                IF(str == par) THEN
+                    BACKSPACE(inp)
+                    READ(inp,*) str, get_par_i
+                    IF(debug) WRITE(*,100) str, get_par_i
+                    found = .TRUE.
+                    EXIT reading
+                ELSEIF(str == 'END OF SECTION') THEN
+                    EXIT reading
+                END IF
+            END DO reading
 
-    ! Parameter not found in input file
-    IF(default == mandatory_i_) THEN
-        WRITE(*,200) TRIM(par), TRIM(sec)
-        CALL abort_psblas
-    ELSE
-        WRITE(*,300) TRIM(par), TRIM(sec), default
-        get_par_i = default
-    END IF
+            ! Rewinds the section
+            DO i = 1, k
+                BACKSPACE(inp)
+            END DO
 
+            IF(found) RETURN
 
-100 FORMAT(1x,a15,1x,i5)
-200 FORMAT(' ERROR! Mandatory parameter "',a,'" not found in section ',a,'.')
-300 FORMAT(' WARNING! Parameter "',a,'" not found in section ',a,'.',&
-        & ' Set to default = ',i5)
+            ! Parameter not found in input file
+            IF(default == mandatory_i_) THEN
+                WRITE(*,200) TRIM(par), TRIM(sec)
+                CALL abort_psblas
+            ELSE
+                WRITE(*,300) TRIM(par), TRIM(sec), default
+                get_par_i = default
+            END IF
 
-END PROCEDURE get_par_i
+100         FORMAT(1x,a15,1x,i5)
+200         FORMAT(' ERROR! Mandatory parameter "',a,'" not found in section ',a,'.')
+300         FORMAT(' WARNING! Parameter "',a,'" not found in section ',a,'.',&
+              & ' Set to default = ',i5)
+
+        END PROCEDURE get_par_i
+
+END SUBMODULE get_par_i_implementation

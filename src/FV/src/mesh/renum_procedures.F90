@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -43,23 +43,21 @@
 !    Renumbering
 !
 SUBMODULE(renum) renum_procedures
-
     USE class_psblas
-
+    USE class_face
     IMPLICIT NONE
 
-CONTAINS
+    CONTAINS
 
     ! ----- Constructor -----
 
     MODULE PROCEDURE start_renum
-        USE class_connectivity
-
+        IMPLICIT NONE
         INTEGER, ALLOCATABLE  :: temp(:)
         INTEGER :: info, mypnum, ncells
 
         mypnum = mypnum_()
-        ncells = nel_(c2c)
+        ncells = c2c%nel_()
 
         ! Builds permutation array PERM on P0, according to IRENUM
 
@@ -98,19 +96,22 @@ CONTAINS
 
     END PROCEDURE start_renum
 
-
     ! ----- Destuctor -----
 
     MODULE PROCEDURE stop_renum
-        DEALLOCATE(perm,pinv)
-    END PROCEDURE stop_renum
+        IMPLICIT NONE
 
+        DEALLOCATE(perm,pinv)
+
+    END PROCEDURE stop_renum
 
     ! ----- Broadcast -----
 
     MODULE PROCEDURE print_renum
+        IMPLICIT NONE
         INTEGER :: i,n
         CHARACTER(len=*),PARAMETER :: fmt='(3(i8,1x))'
+
         n=SIZE(perm) - 1
         WRITE(iout,*) 'Renumbering permutation and inverse: ',n
         DO i=1,n
@@ -118,9 +119,11 @@ CONTAINS
         END DO
 
     END PROCEDURE print_renum
+
     ! ----- Broadcast -----
 
     MODULE PROCEDURE build_pinv
+        IMPLICIT NONE
 
         INTEGER :: icontxt, mypnum
         INTEGER :: i, info, j, n
@@ -137,7 +140,6 @@ CONTAINS
             END IF
 
             n=SIZE(perm)
-
 
         END IF
 
@@ -162,7 +164,6 @@ CONTAINS
         ENDIF
 
 100     FORMAT(' ERROR! Illegal Send: PERM array not associated')
-200     FORMAT(' ERROR! Illegal Recv: PERM array already associated')
 300     FORMAT(' ERROR! Memory allocation failure in BCAST_RENUM')
 
     END PROCEDURE build_pinv
@@ -172,8 +173,8 @@ CONTAINS
 
     ! Gibbs-Poole-Stockmeyer renumbering algorithm
     MODULE PROCEDURE cmp_gps
-        USE class_connectivity
         USE psb_gps_mod, ONLY : psb_gps_reduce
+        IMPLICIT NONE
 
         INTEGER :: i, info, j
         !
@@ -187,10 +188,10 @@ CONTAINS
         !------------------------------------------------------------------
 
         ! Order of matrix, number of cells
-        nodes = nel_(c2c)
+        nodes = c2c%nel_()
 
         ! Evaluation of graph maximum degree --> maximum connectivity
-        ideg = max_conn(c2c)
+        ideg = c2c%max_conn()
 
         ! Array allocation
         ALLOCATE(ndstk(nodes,ideg), iold(nodes), perm(nodes+1), &
@@ -203,7 +204,7 @@ CONTAINS
         ! table of connectivities --> ndtsk
         ndstk = 0
         DO i = 1, nodes
-            CALL get_ith_conn(iconn,c2c,i)
+            CALL c2c%get_ith_conn(iconn,i)
             nconn = SIZE(iconn)
             DO j = 1, nconn
                 ndstk(i,j) = iconn(j)
@@ -233,7 +234,7 @@ CONTAINS
 
     ! Integer array
     MODULE PROCEDURE apply_renum_array
-        !
+        IMPLICIT NONE
         INTEGER :: i, j, n
 
         n = SIZE(a)
@@ -248,7 +249,8 @@ CONTAINS
 
     ! CELL objects array
     MODULE PROCEDURE apply_renum_cell
-        USE class_cell
+        USE class_cell, ONLY : cell, alloc_cell, free_cell
+        IMPLICIT NONE
 
         INTEGER :: i, j, n
         TYPE(cell), ALLOCATABLE  :: work(:)
@@ -271,17 +273,16 @@ CONTAINS
 
     ! FACE objects array
     MODULE PROCEDURE apply_renum_face
-        USE class_face
-
+        IMPLICIT NONE
         INTEGER :: i, j, n
 
         n = SIZE(f)
 
         DO i = 1, n
-            j = master_(f(i))
-            CALL set_face(f(i),master=perm(j))
-            j = slave_(f(i))
-            CALL set_face(f(i),slave=perm(j))
+            j = f(i)%master_()
+            CALL f(i)%set_face(master=perm(j))
+            j = f(i)%slave_()
+            CALL f(i)%set_face(slave=perm(j))
         END DO
 
     END PROCEDURE apply_renum_face
@@ -289,7 +290,8 @@ CONTAINS
 
     ! CONNECTIVITY object
     MODULE PROCEDURE apply_renum_conn
-        USE class_connectivity
+        USE class_connectivity, ONLY : connectivity, free_conn
+        IMPLICIT NONE
 
         INTEGER :: i, iold, imax, info, j, nb, nconn
         INTEGER, POINTER :: iconn_old(:) => NULL()
@@ -304,12 +306,12 @@ CONTAINS
         END IF
 
         work = a2b     ! That's a copy.
-        nb = nel_(a2b) ! Number of B elements
+        nb = a2b%nel_() ! Number of B elements
 
         ! Applies permutation to A elements of A2B connectivity
         IF(apply == to_a_ .OR. apply == to_a_and_b_) THEN
 
-            imax = max_conn(a2b) ! Maximum connectivity degree
+            imax = a2b%max_conn() ! Maximum connectivity degree
 
             ALLOCATE(iconn_new(imax),stat=info)
             IF(info /= 0) THEN
@@ -318,7 +320,7 @@ CONTAINS
             END IF
 
             DO i = 1, nb
-                CALL get_ith_conn(iconn_old,a2b,i) ! Pointing
+                CALL a2b%get_ith_conn(iconn_old,i) ! Pointing
                 nconn = SIZE(iconn_old)
 
                 DO j = 1, nconn
@@ -326,7 +328,7 @@ CONTAINS
                     iconn_new(j) = perm(iold)
                 END DO
 
-                CALL set_ith_conn(a2b,i,iconn_new(1:nconn)) ! Copy
+                CALL a2b%set_ith_conn(i,iconn_new(1:nconn)) ! Copy
             END DO
 
             DEALLOCATE(iconn_new)
@@ -343,10 +345,10 @@ CONTAINS
                 j = pinv(i)
 
                 ! That's a pointing.
-                CALL get_ith_conn(iconn_old,work,j)
+                CALL work%get_ith_conn(iconn_old,j)
 
                 ! That's a copy of the section of work pointed by ICONN_OLD.
-                CALL set_ith_conn(a2b,i,iconn_old)
+                CALL a2b%set_ith_conn(i,iconn_old)
             END DO
 
             CALL free_conn(work)
@@ -359,6 +361,5 @@ CONTAINS
 200     FORMAT(' ERROR! Memory allocation failure in APPLY_RENUM_CONN')
 
     END PROCEDURE apply_renum_conn
-
 
 END SUBMODULE renum_procedures

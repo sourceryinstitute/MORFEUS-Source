@@ -50,7 +50,6 @@ MODULE class_discretization
     PRIVATE ! Default
     PUBLIC :: discretization        ! Class
     PUBLIC :: read_par              ! Other constructor
-    PUBLIC :: id_                   ! Getters
     PUBLIC :: cd_, up_              ! Named constants
 
     TYPE discretization
@@ -58,6 +57,7 @@ MODULE class_discretization
         INTEGER :: id
         REAL(psb_dpk_) :: blend
     CONTAINS
+        PROCEDURE :: id_            ! Getters
         PROCEDURE, PRIVATE :: nemo_discretization_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_discretization_sizeof
     END TYPE discretization
@@ -107,7 +107,7 @@ MODULE class_discretization
 
     MODULE FUNCTION id_(ds)
         INTEGER :: id_
-        TYPE(discretization), INTENT(IN) :: ds
+        CLASS(discretization), INTENT(IN) :: ds
     END FUNCTION id_
 
   END INTERFACE

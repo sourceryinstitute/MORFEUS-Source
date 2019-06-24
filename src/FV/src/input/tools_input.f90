@@ -44,9 +44,12 @@
 !
 MODULE tools_input
 
-    USE class_vector
+    USE class_vector, ONLY : vector
     USE class_psblas, ONLY : psb_dpk_
     IMPLICIT NONE
+
+    PUBLIC
+    PRIVATE :: vector, psb_dpk_
 
     INTERFACE get_par
         MODULE FUNCTION get_par_l(inp,sec,par,default)
@@ -170,7 +173,7 @@ MODULE tools_input
 
     LOGICAL,           PARAMETER :: mandatory_l_ = .FALSE.
     INTEGER,           PARAMETER :: mandatory_i_ = -999
-    REAL(psb_dpk_),  PARAMETER :: mandatory_d_ = -9999.d0
+    REAL(psb_dpk_),    PARAMETER :: mandatory_d_ = -9999.d0
     CHARACTER(len=10), PARAMETER :: mandatory_h_ = 'mandatory'
 
     ! MANDATORY_V_ is defined inside the VECTOR class

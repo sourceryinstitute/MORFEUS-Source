@@ -120,7 +120,7 @@ CONTAINS
             CALL abort_psblas
         END IF
 
-        IF (mat_id_(mats(1)%mat) < 0) THEN
+        IF (mats(1)%mat%mat_id_() < 0) THEN
             IF(dim == density_) THEN
                 ilaw = mats(1)%mat%ilaw(irho)
                 DATA => mats(1)%mat%rho
@@ -160,7 +160,7 @@ CONTAINS
         ELSE
             IF(dim == density_)       THEN
                 DO i = 1, SIZE(im)
-                    IF (mat_id_(mats(im(i))%mat) < 400) THEN
+                    IF (mats(im(i))%mat%mat_id_() < 400) THEN
                         CALL matlaw_fast_s(mats(im(i))%mat,t(i),'ASFABDENSITY',f(i))
                     ELSE
                         CALL matlaw_fast_s(mats(im(i))%mat,t(i),'DENSITY',f(i))
@@ -184,7 +184,7 @@ CONTAINS
                 END DO
             ELSEIF(dim == therm_exp_coeff_) THEN
                 DO i = 1, SIZE(im)
-                    IF (mat_id_(mats(im(i))%mat) < 400) THEN
+                    IF (mats(im(i))%mat%mat_id_() < 400) THEN
                         CALL matlaw_fast_s(mats(im(i))%mat,t(i),'THEXP_COEF',f(i))
                     ELSE
                         CALL matlaw_fast_s(mats(im(i))%mat,t(i),'THEXP',f(i))

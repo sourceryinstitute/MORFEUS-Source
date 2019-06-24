@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -43,20 +43,27 @@
 !    Evaluates the volume of a tetraedron defined by its four vertices coordinates,
 !    by means of exact formulas.
 !
-MODULE PROCEDURE geom_tet_volume
-    USE class_psblas
-    USE class_vector
-    USE class_vertex
-
+SUBMODULE(tools_mesh_basics) geom_tet_volume_implementation
     IMPLICIT NONE
-    !
-    REAL(psb_dpk_), PARAMETER :: one_sixth = 1.d0 / 6.d0
-    TYPE(vector) :: v12, v13, v14
 
-    v12 = v2 - v1
-    v13 = v3 - v1
-    v14 = v4 - v1
+    CONTAINS
 
-    geom_tet_volume = ((v12 .cross. v13) .dot. v14) * one_sixth
+        MODULE PROCEDURE geom_tet_volume
+            USE class_psblas, ONLY : psb_dpk_
+            USE class_vector, ONLY : vector
+            USE class_vertex
 
-END PROCEDURE geom_tet_volume
+            IMPLICIT NONE
+            !
+            REAL(psb_dpk_), PARAMETER :: one_sixth = 1.d0 / 6.d0
+            TYPE(vector) :: v12, v13, v14
+
+            v12 = v2 - v1
+            v13 = v3 - v1
+            v14 = v4 - v1
+
+            geom_tet_volume = ((v12 .cross. v13) .dot. v14) * one_sixth
+
+        END PROCEDURE geom_tet_volume
+
+END SUBMODULE geom_tet_volume_implementation

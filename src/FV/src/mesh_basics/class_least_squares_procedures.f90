@@ -38,6 +38,8 @@
 !
 SUBMODULE(class_least_squares) class_least_squares_procedures
     USE class_psblas
+    USE class_vector
+    USE class_face
 
     IMPLICIT NONE
 
@@ -128,8 +130,6 @@ CONTAINS
 
     MODULE PROCEDURE set_least_squares
         USE class_connectivity
-        USE class_face
-        USE class_vector
         USE tools_math
         USE psb_base_mod
 
@@ -141,7 +141,7 @@ CONTAINS
         INTEGER :: i44
         INTEGER, POINTER :: ic2c(:) => NULL(), if2b(:) => NULL()
 
-        CALL tic(sw_lsr)
+        CALL sw_lsr%tic()
 
         IF(mypnum_() == 0) THEN
             WRITE(*,*) 'Setting metrics for cell-centered least squares regression'
@@ -149,8 +149,8 @@ CONTAINS
         END IF
 
         ! LSR is sized according to the number of local + halo cells
-        ncells = nel_(c2c)
-        nbc    = nel_(f2b) - 2
+        ncells = c2c%nel_()
+        nbc    = f2b%nel_() - 2
 
         CALL alloc_least_squares(lsr,ncells,ncd)
 
@@ -179,39 +179,39 @@ CONTAINS
         DO ic = 1, ncells
             ! IC
             lsr(ic)%A(i11) = 1.d0
-            lsr(ic)%A(i21) = x_(cell_cntr(ic))
-            lsr(ic)%A(i31) = y_(cell_cntr(ic))
-            lsr(ic)%A(i22) = x_(cell_cntr(ic)) ** 2
-            lsr(ic)%A(i32) = x_(cell_cntr(ic)) * y_(cell_cntr(ic))
-            lsr(ic)%A(i33) = y_(cell_cntr(ic)) ** 2
+            lsr(ic)%A(i21) = cell_cntr(ic)%x_()
+            lsr(ic)%A(i31) = cell_cntr(ic)%y_()
+            lsr(ic)%A(i22) = cell_cntr(ic)%x_() ** 2
+            lsr(ic)%A(i32) = cell_cntr(ic)%x_() * cell_cntr(ic)%y_()
+            lsr(ic)%A(i33) = cell_cntr(ic)%y_() ** 2
 
             ! IC's neighbors
-            CALL get_ith_conn(ic2c,c2c,ic)
+            CALL c2c%get_ith_conn(ic2c,ic)
             n = SIZE(ic2c)
             lsr(ic)%A(i11) = lsr(ic)%A(i11) + n
             DO i = 1, n
                 nb = ic2c(i)
-                lsr(ic)%A(i21) = lsr(ic)%A(i21) + x_(cell_cntr(nb))
-                lsr(ic)%A(i31) = lsr(ic)%A(i31) + y_(cell_cntr(nb))
-                lsr(ic)%A(i22) = lsr(ic)%A(i22) + x_(cell_cntr(nb)) ** 2
-                lsr(ic)%A(i32) = lsr(ic)%A(i32) + x_(cell_cntr(nb)) * y_(cell_cntr(nb))
-                lsr(ic)%A(i33) = lsr(ic)%A(i33) + y_(cell_cntr(nb)) ** 2
+                lsr(ic)%A(i21) = lsr(ic)%A(i21) + cell_cntr(nb)%x_()
+                lsr(ic)%A(i31) = lsr(ic)%A(i31) + cell_cntr(nb)%y_()
+                lsr(ic)%A(i22) = lsr(ic)%A(i22) + cell_cntr(nb)%x_() ** 2
+                lsr(ic)%A(i32) = lsr(ic)%A(i32) + cell_cntr(nb)%x_() * cell_cntr(nb)%y_()
+                lsr(ic)%A(i33) = lsr(ic)%A(i33) + cell_cntr(nb)%y_() ** 2
             END DO
         END DO
 
         ! Center(s) of possible boundary face(s)
         DO ib = 1, nbc
-            CALL get_ith_conn(if2b,f2b,ib)
+            CALL f2b%get_ith_conn(if2b,ib)
             n = SIZE(if2b)
             DO i = 1, n
                 IF = if2b(i)
-                im = master_(faces(IF))
+                im = faces(IF)%master_()
                 lsr(im)%A(i11) = lsr(im)%A(i11) + 1.d0
-                lsr(im)%A(i21) = lsr(im)%A(i21) + x_(face_cntr(IF))
-                lsr(im)%A(i31) = lsr(im)%A(i31) + y_(face_cntr(IF))
-                lsr(im)%A(i22) = lsr(im)%A(i22) + x_(face_cntr(IF)) ** 2
-                lsr(im)%A(i32) = lsr(im)%A(i32) + x_(face_cntr(IF)) * y_(face_cntr(IF))
-                lsr(im)%A(i33) = lsr(im)%A(i33) + y_(face_cntr(IF)) ** 2
+                lsr(im)%A(i21) = lsr(im)%A(i21) + face_cntr(IF)%x_()
+                lsr(im)%A(i31) = lsr(im)%A(i31) + face_cntr(IF)%y_()
+                lsr(im)%A(i22) = lsr(im)%A(i22) + face_cntr(IF)%x_() ** 2
+                lsr(im)%A(i32) = lsr(im)%A(i32) + face_cntr(IF)%x_() * face_cntr(IF)%y_()
+                lsr(im)%A(i33) = lsr(im)%A(i33) + face_cntr(IF)%y_() ** 2
             END DO
         END DO
 
@@ -220,34 +220,34 @@ CONTAINS
         IF(ncd == 3) THEN
             DO ic = 1, ncells
                 ! IC
-                lsr(ic)%A(i41) = z_(cell_cntr(ic))
-                lsr(ic)%A(i42) = x_(cell_cntr(ic)) * z_(cell_cntr(ic))
-                lsr(ic)%A(i43) = y_(cell_cntr(ic)) * z_(cell_cntr(ic))
-                lsr(ic)%A(i44) = z_(cell_cntr(ic)) ** 2
+                lsr(ic)%A(i41) = cell_cntr(ic)%z_()
+                lsr(ic)%A(i42) = cell_cntr(ic)%x_() * cell_cntr(ic)%z_()
+                lsr(ic)%A(i43) = cell_cntr(ic)%y_() * cell_cntr(ic)%z_()
+                lsr(ic)%A(i44) = cell_cntr(ic)%z_() ** 2
 
                 ! IC's neighbors
-                CALL get_ith_conn(ic2c,c2c,ic)
+                CALL c2c%get_ith_conn(ic2c,ic)
                 n = SIZE(ic2c)
                 DO i = 1, n
                     nb = ic2c(i)
-                    lsr(ic)%A(i41) = lsr(ic)%A(i41) + z_(cell_cntr(nb))
-                    lsr(ic)%A(i42) = lsr(ic)%A(i42) + x_(cell_cntr(nb)) * z_(cell_cntr(nb))
-                    lsr(ic)%A(i43) = lsr(ic)%A(i43) + y_(cell_cntr(nb)) * z_(cell_cntr(nb))
-                    lsr(ic)%A(i44) = lsr(ic)%A(i44) + z_(cell_cntr(nb)) ** 2
+                    lsr(ic)%A(i41) = lsr(ic)%A(i41) + cell_cntr(nb)%z_()
+                    lsr(ic)%A(i42) = lsr(ic)%A(i42) + cell_cntr(nb)%x_() * cell_cntr(nb)%z_()
+                    lsr(ic)%A(i43) = lsr(ic)%A(i43) + cell_cntr(nb)%y_() * cell_cntr(nb)%z_()
+                    lsr(ic)%A(i44) = lsr(ic)%A(i44) + cell_cntr(nb)%z_() ** 2
                 END DO
             END DO
 
             ! Center(s) of possible boundary face(s)
             DO ib = 1, nbc
-                CALL get_ith_conn(if2b,f2b,ib)
+                CALL f2b%get_ith_conn(if2b,ib)
                 n = SIZE(if2b)
                 DO i = 1, n
                     IF = if2b(i)
-                    im = master_(faces(IF))
-                    lsr(im)%A(i41) = lsr(im)%A(i41) + z_(face_cntr(IF))
-                    lsr(im)%A(i42) = lsr(im)%A(i42) + x_(face_cntr(IF)) * z_(face_cntr(IF))
-                    lsr(im)%A(i43) = lsr(im)%A(i43) + y_(face_cntr(IF)) * z_(face_cntr(IF))
-                    lsr(im)%A(i44) = lsr(im)%A(i44) + z_(face_cntr(IF)) ** 2
+                    im = faces(IF)%master_()
+                    lsr(im)%A(i41) = lsr(im)%A(i41) + face_cntr(IF)%z_()
+                    lsr(im)%A(i42) = lsr(im)%A(i42) + face_cntr(IF)%x_() * face_cntr(IF)%z_()
+                    lsr(im)%A(i43) = lsr(im)%A(i43) + face_cntr(IF)%y_() * face_cntr(IF)%z_()
+                    lsr(im)%A(i44) = lsr(im)%A(i44) + face_cntr(IF)%z_() ** 2
                 END DO
             END DO
         END IF
@@ -259,7 +259,7 @@ CONTAINS
 
         NULLIFY(ic2c)
 
-        CALL toc(sw_lsr)
+        CALL sw_lsr%toc()
 
     END PROCEDURE set_least_squares
 
@@ -269,7 +269,7 @@ CONTAINS
     MODULE PROCEDURE solve_least_squares
         USE tools_math
 
-        CALL tic(sw_lsr)
+        CALL sw_lsr%tic()
 
         ! WARNING!
         ! 2D -> size(RHS) = 3
@@ -278,7 +278,7 @@ CONTAINS
 
         CALL solve_sys(lsr%A,rhs)
 
-        CALL toc(sw_lsr)
+        CALL sw_lsr%toc()
 
     END PROCEDURE solve_least_squares
 

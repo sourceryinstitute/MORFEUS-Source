@@ -1,7 +1,7 @@
-!
+
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !    NEMO - Numerical Engine (for) Multiphysics Operators
@@ -91,6 +91,7 @@ SUBMODULE (tools_mesh_optimize) smooth_surf_vtx_implementation
         INTEGER, TARGET :: local_tangled ! for checking if the mesh is locally twisted
         INTEGER :: valid_flag  ! for checking if the mesh is locally twisted
         REAL(psb_dpk_) :: vtx1(2),vtx2(2),vtx3(2)
+        TYPE(vector) :: vtx_pos_temp
 
         ! allocate storage for point-wise connectivity
         ALLOCATE(relative_numbering(SIZE(msh%verts)),stat=info)
@@ -110,7 +111,7 @@ SUBMODULE (tools_mesh_optimize) smooth_surf_vtx_implementation
 
             jv = loc_to_glob_(msh%desc_v,iv) ! jv is now global vertex index number
 
-            CALL get_kt_row(msh%f2ov_sup, jv, if2v) ! get global face numbers
+            CALL msh%f2ov_sup%get_kt_row(jv, if2v) ! get global face numbers
 
             ! assume that we have culled faces that do not lie on boundaries
             ! when we created the supplemental info
@@ -120,7 +121,7 @@ SUBMODULE (tools_mesh_optimize) smooth_surf_vtx_implementation
 
         ELSE
 
-            CALL get_ith_conn(if2v, f2v, iv)  !list of tris connected to ith vert
+            CALL f2v%get_ith_conn(if2v, iv)  !list of tris connected to ith vert
 
             ! cull faces that do not lie on boundaries
 
@@ -128,7 +129,7 @@ SUBMODULE (tools_mesh_optimize) smooth_surf_vtx_implementation
             DO j = 1, SIZE(if2v)
                 iface = if2v(j)
 
-                IF ( flag_(msh%faces(iface)) > 0 ) THEN
+                IF ( msh%faces(iface)%flag_() > 0 ) THEN
                     num_incident_tri = num_incident_tri + 1
                     ibf2v(num_incident_tri) = iface
                 ENDIF
@@ -152,7 +153,7 @@ SUBMODULE (tools_mesh_optimize) smooth_surf_vtx_implementation
             IF ( shared_flag(iv) ) THEN ! we have global face ID's
 
                 !lookup vertex numbers using global face and vertex id's
-                CALL get_kt_row (msh%ov2f_sup, itri, iv2f)
+                CALL msh%ov2f_sup%get_kt_row (itri, iv2f)
 
                 ! make a copy to dereference the iv2f pointer
                 num_f = SIZE(iv2f)
@@ -169,7 +170,7 @@ SUBMODULE (tools_mesh_optimize) smooth_surf_vtx_implementation
 
             ELSE
                 ! get list of vertices that belong to this triangle
-                CALL get_ith_conn(iv2f,msh%v2f,itri)
+                CALL msh%v2f%get_ith_conn(iv2f,itri)
             ENDIF
 
             DO j = 1, SIZE(iv2f)
@@ -192,7 +193,7 @@ SUBMODULE (tools_mesh_optimize) smooth_surf_vtx_implementation
         ENDIF
 
         ! the position to be optimized
-        free_pos = position_(msh%verts(iv))
+        free_pos = msh%verts(iv)%position_()
 
         ! load up an array with the positions of the non-free surface vertices
         DO j=1,num_incident_vtx
@@ -200,7 +201,7 @@ SUBMODULE (tools_mesh_optimize) smooth_surf_vtx_implementation
             jv=ibv2v(j)  ! look up vertex id number from ith conn
             relative_numbering(jv)=j ! store array position so that we can go backward
 
-            vtx_pos(j) = position_(msh%verts(jv))
+            vtx_pos(j) = msh%verts(jv)%position_()
         ENDDO
 
         ! establish 2d basis vectors so that we can operate in a local x,y coord sys
@@ -208,7 +209,7 @@ SUBMODULE (tools_mesh_optimize) smooth_surf_vtx_implementation
         free_p2d(:) = 0.0d0 ! the free vertex is at the origin
 
         ! normal of conceptual surface
-        nhat = normal_(msh%surf(ib),free_pos)
+        nhat = msh%surf(ib)%normal_(free_pos)
 
         ! the conceptual surface normal should be constructed so that the normal points outside
         !  of the domain.  The local processor may not have ownership of all the faces, if this
@@ -246,13 +247,14 @@ SUBMODULE (tools_mesh_optimize) smooth_surf_vtx_implementation
 
         ! the x_local unit vector is arbitrarily constructed from the first vtx position
         jv = ibv2v(1)
-        ahat = unit( vtx_pos(1) - free_pos )
-
+        vtx_pos_temp = vtx_pos(1) - free_pos
+        !ahat = unit( vtx_pos(1) - free_pos )
+        ahat = vtx_pos_temp %unit()
         !because the points do not generally lie in a plane, ahat is not yet orthogonal to nhat
         !so subtract off any component of nhat
 
         ahat = ahat - (nhat .dot. ahat) * ahat
-        ahat = unit(ahat)
+        ahat = ahat%unit()
 
         ! bhat is constructed so that ahat cross bhat gives nhat
         bhat = ( -1.0d0 ) * ( ahat .cross. nhat )
@@ -269,7 +271,7 @@ SUBMODULE (tools_mesh_optimize) smooth_surf_vtx_implementation
             ylocal = bhat .dot. prel
 
             !correct projected lengths to restore original prel
-            cfac = mag(prel)/SQRT(xlocal**2 + ylocal **2)
+            cfac = prel%mag()/SQRT(xlocal**2 + ylocal **2)
 
             vtx_p2d(1,j) = xlocal*cfac
             vtx_p2d(2,j) = ylocal*cfac
@@ -289,7 +291,7 @@ SUBMODULE (tools_mesh_optimize) smooth_surf_vtx_implementation
                     iface = ibf2v(itri)
 
                     !lookup vertex numbers using global face and vertex id's
-                    CALL get_kt_row (msh%ov2f_sup, iface, iv2f)
+                    CALL msh%ov2f_sup%get_kt_row (iface, iv2f)
 
                     ! make a copy to dereference iv2f
                     index_copy(1:3) = iv2f(1:3)
@@ -317,7 +319,7 @@ SUBMODULE (tools_mesh_optimize) smooth_surf_vtx_implementation
                     !get the vertices for this face and shift the list until
                     !the free vertex is first.  Since this is a bndry face, all
                     ! vertices should be boundary vertices
-                    CALL get_ith_conn(iv2f,msh%v2f,iface)
+                    CALL msh%v2f%get_ith_conn(iv2f,iface)
 
                     ! make a copy to dereference iv2f
                     index_copy(1:3) = iv2f(1:3)
@@ -380,9 +382,9 @@ SUBMODULE (tools_mesh_optimize) smooth_surf_vtx_implementation
                     & "Abnormal vertex with: ",num_incident_vtx," incident vertices and ", &
                     & num_incident_tri," incident tris on processor ",mypnum_()
 
-                IF ( on_boundary_(msh%verts(iv)) ) THEN
+                IF ( msh%verts(iv)%on_boundary_() ) THEN
                     WRITE(6,'(a,i4,a,3(f8.3,1x))')"Vertex on boundary",ib," at position:", &
-                        & x_(free_pos),y_(free_pos),z_(free_pos)
+                        & free_pos%x_(),free_pos%y_(),free_pos%z_()
                 ELSE
                     WRITE(6,'(a)')"Vertex not on boundary"
                 ENDIF
@@ -399,7 +401,7 @@ SUBMODULE (tools_mesh_optimize) smooth_surf_vtx_implementation
                 WRITE(6,*)" Index   Vertex   On Boundary"
                 DO k=1,num_incident_vtx
                     jv = ibv2v(k)
-                    WRITE(6,'(i5,3x,i5,9x,l1)')k,jv,on_boundary_(msh%verts(jv))
+                    WRITE(6,'(i5,3x,i5,9x,l1)')k,jv,msh%verts(jv)%on_boundary_()
                 ENDDO
 
                 WRITE(6,*)
@@ -428,7 +430,7 @@ SUBMODULE (tools_mesh_optimize) smooth_surf_vtx_implementation
 
         ! for curved surfaces, smoothing introduces small errors that require the
         ! point to be forced back onto the precise surface
-        new_pos = get_closest_point(msh%surf(ib), new_pos)
+        new_pos = msh%surf(ib)%get_closest_point(new_pos)
 
         msh%verts(iv) = new_pos
 
@@ -437,8 +439,8 @@ SUBMODULE (tools_mesh_optimize) smooth_surf_vtx_implementation
             WRITE(6,*)
             WRITE(6,*)"The problem vertex is:"
             WRITE(6,*)"ID #",iv
-            WRITE(6,*)"Located at: (",x_(msh%verts(iv)),",",y_(msh%verts(iv)),",", &
-                & z_(msh%verts(iv)),")"
+            WRITE(6,*)"Located at: (",msh%verts(iv)%x_(),",",msh%verts(iv)%y_(),",", &
+                & msh%verts(iv)%z_(),")"
             WRITE(6,*)"With ",num_incident_vtx," incident vertices and ",num_incident_tri, &
                 &" incident tris."
             WRITE(6,*)

@@ -1,7 +1,7 @@
 #
 #     (c) 2019 Guide Star Engineering, LLC
 #     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-#     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+#     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 #     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 #
 cmake_minimum_required(VERSION 3.11)
@@ -137,9 +137,19 @@ set(morfeus_fv_srcs
   src/field/class_scalar_field_procedures.f90
   src/field/class_vector_field.f90
   src/field/class_vector_field_procedures.f90
+  src/input/find_section.f90
+  src/input/get_par_l.f90
+  src/input/get_par_i.f90
+  src/input/get_par_d.f90
+  src/input/get_par_h.f90
+  src/input/get_par_v.f90
   src/input/open_file.F90
+  src/input/read_par_l.f90
+  src/input/read_par_i.f90
+  src/input/read_par_d.f90
+  src/input/read_par_h.f90
+  src/input/read_par_v.f90
   src/input/tools_input.f90
-  src/input/tools_input_procedures.f90
   src/material/class_material.f90
   src/material/class_material_procedures.f90
   src/material/load_material.f90
@@ -173,8 +183,16 @@ set(morfeus_fv_srcs
   src/mesh_basics/class_surface.f90
   src/mesh_basics/class_surface_procedures.f90
   src/mesh_basics/class_vertex.f90
+  src/mesh_basics/geom_cell.f90
+  src/mesh_basics/geom_diff.f90
+  src/mesh_basics/geom_face.f90
+  src/mesh_basics/geom_hex_dihedral_angle.f90
+  src/mesh_basics/geom_hex_quality.f90
+  src/mesh_basics/geom_tet_center.f90
+  src/mesh_basics/geom_tet_dihedral_angle.f90
+  src/mesh_basics/geom_tet_quality.f90
+  src/mesh_basics/geom_tet_volume.f90
   src/mesh_basics/class_vertex_procedures.f90
-  src/mesh_basics/tools_mesh_basics_procedures.f90
   src/mesh_basics/tools_mesh_basics.f90
   src/mesh_check/check_mesh_quality.f90
   src/mesh_check/check_tet_quality.f90
@@ -244,13 +262,18 @@ set(morfeus_fv_srcs
 #  src/operators/vector_pde_source.f90  Not currently used
   src/output/class_output.f90
   src/output/class_output_procedures.f90
+  src/output/htoi.f90
+  src/output/itoh.f90
+  src/output/tools_output_basics.f90
+  src/output/tools_output.f90
   src/output/vtkmofo_interface.f90
   src/output/vtkmofo_implementation.f90
-  src/output/tools_output_basics.f90
-  src/output/tools_output_basics_procedures.f90
-  src/output/tools_output.f90
   src/output/wr_mtx_matrix.f90
+  src/output/wr_mtx_pattern.f90
   src/output/wr_mtx_vector.f90
+  src/output/write_mesh.f90
+  src/output/write_scalar_field.f90
+  src/output/write_vector_field.f90
   src/pde/class_pde.f90
   src/pde/class_pde_procedures.f90
   src/pde/class_scalar_pde.f90

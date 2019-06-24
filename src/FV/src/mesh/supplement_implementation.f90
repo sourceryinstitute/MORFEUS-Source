@@ -37,6 +37,8 @@
 !
 !---------------------------------------------------------------------------------
 SUBMODULE (tools_mesh) supplement_implementation
+    USE class_face
+
     IMPLICIT NONE
 
     CONTAINS
@@ -44,7 +46,6 @@ SUBMODULE (tools_mesh) supplement_implementation
         MODULE PROCEDURE supplement_v2f 
         USE class_psblas
         USE class_connectivity
-        USE class_face
         USE class_keytable
         IMPLICIT NONE
         !! $Id: supplement_v2f.f90 8157 2014-10-09 13:02:44Z sfilippo $
@@ -96,7 +97,7 @@ SUBMODULE (tools_mesh) supplement_implementation
             WRITE(*,*)
         END IF
 
-        CALL get_dual_conn(v2f,f2v)
+        CALL v2f%get_dual_conn(f2v)
 
         n_shared = SIZE (v_ovrl)
 
@@ -118,7 +119,7 @@ SUBMODULE (tools_mesh) supplement_implementation
         highest = MAXVAL(glob_v_ovrl)
 
         ! instantiate keytable for f2v conversion using global ID's
-        CALL alloc_keytable(f2vtable,lowest,highest)
+        CALL f2vtable%alloc_keytable(lowest,highest)
 
         lowest  =  HUGE(lowest)
         highest = -HUGE(highest)
@@ -130,7 +131,7 @@ SUBMODULE (tools_mesh) supplement_implementation
             iv = glob_v_ovrl(i)
 
             ! get the faces connected to this vertex
-            CALL get_ith_conn(if2v,f2v,iv)
+            CALL f2v%get_ith_conn(if2v,iv)
 
             ! cull faces that do not lie on boundaries (interior faces)
 
@@ -138,7 +139,7 @@ SUBMODULE (tools_mesh) supplement_implementation
             DO j = 1, SIZE(if2v)
                 iface = if2v(j)
 
-                IF ( flag_(faces(iface)) > 0 ) THEN
+                IF ( faces(iface)%flag_() > 0 ) THEN
                     num_incident_tri = num_incident_tri + 1
                     ibf2v(num_incident_tri) = iface
                 ENDIF
@@ -150,7 +151,7 @@ SUBMODULE (tools_mesh) supplement_implementation
             if2v = ibf2v(1:num_incident_tri)
 
             ! store in a keytable
-            CALL set_kt_row(f2vtable, iv, if2v)
+            CALL f2vtable%set_kt_row(iv, if2v)
 
             lowest = MIN(lowest,MINVAL(if2v))
             highest = MAX(highest,MAXVAL(if2v))
@@ -158,7 +159,7 @@ SUBMODULE (tools_mesh) supplement_implementation
         ENDDO
 
         ! now make v2f keytable, again, based on global IDs
-        CALL alloc_keytable(v2ftable,lowest,highest)
+        CALL v2ftable%alloc_keytable(lowest,highest)
 
         ! loop over vertices and tally memory requirements for v2f_suppl
         DO i = 1, n_shared
@@ -168,13 +169,13 @@ SUBMODULE (tools_mesh) supplement_implementation
 
             ! get the faces from the keytable, since we need a list that excludes
             ! interior faces
-            CALL get_kt_row(f2vtable, iv, if2v)
+            CALL f2vtable%get_kt_row(iv, if2v)
             n_faces = SIZE(if2v)
 
             DO j = 1 , n_faces
                 iface = if2v(j)
-                CALL get_ith_conn(iv2f, v2f, iface)
-                CALL set_kt_row(v2ftable, iface, iv2f)
+                CALL v2f%get_ith_conn(iv2f,iface)
+                CALL v2ftable%set_kt_row(iface, iv2f)
             ENDDO
         ENDDO
 
@@ -241,7 +242,7 @@ SUBMODULE (tools_mesh) supplement_implementation
             WRITE(*,*) 'Creating supplemental overlap vertex information'
         END IF
 
-        CALL get_dual_conn(v2c,c2v)
+        CALL v2c%get_dual_conn(c2v)
 
         n_shared = SIZE (v_ovrl)
 
@@ -263,7 +264,7 @@ SUBMODULE (tools_mesh) supplement_implementation
         highest = MAXVAL(glob_v_ovrl)
 
         ! instantiate keytable
-        CALL alloc_keytable(c2vtable,lowest,highest)
+        CALL c2vtable%alloc_keytable(lowest,highest)
 
         lowest  =  HUGE(lowest)
         highest = -HUGE(highest)
@@ -275,17 +276,17 @@ SUBMODULE (tools_mesh) supplement_implementation
             iv = glob_v_ovrl(i)
 
             ! get the cells connected to this vertex
-            CALL get_ith_conn(ic2v,c2v,iv)
+            CALL c2v%get_ith_conn(ic2v,iv)
 
             ! store in a key table
-            CALL set_kt_row(c2vtable, iv, ic2v)
+            CALL c2vtable%set_kt_row(iv, ic2v)
 
             lowest = MIN(lowest,MINVAL(ic2v))
             highest = MAX(highest,MAXVAL(ic2v))
         ENDDO
 
         ! now make v2c keytable
-        CALL alloc_keytable(v2ctable,lowest,highest)
+        CALL v2ctable%alloc_keytable(lowest,highest)
 
         ! loop over vertices and tally memory requirements for v2c_suppl
         DO i = 1, n_shared
@@ -293,13 +294,13 @@ SUBMODULE (tools_mesh) supplement_implementation
             ! find what cells are connected to these vertices
             iv = glob_v_ovrl(i)
 
-            CALL get_ith_conn(ic2v,c2v,iv)
+            CALL c2v%get_ith_conn(ic2v,iv)
             n_cells = SIZE(ic2v)
 
             DO j = 1 , n_cells
                 ic = ic2v(j)
-                CALL get_ith_conn(iv2c, v2c, ic)
-                CALL set_kt_row(v2ctable, ic, iv2c)
+                CALL v2c%get_ith_conn(iv2c,ic)
+                CALL v2ctable%set_kt_row(ic, iv2c)
             ENDDO
         ENDDO
 

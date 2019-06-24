@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !    NEMO - Numerical Engine (for) Multiphysics Operators
@@ -62,7 +62,7 @@ SUBMODULE (tools_mesh_check) check_mesh_quality_implementation
     USE class_vector
     USE class_vertex
     USE tools_math
-    USE tools_mesh_basics
+    USE tools_mesh_basics, ONLY : geom_tet_quality, geom_tet_dihedral_angle, geom_hex_quality, geom_hex_dihedral_angle
     USE tools_mesh_check, ONLY : check_tet_quality
 
     IMPLICIT NONE
@@ -165,7 +165,7 @@ SUBMODULE (tools_mesh_check) check_mesh_quality_implementation
         ic = ictype(itet)
 
         ! Gets which faces belong to this cell
-        CALL get_ith_conn(if2c,msh%f2c,ic)
+        CALL msh%f2c%get_ith_conn(if2c,ic)
 
         ! Checks that each tet has four faces.
         IF (SIZE(if2c) /= 4) THEN
@@ -190,7 +190,7 @@ SUBMODULE (tools_mesh_check) check_mesh_quality_implementation
         ic = ictype(ihex)
 
         ! Gets which faces belong to this cell
-        CALL get_ith_conn(if2c,msh%f2c,ic)
+        CALL msh%f2c%get_ith_conn(if2c,ic)
 
         ! Checks that each hex has six faces.
         IF (SIZE(if2c) /= 6) THEN
@@ -215,7 +215,7 @@ SUBMODULE (tools_mesh_check) check_mesh_quality_implementation
     DO itet = 1, ntet
         ic = ictype(itet)
 
-        CALL get_ith_conn(iv2c,msh%v2c,ic)
+        CALL msh%v2c%get_ith_conn(iv2c,ic)
 
         iv1 = iv2c(1)
         iv2 = iv2c(2)
@@ -230,7 +230,7 @@ SUBMODULE (tools_mesh_check) check_mesh_quality_implementation
     DO ihex = firsthex, lasthex
         ic = ictype(ihex)
 
-        CALL get_ith_conn(iv2c,msh%v2c,ic)
+        CALL msh%v2c%get_ith_conn(iv2c,ic)
 
         DO i = 1, 8
             hex_verts(i) = msh%verts(iv2c(i))
@@ -312,7 +312,7 @@ SUBMODULE (tools_mesh_check) check_mesh_quality_implementation
         DO itet = 1, ntet
             ic = ictype(itet)
 
-            CALL get_ith_conn(if2c,msh%f2c,ic)
+            CALL msh%f2c%get_ith_conn(if2c,ic)
 
             DO i = 1,4
                 tet_af(i) = msh%af(if2c(i))
@@ -328,7 +328,7 @@ SUBMODULE (tools_mesh_check) check_mesh_quality_implementation
         DO ihex = firsthex, lasthex
             ic = ictype(ihex)
 
-            CALL get_ith_conn(if2c,msh%f2c,ic)
+            CALL msh%f2c%get_ith_conn(if2c,ic)
 
             ! get face normals
             DO i = 1,6
@@ -343,11 +343,11 @@ SUBMODULE (tools_mesh_check) check_mesh_quality_implementation
 
             DO i = 1,5       ! loop over a face
                 iface = if2c(i)
-                CALL get_ith_conn(iv2f, msh%v2f,iface)
+                CALL msh%v2f%get_ith_conn(iv2f, iface)
 
                 DO j = i+1,6  ! and all possible pairings
                     jface = if2c(j)
-                    CALL get_ith_conn(jv2f, msh%v2f,jface)
+                    CALL msh%v2f%get_ith_conn(jv2f, jface)
 
                     match = .FALSE.  ! assume there are no shared vertices
 

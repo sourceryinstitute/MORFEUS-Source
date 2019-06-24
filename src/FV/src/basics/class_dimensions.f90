@@ -50,11 +50,10 @@ MODULE class_dimensions
 
     PRIVATE ! Default
     PUBLIC :: dimensions
-    PUBLIC :: bcast_dim, debug_dim, quantity
-    PUBLIC :: sqrt, OPERATOR(==), OPERATOR(/=)
+    PUBLIC :: OPERATOR(==), OPERATOR(/=)
 
     ! Constants
-    PUBLIC :: null_dim_
+    PUBLIC :: null_dim_, quantity
     PUBLIC :: length_, mass_, time_, temperature_
     PUBLIC :: surface_, volume_
     PUBLIC :: velocity_, acceleration_
@@ -69,6 +68,10 @@ MODULE class_dimensions
         INTEGER :: t
         INTEGER :: theta
     CONTAINS
+        PROCEDURE :: bcast_dim, quantity
+        PROCEDURE, PRIVATE :: dim_sqrt
+        GENERIC, PUBLIC :: sqrt => dim_sqrt
+        PROCEDURE :: debug_dim
         PROCEDURE :: dim_sum, dim_diff, dim_mul, dim_div, dim_pow 
         GENERIC :: OPERATOR(+)  => dim_sum
         GENERIC :: OPERATOR(-)  => dim_diff 
@@ -118,21 +121,21 @@ MODULE class_dimensions
     ! ----- Generic Interfaces -----
 
     ! Computation
-    INTERFACE sqrt
+    INTERFACE
         MODULE FUNCTION dim_sqrt(dim)
            IMPLICIT NONE
            TYPE(dimensions) :: dim_sqrt
-           TYPE(dimensions), INTENT(IN) :: dim
+           CLASS(dimensions), INTENT(IN) :: dim
         END FUNCTION dim_sqrt
-    END INTERFACE sqrt
+    END INTERFACE
 
     ! Debug
-    INTERFACE debug
+    INTERFACE
         MODULE SUBROUTINE debug_dim(dim)
             IMPLICIT NONE
-            TYPE(dimensions), INTENT(IN) :: dim
+            CLASS(dimensions), INTENT(IN) :: dim
         END SUBROUTINE debug_dim
-    END INTERFACE debug
+    END INTERFACE
 
 
     ! ----- Operator Overloading -----
@@ -202,7 +205,7 @@ MODULE class_dimensions
 
         MODULE SUBROUTINE bcast_dim(dim)
             IMPLICIT NONE
-            TYPE(dimensions), INTENT(INOUT) :: dim
+            CLASS(dimensions), INTENT(INOUT) :: dim
         END SUBROUTINE bcast_dim
     END INTERFACE
 
@@ -211,7 +214,7 @@ MODULE class_dimensions
         MODULE FUNCTION quantity(dim)
             IMPLICIT NONE
             CHARACTER(len=32) :: quantity
-            TYPE(Dimensions), INTENT(IN) :: dim
+            CLASS(Dimensions), INTENT(IN) :: dim
         END FUNCTION quantity
     END INTERFACE
 

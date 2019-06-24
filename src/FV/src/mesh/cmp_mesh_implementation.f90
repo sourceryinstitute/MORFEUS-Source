@@ -37,6 +37,7 @@
 !
 !---------------------------------------------------------------------------------
 SUBMODULE (tools_mesh) cmp_mesh_implementation
+    USE class_face
     IMPLICIT NONE
 
     CONTAINS
@@ -85,7 +86,6 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
         MODULE PROCEDURE cmp_mesh_c2c
         USE class_psblas
         USE class_connectivity
-        USE class_face
         IMPLICIT NONE
         !! $Id: cmp_mesh_c2c.f90 8157 2014-10-09 13:02:44Z sfilippo $
         !!
@@ -99,9 +99,9 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
         IF(mypnum_() == 0) THEN
             WRITE(*,*) 'Computing cells adjacency graph C2C'
 
-            n         = max_conn(f2c)            ! Maximum connectivity degree
-            ncells    = nel_(f2c)                ! Number of cells
-            nfl_faces = COUNT(flag_(faces) == 0) ! Number of fluid faces
+            n         = f2c%max_conn()            ! Maximum connectivity degree
+            ncells    = f2c%nel_()                ! Number of cells
+            nfl_faces = COUNT(faces%flag_() == 0) ! Number of fluid faces
 
             ALLOCATE(itab(n,ncells),kconn(ncells),stat=info)
             IF(info /= 0) THEN
@@ -116,8 +116,8 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
             ! Thus faces are still numbered in such a way that fluid ones come first
 
             DO IF = 1, nfl_faces
-                im = master_(faces(IF))
-                is = slave_(faces(IF))
+            im = faces(IF)%master_()
+            is = faces(IF)%slave_()
                 kconn(im) = kconn(im) + 1
                 kconn(is) = kconn(is) + 1
                 itab(kconn(im),im) = is
@@ -136,7 +136,7 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
             ! Sets C2C connectivity
             DO ic = 1, ncells
                 n = kconn(ic)
-                CALL set_ith_conn(c2c,ic,itab(1:n,ic))
+                CALL c2c%set_ith_conn(ic,itab(1:n,ic))
             END DO
 
             DEALLOCATE(itab,kconn,stat=info)
@@ -156,7 +156,6 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
         MODULE PROCEDURE cmp_mesh_f2b
         USE class_psblas
         USE class_connectivity
-        USE class_face
         IMPLICIT NONE
         !! $Id: cmp_mesh_f2b.f90 3175 2008-06-13 12:59:07Z sfilippo $
         !!
@@ -173,7 +172,7 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
         nfaces = SIZE(faces)
         iface = (/(IF, IF = 1, nfaces)/)
 
-        flag = flag_(faces)
+        flag = faces%flag_()
 
         ! Computes maximum connectivity degree
         IF (.FALSE.) THEN
@@ -212,7 +211,7 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
             n = kf(ib)
             iconn(1:n) = iface(j+1:j+n)
     !!$     iconn(1:n) = pack(iface,flag == ib)
-            CALL set_ith_conn(f2b,ib,iconn(1:n))
+            CALL f2b%set_ith_conn(ib,iconn(1:n))
             j = j + n
         END DO
 
@@ -244,8 +243,8 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
         IF(mypnum_() == 0) THEN
             WRITE(*,*) 'Computing faces adjacency graph F2F'
 
-            n = (max_conn(f2c) - 1) * 2 ! F2F maximum connectivity degree
-            ncells = nel_(f2c)          ! Number of cells
+            n = (f2c%max_conn() - 1) * 2 ! F2F maximum connectivity degree
+            ncells = f2c%nel_()          ! Number of cells
 
             ALLOCATE(itab(n,nfaces),kconn(nfaces),stat=info)
             IF(info /= 0) THEN
@@ -255,7 +254,7 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
 
             kconn = 0
             DO ic = 1, ncells
-                CALL get_ith_conn(if2c,f2c,ic)
+                CALL f2c%get_ith_conn(if2c,ic)
                 ncf = SIZE(if2c)
                 DO i = 1, ncf - 1
                     if1 = if2c(i)
@@ -285,7 +284,7 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
             ! Sets F2F connectivity
             DO IF = 1, nfaces
                 n = kconn(IF)
-                CALL set_ith_conn(f2f,IF,itab(1:n,IF))
+                CALL f2f%set_ith_conn(IF,itab(1:n,IF))
             END DO
 
 
@@ -317,13 +316,13 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
         INTEGER, ALLOCATABLE :: adjncy_glob(:)
 
         IF (mypnum_() == 0) THEN
-            CALL tic(sw_par)
+            CALL sw_par%tic()
 
             nprocs = nprocs_()
 
             IF(nprocs > 1 ) WRITE(*,*)
 
-            ncells = nel_(c2c)
+            ncells = c2c%nel_()
 
             ! Checks status of PART_CELLS vector
             IF(ALLOCATED(part_cells)) DEALLOCATE(part_cells)
@@ -337,7 +336,7 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
             IF(ipart > 0) THEN
                 ! ParMetis requires global connectivity in CSR format, therefore
                 ! the call to GET_CONN_CSR is done here, outside BLD_PART_GRAPH.
-                CALL get_conn_csr(c2c,xadj_glob,adjncy_glob)
+                CALL c2c%get_conn_csr(xadj_glob,adjncy_glob)
             END IF
 
             SELECT CASE(ipart)
@@ -366,7 +365,7 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
                 END IF
             END IF
 
-            CALL toc(sw_par)
+            CALL sw_par%toc()
         ENDIF
 
 100     FORMAT(' ERROR! Memory allocation failure in CMP_MESH_PART')
@@ -380,7 +379,6 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
         USE class_psblas
         USE class_cell
         USE class_connectivity
-        USE class_face
         USE renum
         IMPLICIT NONE
         !! $Id: cmp_mesh_renum.f90 8157 2014-10-09 13:02:44Z sfilippo $
@@ -393,7 +391,7 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
         icontxt = icontxt_()
         mypnum = mypnum_()
 
-        CALL tic(sw_ord)
+        CALL sw_ord%tic()
 
         SELECT CASE(irenum)
         CASE(0)
@@ -423,7 +421,7 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
             CALL abort_psblas
         END SELECT
 
-        CALL toc(sw_ord)
+        CALL sw_ord%toc()
 
 100     FORMAT(' ERROR! Unknown renumbering method in CMP_MESH_RENUM')
 
@@ -433,7 +431,6 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
         MODULE PROCEDURE cmp_mesh_v2b
         USE class_psblas
         USE class_connectivity
-        USE class_face
         IMPLICIT NONE
         !! $Id: cmp_mesh_v2b.f90 8157 2014-10-09 13:02:44Z sfilippo $
         !!
@@ -460,9 +457,9 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
             WRITE(*,*) 'Computing vertex to boundary connectivity V2B'
 
 
-            CALL get_dual_conn(v2f,f2v)
+            CALL v2f%get_dual_conn(f2v)
 
-            nverts = nel_(f2v)
+            nverts = f2v%nel_()
 
             ALLOCATE(itab(nverts,0:nbc),stat=info)
             IF(info /= 0) THEN
@@ -476,12 +473,12 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
             DO iv = 1, nverts
                 inspected(:) = .FALSE.
 
-                CALL get_ith_conn(if2v,f2v,iv)
+                CALL f2v%get_ith_conn(if2v,iv)
                 n = SIZE(if2v)
 
                 DO k = 1, n
                     IF = if2v(k)
-                    flag = flag_(faces(IF))
+                    flag = faces(IF)%flag_()
                     IF(flag > 0 .AND. .NOT.inspected(flag)) THEN
                         inspected(flag) = .TRUE.
                         kconn(flag) = kconn(flag) + 1
@@ -505,7 +502,7 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
 
             DO k = 0, nbc
                 n = kconn(k)
-                CALL set_ith_conn(v2b,k,itab(1:n,k))
+                CALL v2b%set_ith_conn(k,itab(1:n,k))
             END DO
 
             DEALLOCATE(itab)
@@ -549,15 +546,15 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
         sw_v2e = stopwatch_(icontxt_())
 
         ! Start timing
-        CALL tic(sw_v2e)
+        CALL sw_v2e%tic()
 
         IF(mypnum_() == 0) THEN
 
-            nfaces = nel_(v2f)
+            nfaces = v2f%nel_()
 
             nedges = 0
             DO IF = 1, nfaces
-                CALL get_ith_conn(iv2f,v2f,IF)
+                CALL v2f%get_ith_conn(iv2f,IF)
                 nedges = nedges + SIZE(iv2f)
             END DO
 
@@ -567,20 +564,20 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
             ie = 1
             DO IF = 1, nfaces
 
-                CALL get_ith_conn(iv2f, v2f,IF)
+                CALL v2f%get_ith_conn(iv2f,IF)
 
                 n = SIZE(iv2f)
                 ! # of face vertices is equal to # of face edges N
 
                 DO i = 1, n - 1
-                    CALL set_ith_conn(work,ie,(/ iv2f(i), iv2f(i+1) /))
+                    CALL work%set_ith_conn(ie,(/ iv2f(i), iv2f(i+1) /))
                     ie = ie + 1
                 END DO
-                CALL set_ith_conn(work,ie,(/ iv2f(n), iv2f(1) /))
+                CALL work%set_ith_conn(ie,(/ iv2f(n), iv2f(1) /))
                 ie = ie + 1
             END DO
 
-            CALL get_dual_conn(work,e2v)
+            CALL work%get_dual_conn(e2v)
 
             ALLOCATE(inspected(nedges),twice(nedges),stat=info)
             IF(info /= 0) THEN
@@ -588,12 +585,12 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
                 CALL abort_psblas
             END IF
 
-            nverts = nel_(e2v)
+            nverts = e2v%nel_()
 
             inspected = .FALSE.
             twice     = .FALSE.
             DO iv = 1,  nverts
-                CALL get_ith_conn(ie2v,e2v,iv)
+                CALL e2v%get_ith_conn(ie2v,iv)
                 n = SIZE(ie2v)
 
                 edge1: DO i = 1, n - 1
@@ -601,7 +598,7 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
                     IF(twice(ie1) .OR. inspected(ie1)) CYCLE edge1
                     inspected(ie1) = .TRUE.
 
-                    CALL get_ith_conn(iv2e,work,ie1)
+                    CALL work%get_ith_conn(iv2e,ie1)
                     iv1 = iv2e(1)
                     iv2 = iv2e(2)
                     s1 = iv1 + iv2
@@ -611,7 +608,7 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
                         ie2 = ie2v(j)
                         IF(twice(ie2) .OR. inspected(ie2)) CYCLE edge2
 
-                        CALL get_ith_conn(iv2e,work,ie2)
+                        CALL work%get_ith_conn(iv2e,ie2)
                         iv3 = iv2e(1)
                         iv4 = iv2e(2)
                         s2 = iv3 + iv4
@@ -631,12 +628,12 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
             CALL alloc_conn(v2e,nel=nedges,nconn=nedges*2)
 
             ie = 0
-            n = nel_(work)
+            n = work%nel_()
             DO i = 1, n
                 IF(twice(i)) CYCLE
                 ie = ie + 1
-                CALL get_ith_conn(iv2e,work,i)
-                CALL set_ith_conn(v2e,ie,iv2e)
+                CALL work%get_ith_conn(iv2e,i)
+                CALL v2e%set_ith_conn(ie,iv2e)
             END DO
 
 
@@ -649,13 +646,13 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
         ENDIF
 
         ! Stop timing
-        CALL toc(sw_v2e)
+        CALL sw_v2e%toc()
 
         ! Synchronization
-        CALL synchro(sw_v2e)
+        CALL sw_v2e%synchro()
 
         IF(mypnum_() == 0) WRITE(*,'(a,es13.6)') &
-            &'  - Elapsed time for V2E building:', partial_(sw_v2e)
+            &'  - Elapsed time for V2E building:', sw_v2e%partial_()
 
 100     FORMAT(' ERROR! Memory allocation failure in CMP_MESH_V2E')
 
@@ -689,10 +686,10 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
         sw_v2v = stopwatch_(icontxt_())
 
         ! Start timing
-        CALL tic(sw_v2v)
+        CALL sw_v2v%tic()
 
-        n = (max_conn(v2c) - 1) * ncv_max ! Maximum conn. degree (overestimated)
-        ncells = nel_(v2c)
+        n = (v2c%max_conn() - 1) * ncv_max ! Maximum conn. degree (overestimated)
+        ncells = v2c%nel_()
 
         ALLOCATE(itab(n,nverts),kconn(nverts),stat=info)
         IF(info /= 0) THEN
@@ -702,7 +699,7 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
 
         kconn = 0
         DO ic = 1, ncells
-            CALL get_ith_conn(iv2c,v2c,ic)
+            CALL v2c%get_ith_conn(iv2c,ic)
             ncv = SIZE(iv2c)
             DO i = 1, ncv - 1
                 iv1 = iv2c(i)
@@ -754,7 +751,7 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
         ! Sets V2V connectivity
         DO iv = 1, nverts
             n = kconn(iv)
-            CALL set_ith_conn(v2v,iv,itab(1:n,iv))
+            CALL v2v%set_ith_conn(iv,itab(1:n,iv))
         END DO
 
 
@@ -764,13 +761,13 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
 
 
         ! Stop timing
-        CALL toc(sw_v2v)
+        CALL sw_v2v%toc()
 
         ! Synchronization
-        CALL synchro(sw_v2v)
+        CALL sw_v2v%synchro()
 
         IF(mypnum_() == 0) WRITE(*,'(a,es13.6)') &
-            & '  - Elapsed time for V2V building:', partial_(sw_v2v)
+            & '  - Elapsed time for V2V building:', sw_v2v%partial_()
 
 100     FORMAT(' ERROR! Memory allocation failure in CMP_MESH_V2V')
 
@@ -801,21 +798,21 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
         sw_v2v = stopwatch_(icontxt_())
 
         ! Start timing
-        CALL tic(sw_v2v)
+        CALL sw_v2v%tic()
 
         SELECT CASE(ncd)
         CASE(2)
-            IF(mypnum_() == 0)    CALL get_dual_conn(v2f,e2v)
+            IF(mypnum_() == 0)    CALL v2f%get_dual_conn(e2v)
 
         CASE(3)
             CALL cmp_mesh_v2e(ncd,v2f,v2e)
-            IF(mypnum_() == 0)    CALL get_dual_conn(v2e,e2v)
+            IF(mypnum_() == 0)    CALL v2e%get_dual_conn(e2v)
         END SELECT
 
         IF(mypnum_() == 0) THEN
 
-            nverts = nel_(e2v)
-            nmax   = max_conn(e2v)
+            nverts = e2v%nel_()
+            nmax   = e2v%max_conn()
 
             ALLOCATE(iv2v(nverts,nmax),kconn(nverts),stat=info)
             IF(info /= 0) THEN
@@ -829,14 +826,14 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
 
                 DO iv = 1, nverts
 
-                    CALL get_ith_conn(ie2v,e2v,iv)
+                    CALL e2v%get_ith_conn(ie2v,iv)
                     nconn = SIZE(ie2v)
 
                     DO i = 1, nconn
                         ie = ie2v(i)
 
                         ! In 2D edges = faces => use V2F
-                        CALL get_ith_conn(iv2e,v2f,ie)
+                        CALL v2f%get_ith_conn(iv2e,ie)
                         iv_nb = iv2e(1) + iv2e(2) - iv
 
                         iv2v(iv,i) = iv_nb
@@ -849,14 +846,14 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
 
                 DO iv = 1, nverts
 
-                    CALL get_ith_conn(ie2v,e2v,iv)
+                    CALL e2v%get_ith_conn(ie2v,iv)
                     nconn = SIZE(ie2v)
 
                     DO i = 1, nconn
                         ie = ie2v(i)
 
                         ! In 3D edges /= faces => use V2E
-                        CALL get_ith_conn(iv2e,v2e,ie)
+                        CALL v2e%get_ith_conn(iv2e,ie)
                         iv_nb = iv2e(1) + iv2e(2) - iv
 
                         iv2v(iv,i) = iv_nb
@@ -877,7 +874,7 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
             CALL alloc_conn(v2v,nel=nverts,nconn=nconn)
             DO iv = 1, nverts
                 nconn = kconn(iv)
-                CALL set_ith_conn(v2v,iv,iv2v(iv,1:nconn))
+                CALL v2v%set_ith_conn(iv,iv2v(iv,1:nconn))
             END DO
 
 
@@ -890,13 +887,13 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
         ENDIF
 
         ! Stop timing
-        CALL toc(sw_v2v)
+        CALL sw_v2v%toc()
 
         ! Synchronization
-        CALL synchro(sw_v2v)
+        CALL sw_v2v%synchro()
 
         IF(mypnum_() == 0) WRITE(*,'(a,es13.6)') &
-            &'  - Elapsed time for V2VE building:', partial_(sw_v2v)
+            &'  - Elapsed time for V2VE building:', sw_v2v%partial_()
 
 100     FORMAT(' ERROR! Memory allocation failure in CMP_MESH_V2VE')
 

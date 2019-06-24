@@ -76,7 +76,7 @@
         icontxt = icontxt_()
         mypnum  = mypnum_()
 
-        CALL tic(sw_pre)
+        CALL sw_pre%tic()
 
         ! Prepares the preconditioner
         SELECT CASE(psb_toupper(TRIM(cprec)))
@@ -159,7 +159,7 @@
         ! ----- Normal Termination -----
         CALL psb_erractionrestore(err_act)
 
-        CALL toc(sw_pre)
+        CALL sw_pre%toc()
 
 100     FORMAT(' ERROR! Unsupported preconditioner in PSB_BUILD_PREC')
 200     FORMAT(' ERROR! Unsymmetric preconditioner cannot be used with CG')

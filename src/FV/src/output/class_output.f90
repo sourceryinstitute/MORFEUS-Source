@@ -48,9 +48,6 @@ MODULE class_output
 
     PRIVATE
     PUBLIC :: output
-    PUBLIC :: create_output   ! Constructor
-    PUBLIC :: fmt_, path_     ! Getters
-    PUBLIC :: set_output_path ! Setters
 
     TYPE output
         PRIVATE
@@ -58,6 +55,10 @@ MODULE class_output
         CHARACTER(len=32) :: basepath
         CHARACTER(len=32) :: path
     CONTAINS
+        PROCEDURE :: create_output  ! Constructor
+        PROCEDURE :: fmt_, path_    ! Getters
+        PROCEDURE, PRIVATE :: set_output_path_h, set_output_path_iter
+        GENERIC, PUBLIC :: set_output_path => set_output_path_h, set_output_path_iter ! Setters
         PROCEDURE, PRIVATE :: nemo_output_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_output_sizeof
     END TYPE output
@@ -79,10 +80,10 @@ MODULE class_output
 
     ! ----- Setters -----
 
-  INTERFACE set_output_path
+  INTERFACE
 
     MODULE SUBROUTINE set_output_path_h(out,path)
-        TYPE(output),      INTENT(INOUT) :: out
+        CLASS(output),      INTENT(INOUT) :: out
         CHARACTER(len=32), INTENT(IN) :: path
     END SUBROUTINE set_output_path_h
   
@@ -90,20 +91,16 @@ MODULE class_output
     MODULE SUBROUTINE set_output_path_iter(out,iter)
         USE class_iterating
         USE tools_output_basics
-        TYPE(output),    INTENT(INOUT) :: out
+        CLASS(output),    INTENT(INOUT) :: out
         TYPE(iterating), INTENT(IN) :: iter
     END SUBROUTINE set_output_path_iter
-
-  END INTERFACE set_output_path
-
-  INTERFACE
 
     ! ----- Constructor -----
 
     MODULE SUBROUTINE create_output(out,input_file,sec)
         USE tools_input
         USE tools_output_basics
-        TYPE(output),      INTENT(INOUT) :: out
+        CLASS(output),      INTENT(INOUT) :: out
         CHARACTER(len=*), INTENT(IN) :: input_file
         CHARACTER(len=*), INTENT(IN) :: sec
     END SUBROUTINE create_output
@@ -113,19 +110,18 @@ MODULE class_output
 
     MODULE FUNCTION fmt_(out)
         INTEGER :: fmt_
-        TYPE(output), INTENT(IN) :: out
+        CLASS(output), INTENT(IN) :: out
     END FUNCTION fmt_
 
 
     MODULE FUNCTION path_(out)
         USE tools_output_basics
         CHARACTER(len=32) :: path_
-        TYPE(output), INTENT(IN) :: out
+        CLASS(output), INTENT(IN) :: out
         !
         INTEGER :: l
         CHARACTER(len=1) :: path_end
     END FUNCTION path_
-
 
   END INTERFACE
 

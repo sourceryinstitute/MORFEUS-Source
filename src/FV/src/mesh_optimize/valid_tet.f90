@@ -63,16 +63,16 @@ FUNCTION tet_valid(msh,ic)
     INTEGER :: valid_flag,ierr
 
     ! Get vertex indices
-    CALL get_ith_conn(iv2c,msh%v2c,ic)
+    CALL msh%v2c%get_ith_conn(iv2c,ic)
     iv1 = iv2c(1)
     iv2 = iv2c(2)
     iv3 = iv2c(3)
     iv4 = iv2c(4)
 
-    vtx1 = position_( msh%verts(iv1) )
-    vtx2 = position_( msh%verts(iv2) )
-    vtx3 = position_( msh%verts(iv3) )
-    vtx4 = position_( msh%verts(iv4) )
+    vtx1 = msh%verts(iv1)%position_()
+    vtx2 = msh%verts(iv2)%position_()
+    vtx3 = msh%verts(iv3)%position_()
+    vtx4 = msh%verts(iv4)%position_()
 
     valid_flag = right_handed(vtx1, vtx2, vtx3, vtx4)
 
