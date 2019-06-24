@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -12,7 +12,7 @@
 #endif
 #include <math.h>
 #include "SMsmooth.h"
- 
+
 
 #undef __FUNC__
 #define __FUNC__ "SMminmaxOpt"
@@ -59,21 +59,21 @@ int SMminmaxOpt(SMlocal_mesh *local_mesh, SMparam *smooth_param, SMprocinfo *pro
      /* compute the gradient */
      ierr = SMcomputeGradient(local_mesh,smooth_param,
                       local_mesh->opt_info->gradient); OPTMS_CHKERR(ierr);
-     
+
      if (local_mesh->opt_info->active->num_active >= 2) {
 	OPTMS_DEBUG_PRINT(3,"Testing for an equilibrium point \n");
-	ierr = SMcheckEquilibrium(local_mesh->opt_info, 
+	ierr = SMcheckEquilibrium(local_mesh->opt_info,
                &local_mesh->opt_info->equilibrium_pt); OPTMS_CHKERR(ierr);
 
 	OPTMS_DEBUG_ACTION(2,{
-	    if (local_mesh->opt_info->equilibrium_pt) 
+	    if (local_mesh->opt_info->equilibrium_pt)
 		fprintf(stdout,"Optimization Exiting: An equilibrium point \n");
         });
      }
 
     /* terminate if we have found an equilibrium point or if the step is
        too small to be worthwhile continuing */
-    while ((local_mesh->opt_info->status != OPTMS_EQUILIBRIUM) && 
+    while ((local_mesh->opt_info->status != OPTMS_EQUILIBRIUM) &&
 	   (local_mesh->opt_info->status != OPTMS_STEP_TOO_SMALL) &&
 	   (local_mesh->opt_info->status != OPTMS_IMP_TOO_SMALL) &&
 	   (local_mesh->opt_info->status != OPTMS_FLAT_NO_IMP) &&
@@ -88,14 +88,14 @@ int SMminmaxOpt(SMlocal_mesh *local_mesh, SMparam *smooth_param, SMprocinfo *pro
 	   local_mesh->opt_info->status = OPTMS_MAX_ITER_EXCEEDED;
 
 	OPTMS_DEBUG_PRINT(3,"\n");
-	OPTMS_DEBUG_ACTION(3,{ 
+	OPTMS_DEBUG_ACTION(3,{
             fprintf(stdout,"ITERATION %d \n",local_mesh->opt_info->iter_count);
         });
-	    
+
 	/* compute the gradient */
 	ierr = SMcomputeGradient(local_mesh,smooth_param,
                           local_mesh->opt_info->gradient); OPTMS_CHKERR(ierr);
-        
+
 	OPTMS_DEBUG_PRINT(3,"computing the search direction \n");
 	ierr = SMsearchDirection(local_mesh); OPTMS_CHKERR(ierr);
 
@@ -107,7 +107,7 @@ int SMminmaxOpt(SMlocal_mesh *local_mesh, SMparam *smooth_param, SMprocinfo *pro
                     OPTMS_SETERR(OPTMS_FILE_OPEN_ERR,0,"Can't open search.m for writing\n");
                 }
 		ierr = SMwriteLocalMesh(fp,local_mesh); OPTMS_CHKERR(ierr);
-		ierr = SMwriteActiveSet(fp,local_mesh); OPTMS_CHKERR(ierr);  
+		ierr = SMwriteActiveSet(fp,local_mesh); OPTMS_CHKERR(ierr);
 		ierr = SMwriteSearch(fp,local_mesh); OPTMS_CHKERR(ierr);
 		fclose(fp);
 	    }
@@ -128,7 +128,7 @@ int SMminmaxOpt(SMlocal_mesh *local_mesh, SMparam *smooth_param, SMprocinfo *pro
 	    ierr = SMstepAcceptance(local_mesh,smooth_param); OPTMS_CHKERR(ierr);
             OPTMS_DEBUG_ACTION(3,
               {printf("The new free vertex position is %f %f %f\n",
-              local_mesh->free_vtx[0], local_mesh->free_vtx[1], 
+              local_mesh->free_vtx[0], local_mesh->free_vtx[1],
 		       local_mesh->free_vtx[2]);});
 
 	    OPTMS_DEBUG_ACTION(3,{
@@ -142,17 +142,17 @@ int SMminmaxOpt(SMlocal_mesh *local_mesh, SMparam *smooth_param, SMprocinfo *pro
 	    if (local_mesh->opt_info->active->num_active >= 2) {
 		OPTMS_DEBUG_PRINT(3,"Testing for an equilibrium point \n");
                 ierr = SMcheckEquilibrium(local_mesh->opt_info,
-   		        &local_mesh->opt_info->equilibrium_pt); 
+   		        &local_mesh->opt_info->equilibrium_pt);
                        OPTMS_CHKERR(ierr);
 
 		OPTMS_DEBUG_ACTION(2,{
-		    if (local_mesh->opt_info->equilibrium_pt) 
+		    if (local_mesh->opt_info->equilibrium_pt)
 			fprintf(stdout,"Optimization Exiting: An equilibrium point \n");
                 });
 	    }
 
 	    /* record the values */
-            local_mesh->current_active_value = 
+            local_mesh->current_active_value =
                  local_mesh->opt_info->active->true_active_value;
 	    OPTMS_RECORD_ITER_VALUE(local_mesh->opt_info);
 	} else {
@@ -204,7 +204,7 @@ int SMstepAcceptance(SMlocal_mesh *local_mesh, SMparam *smooth_param)
 
   OPTMS_CHECK_NULL(local_mesh);
   OPTMS_CHECK_NULL(smooth_param);
-    
+
   opt_info = local_mesh->opt_info;
   num_values = opt_info->num_values;
   active = opt_info->active;
@@ -256,7 +256,7 @@ int SMstepAcceptance(SMlocal_mesh *local_mesh, SMparam *smooth_param)
             alpha = alpha/2;
             opt_info->alpha = alpha;
              OPTMS_DEBUG_ACTION(2,{
-                 fprintf(stdout,"Step not accepted, the new alpha %f\n",alpha); 
+                 fprintf(stdout,"Step not accepted, the new alpha %f\n",alpha);
              });
 
           if (alpha < smooth_param->min_step_size) {
@@ -266,31 +266,31 @@ int SMstepAcceptance(SMlocal_mesh *local_mesh, SMparam *smooth_param)
  	        /* get back the original point, function, and active set */
                 OPTMS_COPY_VECTOR(local_mesh->free_vtx,original_point,dimension);
 	        OPTMS_COPY_VECTOR(opt_info->function,opt_info->original_function,num_values);
-	        ierr = SMcopyActive(opt_info->original_active, opt_info->active); 
+	        ierr = SMcopyActive(opt_info->original_active, opt_info->active);
                        OPTMS_CHKERR(ierr);
 	  }
        }
-    }     
+    }
 
-    if ((valid || local_mesh->validity==OPTMS_INVALID_MESH) && 
+    if ((valid || local_mesh->validity==OPTMS_INVALID_MESH) &&
         (alpha > smooth_param->min_step_size)) {
       /* compute the new function and active set */
-      ierr = SMcomputeFunction(local_mesh,smooth_param,opt_info->function); 
+      ierr = SMcomputeFunction(local_mesh,smooth_param,opt_info->function);
              OPTMS_CHKERR(ierr);
       ierr = SMfindActiveSet(local_mesh->opt_info->num_values,opt_info->function,
 		      smooth_param->active_eps,opt_info->active);
              OPTMS_CHKERR(ierr);
-	
+
       /* estimate the minimum improvement by taking this step */
       ierr = SMgetMinEstimate(local_mesh->opt_info, &estimated_improvement);
              OPTMS_CHKERR(ierr);
       OPTMS_DEBUG_ACTION(3,{
            fprintf(stdout,"The estimated improvement for this step: %f\n",
-		   estimated_improvement); 
+		   estimated_improvement);
       });
-	
+
       /* calculate the actual increase */
-      current_improvement = 
+      current_improvement =
 	opt_info->active->true_active_value -
 	opt_info->prev_active_values[opt_info->iter_count-1];
 
@@ -301,11 +301,11 @@ int SMstepAcceptance(SMlocal_mesh *local_mesh, SMparam *smooth_param)
 	fabs(estimated_improvement);
 
       /* determine whether to accept a step */
-      if ((previous_improvement > current_improvement) && 
+      if ((previous_improvement > current_improvement) &&
 	  (previous_improvement > 0)) {
 	/* accept the previous step - it was better */
 	     OPTMS_DEBUG_PRINT(2,"Accepting the previous step\n");
- 
+
 	/* add alpha in again (previous step) */
 	for (i=0;i<dimension;i++) {
 	  local_mesh->free_vtx[i] += alpha*opt_info->search[i];
@@ -323,7 +323,7 @@ int SMstepAcceptance(SMlocal_mesh *local_mesh, SMparam *smooth_param)
 	ierr = SMcopyActive(opt_info->test_active, opt_info->active); OPTMS_CHKERR(ierr);
 
 	opt_info->status = OPTMS_STEP_ACCEPTED;  step_status = OPTMS_STEP_DONE;
-            
+
 	/* check to see that we're still making good improvements */
 	if (previous_improvement < smooth_param->min_acceptable_imp) {
 	  opt_info->status = OPTMS_IMP_TOO_SMALL; step_status = OPTMS_STEP_DONE;
@@ -342,7 +342,7 @@ int SMstepAcceptance(SMlocal_mesh *local_mesh, SMparam *smooth_param)
                     local_mesh->validity=OPTMS_VALID_MESH;
               }
 
-            
+
 	/* check to see that we're still making good improvements */
 	if (current_improvement < smooth_param->min_acceptable_imp) {
 	  OPTMS_DEBUG_PRINT(2,"Optimization Exiting: Improvement too small\n");
@@ -355,7 +355,7 @@ int SMstepAcceptance(SMlocal_mesh *local_mesh, SMparam *smooth_param)
 	/* we are making no progress, quit */
 	opt_info->status = OPTMS_FLAT_NO_IMP; step_status = OPTMS_STEP_DONE;
 	OPTMS_DEBUG_PRINT(2,"Opimization Exiting: Flat no improvement\n");
-           
+
 	/* get back the original point, function, and active set */
 	OPTMS_COPY_VECTOR(local_mesh->free_vtx,original_point,dimension);
 	OPTMS_COPY_VECTOR(opt_info->function,opt_info->original_function,num_values);
@@ -364,11 +364,11 @@ int SMstepAcceptance(SMlocal_mesh *local_mesh, SMparam *smooth_param)
       } else {
 	/* halve alpha and try again */
 	/* subtract out the old step */
-	for (i=0;i<dimension;i++) 
+	for (i=0;i<dimension;i++)
                   local_mesh->free_vtx[i] -= alpha*opt_info->search[i];
 
 	/* halve step size */
-	alpha = alpha/2; 
+	alpha = alpha/2;
 	opt_info->alpha = alpha;
 	OPTMS_DEBUG_ACTION(3,{fprintf(stdout,"Step not accepted, the new alpha %f\n",alpha); });
 
@@ -389,7 +389,7 @@ int SMstepAcceptance(SMlocal_mesh *local_mesh, SMparam *smooth_param)
   }
   if (current_improvement<0 && opt_info->status==OPTMS_STEP_ACCEPTED) {
     OPTMS_DEBUG_ACTION(2,{printf("Accepted a negative step %f \n",current_improvement);
-                       ierr = SMwrite_ordered_points(local_mesh); 
+                       ierr = SMwrite_ordered_points(local_mesh);
                        OPTMS_CHKERR(ierr);});
   }
   return(ierr=0);
@@ -402,7 +402,7 @@ int SMcheckEquilibrium(SMoptimal *opt_info, int *equil)
     int  ierr;
     int  i,j;
     int  num_active;
-    int  ind1, ind2;  
+    int  ind1, ind2;
     int dimension;
     double min;
     double **dir, **G;
@@ -416,7 +416,7 @@ int SMcheckEquilibrium(SMoptimal *opt_info, int *equil)
 
     if (num_active==opt_info->num_values) {
          *equil = 1; opt_info->status = OPTMS_EQUILIBRIUM;
-         OPTMS_DEBUG_PRINT(3,"All the function values are in the active set\n"); 
+         OPTMS_DEBUG_PRINT(3,"All the function values are in the active set\n");
          return (ierr=0);
     }
 
@@ -430,7 +430,7 @@ int SMcheckEquilibrium(SMoptimal *opt_info, int *equil)
 
     if (dimension == 2) {
     /* form the grammian */
-    ierr = SMformGrammian(num_active,dir,opt_info->G,dimension);  
+    ierr = SMformGrammian(num_active,dir,opt_info->G,dimension);
            OPTMS_CHKERR(ierr);
     G = opt_info->G;
 
@@ -440,8 +440,8 @@ int SMcheckEquilibrium(SMoptimal *opt_info, int *equil)
       for (j=i+1;j<num_active;j++) {
         if ( fabs(-1 - G[i][j]) < 1E-08 ) {
            *equil = 1; opt_info->status = OPTMS_EQUILIBRIUM;
-           OPTMS_DEBUG_PRINT(3,"The gradients are antiparallel, eq. pt\n"); 
-           
+           OPTMS_DEBUG_PRINT(3,"The gradients are antiparallel, eq. pt\n");
+
            /*DPS added */
            for (i=0;i<num_active;i++) OPTMS_FREE(dir[i]);
 	   OPTMS_FREE(dir);
@@ -476,7 +476,7 @@ int SMcheckEquilibrium(SMoptimal *opt_info, int *equil)
 	      OPTMS_FREE(dir);
 
 	      /* end DPS added */
-  
+
               return (ierr=0);
             }
          }
@@ -490,9 +490,9 @@ int SMcheckEquilibrium(SMoptimal *opt_info, int *equil)
     /*DPS added */
     for (i=0;i<num_active;i++) OPTMS_FREE(dir[i]);
     OPTMS_FREE(dir);
-    
+
     /* end DPS added */
-  
+
     return (ierr=0);
 }
 
@@ -509,7 +509,7 @@ int SMgetMinEstimate(SMoptimal *opt_info, double *final_est)
 
     num_active = opt_info->active->num_active;
     alpha = opt_info->alpha;
-    
+
     *final_est = OPTMS_BIG_POS_NMBR;
     for (i=0;i<num_active;i++) {
 	est_imp = alpha*opt_info->gs[opt_info->active->active_ind[i]];
@@ -534,8 +534,8 @@ int SMcomputeVerticalStep(SMlocal_mesh *local_mesh, SMparam *smooth_param)
     int       ierr;
     int       i;
     int       *PDG_ind;
-    int       num_LI;   
-    int       dimension;           
+    int       num_LI;
+    int       dimension;
     double    **N, *R, *y, y_0;
     double    v[OPTMS_MAX_DIM];
     double    **gradient;
@@ -553,8 +553,8 @@ int SMcomputeVerticalStep(SMlocal_mesh *local_mesh, SMparam *smooth_param)
            OPTMS_CHKERR(ierr);
 
     /* form the RHS */
-    ierr = SMformVerticalRHS(num_LI, opt_info->function, 
-                          opt_info->PDG_ind, 
+    ierr = SMformVerticalRHS(num_LI, opt_info->function,
+                          opt_info->PDG_ind,
                           opt_info->active->true_active_value, &R);
            OPTMS_CHKERR(ierr);
 
@@ -584,16 +584,16 @@ int SMcomputeVerticalStep(SMlocal_mesh *local_mesh, SMparam *smooth_param)
 	    }
         OPTMS_FREE(y);
     }
-    
+
     /* add in the correction */
     for (i=0;i<dimension;i++) {
-       local_mesh->free_vtx[i] += v[i]; 
+       local_mesh->free_vtx[i] += v[i];
     }
 
     /* free the variables */
     for(i=0;i<num_LI;i++) {OPTMS_FREE(N[i]);} OPTMS_FREE(N);
-    OPTMS_FREE(R); 
-     
+    OPTMS_FREE(R);
+
     /* update the function and gradient */
     OPTMS_DEBUG_ACTION(2,{
     ierr = SMcomputeFunction(local_mesh,smooth_param,local_mesh->opt_info->test_function);
@@ -601,7 +601,7 @@ int SMcomputeVerticalStep(SMlocal_mesh *local_mesh, SMparam *smooth_param)
     ierr = SMfindActiveSet(local_mesh->opt_info->num_values,
 		  local_mesh->opt_info->test_function,
 		  smooth_param->active_eps,
-		  local_mesh->opt_info->test_active); 
+		  local_mesh->opt_info->test_active);
            OPTMS_CHKERR(ierr);
     ierr = SMprintActiveSet(local_mesh->opt_info->test_active,
 	             local_mesh->opt_info->test_function);
@@ -612,12 +612,12 @@ int SMcomputeVerticalStep(SMlocal_mesh *local_mesh, SMparam *smooth_param)
 
 #undef __FUNC__
 #define __FUNC__ "SMformVerticalRHS"
-int SMformVerticalRHS(int n,double *function, int ind[OPTMS_MAX_DIM], 
+int SMformVerticalRHS(int n,double *function, int ind[OPTMS_MAX_DIM],
                           double max_value, double **R)
 {
     int ierr;
     int i;
-  
+
     OPTMS_MALLOC((*R),(double *),sizeof(double)*n,1);
     for (i=0;i<n;i++) {
        (*R)[i] = max_value - function[ind[i]];
@@ -657,7 +657,7 @@ int SMstepToCusp(SMlocal_mesh *local_mesh, SMparam *smooth_param,
            local_mesh->free_vtx[i] += alpha_cusp*s_perp[i];
         }
     }
-	
+
 
     /*
     if (opt_info->function[ind0] == opt_info->active->true_active_value) {
@@ -671,7 +671,7 @@ int SMstepToCusp(SMlocal_mesh *local_mesh, SMparam *smooth_param,
 	OPTMS_DOT(proj_min,opt_info->gradient[ind1],s_perp,opt_info->dimension);
 	OPTMS_DOT(proj_other,opt_info->gradient[ind0],s_perp,opt_info->dimension);
     }
-    
+
     if ( fabs(proj_min - proj_other) > OPTMS_MACHINE_EPS) {
 	alpha_cusp = (f_min - f_other)/(proj_other - proj_min);
 
@@ -686,7 +686,7 @@ int SMstepToCusp(SMlocal_mesh *local_mesh, SMparam *smooth_param,
         ierr = SMfindActiveSet(local_mesh->opt_info->num_values,
          		local_mesh->opt_info->test_function,
 		        smooth_param->active_eps,
-		        local_mesh->opt_info->test_active);      
+		        local_mesh->opt_info->test_active);
                OPTMS_CHKERR(ierr);
         ierr = SMprintActiveSet(local_mesh->opt_info->test_active,
 	                 local_mesh->opt_info->test_function);
@@ -741,7 +741,7 @@ int SMcomputeAlpha(SMoptimal *opt_info)
     alpha = OPTMS_BIG_POS_NMBR;
 
     OPTMS_MALLOC(active,(int *),sizeof(int)*num_values,1);
-    
+
     for (i=0;i<num_values;i++) {
         active[i] = 0;
     }
@@ -749,7 +749,7 @@ int SMcomputeAlpha(SMoptimal *opt_info)
         ind = opt_info->active->active_ind[j];
         active[ind] = 1;
     }
-    
+
     function = opt_info->function;
     steepest = opt_info->steepest;
     steepest_function = function[steepest];
@@ -758,7 +758,7 @@ int SMcomputeAlpha(SMoptimal *opt_info)
         /* if it's not active */
       if (i!=steepest) {
 	    alpha_i = function[i]-steepest_function;
-	   
+
 	    if (fabs(opt_info->gs[steepest] - opt_info->gs[i])>1E-13) {
 	       /* compute line intersection */
 	       alpha_i = alpha_i/(steepest_grad - opt_info->gs[i]);
@@ -767,9 +767,9 @@ int SMcomputeAlpha(SMoptimal *opt_info)
 	       alpha_i = 0;
 	    }
 	    if ((alpha_i > 0 ) && (fabs(alpha_i) < fabs(alpha))) {
-	      alpha = fabs(alpha_i); 
+	      alpha = fabs(alpha_i);
 	    }
-	    
+
       }
     }
 
@@ -804,5 +804,3 @@ int SMcopyActive(SMactive *active1, SMactive *active2)
     }
     return(ierr=0);
 }
-
-

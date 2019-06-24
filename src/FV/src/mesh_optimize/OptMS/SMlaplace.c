@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -26,7 +26,7 @@ int SMlaplaceSmooth(SMlocal_mesh *local_mesh, SMparam *smooth_param,
     OPTMS_MATLAB_ON({
           FILE *fp;
     });
-    
+
     SM_LOG_EVENT_BEGIN(__SM_LAP_SMOOTH__);
 
     OPTMS_CHECK_NULL(local_mesh);
@@ -39,14 +39,14 @@ int SMlaplaceSmooth(SMlocal_mesh *local_mesh, SMparam *smooth_param,
 
     ierr = SMinitLap(local_mesh->num_values,local_mesh->lap_info); OPTMS_CHKERR(ierr);
 
-    ierr = SMcentroidSmoothMesh(local_mesh->num_incident_vtx, 
+    ierr = SMcentroidSmoothMesh(local_mesh->num_incident_vtx,
         local_mesh->incident_vtx, local_mesh->free_vtx,local_mesh->dimension);
         OPTMS_CHKERR(ierr);
 
     /* check the validity of the new point */
     ierr = SMvalidMesh(local_mesh, &valid); OPTMS_CHKERR(ierr);
     if (!valid && (local_mesh->validity==OPTMS_VALID_MESH)){
-      
+
       /* don't use this step if this step makes a previously valid mesh invalid*/
       OPTMS_DEBUG_PRINT(2,"Did Not Accept Laplacian Smoothing\n");
       OPTMS_COPY_VECTOR(local_mesh->free_vtx,local_mesh->original_pt,local_mesh->dimension);
@@ -66,7 +66,7 @@ int SMlaplaceSmooth(SMlocal_mesh *local_mesh, SMparam *smooth_param,
       for (i=0;i<num_values;i++) {
          min_value = OPTMS_MIN(laplace_function[i],min_value);
       }
-	
+
       /* if this step improves the function, keep it */
       func_diff = min_value - local_mesh->original_value;
 
@@ -75,7 +75,7 @@ int SMlaplaceSmooth(SMlocal_mesh *local_mesh, SMparam *smooth_param,
 	       func_diff);});
       if (func_diff > 0) {
 
-	OPTMS_DEBUG_PRINT(2,"Accepted Laplacian Smoothing \n"); 
+	OPTMS_DEBUG_PRINT(2,"Accepted Laplacian Smoothing \n");
               local_mesh->lap_info->lap_accepted = OPTMS_TRUE;
 
               /* if the mesh is now has gone from invalid to valid change the status
@@ -94,7 +94,7 @@ int SMlaplaceSmooth(SMlocal_mesh *local_mesh, SMparam *smooth_param,
 	    OPTMS_DEBUG_PRINT(2,"Plotting the results of centroid smoothing \n");
 	    if ((fp = fopen("centroid.m","w")) == NULL) {
                OPTMS_SETERR(OPTMS_FILE_OPEN_ERR,0,"Can't open centroid.m for writing\n");
-            } 
+            }
 	    if (smooth_param->new_init_pt_option == OPTMS_CENTROID) {
 	      ierr = SMwriteLocalMesh(fp,local_mesh); OPTMS_CHKERR(ierr);
 	      ierr = SMwriteActiveSet(fp,local_mesh); OPTMS_CHKERR(ierr);
@@ -130,17 +130,15 @@ int SMcentroidSmoothMesh(int num_incident_vtx, double **incident_vtx,
     OPTMS_CHECK_NULL(incident_vtx);
     OPTMS_CHECK_NULL(free_vtx);
 
-    if (num_incident_vtx==0) 
+    if (num_incident_vtx==0)
        OPTMS_SETERR(OPTMS_INPUT_ERR,0,"Number of incident vertex is zero");
 
     for (j=0;j<dimension;j++) {
        avg[j] = 0.;
        for (i=0;i<num_incident_vtx;i++)  avg[j]+=incident_vtx[i][j];
        free_vtx[j] = avg[j]/num_incident_vtx;
-       OPTMS_DEBUG_ACTION(3,{ 
+       OPTMS_DEBUG_ACTION(3,{
            fprintf(stdout,"final --  avg[%d] = %f\n",j, free_vtx[j]); });
     }
     return(ierr=0);
 }
-
-

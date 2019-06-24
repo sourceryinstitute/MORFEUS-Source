@@ -108,7 +108,7 @@ CONTAINS
     MODULE PROCEDURE dim_sum
 
         IF (dim1 /= dim2)  error stop ' ERROR! Illegal algebraic sum between physical dimensions'
-            
+
         dim_sum = dim1
 
     END PROCEDURE dim_sum

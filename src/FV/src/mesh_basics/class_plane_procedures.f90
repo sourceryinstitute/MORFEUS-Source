@@ -70,7 +70,7 @@ CONTAINS
         USE class_psblas
         USE class_vector
         USE tools_math
-         
+
         ! Local variables
         INTEGER                    :: nverts, info
         REAL(psb_dpk_),TARGET,ALLOCATABLE   :: x(:),y(:),z(:)

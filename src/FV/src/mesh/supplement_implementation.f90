@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -43,7 +43,7 @@ SUBMODULE (tools_mesh) supplement_implementation
 
     CONTAINS
 
-        MODULE PROCEDURE supplement_v2f 
+        MODULE PROCEDURE supplement_v2f
         USE class_psblas
         USE class_connectivity
         USE class_keytable
@@ -194,7 +194,7 @@ SUBMODULE (tools_mesh) supplement_implementation
         END PROCEDURE supplement_v2f
 
 
-        MODULE PROCEDURE supplement_v2c 
+        MODULE PROCEDURE supplement_v2c
         USE class_psblas
         USE class_connectivity
         USE class_keytable

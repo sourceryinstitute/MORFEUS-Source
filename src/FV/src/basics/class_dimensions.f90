@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -72,11 +72,11 @@ MODULE class_dimensions
         PROCEDURE, PRIVATE :: dim_sqrt
         GENERIC, PUBLIC :: sqrt => dim_sqrt
         PROCEDURE :: debug_dim
-        PROCEDURE :: dim_sum, dim_diff, dim_mul, dim_div, dim_pow 
+        PROCEDURE :: dim_sum, dim_diff, dim_mul, dim_div, dim_pow
         GENERIC :: OPERATOR(+)  => dim_sum
-        GENERIC :: OPERATOR(-)  => dim_diff 
-        GENERIC :: OPERATOR(*)  => dim_mul 
-        GENERIC :: OPERATOR(/)  => dim_div 
+        GENERIC :: OPERATOR(-)  => dim_diff
+        GENERIC :: OPERATOR(*)  => dim_mul
+        GENERIC :: OPERATOR(/)  => dim_div
         GENERIC :: OPERATOR(**) => dim_pow
         PROCEDURE, PRIVATE :: nemo_dimensions_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_dimensions_sizeof
@@ -140,25 +140,25 @@ MODULE class_dimensions
 
     ! ----- Operator Overloading -----
 
-    INTERFACE OPERATOR(==) 
+    INTERFACE OPERATOR(==)
         PURE MODULE FUNCTION dim_eq(dim1,dim2)
             IMPLICIT NONE
             LOGICAL :: dim_eq
             TYPE(dimensions), INTENT(IN) :: dim1
             TYPE(dimensions), INTENT(IN)  :: dim2
         END FUNCTION dim_eq
-    END INTERFACE OPERATOR(==) 
+    END INTERFACE OPERATOR(==)
 
-    INTERFACE OPERATOR(/=) 
+    INTERFACE OPERATOR(/=)
         PURE MODULE FUNCTION dim_ne(dim1,dim2)
             IMPLICIT NONE
             LOGICAL :: dim_ne
             TYPE(dimensions), INTENT(IN) :: dim1
             TYPE(dimensions), INTENT(IN)  :: dim2
         END FUNCTION dim_ne
-    END INTERFACE OPERATOR(/=) 
+    END INTERFACE OPERATOR(/=)
 
-    INTERFACE 
+    INTERFACE
         PURE MODULE FUNCTION dim_sum(dim1,dim2)
             IMPLICIT NONE
             TYPE(dimensions) :: dim_sum
@@ -196,7 +196,7 @@ MODULE class_dimensions
 
         ELEMENTAL MODULE FUNCTION nemo_dimensions_sizeof(dims)
             USE psb_base_mod
-            IMPLICIT NONE 
+            IMPLICIT NONE
             CLASS(dimensions), INTENT(IN) :: dims
             INTEGER(kind=nemo_int_long_)   :: nemo_dimensions_sizeof
         END FUNCTION nemo_dimensions_sizeof

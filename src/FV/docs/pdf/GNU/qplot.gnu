@@ -1,27 +1,27 @@
 #!/usr/bin/gnuplot -persist
 #
-#    
+#
 #    	G N U P L O T
 #    	Version 4.0 patchlevel 0
 #    	last modified Thu Apr 15 14:44:22 CEST 2004
 #    	System: Linux 2.6.13-15.13-default
-#    
+#
 #    	Copyright (C) 1986 - 1993, 1998, 2004
 #    	Thomas Williams, Colin Kelley and many others
-#    
+#
 #    	This is gnuplot version 4.0.  Please refer to the documentation
 #    	for command syntax changes.  The old syntax will be accepted
 #    	throughout the 4.0 series, but all save files use the new syntax.
-#    
+#
 #    	Type `help` to access the on-line reference manual.
 #    	The gnuplot FAQ is available from
 #    		http://www.gnuplot.info/faq/
-#    
+#
 #    	Send comments and requests for help to
 #    		<gnuplot-info@lists.sourceforge.net>
 #    	Send bugs, suggestions and mods to
 #    		<gnuplot-bugs@lists.sourceforge.net>
-#    
+#
 # set terminal postscript landscape noenhanced color colortext \
    dashed dashlength 1.0 linewidth 3.0 defaultplex \
    palfuncparam 2000,0.003 \
@@ -102,12 +102,12 @@ set mztics default
 set mx2tics default
 set my2tics default
 set mcbtics default
-set xtics border mirror norotate autofreq 
-set ytics border mirror norotate autofreq 
-set ztics border nomirror norotate autofreq 
+set xtics border mirror norotate autofreq
+set ytics border mirror norotate autofreq
+set ztics border nomirror norotate autofreq
 set nox2tics
 set noy2tics
-set cbtics border mirror norotate autofreq 
+set cbtics border mirror norotate autofreq
 set title "" 0.000000,0.000000  font ""
 set timestamp "" bottom norotate 0.000000,0.000000  ""
 set rrange [ * : * ] noreverse nowriteback  # (currently [0.00000:10.0000] )
@@ -134,12 +134,12 @@ set tmargin -1
 set locale "C"
 set pm3d scansautomatic flush begin noftriangles nohidden3d implicit corners2color mean
 unset pm3d
-set palette positive nops_allcF maxcolors 0 gamma 1.5 color model RGB 
+set palette positive nops_allcF maxcolors 0 gamma 1.5 color model RGB
 set palette rgbformulae 7, 5, 15
 set colorbox default
 set colorbox vertical origin 0.9,0.2 size 0.1,0.63 bdefault
-set loadpath 
-set fontpath 
+set loadpath
+set fontpath
 set fit noerrorvariables
 plot 0.7- (1.8*x - 0.5)**2, 0.6- (x - 0.4)**2, 0.8-(1.3*x-0.6)**2,0.9-(2.1*x-0.5)**2
 #    EOF

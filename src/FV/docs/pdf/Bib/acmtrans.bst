@@ -1,8 +1,8 @@
-% "ACM Transactions" BibTeX style, acmtrans.bst 
+% "ACM Transactions" BibTeX style, acmtrans.bst
 %  for BibTeX version 0.99c, LaTeX version 3.141
 %  Revised 28-MARCH-1996
 %  Revised 30-JUNE-1995
-%  Revised 15-JAN-1996 
+%  Revised 15-JAN-1996
 %  $Header: acmtrans.bst,v 1.2 96/01/17 09:05:38 boyland Exp $
 %
 % Hacked by John T. Boyland at University of California, Berkeley
@@ -726,8 +726,8 @@ FUNCTION {format.jour.vol}
         "~" * number * * }
       if$
      month empty$
-     {} 
-     {" (" * month * ")" *} 
+     {}
+     {" (" * month * ")" *}
      if$
     }
   if$
@@ -787,7 +787,7 @@ FUNCTION {format.in.ed.booktitle}
 }
 
 FUNCTION {format.thesis.type}
-{ type empty$ 
+{ type empty$
     'skip$
 %   {pop$
    {{ "" }
@@ -1293,7 +1293,7 @@ FUNCTION {phdthesis}
   new.block
   format.title
   "title" output.check
-  new.block  
+  new.block
   format.thesis.type "Ph.D. thesis" output.nonnull
   school "school" output.check
   address output
@@ -1752,17 +1752,3 @@ FUNCTION {end.bib}
 }
 
 EXECUTE {end.bib}
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -27,7 +27,7 @@
 #define OPTMS_HULL_TEST_ERROR 110
 
 #undef __FUNC__
-#define __FUNC__ "SMconvexHullTest" 
+#define __FUNC__ "SMconvexHullTest"
 int SMconvexHullTest(double **vec, int num_vec, int *equil)
 {
     int ierr;
@@ -42,22 +42,22 @@ int SMconvexHullTest(double **vec, int num_vec, int *equil)
 
     if (num_vec <= 2) status = OPTMS_NO_EQUIL;
 
-    while ((status != OPTMS_EQUIL) && (status != OPTMS_NO_EQUIL) && 
+    while ((status != OPTMS_EQUIL) && (status != OPTMS_NO_EQUIL) &&
            (status != OPTMS_HULL_TEST_ERROR)) {
        if (status == OPTMS_CHECK_Z_COORD_DIRECTION) {
-          ierr = SMfindPlanePoints(OPTMS_ZDIR, OPTMS_YDIR, 
+          ierr = SMfindPlanePoints(OPTMS_ZDIR, OPTMS_YDIR,
                           vec, num_vec, pt1, pt2, pt3, &status);
                  OPTMS_CHKERR(ierr);
           dir_done = 2;
        }
        if (status == OPTMS_CHECK_Y_COORD_DIRECTION) {
-          ierr = SMfindPlanePoints(OPTMS_YDIR, OPTMS_XDIR, 
+          ierr = SMfindPlanePoints(OPTMS_YDIR, OPTMS_XDIR,
                           vec, num_vec, pt1, pt2, pt3, &status);
                  OPTMS_CHKERR(ierr);
           dir_done = 1;
        }
        if (status == OPTMS_CHECK_X_COORD_DIRECTION) {
-          ierr = SMfindPlanePoints(OPTMS_XDIR, OPTMS_ZDIR, 
+          ierr = SMfindPlanePoints(OPTMS_XDIR, OPTMS_ZDIR,
                           vec, num_vec, pt1, pt2, pt3, &status);
                  OPTMS_CHKERR(ierr);
           dir_done = 0;
@@ -67,7 +67,7 @@ int SMconvexHullTest(double **vec, int num_vec, int *equil)
        }
        if ((status == OPTMS_TWO_PT_PLANE) || (status == OPTMS_THREE_PT_PLANE)){
            ierr = SMfindPlaneNormal(pt1,pt2,pt3,normal); OPTMS_CHKERR(ierr);
-           ierr = SMcheckVectorDots(vec,num_vec,normal,equil); 
+           ierr = SMcheckVectorDots(vec,num_vec,normal,equil);
                   OPTMS_CHKERR(ierr);
            if (*equil == 1) {
              switch(dir_done){
@@ -90,7 +90,7 @@ int SMconvexHullTest(double **vec, int num_vec, int *equil)
     switch (status){
     case OPTMS_NO_EQUIL:
       OPTMS_DEBUG_PRINT(3,"Not an equilibrium point\n");
-      *equil = 0; 
+      *equil = 0;
       break;
     case OPTMS_EQUIL:
       OPTMS_DEBUG_PRINT(3,"An equilibrium point\n");
@@ -102,10 +102,10 @@ int SMconvexHullTest(double **vec, int num_vec, int *equil)
       });
     }
     return (ierr=0);
-}   
+}
 
 #undef __FUNC__
-#define __FUNC__ "SMcheckVectorDots" 
+#define __FUNC__ "SMcheckVectorDots"
 int SMcheckVectorDots(double **vec,int num_vec,double *normal, int *equil)
 {
     int ierr;
@@ -119,7 +119,7 @@ int SMcheckVectorDots(double **vec,int num_vec,double *normal, int *equil)
       OPTMS_DOT(test_dot,vec[ind],normal,3);
       ind++;
     }
-      
+
     for (i=ind;i<num_vec;i++) {
        OPTMS_DOT(dot,vec[i],normal,3);
        if ( ((dot>0 && test_dot<0) || (dot<0 && test_dot>0)) &&
@@ -133,7 +133,7 @@ int SMcheckVectorDots(double **vec,int num_vec,double *normal, int *equil)
 
 
 #undef __FUNC__
-#define __FUNC__ "SMfindPlaneNormal" 
+#define __FUNC__ "SMfindPlaneNormal"
 int SMfindPlaneNormal(double pt1[3], double pt2[3], double pt3[3],
                           double *cross)
 {
@@ -153,9 +153,9 @@ int SMfindPlaneNormal(double pt1[3], double pt2[3], double pt3[3],
 }
 
 #undef __FUNC__
-#define __FUNC__ "SMfindPlanePoints" 
+#define __FUNC__ "SMfindPlanePoints"
 int SMfindPlanePoints(int dir1, int dir2, double **vec, int num_vec,
-                      double *pt1, double *pt2, double *pt3, 
+                      double *pt1, double *pt2, double *pt3,
                       int *status)
 {
     int ierr;
@@ -166,7 +166,7 @@ int SMfindPlanePoints(int dir1, int dir2, double **vec, int num_vec,
     double pt_1, pt_2;
     double min, inv_slope;
     double min_inv_slope=0.;
-    double max; 
+    double max;
     double max_inv_slope=0;
     double inv_origin_slope=0;
 
@@ -181,7 +181,7 @@ int SMfindPlanePoints(int dir1, int dir2, double **vec, int num_vec,
       }
     }
     if (min >= 0) *status = OPTMS_NO_EQUIL;
- 
+
     if (*status != OPTMS_NO_EQUIL) {
       switch(num_min) {
       case 1: /* rotate to find the next point */
@@ -194,7 +194,7 @@ int SMfindPlanePoints(int dir1, int dir2, double **vec, int num_vec,
 	  for (i=0;i<num_vec;i++) {
 	    if (i!=ind[0]) {
 	      inv_slope = (vec[i][dir2] - pt_2)/(vec[i][dir1]-pt_1);
-	      if ((inv_slope>max_inv_slope) &&  
+	      if ((inv_slope>max_inv_slope) &&
 		  (fabs(inv_slope - max_inv_slope) > OPTMS_MACHINE_EPS)) {
 		ind[1] = i; max_inv_slope=inv_slope; num_rotated = 1;
 	      } else if (fabs(inv_slope - max_inv_slope) < OPTMS_MACHINE_EPS) {
@@ -207,7 +207,7 @@ int SMfindPlanePoints(int dir1, int dir2, double **vec, int num_vec,
 	  for (i=0;i<num_vec;i++) {
 	    if (i!=ind[0]) {
 	      inv_slope = (vec[i][dir2] - pt_2)/(vec[i][dir1]-pt_1);
-	      if ((inv_slope<min_inv_slope) && 
+	      if ((inv_slope<min_inv_slope) &&
 		  (fabs(inv_slope - max_inv_slope) > OPTMS_MACHINE_EPS)){
 		ind[1] = i; min_inv_slope=inv_slope; num_rotated = 1;
 	      } else if (fabs(inv_slope - min_inv_slope) < OPTMS_MACHINE_EPS) {
@@ -267,7 +267,7 @@ int SMfindPlanePoints(int dir1, int dir2, double **vec, int num_vec,
       }
     }
     if (max <= 0) *status = OPTMS_NO_EQUIL;
- 
+
     if (*status != OPTMS_NO_EQUIL) {
       switch(num_max) {
       case 1: /* rotate to find the next point */
@@ -345,5 +345,3 @@ int SMfindPlanePoints(int dir1, int dir2, double **vec, int num_vec,
   }
   return(ierr=0);
 }
-
-

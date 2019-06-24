@@ -523,7 +523,7 @@ CONTAINS
 
     MODULE PROCEDURE debug_bc_math
         USE tools_bc
-         
+
         CHARACTER(len=30) :: bc_type
 
         SELECT CASE(bc%id)

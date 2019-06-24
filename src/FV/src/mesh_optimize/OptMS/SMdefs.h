@@ -2,7 +2,7 @@
   !
   !     (c) 2019 Guide Star Engineering, LLC
   !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+  !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
   !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
   !
 */
@@ -16,13 +16,13 @@
 #if defined(PARCH_sun4) && !defined(__cplusplus) && defined(_Gnu_)
     extern int  open(const char *, int, ...);
     extern int  creat(const char *, unsigned short);
-    extern int  write(int, const void *, unsigned int); 
+    extern int  write(int, const void *, unsigned int);
     extern int  close(int);
     extern int  fprintf(FILE*,const char*,...);
 #endif
 #if defined(solaris) && !defined(__cplusplus) && defined(_Gnu_)
     extern int  open(const char *, int, ...);
-    extern int  write(int, const void *, unsigned int); 
+    extern int  write(int, const void *, unsigned int);
     extern int  close(int);
     extern void *malloc(long unsigned int);
     extern void free(void *);
@@ -35,7 +35,7 @@
      Level 2 provides basic algorithmic information for each local
              submesh
      Level 3 provides more information, data structures, and details
-             than most users would want to know about 
+             than most users would want to know about
 
      The default is Level 0
 */
@@ -107,7 +107,7 @@ and need to be expanded and updated */
 
 /* The enables statistics gathering;  the user must initialize the
 statistics datastructures in the main code and probably wants to print
-them out after every smoothing pass 
+them out after every smoothing pass
    The information provided with stats include the number of grid points
    smoothed, how many required optimizaiton, the avg number of optimization
    steps, the a breakdown of the optimization termination criteria
@@ -144,7 +144,7 @@ them out after every smoothing pass
 #define OPTMS_MACHINE_EPS     1E-15
 
 /* new initial point constants */
-#define OPTMS_NONE      -1 
+#define OPTMS_NONE      -1
 #define OPTMS_CENTROID   1
 
 /* optimization step constants */
@@ -357,5 +357,3 @@ if (c == 0) { \
 }
 
 #endif
-
-

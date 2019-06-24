@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -86,8 +86,8 @@ MODULE class_output
         CLASS(output),      INTENT(INOUT) :: out
         CHARACTER(len=32), INTENT(IN) :: path
     END SUBROUTINE set_output_path_h
-  
-  
+
+
     MODULE SUBROUTINE set_output_path_iter(out,iter)
         USE class_iterating
         USE tools_output_basics

@@ -1,7 +1,7 @@
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 !
@@ -110,7 +110,7 @@ MODULE class_vertex
   END INTERFACE vertex_
 
 
-  INTERFACE 
+  INTERFACE
 
     ! Array constructor
     MODULE SUBROUTINE alloc_vertex(verts,n)
@@ -161,7 +161,7 @@ MODULE class_vertex
       IMPLICIT NONE
       ! synchronizes vertex positions
       ! (other data could be synchronized, too, if needed)
-      
+
       TYPE(vertex)                    :: verts(:)
       TYPE(psb_desc_type), INTENT(IN) :: desc
    END SUBROUTINE update_vertex_halo

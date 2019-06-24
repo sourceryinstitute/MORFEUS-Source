@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt]{article}% A4 
+\documentclass[a4paper,12pt]{article}% A4
 % \documentclass[letter,12pt]{article}% USA Letter
 
 \usepackage[english]{babel}
@@ -8,7 +8,7 @@
 % *** HYPERREF ***
 \usepackage[colorlinks,dvipdfm]{hyperref}
 % \usepackage[dvipdfm]{hyperref}
-% 
+%
 % Colored version
 \hypersetup{
   linkcolor=blue,
@@ -16,7 +16,7 @@
   urlcolor=blue,
   pdfstartpage=1
 }
-% 
+%
 %  B/W version
 % \hypersetup{
 % linkcolor=black,
@@ -29,7 +29,7 @@
   Toninel \thanks{University of Bologna; e--mail:
     \texttt{stefano.toninel@mail.ing.unibo.it}}\\
   David P. Schmnidt \thanks{University of Massachusetts -- Amherst;
-    e--mail: \texttt{schmidt@ecs.umass.edu}}\\ 
+    e--mail: \texttt{schmidt@ecs.umass.edu}}\\
   Salvatore Filippone \thanks{ University of Rom -- Tor Vergata;
     e--mail: \texttt{salvatore.filippone@uniroma2.it}} \\
   Marco Rorro \thanks{ CASPUR; e--mail: \texttt{rorro@caspur.it}}
@@ -43,7 +43,7 @@
   \bigskip
   Install Guide
 }
-  
+
 
 \begin{document}
 
@@ -65,7 +65,7 @@ following compilers are presently supported:
 \begin{itemize}
 \item GFortran 4.2.0 or later\footnote{\url{http://gcc.gnu.org/fortran/}}
   included in the free GCC compiler suite
-  \footnote{\url{http://gcc.gnu.org/}}; 
+  \footnote{\url{http://gcc.gnu.org/}};
 \item Intel Fortran Compiler 9.1 for Linux or later
   \footnote{\url{http://www.intel.com/}}.
 \end{itemize}
@@ -100,11 +100,11 @@ packages are installed and available to use in the building procedure.
     used only for benchmarking NEMO's own implementation of some
     numerical methods. Its installation is recommended for developers,
     while optional for users.}
-\item [MPI] An implementation of the Message Passing Interface standard, 
- like {\bf MPICH} available at \url{http://www.mcs.anl.gov/research/projects/mpich2/};  
-{\bf MVAPICH} available at \url{http://mvapich.cse.ohio-state.edu/} or 
+\item [MPI] An implementation of the Message Passing Interface standard,
+ like {\bf MPICH} available at \url{http://www.mcs.anl.gov/research/projects/mpich2/};
+{\bf MVAPICH} available at \url{http://mvapich.cse.ohio-state.edu/} or
 {\bf Open MPI} available at \url{http://www.open-mpi.org/}
-  
+
 \item [PSBLAS] 2.4.x Parallel Sparse BLAS. Available at
   \url{http://www.ce.uniroma2.it/psblas/}.
 \item [CGNSlib] CFD General Notation System library. Available at
@@ -112,11 +112,11 @@ packages are installed and available to use in the building procedure.
 \item [ParMETIS] Parallel METIS, a library for domain
   decomposition. Available at
   \url{http://glaros.dtc.umn.edu/gkhome/metis/parmetis/overview}
-\end{description} 
+\end{description}
 Install instructions for each one of the previously listed components
-are reported in the next sections. 
+are reported in the next sections.
 
-\subsection{GFortran} 
+\subsection{GFortran}
 
 GFortran is a part of the GCC suite. Binary files are usually
 included in the most recent Linux distributions, such as Suse, Fedora
@@ -146,7 +146,7 @@ path is \verb+$HOME/opt/gcc-4.5.0/+.
   higher). Usually Linux distributions include up--to--date releases
   of both packages. Otherwise one has to download the respective source
   files, compile, install them and update the library search path.
-\item 
+\item
   \begin{Verbatim}
     $ cd  ~/opt
     $ mkdir gcc-build
@@ -154,7 +154,7 @@ path is \verb+$HOME/opt/gcc-4.5.0/+.
     $ mkdir obj
   \end{Verbatim}
 \item Download from a GCC mirror site a recent release, for instance
-      \verb+gcc-4.5.0.tar.bz2+. 
+      \verb+gcc-4.5.0.tar.bz2+.
 
   The file must be saved in \verb+$HOME/opt/gcc-build/+.
 \item Expand the \verb+.tar.bz2+ archive:
@@ -205,7 +205,7 @@ The following steps explain how to compile and install the generic
 implementation of BLAS.
 
 \begin{enumerate}
-\item 
+\item
   \begin{Verbatim}
     $ cd ~/LIB
     $ mkdir tmp
@@ -283,7 +283,7 @@ steps.
 This section contains the instructions for installing MPICH using
 \verb+gfortran+ and \verb+gcc+ respectively as Fortran and C
 compiler. The default command in the MPICH distribution for starting
-remote sessions during parallel jobs would be \verb+rsh+. For a 
+remote sessions during parallel jobs would be \verb+rsh+. For a
 security--enhanced use one can choose \verb+ssh+ instead. The
 following steps refer to the latter option.
 
@@ -317,7 +317,7 @@ following steps refer to the latter option.
 \item In order to avoid the password authentication request at the
   login of every ssh session initiated by the \verb+mpirun+
   command, one can generate a private/public key pair.  If you do not already
-  have a key pair, 
+  have a key pair,
 execute the following steps:
   \begin{Verbatim}
     $ cd ~/.ssh
@@ -326,7 +326,7 @@ execute the following steps:
     $ cat id_rsa.pub >> authorized_keys2
   \end{Verbatim}
 
-Note that the permissions of the authorized\_keys2 file should be set to 
+Note that the permissions of the authorized\_keys2 file should be set to
 
  \verb+-rw-r--r-- .+
 \item Update search path by adding the following line in
@@ -354,7 +354,7 @@ building procedure consists of the following steps.
   \end{Verbatim}
 \item Configure and build:
   \begin{Verbatim}
-    $ ./configure --prefix=~LIB/psblas/2.4.0  
+    $ ./configure --prefix=~LIB/psblas/2.4.0
     $ make
   \end{Verbatim}
 Additional packages path can be specified by adding in the configure step, for
@@ -365,7 +365,7 @@ instance:
 See \verb+./configure --help+ for additional options.
 \item Install and clean:
   \begin{Verbatim}
-    $ make install 
+    $ make install
     $ cd ..
     $ rm -r psblas2.4.x psblas2.4.x.tgz
   \end{Verbatim}
@@ -495,8 +495,8 @@ In order to build all NEMO--based applications included in the
 \end{enumerate}
 
 \subsection{Applications running}
-The folder \verb+nemo/applications+ contains different executables. 
-The subfolder \verb+examples+ contains two subfolders: \verb+input+ and 
+The folder \verb+nemo/applications+ contains different executables.
+The subfolder \verb+examples+ contains two subfolders: \verb+input+ and
 \verb+mesh+: the former provide the input files whereas the latter the mesh.
 In order to run an application, for instance, \verb+steady-conduction+:
 \begin{enumerate}
@@ -543,8 +543,3 @@ type in the base directory \verb+Nemo/+:
 
 
 \end{document}
-
-
-
-
-
