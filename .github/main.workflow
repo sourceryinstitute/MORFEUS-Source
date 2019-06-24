@@ -3,14 +3,14 @@ workflow "Push" {
   resolves = ["Mirror to repo"]
 }
 
-workflow "Delete-ref" {
-  on = "delete"
-  resolves = ["Mirror to repo"]
+workflow "Wiki-update" {
+  on = "gollum"
+  resolves = ["Mirror wiki"]
 }
 
-workflow "Create-ref" {
-  on = "create"
-  resolves = ["Mirror to repo"]
+workflow "Nightly-mirror" {
+  on = "schedule(49 3 * * *)" # 03:49 daily
+  resolves = ["Mirror to repo", "Mirror wiki"]
 }
 
 action "Mirror to repo" {
@@ -20,11 +20,6 @@ action "Mirror to repo" {
       MIRROR_URL = "git@github.com:nrc-fuels/MORFEUS-mirror.git"
   }
   secrets = ["IBB_PWLESS_DEPLOY_KEY", "GITHUB_TOKEN"]
-}
-
-workflow "Wiki-update" {
-  on = "gollum"
-  resolves = ["Mirror wiki"]
 }
 
 action "Mirror wiki" {
