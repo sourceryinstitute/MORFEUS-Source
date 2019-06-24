@@ -28,16 +28,9 @@ git status
 
 echo "Checking git remotes"
 git remote -v
-# git remote set-url origin https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-
-# echo "Fetch everything and make sure we're up-to-date before mirroring."
-# git fetch --tags --prune --prune-tags --force --update-head-ok --progress
 
 echo "Branches found:"
 git branch -avvv
-
-# echo "Seting up the mirror remote..."
-# git remote set-url --push origin "$MIRROR_URL"
 
 echo "Setting up SSH"
 mkdir ~/.ssh
@@ -72,4 +65,7 @@ git show-ref
 git config --show-origin --list
 
 # Push to the mirrored repository
-git push --mirror --force --progress
+if ! git push --mirror --force --progress ; then
+    sleep 25
+    git push --mirror --force --progress || exit 78 # nuetral exit
+fi
