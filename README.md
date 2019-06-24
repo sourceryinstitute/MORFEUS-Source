@@ -1,6 +1,20 @@
+<div align="centered">
 # MORFEUS
 
 **M**ulti-physics **O**bject-oriented ...
+</div>
+
+<!-- toc -->
+
+- [Repository Mirror and Source](#repository-mirror-and-source)
+  * [NRC Mirror](#nrc-mirror)
+  * [Sourcery Institute Source Repository](#sourcery-institute-source-repositorysi-source-repository)
+  * [Mirroring and Updating Mechanism](#mirroring-and-updating-mechanism)
+- [Workflow and Roadmap](#workflow-and-roadmap)
+  * [Workflow](#workflow)
+  * [Roadmap](#roadmap)
+
+<!-- tocstop -->
 
 ## Repository Mirror and Source
 
@@ -19,7 +33,7 @@ accidentally. In addition, any wiki edits made to the Sourcery
 Institute source repository will automatically be forwarded to the NRC
 mirror wiki.
 
-### Sourcery Institute Source Repository
+### [Sourcery Institute Source Repository][SI source repository]
 Sourcery Institute and GSE staff working on the project have access to
 the (for now) private MORFEUS source repsitory at
 https://github.com/sourceryinstitute/MORFEUS-Source. The plan is to
