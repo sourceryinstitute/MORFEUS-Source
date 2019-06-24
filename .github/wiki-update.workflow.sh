@@ -34,7 +34,7 @@ git config --show-origin --list
 
 echo "Creating a local mirror of ${SOURCE_WIKI}"
 cd ~ || exit 77
-git clone --mirror https://${GITHUB_TOKEN}@${SOURCE_WIKI#https://}
+git clone --mirror git@github.com:${SOURCE_WIKI#https://github.com/}
 
 echo "Attempting push to MIRROR wiki repository..."
 cd ${SOURCE_WIKI##*/}.git || exit 77
