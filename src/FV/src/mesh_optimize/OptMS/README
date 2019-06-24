@@ -1,0 +1,71 @@
+This library, known as OptMS, is a modified version of Lori (nee Freitag) 
+Diachin's Opt-MS-1.0.3 code.  This library performs mesh smoothing and is 
+used in the NEMO code.  The OptMS source has been modified to comply with 
+ANSI-C and some of the more strict compilation checks of gcc 4.2.  For example,
+all declarations of unused variables have been removed, a few macros have 
+changed, and an explicit prototyping of malloc is now used.  The copyright 
+notification of OptMS is below.
+
+******************************************************************************
+
+        COPYRIGHT NOTIFICATION
+
+******************************************************************************
+
+The following is a notice of limited availability of this software and
+disclaimer which must be included in the prologue of the code and in all
+source listings of the code.
+
+(c) COPYRIGHT 1999 UNIVERSITY OF CHICAGO
+
+Permission is hereby granted to use, reproduce, prepare derivative works,
+and to redistribute to others.  If you distribute a copy or copies of
+the software, or you modify a copy or copies of the software or any portion
+of it, thus forming a work based on the software and make and/or distribute
+copies of such work, you must meet the following conditions:
+
+a) If you make a copy of the software (modified or verbatim) it must
+include the copyright notice and Government license and disclaimer.
+
+b) You must cause the modified software to carry prominent notices
+stating that you changed specified portions of the software.
+
+This software was authored by:
+Lori Freitag:(630)252-7246; FAX:(630)252-5986; e-mail: freitag@mcs.anl.gov
+Mathematics and Computer Science Division
+Argonne National Laboratory
+Argonne, IL 60439 USA
+
+*******************************************************************************
+
+ARGONNE NATIONAL LABORATORY (ANL), WITH FACILITIES IN THE STATES OF
+ILLINOIS AND IDAHO, IS OWNED BY THE UNITED STATES GOVERNMENT, AND OPERATED
+BY THE UNIVERSITY OF CHICAGO UNDER PROVISION OF A CONTRACT WITH THE
+DEPARTMENT OF ENERGY.
+
+*******************************************************************************
+
+        GOVERNMENT LICENSE
+
+******************************************************************************
+
+Portions of this material resulted from work developed under a U.S.
+Goverment contract and are subject to the following license: the Government
+is granted for itself and others acting in its behalf a paid-up, nonexclusive,
+irrevocable worldwide license in this computer software to reproduce,
+prepare derivative works, and perform publicly and display publicly.
+
+*******************************************************************************
+
+         DISCLAIMER
+
+*******************************************************************************
+
+NEITHER THE UNITED STATES GOVERNMENT NOR ANY AGENCY THEREOF, NOR THE
+UNIVERSITY OF CHICAGO, NOR ANY OF THEIR EMPLOYEES, MAKES ANY WARRANTY,
+EXPRESS OR IMPLIED, OR ASSUMES ANY LEGAL LIABILITY OR RESPONSIBILITY FOR
+THE ACCURACY, COMPLETENESS, OR USEFULNESS OF ANY INFORMATION, APPARATUS,
+PRODUCT, OR PROCESS DISCLOSED, OR REPRESENTS THAT ITS USE WOULD NOT
+INFRINGE PRIVATELY OWNED RIGHTS.
+
+*******************************************************************************

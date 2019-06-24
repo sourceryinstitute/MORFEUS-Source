@@ -1,0 +1,33 @@
+/ Journal File for GAMBIT 2.2.30, Database 2.2.14, lnx86 BH04110220
+/ Identifier "default_id"
+/ File opened for write Tue Oct  3 08:12:58 2006.
+solver select "Generic"
+import gambit "/home/schmidt/run/all_tet/cyl.neu" angle 135 d3 scale 1
+volume summarize "f_volume.1"
+/ File closed at Tue Oct  3 08:15:58 2006, 0.59 cpu second(s), 3143376 maximum memory.
+/ Journal File for GAMBIT 2.3.16, Database 2.3.14, lnx86 SP2006033020
+/ Identifier "default_id"
+/ File opened for append Thu Apr  5 17:55:39 2007.
+volume create height 2 radius1 0.2 radius2 0.2 radius3 0.2 offset 0 0 1 zaxis frustum
+undo
+/Undone to: volume create height 2 radius1 0.2 radius2 0.2 radius3 0.2 offset 0 0
+window modify volume shade
+face create width 0.05 height 0.05 xyplane rectangle
+undo
+/Undone to: face create width 0.05 height 0.05 xyplane rectangle
+face create width 0.05 height 0.05 offset 0 0.025 0.025 yzplane rectangle
+face move "face.4" offset 0.1 0 0
+face delete "face.4" lowertopology
+face create width 0.1 height 0.1 yzplane rectangle
+face move "face.4" offset 0.1 0 0
+face move "face.4" offset 0 0 0.5
+face move "face.4" offset 0 0 0.05
+face move "face.4" offset 0 0 -0.02
+default set "GRAPHICS.GENERAL.CONNECTIVITY_BASED_COLORING" numeric 1
+default set "GRAPHICS.GENERAL.CONNECTIVITY_BASED_COLORING" numeric 0
+default set "GRAPHICS.GENERAL.CONNECTIVITY_BASED_COLORING" numeric 1
+default set "GRAPHICS.GENERAL.CONNECTIVITY_BASED_COLORING" numeric 0
+face move "face.4" offset 0 0 0.01
+hardcopy window 1 AND 2 AND 3 AND 4 tiff "Gambit_ImageFile.tif"
+save name "/home/schmidt/Codes/NEMO/trunk/docs/pdf/curved_surface.dbs"
+/ File closed at Fri Apr  6 12:36:52 2007, 3.14 cpu second(s), 1001744 maximum memory.

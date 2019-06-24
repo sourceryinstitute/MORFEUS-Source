@@ -1,0 +1,550 @@
+\documentclass[a4paper,12pt]{article}% A4 
+% \documentclass[letter,12pt]{article}% USA Letter
+
+\usepackage[english]{babel}
+\usepackage{fancyvrb}
+\usepackage{url}
+
+% *** HYPERREF ***
+\usepackage[colorlinks,dvipdfm]{hyperref}
+% \usepackage[dvipdfm]{hyperref}
+% 
+% Colored version
+\hypersetup{
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue,
+  pdfstartpage=1
+}
+% 
+%  B/W version
+% \hypersetup{
+% linkcolor=black,
+% citecolor=black,
+% urlcolor=black,
+% pdfstartpage=1
+% }
+
+\author{Stefano
+  Toninel \thanks{University of Bologna; e--mail:
+    \texttt{stefano.toninel@mail.ing.unibo.it}}\\
+  David P. Schmnidt \thanks{University of Massachusetts -- Amherst;
+    e--mail: \texttt{schmidt@ecs.umass.edu}}\\ 
+  Salvatore Filippone \thanks{ University of Rom -- Tor Vergata;
+    e--mail: \texttt{salvatore.filippone@uniroma2.it}} \\
+  Marco Rorro \thanks{ CASPUR; e--mail: \texttt{rorro@caspur.it}}
+}
+
+% \date{\today}
+
+\title{
+  NEMO version 1.1\\
+  Numerical Engine for Multiphysics Operators\\
+  \bigskip
+  Install Guide
+}
+  
+
+\begin{document}
+
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{Supported Platforms}
+The code has been successfully tested so far on the following
+operating systems/platforms:
+\begin{itemize}
+\item Linux (kernel 2.6.x) on IA--32 and AMD64;
+\item Mac Os X 10.4 (Tiger) on PowerPC--G4.
+\end{itemize}
+
+In order to build NEMO a standard Fortran 95 compiler is required. The
+following compilers are presently supported:
+\begin{itemize}
+\item GFortran 4.2.0 or later\footnote{\url{http://gcc.gnu.org/fortran/}}
+  included in the free GCC compiler suite
+  \footnote{\url{http://gcc.gnu.org/}}; 
+\item Intel Fortran Compiler 9.1 for Linux or later
+  \footnote{\url{http://www.intel.com/}}.
+\end{itemize}
+
+
+\section{Prerequisites}
+
+Before compiling NEMO one should check that the following tools and
+packages are installed and available to use in the building procedure.
+
+\begin{description}
+\item [An ISO Fortran 95 compiler] including support for TR15581
+    ``Allocatable Extensions'';  GFortran is the \emph{reference
+    compiler} for the NEMO project since it is free, open--source and
+  available for practically every platform.
+\item [BLAS] Basic Linear Algebra Subprograms. A generic
+  implementation is available at
+  \url{http://www.netlib.org/blas/}. This is easy to install and works
+  well for debugging. For a better performance one can choose
+  one of the following options:
+  \begin{itemize}
+  \item [-] \textbf{ATLAS} (Automatically Tuned Linear Algebra
+    Software) available at \url{http://www.netlib.org/atlas/};
+  \item [-] a processor--dependent implementation like Intel--MKL
+  (Math Kernel Library), ACML (AMD Core Math Library), etc.
+  \end{itemize}
+\item [LAPACK] Linear Algebra PACKage. A generic implementation is
+  available at
+  \url{http://www.netlib.org/lapack/}. Processor--optimized BLAS
+  distributions, such as Intel--MKL and ACML, usually includes also their
+  own LAPACK implementation. \footnote{Presently LAPACK routines are
+    used only for benchmarking NEMO's own implementation of some
+    numerical methods. Its installation is recommended for developers,
+    while optional for users.}
+\item [MPI] An implementation of the Message Passing Interface standard, 
+ like {\bf MPICH} available at \url{http://www.mcs.anl.gov/research/projects/mpich2/};  
+{\bf MVAPICH} available at \url{http://mvapich.cse.ohio-state.edu/} or 
+{\bf Open MPI} available at \url{http://www.open-mpi.org/}
+  
+\item [PSBLAS] 2.4.x Parallel Sparse BLAS. Available at
+  \url{http://www.ce.uniroma2.it/psblas/}.
+\item [CGNSlib] CFD General Notation System library. Available at
+  \url{http://www.cgns.org/}.
+\item [ParMETIS] Parallel METIS, a library for domain
+  decomposition. Available at
+  \url{http://glaros.dtc.umn.edu/gkhome/metis/parmetis/overview}
+\end{description} 
+Install instructions for each one of the previously listed components
+are reported in the next sections. 
+
+\subsection{GFortran} 
+
+GFortran is a part of the GCC suite. Binary files are usually
+included in the most recent Linux distributions, such as Suse, Fedora
+Core, etc. However, since this open--source project is evolving very
+quickly, new bugs are discovered and old ones are fixed very
+frequently. Thus it is strongly recommended to use an up--to--date
+version of the compiler.
+
+\subsubsection{Binary Downloading}
+
+At the website \url{http://gcc.gnu.org/wiki/GFortran#download} weekly
+up--to--date binaries for all platforms supported by NEMO are
+available.
+
+\subsubsection{Snapshot Bootstrap}
+
+Alternatively one can download the most recent snapshot directly from
+a GCC mirror site\footnote{\url{http://gcc.gnu.org/mirrors.html}} and
+compile it by means of a bootstrap procedure. Here is a step--by--step
+guide for compiling GFortran on a UNIX--like box. The default install
+path is \verb+$HOME/opt/gcc-4.5.0/+.
+
+\begin{enumerate}
+\item Install the prerequisites GMP\footnote{\url{http://gmplib.org/}}
+  (GNU Multiple Precision Library) version 4.3.2 (or higher) and
+  MPFR\footnote{\url{http://www.mpfr.org/}} version 2.4.2 (or
+  higher). Usually Linux distributions include up--to--date releases
+  of both packages. Otherwise one has to download the respective source
+  files, compile, install them and update the library search path.
+\item 
+  \begin{Verbatim}
+    $ cd  ~/opt
+    $ mkdir gcc-build
+    $ cd gcc-build
+    $ mkdir obj
+  \end{Verbatim}
+\item Download from a GCC mirror site a recent release, for instance
+      \verb+gcc-4.5.0.tar.bz2+. 
+
+  The file must be saved in \verb+$HOME/opt/gcc-build/+.
+\item Expand the \verb+.tar.bz2+ archive:
+  \begin{Verbatim}
+    $ tar xvjf gcc-4.5.0.tar.bz2
+  \end{Verbatim}
+  a directory named \verb+gcc-4.5.0+ will be created.
+\item Configure the bootstrap procedure:
+  \begin{Verbatim}
+    $ cd obj
+    $ ../gcc-4.5.0/configure --prefix=$HOME/opt/gcc-4.5.0/
+  \end{Verbatim}
+  This generates the ``Makefiles'' needed by the building procedure.
+  If the path for the GMP and MPFR objects is not included in the
+  default library search path, one has to specify it explicitly by
+  adding in the configure step:
+  \begin{Verbatim}
+    --with-gmp=/path/to/GMP --with-mpfr=/path/to/MPFR
+  \end{Verbatim}
+\item Run the bootstrap job for building the package:
+  \begin{Verbatim}
+    $ nohup make bootstrap > make.log &
+  \end{Verbatim}
+\item Install \verb+gcc+ and \verb+gfortran+:
+\begin{verbatim}
+$ make install
+\end{verbatim}
+\item Update the library and executable search paths by adding the
+  following strings:
+  \begin{Verbatim}
+    PATH=$HOME/opt/gcc-4.5.0/bin:$PATH
+    [...]
+    export PATH
+  \end{Verbatim}
+  in \verb+~/.bash_profile+ or \verb+~/.bashrc+, and
+  \begin{Verbatim}
+    LD_LIBRARY_PATH=$HOME/opt/gcc-4.5.0/lib:$LD_LIBRARY_PATH
+    [...]
+    export LD_LIBRARY_PATH
+  \end{Verbatim}
+  in \verb+~/.bashrc+. In particular, the second definition is
+  mandatory for building MPICH with GFortran.
+\end{enumerate}
+
+\subsection{BLAS}
+
+The following steps explain how to compile and install the generic
+implementation of BLAS.
+
+\begin{enumerate}
+\item 
+  \begin{Verbatim}
+    $ cd ~/LIB
+    $ mkdir tmp
+  \end{Verbatim}
+\item Download \verb+blas.tgz+ from \url{http://www.netlib.org/blas/}
+  and copy it to \verb+~/LIB/tmp+.
+\item Untar the archive:
+  \begin{Verbatim}
+    $ cd tmp
+    $ tar xvzf blas.tgz
+    $ rm blas.tgz
+  \end{Verbatim}
+\item Compile the source files:
+  \begin{Verbatim}
+    $ gfortran -O3 -ffast-math -mtune=<CPUtype> -c *.f
+  \end{Verbatim}
+\item Build the library:
+  \begin{Verbatim}
+    $ ar curv libblas-gfortran.a *.o
+    $ ranlib libblas-gfortran.a
+  \end{Verbatim}
+\item Install and clean:
+  \begin{Verbatim}
+    $ mv libblas-gfortran.a ~/LIB
+    $ cd ..; rm -r tmp blas.tgz
+  \end{Verbatim}
+\end{enumerate}
+
+\subsection{LAPACK}
+
+The building procedure for the LAPACK library requires the
+specification of a BLAS implementation and consists of the following
+steps.
+
+\begin{enumerate}
+\item Download \verb+lapack.tgz+ from
+  \url{http://www.netlib.org/lapack/} and copy it to \verb+~/LIB+.
+\item Untar the archive:
+  \begin{Verbatim}
+    $ cd ~/LIB
+    $ tar xvzf lapack.tgz
+    $ cd LAPACK
+  \end{Verbatim}
+\item Choose the \verb+Make.inc+ for a specific platform; for instance,
+  \begin{Verbatim}
+    $ cp INSTALL/make.inc.LINUX make.inc
+  \end{Verbatim}
+\item Edit the \verb+make.inc+ file, setting the following variables:
+  \begin{Verbatim}
+    FORTRAN  = gfortran
+    OPTS     = -O3 -ffast-math -mtune=<CPUtype>
+    [...]
+    LOADER   = gfortran
+    LOADOPTS = $(OPTS)
+    [...]
+    BLASLIB   = $(HOME)/LIB/libblas-gfortran.a
+    LAPACKLIB = liblapack-gfortran.a
+  \end{Verbatim}
+\item Build the single and double precision objects:
+  \begin{Verbatim}
+    $ cd SRC
+    $ make single double
+    $ cd ..
+  \end{Verbatim}
+\item Install and clean:
+  \begin{Verbatim}
+    $ mv liblapack-gfortran.a ~/LIB
+    $ cd ..
+    $ rm -r LAPACK lapack.tgz
+  \end{Verbatim}
+\end{enumerate}
+
+\subsection{MPICH}
+
+This section contains the instructions for installing MPICH using
+\verb+gfortran+ and \verb+gcc+ respectively as Fortran and C
+compiler. The default command in the MPICH distribution for starting
+remote sessions during parallel jobs would be \verb+rsh+. For a 
+security--enhanced use one can choose \verb+ssh+ instead. The
+following steps refer to the latter option.
+
+\begin{enumerate}
+\item Download \verb+mpich-1.2.6.tar.gz+ (or a later version) and
+  copy it to \verb+~/LIB/+
+\item Untar the archive:
+  \begin{Verbatim}
+    $ cd ~/LIB
+    $ tar xvzf mpich-1.2.6.tar.gz
+    $ cd mpich-1.2.6
+  \end{Verbatim}
+\item Set up the environment for next building procedure:
+  \begin{Verbatim}
+    $ export FC=gfortran
+    $ export F90=gfortran
+    $ export RSHCOMMAND=ssh
+    $ export F77_GETARGDECL=" "
+  \end{Verbatim}
+\item Configure and build:
+  \begin{Verbatim}
+    $ configure --prefix=$HOME/mpich-gfortran
+    $ make
+  \end{Verbatim}
+\item Install and clean:
+  \begin{Verbatim}
+    $ make install
+    $ cd ..
+    $ rm -r mpich-1.2.6 mpich-1.2.6.tar.gz
+  \end{Verbatim}
+\item In order to avoid the password authentication request at the
+  login of every ssh session initiated by the \verb+mpirun+
+  command, one can generate a private/public key pair.  If you do not already
+  have a key pair, 
+execute the following steps:
+  \begin{Verbatim}
+    $ cd ~/.ssh
+    $ ssh-keygen -t rsa
+    [enter no passphrase]
+    $ cat id_rsa.pub >> authorized_keys2
+  \end{Verbatim}
+
+Note that the permissions of the authorized\_keys2 file should be set to 
+
+ \verb+-rw-r--r-- .+
+\item Update search path by adding the following line in
+  \verb+~/.bash_profile+ or \verb+~/.bashrc+ :
+  \begin{Verbatim}
+    PATH=$HOME/LIB/mpich-gfortran/bin:$PATH
+  \end{Verbatim}
+\end{enumerate}
+
+\subsection{PSBLAS}
+
+The PSBLAS library supplies the numerical kernel of NEMO and requires
+the installation of the following packages: BLAS and MPI. The
+building procedure consists of the following steps.
+
+\begin{enumerate}
+\item Download \verb+psblas2.4.x.tgz+ from
+  \url{http://www.ce.uniroma2.it/psblas/} and copy it to
+  \verb+~/LIB/+.
+\item Untar the archive:
+  \begin{Verbatim}
+    $ cd ~/LIB
+    $ tar xvzf psblas2.4.x.tgz
+    $ cd psblas2.4.x
+  \end{Verbatim}
+\item Configure and build:
+  \begin{Verbatim}
+    $ ./configure --prefix=~LIB/psblas/2.4.0  
+    $ make
+  \end{Verbatim}
+Additional packages path can be specified by adding in the configure step, for
+instance:
+\begin{Verbatim}
+     --with-blas=$HOME/LIB/libblas-gfortran.a
+\end{Verbatim}
+See \verb+./configure --help+ for additional options.
+\item Install and clean:
+  \begin{Verbatim}
+    $ make install 
+    $ cd ..
+    $ rm -r psblas2.4.x psblas2.4.x.tgz
+  \end{Verbatim}
+\end{enumerate}
+
+
+\subsection{CGNSlib}
+
+\begin{enumerate}
+\item Download \verb+cgnslib_2.5-4.tar.gz+ (or a later version) from
+  \url{http://cgns.sourceforge.net/} and copy it to \verb+~/LIB+.
+\item Untar the archive:
+  \begin{Verbatim}
+    $ cd ~/LIB
+    $ tar xvzf cgnslib_2.3.tar.gz
+    $ mkdir CGNSlib
+    $ mkdir CGNSlib/lib
+    $ mkdir CGNSlib/include
+    $ cd cgnslib_2.5
+  \end{Verbatim}
+\item Configure:
+  \begin{Verbatim}
+    $ configure --prefix=$HOME/LIB/CGNSlib
+  \end{Verbatim}
+\item Compile:
+  \begin{Verbatim}
+    $ make
+  \end{Verbatim}
+\item Install and clean:
+  \begin{Verbatim}
+    $ make install
+    $ cd ..
+    $ rm -rf cgnslib_2.5 cgnslib_2.5-4.tar.gz
+  \end{Verbatim}
+\end{enumerate}
+
+\subsection{ParMETIS}
+
+\begin{enumerate}
+\item Download \verb+ParMetis-3.1.1tar.gz+ (or a later version) from
+  \url{http://glaros.dtc.umn.edu/gkhome/metis/parmetis/overview} and
+  copy it to \verb+~/LIB+.
+\item Untar the archive:
+  \begin{Verbatim}
+    $ cd ~/LIB
+    $ tar xvzf ParMetis-3.1.tar.gz
+    $ cd ParMetis-3.1
+  \end{Verbatim}
+\item Compile:
+  \begin{Verbatim}
+    $ make
+  \end{Verbatim}
+\item Fix a pending bug in the building procedure:
+  \begin{Verbatim}
+    $ mkdir tmp
+    $ cd tmp
+    $ ar xv ../libmetis.a
+    $ ar curv ../libparmetis.a parmetis.o
+    $ cd ..
+    $ ranlib libparmetis.a
+    $ rm -rf tmp
+  \end{Verbatim}
+\item Install and clean:
+  \begin{Verbatim}
+    $ mkdir ~/LIB/ParMetis
+    $ mv libparmetis.a libmetis.a ~/LIB/ParMetis
+    $ cd ..; rm -rf ParMetis-3.1 ParMetis-3.1.tar.gz
+  \end{Verbatim}
+\end{enumerate}
+
+\subsection{Special Remarks}
+
+\begin{enumerate}
+\item BLAS, LAPACK, MPI and PSBLAS requires
+\emph{distinct installations for different compilers}.
+\item CGNSlib and PArMETIS can be built just once, by using the
+  default compiler \verb+gcc+.
+\item Wherever not specified \verb+$HOME/LIB+ is the \emph{default
+    library path}.
+\end{enumerate}
+
+\section{NEMO}
+
+\subsection{Code Compiling}
+
+After having installed all packages and tools described in the
+previous sections, one should be able to compile successfully NEMO,
+according to the following steps.
+
+\begin{enumerate}
+\item Enter the folder \verb+Nemo/+ containing the software
+  distribution. Typing the \verb+ls+ command should return the
+  following list of folders and files:
+  \begin{Verbatim}
+    $ cd Nemo/
+    $ ls
+    applications  configure.ac  Makefile     nemo-ab-notes.txt
+    autogen.sh    docs          Make.inc.in  README
+    config        install-sh    missing      src
+    configure     LICENSE       mkdir.sh
+
+  \end{Verbatim}
+\item Configure and build:
+  \begin{Verbatim}
+    $ ./configure --prefix=~LIB/Nemo --with-psblas-dir=~LIB/psblas/2.4.0
+    $ make
+  \end{Verbatim}
+Additional packages path can be specified by adding in the configure step, for
+instance:
+\begin{Verbatim}
+     --with-blas=$HOME/LIB/libblas-gfortran.a
+     --with-cgns=~LIB/CGNSlib
+     --with-parmetis=~LIB/ParMetis
+\end{Verbatim}
+See \verb+./configure --help+ for additional options.
+\item Install
+  \begin{Verbatim}
+    $ make install
+  \end{Verbatim}
+\item Install applications:
+  \begin{Verbatim}
+    $ cd applications
+    $ make
+  \end{Verbatim}
+In order to build all NEMO--based applications included in the
+  distribution.
+\end{enumerate}
+
+\subsection{Applications running}
+The folder \verb+nemo/applications+ contains different executables. 
+The subfolder \verb+examples+ contains two subfolders: \verb+input+ and 
+\verb+mesh+: the former provide the input files whereas the latter the mesh.
+In order to run an application, for instance, \verb+steady-conduction+:
+\begin{enumerate}
+\item Set the input file:
+\begin{Verbatim}
+    $ cd Nemo/applications
+    $ cp examples/input/steady_conduction_3d.inp ./nemo.inp
+\end{Verbatim}
+Edit the file \verb+nemo.inp+ to change some parameters, choose the resolution method and the format of output (DX ot VTK).
+\item Run the application
+\begin{Verbatim}
+    $ mpiexec -np 16 ./steady-conduction
+\end{Verbatim}
+where \verb+-np+ specify the number of process to use.
+\item Visualize the output file:\\
+To visualize DX file open \verb+dx+\footnote{\url{http://www.opendx.org/}} and run the appropriate .net file, for instance \verb+temp_3d.net+. \\
+To visualize VTK file, run an application like ParaView\footnote{\url{http://www.paraview.org/}} or Visit\footnote{\url{https://wci.llnl.gov/codes/visit/}}, open the corresponding .vtk  file and choose the properties to visualize.
+\end{enumerate}
+
+\subsection{Documentation Compiling}
+
+The folder \verb+Nemo/docs/+ contains two documentation resources.
+\begin{enumerate}
+\item \verb+Nemo/doc/pdf/+ contains the \LaTeX source files for
+  building the code documentation in \verb+.pdf+ format. A precompiled
+  version of the current install--guide as well as other \verb+.pdf+
+  documents should be already available in the \verb+/Nemo/docs/+
+  folder.
+\item \verb+Nemo/docs/uml/+ contains the uml diagrams which depict the
+  object--oriented structure of the code. They can be analyzed and
+  modified by using the free tool
+  ArgoUML\footnote{\url{http://argouml.tigris.org/}}.
+\end{enumerate}
+
+
+\subsection{Cleaning}
+In order to clean the whole distribution and remove all compiling
+products (Fortran \verb+.o+ and \verb+.mod+, as well as \LaTeX files),
+type in the base directory \verb+Nemo/+:
+\begin{Verbatim}
+  $ make clean
+\end{Verbatim}
+
+
+
+\end{document}
+
+
+
+
+

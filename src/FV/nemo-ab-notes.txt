@@ -1,0 +1,55 @@
+1. Modify the USE statements to read like this:
+   - USE PSB_BASE_MOD         Everybody
+   - USE PSB_PREC_MOD         Solvers
+   - USE PSB_KRYLOV_MOD       -----ditto-----
+
+2. Into basics.
+   - igather is already in PSBLAS.
+   - Interface for get_icomm is now in PSBLAS.
+   - lbcastv has been added to PSBLAS. 
+
+3. class_connectivity
+   - Use PSB_REALLOC to handle ALLOCATABLES. If the vector is already
+     allocated, it reuses it. It works reliably because the allocation
+     status of an ALLOCATABLE can be queried reliably (unless
+     something real bad has occurred, tipically out-of-bounds writes)
+   - It's probably a bad idea to add an interface to the ALLOCATED
+     intrinsic!	   
+   - Always use PSB_CD_ getters, don't go into DESC%whatever
+   - Besides PSB_AMX (Maximum Absolute value) there now exists PSB_MAX
+   - GET_ITH_CONN and its brethrens are the only ones to return
+     POINTERS. But remember to add the TARGET attribute to the objects
+     to be pointed to!! 
+   - in is_allocated we now have if(allocated(a2b%lookup)
+      .or. allocated(a2b%conn)
+     Shouldn't this be .AND. ??? Especially since in FREE_CONN we are
+     freeing both in a single DEALLOCATE statement. 
+     The alternative would be to call free_conn anyway, and ignore in
+     it possibly unallocated components. 
+   - SET_KT_ROW: why irow(:) is a pointer? Is there any chance to be
+     called with an unassociated input? In which case GET_KT_ROW must
+     be changed to explicitly return NULL.... 
+ 
+
+4. POINTERs inside subroutines. The are needed, because of the
+   getters. However the following declaration is totally pointless
+       integer, pointer   :: ib2v(:)  => null() 
+   because of the semantics of Fortran, the initialization only
+   happens once (and it has the side effect of making the variable
+   SAVEd), which is NOT (probably) what was intended.
+   Contrast this to a pointer initialization in a type definition,
+   which is executed any time a variable of that type comes into
+   existence. 
+  
+5. .F90 extension. 
+   I added this  because in a few places I use the move_alloc intrinsics to
+   have an efficient copy/reallocation of vectors. I am not sure if
+   move_alloc is available in all compilers that also support
+   ALLOCATABLEs arguments (strictly speaking it is not part of
+   TR15581, it is in F2003), hence the use of 
+   #ifdef HAVE_MOVE_ALLOC
+   Yes, actually XLF on the SP has TR 15581 but no MOVE_ALLOC. 
+   
+6. On further reflection, the compilers we're interested for the time
+   being all support MOVE_ALLOC, and F90 extension gives trouble on
+   MAC. Take out conditionals. 

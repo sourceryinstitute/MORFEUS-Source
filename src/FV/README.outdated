@@ -1,0 +1,68 @@
+
+##### NEMO <-> Numerical Engine (for) Multiphysics Operators #####
+
+		--- QUICK INSTALLATION GUIDE ---
+
+
+PREREQUISITES:
+
+- A Fortran 95 compiler. The code has been successfully tested with the
+  following compiler/platform combinations:
+   * Gfortran 4.2 on IA-32, AMD64, PowerPC-G4
+   * Intel Fortran Compiler 9.x, 10.x on IA-32 and IA-64
+   * XL Fortran on AIX
+
+- BLAS: Basic Linear Algebra Subprograms.
+  A generic implementation is available at www.netlib.org/blas/
+  For a better performance choose one of the following options:
+   * ATLAS library from  www.netlib.org/atlas
+   * a platform-dependent implementation like Intel-MKL, AMD-ACML, ESSL...
+
+- MPICH: an implementation of Message Passing Interface standard
+  Available at http://www-unix.mcs.anl.gov/mpi/mpich/
+
+- PSBLAS: Parallel Sparse Basic Linear Algebra Subprograms
+  Available at http://www.ce.uniroma2.it/psblas/
+
+- CGNSlib: CFD General Notation System library
+  Available at http://www.cgns.org
+
+- ParMETIS: Parallel implementation of METIS library
+  Available at http://www-users.cs.umn.edu/~karypis/metis/parmetis/
+
+Detailed instructions for a typical configuration of the different
+libraries are reported in ./doc/installation-guide.pdf.
+We now have a configure script, will update the install instructions
+soon.
+
+
+COMPILING
+
+In order to compile the source code and build the different applications:
+
+1. Generate an appropriate Make.inc with (at least)
+   ./configure --with-psblas-dir=<instal dir>\
+    --with-parmetis=<install   dir> \
+    --with-cgns=<install dir>
+   Additional options are available; see also the configure script of
+   PSBLAS.
+
+
+2. edit ./Make.inc if needed  to further customize the compilation process
+
+3a. In the main directory:
+       $ make		--> build the library
+       $ make install   --> intall the library
+
+3b. In the ./applications directory:
+       $ make		--> build all applications
+
+CLEANING
+
+In the main directory:
+	$ make clean	--> clean the whole tree
+
+In the ./applications directory:
+       $ make clean	--> clean main directory from execution products
+
+       $ make veryclean --> clean the whole ./applications/ tree

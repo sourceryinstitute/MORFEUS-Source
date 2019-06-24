@@ -1,0 +1,252 @@
+!
+!     (c) 2019 Guide Star Engineering, LLC
+!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under 
+!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+!
+!
+!    NEMO - Numerical Engine (for) Multiphysics Operators
+! Copyright (c) 2007, Stefano Toninel
+!                     Gian Marco Bianchi  University of Bologna
+!              David P. Schmidt    University of Massachusetts - Amherst
+!              Salvatore Filippone University of Rome Tor Vergata
+! All rights reserved.
+!
+! Redistribution and use in source and binary forms, with or without modification,
+! are permitted provided that the following conditions are met:
+!
+!     1. Redistributions of source code must retain the above copyright notice,
+!        this list of conditions and the following disclaimer.
+!     2. Redistributions in binary form must reproduce the above copyright notice,
+!        this list of conditions and the following disclaimer in the documentation
+!        and/or other materials provided with the distribution.
+!     3. Neither the name of the NEMO project nor the names of its contributors
+!        may be used to endorse or promote products derived from this software
+!        without specific prior written permission.
+!
+! THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+! ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+! WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+! DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+! ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+! (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+! LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+! ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+! (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+! SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+!
+!---------------------------------------------------------------------------------
+!
+! $Id: class_field.f90 8157 2014-10-09 13:02:44Z sfilippo $
+!
+! Description:
+!    Base class for scalar, vector and tensor field
+!
+MODULE class_field
+
+    USE class_psblas
+    USE class_bc
+    USE class_dimensions
+    USE class_material
+    USE class_mesh
+
+    IMPLICIT NONE
+
+    PRIVATE ! Default
+    PUBLIC :: field                           ! Class
+    PUBLIC :: create_field, free_field        ! Constructor/destructor
+    PUBLIC :: name_, dim_, msh_, on_faces_, & ! Getters
+        &    bc_, mat_, fld_size, &          !   "
+        &    get_material          !   "
+    PUBLIC :: set_field_dim                   ! Setters
+    PUBLIC :: set_field_on_faces              !   "
+    PUBLIC :: check_field_operands            !       "
+    PUBLIC :: fld_internal_, fld_boundary_    ! Named constants
+    PUBLIC :: nemo_field_sizeof  !! Expose this because of a gfortran 8.3.0 disambiguation issue
+
+    TYPE field
+        PRIVATE
+        CHARACTER(len=32)       :: name
+        TYPE(dimensions)        :: dim
+        TYPE(mesh),     POINTER :: msh   => NULL()
+        LOGICAL                 :: on_faces
+        TYPE(bc_poly),  POINTER :: bc(:) => NULL()
+        TYPE(matptr), POINTER :: mats(:) => NULL()
+    CONTAINS
+        PROCEDURE, PRIVATE :: nemo_field_sizeof
+        GENERIC, PUBLIC :: nemo_sizeof => nemo_field_sizeof
+        PROCEDURE, PRIVATE :: get_field_msh_sub
+        GENERIC, PUBLIC :: get_mesh => get_field_msh_sub
+        PROCEDURE, PRIVATE :: check_mesh_consistency_bf
+        GENERIC, PUBLIC :: check_mesh_consistency => check_mesh_consistency_bf
+    END TYPE field
+
+    ! Default FIELD%ON_FACES = .false. => cell-centered
+
+
+    ! ----- Generic Interface -----
+
+  INTERFACE
+    MODULE FUNCTION nemo_field_sizeof(fld)
+        USE class_psblas, ONLY : nemo_int_long_
+        IMPLICIT NONE
+        CLASS(field), INTENT(IN) :: fld
+        INTEGER(kind=nemo_int_long_)   :: nemo_field_sizeof
+    END FUNCTION nemo_field_sizeof
+  END INTERFACE
+
+  ! The following interfaces are necessary in order to re-use the
+  ! same names for the extended operations defined in the classes
+  ! derived by inheritance.
+
+  ! ----- Constructor -----
+  INTERFACE create_field
+    MODULE SUBROUTINE create_field(fld,msh,dim,bc,mats,on_faces)
+      !! Constructor
+        USE tools_material
+        IMPLICIT NONE
+        ! Mandatory arguments
+        TYPE(field),      INTENT(OUT)        :: fld
+        TYPE(mesh),       INTENT(IN), TARGET :: msh
+        !
+        ! Optional arguments
+        TYPE(dimensions),     INTENT(IN), OPTIONAL :: dim
+        TYPE(bc_poly),        INTENT(IN), OPTIONAL, TARGET :: bc(:)
+        TYPE(matptr),       INTENT(IN), OPTIONAL, TARGET :: mats(:)
+        LOGICAL,              INTENT(IN), OPTIONAL  :: on_faces
+    END SUBROUTINE create_field
+  END INTERFACE create_field
+
+
+  ! ----- Destructor -----
+
+  INTERFACE free_field
+    MODULE SUBROUTINE free_field(fld)
+      !! Destructor
+        IMPLICIT NONE
+        TYPE(field), INTENT(INOUT) :: fld
+    END SUBROUTINE free_field
+  END INTERFACE free_field
+
+
+  ! ----- Getters -----
+
+  INTERFACE name_
+    MODULE FUNCTION get_field_name(fld)
+      !! Getters
+        IMPLICIT NONE
+        CHARACTER(len=32) :: get_field_name
+        TYPE(field), INTENT(IN) :: fld
+    END FUNCTION get_field_name
+  END INTERFACE name_
+
+  INTERFACE dim_
+    MODULE FUNCTION get_field_dim(fld)
+        IMPLICIT NONE
+        TYPE(dimensions) :: get_field_dim
+        TYPE(field), INTENT(IN) :: fld
+    END FUNCTION get_field_dim
+  END INTERFACE dim_
+
+  INTERFACE msh_
+    MODULE FUNCTION get_field_msh_fun(fld)
+        IMPLICIT NONE
+        TYPE(mesh), POINTER :: get_field_msh_fun
+        TYPE(field), INTENT(IN) :: fld
+    END FUNCTION get_field_msh_fun
+  END INTERFACE msh_
+
+  INTERFACE on_faces_
+    MODULE FUNCTION get_field_on_faces(fld)
+        IMPLICIT NONE
+        LOGICAL :: get_field_on_faces
+        TYPE(field), INTENT(IN) :: fld
+    END FUNCTION get_field_on_faces
+  END INTERFACE on_faces_
+
+  INTERFACE bc_
+    MODULE FUNCTION get_field_bc(fld)
+        IMPLICIT NONE
+        TYPE(bc_poly), POINTER :: get_field_bc(:)
+        TYPE(field), INTENT(IN), TARGET  :: fld
+    END FUNCTION get_field_bc
+  END INTERFACE bc_
+
+  INTERFACE mat_
+    MODULE FUNCTION get_field_mat_fun(fld, i)
+        IMPLICIT NONE
+        TYPE(material), POINTER :: get_field_mat_fun
+        TYPE(field), INTENT(IN) :: fld
+        INTEGER, INTENT(IN), OPTIONAL :: i
+    END FUNCTION get_field_mat_fun
+  END INTERFACE mat_
+
+  INTERFACE fld_size
+    MODULE FUNCTION get_field_size(fld) RESULT(isize)
+        !USE class_face
+        IMPLICIT NONE
+        INTEGER :: isize(2)
+        TYPE(field), INTENT(IN) :: fld
+    END FUNCTION get_field_size
+  END INTERFACE fld_size
+
+  ! ----- Temporary up to Gfortran patch -----
+  INTERFACE
+    MODULE SUBROUTINE get_field_msh_sub(fld,msh)
+        IMPLICIT NONE
+        CLASS(field), INTENT(IN) :: fld
+        TYPE(mesh), POINTER :: msh
+    END SUBROUTINE get_field_msh_sub
+  END INTERFACE
+
+  INTERFACE get_material
+    MODULE SUBROUTINE get_field_mat_sub(fld,i,mat)
+        IMPLICIT NONE
+        TYPE(field), INTENT(IN) :: fld
+        INTEGER, INTENT(IN), OPTIONAL :: i
+        TYPE(material), POINTER :: mat
+    END SUBROUTINE get_field_mat_sub
+  END INTERFACE get_material
+  ! ------------------------------------------
+    ! ----- Named Constants -----
+
+    INTEGER, PARAMETER :: fld_internal_ = 1
+    INTEGER, PARAMETER :: fld_boundary_ = 2
+
+
+  INTERFACE
+    !! Check operations
+    MODULE SUBROUTINE check_mesh_consistency_bf(f1,f2,WHERE)
+        IMPLICIT NONE
+        CLASS(field), INTENT(IN) :: f1
+        TYPE(field),  INTENT(IN) :: f2
+        CHARACTER(len=*), INTENT(IN) :: WHERE
+    END SUBROUTINE check_mesh_consistency_bf
+
+    ! ----- Setter -----
+
+    MODULE SUBROUTINE set_field_dim(fld,dim)
+        IMPLICIT NONE
+        TYPE(field),      INTENT(INOUT) :: fld
+        TYPE(dimensions), INTENT(IN)    :: dim
+    END SUBROUTINE set_field_dim
+
+    MODULE SUBROUTINE set_field_on_faces(fld,on_faces)
+        IMPLICIT NONE
+        TYPE(field), INTENT(INOUT) :: fld
+        LOGICAL,     INTENT(IN)    :: on_faces
+    END SUBROUTINE set_field_on_faces
+
+
+  ! ----- Auxiliary Routines -----
+
+    MODULE SUBROUTINE check_field_operands(f1,f2,WHERE)
+        IMPLICIT NONE
+        TYPE(field),      INTENT(IN) :: f1
+        TYPE(field),      INTENT(IN) :: f2
+        CHARACTER(len=*), INTENT(IN) :: WHERE
+    END SUBROUTINE check_field_operands
+
+  END INTERFACE
+
+END MODULE class_field
