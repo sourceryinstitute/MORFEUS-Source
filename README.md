@@ -23,7 +23,7 @@ mirror wiki.
 Sourcery Institute and GSE staff working on the project have access to
 the (for now) private MORFEUS source repsitory at
 https://github.com/sourceryinstitute/MORFEUS-Source. The plan is to
-eventually open source this, once appropriate checks have been made
+eventually open-source this, once appropriate checks have been made
 and the source is deemed ready for public scrutiny.
 
 __NRC Staff *DO NOT* have access to the source repository__ (until it
@@ -56,7 +56,7 @@ following commands:
 git remote -v # check first that your remote points to the mirror or
               # source
 git remote set-url --push origin git@github.com:sourceryinstitute/MORFEUS-Source.git
-git remote set-url --pull origin git@github.com:nrc-fuels/MORFEUS-mirror.git
+git remote set-url --fetch origin git@github.com:nrc-fuels/MORFEUS-mirror.git
 ```
 
 This will ensure that you are pulling the same commits and branches
@@ -83,12 +83,12 @@ The update cycle of the repositories looks something like this:
 ```
 
 ### Roadmap
-Intagrating MORFEUS with the existing code will happen in a two phase
-process before MORFEUS is open sourced.
+Integrating MORFEUS with the existing code will happen in a two-phase
+process before MORFEUS is open-sourced.
 
 1. Directories `src/morfeus_{fd,fv,fe}` will be deleted in the other
    code, and CMake will be adjusted so that
-   `submodules/morfues/src/{FD,FV,FE}` will be used as the existing
+   `submodules/morfeus/src/{FD,FV,FE}` will be used as the existing
    source.
 1. Next, MORFEUS will be given its own build system, and submodules
    for the necessary TPLs, and it will be built via a CMake Super
@@ -98,8 +98,8 @@ process before MORFEUS is open sourced.
 
 After this work has been completed, so that MORFEUS can stand on its
 own, and checks for sensitive info are complete, and the authorization
-to open source the software has been confirmed, then MORFEUS will be
-ready to be open sourced, and consumed by the general public.
+to open-source the software has been confirmed, then MORFEUS will be
+ready to be open-sourced, and consumed by the general public.
 
 [GitHub Actions]: https://github.com/features/actions
 [status of the GitHub Actions]: https://github.com/sourceryinstitute/MORFEUS-Source/actions
