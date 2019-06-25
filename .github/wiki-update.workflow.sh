@@ -30,26 +30,26 @@ echo "Configure git for authorized user"
 git config --global user.name "Izaak Beekman"
 git config --global user.email "ibeekman@paratools.com"
 git config --global core.sshCommand "ssh -i ~/.ssh/id_ed25519 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-git config --show-origin --list
 
 echo "Creating a local mirror of ${SOURCE_WIKI}"
 cd ~ || exit 77
-git clone --mirror git@github.com:${SOURCE_WIKI#https://github.com/}
+git clone --mirror ${SOURCE_WIKI}
 
 echo "Attempting push to MIRROR wiki repository..."
 cd ${SOURCE_WIKI##*/} || exit 77
 
 echo "Setting mirrored wiki remote url"
 git remote set-url --push origin "${MIRROR_WIKI}"
+git remote -v
 
 echo "Pruning PR refs"
-git show-ref | cut -d' ' -f2 | grep 'refs/pull/' | xargs -r -L1 git update-ref -d
+#git show-ref | cut -d' ' -f2 | grep 'refs/pull/' | xargs -r -L1 git update-ref -d
 git show-ref
 
 git config --show-origin --list
 
 # Push to the mirrored wiki repository
-if ! git push --mirror --force --progress ; then
-    sleep 25
-    git push --mirror --force --progress || exit 78 # nuetral exit
+if ! git push --force --progress ; then
+    sleep 15
+    git push --force --progress || exit 78 # nuetral exit
 fi
