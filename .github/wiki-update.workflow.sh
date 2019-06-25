@@ -37,7 +37,7 @@ cd ~ || exit 77
 git clone --mirror git@github.com:${SOURCE_WIKI#https://github.com/}
 
 echo "Attempting push to MIRROR wiki repository..."
-cd ${SOURCE_WIKI##*/}.git || exit 77
+cd ${SOURCE_WIKI##*/} || exit 77
 
 echo "Setting mirrored wiki remote url"
 git remote set-url --push origin "${MIRROR_WIKI}"
