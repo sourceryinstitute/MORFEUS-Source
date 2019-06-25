@@ -88,7 +88,7 @@ process before MORFEUS is open sourced.
 
 1. Directories `src/morfeus_{fd,fv,fe}` will be deleted in the other
    code, and CMake will be adjusted so that
-   `submodules/morfues/src/{FD,FV,FE} will be used as the existing
+   `submodules/morfues/src/{FD,FV,FE}` will be used as the existing
    source.
 1. Next, MORFEUS will be given its own build system, and submodules
    for the necessary TPLs, and it will be built via a CMake Super
