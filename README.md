@@ -70,8 +70,8 @@ following commands:
 ``` bash
 git remote -v # check first that your remote points to the mirror or
               # source
-git remote set-url --push origin git@github.com:sourceryinstitute/MORFEUS-Source.git
-git remote set-url --fetch origin git@github.com:nrc-fuels/MORFEUS-mirror.git
+git remote set-url origin git@github.com:sourceryinstitute/MORFEUS-Source.git
+git remote add mirror git@github.com:nrc-fuels/MORFEUS-mirror.git
 ```
 
 This will ensure that you are pulling the same commits and branches
@@ -86,7 +86,7 @@ The update cycle of the repositories looks something like this:
                 <NRC mirror>
                    /     __
                   /     /\
-(git pull origin)/        \
+(git pull mirror)/        \
                 /          \
                /            \ (GitHub Actions mirror)
               /              \
