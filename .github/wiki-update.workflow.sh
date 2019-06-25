@@ -2,10 +2,6 @@
 
 set -o errexit
 
-# configure git
-git config --global user.name "Sourcery-Bot"
-git config --global user.email "si-bot@izaakbeekman.com"
-
 # Print diagnostic info
 echo "Workflow name: $GITHUB_WORKFLOW"
 echo "Action name: $GITHUB_ACTION"
@@ -17,20 +13,8 @@ echo "GITHUB_SHA: $GITHUB_SHA"
 echo "GitHub branch/tag/ref: $GITHUB_REF"
 echo "Current directory: $(pwd)"
 
-echo "Contents of Workspace:"
-ls -al "$GITHUB_WORKSPACE"
-
 echo "Git version:"
 git --version
-
-echo "Git Status:"
-git status
-
-echo "Checking git remotes"
-git remote -v
-
-echo "Branches found:"
-git branch -avvv
 
 echo "Setting up SSH"
 mkdir ~/.ssh
@@ -48,15 +32,15 @@ git config --global user.email "ibeekman@paratools.com"
 git config --global core.sshCommand "ssh -i ~/.ssh/id_ed25519 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 git config --show-origin --list
 
-echo "Creating a local mirror of ${GITHUB_REPOSITORY}"
+echo "Creating a local mirror of ${SOURCE_WIKI}"
 cd ~ || exit 77
-git clone --mirror https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+git clone --mirror git@github.com:${SOURCE_WIKI#https://github.com/}
 
-echo "Attempting push to MIRROR repository..."
-cd ${GITHUB_REPOSITORY#*/}.git || exit 77
+echo "Attempting push to MIRROR wiki repository..."
+cd ${SOURCE_WIKI##*/}.git || exit 77
 
-echo "Setting mirror remote url"
-git remote set-url --push origin "${MIRROR_URL}"
+echo "Setting mirrored wiki remote url"
+git remote set-url --push origin "${MIRROR_WIKI}"
 
 echo "Pruning PR refs"
 git show-ref | cut -d' ' -f2 | grep 'refs/pull/' | xargs -r -L1 git update-ref -d
@@ -64,7 +48,7 @@ git show-ref
 
 git config --show-origin --list
 
-# Push to the mirrored repository
+# Push to the mirrored wiki repository
 if ! git push --mirror --force --progress ; then
     sleep 25
     git push --mirror --force --progress || exit 78 # nuetral exit

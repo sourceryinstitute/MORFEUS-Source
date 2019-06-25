@@ -1,6 +1,21 @@
+<div align="center">
+
 # MORFEUS
 
 **M**ulti-physics **O**bject-oriented ...
+</div>
+
+<!-- toc -->
+
+- [Repository Mirror and Source](#repository-mirror-and-source)
+  * [NRC Mirror](#nrc-mirror)
+  * [Sourcery Institute Source Repository](#sourcery-institute-source-repository)
+  * [Mirroring and Updating Mechanism](#mirroring-and-updating-mechanism)
+- [Workflow and Roadmap](#workflow-and-roadmap)
+  * [Workflow](#workflow)
+  * [Roadmap](#roadmap)
+
+<!-- tocstop -->
 
 ## Repository Mirror and Source
 
@@ -19,7 +34,7 @@ accidentally. In addition, any wiki edits made to the Sourcery
 Institute source repository will automatically be forwarded to the NRC
 mirror wiki.
 
-### Sourcery Institute Source Repository
+### [Sourcery Institute Source Repository][SI source repository]
 Sourcery Institute and GSE staff working on the project have access to
 the (for now) private MORFEUS source repsitory at
 https://github.com/sourceryinstitute/MORFEUS-Source. The plan is to
@@ -62,22 +77,22 @@ git remote set-url --fetch origin git@github.com:nrc-fuels/MORFEUS-mirror.git
 This will ensure that you are pulling the same commits and branches
 that nrc-fuels repositories will be using, while your pushed branches
 & commits will go to the [SI source repository]. Once MORFEUS is open
-sourced, then everything can be set to point to the [SI source
-repository].
+sourced, then everything can be set to point to the
+[SI source repository].
 
 The update cycle of the repositories looks something like this:
 
 ```
                 <NRC mirror>
-                   /   /\
-                  /    ^^\
+                   /     __
+                  /     /\
 (git pull origin)/        \
                 /          \
                /            \ (GitHub Actions mirror)
               /              \
              /                \
             /                  \
-           V                    \
+          \/_                   \
 <local-repo> ------------------> <SI source>
               (git push orign)
 ```
