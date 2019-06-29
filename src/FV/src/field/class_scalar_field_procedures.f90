@@ -48,7 +48,7 @@ CONTAINS
 
         INTEGER(kind=nemo_int_long_)   :: val
 
-        val = fld%field%nemo_sizeof()
+        val = fld%base%nemo_sizeof()
         IF (ALLOCATED(fld%x)) &
             & val = val + nemo_sizeof_dp * SIZE(fld%x)
         IF (ALLOCATED(fld%xp)) &
@@ -67,7 +67,7 @@ CONTAINS
 
         !scalar_field_ = scalar_field(base,x,bx)
         !! Workaround for Intel 18 error #6053: Structure constructor may not have fields with a PRIVATE attribute
-        scalar_field_%field = base
+        scalar_field_%base = base
         scalar_field_%x    = x
         scalar_field_%bx   = bx
 
@@ -101,13 +101,13 @@ CONTAINS
         TYPE(dimensions) :: fdim
 
         ! Creates the base-class member
-        CALL fld%field%create_field(msh,dim,bc,mats,on_faces)
+        CALL fld%base%create_field(msh,dim,bc,mats,on_faces)
 
         ! Gets field dimensions
-        fdim = fld%field%dim_()
+        fdim = fld%base%dim_()
 
         ! Gets field size
-        isize = fld%field%fld_size()
+        isize = fld%base%fld_size()
         nel   = isize(fld_internal_)
         nbf   = isize(fld_boundary_)
 
@@ -126,7 +126,7 @@ CONTAINS
             fld%mat(:) = 1
             fld%bmat(:) = 1
         ELSE
-            IF (.NOT.fld%field%on_faces_()) THEN
+            IF (.NOT.fld%base%on_faces_()) THEN
                 DO ii = 1, SIZE(fld%mat)
                     fld%mat(ii) = msh%cells(ii)%group_()
                 END DO
@@ -216,7 +216,7 @@ CONTAINS
         !
         INTEGER :: info
 
-        CALL fld%field%free_field()
+        CALL fld%base%free_field()
 
         DEALLOCATE(fld%x,fld%xp,fld%bx,stat=info)
         IF(info /= 0) THEN
@@ -233,7 +233,7 @@ CONTAINS
 
     MODULE PROCEDURE get_scalar_field_name
 
-        get_scalar_field_name = fld%field%name_()
+        get_scalar_field_name = fld%base%name_()
 
     END PROCEDURE get_scalar_field_name
 
@@ -241,7 +241,7 @@ CONTAINS
     MODULE PROCEDURE get_scalar_field_dim
         USE class_dimensions
 
-        get_scalar_field_dim = fld%field%dim_()
+        get_scalar_field_dim = fld%base%dim_()
 
     END PROCEDURE get_scalar_field_dim
 
@@ -249,32 +249,40 @@ CONTAINS
     MODULE PROCEDURE get_scalar_field_msh_fun
         USE class_mesh
 
-        get_scalar_field_msh_fun => fld%field%msh_()
+        get_scalar_field_msh_fun => fld%base%msh_()
 
     END PROCEDURE get_scalar_field_msh_fun
 
 
     MODULE PROCEDURE get_scalar_field_msh_sub
 
-        CALL fld%field%get_mesh(msh)
+        CALL fld%base%get_mesh(msh)
 
     END PROCEDURE get_scalar_field_msh_sub
 
 
     MODULE PROCEDURE get_scalar_field_on_faces
 
-        get_scalar_field_on_faces = fld%field%on_faces_()
+        get_scalar_field_on_faces = fld%base%on_faces_()
 
     END PROCEDURE get_scalar_field_on_faces
+
+
+    MODULE PROCEDURE get_scalar_field_bc
+        USE class_bc
+
+        get_scalar_field_bc => fld%base%bc_()
+
+    END PROCEDURE get_scalar_field_bc
 
 
     MODULE PROCEDURE get_scalar_field_mat
         USE class_material
         !
         IF (PRESENT(i)) THEN
-            get_scalar_field_mat => fld%field%mat_(fld%mat(i))
+            get_scalar_field_mat => fld%base%mat_(fld%mat(i))
         ELSE
-            get_scalar_field_mat => fld%field%mat_(fld%mat(1))
+            get_scalar_field_mat => fld%base%mat_(fld%mat(1))
         END IF
 
     END PROCEDURE get_scalar_field_mat
@@ -284,9 +292,9 @@ CONTAINS
         USE class_material
 
         IF (PRESENT(i)) THEN
-            CALL fld%field%get_material(fld%mat(i),mat)
+            CALL fld%base%get_material(fld%mat(i),mat)
         ELSE
-            CALL fld%field%get_material(fld%mat(1),mat)
+            CALL fld%base%get_material(fld%mat(1),mat)
         END IF
 
     END PROCEDURE get_scalar_field_mat_sub
@@ -299,7 +307,7 @@ CONTAINS
 
     MODULE PROCEDURE get_scalar_field_base
 
-        base = fld%field
+        base = fld%base
 
     END PROCEDURE get_scalar_field_base
 
@@ -394,9 +402,9 @@ CONTAINS
         fld%xp = fld%x
 
         ! Gets pointer base-class members
-!!$    msh => msh_(fld%field)
-        CALL fld%field%get_mesh(msh)
-        bc  => fld%field%bc_()
+!!$    msh => msh_(fld%base)
+        CALL fld%base%get_mesh(msh)
+        bc  => fld%base%bc_()
 
 
         ! Preliminary checks based on TEMP
@@ -526,8 +534,8 @@ CONTAINS
         TYPE(mesh), POINTER :: msh  => NULL()
 
         ! MESH pointer dereferencing
-!!$    msh => msh_(f%field)
-        CALL f%field%get_mesh(msh)
+!!$    msh => msh_(f%base)
+        CALL f%base%get_mesh(msh)
 
         IF(f%on_faces_()) THEN
             WRITE(*,100)
@@ -574,8 +582,8 @@ CONTAINS
 
 
         ! Gets pointer base-class members
-!!$    msh => msh_(fld%field)
-        CALL fld%field%get_mesh(msh)
+!!$    msh => msh_(fld%base)
+        CALL fld%base%get_mesh(msh)
 
         norm = psb_geamax(fld%x,msh%desc_c,info)
 
@@ -604,8 +612,8 @@ CONTAINS
 
 
         ! Gets pointer base-class members
-!!$    msh => msh_(fld%field)
-        CALL fld%field%get_mesh(msh)
+!!$    msh => msh_(fld%base)
+        CALL fld%base%get_mesh(msh)
 
         norm = psb_geasum(fld%x,msh%desc_c,info)
 
@@ -626,7 +634,7 @@ CONTAINS
 
 
         ! Check consistency of operands
-        CALL f1%field%check_field_operands(f2%field,'SCALAR_FIELD_SUM')
+        CALL f1%base%check_field_operands(f2%base,'SCALAR_FIELD_SUM')
 
         ! Check consistency of operand dimensions
         IF(f1%dim_() /= f2%dim_()) THEN
@@ -634,9 +642,9 @@ CONTAINS
             CALL abort_psblas
         END IF
 
-        r%field = f1%field
+        r%base = f1%base
 
-        isize = f1%field%fld_size()
+        isize = f1%base%fld_size()
         nel   = isize(fld_internal_)
         nbf   = isize(fld_boundary_)
 
@@ -664,7 +672,7 @@ CONTAINS
 
 
         ! Check consistency of operands
-        CALL f1%field%check_field_operands(f2%field,'SCALAR_FIELD_DIF')
+        CALL f1%base%check_field_operands(f2%base,'SCALAR_FIELD_DIF')
 
         ! Check consistency of operand dimensions
         IF(f1%dim_() /= f2%dim_()) THEN
@@ -672,9 +680,9 @@ CONTAINS
             CALL abort_psblas
         END IF
 
-        r%field = f1%field
+        r%base = f1%base
 
-        isize = f1%field%fld_size()
+        isize = f1%base%fld_size()
         nel   = isize(fld_internal_)
         nbf   = isize(fld_boundary_)
 
@@ -697,9 +705,9 @@ CONTAINS
     MODULE PROCEDURE scalar_field_dif_s
         INTEGER :: isize(2), nel, nbf, info
 
-        r%field = f1%field
+        r%base = f1%base
 
-        isize = f1%field%fld_size()
+        isize = f1%base%fld_size()
         nel   = isize(fld_internal_)
         nbf   = isize(fld_boundary_)
 
@@ -721,9 +729,9 @@ CONTAINS
         !
         INTEGER :: isize(2), nel, nbf, info
 
-        r%field = f%field
+        r%base = f%base
 
-        isize = f%field%fld_size()
+        isize = f%base%fld_size()
         nel   = isize(fld_internal_)
         nbf   = isize(fld_boundary_)
 
@@ -750,17 +758,17 @@ CONTAINS
 
 
         ! Check consistency of operands
-        CALL f1%field%check_field_operands(f2%field,'SCALAR_FIELD_MUL')
+        CALL f1%base%check_field_operands(f2%base,'SCALAR_FIELD_MUL')
 
-        r%field = f1%field
+        r%base = f1%base
 
         ! Computes result dimensions
         dim = f1%dim_() * f2%dim_()
 
         ! Sets DIM member in the base field object
-        CALL r%field%set_field_dim(dim)
+        CALL r%base%set_field_dim(dim)
 
-        isize = f1%field%fld_size()
+        isize = f1%base%fld_size()
         nel   = isize(fld_internal_)
         nbf   = isize(fld_boundary_)
 
@@ -787,17 +795,17 @@ CONTAINS
 
 
         ! Check consistency of operands
-        CALL f1%field%check_field_operands(f2%field,'SCALAR_FIELD_DIV')
+        CALL f1%base%check_field_operands(f2%base,'SCALAR_FIELD_DIV')
 
-        r%field = f1%field
+        r%base = f1%base
 
         ! Computes result dimensions
         dim = f1%dim_() / f2%dim_()
 
         ! Sets DIM member in the base field object
-        CALL r%field%set_field_dim(dim)
+        CALL r%base%set_field_dim(dim)
 
-        isize = f1%field%fld_size()
+        isize = f1%base%fld_size()
         nel   = isize(fld_internal_)
         nbf   = isize(fld_boundary_)
 
@@ -835,9 +843,9 @@ CONTAINS
         END IF
 
         ! Sets base member
-        r%field = fld%field
+        r%base = fld%base
 
-        CALL fld%field%get_mesh(msh)
+        CALL fld%base%get_mesh(msh)
         nel = COUNT(msh%faces%flag_() <= 0)
         nbf = COUNT(msh%faces%flag_() > 0)
 
@@ -877,7 +885,7 @@ CONTAINS
 
         ! 3) Copies boundary values
         r%bx = fld%bx
-        CALL r%field%set_field_on_faces(.TRUE.)
+        CALL r%base%set_field_on_faces(.TRUE.)
         NULLIFY(if2b)
         NULLIFY(msh)
 
@@ -891,7 +899,7 @@ CONTAINS
 
     MODULE PROCEDURE check_mesh_consistency_sf
 
-        CALL f1%field%check_mesh_consistency(f2%field,WHERE)
+        CALL f1%base%check_mesh_consistency(f2%base,WHERE)
 
     END PROCEDURE check_mesh_consistency_sf
 

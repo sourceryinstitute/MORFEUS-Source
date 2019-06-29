@@ -61,8 +61,9 @@ MODULE class_scalar_field
     PUBLIC :: ASSIGNMENT(=)                             ! Setters
     PUBLIC :: OPERATOR(*)              ! Algebra operations
 
-    TYPE, EXTENDS(field) :: scalar_field
+    TYPE scalar_field
         PRIVATE
+        TYPE(field) :: base
         REAL(psb_dpk_), ALLOCATABLE :: x(:)
         REAL(psb_dpk_), ALLOCATABLE :: xp(:)
         REAL(psb_dpk_), ALLOCATABLE :: bx(:)
@@ -76,6 +77,7 @@ MODULE class_scalar_field
         GENERIC, PUBLIC :: dim_ => get_scalar_field_dim
         GENERIC, PUBLIC :: msh_ => get_scalar_field_msh_fun
         PROCEDURE, PRIVATE :: get_scalar_field_on_faces, get_scalar_field_bc
+        GENERIC, PUBLIC :: bc_ => get_scalar_field_bc
         PROCEDURE, PRIVATE :: get_scalar_field_mat, get_scalar_field_mat_sub
         GENERIC, PUBLIC :: mat_ => get_scalar_field_mat
         GENERIC, PUBLIC :: get_material => get_scalar_field_mat_sub
