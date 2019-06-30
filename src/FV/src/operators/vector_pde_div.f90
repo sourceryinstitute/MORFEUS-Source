@@ -49,20 +49,15 @@ SUBMODULE (op_div) vector_pde_div_implementation
     CONTAINS
 
     MODULE PROCEDURE vector_pde_div
-    USE class_psblas
-    USE class_bc
-    USE class_connectivity
-    USE class_discretization
-    USE class_dimensions
-    USE class_face
-    USE class_vector
-    USE class_scalar_field
-    USE class_vector_field
-    USE class_mesh
-    USE class_vector_pde
-    USE tools_bc
-    USE tools_operators
-    USE op_field
+    USE class_psblas, ONLY : psb_dpk_, sw_pde, mypnum_, debug_mat_bld, abort_psblas, psb_get_loc_to_glob
+    USE class_bc, ONLY : bc_poly
+    USE class_discretization, ONLY : up_, cd_
+    USE class_dimensions, ONLY : dimensions, OPERATOR(/=)
+    USE class_vector, ONLY : vector, vector_, OPERATOR(*), OPERATOR(-)
+    USE class_mesh, ONLY : mesh
+    USE class_vector_pde, ONLY : spins_pde, geins_pde
+    USE tools_bc, ONLY : bc_dirichlet_, bc_dirichlet_map_, bc_neumann_
+    USE tools_operators, ONLY : lhs_, size_blk, pde_sign
 
     IMPLICIT NONE
     !

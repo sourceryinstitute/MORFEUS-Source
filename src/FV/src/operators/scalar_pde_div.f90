@@ -47,20 +47,12 @@ SUBMODULE (op_div) scalar_pde_div_implementation
     CONTAINS
 
     MODULE PROCEDURE scalar_pde_div
-    USE class_psblas
-    USE class_bc
-    USE class_connectivity
-    USE class_discretization
-    USE class_dimensions
-    USE class_face
-    !  use class_vector
-    USE class_scalar_field
-    !  use class_vector_field
-    USE class_mesh
-    USE class_scalar_pde
-    USE tools_bc
-    USE tools_operators
-    USE op_field
+    USE class_psblas, ONLY : psb_dpk_, mypnum_, sw_pde
+    USE class_bc, ONLY : bc_poly
+    USE class_discretization, ONLY : up_, cd_
+    USE class_dimensions, ONLY : dimensions,  OPERATOR(/=)
+    USE tools_bc, ONLY : bc_dirichlet_, bc_neumann_, bc_dirichlet_map_
+    USE tools_operators, ONLY : size_blk, pde_sign, lhs_
 
     IMPLICIT NONE
     !
