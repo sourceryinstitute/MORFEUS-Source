@@ -37,9 +37,9 @@
 !    To be added...
 !
 SUBMODULE(class_scalar_field) class_scalar_field_procedures
-  USE class_field
+    USE class_field
 
-  IMPLICIT NONE
+    IMPLICIT NONE
 
 CONTAINS
 
