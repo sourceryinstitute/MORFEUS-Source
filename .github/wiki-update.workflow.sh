@@ -17,7 +17,7 @@ echo "Git version:"
 git --version
 
 echo "Setting up SSH"
-mkdir ~/.ssh
+[ -d ~/.ssh ] || mkdir -p ~/.ssh
 chmod 700 ~/.ssh
 echo "$IBB_PWLESS_DEPLOY_KEY" > ~/.ssh/id_ed25519
 chmod 600 ~/.ssh/id_ed25519

@@ -164,8 +164,8 @@ MODULE tools_math
         END SUBROUTINE psb_solve_sys
 
         SUBROUTINE psb_build_prec(cprec,nlev,cmethod,A,desc_a,prec)
-          !! Note: This can't be a MODULE SUBROUTINE b/c of a compiler bug with
-          !!       gfortran-8.3. IP 6/6/2019
+        !! Note: This can't be a MODULE SUBROUTINE b/c of a compiler bug with
+        !!       gfortran-8.3. IP 6/6/2019
             USE psb_base_mod, ONLY : psb_dspmat_type, psb_desc_type
             USE psb_prec_mod, ONLY : psb_dprec_type
             IMPLICIT NONE

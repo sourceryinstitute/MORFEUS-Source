@@ -88,7 +88,7 @@ MODULE class_scalar_pde
         GENERIC, PUBLIC :: write_pde => write_scalar_pde     ! Output
     END TYPE scalar_pde
 
-  ! ----- Generic Interfaces -----
+    ! ----- Generic Interfaces -----
 
     INTERFACE spins_pde
         PROCEDURE :: spins_scalar_pde

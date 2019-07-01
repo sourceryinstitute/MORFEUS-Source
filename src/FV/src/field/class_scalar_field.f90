@@ -118,274 +118,274 @@ MODULE class_scalar_field
 
     INTERFACE
 
-    MODULE FUNCTION nemo_scalar_field_sizeof(fld)
-        IMPLICIT NONE
-        CLASS(scalar_field), INTENT(IN) :: fld
-        INTEGER(kind=nemo_int_long_)   :: nemo_scalar_field_sizeof
-    END FUNCTION nemo_scalar_field_sizeof
+        MODULE FUNCTION nemo_scalar_field_sizeof(fld)
+            IMPLICIT NONE
+            CLASS(scalar_field), INTENT(IN) :: fld
+            INTEGER(kind=nemo_int_long_)   :: nemo_scalar_field_sizeof
+        END FUNCTION nemo_scalar_field_sizeof
 
-    ! ----- Constructor -----
+        ! ----- Constructor -----
 
-    MODULE FUNCTION scalar_field_(base,x,bx)
-      !! Default public constructor, necessary with ifort
-        IMPLICIT NONE
-        TYPE(scalar_field) :: scalar_field_
-        TYPE(field),      INTENT(IN) :: base
-        REAL(psb_dpk_), INTENT(IN) :: x(:)
-        REAL(psb_dpk_), INTENT(IN) :: bx(:)
-    END FUNCTION scalar_field_
+        MODULE FUNCTION scalar_field_(base,x,bx)
+        !! Default public constructor, necessary with ifort
+            IMPLICIT NONE
+            TYPE(scalar_field) :: scalar_field_
+            TYPE(field),      INTENT(IN) :: base
+            REAL(psb_dpk_), INTENT(IN) :: x(:)
+            REAL(psb_dpk_), INTENT(IN) :: bx(:)
+        END FUNCTION scalar_field_
 
-  ! ----- Generic Interfaces -----
+        ! ----- Generic Interfaces -----
 
-  ! Constructor
-    MODULE SUBROUTINE create_scalar_field(fld,msh,dim,bc,mats,on_faces,x0)
-        IMPLICIT NONE
-        ! Mandatory arguments
-        CLASS(scalar_field), INTENT(OUT)        :: fld
-        TYPE(mesh),         INTENT(IN), TARGET :: msh
-        !
-        ! Optional arguments
-        TYPE(dimensions), INTENT(IN), OPTIONAL         :: dim
-        TYPE(bc_poly),    INTENT(IN), OPTIONAL, TARGET :: bc(:)
-        TYPE(matptr),   INTENT(IN), OPTIONAL, TARGET :: mats(:)
-        LOGICAL,          INTENT(IN), OPTIONAL         :: on_faces
-        REAL(psb_dpk_), INTENT(IN), OPTIONAL         :: x0
-    END SUBROUTINE create_scalar_field
+        ! Constructor
+        MODULE SUBROUTINE create_scalar_field(fld,msh,dim,bc,mats,on_faces,x0)
+            IMPLICIT NONE
+            ! Mandatory arguments
+            CLASS(scalar_field), INTENT(OUT)        :: fld
+            TYPE(mesh),         INTENT(IN), TARGET :: msh
+            !
+            ! Optional arguments
+            TYPE(dimensions), INTENT(IN), OPTIONAL         :: dim
+            TYPE(bc_poly),    INTENT(IN), OPTIONAL, TARGET :: bc(:)
+            TYPE(matptr),   INTENT(IN), OPTIONAL, TARGET :: mats(:)
+            LOGICAL,          INTENT(IN), OPTIONAL         :: on_faces
+            REAL(psb_dpk_), INTENT(IN), OPTIONAL         :: x0
+        END SUBROUTINE create_scalar_field
 
-  ! ----- Destructor -----
+        ! ----- Destructor -----
 
-    !! Destructor
-    MODULE SUBROUTINE free_scalar_field(fld)
-        IMPLICIT NONE
-        CLASS(scalar_field), INTENT(INOUT) :: fld
-    END SUBROUTINE free_scalar_field
+        !! Destructor
+        MODULE SUBROUTINE free_scalar_field(fld)
+            IMPLICIT NONE
+            CLASS(scalar_field), INTENT(INOUT) :: fld
+        END SUBROUTINE free_scalar_field
 
-  ! ----- Getters for Inherited Members -----
+        ! ----- Getters for Inherited Members -----
 
-    MODULE FUNCTION get_scalar_field_name(fld)
-        IMPLICIT NONE
-        CHARACTER(len=32) :: get_scalar_field_name
-        CLASS(scalar_field), INTENT(IN) :: fld
-    END FUNCTION get_scalar_field_name
+        MODULE FUNCTION get_scalar_field_name(fld)
+            IMPLICIT NONE
+            CHARACTER(len=32) :: get_scalar_field_name
+            CLASS(scalar_field), INTENT(IN) :: fld
+        END FUNCTION get_scalar_field_name
 
-    MODULE FUNCTION get_scalar_field_dim(fld)
-        IMPLICIT NONE
-        TYPE(dimensions) :: get_scalar_field_dim
-        CLASS(scalar_field), INTENT(IN) :: fld
-    END FUNCTION get_scalar_field_dim
+        MODULE FUNCTION get_scalar_field_dim(fld)
+            IMPLICIT NONE
+            TYPE(dimensions) :: get_scalar_field_dim
+            CLASS(scalar_field), INTENT(IN) :: fld
+        END FUNCTION get_scalar_field_dim
 
-    MODULE FUNCTION get_scalar_field_msh_fun(fld)
-        IMPLICIT NONE
-        TYPE(mesh), POINTER :: get_scalar_field_msh_fun
-        CLASS(scalar_field), INTENT(IN), TARGET  :: fld
-    END FUNCTION get_scalar_field_msh_fun
+        MODULE FUNCTION get_scalar_field_msh_fun(fld)
+            IMPLICIT NONE
+            TYPE(mesh), POINTER :: get_scalar_field_msh_fun
+            CLASS(scalar_field), INTENT(IN), TARGET  :: fld
+        END FUNCTION get_scalar_field_msh_fun
 
-  ! ----- Temporary up to Gfortran patch -----
-    MODULE SUBROUTINE get_scalar_field_msh_sub(fld,msh)
-        IMPLICIT NONE
-        CLASS(scalar_field), INTENT(IN) :: fld
-        TYPE(mesh), POINTER :: msh
-    END SUBROUTINE get_scalar_field_msh_sub
-  ! ------------------------------------------
+        ! ----- Temporary up to Gfortran patch -----
+        MODULE SUBROUTINE get_scalar_field_msh_sub(fld,msh)
+            IMPLICIT NONE
+            CLASS(scalar_field), INTENT(IN) :: fld
+            TYPE(mesh), POINTER :: msh
+        END SUBROUTINE get_scalar_field_msh_sub
+        ! ------------------------------------------
 
-    MODULE FUNCTION get_scalar_field_on_faces(fld)
-        IMPLICIT NONE
-        LOGICAL :: get_scalar_field_on_faces
-        CLASS(scalar_field), INTENT(IN) :: fld
-    END FUNCTION get_scalar_field_on_faces
+        MODULE FUNCTION get_scalar_field_on_faces(fld)
+            IMPLICIT NONE
+            LOGICAL :: get_scalar_field_on_faces
+            CLASS(scalar_field), INTENT(IN) :: fld
+        END FUNCTION get_scalar_field_on_faces
 
-    MODULE FUNCTION get_scalar_field_bc(fld)
-        IMPLICIT NONE
-        TYPE(bc_poly), POINTER :: get_scalar_field_bc(:)
-        CLASS(scalar_field), INTENT(IN) :: fld
-    END FUNCTION get_scalar_field_bc
+        MODULE FUNCTION get_scalar_field_bc(fld)
+            IMPLICIT NONE
+            TYPE(bc_poly), POINTER :: get_scalar_field_bc(:)
+            CLASS(scalar_field), INTENT(IN) :: fld
+        END FUNCTION get_scalar_field_bc
 
-    MODULE FUNCTION get_scalar_field_mat(fld, i)
-        IMPLICIT NONE
-        TYPE(material), POINTER :: get_scalar_field_mat
-        INTEGER, INTENT(IN), OPTIONAL :: i
-        CLASS(scalar_field), INTENT(IN) :: fld
-    END FUNCTION get_scalar_field_mat
+        MODULE FUNCTION get_scalar_field_mat(fld, i)
+            IMPLICIT NONE
+            TYPE(material), POINTER :: get_scalar_field_mat
+            INTEGER, INTENT(IN), OPTIONAL :: i
+            CLASS(scalar_field), INTENT(IN) :: fld
+        END FUNCTION get_scalar_field_mat
 
-  ! ----- Temporary up to Gfortran patch -----
-    MODULE SUBROUTINE get_scalar_field_mat_sub(fld,i,mat)
-      IMPLICIT NONE
-      CLASS(scalar_field), INTENT(IN) :: fld
-      INTEGER, INTENT(IN), OPTIONAL :: i
-      TYPE(material), POINTER :: mat
-    END SUBROUTINE get_scalar_field_mat_sub
-  ! ------------------------------------------
+        ! ----- Temporary up to Gfortran patch -----
+        MODULE SUBROUTINE get_scalar_field_mat_sub(fld,i,mat)
+            IMPLICIT NONE
+            CLASS(scalar_field), INTENT(IN) :: fld
+            INTEGER, INTENT(IN), OPTIONAL :: i
+            TYPE(material), POINTER :: mat
+        END SUBROUTINE get_scalar_field_mat_sub
+        ! ------------------------------------------
 
-    INTEGER MODULE FUNCTION get_scalar_field_mat_id(fld,i)
-        IMPLICIT NONE
-        CLASS(scalar_field), INTENT(IN) :: fld
-        INTEGER, INTENT(IN) :: i
-    END FUNCTION get_scalar_field_mat_id
+        INTEGER MODULE FUNCTION get_scalar_field_mat_id(fld,i)
+            IMPLICIT NONE
+            CLASS(scalar_field), INTENT(IN) :: fld
+            INTEGER, INTENT(IN) :: i
+        END FUNCTION get_scalar_field_mat_id
 
-    MODULE SUBROUTINE get_scalar_field_base(fld,base)
-        IMPLICIT NONE
-        CLASS(scalar_field), INTENT(IN)  :: fld
-        TYPE(field),        INTENT(OUT) :: base
-    END SUBROUTINE get_scalar_field_base
+        MODULE SUBROUTINE get_scalar_field_base(fld,base)
+            IMPLICIT NONE
+            CLASS(scalar_field), INTENT(IN)  :: fld
+            TYPE(field),        INTENT(OUT) :: base
+        END SUBROUTINE get_scalar_field_base
 
-  ! ----- Getters for Additional Members -----
+        ! ----- Getters for Additional Members -----
 
-    MODULE SUBROUTINE get_scalar_field_x(fld,x)
-        IMPLICIT NONE
-        CLASS(scalar_field), INTENT(IN) :: fld
-        REAL(psb_dpk_),   INTENT(OUT), ALLOCATABLE :: x(:)
-    END SUBROUTINE get_scalar_field_x
+        MODULE SUBROUTINE get_scalar_field_x(fld,x)
+            IMPLICIT NONE
+            CLASS(scalar_field), INTENT(IN) :: fld
+            REAL(psb_dpk_),   INTENT(OUT), ALLOCATABLE :: x(:)
+        END SUBROUTINE get_scalar_field_x
 
-    MODULE SUBROUTINE get_scalar_field_element(fld,x,i)
-        IMPLICIT NONE
-        CLASS(scalar_field), INTENT(IN) :: fld
-        REAL(psb_dpk_),   INTENT(OUT) :: x
-        INTEGER, INTENT(IN) :: i
-    END SUBROUTINE get_scalar_field_element
+        MODULE SUBROUTINE get_scalar_field_element(fld,x,i)
+            IMPLICIT NONE
+            CLASS(scalar_field), INTENT(IN) :: fld
+            REAL(psb_dpk_),   INTENT(OUT) :: x
+            INTEGER, INTENT(IN) :: i
+        END SUBROUTINE get_scalar_field_element
 
-    MODULE SUBROUTINE get_scalar_field_xp(fld,xp)
-        IMPLICIT NONE
-        CLASS(scalar_field), INTENT(IN) :: fld
-        REAL(psb_dpk_),   INTENT(OUT), ALLOCATABLE :: xp(:)
-    END SUBROUTINE get_scalar_field_xp
+        MODULE SUBROUTINE get_scalar_field_xp(fld,xp)
+            IMPLICIT NONE
+            CLASS(scalar_field), INTENT(IN) :: fld
+            REAL(psb_dpk_),   INTENT(OUT), ALLOCATABLE :: xp(:)
+        END SUBROUTINE get_scalar_field_xp
 
-    MODULE SUBROUTINE get_scalar_field_element_prev(fld,xp,i)
-        IMPLICIT NONE
-        CLASS(scalar_field), INTENT(IN) :: fld
-        REAL(psb_dpk_),   INTENT(OUT) :: xp
-        INTEGER, INTENT(IN) :: i
-    END SUBROUTINE get_scalar_field_element_prev
+        MODULE SUBROUTINE get_scalar_field_element_prev(fld,xp,i)
+            IMPLICIT NONE
+            CLASS(scalar_field), INTENT(IN) :: fld
+            REAL(psb_dpk_),   INTENT(OUT) :: xp
+            INTEGER, INTENT(IN) :: i
+        END SUBROUTINE get_scalar_field_element_prev
 
-    MODULE SUBROUTINE get_scalar_field_bx(fld,bx)
-        IMPLICIT NONE
-        CLASS(scalar_field), INTENT(IN) :: fld
-        REAL(psb_dpk_),   INTENT(OUT), ALLOCATABLE :: bx(:)
-    END SUBROUTINE get_scalar_field_bx
+        MODULE SUBROUTINE get_scalar_field_bx(fld,bx)
+            IMPLICIT NONE
+            CLASS(scalar_field), INTENT(IN) :: fld
+            REAL(psb_dpk_),   INTENT(OUT), ALLOCATABLE :: bx(:)
+        END SUBROUTINE get_scalar_field_bx
 
-    ! ----- Setters -----
+        ! ----- Setters -----
 
-    MODULE SUBROUTINE update_scalar_field(fld,mats,temp)
-        IMPLICIT NONE
-        CLASS(scalar_field), INTENT(INOUT) :: fld
-        TYPE(scalar_field), INTENT(IN), OPTIONAL :: temp
-        TYPE(matptr), INTENT(IN), POINTER :: mats(:)
-    END SUBROUTINE update_scalar_field
+        MODULE SUBROUTINE update_scalar_field(fld,mats,temp)
+            IMPLICIT NONE
+            CLASS(scalar_field), INTENT(INOUT) :: fld
+            TYPE(scalar_field), INTENT(IN), OPTIONAL :: temp
+            TYPE(matptr), INTENT(IN), POINTER :: mats(:)
+        END SUBROUTINE update_scalar_field
 
-  ! Setters
-    MODULE SUBROUTINE set_scalar_field_element(f,i,x)
-        IMPLICIT NONE
-        CLASS(scalar_field), INTENT(INOUT) :: f
-        INTEGER, INTENT(IN) :: i
-        REAL(psb_dpk_), INTENT(IN) :: x
-    END SUBROUTINE set_scalar_field_element
+        ! Setters
+        MODULE SUBROUTINE set_scalar_field_element(f,i,x)
+            IMPLICIT NONE
+            CLASS(scalar_field), INTENT(INOUT) :: f
+            INTEGER, INTENT(IN) :: i
+            REAL(psb_dpk_), INTENT(IN) :: x
+        END SUBROUTINE set_scalar_field_element
 
-    MODULE SUBROUTINE set_scalar_field_group(f,ig,x)
-        IMPLICIT NONE
-        CLASS(scalar_field), INTENT(INOUT) :: f
-        INTEGER, INTENT(IN) :: ig
-        REAL(psb_dpk_), INTENT(IN) :: x
-    END SUBROUTINE set_scalar_field_group
+        MODULE SUBROUTINE set_scalar_field_group(f,ig,x)
+            IMPLICIT NONE
+            CLASS(scalar_field), INTENT(INOUT) :: f
+            INTEGER, INTENT(IN) :: ig
+            REAL(psb_dpk_), INTENT(IN) :: x
+        END SUBROUTINE set_scalar_field_group
 
-  ! ----- Algebra Operations -----
+        ! ----- Algebra Operations -----
 
-    MODULE FUNCTION nemo_scalar_field_normi(fld) RESULT(norm)
-        IMPLICIT NONE
-        ClASS(scalar_field), INTENT(IN) :: fld
-        REAL(psb_dpk_)                 :: norm
-    END FUNCTION nemo_scalar_field_normi
+        MODULE FUNCTION nemo_scalar_field_normi(fld) RESULT(norm)
+            IMPLICIT NONE
+            ClASS(scalar_field), INTENT(IN) :: fld
+            REAL(psb_dpk_)                 :: norm
+        END FUNCTION nemo_scalar_field_normi
 
-    MODULE FUNCTION nemo_scalar_field_norm1(fld) RESULT(norm)
-        IMPLICIT NONE
-        CLASS(scalar_field), INTENT(IN) :: fld
-        REAL(psb_dpk_)                 :: norm
-    END FUNCTION nemo_scalar_field_norm1
+        MODULE FUNCTION nemo_scalar_field_norm1(fld) RESULT(norm)
+            IMPLICIT NONE
+            CLASS(scalar_field), INTENT(IN) :: fld
+            REAL(psb_dpk_)                 :: norm
+        END FUNCTION nemo_scalar_field_norm1
 
-  ! Algebra Operations
+        ! Algebra Operations
 
-    MODULE FUNCTION scalar_field_sum(f1,f2)RESULT(r)
-        IMPLICIT NONE
-        TYPE(scalar_field) :: r
-        CLASS(scalar_field), INTENT(IN) :: f1
-        TYPE(scalar_field), INTENT(IN) :: f2
-    END FUNCTION scalar_field_sum
+        MODULE FUNCTION scalar_field_sum(f1,f2)RESULT(r)
+            IMPLICIT NONE
+            TYPE(scalar_field) :: r
+            CLASS(scalar_field), INTENT(IN) :: f1
+            TYPE(scalar_field), INTENT(IN) :: f2
+        END FUNCTION scalar_field_sum
 
-    MODULE FUNCTION scalar_field_dif(f1,f2)RESULT(r)
-        IMPLICIT NONE
-        TYPE(scalar_field) :: r
-        CLASS(scalar_field), INTENT(IN) :: f1
-        TYPE(scalar_field), INTENT(IN) :: f2
-    END FUNCTION scalar_field_dif
+        MODULE FUNCTION scalar_field_dif(f1,f2)RESULT(r)
+            IMPLICIT NONE
+            TYPE(scalar_field) :: r
+            CLASS(scalar_field), INTENT(IN) :: f1
+            TYPE(scalar_field), INTENT(IN) :: f2
+        END FUNCTION scalar_field_dif
 
-    MODULE FUNCTION scalar_field_dif_s(f1,f2)RESULT(r)
-        IMPLICIT NONE
-        TYPE(scalar_field) :: r
-        CLASS(scalar_field), INTENT(IN) :: f1
-        REAL(psb_dpk_), INTENT(IN) :: f2
-    END FUNCTION scalar_field_dif_s
+        MODULE FUNCTION scalar_field_dif_s(f1,f2)RESULT(r)
+            IMPLICIT NONE
+            TYPE(scalar_field) :: r
+            CLASS(scalar_field), INTENT(IN) :: f1
+            REAL(psb_dpk_), INTENT(IN) :: f2
+        END FUNCTION scalar_field_dif_s
 
-    MODULE FUNCTION scalar_field_div(f1,f2)RESULT(r)
-        IMPLICIT NONE
-        TYPE(scalar_field) :: r
-        CLASS(scalar_field), INTENT(IN) :: f1
-        TYPE(scalar_field), INTENT(IN) :: f2
-    END FUNCTION scalar_field_div
+        MODULE FUNCTION scalar_field_div(f1,f2)RESULT(r)
+            IMPLICIT NONE
+            TYPE(scalar_field) :: r
+            CLASS(scalar_field), INTENT(IN) :: f1
+            TYPE(scalar_field), INTENT(IN) :: f2
+        END FUNCTION scalar_field_div
 
-    MODULE FUNCTION interp_on_faces_s(fld)RESULT(r)
-        IMPLICIT NONE
-        TYPE(scalar_field) :: r
-        CLASS(scalar_field), INTENT(IN) :: fld
-    END FUNCTION interp_on_faces_s
+        MODULE FUNCTION interp_on_faces_s(fld)RESULT(r)
+            IMPLICIT NONE
+            TYPE(scalar_field) :: r
+            CLASS(scalar_field), INTENT(IN) :: fld
+        END FUNCTION interp_on_faces_s
 
-  ! ----- Check Procedures -----
+        ! ----- Check Procedures -----
 
-    MODULE SUBROUTINE check_mesh_consistency_sf(f1,f2,WHERE)
-        IMPLICIT NONE
-        CLASS(scalar_field), INTENT(IN) :: f1
-        TYPE(scalar_field), INTENT(IN) :: f2
-        CHARACTER(len=*), INTENT(IN) :: WHERE
-    END SUBROUTINE check_mesh_consistency_sf
+        MODULE SUBROUTINE check_mesh_consistency_sf(f1,f2,WHERE)
+            IMPLICIT NONE
+            CLASS(scalar_field), INTENT(IN) :: f1
+            TYPE(scalar_field), INTENT(IN) :: f2
+            CHARACTER(len=*), INTENT(IN) :: WHERE
+        END SUBROUTINE check_mesh_consistency_sf
 
-  END INTERFACE
+    END INTERFACE
 
-  !
-  ! REMARK: thanks to TR15581 extensions there is no need of defining
-  ! the corresponding routine for the assignment between two fields.
-  ! f1 = f2 is legal and it does not require an explicit creation of f1
+    !
+    ! REMARK: thanks to TR15581 extensions there is no need of defining
+    ! the corresponding routine for the assignment between two fields.
+    ! f1 = f2 is legal and it does not require an explicit creation of f1
 
-  INTERFACE ASSIGNMENT(=)
-    !! User-defined assignment
+    INTERFACE ASSIGNMENT(=)
+        !! User-defined assignment
 
-    MODULE SUBROUTINE assign_scalar_field_s(f,x)
-        IMPLICIT NONE
-        TYPE(scalar_field), INTENT(INOUT) :: f
-        REAL(psb_dpk_),   INTENT(IN)    :: x
-    END SUBROUTINE assign_scalar_field_s
+        MODULE SUBROUTINE assign_scalar_field_s(f,x)
+            IMPLICIT NONE
+            TYPE(scalar_field), INTENT(INOUT) :: f
+            REAL(psb_dpk_),   INTENT(IN)    :: x
+        END SUBROUTINE assign_scalar_field_s
 
-    MODULE SUBROUTINE assign_scalar_field_v(f,x)
-        IMPLICIT NONE
-        TYPE(scalar_field), INTENT(INOUT) :: f
-        REAL(psb_dpk_),   INTENT(IN)    :: x(:)
-    END SUBROUTINE assign_scalar_field_v
+        MODULE SUBROUTINE assign_scalar_field_v(f,x)
+            IMPLICIT NONE
+            TYPE(scalar_field), INTENT(INOUT) :: f
+            REAL(psb_dpk_),   INTENT(IN)    :: x(:)
+        END SUBROUTINE assign_scalar_field_v
 
-  END INTERFACE ASSIGNMENT(=)
+    END INTERFACE ASSIGNMENT(=)
 
-  INTERFACE OPERATOR(*)
+    INTERFACE OPERATOR(*)
 
-    MODULE FUNCTION scalar_field_scal(a,f)RESULT(r)
-        IMPLICIT NONE
-        TYPE(scalar_field) :: r
-        REAL(psb_dpk_),   INTENT(IN) :: a
-        CLASS(scalar_field), INTENT(IN) :: f
-    END FUNCTION scalar_field_scal
+        MODULE FUNCTION scalar_field_scal(a,f)RESULT(r)
+            IMPLICIT NONE
+            TYPE(scalar_field) :: r
+            REAL(psb_dpk_),   INTENT(IN) :: a
+            CLASS(scalar_field), INTENT(IN) :: f
+        END FUNCTION scalar_field_scal
 
-    MODULE FUNCTION scalar_field_mul(f1,f2)RESULT(r)
-        IMPLICIT NONE
-        TYPE(scalar_field) :: r
-        CLASS(scalar_field), INTENT(IN) :: f1
-        TYPE(scalar_field), INTENT(IN) :: f2
-    END FUNCTION scalar_field_mul
+        MODULE FUNCTION scalar_field_mul(f1,f2)RESULT(r)
+            IMPLICIT NONE
+            TYPE(scalar_field) :: r
+            CLASS(scalar_field), INTENT(IN) :: f1
+            TYPE(scalar_field), INTENT(IN) :: f2
+        END FUNCTION scalar_field_mul
 
-  END INTERFACE OPERATOR(*)
+    END INTERFACE OPERATOR(*)
 
 
 END MODULE class_scalar_field

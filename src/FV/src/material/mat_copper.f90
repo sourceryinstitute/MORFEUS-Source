@@ -48,13 +48,13 @@ MODULE mat_copper
 
     IMPLICIT NONE
 
- INTERFACE
-    MODULE SUBROUTINE load_copper(state,dtemp,tmin,tmax,rho,lambda,sh)
-        IMPLICIT NONE
-        CHARACTER(len=1), INTENT(OUT) :: state
-        REAL(psb_dpk_), INTENT(OUT) :: dtemp, tmin, tmax
-        REAL(psb_dpk_), ALLOCATABLE, INTENT(OUT) :: rho(:), lambda(:), sh(:)
-    END SUBROUTINE load_copper
- END INTERFACE
+    INTERFACE
+        MODULE SUBROUTINE load_copper(state,dtemp,tmin,tmax,rho,lambda,sh)
+            IMPLICIT NONE
+            CHARACTER(len=1), INTENT(OUT) :: state
+            REAL(psb_dpk_), INTENT(OUT) :: dtemp, tmin, tmax
+            REAL(psb_dpk_), ALLOCATABLE, INTENT(OUT) :: rho(:), lambda(:), sh(:)
+        END SUBROUTINE load_copper
+    END INTERFACE
 
 END MODULE mat_copper

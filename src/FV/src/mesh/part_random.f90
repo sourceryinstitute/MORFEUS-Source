@@ -53,11 +53,11 @@ MODULE part_random
 
     INTERFACE
 
-      MODULE SUBROUTINE bld_part_random(ncells,nprocs,part)
-        IMPLICIT NONE
-        INTEGER, INTENT(IN) :: ncells, nprocs
-        INTEGER, ALLOCATABLE, INTENT(OUT) :: part(:)
-      END SUBROUTINE bld_part_random
+        MODULE SUBROUTINE bld_part_random(ncells,nprocs,part)
+            IMPLICIT NONE
+            INTEGER, INTENT(IN) :: ncells, nprocs
+            INTEGER, ALLOCATABLE, INTENT(OUT) :: part(:)
+        END SUBROUTINE bld_part_random
 
     END INTERFACE
 

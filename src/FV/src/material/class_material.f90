@@ -87,119 +87,119 @@ MODULE class_material
     END TYPE matptr
 
 
-  ! ----- Generic Interfaces -----
+    ! ----- Generic Interfaces -----
 
-  ! ----- Getters -----
-  INTERFACE
+    ! ----- Getters -----
+    INTERFACE
 
-    MODULE FUNCTION get_material_name(mat)
-      !! Getter
-        CHARACTER(len=name_len) :: get_material_name
-        CLASS(material), INTENT(IN) :: mat
-    END FUNCTION get_material_name
+        MODULE FUNCTION get_material_name(mat)
+        !! Getter
+            CHARACTER(len=name_len) :: get_material_name
+            CLASS(material), INTENT(IN) :: mat
+        END FUNCTION get_material_name
 
-    MODULE FUNCTION get_material_id(mat)
-      !! Getter
-        INTEGER :: get_material_id
-        CLASS(material), INTENT(IN) :: mat
-    END FUNCTION get_material_id
-  END INTERFACE
-
-
-  INTERFACE matlaw
-    !! Physical Properties Laws
-
-    MODULE SUBROUTINE matlaw_v(mats,im,t,dim,f)
-        USE class_dimensions
-        USE tools_material
-        USE tools_math
-        TYPE(dimensions), INTENT(IN) :: dim
-        INTEGER, INTENT(IN) :: im(:)
-        CLASS(matptr),   INTENT(IN), OPTIONAL, TARGET :: mats(:)
-        REAL(psb_dpk_), INTENT(IN) :: t(:)
-        REAL(psb_dpk_), INTENT(OUT) :: f(:)
-    END SUBROUTINE matlaw_v
+        MODULE FUNCTION get_material_id(mat)
+        !! Getter
+            INTEGER :: get_material_id
+            CLASS(material), INTENT(IN) :: mat
+        END FUNCTION get_material_id
+    END INTERFACE
 
 
-    MODULE SUBROUTINE matlaw_s(mats,im,t,dim,f)
-        USE class_dimensions
-        USE tools_math
-        TYPE(dimensions), INTENT(IN) :: dim
-        CLASS(matptr),   INTENT(IN), OPTIONAL, TARGET :: mats(:)
-        INTEGER, INTENT(IN) :: im
-        REAL(psb_dpk_), INTENT(IN) :: t
-        REAL(psb_dpk_), INTENT(OUT) :: f
-    END SUBROUTINE matlaw_s
+    INTERFACE matlaw
+        !! Physical Properties Laws
 
-    MODULE SUBROUTINE matlaw_fast_s(mat, t, property, f)
-        CLASS(material), INTENT(IN) :: mat
-        REAL(psb_dpk_), INTENT(IN) :: t
-        REAL(psb_dpk_), INTENT(OUT) :: f
-        CHARACTER(LEN=*), INTENT(IN) :: property
-    END SUBROUTINE matlaw_fast_s
+        MODULE SUBROUTINE matlaw_v(mats,im,t,dim,f)
+            USE class_dimensions
+            USE tools_material
+            USE tools_math
+            TYPE(dimensions), INTENT(IN) :: dim
+            INTEGER, INTENT(IN) :: im(:)
+            CLASS(matptr),   INTENT(IN), OPTIONAL, TARGET :: mats(:)
+            REAL(psb_dpk_), INTENT(IN) :: t(:)
+            REAL(psb_dpk_), INTENT(OUT) :: f(:)
+        END SUBROUTINE matlaw_v
 
-  END INTERFACE matlaw
 
-  ! Check Procedures
-  INTERFACE check_temp
+        MODULE SUBROUTINE matlaw_s(mats,im,t,dim,f)
+            USE class_dimensions
+            USE tools_math
+            TYPE(dimensions), INTENT(IN) :: dim
+            CLASS(matptr),   INTENT(IN), OPTIONAL, TARGET :: mats(:)
+            INTEGER, INTENT(IN) :: im
+            REAL(psb_dpk_), INTENT(IN) :: t
+            REAL(psb_dpk_), INTENT(OUT) :: f
+        END SUBROUTINE matlaw_s
 
-    MODULE SUBROUTINE check_temp_s(t,mat)
-        REAL(psb_dpk_), INTENT(IN) :: t
-        TYPE(material), INTENT(IN) :: mat
-    END SUBROUTINE check_temp_s
+        MODULE SUBROUTINE matlaw_fast_s(mat, t, property, f)
+            CLASS(material), INTENT(IN) :: mat
+            REAL(psb_dpk_), INTENT(IN) :: t
+            REAL(psb_dpk_), INTENT(OUT) :: f
+            CHARACTER(LEN=*), INTENT(IN) :: property
+        END SUBROUTINE matlaw_fast_s
 
-    MODULE SUBROUTINE check_temp_v(t,mat)
-        REAL(psb_dpk_), INTENT(IN) :: t(:)
-        TYPE(material), INTENT(IN) :: mat
-    END SUBROUTINE check_temp_v
+    END INTERFACE matlaw
 
-  END INTERFACE check_temp
+    ! Check Procedures
+    INTERFACE check_temp
+
+        MODULE SUBROUTINE check_temp_s(t,mat)
+            REAL(psb_dpk_), INTENT(IN) :: t
+            TYPE(material), INTENT(IN) :: mat
+        END SUBROUTINE check_temp_s
+
+        MODULE SUBROUTINE check_temp_v(t,mat)
+            REAL(psb_dpk_), INTENT(IN) :: t(:)
+            TYPE(material), INTENT(IN) :: mat
+        END SUBROUTINE check_temp_v
+
+    END INTERFACE check_temp
 
     LOGICAL, PARAMETER :: debug = .TRUE.
     INTEGER, PARAMETER :: nlen = 80
 
-  INTERFACE
-    MODULE FUNCTION nemo_material_sizeof(mat)
-        USE psb_base_mod
-        CLASS(material), INTENT(IN) :: mat
-        INTEGER(kind=nemo_int_long_)   :: nemo_material_sizeof
-    END FUNCTION nemo_material_sizeof
+    INTERFACE
+        MODULE FUNCTION nemo_material_sizeof(mat)
+            USE psb_base_mod
+            CLASS(material), INTENT(IN) :: mat
+            INTEGER(kind=nemo_int_long_)   :: nemo_material_sizeof
+        END FUNCTION nemo_material_sizeof
 
-    ! ----- ILAW's Reference table -----
-    ! ILAW(*)    = 1 -> constant
-    ! ILAW(*)    = 2 -> piecewise linear
-    ! ILAW(irho) = 3 -> perfect gas rho = f(T)
-    ! ILAW(irho) = 4 -> perfect gas rho = f(p,T)
+        ! ----- ILAW's Reference table -----
+        ! ILAW(*)    = 1 -> constant
+        ! ILAW(*)    = 2 -> piecewise linear
+        ! ILAW(irho) = 3 -> perfect gas rho = f(T)
+        ! ILAW(irho) = 4 -> perfect gas rho = f(p,T)
 
-    ! ----- Constructors -----
+        ! ----- Constructors -----
 
-    MODULE SUBROUTINE create_material(mat,input_file,sec)
-      !! Global Constructor
-        USE tools_material
-        CLASS(material), INTENT(OUT) :: mat
-        CHARACTER(len=*), INTENT(IN) :: input_file
-        CHARACTER(len=*), INTENT(IN) :: sec
-    END SUBROUTINE create_material
+        MODULE SUBROUTINE create_material(mat,input_file,sec)
+        !! Global Constructor
+            USE tools_material
+            CLASS(material), INTENT(OUT) :: mat
+            CHARACTER(len=*), INTENT(IN) :: input_file
+            CHARACTER(len=*), INTENT(IN) :: sec
+        END SUBROUTINE create_material
 
 
-    ! ----- Destructor -----
+        ! ----- Destructor -----
 
-    MODULE SUBROUTINE free_material(mat)
-        CLASS(material), INTENT(INOUT) :: mat
-    END SUBROUTINE free_material
+        MODULE SUBROUTINE free_material(mat)
+            CLASS(material), INTENT(INOUT) :: mat
+        END SUBROUTINE free_material
 
-    MODULE SUBROUTINE check_material_consistency(mat1,mat2,WHERE)
-        TYPE(matptr), POINTER :: mat1(:), mat2(:)
-        CHARACTER(len=*), INTENT(IN) :: WHERE
-    END SUBROUTINE check_material_consistency
+        MODULE SUBROUTINE check_material_consistency(mat1,mat2,WHERE)
+            TYPE(matptr), POINTER :: mat1(:), mat2(:)
+            CHARACTER(len=*), INTENT(IN) :: WHERE
+        END SUBROUTINE check_material_consistency
 
-    ! ----- Debug -----
+        ! ----- Debug -----
 
-    MODULE SUBROUTINE debug_material(mat)
-        USE tools_material
-        TYPE(material), INTENT(IN) :: mat
-    END SUBROUTINE debug_material
+        MODULE SUBROUTINE debug_material(mat)
+            USE tools_material
+            TYPE(material), INTENT(IN) :: mat
+        END SUBROUTINE debug_material
 
-  END INTERFACE
+    END INTERFACE
 
 END MODULE class_material

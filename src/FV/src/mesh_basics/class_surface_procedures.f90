@@ -241,7 +241,7 @@ CONTAINS
 
 
     MODULE PROCEDURE get_surface_r2
-      !! Returns the goodness of fit, R2 value, from 0 to 1
+    !! Returns the goodness of fit, R2 value, from 0 to 1
         USE class_psblas
         USE class_vector
 
@@ -266,7 +266,7 @@ CONTAINS
     END PROCEDURE get_surface_r2
 
     MODULE PROCEDURE translate_surface
-      !! Move a surface by translating it in 3D space
+    !! Move a surface by translating it in 3D space
         USE class_psblas
         USE class_vector
         USE class_plane
@@ -288,7 +288,7 @@ CONTAINS
     END PROCEDURE translate_surface
 
     MODULE PROCEDURE get_closest_point
-      !! Returns the point on a surface that is closest to the given point
+    !! Returns the point on a surface that is closest to the given point
         USE class_psblas
         USE class_vector
 
@@ -316,7 +316,7 @@ CONTAINS
     ! ----- Setters -----
 
     MODULE PROCEDURE reform_vertex
-      !! moves the given vertex onto the closest point on the surface
+    !! moves the given vertex onto the closest point on the surface
 
         USE class_psblas
         USE class_vector
@@ -339,7 +339,7 @@ CONTAINS
     !Below is commented out because this procedure is not used
 
     !MODULE PROCEDURE get_surface_set
-      !! returns true if the surface has been set up already
+    !! returns true if the surface has been set up already
 
     !    get_surface_set = this_surface%set
 

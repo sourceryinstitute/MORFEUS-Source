@@ -58,7 +58,7 @@ MODULE class_stopwatch
         REAL(psb_dpk_) :: total
         REAL(psb_dpk_) :: split
         REAL(psb_dpk_) :: partial
-      CONTAINS
+    CONTAINS
         PROCEDURE :: partial_, total_   ! Getters
         PROCEDURE, PRIVATE :: synchro_stopwatch, tic_stopwatch, toc_stopwatch  !Setters
         GENERIC, PUBLIC :: synchro => synchro_stopwatch
