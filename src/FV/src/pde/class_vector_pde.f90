@@ -103,137 +103,137 @@ MODULE class_vector_pde
 
     ! ----- Generic Interfaces -----
 
-  INTERFACE
+    INTERFACE
 
-    MODULE FUNCTION nemo_vector_pde_sizeof(eqn)
-        USE class_psblas, ONLY : nemo_int_long_
-        IMPLICIT NONE
-        CLASS(vector_pde), INTENT(IN) :: eqn
-        INTEGER(kind=nemo_int_long_)   :: nemo_vector_pde_sizeof
-     END FUNCTION nemo_vector_pde_sizeof
+        MODULE FUNCTION nemo_vector_pde_sizeof(eqn)
+            USE class_psblas, ONLY : nemo_int_long_
+            IMPLICIT NONE
+            CLASS(vector_pde), INTENT(IN) :: eqn
+            INTEGER(kind=nemo_int_long_)   :: nemo_vector_pde_sizeof
+        END FUNCTION nemo_vector_pde_sizeof
 
-    !! ----- Constructor -----
-    MODULE SUBROUTINE create_vector_pde(pde,input_file,sec,msh,dim)
-      !! Constructor
-        USE class_dimensions, ONLY : dimensions
-        IMPLICIT NONE
+        !! ----- Constructor -----
+        MODULE SUBROUTINE create_vector_pde(pde,input_file,sec,msh,dim)
+        !! Constructor
+            USE class_dimensions, ONLY : dimensions
+            IMPLICIT NONE
 
-        CLASS(vector_pde), INTENT(OUT)           :: pde
-        CHARACTER(len=*), INTENT(IN)            :: input_file
-        CHARACTER(len=*), INTENT(IN)            :: sec
-        TYPE(mesh),       INTENT(INOUT), TARGET :: msh
-        TYPE(dimensions), INTENT(IN)            :: dim
-    END SUBROUTINE create_vector_pde
+            CLASS(vector_pde), INTENT(OUT)           :: pde
+            CHARACTER(len=*), INTENT(IN)            :: input_file
+            CHARACTER(len=*), INTENT(IN)            :: sec
+            TYPE(mesh),       INTENT(INOUT), TARGET :: msh
+            TYPE(dimensions), INTENT(IN)            :: dim
+        END SUBROUTINE create_vector_pde
 
-    !! ----- Destructor -----
-    MODULE SUBROUTINE free_vector_pde(pde)
-      !! Destructor
-        IMPLICIT NONE
-        CLASS(vector_pde), INTENT(INOUT) :: pde
-    END SUBROUTINE free_vector_pde
+        !! ----- Destructor -----
+        MODULE SUBROUTINE free_vector_pde(pde)
+        !! Destructor
+            IMPLICIT NONE
+            CLASS(vector_pde), INTENT(INOUT) :: pde
+        END SUBROUTINE free_vector_pde
 
-  ! ----- Getters -----
+        ! ----- Getters -----
 
-    !! Getters
-    MODULE FUNCTION get_vector_pde_name(pde)
-        IMPLICIT NONE
-        CHARACTER(len=32) :: get_vector_pde_name
-        CLASS(vector_pde), INTENT(IN) :: pde
-    END FUNCTION get_vector_pde_name
+        !! Getters
+        MODULE FUNCTION get_vector_pde_name(pde)
+            IMPLICIT NONE
+            CHARACTER(len=32) :: get_vector_pde_name
+            CLASS(vector_pde), INTENT(IN) :: pde
+        END FUNCTION get_vector_pde_name
 
-    MODULE FUNCTION get_vector_pde_dim(pde)
-        USE class_dimensions, ONLY : dimensions
-        IMPLICIT NONE
-        TYPE(dimensions) :: get_vector_pde_dim
-        CLASS(vector_pde), INTENT(IN) :: pde
-    END FUNCTION get_vector_pde_dim
+        MODULE FUNCTION get_vector_pde_dim(pde)
+            USE class_dimensions, ONLY : dimensions
+            IMPLICIT NONE
+            TYPE(dimensions) :: get_vector_pde_dim
+            CLASS(vector_pde), INTENT(IN) :: pde
+        END FUNCTION get_vector_pde_dim
 
-  !-----------------------------------------
+        !-----------------------------------------
 
-    MODULE SUBROUTINE get_vector_pde_A(pde,A)
-        IMPLICIT NONE
-        CLASS(vector_pde), INTENT(INOUT) :: pde
-        TYPE(psb_dspmat_type)  :: A
-    END SUBROUTINE get_vector_pde_A
+        MODULE SUBROUTINE get_vector_pde_A(pde,A)
+            IMPLICIT NONE
+            CLASS(vector_pde), INTENT(INOUT) :: pde
+            TYPE(psb_dspmat_type)  :: A
+        END SUBROUTINE get_vector_pde_A
 
-  !-----------------------------------------
+        !-----------------------------------------
 
-    MODULE FUNCTION get_vector_pde_msh_fun(pde)
-        IMPLICIT NONE
-        TYPE(mesh), POINTER :: get_vector_pde_msh_fun
-        CLASS(vector_pde), INTENT(IN) :: pde
-    END FUNCTION get_vector_pde_msh_fun
+        MODULE FUNCTION get_vector_pde_msh_fun(pde)
+            IMPLICIT NONE
+            TYPE(mesh), POINTER :: get_vector_pde_msh_fun
+            CLASS(vector_pde), INTENT(IN) :: pde
+        END FUNCTION get_vector_pde_msh_fun
 
-    MODULE SUBROUTINE get_vector_pde_diag(pde,d)
-        IMPLICIT NONE
-        CLASS(vector_pde), INTENT(INOUT) :: pde
-        REAL(psb_dpk_), ALLOCATABLE  :: d(:)
-    END SUBROUTINE get_vector_pde_diag
+        MODULE SUBROUTINE get_vector_pde_diag(pde,d)
+            IMPLICIT NONE
+            CLASS(vector_pde), INTENT(INOUT) :: pde
+            REAL(psb_dpk_), ALLOCATABLE  :: d(:)
+        END SUBROUTINE get_vector_pde_diag
 
-  ! ----- Temporary up to Gfortran patch -----
-    MODULE SUBROUTINE get_vector_pde_msh_sub(pde,msh)
-        IMPLICIT NONE
-        CLASS(vector_pde), INTENT(IN) :: pde
-        TYPE(mesh), POINTER :: msh
-    END SUBROUTINE get_vector_pde_msh_sub
-  ! ------------------------------------------
+        ! ----- Temporary up to Gfortran patch -----
+        MODULE SUBROUTINE get_vector_pde_msh_sub(pde,msh)
+            IMPLICIT NONE
+            CLASS(vector_pde), INTENT(IN) :: pde
+            TYPE(mesh), POINTER :: msh
+        END SUBROUTINE get_vector_pde_msh_sub
+        ! ------------------------------------------
 
-  ! Linear System Solving
+        ! Linear System Solving
 
-    !! ----- Linear System Solving -----
-    MODULE SUBROUTINE spins_vector_pde(n,ia,ja,cloud,pde)
-        !! Inserts a ``cloud'' of coefficients into pde%A
-        IMPLICIT NONE
-        INTEGER,          INTENT(IN)    :: n
-        INTEGER,          INTENT(IN)    :: ia(:), ja(:)
-        REAL(psb_dpk_), INTENT(IN)    :: cloud(:)
-        TYPE(vector_pde), INTENT(INOUT) :: pde
-    END SUBROUTINE spins_vector_pde
+        !! ----- Linear System Solving -----
+        MODULE SUBROUTINE spins_vector_pde(n,ia,ja,cloud,pde)
+            !! Inserts a ``cloud'' of coefficients into pde%A
+            IMPLICIT NONE
+            INTEGER,          INTENT(IN)    :: n
+            INTEGER,          INTENT(IN)    :: ia(:), ja(:)
+            REAL(psb_dpk_), INTENT(IN)    :: cloud(:)
+            TYPE(vector_pde), INTENT(INOUT) :: pde
+        END SUBROUTINE spins_vector_pde
 
-    MODULE SUBROUTINE geins_vector_pde_v(n,ia,cloud,pde)
-      !! Wrapper for ``clouds'' of VECTOR type
-        IMPLICIT NONE
-        INTEGER, INTENT(IN) :: n
-        INTEGER, INTENT(IN) :: ia(:)
-        TYPE(vector),     INTENT(IN)    :: cloud(:)
-        TYPE(vector_pde), INTENT(INOUT) :: pde
-    END SUBROUTINE geins_vector_pde_v
+        MODULE SUBROUTINE geins_vector_pde_v(n,ia,cloud,pde)
+        !! Wrapper for ``clouds'' of VECTOR type
+            IMPLICIT NONE
+            INTEGER, INTENT(IN) :: n
+            INTEGER, INTENT(IN) :: ia(:)
+            TYPE(vector),     INTENT(IN)    :: cloud(:)
+            TYPE(vector_pde), INTENT(INOUT) :: pde
+        END SUBROUTINE geins_vector_pde_v
 
-    MODULE SUBROUTINE geins_vector_pde_r(n,ia,cloud,pde)
-      !! Inserts a ``cloud'' of RHS terms into pde%b
-        IMPLICIT NONE
-        INTEGER, INTENT(IN) :: n
-        INTEGER, INTENT(IN) :: ia(:)
-        REAL(psb_dpk_), INTENT(IN) :: cloud(:,:)
-        TYPE(vector_pde), INTENT(INOUT) :: pde
-    END SUBROUTINE geins_vector_pde_r
+        MODULE SUBROUTINE geins_vector_pde_r(n,ia,cloud,pde)
+        !! Inserts a ``cloud'' of RHS terms into pde%b
+            IMPLICIT NONE
+            INTEGER, INTENT(IN) :: n
+            INTEGER, INTENT(IN) :: ia(:)
+            REAL(psb_dpk_), INTENT(IN) :: cloud(:,:)
+            TYPE(vector_pde), INTENT(INOUT) :: pde
+        END SUBROUTINE geins_vector_pde_r
 
-    MODULE SUBROUTINE asb_vector_pde(pde)
-        IMPLICIT NONE
-        CLASS(vector_pde), INTENT(INOUT) :: pde
-    END SUBROUTINE asb_vector_pde
+        MODULE SUBROUTINE asb_vector_pde(pde)
+            IMPLICIT NONE
+            CLASS(vector_pde), INTENT(INOUT) :: pde
+        END SUBROUTINE asb_vector_pde
 
-    MODULE SUBROUTINE solve_vector_pde(pde,phi,var)
-        !! Assigns the solution to the vector field
-        IMPLICIT NONE
-        CLASS(vector_pde), INTENT(INOUT) :: pde
-        TYPE(vector_field), INTENT(INOUT) :: phi
-        REAL(psb_dpk_), INTENT(OUT), OPTIONAL :: var
-    END SUBROUTINE solve_vector_pde
+        MODULE SUBROUTINE solve_vector_pde(pde,phi,var)
+            !! Assigns the solution to the vector field
+            IMPLICIT NONE
+            CLASS(vector_pde), INTENT(INOUT) :: pde
+            TYPE(vector_field), INTENT(INOUT) :: phi
+            REAL(psb_dpk_), INTENT(OUT), OPTIONAL :: var
+        END SUBROUTINE solve_vector_pde
 
-    MODULE SUBROUTINE reinit_vector_pde(pde)
-        IMPLICIT NONE
-        CLASS(vector_pde), INTENT(INOUT) :: pde
-    END SUBROUTINE reinit_vector_pde
+        MODULE SUBROUTINE reinit_vector_pde(pde)
+            IMPLICIT NONE
+            CLASS(vector_pde), INTENT(INOUT) :: pde
+        END SUBROUTINE reinit_vector_pde
 
-  ! Output
+        ! Output
 
-    MODULE SUBROUTINE write_vector_pde(pde,mat,rhs)
-      !! ----- Output -----
-        IMPLICIT NONE
-        CLASS(vector_pde), INTENT(IN) :: pde
-        CHARACTER(len=*), INTENT(IN) :: mat, rhs
-    END SUBROUTINE write_vector_pde
-  END INTERFACE
+        MODULE SUBROUTINE write_vector_pde(pde,mat,rhs)
+        !! ----- Output -----
+            IMPLICIT NONE
+            CLASS(vector_pde), INTENT(IN) :: pde
+            CHARACTER(len=*), INTENT(IN) :: mat, rhs
+        END SUBROUTINE write_vector_pde
+    END INTERFACE
 
 END MODULE class_vector_pde

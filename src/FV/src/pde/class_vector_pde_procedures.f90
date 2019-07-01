@@ -37,13 +37,13 @@
 !    To be added...
 !
 SUBMODULE(class_vector_pde) class_vector_pde_procedures
-  USE class_pde
-  USE class_stopwatch
-  USE class_psblas, ONLY : icontxt_, mypnum_, nemo_sizeof_dp, psb_dupl_add_, psb_genrm2, sw_asb, sw_ins, &
-    &                      abort_psblas, psb_geall, psb_geasb, psb_gefree, psb_geins,          &
-    &                      psb_erractionsave, psb_erractionrestore, psb_check_error
-  USE class_mesh
-  IMPLICIT NONE
+    USE class_pde
+    USE class_stopwatch
+    USE class_psblas, ONLY : icontxt_, mypnum_, nemo_sizeof_dp, psb_dupl_add_, psb_genrm2, sw_asb, sw_ins, &
+        &                    abort_psblas, psb_geall, psb_geasb, psb_gefree, psb_geins,          &
+        &                    psb_erractionsave, psb_erractionrestore, psb_check_error
+    USE class_mesh
+    IMPLICIT NONE
 
 CONTAINS
 

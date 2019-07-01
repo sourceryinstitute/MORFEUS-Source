@@ -101,6 +101,6 @@ SUBMODULE (tools_output_basics) wr_mtx_vector_implementation
 
 100         FORMAT(' ERROR! Memory allocation failure in WR_MTX_VECTOR')
 
-      END PROCEDURE wr_mtx_vector
+    END PROCEDURE wr_mtx_vector
 
 END SUBMODULE wr_mtx_vector_implementation
