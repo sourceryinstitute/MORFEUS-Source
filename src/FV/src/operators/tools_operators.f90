@@ -54,24 +54,24 @@ MODULE tools_operators
     REAL(psb_dpk_), PARAMETER :: lhs_ = 1.d0
     REAL(psb_dpk_), PARAMETER :: rhs_ = -1.d0
 
-  INTERFACE
+    INTERFACE
 
-    MODULE FUNCTION pde_sign(sign,side)
-      USE class_psblas
-      IMPLICIT NONE
-      REAL(psb_dpk_) :: pde_sign
-      CHARACTER(len=1), INTENT(IN) :: sign
-      REAL(psb_dpk_), INTENT(IN) :: side
-    END FUNCTION pde_sign
+        MODULE FUNCTION pde_sign(sign,side)
+            USE class_psblas
+            IMPLICIT NONE
+            REAL(psb_dpk_) :: pde_sign
+            CHARACTER(len=1), INTENT(IN) :: sign
+            REAL(psb_dpk_), INTENT(IN) :: side
+        END FUNCTION pde_sign
 
 
-    MODULE FUNCTION size_blk(ifirst,imax)
-      IMPLICIT NONE
-      INTEGER :: size_blk
-      INTEGER, INTENT(IN) :: ifirst, imax
-        !!  WARNING!!! NBMAX must be a multiple of 4
-    END FUNCTION size_blk
+        MODULE FUNCTION size_blk(ifirst,imax)
+            IMPLICIT NONE
+            INTEGER :: size_blk
+            INTEGER, INTENT(IN) :: ifirst, imax
+            !!  WARNING!!! NBMAX must be a multiple of 4
+        END FUNCTION size_blk
 
-  END INTERFACE
+    END INTERFACE
 
 END MODULE tools_operators

@@ -44,13 +44,13 @@
 !
 MODULE op_grad
     USE class_vector_pde, ONLY : vector_pde
-      !! Needed only by vector_pde_grad; a gfortran bug requires locating it here
+    !! Needed only by vector_pde_grad; a gfortran bug requires locating it here
     USE class_vector, ONLY : vector
-      !! An Intel 18.0.5 bug precludes putting this in the interface bodies
+    !! An Intel 18.0.5 bug precludes putting this in the interface bodies
     USE class_vector_field, ONLY : vector_field
-      !! An Intel 18.0.5 bug precludes putting this in the interface bodies
+    !! An Intel 18.0.5 bug precludes putting this in the interface bodies
     USE class_scalar_field, ONLY : scalar_field
-      !! An Intel 18.0.5 bug precludes putting this in the interface bodies
+    !! An Intel 18.0.5 bug precludes putting this in the interface bodies
     USE class_psblas, ONLY : psb_dpk_
     USE class_connectivity, ONLY : connectivity
     IMPLICIT NONE
