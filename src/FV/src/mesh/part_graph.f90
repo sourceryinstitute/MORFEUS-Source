@@ -62,27 +62,27 @@ MODULE part_graph
 
     INTERFACE
 
-      MODULE SUBROUTINE bld_part_graph(xadj_glob,adjncy_glob,ipart)
-        IMPLICIT NONE
-        INTEGER, INTENT(IN) :: xadj_glob(:), adjncy_glob(:)
-        INTEGER, INTENT(IN) :: ipart
-      END SUBROUTINE
+        MODULE SUBROUTINE bld_part_graph(xadj_glob,adjncy_glob,ipart)
+            IMPLICIT NONE
+            INTEGER, INTENT(IN) :: xadj_glob(:), adjncy_glob(:)
+            INTEGER, INTENT(IN) :: ipart
+        END SUBROUTINE
 
-      MODULE SUBROUTINE get_part_graph(part)
-        IMPLICIT NONE
-        INTEGER, ALLOCATABLE, INTENT(OUT) :: part(:)
-      END SUBROUTINE
+        MODULE SUBROUTINE get_part_graph(part)
+            IMPLICIT NONE
+            INTEGER, ALLOCATABLE, INTENT(OUT) :: part(:)
+        END SUBROUTINE
 
-      SUBROUTINE METIS_PartGraphKway(n,xadj_glob,adjncy_glob,vwgt,adjwgt,&
-          & wgtflag,numflag,nparts,options,edgecut,part)
-          INTEGER, INTENT(IN):: n
-          INTEGER, INTENT(IN), DIMENSION(*) :: xadj_glob, adjncy_glob
-          INTEGER, INTENT(IN), DIMENSION(*) :: vwgt, adjwgt
-          INTEGER, INTENT(IN) :: wgtflag, numflag,nparts
-          INTEGER, INTENT(IN) :: options(*)
-          INTEGER, INTENT(OUT) :: edgecut
-          INTEGER, INTENT(OUT), DIMENSION(*) :: part
-      END SUBROUTINE METIS_PartGraphKway
+        SUBROUTINE METIS_PartGraphKway(n,xadj_glob,adjncy_glob,vwgt,adjwgt,&
+            & wgtflag,numflag,nparts,options,edgecut,part)
+            INTEGER, INTENT(IN):: n
+            INTEGER, INTENT(IN), DIMENSION(*) :: xadj_glob, adjncy_glob
+            INTEGER, INTENT(IN), DIMENSION(*) :: vwgt, adjwgt
+            INTEGER, INTENT(IN) :: wgtflag, numflag,nparts
+            INTEGER, INTENT(IN) :: options(*)
+            INTEGER, INTENT(OUT) :: edgecut
+            INTEGER, INTENT(OUT), DIMENSION(*) :: part
+        END SUBROUTINE METIS_PartGraphKway
 
     END INTERFACE
 

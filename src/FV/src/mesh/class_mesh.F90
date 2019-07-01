@@ -121,7 +121,7 @@ MODULE class_mesh
         PROCEDURE :: check_mesh_unused_el !! Check routines
         PROCEDURE, PRIVATE :: nemo_mesh_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_mesh_sizeof
-!        PROCEDURE :: check_mesh_consistency
+        !        PROCEDURE :: check_mesh_consistency
     END TYPE mesh
 
     ! Metrics description:
@@ -140,43 +140,43 @@ MODULE class_mesh
 
     INTERFACE
 
-      !! ----- Constructors -----
+        !! ----- Constructors -----
 
-      MODULE SUBROUTINE create_mesh(msh,input_file,sec)
-          !! Global constructor
-          IMPLICIT NONE
-          CLASS(mesh),      INTENT(OUT) :: msh
-          CHARACTER(len=*), INTENT(IN)  :: input_file
-          CHARACTER(len=*), INTENT(IN)  :: sec
-      END SUBROUTINE
+        MODULE SUBROUTINE create_mesh(msh,input_file,sec)
+            !! Global constructor
+            IMPLICIT NONE
+            CLASS(mesh),      INTENT(OUT) :: msh
+            CHARACTER(len=*), INTENT(IN)  :: input_file
+            CHARACTER(len=*), INTENT(IN)  :: sec
+        END SUBROUTINE
 
-      MODULE SUBROUTINE free_mesh(msh)
-          !! ----- Destructor -----
-          IMPLICIT NONE
-          CLASS(mesh), INTENT(INOUT) :: msh
-      END SUBROUTINE
+        MODULE SUBROUTINE free_mesh(msh)
+            !! ----- Destructor -----
+            IMPLICIT NONE
+            CLASS(mesh), INTENT(INOUT) :: msh
+        END SUBROUTINE
 
-      !! ----- Check Operations -----
+        !! ----- Check Operations -----
 
-      MODULE SUBROUTINE check_mesh_unused_el(msh)
-          !! Scans through numerous connectivities, ensuring that in each one,
-          !! all faces & cells are referenced at least once.
-          IMPLICIT NONE
-          CLASS(mesh), INTENT(IN) :: msh
-      END SUBROUTINE check_mesh_unused_el
+        MODULE SUBROUTINE check_mesh_unused_el(msh)
+            !! Scans through numerous connectivities, ensuring that in each one,
+            !! all faces & cells are referenced at least once.
+            IMPLICIT NONE
+            CLASS(mesh), INTENT(IN) :: msh
+        END SUBROUTINE check_mesh_unused_el
 
-      MODULE FUNCTION nemo_mesh_sizeof(msh)
-        IMPLICIT NONE
-        CLASS(mesh), INTENT(IN) :: msh
-        INTEGER(kind=nemo_int_long_)   :: nemo_mesh_sizeof
-      END FUNCTION nemo_mesh_sizeof
+        MODULE FUNCTION nemo_mesh_sizeof(msh)
+            IMPLICIT NONE
+            CLASS(mesh), INTENT(IN) :: msh
+            INTEGER(kind=nemo_int_long_)   :: nemo_mesh_sizeof
+        END FUNCTION nemo_mesh_sizeof
 
-      MODULE SUBROUTINE check_mesh_consistency(msh1,msh2,WHERE)
-        !! Checks the consistency of two meshes: MSH1 and MSH2
-        IMPLICIT NONE
-        TYPE(mesh), POINTER :: msh1, msh2
-        CHARACTER(len=*), INTENT(IN) :: WHERE
-      END SUBROUTINE check_mesh_consistency
+        MODULE SUBROUTINE check_mesh_consistency(msh1,msh2,WHERE)
+            !! Checks the consistency of two meshes: MSH1 and MSH2
+            IMPLICIT NONE
+            TYPE(mesh), POINTER :: msh1, msh2
+            CHARACTER(len=*), INTENT(IN) :: WHERE
+        END SUBROUTINE check_mesh_consistency
 
     END INTERFACE
 

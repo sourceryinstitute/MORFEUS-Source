@@ -44,7 +44,7 @@
 !
 SUBMODULE(part_block) part_block_procedures
 
-  ! USE class_psblas
+    ! USE class_psblas
 
     IMPLICIT NONE
 
