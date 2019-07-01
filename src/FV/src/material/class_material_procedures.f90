@@ -47,7 +47,7 @@ CONTAINS
     ! ----- Constructors -----
 
     MODULE PROCEDURE create_material
-      !! Global Constructor
+    !! Global Constructor
         USE tools_material
 
         ! Reads and bcast_ input parameters
