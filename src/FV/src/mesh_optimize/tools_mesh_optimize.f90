@@ -112,8 +112,8 @@ MODULE tools_mesh_optimize
             USE class_psblas,       ONLY : psb_desc_type
             IMPLICIT NONE
             TYPE(psb_desc_type),INTENT(INOUT) :: desc_v      ! Vertices
-              !! Note: Had to change to INTENT(INOUT) rather than INTENT(IN) due to the procedures
-              !!       being called in the subroutine having the INTENT(OUT) or INTENT(INOUT). IP - 6/6/2019
+            !! Note: Had to change to INTENT(INOUT) rather than INTENT(IN) due to the procedures
+            !!       being called in the subroutine having the INTENT(OUT) or INTENT(INOUT). IP - 6/6/2019
             TYPE(connectivity), INTENT(INOUT) :: v2v         ! given vertices, find the neighbors
             INTEGER,           INTENT(IN)  :: n_unconstrained  !# of interior, mobile vertices
             INTEGER,           INTENT(IN)  :: unconstrained(:) !interior, mobile vertices

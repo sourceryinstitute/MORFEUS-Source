@@ -16,9 +16,14 @@ root = true
 # but we need to explicitly enumerate files we care about to prevent random junk
 # from being linted
 
-[*.{f90,F90,f,F,for}]
+[*.{f90,F90}]
 indent_style = space
 indent_size = 4
+trim_trailing_whitespace = true
+max_line_length = 132
+
+[*.{f90,F90}]
+indent_style = space
 trim_trailing_whitespace = true
 max_line_length = 132
 

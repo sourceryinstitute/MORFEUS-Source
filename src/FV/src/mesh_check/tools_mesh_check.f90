@@ -44,9 +44,9 @@
 MODULE tools_mesh_check
     USE class_psblas, ONLY : psb_dpk_
     USE class_mesh, ONLY : mesh
-      !! An Intel 18.0.5 bug precludes putting this in the interface bodies
+    !! An Intel 18.0.5 bug precludes putting this in the interface bodies
     USE class_scalar_field, ONLY : scalar_field
-      !! An Intel 18.0.5 bug precludes putting this in the interface bodies
+    !! An Intel 18.0.5 bug precludes putting this in the interface bodies
     IMPLICIT NONE
 
     PRIVATE
@@ -63,12 +63,12 @@ MODULE tools_mesh_check
             INTEGER, INTENT(IN), OPTIONAL :: fmt
         END SUBROUTINE check_tet_quality
 
-       MODULE SUBROUTINE check_mesh_quality(msh,fquality,tol,bad_cells,quiet)
+        MODULE SUBROUTINE check_mesh_quality(msh,fquality,tol,bad_cells,quiet)
             IMPLICIT NONE
             TYPE(mesh), INTENT(IN) :: msh
             TYPE(scalar_field), INTENT(INOUT) :: fquality
-              !! Note: fquality was changed from INTENT(IN) to INTENT(INOUT) b/c the value can be changed
-              !!       in the implementation. IP 6/5/2019
+            !! Note: fquality was changed from INTENT(IN) to INTENT(INOUT) b/c the value can be changed
+            !!       in the implementation. IP 6/5/2019
             REAL(psb_dpk_), INTENT(IN),OPTIONAL :: tol
             INTEGER, ALLOCATABLE, INTENT(OUT), OPTIONAL :: bad_cells(:)
             LOGICAL,OPTIONAL :: quiet
