@@ -21,31 +21,38 @@ indent_style = space
 indent_size = 4
 trim_trailing_whitespace = true
 max_line_length = 132
+insert_final_newline = true
 
-[*.{f90,F90}]
-indent_style = space
-trim_trailing_whitespace = true
-max_line_length = 132
+# There's some very old C code
+# [*.{c,h}]
+# indent_style = space
+# indent_size = 4
+# trim_trailing_whitespace = true
+# insert_final_newline = true
 
 [Dockerfile]
 indent_style = tab
 indent_size = 4
 trim_trailing_whitespace = true
 max_line_length = 80
+insert_final_newline = true
 
 [{CMakeLists.txt, *.cmake}]
 indent_style = space
 indent_size = 2
 trim_trailing_whitespace = true
 max_line_length = 132
+insert_final_newline = true
 
 [{package.json,package-lock.json}]
 max_line_length = off
+insert_final_newline = true
 
 [*.md]
 max_line_length = off
 trim_trailing_whitespace = false
 charset = utf-8
+insert_final_newline = true
 
 [*.sln,*.vcproj}]
 max_line_length = off
@@ -58,6 +65,7 @@ indent_size = 4
 trim_trailing_whitespace = true
 max_line_length = 132
 end_of_line = crlf
+insert_final_newline = true
 
 # Matches multiple files with brace expansion notation
 # Set default charset
@@ -67,6 +75,7 @@ indent_size = 4
 trim_trailing_whitespace = true
 max_line_length = 132
 charset = utf-8
+insert_final_newline = true
 
 # Tab indentation (no size specified)
 [Makefile]
@@ -74,34 +83,36 @@ indent_style = tab
 indent_size = 4
 trim_trailing_whitespace = true
 max_line_length = 132
+insert_final_newline = true
 
 [*.sh]
 indent_style = space
 indent_size = 2
 trim_trailing_whitespace = true
 max_line_length = 132
-
-[*.json]
-trim_trailing_whitespace = true
-max_line_length = 132
+insert_final_newline = true
 
 [*.nml]
 trim_trailing_whitespace = true
 max_line_length = 132
+insert_final_newline = true
 
 [*.{el,elisp}]
 indent_style = space
 indent_size = 2
 trim_trailing_whitespace = true
 max_line_length = 132
+insert_final_newline = true
 
 [main.workflow]
 indent_style = space
 indent_size = 2
 trim_trailing_whitespace = true
 max_line_length = 132
+insert_final_newline = true
 
-[*.yml]
+[*.{yml,json}]
 indent_style = space
 indent_size = 2
 trim_trailing_whitespace = true
+insert_final_newline = true
