@@ -59,7 +59,7 @@ CONTAINS
     ! ----- Constuctors -----
 
     MODULE PROCEDURE create_bc
-      !! Global constructor
+    !! Global constructor
         USE class_mesh
         USE tools_bc
         USE tools_input
@@ -321,8 +321,8 @@ CONTAINS
 
 
     MODULE PROCEDURE move_boundaries
-      !! loop over all boundaries, moving the vertices and conceptual surfaces
-      !! from the time interval t1 to t2
+    !! loop over all boundaries, moving the vertices and conceptual surfaces
+    !! from the time interval t1 to t2
         USE class_mesh
         USE class_vector
 
