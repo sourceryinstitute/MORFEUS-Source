@@ -107,124 +107,124 @@ MODULE class_surface
     INTEGER, PARAMETER :: icylinder_ = 2, isphere_ = 3    ! cylinder, sphere
 
 
-  ! ----- Generic Interfaces -----
+    ! ----- Generic Interfaces -----
 
     INTERFACE
 
-    ELEMENTAL MODULE FUNCTION nemo_surface_sizeof(surf)
-        USE class_psblas, ONLY : nemo_int_long_
-        IMPLICIT NONE
-        CLASS(surface), INTENT(IN) :: surf
-        INTEGER(kind=nemo_int_long_)   :: nemo_surface_sizeof
-    END FUNCTION nemo_surface_sizeof
+        ELEMENTAL MODULE FUNCTION nemo_surface_sizeof(surf)
+            USE class_psblas, ONLY : nemo_int_long_
+            IMPLICIT NONE
+            CLASS(surface), INTENT(IN) :: surf
+            INTEGER(kind=nemo_int_long_)   :: nemo_surface_sizeof
+        END FUNCTION nemo_surface_sizeof
 
-    ! ----- Constructor -----
+        ! ----- Constructor -----
 
-    ! Constructs surface by instantiating a plane, cylinder, etc.
-    ! and checking the goodness of fit.  We keep this surface pointing
-    ! to the first good fit.  If none fit, then we return a null pointer.
-    ! The idea is that we are auto-detecting the type of surface by trial-
-    ! and-error, and that null means "unknown or irregular surface."
+        ! Constructs surface by instantiating a plane, cylinder, etc.
+        ! and checking the goodness of fit.  We keep this surface pointing
+        ! to the first good fit.  If none fit, then we return a null pointer.
+        ! The idea is that we are auto-detecting the type of surface by trial-
+        ! and-error, and that null means "unknown or irregular surface."
 
-    MODULE SUBROUTINE alloc_surface(v2b,ib,vertices,this_surface)
-        USE class_psblas
-        !USE class_connectivity
-        USE class_cylinder
-        USE class_plane
-        USE class_vertex
-        !    use class_sphere
-        IMPLICIT NONE
-        TYPE(connectivity), INTENT(IN) :: v2b
-        INTEGER, INTENT(IN)            :: ib
-        TYPE(vertex),INTENT(IN)        :: vertices(:)    ! All mesh vertices
-        TYPE(surface),INTENT(INOUT)    :: this_surface   ! inout, so that we can check SET.
-    END SUBROUTINE alloc_surface
+        MODULE SUBROUTINE alloc_surface(v2b,ib,vertices,this_surface)
+            USE class_psblas
+            !USE class_connectivity
+            USE class_cylinder
+            USE class_plane
+            USE class_vertex
+            !    use class_sphere
+            IMPLICIT NONE
+            TYPE(connectivity), INTENT(IN) :: v2b
+            INTEGER, INTENT(IN)            :: ib
+            TYPE(vertex),INTENT(IN)        :: vertices(:)    ! All mesh vertices
+            TYPE(surface),INTENT(INOUT)    :: this_surface   ! inout, so that we can check SET.
+        END SUBROUTINE alloc_surface
 
-    ! ----- Destructor -----
+        ! ----- Destructor -----
 
-    MODULE SUBROUTINE free_surface(this_surface)
-        USE class_psblas
-        IMPLICIT NONE
-        CLASS(surface), INTENT(INOUT) :: this_surface
-    END SUBROUTINE free_surface
-
-
-    ! ----- Getters -----
-
-    ! Returns a named integer constant indicating type:
-    ! iunknown, iplane, icylinder, isphere
-
-    ! Getters
-
-    MODULE FUNCTION get_surface_type(this_surface)
-        IMPLICIT NONE
-        INTEGER                   :: get_surface_type
-        CLASS(surface), INTENT(IN) :: this_surface
-    END FUNCTION get_surface_type
-
-    MODULE FUNCTION get_surface_normal(this_surface, this_point)
-      !! Returns the surface normal at an appropriately close point
-      !! We assume that the point is actually on the surface
-        USE class_psblas
-        USE class_vector
-        IMPLICIT NONE
-        TYPE(vector)              :: get_surface_normal
-        CLASS(surface), INTENT(IN) :: this_surface
-        TYPE(vector),  INTENT(IN) :: this_point         ! the point on the surface where
-    END FUNCTION get_surface_normal
-
-    MODULE FUNCTION get_surface_r2(this_surface)
-      !! Returns the goodness of fit, R2 value, from 0 to 1
-        USE class_psblas, ONLY : psb_dpk_
-        USE class_vector
-        IMPLICIT NONE
-        REAL(psb_dpk_)         :: get_surface_r2
-        CLASS(surface), INTENT(IN) :: this_surface
-    END FUNCTION get_surface_r2
-
-    MODULE SUBROUTINE translate_surface(this_surface,offset)
-      !! Move a surface by translating it in 3D space
-        USE class_psblas
-        USE class_vector
-        USE class_plane
-        IMPLICIT NONE
-        CLASS(surface), INTENT(INOUT) :: this_surface
-        TYPE(vector),  INTENT(IN)    :: offset
-    END SUBROUTINE translate_surface
-
-    MODULE FUNCTION get_closest_point(this_surface,point)
-      !! Returns the point on a surface that is closest to the given point
-        USE class_psblas
-        USE class_vector
-        IMPLICIT NONE
-        TYPE(vector)              :: get_closest_point
-        CLASS(surface), INTENT(IN) :: this_surface
-        TYPE(vector) , INTENT(IN) :: point
-    END FUNCTION get_closest_point
+        MODULE SUBROUTINE free_surface(this_surface)
+            USE class_psblas
+            IMPLICIT NONE
+            CLASS(surface), INTENT(INOUT) :: this_surface
+        END SUBROUTINE free_surface
 
 
-    ! ----- Setters -----
+        ! ----- Getters -----
 
-    MODULE SUBROUTINE reform_vertex(this_surface, vtx)
-      !! moves the given vertex onto the closest point on the surface
-        USE class_psblas
-        USE class_vector
-        USE class_vertex
-        IMPLICIT NONE
-        CLASS(surface), INTENT(IN)    :: this_surface
-        TYPE(vertex) , INTENT(INOUT) :: vtx
-    END SUBROUTINE reform_vertex
+        ! Returns a named integer constant indicating type:
+        ! iunknown, iplane, icylinder, isphere
 
-  END INTERFACE
+        ! Getters
 
-  !Below is commented out because this procedure is not used
+        MODULE FUNCTION get_surface_type(this_surface)
+            IMPLICIT NONE
+            INTEGER                   :: get_surface_type
+            CLASS(surface), INTENT(IN) :: this_surface
+        END FUNCTION get_surface_type
 
-  !INTERFACE set_
-  !  MODULE FUNCTION get_surface_set(this_surface)
-  !      ! returns true if the surface has been set up already
-  !      LOGICAL :: get_surface_set
-  !      TYPE(surface), INTENT(IN)    :: this_surface
-  !  END FUNCTION get_surface_set
-  !END INTERFACE set_
+        MODULE FUNCTION get_surface_normal(this_surface, this_point)
+        !! Returns the surface normal at an appropriately close point
+        !! We assume that the point is actually on the surface
+            USE class_psblas
+            USE class_vector
+            IMPLICIT NONE
+            TYPE(vector)              :: get_surface_normal
+            CLASS(surface), INTENT(IN) :: this_surface
+            TYPE(vector),  INTENT(IN) :: this_point         ! the point on the surface where
+        END FUNCTION get_surface_normal
+
+        MODULE FUNCTION get_surface_r2(this_surface)
+        !! Returns the goodness of fit, R2 value, from 0 to 1
+            USE class_psblas, ONLY : psb_dpk_
+            USE class_vector
+            IMPLICIT NONE
+            REAL(psb_dpk_)         :: get_surface_r2
+            CLASS(surface), INTENT(IN) :: this_surface
+        END FUNCTION get_surface_r2
+
+        MODULE SUBROUTINE translate_surface(this_surface,offset)
+        !! Move a surface by translating it in 3D space
+            USE class_psblas
+            USE class_vector
+            USE class_plane
+            IMPLICIT NONE
+            CLASS(surface), INTENT(INOUT) :: this_surface
+            TYPE(vector),  INTENT(IN)    :: offset
+        END SUBROUTINE translate_surface
+
+        MODULE FUNCTION get_closest_point(this_surface,point)
+        !! Returns the point on a surface that is closest to the given point
+            USE class_psblas
+            USE class_vector
+            IMPLICIT NONE
+            TYPE(vector)              :: get_closest_point
+            CLASS(surface), INTENT(IN) :: this_surface
+            TYPE(vector) , INTENT(IN) :: point
+        END FUNCTION get_closest_point
+
+
+        ! ----- Setters -----
+
+        MODULE SUBROUTINE reform_vertex(this_surface, vtx)
+        !! moves the given vertex onto the closest point on the surface
+            USE class_psblas
+            USE class_vector
+            USE class_vertex
+            IMPLICIT NONE
+            CLASS(surface), INTENT(IN)    :: this_surface
+            TYPE(vertex) , INTENT(INOUT) :: vtx
+        END SUBROUTINE reform_vertex
+
+    END INTERFACE
+
+    !Below is commented out because this procedure is not used
+
+    !INTERFACE set_
+    !  MODULE FUNCTION get_surface_set(this_surface)
+    !      ! returns true if the surface has been set up already
+    !      LOGICAL :: get_surface_set
+    !      TYPE(surface), INTENT(IN)    :: this_surface
+    !  END FUNCTION get_surface_set
+    !END INTERFACE set_
 
 END MODULE class_surface

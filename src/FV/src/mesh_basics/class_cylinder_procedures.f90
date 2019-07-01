@@ -452,7 +452,7 @@ CONTAINS
     END FUNCTION calc_error
 
     SUBROUTINE FCN(iflag,nverts,nunknowns,unknowns,err,FJAC,LDFJAC)
-      !! This is the function of merit to be optimized
+    !! This is the function of merit to be optimized
         USE class_psblas
         USE class_vector
 

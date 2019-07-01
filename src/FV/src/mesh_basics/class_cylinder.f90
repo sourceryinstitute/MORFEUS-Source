@@ -81,80 +81,80 @@ MODULE class_cylinder
     END TYPE cylinder
 
     TYPE(vertex),ALLOCATABLE      :: my_vertices(:)
-      !! Local copy of vertices, available to function to be optimized.
+    !! Local copy of vertices, available to function to be optimized.
 
     ! ----- Generic Interfaces -----
 
-  INTERFACE
-    ELEMENTAL MODULE FUNCTION nemo_cylinder_sizeof(cyl)
-        USE psb_base_mod
-        USE class_psblas
-        IMPLICIT NONE
-        CLASS(cylinder), INTENT(IN) :: cyl
-        INTEGER(kind=nemo_int_long_)   :: nemo_cylinder_sizeof
-    END FUNCTION nemo_cylinder_sizeof
+    INTERFACE
+        ELEMENTAL MODULE FUNCTION nemo_cylinder_sizeof(cyl)
+            USE psb_base_mod
+            USE class_psblas
+            IMPLICIT NONE
+            CLASS(cylinder), INTENT(IN) :: cyl
+            INTEGER(kind=nemo_int_long_)   :: nemo_cylinder_sizeof
+        END FUNCTION nemo_cylinder_sizeof
 
-    ! ----- Constructor -----
+        ! ----- Constructor -----
 
-    MODULE SUBROUTINE alloc_cylinder(vertices,this_cylinder)
-      !! Constructs cylinder by using steepest descents to fit a cylinder to the vertices' locations.
-      !! We make our figure of merit f = 1 - error
-        USE class_psblas
-        USE class_vector
-        USE tools_math ! contains interface to Levinburg-Marquardt algorithm
-        IMPLICIT NONE
-        TYPE(vertex),INTENT(IN)      :: vertices(:)
-        TYPE(cylinder),POINTER       :: this_cylinder       !inout, so that we can check if set.
-    END SUBROUTINE alloc_cylinder
+        MODULE SUBROUTINE alloc_cylinder(vertices,this_cylinder)
+        !! Constructs cylinder by using steepest descents to fit a cylinder to the vertices' locations.
+        !! We make our figure of merit f = 1 - error
+            USE class_psblas
+            USE class_vector
+            USE tools_math ! contains interface to Levinburg-Marquardt algorithm
+            IMPLICIT NONE
+            TYPE(vertex),INTENT(IN)      :: vertices(:)
+            TYPE(cylinder),POINTER       :: this_cylinder       !inout, so that we can check if set.
+        END SUBROUTINE alloc_cylinder
 
-    ! ----- Destructor -----
+        ! ----- Destructor -----
 
-    MODULE SUBROUTINE free_cylinder(this_cylinder)
-        USE class_psblas
-        IMPLICIT NONE
-        TYPE( cylinder ), POINTER  :: this_cylinder
-    END SUBROUTINE free_cylinder
-
-
-    ! ----- Getters -----
-
-    MODULE FUNCTION get_cylinder_normal(this_cylinder,this_point)
-      !! Returns the cylinder normal
-        USE class_psblas
-        USE class_vector
-        IMPLICIT NONE
-        TYPE(vector)              :: get_cylinder_normal
-        CLASS(cylinder), INTENT(IN)   :: this_cylinder
-        TYPE(vector),   INTENT(IN)   :: this_point
-    END FUNCTION get_cylinder_normal
+        MODULE SUBROUTINE free_cylinder(this_cylinder)
+            USE class_psblas
+            IMPLICIT NONE
+            TYPE( cylinder ), POINTER  :: this_cylinder
+        END SUBROUTINE free_cylinder
 
 
-    ! Returns the point on a cylinder that is closest to the given point
-    MODULE FUNCTION get_pt_cylinder(this_cylinder,point)
-        USE class_vector
-        IMPLICIT NONE
-        TYPE(vector)              :: get_pt_cylinder   ! function result
-        CLASS(cylinder),  INTENT(IN)  :: this_cylinder     ! the cylinder that we are on
-        TYPE(vector) ,INTENT(IN)  :: point          ! the point off the cylinder
-    END FUNCTION get_pt_cylinder
+        ! ----- Getters -----
+
+        MODULE FUNCTION get_cylinder_normal(this_cylinder,this_point)
+        !! Returns the cylinder normal
+            USE class_psblas
+            USE class_vector
+            IMPLICIT NONE
+            TYPE(vector)              :: get_cylinder_normal
+            CLASS(cylinder), INTENT(IN)   :: this_cylinder
+            TYPE(vector),   INTENT(IN)   :: this_point
+        END FUNCTION get_cylinder_normal
 
 
-    MODULE FUNCTION get_cylinder_r2(this_cylinder)
-        IMPLICIT NONE
-        REAL(psb_dpk_)  :: get_cylinder_r2
-        CLASS(cylinder),INTENT(IN)        :: this_cylinder
-    END FUNCTION get_cylinder_r2
+        ! Returns the point on a cylinder that is closest to the given point
+        MODULE FUNCTION get_pt_cylinder(this_cylinder,point)
+            USE class_vector
+            IMPLICIT NONE
+            TYPE(vector)              :: get_pt_cylinder   ! function result
+            CLASS(cylinder),  INTENT(IN)  :: this_cylinder     ! the cylinder that we are on
+            TYPE(vector) ,INTENT(IN)  :: point          ! the point off the cylinder
+        END FUNCTION get_pt_cylinder
 
-    ! ----- Setters -----
 
-    MODULE SUBROUTINE translate_cylinder(this_cylinder,offset)
-      !! moves the definition of a cylinder in the direction of the offset vector
-        USE class_vector
-        IMPLICIT NONE
-        CLASS(cylinder), INTENT(INOUT) :: this_cylinder       ! the cylinder we are moving
-        TYPE(vector),  INTENT(IN)     :: offset              ! translation vector
-    END SUBROUTINE translate_cylinder
+        MODULE FUNCTION get_cylinder_r2(this_cylinder)
+            IMPLICIT NONE
+            REAL(psb_dpk_)  :: get_cylinder_r2
+            CLASS(cylinder),INTENT(IN)        :: this_cylinder
+        END FUNCTION get_cylinder_r2
 
-  END INTERFACE
+        ! ----- Setters -----
+
+        MODULE SUBROUTINE translate_cylinder(this_cylinder,offset)
+        !! moves the definition of a cylinder in the direction of the offset vector
+            USE class_vector
+            IMPLICIT NONE
+            CLASS(cylinder), INTENT(INOUT) :: this_cylinder       ! the cylinder we are moving
+            TYPE(vector),  INTENT(IN)     :: offset              ! translation vector
+        END SUBROUTINE translate_cylinder
+
+    END INTERFACE
 
 END MODULE class_cylinder
