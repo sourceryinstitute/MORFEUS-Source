@@ -5,6 +5,9 @@
 **M**ulti-physics **O**bject-oriented ...
 </div>
 
+<details><summary><b>Table of Contents</b></summary>
+<p>
+
 <!-- toc -->
 
 - [Repository Mirror and Source](#repository-mirror-and-source)
@@ -16,6 +19,9 @@
   * [Roadmap](#roadmap)
 
 <!-- tocstop -->
+
+</p>
+</details>
 
 ## Repository Mirror and Source
 
