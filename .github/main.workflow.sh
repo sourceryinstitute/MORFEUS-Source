@@ -2,17 +2,6 @@
 
 set -o errexit
 
-if jq --version && echo "Have jq" ; then
-  echo "Printing json event for debugging..."
-  jq -r . "$GITHUB_EVENT_PATH"
-else
-  echo "No jq, just dumping ugly JSON"
-  echo ""
-  cat "$GITHUB_EVENT_PATH"
-  echo ""
-  echo ""
-fi
-
 # configure git
 git config --global user.name "Sourcery-Bot"
 git config --global user.email "si-bot@izaakbeekman.com"
