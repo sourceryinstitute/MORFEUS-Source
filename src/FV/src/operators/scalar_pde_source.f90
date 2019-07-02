@@ -49,13 +49,12 @@ SUBMODULE(op_source) scalar_pde_source_implementation
     CONTAINS
 
         MODULE PROCEDURE scalar_pde_source
-            USE class_psblas
-            USE class_dimensions
-            USE class_mesh
-            USE class_material
-            USE class_scalar_field
-            USE class_scalar_pde
-            USE tools_operators
+            USE class_psblas, ONLY : psb_dpk_, sw_pde, mypnum_, psb_cd_get_local_rows, psb_get_loc_to_glob, abort_psblas
+            USE class_dimensions, ONLY : dimensions, volume_, OPERATOR(/=)
+            USE class_mesh, ONLY : mesh
+            USE class_scalar_pde, ONLY : geins_pde
+            USE tools_operators, ONLY : lhs_, pde_sign, size_blk
+            USE class_pde, ONLY : spins_pde
 
             IMPLICIT NONE
             INTEGER :: i, ic, im, ic_glob, ifirst, info, ncells, nel, nmax

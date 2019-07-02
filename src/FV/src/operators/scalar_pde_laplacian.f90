@@ -49,18 +49,17 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
     CONTAINS
 
         MODULE PROCEDURE scalar_pde_laplacian
-        USE class_psblas
-        USE class_bc
-        USE class_connectivity
-        USE class_dimensions
-        USE class_face
-        USE class_scalar_field
-        USE class_mesh
-        USE class_scalar_pde
-        USE class_vector
-        USE op_grad
-        USE tools_bc
-        USE tools_operators
+        USE class_psblas, ONLY : psb_dpk_, mypnum_, sw_pde, debug_mat_bld, abort_psblas, psb_get_loc_to_glob
+        USE class_bc, ONLY : bc_poly
+        USE class_dimensions, ONLY : dimensions, volume_, length_, OPERATOR(/=)
+        USE class_mesh, ONLY : mesh
+        USE class_scalar_pde, ONLY : geins_pde
+        USE class_vector, ONLY : vector, OPERATOR(*), OPERATOR(.dot.), OPERATOR(-), OPERATOR(+), free_vector
+        USE op_grad, ONLY : fld_grad
+        USE tools_bc, ONLY : &
+          bc_dirichlet_, bc_dirichlet_map_, bc_neumann_, bc_robin_, bc_neumann_flux_, bc_robin_convection_, bc_robin_map_
+        USE tools_operators, ONLY : lhs_, size_blk, pde_sign
+        USE class_pde, ONLY : spins_pde
 
         IMPLICIT NONE
         !

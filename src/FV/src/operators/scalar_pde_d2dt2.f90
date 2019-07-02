@@ -49,12 +49,10 @@ SUBMODULE (op_d2dt2) scalar_pde_d2dt2_implementation
     CONTAINS
 
     MODULE PROCEDURE scalar_pde_d2dt2
-    USE class_psblas
-    USE class_dimensions
-    USE class_scalar_field
+    USE class_psblas, ONLY : psb_dpk_, mypnum_, psb_cd_get_local_rows, sw_pde
+    USE class_dimensions, ONLY : dimensions, OPERATOR(/=), volume_, time_
     USE class_mesh, ONLY : mesh, check_mesh_consistency
-    USE class_scalar_pde
-    USE tools_operators
+    USE tools_operators, ONLY : lhs_, pde_sign, size_blk
 
     IMPLICIT NONE
     !

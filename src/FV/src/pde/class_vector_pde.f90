@@ -45,7 +45,7 @@
 MODULE class_vector_pde
 
     USE class_psblas,       ONLY : psb_dspmat_type, psb_dpk_, nemo_int_long_
-    USE class_pde,          ONLY : pde
+    USE class_pde,          ONLY : pde, free_pde
     USE class_mesh,         ONLY : mesh
     USE class_vector,       ONLY : vector
     USE class_vector_field, ONLY : vector_field
@@ -54,6 +54,7 @@ MODULE class_vector_pde
 
     PRIVATE ! Default
     PUBLIC :: vector_pde                       ! Class
+    PUBLIC :: free_vector_pde                       ! Class
     PUBLIC :: spins_pde, geins_pde             ! Linear System Solving
     PRIVATE :: pde ! Required by INTEL FC!
     ! INTEL Bug!
@@ -84,9 +85,8 @@ MODULE class_vector_pde
         GENERIC, PUBLIC :: nemo_sizeof => nemo_vector_pde_sizeof
         PROCEDURE, PRIVATE :: solve_vector_pde
         GENERIC, PUBLIC :: solve_pde => solve_vector_pde
-        PROCEDURE, PRIVATE :: write_vector_pde
-        GENERIC, PUBLIC :: write_pde => write_vector_pde
-        PROCEDURE, PRIVATE :: get_vector_pde_msh_sub
+        PROCEDURE, PUBLIC :: write_vector_pde
+        PROCEDURE, PRIVATE:: get_vector_pde_msh_sub
         GENERIC, PUBLIC :: get_mesh => get_vector_pde_msh_sub
         PROCEDURE, PRIVATE :: asb_vector_pde
         GENERIC, PUBLIC :: asb_pde => asb_vector_pde
@@ -232,7 +232,8 @@ MODULE class_vector_pde
       !! ----- Output -----
         IMPLICIT NONE
         CLASS(vector_pde), INTENT(IN) :: pde
-        CHARACTER(len=*), INTENT(IN) :: mat, rhs
+        CHARACTER(len=*), INTENT(IN) :: mat
+        CHARACTER(len=*), INTENT(IN) :: rhs
     END SUBROUTINE write_vector_pde
   END INTERFACE
 

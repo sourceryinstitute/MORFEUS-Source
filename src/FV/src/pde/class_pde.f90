@@ -53,6 +53,8 @@ MODULE class_pde
     PRIVATE ! Default
     PUBLIC :: pde                              ! Class
     PUBLIC :: spins_pde                        ! Linear System Solving
+    PUBLIC :: free_pde                         ! Destructor
+    PUBLIC :: write_pde                         ! Destructor
 
     TYPE pde
         PRIVATE
@@ -74,7 +76,7 @@ MODULE class_pde
         ! Status
         INTEGER :: status
     CONTAINS
-        PROCEDURE :: create_pde, free_pde ! Constructor/destructor
+        PROCEDURE :: create_pde ! Constructor
         PROCEDURE, PRIVATE :: get_pde_dim, get_pde_msh_fun  ! Getter
         GENERIC, PUBLIC :: dim_ => get_pde_dim
         GENERIC, PUBLIC :: msh_ => get_pde_msh_fun
@@ -88,24 +90,27 @@ MODULE class_pde
         PROCEDURE :: solve_pde_sys, reinit_pde
         PROCEDURE, PRIVATE :: get_pde_name
         GENERIC, PUBLIC :: name_ => get_pde_name
-        PROCEDURE, PRIVATE :: nemo_pde_sizeof
-        GENERIC, PUBLIC :: nemo_sizeof => nemo_pde_sizeof
+        PROCEDURE, PUBLIC :: nemo_sizeof
         PROCEDURE, PRIVATE :: get_pde_msh_sub
         GENERIC, PUBLIC :: get_mesh => get_pde_msh_sub
-        PROCEDURE, PUBLIC :: asb_pde
-        PROCEDURE :: write_pde                        ! Output
+        PROCEDURE, PUBLIC :: asb_pde_
+        GENERIC :: asb_pde => asb_pde_
     END TYPE pde
 
 
     ! ----- Generic Interfaces -----
 
+  INTERFACE free_pde
+    MODULE PROCEDURE free_pde_
+  END INTERFACE free_pde
+
   INTERFACE
-    MODULE FUNCTION nemo_pde_sizeof(eqn)
+    MODULE FUNCTION nemo_sizeof(eqn)
         USE class_psblas
         IMPLICIT NONE
         CLASS(pde), INTENT(IN) :: eqn
-        INTEGER(kind=nemo_int_long_)   :: nemo_pde_sizeof
-    END FUNCTION nemo_pde_sizeof
+        INTEGER(kind=nemo_int_long_)   :: nemo_sizeof
+    END FUNCTION nemo_sizeof
 
   ! Constructor
     MODULE SUBROUTINE create_pde(eqn,input_file,sec,msh,dim)
@@ -120,11 +125,11 @@ MODULE class_pde
     END SUBROUTINE create_pde
 
     !! ----- Destructor -----
-    MODULE SUBROUTINE free_pde(eqn)
+    MODULE SUBROUTINE free_pde_(eqn)
       !!  Destructor
         IMPLICIT NONE
-        CLASS(pde), INTENT(INOUT) :: eqn
-    END SUBROUTINE free_pde
+        TYPE(pde), INTENT(INOUT) :: eqn
+    END SUBROUTINE free_pde_
 
   ! ----- Getters -----
     !! Getters
@@ -170,10 +175,10 @@ MODULE class_pde
         TYPE(mesh), POINTER :: msh
     END SUBROUTINE get_pde_msh_sub
 
-    MODULE SUBROUTINE asb_pde(eqn)
+    MODULE SUBROUTINE asb_pde_(eqn)
         IMPLICIT NONE
         CLASS(pde), INTENT(INOUT) :: eqn
-    END SUBROUTINE asb_pde
+    END SUBROUTINE asb_pde_
 
     MODULE SUBROUTINE reinit_pde(eqn)
         IMPLICIT NONE
@@ -235,7 +240,7 @@ MODULE class_pde
         INTEGER,          INTENT(IN)    :: n
         INTEGER,          INTENT(IN)    :: ia(:), ja(:)
         REAL(psb_dpk_), INTENT(IN)    :: cloud(:)
-        TYPE(pde), INTENT(INOUT) :: eqn
+        CLASS(pde), INTENT(INOUT) :: eqn
     END SUBROUTINE spins_pde
   END INTERFACE spins_pde
 

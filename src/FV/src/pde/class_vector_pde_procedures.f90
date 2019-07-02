@@ -106,7 +106,7 @@ CONTAINS
         NULLIFY(msh)
 
         ! Frees storage of BASE member
-        CALL pde%base%free_pde()
+        CALL free_pde(pde%base)
 
         ! ----- Normal Termination -----
         CALL psb_erractionrestore(err_act)
@@ -349,7 +349,7 @@ CONTAINS
         LOGICAL :: mtx_rhs
         TYPE(mesh), POINTER :: msh => NULL()
 
-        CALL pde%base%write_pde(mat,mtx_rhs)
+        CALL write_pde(pde%base,mat,mtx_rhs)
 
         IF(.NOT.mtx_rhs) RETURN
 
