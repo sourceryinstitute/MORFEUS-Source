@@ -43,7 +43,7 @@
 !    Base class for scalar, vector and tensor field
 !
 MODULE class_field
-    USE class_psblas, ONLY : nemo_int_long_
+    USE class_psblas, ONLY : nemo_int_long_, psb_dpk_
     USE class_bc, ONLY : bc_poly
     USE class_dimensions, ONLY : dimensions
     USE class_material, ONLY : matptr, material
@@ -104,7 +104,7 @@ MODULE class_field
   ! derived by inheritance.
 
   ! ----- Constructor -----
-    MODULE SUBROUTINE create_field(fld,msh,dim,bc,mats,on_faces)
+    MODULE SUBROUTINE create_field(fld,msh,dim,bc,mats,on_faces,x0)
         !! Constructor
         IMPLICIT NONE
         !! Mandatory arguments
@@ -115,6 +115,7 @@ MODULE class_field
         TYPE(bc_poly),    INTENT(IN), OPTIONAL, TARGET :: bc(:)
         TYPE(matptr),     INTENT(IN), OPTIONAL, TARGET :: mats(:)
         LOGICAL,          INTENT(IN), OPTIONAL :: on_faces
+        REAL(psb_dpk_),   INTENT(IN), OPTIONAL         :: x0 ! (facilitate scalar_field override)
     END SUBROUTINE create_field
 
   ! ----- Destructor -----

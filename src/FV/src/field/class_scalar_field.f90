@@ -47,7 +47,7 @@ MODULE class_scalar_field
     USE class_psblas, ONLY : psb_dpk_, nemo_int_long_, nemo_sizeof_dp, nemo_sizeof_int,&
         & icontxt_, psb_erractionsave, abort_psblas, psb_check_error, psb_erractionrestore,&
         & psb_halo
-    USE class_field!, ONLY : field
+    USE class_field, ONLY : field
     USE class_mesh, ONLY : mesh
     USE class_dimensions, ONLY : dimensions
     USE class_bc, ONLY : bc_poly
@@ -61,27 +61,16 @@ MODULE class_scalar_field
     PUBLIC :: ASSIGNMENT(=)                             ! Setters
     PUBLIC :: OPERATOR(*)              ! Algebra operations
 
-    TYPE scalar_field
+    TYPE, EXTENDS(field) :: scalar_field
         PRIVATE
-        TYPE(field) :: base
         REAL(psb_dpk_), ALLOCATABLE :: x(:)
         REAL(psb_dpk_), ALLOCATABLE :: xp(:)
         REAL(psb_dpk_), ALLOCATABLE :: bx(:)
         INTEGER, ALLOCATABLE :: mat(:)
         INTEGER, ALLOCATABLE :: bmat(:)
     CONTAINS
-        PROCEDURE, PRIVATE :: create_scalar_field, free_scalar_field           ! Constructor/destructor
-        GENERIC, PUBLIC :: create_field => create_scalar_field
-        GENERIC, PUBLIC :: free_field => free_scalar_field
-        PROCEDURE, PRIVATE :: get_scalar_field_dim, get_scalar_field_msh_fun   ! Getters
-        GENERIC, PUBLIC :: dim_ => get_scalar_field_dim
-        GENERIC, PUBLIC :: msh_ => get_scalar_field_msh_fun
-        PROCEDURE, PRIVATE :: get_scalar_field_on_faces, get_scalar_field_bc
-        GENERIC, PUBLIC :: bc_ => get_scalar_field_bc
-        PROCEDURE, PRIVATE :: get_scalar_field_mat, get_scalar_field_mat_sub
-        GENERIC, PUBLIC :: mat_ => get_scalar_field_mat
-        GENERIC, PUBLIC :: get_material => get_scalar_field_mat_sub
-        GENERIC, PUBLIC :: on_faces_ => get_scalar_field_on_faces
+        PROCEDURE, PUBLIC :: create_field               ! Constructor
+        PROCEDURE, PUBLIC ::  free_field                        ! Destructor
         PROCEDURE, PRIVATE :: get_scalar_field_base
         GENERIC, PUBLIC :: get_base => get_scalar_field_base
         PROCEDURE, PRIVATE :: get_scalar_field_x, get_scalar_field_element
@@ -106,23 +95,18 @@ MODULE class_scalar_field
         GENERIC :: OPERATOR(+) => scalar_field_sum
         GENERIC :: OPERATOR(-) => scalar_field_dif, scalar_field_dif_s
         GENERIC :: OPERATOR(/) => scalar_field_div
-        PROCEDURE, PRIVATE :: get_scalar_field_name
-        GENERIC, PUBLIC :: name_ => get_scalar_field_name
-        PROCEDURE, PRIVATE :: nemo_scalar_field_sizeof
-        GENERIC, PUBLIC :: nemo_sizeof => nemo_scalar_field_sizeof
-        PROCEDURE, PRIVATE :: get_scalar_field_msh_sub
-        GENERIC, PUBLIC :: get_mesh => get_scalar_field_msh_sub
+        PROCEDURE, PRIVATE :: nemo_field_sizeof
         PROCEDURE, PRIVATE :: check_mesh_consistency_sf
         GENERIC, PUBLIC :: check_mesh_consistency => check_mesh_consistency_sf
     END TYPE scalar_field
 
     INTERFACE
 
-    MODULE FUNCTION nemo_scalar_field_sizeof(fld)
+    MODULE FUNCTION nemo_field_sizeof(fld)
         IMPLICIT NONE
         CLASS(scalar_field), INTENT(IN) :: fld
-        INTEGER(kind=nemo_int_long_)   :: nemo_scalar_field_sizeof
-    END FUNCTION nemo_scalar_field_sizeof
+        INTEGER(kind=nemo_int_long_)   :: nemo_field_sizeof
+    END FUNCTION nemo_field_sizeof
 
     ! ----- Constructor -----
 
@@ -138,7 +122,7 @@ MODULE class_scalar_field
   ! ----- Generic Interfaces -----
 
   ! Constructor
-    MODULE SUBROUTINE create_scalar_field(fld,msh,dim,bc,mats,on_faces,x0)
+    MODULE SUBROUTINE create_field(fld,msh,dim,bc,mats,on_faces,x0)
         IMPLICIT NONE
         ! Mandatory arguments
         CLASS(scalar_field), INTENT(OUT)        :: fld
@@ -150,15 +134,15 @@ MODULE class_scalar_field
         TYPE(matptr),   INTENT(IN), OPTIONAL, TARGET :: mats(:)
         LOGICAL,          INTENT(IN), OPTIONAL         :: on_faces
         REAL(psb_dpk_), INTENT(IN), OPTIONAL         :: x0
-    END SUBROUTINE create_scalar_field
+    END SUBROUTINE create_field
 
   ! ----- Destructor -----
 
     !! Destructor
-    MODULE SUBROUTINE free_scalar_field(fld)
+    MODULE SUBROUTINE free_field(fld)
         IMPLICIT NONE
         CLASS(scalar_field), INTENT(INOUT) :: fld
-    END SUBROUTINE free_scalar_field
+    END SUBROUTINE free_field
 
   ! ----- Getters for Inherited Members -----
 
@@ -168,53 +152,11 @@ MODULE class_scalar_field
         CLASS(scalar_field), INTENT(IN) :: fld
     END FUNCTION get_scalar_field_name
 
-    MODULE FUNCTION get_scalar_field_dim(fld)
-        IMPLICIT NONE
-        TYPE(dimensions) :: get_scalar_field_dim
-        CLASS(scalar_field), INTENT(IN) :: fld
-    END FUNCTION get_scalar_field_dim
-
     MODULE FUNCTION get_scalar_field_msh_fun(fld)
         IMPLICIT NONE
         TYPE(mesh), POINTER :: get_scalar_field_msh_fun
         CLASS(scalar_field), INTENT(IN), TARGET  :: fld
     END FUNCTION get_scalar_field_msh_fun
-
-  ! ----- Temporary up to Gfortran patch -----
-    MODULE SUBROUTINE get_scalar_field_msh_sub(fld,msh)
-        IMPLICIT NONE
-        CLASS(scalar_field), INTENT(IN) :: fld
-        TYPE(mesh), POINTER :: msh
-    END SUBROUTINE get_scalar_field_msh_sub
-  ! ------------------------------------------
-
-    MODULE FUNCTION get_scalar_field_on_faces(fld)
-        IMPLICIT NONE
-        LOGICAL :: get_scalar_field_on_faces
-        CLASS(scalar_field), INTENT(IN) :: fld
-    END FUNCTION get_scalar_field_on_faces
-
-    MODULE FUNCTION get_scalar_field_bc(fld)
-        IMPLICIT NONE
-        TYPE(bc_poly), POINTER :: get_scalar_field_bc(:)
-        CLASS(scalar_field), INTENT(IN) :: fld
-    END FUNCTION get_scalar_field_bc
-
-    MODULE FUNCTION get_scalar_field_mat(fld, i)
-        IMPLICIT NONE
-        TYPE(material), POINTER :: get_scalar_field_mat
-        INTEGER, INTENT(IN), OPTIONAL :: i
-        CLASS(scalar_field), INTENT(IN) :: fld
-    END FUNCTION get_scalar_field_mat
-
-  ! ----- Temporary up to Gfortran patch -----
-    MODULE SUBROUTINE get_scalar_field_mat_sub(fld,i,mat)
-      IMPLICIT NONE
-      CLASS(scalar_field), INTENT(IN) :: fld
-      INTEGER, INTENT(IN), OPTIONAL :: i
-      TYPE(material), POINTER :: mat
-    END SUBROUTINE get_scalar_field_mat_sub
-  ! ------------------------------------------
 
     INTEGER MODULE FUNCTION get_scalar_field_mat_id(fld,i)
         IMPLICIT NONE

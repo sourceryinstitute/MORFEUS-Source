@@ -59,6 +59,8 @@ CONTAINS
         USE class_dimensions, ONLY : null_dim_
         IMPLICIT NONE
 
+        IF (PRESENT(x0)) PRINT *,"create_field: ignoring x0 in base class constructor"
+
         ! Assigns mandatory arguments
         fld%msh => msh
 
