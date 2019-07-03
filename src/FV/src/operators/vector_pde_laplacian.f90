@@ -62,6 +62,7 @@ SUBMODULE (op_laplacian) vector_pde_laplacian_implementation
         USE op_grad
         USE tools_bc
         USE tools_operators
+        USE class_pde, ONLY : spins_pde
 
         IMPLICIT NONE
         !

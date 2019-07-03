@@ -94,7 +94,6 @@ MODULE class_pde
         PROCEDURE, PRIVATE :: get_pde_msh_sub
         GENERIC, PUBLIC :: get_mesh => get_pde_msh_sub
         PROCEDURE, PUBLIC :: asb_pde_
-        GENERIC :: asb_pde => asb_pde_
     END TYPE pde
 
 

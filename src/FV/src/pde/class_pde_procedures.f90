@@ -327,7 +327,7 @@ SUBMODULE(class_pde) class_pde_procedures
 
         ! Make sure we are in the assembled state
         IF (eqn%is_pde_bld()) THEN
-            CALL eqn%asb_pde()
+            CALL eqn%asb_pde_()
         END IF
         ! And if not, raise an error.
         IF (.NOT.eqn%is_pde_asb()) THEN

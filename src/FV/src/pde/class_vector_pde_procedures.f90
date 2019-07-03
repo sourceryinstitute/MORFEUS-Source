@@ -47,22 +47,22 @@ SUBMODULE(class_vector_pde) class_vector_pde_procedures
 
 CONTAINS
 
-    MODULE PROCEDURE nemo_vector_pde_sizeof
+    MODULE PROCEDURE nemo_sizeof
         USE psb_base_mod
 
         INTEGER(kind=nemo_int_long_) :: val
 
-        val = eqn%base%nemo_sizeof()
+        val = eqn%pde%nemo_sizeof()
         IF (ALLOCATED(eqn%b)) &
             & val = val + nemo_sizeof_dp * SIZE(eqn%b)
 
-        nemo_vector_pde_sizeof = val
+        nemo_sizeof = val
 
-    END PROCEDURE nemo_vector_pde_sizeof
+    END PROCEDURE nemo_sizeof
 
     ! ----- Constructor -----
 
-    MODULE PROCEDURE create_vector_pde
+    MODULE PROCEDURE create_pde
         USE class_dimensions
         USE class_mesh
         !
@@ -72,18 +72,18 @@ CONTAINS
         CALL psb_erractionsave(err_act)
 
         ! Create PDE%BASE member
-        CALL pde%base%create_pde(input_file,sec,msh,dim)
+        CALL eqn%pde%create_pde(input_file,sec,msh,dim)
 
         ! Allocates RHS member
-        CALL psb_geall(pde%b,msh%desc_c,info,3)
+        CALL psb_geall(eqn%b,msh%desc_c,info,3)
         CALL psb_check_error(info,'create_vector_pde','psb_geall',icontxt_())
 
-        pde%b = 0.d0
+        eqn%b = 0.d0
 
         ! ----- Normal Termination -----
         CALL psb_erractionrestore(err_act)
 
-    END PROCEDURE create_vector_pde
+    END PROCEDURE create_pde
 
 
     ! ----- Destructor -----
@@ -97,7 +97,7 @@ CONTAINS
         ! Sets error handling for PSBLAS-2 routines
         CALL psb_erractionsave(err_act)
 
-        CALL pde%base%get_mesh(msh)
+        CALL pde%pde%get_mesh(msh)
 
         ! Frees storage of RHS member
         CALL psb_gefree(pde%b,msh%desc_c,info)
@@ -106,7 +106,7 @@ CONTAINS
         NULLIFY(msh)
 
         ! Frees storage of BASE member
-        CALL free_pde(pde%base)
+        CALL free_pde(pde%pde)
 
         ! ----- Normal Termination -----
         CALL psb_erractionrestore(err_act)
@@ -116,45 +116,7 @@ CONTAINS
 
     ! ----- Getters -----
 
-    MODULE PROCEDURE get_vector_pde_name
-        get_vector_pde_name = pde%base%name_()
-    END PROCEDURE get_vector_pde_name
-
-
-    MODULE PROCEDURE get_vector_pde_dim
-        USE class_dimensions
-        get_vector_pde_dim = pde%base%dim_()
-    END PROCEDURE get_vector_pde_dim
-
     !-----------------------------------------------
-
-    MODULE PROCEDURE get_vector_pde_A
-        CALL pde%base%get_A(A)
-    END PROCEDURE get_vector_pde_A
-
-    !----------------------------------------------
-
-    MODULE PROCEDURE get_vector_pde_msh_fun
-        USE class_mesh
-        get_vector_pde_msh_fun => pde%base%msh_()
-    END PROCEDURE get_vector_pde_msh_fun
-
-
-    MODULE PROCEDURE get_vector_pde_msh_sub
-        IMPLICIT NONE
-        CALL pde%base%get_mesh(msh)
-    END PROCEDURE get_vector_pde_msh_sub
-
-    MODULE PROCEDURE get_vector_pde_diag
-        CALL pde%base%get_diag(d)
-    END PROCEDURE get_vector_pde_diag
-
-    ! ----- Linear System Solving -----
-
-    MODULE PROCEDURE spins_vector_pde
-        !! Inserts a ``cloud'' of coefficients into pde%A
-        CALL spins_pde(n,ia,ja,cloud,pde%base)
-    END PROCEDURE spins_vector_pde
 
     MODULE PROCEDURE geins_vector_pde_r
         !! Inserts a ``cloud'' of RHS terms into pde%b
@@ -174,7 +136,7 @@ CONTAINS
             CALL abort_psblas
         END IF
 
-        CALL pde%base%get_mesh(msh)
+        CALL pde%pde%get_mesh(msh)
 
         ! Inserts CLOUD into RHS pde%b
         CALL psb_geins(n,ia,cloud,pde%b,msh%desc_c,info,psb_dupl_add_)
@@ -212,7 +174,7 @@ CONTAINS
     END PROCEDURE geins_vector_pde_v
 
 
-    MODULE PROCEDURE asb_vector_pde
+    MODULE PROCEDURE asb_pde_
         USE class_mesh
 
         INTEGER :: err_act, info
@@ -222,15 +184,15 @@ CONTAINS
         CALL psb_erractionsave(err_act)
 
         ! Assemblies sparse matrix in PDE%BASE member
-        CALL pde%base%asb_pde()
+        CALL eqn%pde%asb_pde_()
 
         CALL sw_asb%tic()
 
-        CALL pde%base%get_mesh(msh)
+        CALL eqn%pde%get_mesh(msh)
 
         ! Assemblies RHS member
         IF(mypnum_() == 0) WRITE(*,*) '  - assembling RHS'
-        CALL psb_geasb(pde%b,msh%desc_c,info)
+        CALL psb_geasb(eqn%b,msh%desc_c,info)
         CALL psb_check_error(info,'abs_vector_pde','psb_geasb',icontxt_())
 
         CALL sw_asb%toc()
@@ -240,7 +202,7 @@ CONTAINS
         ! ----- Normal Termination -----
         CALL psb_erractionrestore(err_act)
 
-    END PROCEDURE asb_vector_pde
+    END PROCEDURE asb_pde_
 
 
     MODULE PROCEDURE solve_vector_pde
@@ -261,10 +223,10 @@ CONTAINS
         icontxt = icontxt_()
 
         ! Assemblies PSBLAS sparse matrix and RHS
-        CALL pde%asb_pde()
+        CALL pde%asb_pde_()
 
         ! Build preconditioner in PDE%BASE member
-        CALL pde%base%build_pde_prec()
+        CALL pde%pde%build_pde_prec()
 
         ! Is PHI cell-centered?
         IF(phi%on_faces_()) THEN
@@ -288,15 +250,15 @@ CONTAINS
         END IF
 
         ! Solves linear system associated to PDE%BASE
-        CALL pde%base%solve_pde_sys(pde%b(:,1),x(:,1),iter,err) ! Solve for X
-        CALL pde%base%solve_pde_sys(pde%b(:,2),x(:,2),iter,err) ! Solve for Y
-        CALL pde%base%solve_pde_sys(pde%b(:,3),x(:,3),iter,err) ! Solve for Z
+        CALL pde%pde%solve_pde_sys(pde%b(:,1),x(:,1),iter,err) ! Solve for X
+        CALL pde%pde%solve_pde_sys(pde%b(:,2),x(:,2),iter,err) ! Solve for Y
+        CALL pde%pde%solve_pde_sys(pde%b(:,3),x(:,3),iter,err) ! Solve for Z
 
         ! Assigns the solution to the vector field
         phi = vector_(x(:,1),x(:,2),x(:,3))
 
         ! Free preconditioner storage in base member
-        CALL pde%base%free_pde_prec()
+        CALL pde%pde%free_pde_prec()
 
         ! Updates phi
         CALL phi%update_field()
@@ -327,16 +289,16 @@ CONTAINS
     END PROCEDURE solve_vector_pde
 
 
-    MODULE PROCEDURE reinit_vector_pde
+    MODULE PROCEDURE reinit_pde
 
 !!$    write(0,*) 'Reinit Vector PDE do:',is_pde_asb(pde%base)
-        IF(pde%base%is_pde_asb()) THEN
-            pde%b = 0.d0
+        IF(eqn%pde%is_pde_asb()) THEN
+            eqn%b = 0.d0
 !!$      write(0,*) 'Reinit Vector PDE out ',pde%b
-            CALL pde%base%reinit_pde()
+            CALL eqn%pde%reinit_pde()
         END IF
 
-    END PROCEDURE reinit_vector_pde
+    END PROCEDURE reinit_pde
 
 
     ! ----- Output -----
@@ -349,14 +311,14 @@ CONTAINS
         LOGICAL :: mtx_rhs
         TYPE(mesh), POINTER :: msh => NULL()
 
-        CALL write_pde(pde%base,mat,mtx_rhs)
+        CALL write_pde(eqn%pde,mat,mtx_rhs)
 
         IF(.NOT.mtx_rhs) RETURN
 
-        CALL pde%get_mesh(msh)
-        CALL wr_mtx_vector(pde%b(:,1),msh%desc_c,rhs//'_x')
-        CALL wr_mtx_vector(pde%b(:,2),msh%desc_c,rhs//'_y')
-        CALL wr_mtx_vector(pde%b(:,3),msh%desc_c,rhs//'_z')
+        CALL eqn%get_mesh(msh)
+        CALL wr_mtx_vector(eqn%b(:,1),msh%desc_c,rhs//'_x')
+        CALL wr_mtx_vector(eqn%b(:,2),msh%desc_c,rhs//'_y')
+        CALL wr_mtx_vector(eqn%b(:,3),msh%desc_c,rhs//'_z')
         IF(mypnum_() == 0) WRITE(*,*)
 
         NULLIFY(msh)

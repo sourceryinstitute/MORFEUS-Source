@@ -55,7 +55,8 @@ SUBMODULE (op_div) vector_pde_div_implementation
     USE class_dimensions, ONLY : dimensions, OPERATOR(/=)
     USE class_vector, ONLY : vector, vector_, OPERATOR(*), OPERATOR(-)
     USE class_mesh, ONLY : mesh
-    USE class_vector_pde, ONLY : spins_pde, geins_pde
+    USE class_vector_pde, ONLY : geins_pde
+    USE class_pde, ONLY : spins_pde
     USE tools_bc, ONLY : bc_dirichlet_, bc_dirichlet_map_, bc_neumann_
     USE tools_operators, ONLY : lhs_, size_blk, pde_sign
 

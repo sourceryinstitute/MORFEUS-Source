@@ -57,6 +57,7 @@ SUBMODULE (op_ddt) vector_pde_ddt_implementation
     USE class_vector_pde
     USE class_vector
     USE tools_operators
+    USE class_pde, ONLY : spins_pde
 
     IMPLICIT NONE
     !
