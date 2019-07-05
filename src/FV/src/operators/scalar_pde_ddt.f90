@@ -53,8 +53,6 @@ SUBMODULE (op_ddt) scalar_pde_ddt_implementation
     USE class_dimensions, ONLY : dimensions, volume_, time_, OPERATOR(/=)
     USE class_mesh, ONLY : mesh, check_mesh_consistency
     USE tools_operators, ONLY : lhs_, pde_sign, size_blk
-    USE class_pde, ONLY : spins_pde
-    USE class_scalar_pde, ONLY : geins_pde
     IMPLICIT NONE
     !
     CHARACTER(len=*), PARAMETER :: op_name = 'SCALAR_PDE_DDT'
@@ -197,8 +195,8 @@ SUBMODULE (op_ddt) scalar_pde_ddt_implementation
             ja(i)= ic_glob
         END DO BLOCK
 
-        CALL spins_pde(nel,ia,ja,A,pde)
-        CALL geins_pde(nel,ia,b,pde)
+        CALL pde%spins_pde(nel,ia,ja,A)
+        CALL pde%geins_pde(nel,ia,b)
 
         ifirst = ifirst +  nel
 

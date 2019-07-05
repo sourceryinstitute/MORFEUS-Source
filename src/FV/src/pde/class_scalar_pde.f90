@@ -54,9 +54,6 @@ MODULE class_scalar_pde
 
     PRIVATE ! Default
     PUBLIC :: scalar_pde                       ! Class
-    PUBLIC :: free_pde  ! Destructor
-    PUBLIC :: write_pde
-    PUBLIC :: geins_pde             ! Linear System Solving
     PRIVATE :: pde ! Requuired by INTEL FC!
     ! INTEL Bug!
     ! The Intel compiler for some reason ignores the default PRIVATE
@@ -68,6 +65,10 @@ MODULE class_scalar_pde
         REAL(psb_dpk_), ALLOCATABLE :: b(:)
     CONTAINS
         PROCEDURE, PUBLIC :: create_pde ! Constructor
+        PROCEDURE, PUBLIC :: free_pde   ! Destructor
+        PROCEDURE, PUBLIC :: write_scalar_pde
+        PROCEDURE, PUBLIC, PASS(pde) :: geins_scalar_pde
+        GENERIC, PUBLIC :: geins_pde => geins_scalar_pde  ! Linear System Solving
         PROCEDURE, PUBLIC :: nemo_sizeof 
         PROCEDURE, PUBLIC :: reinit_pde
         PROCEDURE, PUBLIC :: asb_pde_
@@ -77,17 +78,7 @@ MODULE class_scalar_pde
 
   ! ----- Generic Interfaces -----
 
-    INTERFACE geins_pde
-        PROCEDURE :: geins_scalar_pde
-    END INTERFACE geins_pde
 
-    INTERFACE write_pde
-      MODULE PROCEDURE write_scalar_pde
-    END INTERFACE
-
-    INTERFACE free_pde
-      MODULE PROCEDURE free_scalar_pde
-    END INTERFACE
 
     INTERFACE
 
@@ -107,11 +98,11 @@ MODULE class_scalar_pde
         TYPE(dimensions), INTENT(IN)            :: dim
         END SUBROUTINE create_pde
 
-        MODULE SUBROUTINE free_scalar_pde(eqn)
+        MODULE SUBROUTINE free_pde(eqn)
         !! ----- Destructor -----
         IMPLICIT NONE
-        TYPE(scalar_pde), INTENT(INOUT) :: eqn
-        END SUBROUTINE free_scalar_pde
+        CLASS(scalar_pde), INTENT(INOUT) :: eqn
+        END SUBROUTINE free_pde
 
         ! Getters
 
@@ -142,7 +133,7 @@ MODULE class_scalar_pde
         INTEGER, INTENT(IN) :: n
         INTEGER, INTENT(IN) :: ia(:)
         REAL(psb_dpk_), INTENT(IN) :: cloud(:)
-        TYPE(scalar_pde), INTENT(INOUT) :: pde
+        CLASS(scalar_pde), INTENT(INOUT) :: pde
         END SUBROUTINE geins_scalar_pde
 
         MODULE SUBROUTINE asb_pde_(eqn)

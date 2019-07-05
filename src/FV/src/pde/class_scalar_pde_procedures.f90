@@ -84,8 +84,7 @@ CONTAINS
     ! ----- Destructor -----
 
 
-
-    MODULE PROCEDURE free_scalar_pde
+    MODULE PROCEDURE free_pde
         USE class_mesh
 
         INTEGER :: err_act, info
@@ -98,17 +97,17 @@ CONTAINS
 
         ! Frees storage of RHS member
         CALL psb_gefree(eqn%b,msh%desc_c,info)
-        CALL psb_check_error(info,'free_scalar_pde','psb_gefree',icontxt_())
+        CALL psb_check_error(info,'free_pde','psb_gefree',icontxt_())
 
         NULLIFY(msh)
 
         ! Frees storage of BASE member
-        CALL free_pde(eqn%pde)
+        CALL eqn%pde%free_pde()
 
         ! ----- Normal Termination -----
         CALL psb_erractionrestore(err_act)
 
-    END PROCEDURE free_scalar_pde
+    END PROCEDURE free_pde
 
 
     ! ----- Linear System Solving -----
@@ -267,12 +266,11 @@ CONTAINS
     MODULE PROCEDURE write_scalar_pde
         USE class_mesh
         USE tools_output_basics
-        USE class_pde, ONLY : write_pde
        
         LOGICAL :: mtx_rhs
         TYPE(mesh), POINTER :: msh => NULL()
 
-        CALL write_pde(eqn%pde,mat,mtx_rhs)
+        CALL eqn%pde%write_pde(mat,mtx_rhs)
 
         IF(.NOT.mtx_rhs) RETURN
 

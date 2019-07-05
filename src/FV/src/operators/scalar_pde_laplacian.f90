@@ -53,13 +53,11 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
         USE class_bc, ONLY : bc_poly
         USE class_dimensions, ONLY : dimensions, volume_, length_, OPERATOR(/=)
         USE class_mesh, ONLY : mesh
-        USE class_scalar_pde, ONLY : geins_pde
         USE class_vector, ONLY : vector, OPERATOR(*), OPERATOR(.dot.), OPERATOR(-), OPERATOR(+), free_vector
         USE op_grad, ONLY : fld_grad
         USE tools_bc, ONLY : &
           bc_dirichlet_, bc_dirichlet_map_, bc_neumann_, bc_robin_, bc_neumann_flux_, bc_robin_convection_, bc_robin_map_
         USE tools_operators, ONLY : lhs_, size_blk, pde_sign
-        USE class_pde, ONLY : spins_pde
 
         IMPLICIT NONE
         !
@@ -260,7 +258,7 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
                 ja(k+3) = im_glob
             END DO block_fluid
 
-            CALL spins_pde(nel,ia,ja,A,pde)
+            CALL pde%spins_pde(nel,ia,ja,A)
             IF (debug_mat_bld) THEN
                 WRITE(0,*) 'From scalar_pde_laplacian FLUID: SPINS ',nel
                 DO k=1,nel
@@ -343,7 +341,7 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
 
             END DO block_nonortho
 
-            CALL geins_pde(nel,ia,b,pde)
+            CALL pde%geins_pde(nel,ia,b)
             IF (debug_mat_bld) THEN
                 WRITE(0,*) 'From scalar_pde_laplacian NON_ORTH_C: geins ',nel
                 DO k=1,nel
@@ -456,8 +454,8 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
                     ja(k) = im_glob
                 END DO block_boundary
 
-                CALL spins_pde(nel,ia,ja,A,pde)
-                CALL geins_pde(nel,ia,b,pde)
+                CALL pde%spins_pde(nel,ia,ja,A)
+                CALL pde%geins_pde(nel,ia,b)
                 IF (debug_mat_bld) THEN
                     WRITE(0,*) 'From scalar_pde_laplacian BC: SPINS ',nel
                     DO k=1,nel

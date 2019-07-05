@@ -45,7 +45,7 @@
 MODULE class_vector_pde
 
     USE class_psblas,       ONLY : psb_dspmat_type, psb_dpk_, nemo_int_long_
-    USE class_pde,          ONLY : pde, free_pde
+    USE class_pde,          ONLY : pde 
     USE class_mesh,         ONLY : mesh
     USE class_vector,       ONLY : vector
     USE class_vector_field, ONLY : vector_field
@@ -53,10 +53,7 @@ MODULE class_vector_pde
     IMPLICIT NONE
 
     PRIVATE ! Default
-    PUBLIC :: vector_pde                       ! Class
-    PUBLIC :: free_pde                       ! Class
-    PUBLIC :: geins_pde             ! Linear System Solving
-    PUBLIC :: write_pde
+    PUBLIC :: vector_pde            ! Class
     PRIVATE :: pde ! Required by INTEL FC!
     ! INTEL Bug!
     ! The Intel compiler for some reason ignores the default PRIVATE
@@ -68,25 +65,18 @@ MODULE class_vector_pde
         REAL(psb_dpk_), ALLOCATABLE :: b(:,:)
     CONTAINS
         PROCEDURE, PUBLIC :: create_pde
+        PROCEDURE, PUBLIC :: free_pde
+        PROCEDURE, PUBLIC :: write_vector_pde
         PROCEDURE, PUBLIC :: reinit_pde 
         PROCEDURE, PUBLIC :: nemo_sizeof
         PROCEDURE, PRIVATE :: solve_vector_pde
         GENERIC, PUBLIC :: solve_pde => solve_vector_pde
         PROCEDURE, PUBLIC :: asb_pde_
+        PROCEDURE, PUBLIC, PASS(pde) :: geins_vector_pde_v
+        PROCEDURE, PUBLIC, PASS(pde) :: geins_vector_pde_r
+        GENERIC, PUBLIC :: geins_pde =>  geins_vector_pde_v, geins_vector_pde_r      ! Linear System Solving
     END TYPE vector_pde
 
-    INTERFACE geins_pde
-        MODULE PROCEDURE :: geins_vector_pde_v
-        MODULE PROCEDURE :: geins_vector_pde_r
-    END INTERFACE geins_pde
-
-    INTERFACE write_pde
-        MODULE PROCEDURE :: write_vector_pde
-    END INTERFACE write_pde
-
-    INTERFACE free_pde
-        MODULE PROCEDURE :: free_vector_pde
-    END INTERFACE free_pde
 
     ! ----- Generic Interfaces -----
 
@@ -113,11 +103,11 @@ MODULE class_vector_pde
     END SUBROUTINE create_pde
 
     !! ----- Destructor -----
-    MODULE SUBROUTINE free_vector_pde(pde)
+    MODULE SUBROUTINE free_pde(eqn)
       !! Destructor
         IMPLICIT NONE
-        CLASS(vector_pde), INTENT(INOUT) :: pde
-    END SUBROUTINE free_vector_pde
+        CLASS(vector_pde), INTENT(INOUT) :: eqn
+    END SUBROUTINE free_pde
 
   ! ----- Getters -----
 
@@ -151,7 +141,7 @@ MODULE class_vector_pde
         INTEGER, INTENT(IN) :: n
         INTEGER, INTENT(IN) :: ia(:)
         TYPE(vector),     INTENT(IN)    :: cloud(:)
-        TYPE(vector_pde), INTENT(INOUT) :: pde
+        CLASS(vector_pde), INTENT(INOUT) :: pde
     END SUBROUTINE geins_vector_pde_v
 
     MODULE SUBROUTINE geins_vector_pde_r(n,ia,cloud,pde)
@@ -160,7 +150,7 @@ MODULE class_vector_pde
         INTEGER, INTENT(IN) :: n
         INTEGER, INTENT(IN) :: ia(:)
         REAL(psb_dpk_), INTENT(IN) :: cloud(:,:)
-        TYPE(vector_pde), INTENT(INOUT) :: pde
+        CLASS(vector_pde), INTENT(INOUT) :: pde
     END SUBROUTINE geins_vector_pde_r
 
     MODULE SUBROUTINE asb_pde_(eqn)

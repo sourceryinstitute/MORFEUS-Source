@@ -265,7 +265,7 @@ SUBMODULE (op_div) scalar_pde_div_implementation
             CALL abort_psblas
 
         ENDIF
-        CALL spins_pde(nel,irow_a,icol_a,A,pde)
+        CALL pde%spins_pde(nel,irow_a,icol_a,A)
 
         ifirst = ifirst + nel
     END DO insert_fluid
@@ -372,8 +372,8 @@ SUBMODULE (op_div) scalar_pde_div_implementation
             END DO block_boundary
 
 
-            CALL spins_pde(nel,irow_a,icol_a,A,pde)
-            CALL geins_pde(nel,icol_a,b,pde)
+            CALL pde%spins_pde(nel,irow_a,icol_a,A)
+            CALL pde%geins_pde(nel,icol_a,b)
 
             ifirst = ifirst + nel
 

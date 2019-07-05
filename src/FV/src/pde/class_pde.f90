@@ -52,9 +52,6 @@ MODULE class_pde
 
     PRIVATE ! Default
     PUBLIC :: pde                              ! Class
-    PUBLIC :: spins_pde                        ! Linear System Solving
-    PUBLIC :: free_pde                         ! Destructor
-    PUBLIC :: write_pde                         ! Destructor
 
     TYPE pde
         PRIVATE
@@ -76,7 +73,10 @@ MODULE class_pde
         ! Status
         INTEGER :: status
     CONTAINS
-        PROCEDURE :: create_pde ! Constructor
+        PROCEDURE, PUBLIC :: create_pde ! Constructor
+        PROCEDURE, PUBLIC, PASS(eqn) :: spins_pde  ! Linear System Solving
+        PROCEDURE, PUBLIC :: free_pde                         ! Destructor
+        PROCEDURE, PUBLIC :: write_pde                         
         PROCEDURE, PRIVATE :: get_pde_dim, get_pde_msh_fun  ! Getter
         GENERIC, PUBLIC :: dim_ => get_pde_dim
         GENERIC, PUBLIC :: msh_ => get_pde_msh_fun
@@ -99,10 +99,6 @@ MODULE class_pde
 
     ! ----- Generic Interfaces -----
 
-  INTERFACE free_pde
-    MODULE PROCEDURE free_pde_
-  END INTERFACE free_pde
-
   INTERFACE
     MODULE FUNCTION nemo_sizeof(eqn)
         USE class_psblas
@@ -124,11 +120,11 @@ MODULE class_pde
     END SUBROUTINE create_pde
 
     !! ----- Destructor -----
-    MODULE SUBROUTINE free_pde_(eqn)
+    MODULE SUBROUTINE free_pde(eqn)
       !!  Destructor
         IMPLICIT NONE
-        TYPE(pde), INTENT(INOUT) :: eqn
-    END SUBROUTINE free_pde_
+        CLASS(pde), INTENT(INOUT) :: eqn
+    END SUBROUTINE free_pde
 
   ! ----- Getters -----
     !! Getters
@@ -184,9 +180,10 @@ MODULE class_pde
         CLASS(pde), INTENT(INOUT) :: eqn
     END SUBROUTINE reinit_pde
 
-  !! ----- Output -----
-    !! Output
+  ! ----- Output -----
+
     MODULE SUBROUTINE write_pde(eqn,mat,mtx_rhs)
+      !! Output
         USE tools_output_basics
         IMPLICIT NONE
         CLASS(pde),        INTENT(IN) :: eqn
@@ -227,13 +224,9 @@ MODULE class_pde
         REAL(psb_dpk_), INTENT(OUT) :: err
     END SUBROUTINE solve_pde_sys
 
-  END INTERFACE
-  ! ------------------------------------------
-
   ! ----- Linear System Solving -----
-  INTERFACE spins_pde
-    !! Linear System Solving
     MODULE SUBROUTINE spins_pde(n,ia,ja,cloud,eqn)
+        !! Linear System Solving
         !! Inserts a ``cloud'' of coefficients into eqn%A
         IMPLICIT NONE
         INTEGER,          INTENT(IN)    :: n
@@ -241,6 +234,7 @@ MODULE class_pde
         REAL(psb_dpk_), INTENT(IN)    :: cloud(:)
         CLASS(pde), INTENT(INOUT) :: eqn
     END SUBROUTINE spins_pde
-  END INTERFACE spins_pde
+
+  END INTERFACE
 
 END MODULE class_pde

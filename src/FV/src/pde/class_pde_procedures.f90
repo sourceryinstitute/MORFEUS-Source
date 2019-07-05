@@ -141,7 +141,7 @@ SUBMODULE(class_pde) class_pde_procedures
 
     ! ----- Destructor -----
 
-    MODULE PROCEDURE free_pde_
+    MODULE PROCEDURE free_pde
         IMPLICIT NONE
         !
         INTEGER :: err_act, info
@@ -157,7 +157,7 @@ SUBMODULE(class_pde) class_pde_procedures
         ! ----- Normal Termination -----
         CALL psb_erractionrestore(err_act)
 
-    END PROCEDURE free_pde_
+    END PROCEDURE free_pde
 
 
     ! ----- Getters -----

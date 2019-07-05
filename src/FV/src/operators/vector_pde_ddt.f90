@@ -57,7 +57,6 @@ SUBMODULE (op_ddt) vector_pde_ddt_implementation
     USE class_vector_pde
     USE class_vector
     USE tools_operators
-    USE class_pde, ONLY : spins_pde
 
     IMPLICIT NONE
     !
@@ -191,8 +190,8 @@ SUBMODULE (op_ddt) vector_pde_ddt_implementation
 !!$             & y_(b(i)),z_(b(i))
         END DO BLOCK
 
-        CALL spins_pde(nel,ia,ja,A,pde)
-        CALL geins_pde(nel,ia,b,pde)
+        CALL pde%spins_pde(nel,ia,ja,A)
+        CALL pde%geins_pde(nel,ia,b)
         IF (debug_mat_bld) THEN
             WRITE(0,*) 'From vector_pde_ddt : SPINS ',nel
             DO i=1,nel

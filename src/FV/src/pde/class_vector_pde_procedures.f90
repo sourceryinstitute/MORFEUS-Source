@@ -88,7 +88,7 @@ CONTAINS
 
     ! ----- Destructor -----
 
-    MODULE PROCEDURE free_vector_pde
+    MODULE PROCEDURE free_pde
         USE class_mesh
         !
         INTEGER :: err_act, info
@@ -97,21 +97,21 @@ CONTAINS
         ! Sets error handling for PSBLAS-2 routines
         CALL psb_erractionsave(err_act)
 
-        CALL pde%pde%get_mesh(msh)
+        CALL eqn%pde%get_mesh(msh)
 
         ! Frees storage of RHS member
-        CALL psb_gefree(pde%b,msh%desc_c,info)
-        CALL psb_check_error(info,'free_vector_pde','psb_gefree',icontxt_())
+        CALL psb_gefree(eqn%b,msh%desc_c,info)
+        CALL psb_check_error(info,'free_pde','psb_gefree',icontxt_())
 
         NULLIFY(msh)
 
         ! Frees storage of BASE member
-        CALL free_pde(pde%pde)
+        CALL eqn%pde%free_pde()
 
         ! ----- Normal Termination -----
         CALL psb_erractionrestore(err_act)
 
-    END PROCEDURE free_vector_pde
+    END PROCEDURE free_pde
 
 
     ! ----- Getters -----
@@ -311,7 +311,7 @@ CONTAINS
         LOGICAL :: mtx_rhs
         TYPE(mesh), POINTER :: msh => NULL()
 
-        CALL write_pde(eqn%pde,mat,mtx_rhs)
+        CALL eqn%pde%write_pde(mat,mtx_rhs)
 
         IF(.NOT.mtx_rhs) RETURN
 
