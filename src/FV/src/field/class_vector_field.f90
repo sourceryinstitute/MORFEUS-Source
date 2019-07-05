@@ -58,9 +58,6 @@ MODULE class_vector_field
 
     PRIVATE ! Default
     PUBLIC :: vector_field      !! Class
-    PUBLIC :: vector_field_     !! Constructor
-    PUBLIC :: ASSIGNMENT(=)     !! Setters
-    PUBLIC :: OPERATOR(*)       !! Algebra operations
 
     TYPE vector_field
         PRIVATE
@@ -103,9 +100,13 @@ MODULE class_vector_field
         GENERIC, PUBLIC :: set_x => set_vector_field_x
         PROCEDURE, PRIVATE :: interp_on_faces_v
         GENERIC, PUBLIC :: interp_on_faces => interp_on_faces_v
-        PROCEDURE :: vector_field_sum, vector_field_dif
+        PROCEDURE, PRIVATE :: vector_field_sum, vector_field_dif
+        PROCEDURE, PASS(f2), PRIVATE :: vector_field_scal     !! Algebra operations
+        PROCEDURE, PRIVATE :: assign_vector_field_s, assign_vector_field_v
+        GENERIC :: ASSIGNMENT(=) => assign_vector_field_s, assign_vector_field_v !! User-defined assignemnts
         GENERIC :: OPERATOR(+) => vector_field_sum
         GENERIC :: OPERATOR(-) => vector_field_dif
+        GENERIC :: OPERATOR(*) => vector_field_scal     !! Algebra operations
         PROCEDURE, PRIVATE :: nemo_vector_field_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_vector_field_sizeof
         PROCEDURE, PRIVATE :: get_vector_field_msh_sub
@@ -116,6 +117,19 @@ MODULE class_vector_field
 
   ! ----- Generic Interfaces -----
 
+  INTERFACE vector_field
+    !! ----- Constructor -----
+    MODULE FUNCTION vector_field_(base,x,bx)
+      !! Default public constructor, necessary with ifort
+        IMPLICIT NONE
+        TYPE(vector_field) :: vector_field_
+        TYPE(field),      INTENT(IN) :: base
+        TYPE(vector), INTENT(IN) :: x(:)
+        TYPE(vector), INTENT(IN) :: bx(:)
+    END FUNCTION vector_field_
+
+  END INTERFACE vector_field
+
   INTERFACE
 
     MODULE FUNCTION nemo_vector_field_sizeof(fld)
@@ -123,17 +137,6 @@ MODULE class_vector_field
         CLASS(vector_field), INTENT(IN) :: fld
         INTEGER(kind=nemo_int_long_)   :: nemo_vector_field_sizeof
     END FUNCTION nemo_vector_field_sizeof
-
-    ! ----- Constructor -----
-
-    ! Default public constructor, necessary with ifort
-    MODULE FUNCTION vector_field_(base,x,bx)
-        IMPLICIT NONE
-        TYPE(vector_field) :: vector_field_
-        TYPE(field),      INTENT(IN) :: base
-        TYPE(vector), INTENT(IN) :: x(:)
-        TYPE(vector), INTENT(IN) :: bx(:)
-    END FUNCTION vector_field_
 
   ! Constructor
     MODULE SUBROUTINE create_vector_field(fld,msh,dim,bc,mats,on_faces,x0)
@@ -327,36 +330,29 @@ MODULE class_vector_field
         CHARACTER(len=*), INTENT(IN) :: WHERE
     END SUBROUTINE check_mesh_consistency_vf
 
-  END INTERFACE
-
-  INTERFACE ASSIGNMENT(=)
-    !! User-defined assignemnts
-
-    MODULE SUBROUTINE assign_vector_field_s(f,x)
-        USE class_vector
-        IMPLICIT NONE
-        TYPE(vector_field), INTENT(INOUT) :: f
-        TYPE(vector),       INTENT(IN)    :: x
-    END SUBROUTINE assign_vector_field_s
-
-    MODULE SUBROUTINE assign_vector_field_v(f,x)
-        USE class_vector
-        IMPLICIT NONE
-        TYPE(vector_field), INTENT(INOUT) :: f
-        TYPE(vector),       INTENT(IN)    :: x(:)
-    END SUBROUTINE assign_vector_field_v
-
-  END INTERFACE ASSIGNMENT(=)
-
-  INTERFACE OPERATOR(*)
     MODULE FUNCTION vector_field_scal(a,f2)RESULT(r)
         USE class_dimensions
         !use class_vector
         IMPLICIT NONE
         TYPE(vector_field) :: r
         REAL(psb_dpk_), INTENT(IN) :: a
-        TYPE(vector_field), INTENT(IN) :: f2
+        CLASS(vector_field), INTENT(IN) :: f2
     END FUNCTION vector_field_scal
-  END INTERFACE OPERATOR(*)
+
+    MODULE SUBROUTINE assign_vector_field_s(f,x)
+        USE class_vector
+        IMPLICIT NONE
+        CLASS(vector_field), INTENT(INOUT) :: f
+        TYPE(vector),       INTENT(IN)    :: x
+    END SUBROUTINE assign_vector_field_s
+
+    MODULE SUBROUTINE assign_vector_field_v(f,x)
+        USE class_vector
+        IMPLICIT NONE
+        CLASS(vector_field), INTENT(INOUT) :: f
+        TYPE(vector),       INTENT(IN)    :: x(:)
+    END SUBROUTINE assign_vector_field_v
+
+  END INTERFACE
 
 END MODULE class_vector_field

@@ -57,9 +57,6 @@ MODULE class_scalar_field
 
     PRIVATE ! Default
     PUBLIC :: scalar_field                              ! Class
-    PUBLIC :: scalar_field_                             ! Constructor
-    PUBLIC :: ASSIGNMENT(=)                             ! Setters
-    PUBLIC :: OPERATOR(*)              ! Algebra operations
 
     TYPE, EXTENDS(field) :: scalar_field
         PRIVATE
@@ -90,8 +87,13 @@ MODULE class_scalar_field
         PROCEDURE, PRIVATE :: nemo_scalar_field_normi, nemo_scalar_field_norm1
         GENERIC, PUBLIC :: field_normi => nemo_scalar_field_normi
         GENERIC, PUBLIC :: field_norm1 => nemo_scalar_field_norm1
-        PROCEDURE :: scalar_field_sum, scalar_field_dif, scalar_field_dif_s
-        PROCEDURE :: scalar_field_div
+        PROCEDURE, PRIVATE :: scalar_field_sum, scalar_field_dif, scalar_field_dif_s
+        PROCEDURE, PRIVATE :: scalar_field_div
+        PROCEDURE, PASS(f), PRIVATE :: scalar_field_scal
+        PROCEDURE, PRIVATE :: scalar_field_mul
+        PROCEDURE, PRIVATE :: assign_scalar_field_s, assign_scalar_field_v
+        GENERIC :: ASSIGNMENT(=) => assign_scalar_field_s, assign_scalar_field_v  !! User-defined assignment
+        GENERIC :: OPERATOR(*) => scalar_field_scal, scalar_field_mul             !! Algebra operations
         GENERIC :: OPERATOR(+) => scalar_field_sum
         GENERIC :: OPERATOR(-) => scalar_field_dif, scalar_field_dif_s
         GENERIC :: OPERATOR(/) => scalar_field_div
@@ -100,15 +102,9 @@ MODULE class_scalar_field
         GENERIC, PUBLIC :: check_mesh_consistency => check_mesh_consistency_sf
     END TYPE scalar_field
 
-    INTERFACE
-
-    MODULE FUNCTION nemo_field_sizeof(fld)
-        IMPLICIT NONE
-        CLASS(scalar_field), INTENT(IN) :: fld
-        INTEGER(kind=nemo_int_long_)   :: nemo_field_sizeof
-    END FUNCTION nemo_field_sizeof
-
     ! ----- Constructor -----
+
+    INTERFACE scalar_field
 
     MODULE FUNCTION scalar_field_(base,x,bx)
       !! Default public constructor, necessary with ifort
@@ -119,7 +115,15 @@ MODULE class_scalar_field
         REAL(psb_dpk_), INTENT(IN) :: bx(:)
     END FUNCTION scalar_field_
 
-  ! ----- Generic Interfaces -----
+    END INTERFACE scalar_field
+
+    INTERFACE
+
+    MODULE FUNCTION nemo_field_sizeof(fld)
+        IMPLICIT NONE
+        CLASS(scalar_field), INTENT(IN) :: fld
+        INTEGER(kind=nemo_int_long_)   :: nemo_field_sizeof
+    END FUNCTION nemo_field_sizeof
 
   ! Constructor
     MODULE SUBROUTINE create_field(fld,msh,dim,bc,mats,on_faces,x0)
@@ -287,32 +291,6 @@ MODULE class_scalar_field
         CHARACTER(len=*), INTENT(IN) :: WHERE
     END SUBROUTINE check_mesh_consistency_sf
 
-  END INTERFACE
-
-  !
-  ! REMARK: thanks to TR15581 extensions there is no need of defining
-  ! the corresponding routine for the assignment between two fields.
-  ! f1 = f2 is legal and it does not require an explicit creation of f1
-
-  INTERFACE ASSIGNMENT(=)
-    !! User-defined assignment
-
-    MODULE SUBROUTINE assign_scalar_field_s(f,x)
-        IMPLICIT NONE
-        TYPE(scalar_field), INTENT(INOUT) :: f
-        REAL(psb_dpk_),   INTENT(IN)    :: x
-    END SUBROUTINE assign_scalar_field_s
-
-    MODULE SUBROUTINE assign_scalar_field_v(f,x)
-        IMPLICIT NONE
-        TYPE(scalar_field), INTENT(INOUT) :: f
-        REAL(psb_dpk_),   INTENT(IN)    :: x(:)
-    END SUBROUTINE assign_scalar_field_v
-
-  END INTERFACE ASSIGNMENT(=)
-
-  INTERFACE OPERATOR(*)
-
     MODULE FUNCTION scalar_field_scal(a,f)RESULT(r)
         IMPLICIT NONE
         TYPE(scalar_field) :: r
@@ -327,7 +305,18 @@ MODULE class_scalar_field
         TYPE(scalar_field), INTENT(IN) :: f2
     END FUNCTION scalar_field_mul
 
-  END INTERFACE OPERATOR(*)
+    MODULE SUBROUTINE assign_scalar_field_s(f,x)
+        IMPLICIT NONE
+        CLASS(scalar_field), INTENT(INOUT) :: f
+        REAL(psb_dpk_),   INTENT(IN)    :: x
+    END SUBROUTINE assign_scalar_field_s
 
+    MODULE SUBROUTINE assign_scalar_field_v(f,x)
+        IMPLICIT NONE
+        CLASS(scalar_field), INTENT(INOUT) :: f
+        REAL(psb_dpk_),   INTENT(IN)    :: x(:)
+    END SUBROUTINE assign_scalar_field_v
+
+  END INTERFACE
 
 END MODULE class_scalar_field
