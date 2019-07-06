@@ -42,24 +42,22 @@ SUBMODULE(class_field) class_field_procedures
 
 CONTAINS
 
-    MODULE PROCEDURE nemo_field_sizeof
+    MODULE PROCEDURE nemo_sizeof
         USE class_psblas, ONLY : nemo_sizeof_int
         IMPLICIT NONE
 
         !
         ! msh, bc and mat are independent objects.
         !
-        nemo_field_sizeof = nemo_sizeof_int + LEN(fld%name)
+        nemo_sizeof = nemo_sizeof_int + LEN(fld%name)
 
-    END PROCEDURE nemo_field_sizeof
+    END PROCEDURE nemo_sizeof
 
     ! ----- Constructor -----
 
     MODULE PROCEDURE create_field
         USE class_dimensions, ONLY : null_dim_
         IMPLICIT NONE
-
-        IF (PRESENT(x0)) PRINT *,"create_field: ignoring x0 in base class constructor"
 
         ! Assigns mandatory arguments
         fld%msh => msh
@@ -108,12 +106,12 @@ CONTAINS
 
     ! ----- Getters -----
 
-    MODULE PROCEDURE get_field_name
+    MODULE PROCEDURE name_
         IMPLICIT NONE
 
-        get_field_name = fld%name
+        name_ = fld%name
 
-    END PROCEDURE get_field_name
+    END PROCEDURE name_
 
 
     MODULE PROCEDURE get_field_dim
@@ -124,35 +122,35 @@ CONTAINS
     END PROCEDURE get_field_dim
 
 
-    MODULE PROCEDURE get_field_msh_sub
+    MODULE PROCEDURE get_mesh
         IMPLICIT NONE
 
         msh => fld%msh
 
-    END PROCEDURE get_field_msh_sub
+    END PROCEDURE get_mesh
 
-    MODULE PROCEDURE get_field_msh_fun
+    MODULE PROCEDURE msh_
         IMPLICIT NONE
 
-        get_field_msh_fun => fld%msh
+        msh_ => fld%msh
 
-    END PROCEDURE get_field_msh_fun
+    END PROCEDURE msh_
 
 
-    MODULE PROCEDURE get_field_on_faces
+    MODULE PROCEDURE on_faces_
         IMPLICIT NONE
 
-        get_field_on_faces = fld%on_faces
+        on_faces_ = fld%on_faces
 
-    END PROCEDURE get_field_on_faces
+    END PROCEDURE on_faces_
 
 
-    MODULE PROCEDURE get_field_bc
+    MODULE PROCEDURE bc_
         IMPLICIT NONE
 
-        get_field_bc => fld%bc
+        bc_ => fld%bc
 
-    END PROCEDURE get_field_bc
+    END PROCEDURE bc_
 
 
     MODULE PROCEDURE get_field_mat_sub
@@ -166,16 +164,16 @@ CONTAINS
 
     END PROCEDURE get_field_mat_sub
     !
-    MODULE PROCEDURE get_field_mat_fun
+    MODULE PROCEDURE mat_
         IMPLICIT NONE
 
         IF (PRESENT(i) .AND. i < SIZE(fld%mats)) THEN
-            get_field_mat_fun => fld%mats(i)%mat
+            mat_ => fld%mats(i)%mat
         ELSE
-            get_field_mat_fun => fld%mats(1)%mat
+            mat_ => fld%mats(1)%mat
         END IF
 
-    END PROCEDURE get_field_mat_fun
+    END PROCEDURE mat_
 
 
     MODULE PROCEDURE get_field_size

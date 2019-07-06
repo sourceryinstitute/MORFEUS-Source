@@ -66,10 +66,9 @@ MODULE class_scalar_field
         INTEGER, ALLOCATABLE :: mat(:)
         INTEGER, ALLOCATABLE :: bmat(:)
     CONTAINS
-        PROCEDURE, PUBLIC :: create_field               ! Constructor
+        PROCEDURE, PUBLIC :: create_scalar_field               ! Constructor
         PROCEDURE, PUBLIC ::  free_field                        ! Destructor
-        PROCEDURE, PRIVATE :: get_scalar_field_base
-        GENERIC, PUBLIC :: get_base => get_scalar_field_base
+        PROCEDURE, PUBLIC :: get_base
         PROCEDURE, PRIVATE :: get_scalar_field_x, get_scalar_field_element
         GENERIC, PUBLIC :: get_x => get_scalar_field_x, get_scalar_field_element
         PROCEDURE, PRIVATE :: get_scalar_field_xp, get_scalar_field_element_prev
@@ -97,7 +96,7 @@ MODULE class_scalar_field
         GENERIC :: OPERATOR(+) => scalar_field_sum
         GENERIC :: OPERATOR(-) => scalar_field_dif, scalar_field_dif_s
         GENERIC :: OPERATOR(/) => scalar_field_div
-        PROCEDURE, PRIVATE :: nemo_field_sizeof
+        PROCEDURE, PUBLIC :: nemo_sizeof
         PROCEDURE, PRIVATE :: check_mesh_consistency_sf
         GENERIC, PUBLIC :: check_mesh_consistency => check_mesh_consistency_sf
     END TYPE scalar_field
@@ -119,14 +118,14 @@ MODULE class_scalar_field
 
     INTERFACE
 
-    MODULE FUNCTION nemo_field_sizeof(fld)
+    MODULE FUNCTION nemo_sizeof(fld)
         IMPLICIT NONE
         CLASS(scalar_field), INTENT(IN) :: fld
-        INTEGER(kind=nemo_int_long_)   :: nemo_field_sizeof
-    END FUNCTION nemo_field_sizeof
+        INTEGER(kind=nemo_int_long_)   :: nemo_sizeof
+    END FUNCTION nemo_sizeof
 
   ! Constructor
-    MODULE SUBROUTINE create_field(fld,msh,dim,bc,mats,on_faces,x0)
+    MODULE SUBROUTINE create_scalar_field(fld,msh,dim,bc,mats,on_faces,x0)
         IMPLICIT NONE
         ! Mandatory arguments
         CLASS(scalar_field), INTENT(OUT)        :: fld
@@ -138,7 +137,7 @@ MODULE class_scalar_field
         TYPE(matptr),   INTENT(IN), OPTIONAL, TARGET :: mats(:)
         LOGICAL,          INTENT(IN), OPTIONAL         :: on_faces
         REAL(psb_dpk_), INTENT(IN), OPTIONAL         :: x0
-    END SUBROUTINE create_field
+    END SUBROUTINE create_scalar_field
 
   ! ----- Destructor -----
 
@@ -168,11 +167,11 @@ MODULE class_scalar_field
         INTEGER, INTENT(IN) :: i
     END FUNCTION get_scalar_field_mat_id
 
-    MODULE SUBROUTINE get_scalar_field_base(fld,base)
+    MODULE SUBROUTINE get_base(fld,base)
         IMPLICIT NONE
         CLASS(scalar_field), INTENT(IN)  :: fld
         TYPE(field),        INTENT(OUT) :: base
-    END SUBROUTINE get_scalar_field_base
+    END SUBROUTINE get_base
 
   ! ----- Getters for Additional Members -----
 

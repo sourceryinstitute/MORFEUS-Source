@@ -43,7 +43,7 @@ SUBMODULE(class_scalar_field) class_scalar_field_procedures
 
 CONTAINS
 
-    MODULE PROCEDURE nemo_field_sizeof
+    MODULE PROCEDURE nemo_sizeof
         !use psb_base_mod
 
         INTEGER(kind=nemo_int_long_)   :: val
@@ -56,9 +56,9 @@ CONTAINS
         IF (ALLOCATED(fld%bx)) &
             & val = val + nemo_sizeof_dp * SIZE(fld%bx)
 
-        nemo_field_sizeof = val
+        nemo_sizeof = val
 
-    END PROCEDURE nemo_field_sizeof
+    END PROCEDURE nemo_sizeof
 
     ! ----- Constructor -----
 
@@ -83,7 +83,7 @@ CONTAINS
     END PROCEDURE scalar_field_
 
 
-    MODULE PROCEDURE create_field
+    MODULE PROCEDURE create_scalar_field
         USE class_bc
         USE class_connectivity
         USE class_dimensions
@@ -207,7 +207,7 @@ CONTAINS
 
 100     FORMAT(' ERROR! Memory allocation failure in CREATE_SCALAR_FIELD')
 
-    END PROCEDURE create_field
+    END PROCEDURE create_scalar_field
 
 
     ! ----- Destructor -----
@@ -237,11 +237,11 @@ CONTAINS
 
     END PROCEDURE get_scalar_field_mat_id
 
-    MODULE PROCEDURE get_scalar_field_base
+    MODULE PROCEDURE get_base
 
         base = fld%field
 
-    END PROCEDURE get_scalar_field_base
+    END PROCEDURE get_base
 
 
     ! ----- Getters for Additional Members -----

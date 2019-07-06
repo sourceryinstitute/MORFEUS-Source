@@ -59,28 +59,20 @@ MODULE class_vector_field
     PRIVATE ! Default
     PUBLIC :: vector_field      !! Class
 
-    TYPE vector_field
+    TYPE, EXTENDS(field) :: vector_field
         PRIVATE
-        TYPE(field) :: base
         TYPE(vector), ALLOCATABLE :: x(:)
         TYPE(vector), ALLOCATABLE :: xp(:)
         TYPE(vector), ALLOCATABLE :: bx(:)
         INTEGER, ALLOCATABLE :: mat(:)
     CONTAINS
-        PROCEDURE, PRIVATE :: create_vector_field, free_vector_field ! Constructor/destructor
-        GENERIC, PUBLIC :: create_field => create_vector_field
-        GENERIC, PUBLIC :: free_field => free_vector_field
-        PROCEDURE, PRIVATE :: get_vector_field_on_faces, get_vector_field_bc
-        GENERIC, PUBLIC :: on_faces_ => get_vector_field_on_faces
-        GENERIC, PUBLIC :: bc_ => get_vector_field_bc
-        PROCEDURE, PRIVATE :: get_vector_field_mat, get_vector_field_mat_sub
-        GENERIC, PUBLIC :: mat_ => get_vector_field_mat
-        GENERIC, PUBLIC :: get_material => get_vector_field_mat_sub
-        PROCEDURE, PRIVATE :: get_vector_field_dim, get_vector_field_msh_fun ! Getters
-        GENERIC, PUBLIC :: dim_ => get_vector_field_dim
-        GENERIC, PUBLIC :: msh_ => get_vector_field_msh_fun
-        PROCEDURE, PRIVATE :: get_vector_field_name
-        GENERIC, PUBLIC :: name_ => get_vector_field_name
+        PROCEDURE, PUBLIC :: create_vector_field
+        PROCEDURE, PUBLIC :: free_field
+        PROCEDURE, PUBLIC :: on_faces_
+        PROCEDURE, PUBLIC :: bc_
+        PROCEDURE, PRIVATE :: get_vector_field_mat
+        PROCEDURE, PUBLIC :: msh_ ! Getters
+        PROCEDURE, PUBLIC :: name_
         PROCEDURE, PRIVATE :: get_vector_field_base
         GENERIC, PUBLIC :: get_base => get_vector_field_base
         PROCEDURE, PRIVATE :: get_vector_field_x_r, get_vector_field_x_v
@@ -107,10 +99,8 @@ MODULE class_vector_field
         GENERIC :: OPERATOR(+) => vector_field_sum
         GENERIC :: OPERATOR(-) => vector_field_dif
         GENERIC :: OPERATOR(*) => vector_field_scal     !! Algebra operations
-        PROCEDURE, PRIVATE :: nemo_vector_field_sizeof
-        GENERIC, PUBLIC :: nemo_sizeof => nemo_vector_field_sizeof
-        PROCEDURE, PRIVATE :: get_vector_field_msh_sub
-        GENERIC, PUBLIC :: get_mesh => get_vector_field_msh_sub
+        PROCEDURE, PUBLIC:: nemo_sizeof
+        PROCEDURE, PUBLIC :: get_mesh
         PROCEDURE, PRIVATE :: check_mesh_consistency_vf
         GENERIC, PUBLIC :: check_mesh_consistency => check_mesh_consistency_vf
     END TYPE vector_field
@@ -132,11 +122,11 @@ MODULE class_vector_field
 
   INTERFACE
 
-    MODULE FUNCTION nemo_vector_field_sizeof(fld)
+    MODULE FUNCTION nemo_sizeof(fld)
         IMPLICIT NONE
         CLASS(vector_field), INTENT(IN) :: fld
-        INTEGER(kind=nemo_int_long_)   :: nemo_vector_field_sizeof
-    END FUNCTION nemo_vector_field_sizeof
+        INTEGER(kind=nemo_int_long_)   :: nemo_sizeof
+    END FUNCTION nemo_sizeof
 
   ! Constructor
     MODULE SUBROUTINE create_vector_field(fld,msh,dim,bc,mats,on_faces,x0)
@@ -156,52 +146,46 @@ MODULE class_vector_field
   ! ----- Destructor -----
 
     !! Destructor
-    MODULE SUBROUTINE free_vector_field(fld)
+    MODULE SUBROUTINE free_field(fld)
         IMPLICIT NONE
         CLASS(vector_field), INTENT(INOUT) :: fld
-    END SUBROUTINE free_vector_field
+    END SUBROUTINE free_field
 
 
   ! ----- Getters for Inherited Members -----
 
-    MODULE FUNCTION get_vector_field_name(fld)
+    MODULE FUNCTION name_(fld)
         IMPLICIT NONE
-        CHARACTER(len=32) :: get_vector_field_name
+        CHARACTER(len=32) :: name_
         CLASS(vector_field), INTENT(IN) :: fld
-    END FUNCTION get_vector_field_name
+    END FUNCTION name_
 
-    MODULE FUNCTION get_vector_field_dim(fld)
+    MODULE FUNCTION msh_(fld)
         IMPLICIT NONE
-        TYPE(dimensions) :: get_vector_field_dim
-        CLASS(vector_field), INTENT(IN) :: fld
-    END FUNCTION get_vector_field_dim
-
-    MODULE FUNCTION get_vector_field_msh_fun(fld)
-        IMPLICIT NONE
-        TYPE(mesh), POINTER :: get_vector_field_msh_fun
+        TYPE(mesh), POINTER :: msh_
         CLASS(vector_field), INTENT(IN), TARGET  :: fld
-    END FUNCTION get_vector_field_msh_fun
+    END FUNCTION msh_
 
   ! ----- Temporary up to Gfortran patch -----
-    MODULE SUBROUTINE get_vector_field_msh_sub(fld,msh)
+    MODULE SUBROUTINE get_mesh(fld,msh)
         IMPLICIT NONE
         CLASS(vector_field), INTENT(IN) :: fld
         TYPE(mesh), POINTER :: msh
-    END SUBROUTINE get_vector_field_msh_sub
+    END SUBROUTINE get_mesh
   ! ------------------------------------------
 
 
-    MODULE FUNCTION get_vector_field_on_faces(fld)
+    MODULE FUNCTION on_faces_(fld)
         IMPLICIT NONE
-        LOGICAL :: get_vector_field_on_faces
+        LOGICAL :: on_faces_
         CLASS(vector_field), INTENT(IN) :: fld
-    END FUNCTION get_vector_field_on_faces
+    END FUNCTION on_faces_
 
-    MODULE FUNCTION get_vector_field_bc(fld)
+    MODULE FUNCTION bc_(fld)
         IMPLICIT NONE
-        TYPE(bc_poly), POINTER :: get_vector_field_bc(:)
-        CLASS(vector_field), INTENT(IN) :: fld
-    END FUNCTION get_vector_field_bc
+        TYPE(bc_poly), POINTER :: bc_(:)
+        CLASS(vector_field), INTENT(IN), TARGET :: fld
+    END FUNCTION bc_
 
     MODULE FUNCTION get_vector_field_mat(fld)
         IMPLICIT NONE
@@ -209,20 +193,10 @@ MODULE class_vector_field
         CLASS(vector_field), INTENT(IN) :: fld
     END FUNCTION get_vector_field_mat
 
-  ! ----- Temporary up to Gfortran patch -----
-    MODULE SUBROUTINE get_vector_field_mat_sub(fld,i,mat)
-        IMPLICIT NONE
-        CLASS(vector_field), INTENT(IN) :: fld
-        INTEGER, INTENT(IN), OPTIONAL :: i
-        TYPE(material), POINTER :: mat
-    END SUBROUTINE get_vector_field_mat_sub
-  ! ------------------------------------------
-
     MODULE SUBROUTINE get_vector_field_base(fld,base)
         CLASS(vector_field), INTENT(IN)  :: fld
         TYPE(field),        INTENT(OUT) :: base
     END SUBROUTINE get_vector_field_base
-
 
   ! ----- Getters for Additional Members -----
 

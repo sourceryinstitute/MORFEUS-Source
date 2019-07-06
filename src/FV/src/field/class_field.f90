@@ -65,24 +65,20 @@ MODULE class_field
         TYPE(matptr),   POINTER :: mats(:) => NULL()
     CONTAINS
         PROCEDURE :: create_field, free_field        ! Constructor/destructor
-        PROCEDURE, PRIVATE :: get_field_on_faces, get_field_bc     ! Getters
-        PROCEDURE, PRIVATE :: get_field_size, get_field_mat_fun, get_field_mat_sub
-        GENERIC, PUBLIC :: on_faces_ => get_field_on_faces
-        GENERIC, PUBLIC :: mat_ => get_field_mat_fun
-        GENERIC, PUBLIC :: bc_ => get_field_bc
+        PROCEDURE, PUBLIC :: on_faces_     ! Getters
+        PROCEDURE, PRIVATE :: get_field_size, get_field_mat_sub
+        PROCEDURE, PUBLIC :: mat_
+        PROCEDURE, PUBLIC :: bc_
         GENERIC, PUBLIC :: fld_size => get_field_size
         GENERIC, PUBLIC :: get_material => get_field_mat_sub
-        PROCEDURE, PRIVATE :: get_field_dim, get_field_msh_fun ! Getters
+        PROCEDURE, PRIVATE :: get_field_dim  ! Getters
+        PROCEDURE, PUBLIC :: msh_
         GENERIC, PUBLIC :: dim_ => get_field_dim
-        GENERIC, PUBLIC :: msh_ => get_field_msh_fun
-        PROCEDURE, PRIVATE :: get_field_name
-        GENERIC, PUBLIC :: name_ => get_field_name
+        PROCEDURE, PUBLIC :: name_
         PROCEDURE :: set_field_dim, set_field_on_faces    ! Setters
         PROCEDURE :: check_field_operands
-        PROCEDURE, PRIVATE :: nemo_field_sizeof
-        GENERIC, PUBLIC :: nemo_sizeof => nemo_field_sizeof
-        PROCEDURE, PRIVATE :: get_field_msh_sub
-        GENERIC, PUBLIC :: get_mesh => get_field_msh_sub
+        PROCEDURE, PUBLIC :: nemo_sizeof
+        PROCEDURE, PUBLIC :: get_mesh
         PROCEDURE, PRIVATE :: check_mesh_consistency_bf
         GENERIC, PUBLIC :: check_mesh_consistency => check_mesh_consistency_bf
     END TYPE field
@@ -93,18 +89,18 @@ MODULE class_field
     ! ----- Generic Interface -----
 
   INTERFACE
-    MODULE FUNCTION nemo_field_sizeof(fld)
+    MODULE FUNCTION nemo_sizeof(fld)
         IMPLICIT NONE
         CLASS(field), INTENT(IN) :: fld
-        INTEGER(kind=nemo_int_long_)   :: nemo_field_sizeof
-    END FUNCTION nemo_field_sizeof
+        INTEGER(kind=nemo_int_long_)   :: nemo_sizeof
+    END FUNCTION nemo_sizeof
 
   ! The following interfaces are necessary in order to re-use the
   ! same names for the extended operations defined in the classes
   ! derived by inheritance.
 
   ! ----- Constructor -----
-    MODULE SUBROUTINE create_field(fld,msh,dim,bc,mats,on_faces,x0)
+    MODULE SUBROUTINE create_field(fld,msh,dim,bc,mats,on_faces)
         !! Constructor
         IMPLICIT NONE
         !! Mandatory arguments
@@ -115,7 +111,6 @@ MODULE class_field
         TYPE(bc_poly),    INTENT(IN), OPTIONAL, TARGET :: bc(:)
         TYPE(matptr),     INTENT(IN), OPTIONAL, TARGET :: mats(:)
         LOGICAL,          INTENT(IN), OPTIONAL :: on_faces
-        REAL(psb_dpk_),   INTENT(IN), OPTIONAL         :: x0 ! (facilitate scalar_field override)
     END SUBROUTINE create_field
 
   ! ----- Destructor -----
@@ -128,12 +123,12 @@ MODULE class_field
 
   ! ----- Getters -----
 
-    MODULE FUNCTION get_field_name(fld)
+    MODULE FUNCTION name_(fld)
       !! Getters
         IMPLICIT NONE
-        CHARACTER(len=32) :: get_field_name
+        CHARACTER(len=32) :: name_
         CLASS(field), INTENT(IN) :: fld
-    END FUNCTION get_field_name
+    END FUNCTION name_ 
 
     MODULE FUNCTION get_field_dim(fld)
         IMPLICIT NONE
@@ -141,30 +136,30 @@ MODULE class_field
         CLASS(field), INTENT(IN) :: fld
     END FUNCTION get_field_dim
 
-    MODULE FUNCTION get_field_msh_fun(fld)
+    MODULE FUNCTION msh_(fld)
         IMPLICIT NONE
-        TYPE(mesh), POINTER :: get_field_msh_fun
-        CLASS(field), INTENT(IN) :: fld
-    END FUNCTION get_field_msh_fun
+        TYPE(mesh), POINTER :: msh_
+        CLASS(field), INTENT(IN), TARGET :: fld
+    END FUNCTION msh_
 
-    MODULE FUNCTION get_field_on_faces(fld)
+    MODULE FUNCTION on_faces_(fld)
         IMPLICIT NONE
-        LOGICAL :: get_field_on_faces
+        LOGICAL :: on_faces_
         CLASS(field), INTENT(IN) :: fld
-    END FUNCTION get_field_on_faces
+    END FUNCTION on_faces_
 
-    MODULE FUNCTION get_field_bc(fld)
+    MODULE FUNCTION bc_(fld)
         IMPLICIT NONE
-        TYPE(bc_poly), POINTER :: get_field_bc(:)
+        TYPE(bc_poly), POINTER :: bc_(:)
         CLASS(field), INTENT(IN), TARGET  :: fld
-    END FUNCTION get_field_bc
+    END FUNCTION bc_
 
-    MODULE FUNCTION get_field_mat_fun(fld, i)
+    MODULE FUNCTION mat_(fld, i)
         IMPLICIT NONE
-        TYPE(material), POINTER :: get_field_mat_fun
+        TYPE(material), POINTER :: mat_
         CLASS(field), INTENT(IN) :: fld
         INTEGER, INTENT(IN), OPTIONAL :: i
-    END FUNCTION get_field_mat_fun
+    END FUNCTION mat_
 
     MODULE FUNCTION get_field_size(fld) RESULT(isize)
         !USE class_face
@@ -174,11 +169,11 @@ MODULE class_field
     END FUNCTION get_field_size
 
   ! ----- Temporary up to Gfortran patch -----
-    MODULE SUBROUTINE get_field_msh_sub(fld,msh)
+    MODULE SUBROUTINE get_mesh(fld,msh)
         IMPLICIT NONE
         CLASS(field), INTENT(IN) :: fld
         TYPE(mesh), POINTER :: msh
-    END SUBROUTINE get_field_msh_sub
+    END SUBROUTINE get_mesh
 
     MODULE SUBROUTINE get_field_mat_sub(fld,i,mat)
         IMPLICIT NONE
