@@ -68,11 +68,6 @@ MODULE class_vector_field
     CONTAINS
         PROCEDURE, PUBLIC :: create_vector_field
         PROCEDURE, PUBLIC :: free_field
-        PROCEDURE, PUBLIC :: on_faces_
-        PROCEDURE, PUBLIC :: bc_
-        PROCEDURE, PRIVATE :: get_vector_field_mat
-        PROCEDURE, PUBLIC :: msh_ ! Getters
-        PROCEDURE, PUBLIC :: name_
         PROCEDURE, PRIVATE :: get_vector_field_base
         GENERIC, PUBLIC :: get_base => get_vector_field_base
         PROCEDURE, PRIVATE :: get_vector_field_x_r, get_vector_field_x_v
@@ -100,7 +95,6 @@ MODULE class_vector_field
         GENERIC :: OPERATOR(-) => vector_field_dif
         GENERIC :: OPERATOR(*) => vector_field_scal     !! Algebra operations
         PROCEDURE, PUBLIC:: nemo_sizeof
-        PROCEDURE, PUBLIC :: get_mesh
         PROCEDURE, PRIVATE :: check_mesh_consistency_vf
         GENERIC, PUBLIC :: check_mesh_consistency => check_mesh_consistency_vf
     END TYPE vector_field
@@ -151,47 +145,7 @@ MODULE class_vector_field
         CLASS(vector_field), INTENT(INOUT) :: fld
     END SUBROUTINE free_field
 
-
   ! ----- Getters for Inherited Members -----
-
-    MODULE FUNCTION name_(fld)
-        IMPLICIT NONE
-        CHARACTER(len=32) :: name_
-        CLASS(vector_field), INTENT(IN) :: fld
-    END FUNCTION name_
-
-    MODULE FUNCTION msh_(fld)
-        IMPLICIT NONE
-        TYPE(mesh), POINTER :: msh_
-        CLASS(vector_field), INTENT(IN), TARGET  :: fld
-    END FUNCTION msh_
-
-  ! ----- Temporary up to Gfortran patch -----
-    MODULE SUBROUTINE get_mesh(fld,msh)
-        IMPLICIT NONE
-        CLASS(vector_field), INTENT(IN) :: fld
-        TYPE(mesh), POINTER :: msh
-    END SUBROUTINE get_mesh
-  ! ------------------------------------------
-
-
-    MODULE FUNCTION on_faces_(fld)
-        IMPLICIT NONE
-        LOGICAL :: on_faces_
-        CLASS(vector_field), INTENT(IN) :: fld
-    END FUNCTION on_faces_
-
-    MODULE FUNCTION bc_(fld)
-        IMPLICIT NONE
-        TYPE(bc_poly), POINTER :: bc_(:)
-        CLASS(vector_field), INTENT(IN), TARGET :: fld
-    END FUNCTION bc_
-
-    MODULE FUNCTION get_vector_field_mat(fld)
-        IMPLICIT NONE
-        TYPE(material), POINTER :: get_vector_field_mat
-        CLASS(vector_field), INTENT(IN) :: fld
-    END FUNCTION get_vector_field_mat
 
     MODULE SUBROUTINE get_vector_field_base(fld,base)
         CLASS(vector_field), INTENT(IN)  :: fld

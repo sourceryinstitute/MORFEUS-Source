@@ -174,57 +174,6 @@ CONTAINS
 
     ! ----- Getters for Inherited Members -----
 
-    MODULE PROCEDURE name_
-        IMPLICIT NONE
-
-        name_ = fld%field%name_()
-
-    END PROCEDURE name_
-
-
-    MODULE PROCEDURE msh_
-        USE class_mesh
-        IMPLICIT NONE
-
-        msh_ => fld%field%msh_()
-
-    END PROCEDURE msh_
-
-
-    MODULE PROCEDURE get_mesh
-        IMPLICIT NONE
-
-        CALL fld%field%get_mesh(msh)
-
-    END PROCEDURE get_mesh
-
-
-    MODULE PROCEDURE on_faces_
-        IMPLICIT NONE
-
-        on_faces_ = fld%field%on_faces_()
-
-    END PROCEDURE on_faces_
-
-
-    MODULE PROCEDURE bc_
-        USE class_bc
-        IMPLICIT NONE
-
-        bc_ => fld%field%bc_()
-
-    END PROCEDURE bc_
-
-
-    MODULE PROCEDURE get_vector_field_mat
-        USE class_material
-        IMPLICIT NONE
-
-        get_vector_field_mat => fld%field%mat_()
-
-    END PROCEDURE get_vector_field_mat
-
-
     MODULE PROCEDURE get_vector_field_base
         IMPLICIT NONE
 
