@@ -92,102 +92,102 @@ MODULE class_face
 
     ! ----- Generic Interfaces -----
 
-  INTERFACE
+    INTERFACE
 
-    ELEMENTAL MODULE FUNCTION nemo_face_sizeof(fc)
-        USE class_psblas, ONLY : nemo_int_long_
-        IMPLICIT NONE
-        CLASS(face), INTENT(IN) :: fc
-        INTEGER(kind=nemo_int_long_)   :: nemo_face_sizeof
-    END FUNCTION nemo_face_sizeof
+        ELEMENTAL MODULE FUNCTION nemo_face_sizeof(fc)
+            USE class_psblas, ONLY : nemo_int_long_
+            IMPLICIT NONE
+            CLASS(face), INTENT(IN) :: fc
+            INTEGER(kind=nemo_int_long_)   :: nemo_face_sizeof
+        END FUNCTION nemo_face_sizeof
 
-    ! ----- Constructors -----
+        ! ----- Constructors -----
 
-    ELEMENTAL MODULE FUNCTION face_(nv,master,slave,flag)
-      !! Public default constructor
-        IMPLICIT NONE
-        TYPE(face) :: face_
-        INTEGER, INTENT(IN) :: nv, master, slave, flag
-    END FUNCTION face_
-
-
-    MODULE SUBROUTINE alloc_face(faces,n)
-      !! Array constructor
-        IMPLICIT NONE
-        TYPE(face), ALLOCATABLE :: faces(:)
-        INTEGER, INTENT(IN) :: n
-    END SUBROUTINE alloc_face
+        ELEMENTAL MODULE FUNCTION face_(nv,master,slave,flag)
+        !! Public default constructor
+            IMPLICIT NONE
+            TYPE(face) :: face_
+            INTEGER, INTENT(IN) :: nv, master, slave, flag
+        END FUNCTION face_
 
 
-    ! ----- Destructor -----
+        MODULE SUBROUTINE alloc_face(faces,n)
+        !! Array constructor
+            IMPLICIT NONE
+            TYPE(face), ALLOCATABLE :: faces(:)
+            INTEGER, INTENT(IN) :: n
+        END SUBROUTINE alloc_face
 
-    MODULE SUBROUTINE free_face(faces)
-        IMPLICIT NONE
-        TYPE(face), ALLOCATABLE :: faces(:)
-    END SUBROUTINE free_face
+
+        ! ----- Destructor -----
+
+        MODULE SUBROUTINE free_face(faces)
+            IMPLICIT NONE
+            TYPE(face), ALLOCATABLE :: faces(:)
+        END SUBROUTINE free_face
 
 
-    ! ----- Parallel Ops. -----
+        ! ----- Parallel Ops. -----
 
-    MODULE SUBROUTINE bcast_face(faces)
-        IMPLICIT NONE
-        TYPE(face), ALLOCATABLE :: faces(:)
-    END SUBROUTINE bcast_face
+        MODULE SUBROUTINE bcast_face(faces)
+            IMPLICIT NONE
+            TYPE(face), ALLOCATABLE :: faces(:)
+        END SUBROUTINE bcast_face
 
-    MODULE SUBROUTINE g2l_face(faces,desc_f,desc_c)
-        USE psb_base_mod
-        IMPLICIT NONE
-        TYPE(face), ALLOCATABLE :: faces(:)
-        TYPE(psb_desc_type), INTENT(IN) :: desc_f, desc_c
-    END SUBROUTINE g2l_face
+        MODULE SUBROUTINE g2l_face(faces,desc_f,desc_c)
+            USE psb_base_mod
+            IMPLICIT NONE
+            TYPE(face), ALLOCATABLE :: faces(:)
+            TYPE(psb_desc_type), INTENT(IN) :: desc_f, desc_c
+        END SUBROUTINE g2l_face
 
-    MODULE SUBROUTINE l2g_face(faces_loc,faces_glob,desc_f,desc_c)
-        USE psb_base_mod
-        IMPLICIT NONE
-        !! WARNING! The global results is allocated only on P0. After its usage
-        !! it must be deallocated in the calling unit by means of the statement:
-        !! "if(associated(glob_res)) deallocate(glob_res)"
-        TYPE(face), ALLOCATABLE :: faces_loc(:)
-        TYPE(face), ALLOCATABLE :: faces_glob(:)
-        TYPE(psb_desc_type), INTENT(IN) :: desc_f
-        TYPE(psb_desc_type), INTENT(IN) :: desc_c
-    END SUBROUTINE l2g_face
+        MODULE SUBROUTINE l2g_face(faces_loc,faces_glob,desc_f,desc_c)
+            USE psb_base_mod
+            IMPLICIT NONE
+            !! WARNING! The global results is allocated only on P0. After its usage
+            !! it must be deallocated in the calling unit by means of the statement:
+            !! "if(associated(glob_res)) deallocate(glob_res)"
+            TYPE(face), ALLOCATABLE :: faces_loc(:)
+            TYPE(face), ALLOCATABLE :: faces_glob(:)
+            TYPE(psb_desc_type), INTENT(IN) :: desc_f
+            TYPE(psb_desc_type), INTENT(IN) :: desc_c
+        END SUBROUTINE l2g_face
 
-    ! ----- Getters -----
+        ! ----- Getters -----
 
-    ELEMENTAL MODULE FUNCTION get_face_nv(f)
-        IMPLICIT NONE
-        INTEGER :: get_face_nv
-        CLASS(face), INTENT(IN) :: f
-    END FUNCTION get_face_nv
+        ELEMENTAL MODULE FUNCTION get_face_nv(f)
+            IMPLICIT NONE
+            INTEGER :: get_face_nv
+            CLASS(face), INTENT(IN) :: f
+        END FUNCTION get_face_nv
 
-    ELEMENTAL MODULE FUNCTION get_face_master(f)
-        IMPLICIT NONE
-        INTEGER :: get_face_master
-        CLASS(face), INTENT(IN) :: f
-    END FUNCTION get_face_master
+        ELEMENTAL MODULE FUNCTION get_face_master(f)
+            IMPLICIT NONE
+            INTEGER :: get_face_master
+            CLASS(face), INTENT(IN) :: f
+        END FUNCTION get_face_master
 
-    ! Getters
+        ! Getters
 
-    ELEMENTAL MODULE FUNCTION get_face_slave(f)
-        IMPLICIT NONE
-        INTEGER :: get_face_slave
-        CLASS(face), INTENT(IN) :: f
-    END FUNCTION get_face_slave
+        ELEMENTAL MODULE FUNCTION get_face_slave(f)
+            IMPLICIT NONE
+            INTEGER :: get_face_slave
+            CLASS(face), INTENT(IN) :: f
+        END FUNCTION get_face_slave
 
-    ELEMENTAL MODULE FUNCTION get_face_flag(f)
-        IMPLICIT NONE
-        INTEGER :: get_face_flag
-        CLASS(face), INTENT(IN) :: f
-    END FUNCTION get_face_flag
+        ELEMENTAL MODULE FUNCTION get_face_flag(f)
+            IMPLICIT NONE
+            INTEGER :: get_face_flag
+            CLASS(face), INTENT(IN) :: f
+        END FUNCTION get_face_flag
 
-    ! ----- Setter -----
-    MODULE SUBROUTINE set_face(f,nv,master,slave,flag)
-        IMPLICIT NONE
-        CLASS(face), INTENT(INOUT) :: f
-        INTEGER, INTENT(IN), OPTIONAL :: nv, master, slave, flag
-    END SUBROUTINE set_face
+        ! ----- Setter -----
+        MODULE SUBROUTINE set_face(f,nv,master,slave,flag)
+            IMPLICIT NONE
+            CLASS(face), INTENT(INOUT) :: f
+            INTEGER, INTENT(IN), OPTIONAL :: nv, master, slave, flag
+        END SUBROUTINE set_face
 
-  END INTERFACE
+    END INTERFACE
 
 END MODULE class_face

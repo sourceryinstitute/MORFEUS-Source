@@ -46,8 +46,8 @@ SUBMODULE(tools_part) tools_part_procedures
 
     IMPLICIT NONE
 
-   !INTEGER, ALLOCATABLE, SAVE :: part_cells(:)
-   !TYPE(connectivity), SAVE :: c2v, c2f
+    !INTEGER, ALLOCATABLE, SAVE :: part_cells(:)
+    !TYPE(connectivity), SAVE :: c2v, c2f
 
     ! PART_CELLS is created in CMP_MESH_PART
     ! C2V and C2F are created in CMP_MESH_DESC
@@ -103,7 +103,7 @@ CONTAINS
             ppv(pid+1) = pid
         END DO
 
-        nv       = COUNT(ppv >= 0)
+        nv        = COUNT(ppv >= 0)
         ppv(1:nv) = PACK(ppv,ppv >= 0)
 
         NULLIFY(ic2f)

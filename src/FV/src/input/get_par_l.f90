@@ -93,7 +93,7 @@ SUBMODULE (tools_input) get_par_l_implementation
 
 100         FORMAT(1x,a15,1x,l5)
 200         FORMAT(' WARNING! Parameter "',a,'" in section ',a,'.',&
-              &    ' Set to default = ',l5)
+                &    ' Set to default = ',l5)
 
         END PROCEDURE get_par_l
 

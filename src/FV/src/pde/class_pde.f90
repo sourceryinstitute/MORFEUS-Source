@@ -76,7 +76,7 @@ MODULE class_pde
         PROCEDURE, PUBLIC :: create_pde ! Constructor
         PROCEDURE, PUBLIC, PASS(eqn) :: spins_pde  ! Linear System Solving
         PROCEDURE, PUBLIC :: free_pde                         ! Destructor
-        PROCEDURE, PUBLIC :: write_pde                         
+        PROCEDURE, PUBLIC :: write_pde
         PROCEDURE, PRIVATE :: get_pde_dim, get_pde_msh_fun  ! Getter
         GENERIC, PUBLIC :: dim_ => get_pde_dim
         GENERIC, PUBLIC :: msh_ => get_pde_msh_fun
@@ -97,144 +97,146 @@ MODULE class_pde
     END TYPE pde
 
 
-    ! ----- Generic Interfaces -----
+    INTERFACE
 
-  INTERFACE
-    MODULE FUNCTION nemo_sizeof(eqn)
-        USE class_psblas
-        IMPLICIT NONE
-        CLASS(pde), INTENT(IN) :: eqn
-        INTEGER(kind=nemo_int_long_)   :: nemo_sizeof
-    END FUNCTION nemo_sizeof
+      MODULE FUNCTION nemo_sizeof(eqn)
+          USE class_psblas
+          IMPLICIT NONE
+          CLASS(pde), INTENT(IN) :: eqn
+          INTEGER(kind=nemo_int_long_)   :: nemo_sizeof
+      END FUNCTION nemo_sizeof
 
-  ! Constructor
-    MODULE SUBROUTINE create_pde(eqn,input_file,sec,msh,dim)
-        USE class_connectivity
-        USE tools_input
-        IMPLICIT NONE
-        CLASS(pde),        INTENT(OUT)           :: eqn
-        CHARACTER(len=*), INTENT(IN)            :: input_file
-        CHARACTER(len=*), INTENT(IN)            :: sec
-        TYPE(mesh),       INTENT(INOUT), TARGET :: msh
-        TYPE(dimensions), INTENT(IN)            :: dim
-    END SUBROUTINE create_pde
+      !! Constructor
 
-    !! ----- Destructor -----
-    MODULE SUBROUTINE free_pde(eqn)
-      !!  Destructor
-        IMPLICIT NONE
-        CLASS(pde), INTENT(INOUT) :: eqn
-    END SUBROUTINE free_pde
+      MODULE SUBROUTINE create_pde(eqn,input_file,sec,msh,dim)
+          USE class_connectivity
+          USE tools_input
+          IMPLICIT NONE
+          CLASS(pde),        INTENT(OUT)           :: eqn
+          CHARACTER(len=*), INTENT(IN)            :: input_file
+          CHARACTER(len=*), INTENT(IN)            :: sec
+          TYPE(mesh),       INTENT(INOUT), TARGET :: msh
+          TYPE(dimensions), INTENT(IN)            :: dim
+      END SUBROUTINE create_pde
 
-  ! ----- Getters -----
-    !! Getters
-    MODULE FUNCTION get_pde_name(eqn)
-        IMPLICIT NONE
-        CHARACTER(len=32) :: get_pde_name
-        CLASS(pde), INTENT(IN) :: eqn
-    END FUNCTION get_pde_name
+      !! ----- Destructor -----
 
-    MODULE FUNCTION get_pde_dim(eqn)
-        IMPLICIT NONE
-        TYPE(dimensions) :: get_pde_dim
-        CLASS(pde), INTENT(IN) :: eqn
-    END FUNCTION get_pde_dim
+      MODULE SUBROUTINE free_pde(eqn)
+        !!  Destructor
+          IMPLICIT NONE
+          CLASS(pde), INTENT(INOUT) :: eqn
+      END SUBROUTINE free_pde
 
-    MODULE SUBROUTINE get_pde_A(eqn,B)
-        IMPLICIT NONE
-        TYPE(psb_dspmat_type) :: B
-        CLASS(pde), INTENT(INOUT) :: eqn
-    END SUBROUTINE get_pde_A
+      ! ----- Getters -----
 
-    MODULE FUNCTION get_pde_msh_fun(eqn)
-        IMPLICIT NONE
-        TYPE(mesh), POINTER :: get_pde_msh_fun
-        CLASS(pde), INTENT(IN) :: eqn
-    END FUNCTION get_pde_msh_fun
+      MODULE FUNCTION get_pde_name(eqn)
+          IMPLICIT NONE
+          CHARACTER(len=32) :: get_pde_name
+          CLASS(pde), INTENT(IN) :: eqn
+      END FUNCTION get_pde_name
 
-    MODULE SUBROUTINE get_pde_diag(eqn,d)
-        IMPLICIT NONE
-        CLASS(pde), INTENT(INOUT) :: eqn
-        REAL(psb_dpk_), ALLOCATABLE  :: d(:)
-    END SUBROUTINE get_pde_diag
+      MODULE FUNCTION get_pde_dim(eqn)
+          IMPLICIT NONE
+          TYPE(dimensions) :: get_pde_dim
+          CLASS(pde), INTENT(IN) :: eqn
+      END FUNCTION get_pde_dim
 
-    MODULE SUBROUTINE update_pde_diag(eqn)
-        IMPLICIT NONE
-        CLASS(pde), INTENT(INOUT) :: eqn
-    END SUBROUTINE update_pde_diag
+      MODULE SUBROUTINE get_pde_A(eqn,B)
+          IMPLICIT NONE
+          TYPE(psb_dspmat_type) :: B
+          CLASS(pde), INTENT(INOUT) :: eqn
+      END SUBROUTINE get_pde_A
 
-  ! ----- Temporary up to Gfortran patch -----
-    MODULE SUBROUTINE get_pde_msh_sub(eqn,msh)
-        IMPLICIT NONE
-        CLASS(pde), INTENT(IN) :: eqn
-        TYPE(mesh), POINTER :: msh
-    END SUBROUTINE get_pde_msh_sub
+      MODULE FUNCTION get_pde_msh_fun(eqn)
+          IMPLICIT NONE
+          TYPE(mesh), POINTER :: get_pde_msh_fun
+          CLASS(pde), INTENT(IN) :: eqn
+      END FUNCTION get_pde_msh_fun
 
-    MODULE SUBROUTINE asb_pde_(eqn)
-        IMPLICIT NONE
-        CLASS(pde), INTENT(INOUT) :: eqn
-    END SUBROUTINE asb_pde_
+      MODULE SUBROUTINE get_pde_diag(eqn,d)
+          IMPLICIT NONE
+          CLASS(pde), INTENT(INOUT) :: eqn
+          REAL(psb_dpk_), ALLOCATABLE  :: d(:)
+      END SUBROUTINE get_pde_diag
 
-    MODULE SUBROUTINE reinit_pde(eqn)
-        IMPLICIT NONE
-        CLASS(pde), INTENT(INOUT) :: eqn
-    END SUBROUTINE reinit_pde
+      MODULE SUBROUTINE update_pde_diag(eqn)
+          IMPLICIT NONE
+          CLASS(pde), INTENT(INOUT) :: eqn
+      END SUBROUTINE update_pde_diag
 
-  ! ----- Output -----
+      ! ----- Temporary up to Gfortran patch -----
+      MODULE SUBROUTINE get_pde_msh_sub(eqn,msh)
+          IMPLICIT NONE
+          CLASS(pde), INTENT(IN) :: eqn
+          TYPE(mesh), POINTER :: msh
+      END SUBROUTINE get_pde_msh_sub
 
-    MODULE SUBROUTINE write_pde(eqn,mat,mtx_rhs)
-      !! Output
-        USE tools_output_basics
-        IMPLICIT NONE
-        CLASS(pde),        INTENT(IN) :: eqn
-        CHARACTER(len=*), INTENT(IN) :: mat
-        LOGICAL,          INTENT(OUT) :: mtx_rhs
-    END SUBROUTINE write_pde
+      MODULE SUBROUTINE asb_pde_(eqn)
+          IMPLICIT NONE
+          CLASS(pde), INTENT(INOUT) :: eqn
+      END SUBROUTINE asb_pde_
 
-    ! ----- Status Inquirer -----
+      MODULE SUBROUTINE reinit_pde(eqn)
+          IMPLICIT NONE
+          CLASS(pde), INTENT(INOUT) :: eqn
+      END SUBROUTINE reinit_pde
 
-    MODULE FUNCTION is_pde_bld(eqn)
-        IMPLICIT NONE
-        LOGICAL :: is_pde_bld
-        CLASS(pde), INTENT(IN) :: eqn
-    END FUNCTION is_pde_bld
+      ! ----- Output -----
 
-    MODULE FUNCTION is_pde_asb(eqn)
-        IMPLICIT NONE
-        LOGICAL :: is_pde_asb
-        CLASS(pde), INTENT(IN) :: eqn
-    END FUNCTION is_pde_asb
+      MODULE SUBROUTINE write_pde(eqn,mat,mtx_rhs)
+          !! Output
+          USE tools_output_basics
+          IMPLICIT NONE
+          CLASS(pde),        INTENT(IN) :: eqn
+          CHARACTER(len=*), INTENT(IN) :: mat
+          LOGICAL,          INTENT(OUT) :: mtx_rhs
+      END SUBROUTINE write_pde
 
-    MODULE SUBROUTINE build_pde_prec(eqn)
-        IMPLICIT NONE
-        CLASS(pde), INTENT(INOUT) :: eqn
-    END SUBROUTINE build_pde_prec
+      ! ----- Status Inquirer -----
 
-    MODULE SUBROUTINE free_pde_prec(eqn)
-        IMPLICIT NONE
-        CLASS(pde), INTENT(INOUT) :: eqn
-    END SUBROUTINE free_pde_prec
+      MODULE FUNCTION is_pde_bld(eqn)
+          IMPLICIT NONE
+          LOGICAL :: is_pde_bld
+          CLASS(pde), INTENT(IN) :: eqn
+      END FUNCTION is_pde_bld
 
-    MODULE SUBROUTINE solve_pde_sys(eqn,b,x,iter,err)
-        IMPLICIT NONE
-        CLASS(pde),      INTENT(INOUT) :: eqn
-        REAL(psb_dpk_), INTENT(IN)  :: b(:)
-        REAL(psb_dpk_), INTENT(OUT) :: x(:)
-        INTEGER,        INTENT(OUT) :: iter
-        REAL(psb_dpk_), INTENT(OUT) :: err
-    END SUBROUTINE solve_pde_sys
+      MODULE FUNCTION is_pde_asb(eqn)
+          IMPLICIT NONE
+          LOGICAL :: is_pde_asb
+          CLASS(pde), INTENT(IN) :: eqn
+      END FUNCTION is_pde_asb
 
-  ! ----- Linear System Solving -----
-    MODULE SUBROUTINE spins_pde(n,ia,ja,cloud,eqn)
-        !! Linear System Solving
-        !! Inserts a ``cloud'' of coefficients into eqn%A
-        IMPLICIT NONE
-        INTEGER,          INTENT(IN)    :: n
-        INTEGER,          INTENT(IN)    :: ia(:), ja(:)
-        REAL(psb_dpk_), INTENT(IN)    :: cloud(:)
-        CLASS(pde), INTENT(INOUT) :: eqn
-    END SUBROUTINE spins_pde
+      MODULE SUBROUTINE build_pde_prec(eqn)
+          IMPLICIT NONE
+          CLASS(pde), INTENT(INOUT) :: eqn
+      END SUBROUTINE build_pde_prec
 
-  END INTERFACE
+      MODULE SUBROUTINE free_pde_prec(eqn)
+          IMPLICIT NONE
+          CLASS(pde), INTENT(INOUT) :: eqn
+      END SUBROUTINE free_pde_prec
+
+      MODULE SUBROUTINE solve_pde_sys(eqn,b,x,iter,err)
+          IMPLICIT NONE
+          CLASS(pde),      INTENT(INOUT) :: eqn
+          REAL(psb_dpk_), INTENT(IN)  :: b(:)
+          REAL(psb_dpk_), INTENT(OUT) :: x(:)
+          INTEGER,        INTENT(OUT) :: iter
+          REAL(psb_dpk_), INTENT(OUT) :: err
+      END SUBROUTINE solve_pde_sys
+
+      ! ----- Linear System Solving -----
+
+      MODULE SUBROUTINE spins_pde(n,ia,ja,cloud,eqn)
+          !! Linear System Solving
+          !! Inserts a ``cloud'' of coefficients into eqn%A
+          IMPLICIT NONE
+          INTEGER,          INTENT(IN)    :: n
+          INTEGER,          INTENT(IN)    :: ia(:), ja(:)
+          REAL(psb_dpk_), INTENT(IN)    :: cloud(:)
+          CLASS(pde), INTENT(INOUT) :: eqn
+      END SUBROUTINE spins_pde
+
+    END INTERFACE
 
 END MODULE class_pde

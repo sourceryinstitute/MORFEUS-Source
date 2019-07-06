@@ -246,8 +246,8 @@ CONTAINS
 
 
     MODULE PROCEDURE get_abc_math_v
-      !! WARNING! Use intent(inout) for A, B and C.
-      !! REMARK: BC(:) elements are supposed to differ only in "C" term
+    !! WARNING! Use intent(inout) for A, B and C.
+    !! REMARK: BC(:) elements are supposed to differ only in "C" term
 
         !USE class_connectivity
         USE class_mesh

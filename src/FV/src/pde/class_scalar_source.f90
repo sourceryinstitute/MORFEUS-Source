@@ -71,48 +71,48 @@ MODULE class_scalar_source
 
     ! ----- Generic Interfaces -----
 
-  INTERFACE
+    INTERFACE
 
-    MODULE FUNCTION nemo_scalar_source_sizeof(src)
-        USE psb_base_mod
-        USE class_psblas
-        IMPLICIT NONE
-        CLASS(scalar_source), INTENT(IN) :: src
-        INTEGER(kind=nemo_int_long_)   :: nemo_scalar_source_sizeof
-    END FUNCTION nemo_scalar_source_sizeof
-
-
-    ! Constructor
-    MODULE SUBROUTINE create_scalar_source(src,input_file,sec,dim)
-        USE tools_input
-        IMPLICIT NONE
-        CLASS(scalar_source), INTENT(INOUT) :: src
-        CHARACTER(len=*), INTENT(IN) :: input_file
-        CHARACTER(len=*), INTENT(IN) :: sec
-        TYPE(dimensions), INTENT(IN) :: dim
-    END SUBROUTINE create_scalar_source
+        MODULE FUNCTION nemo_scalar_source_sizeof(src)
+            USE psb_base_mod
+            USE class_psblas
+            IMPLICIT NONE
+            CLASS(scalar_source), INTENT(IN) :: src
+            INTEGER(kind=nemo_int_long_)   :: nemo_scalar_source_sizeof
+        END FUNCTION nemo_scalar_source_sizeof
 
 
-  ! Getters
+        ! Constructor
+        MODULE SUBROUTINE create_scalar_source(src,input_file,sec,dim)
+            USE tools_input
+            IMPLICIT NONE
+            CLASS(scalar_source), INTENT(INOUT) :: src
+            CHARACTER(len=*), INTENT(IN) :: input_file
+            CHARACTER(len=*), INTENT(IN) :: sec
+            TYPE(dimensions), INTENT(IN) :: dim
+        END SUBROUTINE create_scalar_source
 
-    MODULE FUNCTION get_scalar_source_dim(src)
-        IMPLICIT NONE
-        TYPE(dimensions) :: get_scalar_source_dim
-        CLASS(scalar_source), INTENT(IN) :: src
-    END FUNCTION get_scalar_source_dim
+
+        ! Getters
+
+        MODULE FUNCTION get_scalar_source_dim(src)
+            IMPLICIT NONE
+            TYPE(dimensions) :: get_scalar_source_dim
+            CLASS(scalar_source), INTENT(IN) :: src
+        END FUNCTION get_scalar_source_dim
 
 
-    MODULE FUNCTION get_scalar_source_sc(src)
-        IMPLICIT NONE
-        REAL(psb_dpk_) :: get_scalar_source_sc
-        CLASS(scalar_source), INTENT(IN) :: src
-    END FUNCTION get_scalar_source_sc
+        MODULE FUNCTION get_scalar_source_sc(src)
+            IMPLICIT NONE
+            REAL(psb_dpk_) :: get_scalar_source_sc
+            CLASS(scalar_source), INTENT(IN) :: src
+        END FUNCTION get_scalar_source_sc
 
-    MODULE FUNCTION get_scalar_source_sp(src)
-        REAL(psb_dpk_) :: get_scalar_source_sp
-        CLASS(scalar_source), INTENT(IN) :: src
-    END FUNCTION get_scalar_source_sp
+        MODULE FUNCTION get_scalar_source_sp(src)
+            REAL(psb_dpk_) :: get_scalar_source_sp
+            CLASS(scalar_source), INTENT(IN) :: src
+        END FUNCTION get_scalar_source_sp
 
-  END INTERFACE
+    END INTERFACE
 
 END MODULE class_scalar_source

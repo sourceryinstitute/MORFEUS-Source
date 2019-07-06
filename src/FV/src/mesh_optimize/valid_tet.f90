@@ -39,7 +39,8 @@
 ! $Id$
 !
 ! Description:
-!    Checks that a tet is valid using a scheme that is consistent with how OptMS does it.  Can only be used for strictly local tetrahedral cells
+!    Checks that a tet is valid using a scheme that is consistent with how OptMS does it.
+!    Can only be used for strictly local tetrahedral cells
 !
 FUNCTION tet_valid(msh,ic)
 

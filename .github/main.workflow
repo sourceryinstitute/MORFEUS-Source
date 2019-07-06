@@ -56,3 +56,27 @@ action "Mirror wiki" {
   }
   secrets = ["IBB_PWLESS_DEPLOY_KEY", "GITHUB_TOKEN"]
 }
+
+workflow "style linting" {
+  on = "push"
+  resolves = ["EditorConfig Audit"]
+}
+
+action "EditorConfig Audit" {
+  uses = "zbeekman/EditorConfig-Action@v1.1.0"
+  env = {
+    ALWAYS_LINT_ALL_FILES = "false"
+    }
+}
+
+workflow "PR Audit" {
+  on = "pull_request"
+  resolves = ["EC PR Audit"]
+}
+
+action "EC PR Audit" {
+  uses = "zbeekman/EditorConfig-Action@v1.1.0"
+  env = {
+    ALWAYS_LINT_ALL_FILES = "false"
+    }
+}

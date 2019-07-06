@@ -61,83 +61,83 @@ MODULE renum
     INTEGER, PARAMETER :: to_b_       = 2
     INTEGER, PARAMETER :: to_a_and_b_ = 3
 
- INTERFACE
+    INTERFACE
 
-    ! ----- Constructor -----
+        ! ----- Constructor -----
 
-    MODULE SUBROUTINE start_renum(irenum,c2c)
-        USE class_connectivity
-        IMPLICIT NONE
-        INTEGER, INTENT(IN) :: irenum
-        TYPE(connectivity), INTENT(IN) :: c2c
-    END SUBROUTINE start_renum
-
-
-    ! ----- Destuctor -----
-
-    MODULE SUBROUTINE stop_renum
-        IMPLICIT NONE
-    END SUBROUTINE stop_renum
+        MODULE SUBROUTINE start_renum(irenum,c2c)
+            USE class_connectivity
+            IMPLICIT NONE
+            INTEGER, INTENT(IN) :: irenum
+            TYPE(connectivity), INTENT(IN) :: c2c
+        END SUBROUTINE start_renum
 
 
-    ! ----- Broadcast -----
+        ! ----- Destuctor -----
 
-    MODULE SUBROUTINE print_renum(iout)
-        IMPLICIT NONE
-        INTEGER :: iout
-    END SUBROUTINE print_renum
-    ! ----- Broadcast -----
-
-    MODULE SUBROUTINE build_pinv
-        IMPLICIT NONE
-    END SUBROUTINE build_pinv
+        MODULE SUBROUTINE stop_renum
+            IMPLICIT NONE
+        END SUBROUTINE stop_renum
 
 
-    ! ----- Interfaces To Renumbering Methods -----
+        ! ----- Broadcast -----
 
-    ! Gibbs-Poole-Stockmeyer renumbering algorithm
-    MODULE SUBROUTINE cmp_gps(c2c)
-        USE class_connectivity, ONLY : connectivity
-        IMPLICIT NONE
-        TYPE(connectivity) :: c2c
-    END SUBROUTINE cmp_gps
+        MODULE SUBROUTINE print_renum(iout)
+            IMPLICIT NONE
+            INTEGER :: iout
+        END SUBROUTINE print_renum
+        ! ----- Broadcast -----
 
-  END INTERFACE
+        MODULE SUBROUTINE build_pinv
+            IMPLICIT NONE
+        END SUBROUTINE build_pinv
 
-  ! ----- Routines For The Application Of The Renumbering -----
 
-  ! ----- Generic Interfaces -----
+        ! ----- Interfaces To Renumbering Methods -----
 
-  INTERFACE apply_renum
+        ! Gibbs-Poole-Stockmeyer renumbering algorithm
+        MODULE SUBROUTINE cmp_gps(c2c)
+            USE class_connectivity, ONLY : connectivity
+            IMPLICIT NONE
+            TYPE(connectivity) :: c2c
+        END SUBROUTINE cmp_gps
 
-    ! Integer array
-    MODULE SUBROUTINE apply_renum_array(a)
-        IMPLICIT NONE
-        INTEGER, INTENT(INOUT) :: a(:)
-    END SUBROUTINE apply_renum_array
+    END INTERFACE
 
-    ! CELL objects array
-    MODULE SUBROUTINE apply_renum_cell(c)
-        USE class_cell, ONLY : cell
-        IMPLICIT NONE
-        TYPE(cell), INTENT(INOUT) :: c(:)
-    END SUBROUTINE apply_renum_cell
+    ! ----- Routines For The Application Of The Renumbering -----
 
-    ! FACE objects array
-    MODULE SUBROUTINE apply_renum_face(f)
-        USE class_face, ONLY : face
-        IMPLICIT NONE
-        TYPE(face), INTENT(INOUT) :: f(:)
-    END SUBROUTINE apply_renum_face
+    ! ----- Generic Interfaces -----
 
-    ! CONNECTIVITY object
-    MODULE SUBROUTINE apply_renum_conn(a2b,apply)
-        USE class_connectivity, ONLY : connectivity
-        IMPLICIT NONE
-        TYPE(connectivity), INTENT(INOUT) :: a2b
-        INTEGER, INTENT(IN) :: apply
-    END SUBROUTINE apply_renum_conn
+    INTERFACE apply_renum
 
-  END INTERFACE apply_renum
+        ! Integer array
+        MODULE SUBROUTINE apply_renum_array(a)
+            IMPLICIT NONE
+            INTEGER, INTENT(INOUT) :: a(:)
+        END SUBROUTINE apply_renum_array
+
+        ! CELL objects array
+        MODULE SUBROUTINE apply_renum_cell(c)
+            USE class_cell, ONLY : cell
+            IMPLICIT NONE
+            TYPE(cell), INTENT(INOUT) :: c(:)
+        END SUBROUTINE apply_renum_cell
+
+        ! FACE objects array
+        MODULE SUBROUTINE apply_renum_face(f)
+            USE class_face, ONLY : face
+            IMPLICIT NONE
+            TYPE(face), INTENT(INOUT) :: f(:)
+        END SUBROUTINE apply_renum_face
+
+        ! CONNECTIVITY object
+        MODULE SUBROUTINE apply_renum_conn(a2b,apply)
+            USE class_connectivity, ONLY : connectivity
+            IMPLICIT NONE
+            TYPE(connectivity), INTENT(INOUT) :: a2b
+            INTEGER, INTENT(IN) :: apply
+        END SUBROUTINE apply_renum_conn
+
+    END INTERFACE apply_renum
 
 END MODULE renum

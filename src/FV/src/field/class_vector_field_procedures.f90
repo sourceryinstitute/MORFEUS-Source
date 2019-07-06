@@ -240,7 +240,7 @@ CONTAINS
 
 
     MODULE PROCEDURE get_vector_field_xp_v
-      IMPLICIT NONE
+        IMPLICIT NONE
 
         CALL alloc_vector(xp,SIZE(fld%xp))
 

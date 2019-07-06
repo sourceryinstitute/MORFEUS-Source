@@ -45,10 +45,10 @@
 SUBMODULE (tools_mesh_optimize) mobile_verts_implementation
         USE class_psblas, ONLY : psb_cd_get_local_rows, loc_to_glob_
 !        USE class_bc
-         USE class_connectivity
+        USE class_connectivity
 !        USE class_cell
 !        USE class_face
-         USE class_keytable, ONLY : keytable
+        USE class_keytable, ONLY : keytable
 !        USE class_mesh
 !        USE class_vertex, ONLY : x_, y_, z_
 !        USE tools_mesh_basics

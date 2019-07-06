@@ -48,12 +48,12 @@ MODULE mat_water
 
     IMPLICIT NONE
 
- INTERFACE
-    MODULE SUBROUTINE load_water(state,dtemp,tmin,tmax,rho,mu,lambda,sh)
-        CHARACTER(len=1), INTENT(OUT) :: state
-        REAL(psb_dpk_), INTENT(OUT) :: dtemp, tmin, tmax
-        REAL(psb_dpk_), ALLOCATABLE, INTENT(OUT) :: rho(:), mu(:), lambda(:), sh(:)
-    END SUBROUTINE load_water
- END INTERFACE
+    INTERFACE
+        MODULE SUBROUTINE load_water(state,dtemp,tmin,tmax,rho,mu,lambda,sh)
+            CHARACTER(len=1), INTENT(OUT) :: state
+            REAL(psb_dpk_), INTENT(OUT) :: dtemp, tmin, tmax
+            REAL(psb_dpk_), ALLOCATABLE, INTENT(OUT) :: rho(:), mu(:), lambda(:), sh(:)
+        END SUBROUTINE load_water
+    END INTERFACE
 
 END MODULE mat_water

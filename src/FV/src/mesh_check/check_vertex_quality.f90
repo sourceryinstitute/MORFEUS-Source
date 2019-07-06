@@ -85,7 +85,7 @@ SUBMODULE (tools_mesh_check) tools_mesh_check_vertex
         NULLIFY(iv2c)
 
 100     FORMAT(' ERROR! Too many cells connected to a vertex in CHECK_VERTEX_QUALITY.',&
-          &    ' Check value of CMAX in CHECK_VERTEX_QUALITY.' )
+            &    ' Check value of CMAX in CHECK_VERTEX_QUALITY.' )
         END PROCEDURE check_vertex_quality
 
 END SUBMODULE tools_mesh_check_vertex

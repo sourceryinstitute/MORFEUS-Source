@@ -76,7 +76,7 @@ MODULE class_scalar_pde
         GENERIC, PUBLIC :: solve_pde => solve_scalar_pde
     END TYPE scalar_pde
 
-  ! ----- Generic Interfaces -----
+    ! ----- Generic Interfaces -----
 
 
 

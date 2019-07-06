@@ -140,6 +140,6 @@ SUBMODULE (tools_output_basics) wr_mtx_matrix_implementation
 
 100         FORMAT(' ERROR! Memory allocation failure in WR_MTX_MATRIX')
 
-      END PROCEDURE wr_mtx_matrix
+    END PROCEDURE wr_mtx_matrix
 
 END SUBMODULE wr_mtx_matrix_implementation

@@ -78,209 +78,209 @@ MODULE class_vertex
 
     ! ----- Generic Interfaces -----
 
-  INTERFACE
-    ELEMENTAL MODULE FUNCTION nemo_vertex_sizeof(vtx)
-        USE class_psblas, ONLY : nemo_int_long_
-        IMPLICIT NONE
-        CLASS(vertex), INTENT(IN) :: vtx
-        INTEGER(kind=nemo_int_long_)   :: nemo_vertex_sizeof
-    END FUNCTION nemo_vertex_sizeof
-  END INTERFACE
+    INTERFACE
+        ELEMENTAL MODULE FUNCTION nemo_vertex_sizeof(vtx)
+            USE class_psblas, ONLY : nemo_int_long_
+            IMPLICIT NONE
+            CLASS(vertex), INTENT(IN) :: vtx
+            INTEGER(kind=nemo_int_long_)   :: nemo_vertex_sizeof
+        END FUNCTION nemo_vertex_sizeof
+    END INTERFACE
 
-  ! ----- Constructors -----
+    ! ----- Constructors -----
 
-  ! Constructor
-  INTERFACE vertex_
+    ! Constructor
+    INTERFACE vertex_
 
-    ! Public default constructor
-    ELEMENTAL MODULE FUNCTION vertex_1_(x,y,z,on_boundary)RESULT(res)
-        IMPLICIT NONE
-        TYPE(vertex) :: res
-        REAL(psb_dpk_), INTENT(IN) :: x, y, z
-        LOGICAL, INTENT(IN), OPTIONAL :: on_boundary
-    END FUNCTION vertex_1_
+        ! Public default constructor
+        ELEMENTAL MODULE FUNCTION vertex_1_(x,y,z,on_boundary)RESULT(res)
+            IMPLICIT NONE
+            TYPE(vertex) :: res
+            REAL(psb_dpk_), INTENT(IN) :: x, y, z
+            LOGICAL, INTENT(IN), OPTIONAL :: on_boundary
+        END FUNCTION vertex_1_
 
-    ELEMENTAL MODULE FUNCTION vertex_2_(position,on_boundary)RESULT(res)
-        IMPLICIT NONE
-        TYPE(vertex) :: res
-        TYPE(vector), INTENT(IN) :: position
-        LOGICAL, INTENT(IN), OPTIONAL :: on_boundary
-    END FUNCTION vertex_2_
+        ELEMENTAL MODULE FUNCTION vertex_2_(position,on_boundary)RESULT(res)
+            IMPLICIT NONE
+            TYPE(vertex) :: res
+            TYPE(vector), INTENT(IN) :: position
+            LOGICAL, INTENT(IN), OPTIONAL :: on_boundary
+        END FUNCTION vertex_2_
 
-  END INTERFACE vertex_
-
-
-  INTERFACE
-
-    ! Array constructor
-    MODULE SUBROUTINE alloc_vertex(verts,n)
-        IMPLICIT NONE
-        TYPE(vertex), ALLOCATABLE :: verts(:)
-        INTEGER, INTENT(IN) :: n
-    END SUBROUTINE alloc_vertex
+    END INTERFACE vertex_
 
 
-    ! ----- Destructor -----
+    INTERFACE
 
-    MODULE SUBROUTINE free_vertex(verts)
-        IMPLICIT NONE
-        TYPE(vertex), ALLOCATABLE  :: verts(:)
-    END SUBROUTINE free_vertex
-
-
-    ! ----- Parallel Operations -----
-
-    MODULE SUBROUTINE bcast_vertex(verts)
-        IMPLICIT NONE
-        TYPE(vertex), ALLOCATABLE :: verts(:)
-    END SUBROUTINE bcast_vertex
+        ! Array constructor
+        MODULE SUBROUTINE alloc_vertex(verts,n)
+            IMPLICIT NONE
+            TYPE(vertex), ALLOCATABLE :: verts(:)
+            INTEGER, INTENT(IN) :: n
+        END SUBROUTINE alloc_vertex
 
 
-    MODULE SUBROUTINE g2l_vertex(verts,desc_v)
-        USE psb_base_mod
-        IMPLICIT NONE
-        TYPE(vertex), ALLOCATABLE :: verts(:)
-        TYPE(psb_desc_type), INTENT(IN) :: desc_v
-    END SUBROUTINE g2l_vertex
+        ! ----- Destructor -----
+
+        MODULE SUBROUTINE free_vertex(verts)
+            IMPLICIT NONE
+            TYPE(vertex), ALLOCATABLE  :: verts(:)
+        END SUBROUTINE free_vertex
 
 
-    MODULE SUBROUTINE l2g_vertex(verts_loc,verts_glob,desc_v)
-        USE psb_base_mod
-        IMPLICIT NONE
-        ! WARNING! The global results is allocated only on P0. After its usage
-        ! it must be deallocated in the calling unit by means of the statement:
-        ! "if(associated(glob_res)) deallocate(glob_res)"
+        ! ----- Parallel Operations -----
 
-        TYPE(vertex), ALLOCATABLE :: verts_loc(:)
-        TYPE(vertex), ALLOCATABLE :: verts_glob(:)
-        TYPE(psb_desc_type), INTENT(IN) :: desc_v
-    END SUBROUTINE l2g_vertex
+        MODULE SUBROUTINE bcast_vertex(verts)
+            IMPLICIT NONE
+            TYPE(vertex), ALLOCATABLE :: verts(:)
+        END SUBROUTINE bcast_vertex
 
 
-    MODULE SUBROUTINE update_vertex_halo(verts,desc)
-      IMPLICIT NONE
-      ! synchronizes vertex positions
-      ! (other data could be synchronized, too, if needed)
-
-      TYPE(vertex)                    :: verts(:)
-      TYPE(psb_desc_type), INTENT(IN) :: desc
-   END SUBROUTINE update_vertex_halo
+        MODULE SUBROUTINE g2l_vertex(verts,desc_v)
+            USE psb_base_mod
+            IMPLICIT NONE
+            TYPE(vertex), ALLOCATABLE :: verts(:)
+            TYPE(psb_desc_type), INTENT(IN) :: desc_v
+        END SUBROUTINE g2l_vertex
 
 
-    ! ----- Getters -----
+        MODULE SUBROUTINE l2g_vertex(verts_loc,verts_glob,desc_v)
+            USE psb_base_mod
+            IMPLICIT NONE
+            ! WARNING! The global results is allocated only on P0. After its usage
+            ! it must be deallocated in the calling unit by means of the statement:
+            ! "if(associated(glob_res)) deallocate(glob_res)"
 
-    ELEMENTAL MODULE FUNCTION position_(vert)
-      IMPLICIT NONE
-      TYPE(vector) :: position_
-      CLASS(vertex), INTENT(IN) :: vert
-    END FUNCTION position_
-
-
-    ELEMENTAL MODULE FUNCTION on_boundary_(vert)
-      IMPLICIT NONE
-      LOGICAL :: on_boundary_
-      CLASS(vertex), INTENT(IN) :: vert
-    END FUNCTION on_boundary_
-
-  ! Getters
-
-    ELEMENTAL MODULE FUNCTION get_vertex_x(vert)
-      IMPLICIT NONE
-      REAL(psb_dpk_) :: get_vertex_x
-      CLASS(vertex), INTENT(IN) :: vert
-    END FUNCTION get_vertex_x
-
-    ELEMENTAL MODULE FUNCTION get_vertex_y(vert)
-      IMPLICIT NONE
-      REAL(psb_dpk_) :: get_vertex_y
-      CLASS(vertex), INTENT(IN) :: vert
-    END FUNCTION get_vertex_y
-
-    ELEMENTAL MODULE FUNCTION get_vertex_z(vert)
-      IMPLICIT NONE
-      REAL(psb_dpk_) :: get_vertex_z
-      CLASS(vertex), INTENT(IN) :: vert
-    END FUNCTION get_vertex_z
-  END INTERFACE
+            TYPE(vertex), ALLOCATABLE :: verts_loc(:)
+            TYPE(vertex), ALLOCATABLE :: verts_glob(:)
+            TYPE(psb_desc_type), INTENT(IN) :: desc_v
+        END SUBROUTINE l2g_vertex
 
 
-  ! ----- Vector Algebra Operations -----
+        MODULE SUBROUTINE update_vertex_halo(verts,desc)
+            IMPLICIT NONE
+            ! synchronizes vertex positions
+            ! (other data could be synchronized, too, if needed)
 
-  INTERFACE ASSIGNMENT(=)
+            TYPE(vertex)                    :: verts(:)
+            TYPE(psb_desc_type), INTENT(IN) :: desc
+        END SUBROUTINE update_vertex_halo
 
-    ! ----- Setters -----
 
-    MODULE SUBROUTINE set_vertex_position(vert,position)
-      IMPLICIT NONE
-      TYPE(vertex), INTENT(INOUT) :: vert
-      TYPE(vector), INTENT(IN) :: position
-    END SUBROUTINE set_vertex_position
+        ! ----- Getters -----
 
-  END INTERFACE ASSIGNMENT(=)
+        ELEMENTAL MODULE FUNCTION position_(vert)
+            IMPLICIT NONE
+            TYPE(vector) :: position_
+            CLASS(vertex), INTENT(IN) :: vert
+        END FUNCTION position_
+
+
+        ELEMENTAL MODULE FUNCTION on_boundary_(vert)
+            IMPLICIT NONE
+            LOGICAL :: on_boundary_
+            CLASS(vertex), INTENT(IN) :: vert
+        END FUNCTION on_boundary_
+
+        ! Getters
+
+        ELEMENTAL MODULE FUNCTION get_vertex_x(vert)
+            IMPLICIT NONE
+            REAL(psb_dpk_) :: get_vertex_x
+            CLASS(vertex), INTENT(IN) :: vert
+        END FUNCTION get_vertex_x
+
+        ELEMENTAL MODULE FUNCTION get_vertex_y(vert)
+            IMPLICIT NONE
+            REAL(psb_dpk_) :: get_vertex_y
+            CLASS(vertex), INTENT(IN) :: vert
+        END FUNCTION get_vertex_y
+
+        ELEMENTAL MODULE FUNCTION get_vertex_z(vert)
+            IMPLICIT NONE
+            REAL(psb_dpk_) :: get_vertex_z
+            CLASS(vertex), INTENT(IN) :: vert
+        END FUNCTION get_vertex_z
+    END INTERFACE
+
+
+    ! ----- Vector Algebra Operations -----
+
+    INTERFACE ASSIGNMENT(=)
+
+        ! ----- Setters -----
+
+        MODULE SUBROUTINE set_vertex_position(vert,position)
+            IMPLICIT NONE
+            TYPE(vertex), INTENT(INOUT) :: vert
+            TYPE(vector), INTENT(IN) :: position
+        END SUBROUTINE set_vertex_position
+
+    END INTERFACE ASSIGNMENT(=)
 
 
     ! ----- User-defined operators -----
 
-  INTERFACE OPERATOR(+)
+    INTERFACE OPERATOR(+)
 
-    PURE MODULE FUNCTION vert_sum_1(a,b)
-      IMPLICIT NONE
-      TYPE(vector) :: vert_sum_1
-      TYPE(vertex), INTENT(IN) :: a, b
-    END FUNCTION vert_sum_1
+        PURE MODULE FUNCTION vert_sum_1(a,b)
+            IMPLICIT NONE
+            TYPE(vector) :: vert_sum_1
+            TYPE(vertex), INTENT(IN) :: a, b
+        END FUNCTION vert_sum_1
 
-    PURE MODULE FUNCTION vert_sum_2(a,b)
-      IMPLICIT NONE
-      TYPE(vector) :: vert_sum_2
-      TYPE(vector), INTENT(IN) :: a
-      TYPE(vertex), INTENT(IN) :: b
-    END FUNCTION vert_sum_2
+        PURE MODULE FUNCTION vert_sum_2(a,b)
+            IMPLICIT NONE
+            TYPE(vector) :: vert_sum_2
+            TYPE(vector), INTENT(IN) :: a
+            TYPE(vertex), INTENT(IN) :: b
+        END FUNCTION vert_sum_2
 
-  END INTERFACE OPERATOR(+)
-
-
-  INTERFACE OPERATOR(-)
-    PURE MODULE FUNCTION vert_diff(a,b)
-      IMPLICIT NONE
-      TYPE(vector) :: vert_diff
-      TYPE(vertex), INTENT(IN) :: a, b
-    END FUNCTION vert_diff
-  END INTERFACE OPERATOR(-)
+    END INTERFACE OPERATOR(+)
 
 
-  INTERFACE OPERATOR(*)
-    ELEMENTAL MODULE FUNCTION scalar_vertex_prod(alpha,v)
-      IMPLICIT NONE
-      TYPE(vertex) :: scalar_vertex_prod
-      REAL(psb_dpk_), INTENT(IN) :: alpha
-      TYPE(vertex), INTENT(IN) :: v
-    END FUNCTION scalar_vertex_prod
-  END INTERFACE OPERATOR(*)
+    INTERFACE OPERATOR(-)
+        PURE MODULE FUNCTION vert_diff(a,b)
+            IMPLICIT NONE
+            TYPE(vector) :: vert_diff
+            TYPE(vertex), INTENT(IN) :: a, b
+        END FUNCTION vert_diff
+    END INTERFACE OPERATOR(-)
 
 
-  INTERFACE OPERATOR(.dot.)
-    PURE MODULE FUNCTION dot_prod(a,b)
-      IMPLICIT NONE
-      REAL(psb_dpk_) :: dot_prod
-      TYPE(vertex), INTENT(IN) :: a, b
-    END FUNCTION dot_prod
-  END INTERFACE OPERATOR(.dot.)
+    INTERFACE OPERATOR(*)
+        ELEMENTAL MODULE FUNCTION scalar_vertex_prod(alpha,v)
+            IMPLICIT NONE
+            TYPE(vertex) :: scalar_vertex_prod
+            REAL(psb_dpk_), INTENT(IN) :: alpha
+            TYPE(vertex), INTENT(IN) :: v
+        END FUNCTION scalar_vertex_prod
+    END INTERFACE OPERATOR(*)
 
 
-  INTERFACE OPERATOR(.cross.)
-    PURE MODULE FUNCTION cross_prod(a,b)
-      IMPLICIT NONE
-      TYPE(vector) :: cross_prod
-      TYPE(vertex), INTENT(IN) :: a, b
-    END FUNCTION cross_prod
-  END INTERFACE OPERATOR(.cross.)
+    INTERFACE OPERATOR(.dot.)
+        PURE MODULE FUNCTION dot_prod(a,b)
+            IMPLICIT NONE
+            REAL(psb_dpk_) :: dot_prod
+            TYPE(vertex), INTENT(IN) :: a, b
+        END FUNCTION dot_prod
+    END INTERFACE OPERATOR(.dot.)
 
-  INTERFACE
-    MODULE FUNCTION vert_mag(v)
-      IMPLICIT NONE
-      REAL(psb_dpk_) :: vert_mag
-      CLASS(vertex), INTENT(IN) :: v
-    END FUNCTION vert_mag
-  END INTERFACE
+
+    INTERFACE OPERATOR(.cross.)
+        PURE MODULE FUNCTION cross_prod(a,b)
+            IMPLICIT NONE
+            TYPE(vector) :: cross_prod
+            TYPE(vertex), INTENT(IN) :: a, b
+        END FUNCTION cross_prod
+    END INTERFACE OPERATOR(.cross.)
+
+    INTERFACE
+        MODULE FUNCTION vert_mag(v)
+            IMPLICIT NONE
+            REAL(psb_dpk_) :: vert_mag
+            CLASS(vertex), INTENT(IN) :: v
+        END FUNCTION vert_mag
+    END INTERFACE
 
 END MODULE class_vertex

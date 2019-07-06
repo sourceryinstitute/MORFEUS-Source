@@ -76,8 +76,8 @@ SUBMODULE(op_source) scalar_pde_source_implementation
             ! Dimensional check
 
             ! The dimensional check is commented out due to ICE error
-           dim = volume_*src%dim_()
-           IF(  dim /= pde%dim_()) THEN
+            dim = volume_*src%dim_()
+            IF(  dim /= pde%dim_()) THEN
                 WRITE(*,100)
                 CALL abort_psblas
             END IF
@@ -152,8 +152,8 @@ SUBMODULE(op_source) scalar_pde_source_implementation
 
             CALL sw_pde%toc()
 
-        100 FORMAT(' ERROR! Dimensional check failure in SCALAR_PDE_SOURCE')
-        200 FORMAT(' ERROR! Memory allocation failure in SCALAR_PDE_SOURCE')
+100         FORMAT(' ERROR! Dimensional check failure in SCALAR_PDE_SOURCE')
+200         FORMAT(' ERROR! Memory allocation failure in SCALAR_PDE_SOURCE')
 
         END PROCEDURE scalar_pde_source
 

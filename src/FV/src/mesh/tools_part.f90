@@ -62,33 +62,33 @@ MODULE tools_part
 
     ! PART_CELLS, C2V and C2F are destroyed in CMP_MESH_DESC
 
-  INTERFACE
+    INTERFACE
 
-    MODULE SUBROUTINE part_verts(iv,nverts,nprocs,pv,nv)
-        IMPLICIT NONE
-        INTEGER, INTENT(IN) :: iv, nverts, nprocs
-        INTEGER, INTENT(OUT) :: pv(*)
-        INTEGER, INTENT(OUT) :: nv
-    END SUBROUTINE part_verts
+        MODULE SUBROUTINE part_verts(iv,nverts,nprocs,pv,nv)
+            IMPLICIT NONE
+            INTEGER, INTENT(IN) :: iv, nverts, nprocs
+            INTEGER, INTENT(OUT) :: pv(*)
+            INTEGER, INTENT(OUT) :: nv
+        END SUBROUTINE part_verts
 
 
-    MODULE SUBROUTINE part_faces(IF,nfaces,nprocs,pv,nv)
-        IMPLICIT NONE
-        INTEGER, INTENT(IN) :: IF, nfaces, nprocs
-        INTEGER, INTENT(OUT) :: pv(*)
-        INTEGER, INTENT(OUT) :: nv
-    END SUBROUTINE part_faces
+        MODULE SUBROUTINE part_faces(IF,nfaces,nprocs,pv,nv)
+            IMPLICIT NONE
+            INTEGER, INTENT(IN) :: IF, nfaces, nprocs
+            INTEGER, INTENT(OUT) :: pv(*)
+            INTEGER, INTENT(OUT) :: nv
+        END SUBROUTINE part_faces
 
-    ! REMARK-1: the interface of PART_VERTS and PART_FACES, needed for
-    ! allocating the PSBLAS descriptors, is fixed by PARTS.FH, in the
-    ! PSBLAS library. Hence, the only way for carrying the C2V and C2F
-    ! variables inside the two procedures is to handle them as public
-    ! shared variables.
+        ! REMARK-1: the interface of PART_VERTS and PART_FACES, needed for
+        ! allocating the PSBLAS descriptors, is fixed by PARTS.FH, in the
+        ! PSBLAS library. Hence, the only way for carrying the C2V and C2F
+        ! variables inside the two procedures is to handle them as public
+        ! shared variables.
 
-    ! REMARK-2: PV could be initialized equal to any negative value.
-    ! The choice of NVERTS and NFACES is only for avoiding the detection
-    ! of an unused variable.
+        ! REMARK-2: PV could be initialized equal to any negative value.
+        ! The choice of NVERTS and NFACES is only for avoiding the detection
+        ! of an unused variable.
 
-  END INTERFACE
+    END INTERFACE
 
 END MODULE tools_part

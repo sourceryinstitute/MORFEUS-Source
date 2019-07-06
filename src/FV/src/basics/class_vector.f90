@@ -158,8 +158,8 @@ MODULE class_vector
 
     INTERFACE OPERATOR(.dot.)
         PURE MODULE FUNCTION dot_prod_t(a,b)
-         ! Used for GRAD .dot. DELTA in VECTOR_PDE_LAPLACIAN.
-         ! GRAD is a tensor. It would need a proper class...
+        ! Used for GRAD .dot. DELTA in VECTOR_PDE_LAPLACIAN.
+        ! GRAD is a tensor. It would need a proper class...
             IMPLICIT NONE
             TYPE(vector) :: dot_prod_t
             TYPE(vector), INTENT(IN) :: a(:), b
@@ -269,12 +269,12 @@ MODULE class_vector
         END SUBROUTINE l2g_vector
 
         MODULE SUBROUTINE update_vector_halo(v,desc)
-             USE psb_base_mod
-             IMPLICIT NONE
-             TYPE(vector), INTENT(INOUT) :: v(:)
-             TYPE(psb_desc_type), INTENT(IN) :: desc
-         END SUBROUTINE update_vector_halo
-     END INTERFACE
+            USE psb_base_mod
+            IMPLICIT NONE
+            TYPE(vector), INTENT(INOUT) :: v(:)
+            TYPE(psb_desc_type), INTENT(IN) :: desc
+        END SUBROUTINE update_vector_halo
+    END INTERFACE
 
     ! ----- Named Constants -----
 
