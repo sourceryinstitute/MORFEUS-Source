@@ -55,8 +55,8 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
         USE class_mesh, ONLY : mesh
         USE class_vector, ONLY : vector, OPERATOR(*), OPERATOR(.dot.), OPERATOR(-), OPERATOR(+), free_vector
         USE op_grad, ONLY : fld_grad
-        USE tools_bc, ONLY : &
-          bc_dirichlet_, bc_dirichlet_map_, bc_neumann_, bc_robin_, bc_neumann_flux_, bc_robin_convection_, bc_robin_map_
+        USE tools_bc, ONLY : bc_dirichlet_, bc_dirichlet_map_, bc_neumann_, bc_robin_, bc_neumann_flux_, &
+            &                bc_robin_convection_, bc_robin_map_
         USE tools_operators, ONLY : lhs_, size_blk, pde_sign
 
         IMPLICIT NONE

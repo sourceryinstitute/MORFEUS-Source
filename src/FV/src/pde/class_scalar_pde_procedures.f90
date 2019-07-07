@@ -266,7 +266,7 @@ CONTAINS
     MODULE PROCEDURE write_scalar_pde
         USE class_mesh
         USE tools_output_basics
-       
+
         LOGICAL :: mtx_rhs
         TYPE(mesh), POINTER :: msh => NULL()
 
