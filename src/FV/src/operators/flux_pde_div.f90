@@ -46,18 +46,12 @@ SUBMODULE (op_div) flux_pde_div_implementation
     CONTAINS
 
     MODULE PROCEDURE flux_pde_div
-    USE class_psblas
-    USE class_connectivity
-    USE class_discretization
-    USE class_dimensions
-    USE class_face
-    USE class_vector
-    USE class_scalar_field
-    USE class_vector_field
+    USE class_psblas, ONLY : mypnum_, psb_dpk_, sw_pde, debug_mat_bld
+    USE class_discretization, ONLY : cd_
+    USE class_dimensions, ONLY : dimensions, OPERATOR(/=)
+    USE class_vector, ONLY : vector
     USE class_mesh, ONLY : mesh
-    USE class_scalar_pde
-    USE tools_operators
-    USE op_field
+    USE tools_operators, ONLY : pde_sign, size_blk, lhs_
 
     IMPLICIT NONE
     !

@@ -132,8 +132,8 @@ SUBROUTINE vector_pde_source(sign,pde,phi,side)
             ja(i)= ic_glob
         END DO BLOCK
 
-        CALL spins_pde(nel,ia,ja,A,pde)
-        CALL geins_pde(nel,ia,b,pde)
+        CALL pde%spins_pde(nel,ia,ja,A)
+        CALL pde%geins_pde(nel,ia,b)
 
         ifirst = ifirst + nel
 

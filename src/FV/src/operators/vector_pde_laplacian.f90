@@ -264,7 +264,7 @@ SUBMODULE (op_laplacian) vector_pde_laplacian_implementation
                 ja(k+3) = im_glob
             END DO block_fluid
 
-            CALL spins_pde(nel,ia,ja,A,pde)
+            CALL pde%spins_pde(nel,ia,ja,A)
             IF (debug_mat_bld) THEN
                 WRITE(0,*) 'From vector_pde_laplacian FLUID: SPINS ',nel
                 DO k=1,nel
@@ -348,7 +348,7 @@ SUBMODULE (op_laplacian) vector_pde_laplacian_implementation
 
             END DO block_nonortho
 
-            CALL geins_pde(nel,ia,b,pde)
+            CALL pde%geins_pde(nel,ia,b)
             IF (debug_mat_bld) THEN
                 WRITE(0,*) 'From vector_pde_laplacian NON_ORTH_C: geins ',nel
                 DO k=1,nel
@@ -472,8 +472,8 @@ SUBMODULE (op_laplacian) vector_pde_laplacian_implementation
                     ja(k) = im_glob
                 END DO block_boundary
 
-                CALL spins_pde(nel,ia,ja,A,pde)
-                CALL geins_pde(nel,ia,b,pde)
+                CALL pde%spins_pde(nel,ia,ja,A)
+                CALL pde%geins_pde(nel,ia,b)
                 IF (debug_mat_bld) THEN
                     WRITE(0,*) 'From vector_pde_laplacian BC: SPINS ',nel
                     DO k=1,nel

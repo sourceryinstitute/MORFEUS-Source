@@ -46,7 +46,7 @@ SUBMODULE(class_pde) class_pde_procedures
 
     CONTAINS
 
-    MODULE PROCEDURE nemo_pde_sizeof
+    MODULE PROCEDURE nemo_sizeof
         USE class_psblas
         IMPLICIT NONE
 
@@ -62,9 +62,9 @@ SUBMODULE(class_pde) class_pde_procedures
         val = val + psb_sizeof(eqn%prec)
         ! eqn%msh is an independent object
 
-        nemo_pde_sizeof = val
+        nemo_sizeof = val
 
-    END PROCEDURE nemo_pde_sizeof
+    END PROCEDURE nemo_sizeof
 
 
     MODULE PROCEDURE create_pde
@@ -269,7 +269,7 @@ SUBMODULE(class_pde) class_pde_procedures
     END PROCEDURE spins_pde
 
 
-    MODULE PROCEDURE asb_pde
+    MODULE PROCEDURE asb_pde_
         IMPLICIT NONE
         !
         INTEGER :: err_act, info
@@ -317,7 +317,7 @@ SUBMODULE(class_pde) class_pde_procedures
         ! ----- Normal Termination -----
         CALL psb_erractionrestore(err_act)
 
-    END PROCEDURE asb_pde
+    END PROCEDURE asb_pde_
 
 
     MODULE PROCEDURE build_pde_prec
@@ -327,7 +327,7 @@ SUBMODULE(class_pde) class_pde_procedures
 
         ! Make sure we are in the assembled state
         IF (eqn%is_pde_bld()) THEN
-            CALL eqn%asb_pde()
+            CALL eqn%asb_pde_()
         END IF
         ! And if not, raise an error.
         IF (.NOT.eqn%is_pde_asb()) THEN
