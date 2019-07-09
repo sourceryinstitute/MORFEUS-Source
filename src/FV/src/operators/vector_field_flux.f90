@@ -132,7 +132,7 @@ SUBMODULE(op_field) vector_field_flux_implementation
             END DO
 
             ! Eventually construct the result
-            res = scalar_field_(base,x=r_x,bx=r_bx)
+            res = scalar_field(base,x=r_x,bx=r_bx)
 
             NULLIFY(if2b)
             DEALLOCATE(r_x,r_bx)

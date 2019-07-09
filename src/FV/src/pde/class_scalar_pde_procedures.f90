@@ -42,22 +42,22 @@ SUBMODULE(class_scalar_pde) class_scalar_pde_procedures
 
 CONTAINS
 
-    MODULE PROCEDURE nemo_scalar_pde_sizeof
+    MODULE PROCEDURE nemo_sizeof
         USE psb_base_mod
 
         INTEGER(kind=nemo_int_long_)   :: val
 
-        val = eqn%base%nemo_sizeof()
+        val = eqn%pde%nemo_sizeof()
         IF (ALLOCATED(eqn%b)) &
             & val = val + nemo_sizeof_dp * SIZE(eqn%b)
 
-        nemo_scalar_pde_sizeof = val
+        nemo_sizeof = val
 
-    END PROCEDURE nemo_scalar_pde_sizeof
+    END PROCEDURE nemo_sizeof
 
     ! ----- Constructor -----
 
-    MODULE PROCEDURE create_scalar_pde
+    MODULE PROCEDURE create_pde
         USE class_dimensions
         USE class_mesh
 
@@ -67,25 +67,24 @@ CONTAINS
         CALL psb_erractionsave(err_act)
 
         ! Create PDE%BASE member
-        CALL pde%base%create_pde(input_file,sec,msh,dim)
+        CALL eqn%pde%create_pde(input_file,sec,msh,dim)
 
         ! Allocates RHS member
-        CALL psb_geall(pde%b,msh%desc_c,info)
-        CALL psb_check_error(info,'create_scalar_pde','psb_geall',icontxt_())
+        CALL psb_geall(eqn%b,msh%desc_c,info)
+        CALL psb_check_error(info,'create_pde','psb_geall',icontxt_())
 
-        pde%b = 0.d0
+        eqn%b = 0.d0
 
         ! ----- Normal Termination -----
         CALL psb_erractionrestore(err_act)
 
-    END PROCEDURE create_scalar_pde
+    END PROCEDURE create_pde
 
 
     ! ----- Destructor -----
 
 
-
-    MODULE PROCEDURE free_scalar_pde
+    MODULE PROCEDURE free_pde
         USE class_mesh
 
         INTEGER :: err_act, info
@@ -94,64 +93,24 @@ CONTAINS
         ! Sets error handling for PSBLAS-2 routines
         CALL psb_erractionsave(err_act)
 
-        CALL pde%base%get_mesh(msh)
+        CALL eqn%pde%get_mesh(msh)
 
         ! Frees storage of RHS member
-        CALL psb_gefree(pde%b,msh%desc_c,info)
-        CALL psb_check_error(info,'free_scalar_pde','psb_gefree',icontxt_())
+        CALL psb_gefree(eqn%b,msh%desc_c,info)
+        CALL psb_check_error(info,'free_pde','psb_gefree',icontxt_())
 
         NULLIFY(msh)
 
         ! Frees storage of BASE member
-        CALL pde%base%free_pde()
+        CALL eqn%pde%free_pde()
 
         ! ----- Normal Termination -----
         CALL psb_erractionrestore(err_act)
 
-    END PROCEDURE free_scalar_pde
-
-
-    ! ----- Getters -----
-
-    MODULE PROCEDURE get_scalar_pde_name
-
-        get_scalar_pde_name = pde%base%name_()
-
-    END PROCEDURE get_scalar_pde_name
-
-
-    MODULE PROCEDURE get_scalar_pde_dim
-        USE class_dimensions
-
-        get_scalar_pde_dim = pde%base%dim_()
-
-    END PROCEDURE get_scalar_pde_dim
-
-
-    MODULE PROCEDURE get_scalar_pde_msh_fun
-        USE class_mesh
-
-        get_scalar_pde_msh_fun => pde%base%msh_()
-
-    END PROCEDURE get_scalar_pde_msh_fun
-
-    MODULE PROCEDURE get_scalar_pde_msh_sub
-        USE class_mesh
-
-        CALL pde%base%get_mesh(msh)
-
-    END PROCEDURE get_scalar_pde_msh_sub
+    END PROCEDURE free_pde
 
 
     ! ----- Linear System Solving -----
-
-    MODULE PROCEDURE spins_scalar_pde
-        !! Inserts a ``cloud'' of coefficients into pde%A
-
-        CALL spins_pde(n,ia,ja,cloud,pde%base)
-
-    END PROCEDURE spins_scalar_pde
-
 
     MODULE PROCEDURE geins_scalar_pde
         !! Inserts a ``cloud'' of RHS terms into pde%b
@@ -166,7 +125,7 @@ CONTAINS
         ! Sets error handling for PSBLAS-2 routines
         CALL psb_erractionsave(err_act)
 
-        CALL pde%base%get_mesh(msh)
+        CALL pde%pde%get_mesh(msh)
 
         ! Inserts CLOUD into RHS pde%b
         CALL psb_geins(n,ia,cloud,pde%b,msh%desc_c,info,psb_dupl_add_)
@@ -181,7 +140,7 @@ CONTAINS
 
     END PROCEDURE geins_scalar_pde
 
-    MODULE PROCEDURE asb_scalar_pde
+    MODULE PROCEDURE asb_pde_
         USE class_mesh
 
         INTEGER :: err_act, info
@@ -191,15 +150,15 @@ CONTAINS
         CALL psb_erractionsave(err_act)
 
         ! Assemblies sparse matrix in PDE%BASE member
-        CALL pde%base%asb_pde()
+        CALL eqn%pde%asb_pde_()
 
         CALL sw_asb%tic()
 
-        CALL pde%base%get_mesh(msh)
+        CALL eqn%pde%get_mesh(msh)
 
         ! Assemblies RHS member
         IF(mypnum_() == 0) WRITE(*,*) '  - assembling RHS'
-        CALL psb_geasb(pde%b,msh%desc_c,info)
+        CALL psb_geasb(eqn%b,msh%desc_c,info)
         CALL psb_check_error(info,'abs_scalar_pde','psb_geasb',icontxt_())
 
         CALL sw_asb%toc()
@@ -209,7 +168,7 @@ CONTAINS
         ! ----- Normal Termination -----
         CALL psb_erractionrestore(err_act)
 
-    END PROCEDURE asb_scalar_pde
+    END PROCEDURE asb_pde_
 
     MODULE PROCEDURE solve_scalar_pde
         USE class_mesh
@@ -227,10 +186,10 @@ CONTAINS
         icontxt = icontxt_()
 
         ! Assemblies PSBLAS sparse matrix and RHS
-        CALL pde%asb_pde()
+        CALL pde%asb_pde_()
 
         ! Build preconditioner in PDE%BASE member
-        CALL pde%base%build_pde_prec()
+        CALL pde%pde%build_pde_prec()
 
         ! Is PHI cell-centered?
         IF(phi%on_faces_()) THEN
@@ -254,13 +213,13 @@ CONTAINS
         END IF
 
         ! Solves linear system associated to PDE%BASE
-        CALL pde%base%solve_pde_sys(pde%b,x,iter,err)
+        CALL pde%pde%solve_pde_sys(pde%b,x,iter,err)
 
         ! Assigns solution to scalar field
         phi = x
 
         ! Free preconditioner storage in base member
-        CALL pde%base%free_pde_prec()
+        CALL pde%pde%free_pde_prec()
 
         ! Updates phi
         CALL phi%update_field(mats)
@@ -291,15 +250,15 @@ CONTAINS
     END PROCEDURE solve_scalar_pde
 
 
-    MODULE PROCEDURE reinit_scalar_pde
+    MODULE PROCEDURE reinit_pde
 
-!!$    write(0,*) 'Scalar_pde_reinit :',is_pde_asb(pde%base)
-        IF(pde%base%is_pde_asb()) THEN
-            pde%b = 0.d0
+!!$    write(0,*) 'Scalar_pde_reinit :',is_pde_asb(pde%pde)
+        IF(eqn%pde%is_pde_asb()) THEN
+            eqn%b = 0.d0
         END IF
-        CALL pde%base%reinit_pde()
+        CALL eqn%pde%reinit_pde()
 
-    END PROCEDURE reinit_scalar_pde
+    END PROCEDURE reinit_pde
 
 
     ! ----- Output -----
@@ -311,13 +270,13 @@ CONTAINS
         LOGICAL :: mtx_rhs
         TYPE(mesh), POINTER :: msh => NULL()
 
-        CALL pde%base%write_pde(mat,mtx_rhs)
+        CALL eqn%pde%write_pde(mat,mtx_rhs)
 
         IF(.NOT.mtx_rhs) RETURN
 
-        CALL pde%get_mesh(msh)
+        CALL eqn%get_mesh(msh)
 
-        CALL wr_mtx_vector(pde%b,msh%desc_c,rhs)
+        CALL wr_mtx_vector(eqn%b,msh%desc_c,rhs)
         IF(mypnum_() == 0) WRITE(*,*)
 
         NULLIFY(msh)
