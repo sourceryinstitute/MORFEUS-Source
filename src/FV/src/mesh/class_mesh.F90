@@ -65,6 +65,7 @@ MODULE class_mesh
     USE class_keytable, ONLY : keytable
     USE class_surface, ONLY : surface
     USE class_vertex, ONLY : vertex
+    USE grid_interface, ONLY : grid
 
     IMPLICIT NONE
 
@@ -74,7 +75,7 @@ MODULE class_mesh
 
     INTEGER, PARAMETER :: nlen = 80
 
-    TYPE mesh
+    TYPE, EXTENDS(grid) :: mesh
         LOGICAL :: set = .FALSE.   ! Indicates if the mesh been created yet
         CHARACTER(len=nlen) :: id  ! Mesh ID
         INTEGER :: nbc             ! Number of BCs
