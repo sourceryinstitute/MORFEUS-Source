@@ -549,7 +549,7 @@ target_link_libraries(morfeus_fv
 if(TARGET morfeus_fd)
   # FV mesh extends FD mesh class
   target_link_libraries(morfeus_fv
-    PUBLIC morfues_fd)
+    PUBLIC morfeus_fd)
 endif()
 target_compile_definitions(morfeus_fv_C
   PRIVATE ${Fortran_INTROSPECTION_MANGLING})
