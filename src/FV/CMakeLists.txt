@@ -548,7 +548,7 @@ target_link_libraries(morfeus_fv
   PUBLIC morfeus_fv_C)
 if(TARGET morfeus_fd)
   # FV mesh extends FD mesh class
-  target_link_libraries(morfues_fv
+  target_link_libraries(morfeus_fv
     PUBLIC morfues_fd)
 endif()
 target_compile_definitions(morfeus_fv_C
