@@ -55,23 +55,40 @@ CONTAINS
     MODULE PROCEDURE create_output
         USE tools_input
         USE tools_output_basics
+        USE class_psblas, ONLY : abort_psblas
+        USE json_module
 
         CHARACTER(len=32) :: basepath_
+        CHARACTER(LEN=80) :: output_sec
+        CHARACTER(KIND=json_CK,LEN=:),ALLOCATABLE :: cval
+        LOGICAL :: found
+        TYPE(json_file) :: nemo_json
+
+        CALL open_file(input_file,nemo_json)
+        output_sec = 'MORFEUS_FV.'//TRIM(sec)
 
         ! Gets format
-        out%fmt  = read_par(input_file,sec,'format',mandatory_i_)
-
-        ! Set default basepath
-        SELECT CASE(out%fmt)
-        CASE(vtk_)
-            basepath_ = 'out_nemo'
-        END SELECT
+        CALL nemo_json%get(TRIM(output_sec)//'.format', cval, found)
+        print *, cval, found
+        IF (.NOT.found) THEN
+            WRITE(*,100)
+            CALL abort_psblas
+        END IF
+        IF (cval == 'vtk') THEN
+            out%fmt  = vtk_
+        END IF
 
         ! Gets path basename
-        out%basepath = TRIM(read_par(input_file,sec,'basepath',basepath_))
-
+        CALL nemo_json%get(TRIM(output_sec)//'.base-path', cval, found)
+        IF (.NOT.found) THEN
+            WRITE(*,100)
+            CALL abort_psblas
+        END IF
+        out%basepath  = cval
         ! Sets initial path
         out%path = out%basepath
+
+100     FORMAT('Missing OUTPUT parameters')
 
     END PROCEDURE create_output
 

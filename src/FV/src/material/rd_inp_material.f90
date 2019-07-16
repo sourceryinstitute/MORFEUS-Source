@@ -49,13 +49,17 @@ SUBMODULE(tools_material) rd_inp_material_implementation
 
         MODULE PROCEDURE rd_inp_material
             USE class_psblas
+            USE json_module
             USE tools_input
             USE tools_material, ONLY: irho, imu, ilambda, ish
 
             IMPLICIT NONE
             !
-            LOGICAL, PARAMETER :: debug = .TRUE.
+            LOGICAL, PARAMETER :: debug = .FALSE.
             !
+            TYPE(json_file) :: nemo_json
+            CHARACTER(LEN=100) :: str
+            LOGICAL :: found
             INTEGER :: mypnum, icontxt
             INTEGER :: inp
 
@@ -69,45 +73,24 @@ SUBMODULE(tools_material) rd_inp_material_implementation
 
                 WRITE(*,*) 'Reading MATERIAL section from ',TRIM(input_file)," ", sec
 
-                CALL open_file(input_file,inp)
-
-                CALL find_section(sec,inp)
-
+                CALL open_file(input_file,nemo_json)
+                str = TRIM('MORFEUS_FV.MATERIALS.'//TRIM(sec))
+                CALL nemo_json%get(str, id, found)
                 ! Gets material name from input file
-                name = get_par(inp,sec,par='name',default=mandatory_h_)
-                type = get_par(inp,sec,par='mat_type',default='default')
-                id = get_par(inp,sec,par='mat_id',default=-1)
+                name = 'COPPER'
+                type = 'default'
 
                 ! material%ilaw(irho) -> density
-                ilaw(irho) = get_par(inp,sec,par='irho',default=1)
-                IF(ilaw(irho) /= 1) THEN
-                    WRITE(*,100)
-                    CALL abort_psblas
-                END IF
+                ilaw(irho) = 1
 
                 ! material%ilaw(imu) -> viscosity
-                ilaw(imu) = get_par(inp,sec,par='imu',default=1)
-                IF(ilaw(imu) /= 1) THEN
-                    WRITE(*,200)
-                    CALL abort_psblas
-                END IF
+                ilaw(imu) = 1
 
                 ! material%ilaw(ilambda) -> thermal conductivity
-                ilaw(ilambda) = get_par(inp,sec,par='ilambda',default=1)
-                IF(.NOT.(ilaw(ilambda) == 1 .OR. &
-                    &   ilaw(ilambda) == 2)) THEN
-                    WRITE(*,300)
-                    CALL abort_psblas
-                END IF
+                ilaw(ilambda) = 1
 
                 ! material%ilaw(ish) -> specific heat
-                ilaw(ish) = get_par(inp,sec,par='ish',default=1)
-                IF(ilaw(ish) /= 1) THEN
-                    WRITE(*,400)
-                    CALL abort_psblas
-                END IF
-
-                CLOSE(inp)
+                ilaw(ish) = 1
 
                 WRITE(*,*)
             END IF

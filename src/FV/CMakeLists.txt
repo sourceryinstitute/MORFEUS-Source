@@ -555,9 +555,15 @@ else()
   message( FATAL_ERROR
     "Please run CMake from the top level FAST directory; the MatLib library is now required by MORFEUS_FV.")
 endif()
+
 if(TARGET vtkmofo)
   target_link_libraries(morfeus_fv
     PUBLIC vtkmofo)
+endif()
+
+if(TARGET jsonfortran-static)
+  target_link_libraries(morfeus_fv
+    PUBLIC jsonfortran-static)
 endif()
 
 if(${FAST_USE_CGNS})

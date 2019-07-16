@@ -54,9 +54,11 @@ CONTAINS
 
     MODULE PROCEDURE read_par_discretization
         USE class_psblas
+        USE json_module, ONLY : json_file
         USE tools_input
 
         LOGICAL :: found
+        TYPE(json_file) :: nemo_json
         INTEGER :: icontxt, mypnum
         INTEGER :: inp
         CHARACTER(len=15) :: par_
@@ -68,8 +70,8 @@ CONTAINS
 
         IF(mypnum == 0) THEN
 
-            CALL open_file(input_file,inp)
-            CALL find_section(sec,inp)
+            CALL open_file(input_file,nemo_json)
+            CALL find_section(sec,nemo_json)
 
             !       read(inp,'()')
 

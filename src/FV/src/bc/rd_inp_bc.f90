@@ -50,15 +50,23 @@ SUBMODULE(tools_bc) rd_inp_bc_implementation
 
         MODULE PROCEDURE rd_inp_bc
         USE class_psblas, ONLY : psb_bcast, icontxt_, mypnum_, abort_psblas
+        USE json_module
         USE tools_bc, ONLY: bc_math_, bc_wall_, bc_vel_moving_
         USE tools_input, ONLY : get_par, find_section, open_file
         USE tools_mesh_move, ONLY : moving_, stationary_, sticky_
 
         IMPLICIT NONE
         !
+        TYPE(json_file) :: nemo_json
+        TYPE(json_core) :: core
+        CHARACTER(KIND=json_CK, LEN=:), DIMENSION(:), ALLOCATABLE :: bcs
+        CHARACTER(KIND=json_CK,LEN=:),ALLOCATABLE :: cval, name
         CHARACTER(len=15) :: par
+        CHARACTER(LEN=2) :: ib_string
         CHARACTER(len=32) :: bc_sec, bctype
-        CHARACTER(len=8)  :: aformat
+        CHARACTER(len=13)  :: aformat
+        LOGICAL :: found
+        INTEGER(json_IK) :: vartype, nr
         INTEGER :: icontxt, mypnum
         INTEGER :: ib, inp, sec_len, nbc_inp
         INTEGER :: id_vel
@@ -73,37 +81,34 @@ SUBMODULE(tools_bc) rd_inp_bc_implementation
         ! Preliminary check
         IF(mypnum == 0) THEN
 
-            CALL open_file(input_file,inp)
+            CALL open_file(input_file,nemo_json)
 
             sec_len = LEN(TRIM(sec))
 
             ! Counts BC sections in external unit INP
-            nbc_inp = 0
-            DO
-                READ(inp,'(a)',END=10) bc_sec
-                IF(bc_sec(1:sec_len) == TRIM(sec)) nbc_inp = nbc_inp + 1
-            END DO
-    10      CONTINUE
+
 
             ! Checks NBC_MSH vs. NBC_INP
-            IF(nbc_msh /= nbc_inp) THEN
-                WRITE(*,100)
-                CALL abort_psblas
-            END IF
+            ! IF(nbc_msh /= nbc_inp) THEN
+            !     WRITE(*,100)
+            !     CALL abort_psblas
+            ! END IF
         END IF
 
         ! First reads IDs and MOTION stuff on P0...
         IF(mypnum == 0) THEN
-            bc_loop: DO ib = 1, nbc_inp
+            bc_loop: DO ib = 1, nbc_msh
 
-                digits = INT(LOG10(REAL(ib))) + 1
-                ! equivalent to using itoh
-                WRITE(aformat,'(a,i1,a)') '(2a,i', digits, ')'
-                WRITE(bc_sec,aformat) TRIM(sec),' ',ib
+                WRITE(ib_string, '(i0)') ib
+                bc_sec = "MORFEUS_FV.BCS("//trim(ib_string)//")"
 
-                CALL find_section(bc_sec,inp)
-
-                bctype = get_par(inp,bc_sec,par='type',default='wall')
+                !CALL find_section(bc_sec,nemo_json)
+                CALL nemo_json%get(trim(bc_sec)//'.type', cval, found)
+                IF (.NOT.found) THEN
+                    bctype = 'wall'
+                ELSE
+                    bctype = TRIM(cval)
+                END IF
 
                 ! ----- POLYMORPHISM -----
                 SELECT CASE(bctype)
@@ -119,8 +124,8 @@ SUBMODULE(tools_bc) rd_inp_bc_implementation
 
 
                 ! Gets motion condition for boundary vertices
-                vertex_motion(ib) = get_par(inp,bc_sec,par='vertex_motion',&
-                    default=sticky_)
+                !vertex_motion(ib) = get_par(inp,bc_sec,par='vertex_motion',&
+                !    default=sticky_)
 
                 ! ----- Gets motion condition for boundary surface -----
 
@@ -131,26 +136,26 @@ SUBMODULE(tools_bc) rd_inp_bc_implementation
                 ! Wall BC
                 IF(id(ib) == bc_wall_) THEN
 
-                    scan_for_vel: DO
-                        READ(inp,'(a15)') par
-                        par = TRIM(par)
+                    !scan_for_vel: DO
+                        ! READ(inp,'(a15)') par
+                        ! par = TRIM(par)
 
-                        BACKSPACE(inp)
-                        IF(par == 'velocity') THEN
-                            READ(inp,'(a,i1)',advance='no') par, id_vel
+                        ! BACKSPACE(inp)
+                        ! IF(par == 'velocity') THEN
+                        !     READ(inp,'(a,i1)',advance='no') par, id_vel
 
-                            IF(id_vel == bc_vel_moving_) THEN
-                                surface_motion(ib) = moving_
-                                READ(inp,*) motion_law_file(ib)
-                                EXIT scan_for_vel
-                            END IF
-                        ELSE IF(par == 'END OF SECTION') THEN
-                            EXIT scan_for_vel
-                        ELSE
-                            READ(inp,'()')
-                        END IF
+                        !     IF(id_vel == bc_vel_moving_) THEN
+                        !         surface_motion(ib) = moving_
+                        !         READ(inp,*) motion_law_file(ib)
+                        !         EXIT scan_for_vel
+                        !     END IF
+                        ! ELSE IF(par == 'END OF SECTION') THEN
+                        !     EXIT scan_for_vel
+                        ! ELSE
+                        !     READ(inp,'()')
+                        ! END IF
 
-                    END DO scan_for_vel
+                    !END DO scan_for_vel
                 END IF
 
             END DO bc_loop

@@ -49,6 +49,7 @@ SUBMODULE(tools_bc) rd_inp_bc_math_implementation
 
         MODULE PROCEDURE rd_inp_bc_math
         USE class_psblas
+        USE json_module, ONLY : json_file
         USE tools_bc, ONLY: bc_dirichlet_, bc_neumann_, bc_robin_, &
             & bc_dirichlet_map_, bc_neumann_map_, bc_robin_map_
         USE tools_input
@@ -57,6 +58,7 @@ SUBMODULE(tools_bc) rd_inp_bc_math_implementation
         !
         LOGICAL, PARAMETER :: debug = .FALSE.
         !
+        TYPE(json_file) :: nemo_json
         INTEGER :: mypnum, icontxt
         INTEGER :: info, inp, na, nb, nc
         CHARACTER(len=15) :: par
@@ -66,8 +68,8 @@ SUBMODULE(tools_bc) rd_inp_bc_math_implementation
         mypnum  = mypnum_()
 
         IF(mypnum == 0) THEN
-            CALL open_file(input_file,inp)
-            CALL find_section(sec,inp)
+            CALL open_file(input_file,nemo_json)
+            CALL find_section(sec,nemo_json)
 
             WRITE(*,*) '- Reading ',TRIM(sec),' section: type MATH'
 

@@ -52,21 +52,41 @@ CONTAINS
 
     MODULE PROCEDURE create_iterating
         USE class_psblas, ONLY : abort_psblas
-        USE tools_input, ONLY : mandatory_d_, mandatory_i_, read_par
+        USE tools_input
         USE tools_math, ONLY : it_counter_, it_convergence_, it_time_
+        USE json_module
+
+        TYPE(json_file) :: nemo_json
+        LOGICAL :: found
+        CHARACTER(LEN=80) :: iter_sec
+
+        CALL open_file(input_file,nemo_json)
+        iter_sec = 'MORFEUS_FV.iterations.'//TRIM(sec)
 
         ! Sets common members
         iter%icurrent = 0
-        iter%nmax     = read_par(input_file,sec,'nmax',mandatory_i_)
+        CALL nemo_json%get(TRIM(iter_sec)//'.max-steps', iter%nmax, found)
+        IF (.NOT.found) THEN
+            WRITE(*,100)
+            CALL abort_psblas
+        END IF
 
         ! Sets specific members
         SELECT CASE(itype)
         CASE(it_time_)
-            iter%delta = read_par(input_file,sec,'delta',mandatory_d_)
+            CALL nemo_json%get(TRIM(iter_sec)//'.delta-t', iter%delta, found)
+            IF (.NOT.found) THEN
+                WRITE(*,100)
+                CALL abort_psblas
+            END IF
             iter%tol   = 0.d0
         CASE(it_convergence_)
             iter%delta = 0.d0
-            iter%tol   = read_par(input_file,sec,'tol',mandatory_d_)
+            CALL nemo_json%get(TRIM(iter_sec)//'.tolerance', iter%tol, found)
+            IF (.NOT.found) THEN
+                WRITE(*,100)
+                CALL abort_psblas
+            END IF
         CASE(it_counter_)
             iter%delta = 0.d0
             iter%tol   = 0.d0

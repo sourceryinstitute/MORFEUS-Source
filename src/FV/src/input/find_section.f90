@@ -49,16 +49,23 @@ SUBMODULE (tools_input) find_section_implementation
 
         MODULE PROCEDURE find_section
             USE class_psblas
+            USE json_module
             IMPLICIT NONE
             !
             CHARACTER(len=80) :: input_file
-            CHARACTER(len=80) :: str
-            INTEGER :: i, ir, n
+            CHARACTER(KIND=json_CK,LEN=:),ALLOCATABLE :: str
+            INTEGER :: i, ir, n, inp
+            LOGICAL :: found
+            TYPE(json_core) :: core
+            TYPE(json_value), pointer :: jp
 
+
+            CALL nemo_json%get('MORFEUS_FV.MESH.mesh-file',str,found)
 
             INQUIRE(unit=inp,name=input_file)
 
             REWIND(inp)
+
 
             i = 0
             n = 0

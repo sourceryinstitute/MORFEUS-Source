@@ -318,12 +318,14 @@ CONTAINS
 
 SUBROUTINE rd_inp_bc_wall(input_file,sec,nbf,id,bc_temp,bc_conc,bc_vel,bc_stress)
     USE class_psblas
+    USE json_module, ONLY : json_file
     USE class_bc_math
     USE tools_bc
     USE tools_input
 
     IMPLICIT NONE
     !
+    TYPE(json_file) :: nemo_json
     CHARACTER(len=*), INTENT(IN) :: input_file
     CHARACTER(len=*), INTENT(IN) :: sec
     INTEGER, INTENT(IN) :: nbf
@@ -334,10 +336,11 @@ SUBROUTINE rd_inp_bc_wall(input_file,sec,nbf,id,bc_temp,bc_conc,bc_vel,bc_stress
     TYPE(bc_math), INTENT(OUT) :: bc_stress(3)
     !
     LOGICAL, PARAMETER :: debug = .FALSE.
+    LOGICAL :: found
     !
     INTEGER :: mypnum, icontxt
     INTEGER :: id_sec, inp
-    REAL(psb_dpk_) :: work(3,5)
+    REAL(psb_dpk_) :: work(3,5), wtemp
     CHARACTER(len=15) :: par
 
     icontxt = icontxt_()
@@ -348,101 +351,102 @@ SUBROUTINE rd_inp_bc_wall(input_file,sec,nbf,id,bc_temp,bc_conc,bc_vel,bc_stress
 
     IF(mypnum == 0) THEN
 
-        CALL open_file(input_file,inp)
-
-        CALL find_section(sec,inp)
-
+        CALL open_file(input_file,nemo_json)
         WRITE(*,*) '- Reading ', TRIM(sec), ' section: type WALL'
 
-        READ(inp,'()')
+        CALL nemo_json%get(trim(sec)//'.temperature.id', id_sec, found)
 
-        seek_bc: DO
-            READ(inp,'(a)') par
-            par = TRIM(par)
-            BACKSPACE(inp)
-            IF(par == 'temperature') THEN
-                READ(inp,100,advance='no') par, id_sec
+        IF (.NOT.found) THEN
+            WRITE(*,*) 'Temperature BC not found in RD_INP_BC_WALL'
+            CALL abort_psblas
+        ELSE
+            id(bc_temp_) = id_sec
+            SELECT CASE(id_sec)
+            CASE(bc_temp_fixed_)      ! Fixed temperature
+                CALL nemo_json%get(trim(sec)//'.temperature.value', work(1,bc_temp_), found)
+            CASE(bc_temp_adiabatic_)  ! Adiabatic wall
+                !READ(inp,'()')
 
-                id(bc_temp_) = id_sec
+            CASE(bc_temp_flux_)       ! Fixed heat flux
+                CALL nemo_json%get(trim(sec)//'.temperature.value', work(1,bc_temp_), found)
 
-                SELECT CASE(id_sec)
-                CASE(bc_temp_fixed_)      ! Fixed temperature
-                    READ(inp,*) work(1,bc_temp_)
+            CASE(bc_temp_convection_) ! Convection
+                CALL nemo_json%get(trim(sec)//'.temperature.value', work(1,bc_temp_), found)
+                CALL nemo_json%get(trim(sec)//'.temperature.value2', work(2,bc_temp_), found)
 
-                CASE(bc_temp_adiabatic_)  ! Adiabatic wall
-                    READ(inp,'()')
+            CASE(bc_temp_convection_map_) ! Convection map
+                !READ(inp,'()')         ! To be actually set at the first mapping
 
-                CASE(bc_temp_flux_)       ! Fixed heat flux
-                    READ(inp,*) work(1,bc_temp_)
+            CASE default
+                WRITE(*,210)
+                CALL abort_psblas
+            END SELECT
+        END IF
 
-                CASE(bc_temp_convection_) ! Convection
-                    READ(inp,*) work(1,bc_temp_), work(2,bc_temp_)
+        CALL nemo_json%get(trim(sec)//'.concentration.id', id_sec, found)
 
-                CASE(bc_temp_convection_map_) ! Convection map
-                    READ(inp,'()')         ! To be actually set at the first mapping
+        IF (.NOT.found) THEN
+            WRITE(*,*) 'Concentration BC not found in RD_INP_BC_WALL'
+            ! CALL abort_psblas
+        ELSE
+            id(bc_conc_) = id_sec
+            SELECT CASE(id_sec)
+            CASE(bc_conc_fixed_)      ! Fixed temperature
+                CALL nemo_json%get(trim(sec)//'.concetration.value', work(1,bc_conc_), found)
 
-                CASE default
-                    WRITE(*,210)
-                    CALL abort_psblas
-                END SELECT
+            CASE(bc_conc_adiabatic_)  ! Adiabatic wall
+                !READ(inp,'()')
 
-            ELSEIF(par == 'concentration') THEN
-                READ(inp,100,advance='no') par, id_sec
+            CASE default
+                WRITE(*,210)
+                CALL abort_psblas
+            END SELECT
+        END IF
 
-                id(bc_conc_) = id_sec
+        CALL nemo_json%get(trim(sec)//'.velocity.id', id_sec, found)
 
-                SELECT CASE(id_sec)
-                CASE(bc_conc_fixed_)      ! Fixed temperature
-                    READ(inp,*) work(1,bc_temp_)
+        IF (.NOT.found) THEN
+            WRITE(*,*) 'Velocity BC not found in RD_INP_BC_WALL'
+        ELSE
+            id(bc_vel_) = id_sec
 
-                CASE(bc_conc_adiabatic_)  ! Adiabatic wall
-                    READ(inp,'()')
+            SELECT CASE(id_sec)
+            CASE(bc_vel_no_slip_, bc_vel_free_slip_, bc_vel_free_sliding_)
+                !READ(inp,'()')
+            CASE(bc_vel_sliding_)
+                CALL nemo_json%get(trim(sec)//'.velocity.v1', work(1,bc_vel_), found)
+                CALL nemo_json%get(trim(sec)//'.velocity.v2', work(2,bc_vel_), found)
+                CALL nemo_json%get(trim(sec)//'.velocity.v3', work(3,bc_vel_), found)
+                WRITE(0,*) 'rd_inp_bc_wall: Debug: work', work(1:3,bc_vel_)
+            CASE(bc_vel_moving_)
+                !READ(inp,'()')
+            CASE default
+                WRITE(*,220)
+                CALL abort_psblas
+            END SELECT
+        END IF
 
-                CASE default
-                    WRITE(*,210)
-                    CALL abort_psblas
-                END SELECT
 
-            ELSEIF(par == 'velocity') THEN
-                READ(inp,100,advance='no') par, id_sec
-                id(bc_vel_) = id_sec
+        CALL nemo_json%get(trim(sec)//'.stress.id', id_sec, found)
 
-                SELECT CASE(id_sec)
-                CASE(bc_vel_no_slip_, bc_vel_free_slip_, bc_vel_free_sliding_)
-                    READ(inp,'()')
-                CASE(bc_vel_sliding_)
-                    READ(inp,*) work(1:3,bc_vel_)
-                    WRITE(0,*) 'rd_inp_bc_wall: Debug: work', work(1:3,bc_vel_)
-                CASE(bc_vel_moving_)
-                    READ(inp,'()')
-                CASE default
-                    WRITE(*,220)
-                    CALL abort_psblas
-                END SELECT
+        IF (.NOT.found) THEN
+            WRITE(*,*) 'Stress BC not found in RD_INP_BC_WALL'
+        ELSE
+            id(bc_stress_) = id_sec
 
-            ELSEIF(par == 'stress') THEN
-                READ(inp,100,advance='no') par, id_sec
-                id(bc_stress_) = id_sec
-
-                SELECT CASE(id_sec)
-                CASE(bc_stress_free_)
-                    READ(inp, '()')
-                CASE(bc_stress_prescribed_)
-                    READ(inp,*) work(1:3,bc_stress_)
-                CASE default
-                    WRITE(*,230)
-                    CALL abort_psblas
-                END SELECT
-
-            ELSEIF(par == 'END OF SECTION') THEN
-                EXIT seek_bc
-
-            ELSE
-                READ(inp,'()')
-            END IF
-        END DO seek_bc
-
-        CLOSE(inp)
+            SELECT CASE(id_sec)
+            CASE(bc_stress_free_)
+                !READ(inp,'()')
+            CASE(bc_stress_prescribed_)
+                CALL nemo_json%get(trim(sec)//'.stress.v1', work(1,bc_stress_), found)
+                CALL nemo_json%get(trim(sec)//'.stress.v2', work(2,bc_stress_), found)
+                CALL nemo_json%get(trim(sec)//'.stress.v3', work(3,bc_stress_), found)
+                WRITE(0,*) 'rd_inp_bc_wall: Debug: work', work(1:3,bc_stress_)
+            CASE default
+                WRITE(*,230)
+                CALL abort_psblas
+            END SELECT
+        END IF
     END IF
 
 
@@ -574,6 +578,7 @@ SUBROUTINE rd_inp_bc_wall(input_file,sec,nbf,id,bc_temp,bc_conc,bc_vel,bc_stress
 210 FORMAT(' ERROR! Unsupported ID(BC_TEMP_) in RD_INP_BC_WALL')
 220 FORMAT(' ERROR! Unsupported ID(BC_VEL_) in RD_INP_BC_WALL')
 230 FORMAT(' ERROR! Unsupported ID(BC_STRESS_) in RD_INP_BC_WALL')
+999 FORMAT(' ERROR! Missing boundary condition in RC_INP_BC_WALL')
 
 400 FORMAT(' ----- Process ID = ',i2,' -----')
 500 FORMAT(1x,a,a)
