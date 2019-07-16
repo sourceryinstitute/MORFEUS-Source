@@ -60,53 +60,53 @@ MODULE class_least_squares
         PROCEDURE, PUBLIC  :: solve_least_squares         !! Math Operations
     END TYPE least_squares
 
-  INTERFACE
+    INTERFACE
 
-    ELEMENTAL MODULE FUNCTION nemo_least_squares_sizeof(lsq)
-        IMPLICIT NONE
-        CLASS(least_squares), INTENT(IN) :: lsq
-        INTEGER(kind=nemo_int_long_)     :: nemo_least_squares_sizeof
-    END FUNCTION nemo_least_squares_sizeof
+        ELEMENTAL MODULE FUNCTION nemo_least_squares_sizeof(lsq)
+            IMPLICIT NONE
+            CLASS(least_squares), INTENT(IN) :: lsq
+            INTEGER(kind=nemo_int_long_)     :: nemo_least_squares_sizeof
+        END FUNCTION nemo_least_squares_sizeof
 
-    ! ----- Constructor -----
+        ! ----- Constructor -----
 
-    MODULE SUBROUTINE alloc_least_squares(lsr,n,ncd)
-        IMPLICIT NONE
-        TYPE(least_squares), ALLOCATABLE, INTENT(OUT) :: lsr(:)
-        INTEGER, INTENT(IN) :: n, ncd
-    END SUBROUTINE alloc_least_squares
+        MODULE SUBROUTINE alloc_least_squares(lsr,n,ncd)
+            IMPLICIT NONE
+            TYPE(least_squares), ALLOCATABLE, INTENT(OUT) :: lsr(:)
+            INTEGER, INTENT(IN) :: n, ncd
+        END SUBROUTINE alloc_least_squares
 
-    ! ----- Destructor -----
+        ! ----- Destructor -----
 
-    MODULE SUBROUTINE free_least_squares(lsr)
-        IMPLICIT NONE
-        TYPE(least_squares), ALLOCATABLE  :: lsr(:)
-    END SUBROUTINE free_least_squares
+        MODULE SUBROUTINE free_least_squares(lsr)
+            IMPLICIT NONE
+            TYPE(least_squares), ALLOCATABLE  :: lsr(:)
+        END SUBROUTINE free_least_squares
 
-    ! ----- Setter -----
+        ! ----- Setter -----
 
-    MODULE SUBROUTINE set_least_squares(lsr,ncd,desc,c2c,f2b,faces,cell_cntr,face_cntr)
-        USE class_face, ONLY : face
-        USE class_vector, ONLY : vector
-        USE tools_math
-        USE psb_base_mod
-        IMPLICIT NONE
-        TYPE(least_squares), ALLOCATABLE :: lsr(:)
-        INTEGER, INTENT(IN) :: ncd
-        TYPE(psb_desc_type), INTENT(IN) :: desc
-        TYPE(connectivity), INTENT(IN) :: c2c, f2b
-        TYPE(face), INTENT(IN) :: faces(:)
-        TYPE(vector), INTENT(IN) :: cell_cntr(:), face_cntr(:)
-    END SUBROUTINE set_least_squares
+        MODULE SUBROUTINE set_least_squares(lsr,ncd,desc,c2c,f2b,faces,cell_cntr,face_cntr)
+            USE class_face, ONLY : face
+            USE class_vector, ONLY : vector
+            USE tools_math
+            USE psb_base_mod
+            IMPLICIT NONE
+            TYPE(least_squares), ALLOCATABLE :: lsr(:)
+            INTEGER, INTENT(IN) :: ncd
+            TYPE(psb_desc_type), INTENT(IN) :: desc
+            TYPE(connectivity), INTENT(IN) :: c2c, f2b
+            TYPE(face), INTENT(IN) :: faces(:)
+            TYPE(vector), INTENT(IN) :: cell_cntr(:), face_cntr(:)
+        END SUBROUTINE set_least_squares
 
-    ! ----- Computational Routines -----
+        ! ----- Computational Routines -----
 
-    MODULE SUBROUTINE solve_least_squares(lsr,rhs)
-        IMPLICIT NONE
-        CLASS(least_squares), INTENT(IN) :: lsr
-        REAL(psb_dpk_), INTENT(INOUT) :: rhs(:)
-    END SUBROUTINE solve_least_squares
+        MODULE SUBROUTINE solve_least_squares(lsr,rhs)
+            IMPLICIT NONE
+            CLASS(least_squares), INTENT(IN) :: lsr
+            REAL(psb_dpk_), INTENT(INOUT) :: rhs(:)
+        END SUBROUTINE solve_least_squares
 
-  END INTERFACE
+    END INTERFACE
 
 END MODULE class_least_squares

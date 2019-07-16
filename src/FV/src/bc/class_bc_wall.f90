@@ -76,121 +76,121 @@ MODULE class_bc_wall
     END TYPE bc_wall
 
 
-  ! ----- Generic Interfaces -----
+    ! ----- Generic Interfaces -----
 
-  INTERFACE
-    !! ----- Getter -----
+    INTERFACE
+        !! ----- Getter -----
 
-    MODULE SUBROUTINE get_abc_wall_s(bc,dim,id,a,b,c)
-        IMPLICIT NONE
-        CLASS(bc_wall), INTENT(IN) :: bc
-        TYPE(dimensions), INTENT(IN) :: dim
-        INTEGER, INTENT(OUT) :: id
-        REAL(psb_dpk_), INTENT(INOUT) :: a(:)
-        REAL(psb_dpk_), INTENT(INOUT) :: b(:)
-        REAL(psb_dpk_), INTENT(INOUT) :: c(:)
-          !! WARNING! Use intent(inout) for ABC.
-    END SUBROUTINE get_abc_wall_s
+        MODULE SUBROUTINE get_abc_wall_s(bc,dim,id,a,b,c)
+            IMPLICIT NONE
+            CLASS(bc_wall), INTENT(IN) :: bc
+            TYPE(dimensions), INTENT(IN) :: dim
+            INTEGER, INTENT(OUT) :: id
+            REAL(psb_dpk_), INTENT(INOUT) :: a(:)
+            REAL(psb_dpk_), INTENT(INOUT) :: b(:)
+            REAL(psb_dpk_), INTENT(INOUT) :: c(:)
+            !! WARNING! Use intent(inout) for ABC.
+        END SUBROUTINE get_abc_wall_s
 
 
-    MODULE SUBROUTINE get_abc_wall_v(bc,dim,id,a,b,c)
-        IMPLICIT NONE
-        CLASS(bc_wall),    INTENT(IN) :: bc
-        TYPE(dimensions), INTENT(IN) :: dim
-        INTEGER,          INTENT(OUT) :: id
-        REAL(psb_dpk_), INTENT(INOUT) :: a(:)
-        REAL(psb_dpk_), INTENT(INOUT) :: b(:)
-        TYPE(vector),     INTENT(INOUT) :: c(:)
-        ! WARNING! Use intent(inout) for ABC.
-    END SUBROUTINE get_abc_wall_v
+        MODULE SUBROUTINE get_abc_wall_v(bc,dim,id,a,b,c)
+            IMPLICIT NONE
+            CLASS(bc_wall),    INTENT(IN) :: bc
+            TYPE(dimensions), INTENT(IN) :: dim
+            INTEGER,          INTENT(OUT) :: id
+            REAL(psb_dpk_), INTENT(INOUT) :: a(:)
+            REAL(psb_dpk_), INTENT(INOUT) :: b(:)
+            TYPE(vector),     INTENT(INOUT) :: c(:)
+            ! WARNING! Use intent(inout) for ABC.
+        END SUBROUTINE get_abc_wall_v
 
-    !! ----- Setter -----
+        !! ----- Setter -----
 
-    MODULE SUBROUTINE set_bc_wall_map_s(bc,i,a,b,c)
-!        USE class_vector
-!        USE tools_bc
-!        USE class_bc_math
-        IMPLICIT NONE
-        CLASS(bc_wall), INTENT(INOUT) :: bc
-        INTEGER, INTENT(IN) :: i
-        REAL(psb_dpk_), INTENT(IN) :: a, b, c
-    END SUBROUTINE set_bc_wall_map_s
+        MODULE SUBROUTINE set_bc_wall_map_s(bc,i,a,b,c)
+    !        USE class_vector
+    !        USE tools_bc
+    !        USE class_bc_math
+            IMPLICIT NONE
+            CLASS(bc_wall), INTENT(INOUT) :: bc
+            INTEGER, INTENT(IN) :: i
+            REAL(psb_dpk_), INTENT(IN) :: a, b, c
+        END SUBROUTINE set_bc_wall_map_s
 
-    MODULE SUBROUTINE set_bc_wall_map_v(bc,i,a,b,c)
-!        USE class_vector
-!        USE tools_bc
-!        USE class_bc_math
-        IMPLICIT NONE
-        CLASS(bc_wall), INTENT(INOUT) :: bc
-        INTEGER, INTENT(IN) :: i
-        REAL(psb_dpk_), INTENT(IN) :: a, b
-        TYPE(vector), INTENT(IN) :: c
-    END SUBROUTINE set_bc_wall_map_v
+        MODULE SUBROUTINE set_bc_wall_map_v(bc,i,a,b,c)
+    !        USE class_vector
+    !        USE tools_bc
+    !        USE class_bc_math
+            IMPLICIT NONE
+            CLASS(bc_wall), INTENT(INOUT) :: bc
+            INTEGER, INTENT(IN) :: i
+            REAL(psb_dpk_), INTENT(IN) :: a, b
+            TYPE(vector), INTENT(IN) :: c
+        END SUBROUTINE set_bc_wall_map_v
 
-    ELEMENTAL MODULE FUNCTION nemo_bc_wall_sizeof(bc)
-      !! REMARK: the implementation of run-time polymorphism requires
-      !! specific BC object as POINTERS
-        IMPLICIT NONE
-        CLASS(bc_wall), INTENT(IN) :: bc
-        INTEGER(kind=nemo_int_long_)   :: nemo_bc_wall_sizeof
-    END FUNCTION nemo_bc_wall_sizeof
+        ELEMENTAL MODULE FUNCTION nemo_bc_wall_sizeof(bc)
+        !! REMARK: the implementation of run-time polymorphism requires
+        !! specific BC object as POINTERS
+            IMPLICIT NONE
+            CLASS(bc_wall), INTENT(IN) :: bc
+            INTEGER(kind=nemo_int_long_)   :: nemo_bc_wall_sizeof
+        END FUNCTION nemo_bc_wall_sizeof
 
-    MODULE SUBROUTINE create_bc_wall(bc,input_file,sec,nbf)
-        IMPLICIT NONE
-      !! ----- Constructor -----
-        TYPE(bc_wall), POINTER :: bc
-        CHARACTER(len=*), INTENT(IN) :: input_file
-        CHARACTER(len=*), INTENT(IN) :: sec
-        INTEGER, INTENT(IN) :: nbf
-    END SUBROUTINE create_bc_wall
+        MODULE SUBROUTINE create_bc_wall(bc,input_file,sec,nbf)
+            IMPLICIT NONE
+        !! ----- Constructor -----
+            TYPE(bc_wall), POINTER :: bc
+            CHARACTER(len=*), INTENT(IN) :: input_file
+            CHARACTER(len=*), INTENT(IN) :: sec
+            INTEGER, INTENT(IN) :: nbf
+        END SUBROUTINE create_bc_wall
 
-    MODULE SUBROUTINE free_bc_wall(bc)
-        IMPLICIT NONE
-      !! ----- Destructor -----
-        TYPE(bc_wall), POINTER :: bc
-    END SUBROUTINE free_bc_wall
+        MODULE SUBROUTINE free_bc_wall(bc)
+            IMPLICIT NONE
+        !! ----- Destructor -----
+            TYPE(bc_wall), POINTER :: bc
+        END SUBROUTINE free_bc_wall
 
-  END INTERFACE
+    END INTERFACE
 
-  INTERFACE update_boundary_wall
-    !! ----- Boundary Values Updater -----
+    INTERFACE update_boundary_wall
+        !! ----- Boundary Values Updater -----
 
-    MODULE SUBROUTINE update_boundary_wall_s(ib,bc,dim,msh,mats,im,x,bx)
-!        USE class_dimensions
-!        USE class_face
-!        USE class_material
-!        USE class_mesh
-!        USE tools_bc
-        IMPLICIT NONE
-        INTEGER, INTENT(IN) :: ib
-        TYPE(bc_wall), INTENT(IN) :: bc
-        TYPE(dimensions), INTENT(IN) :: dim
-        TYPE(mesh), INTENT(IN) :: msh
-        TYPE(matptr), INTENT(IN), POINTER:: mats(:)
-        INTEGER, INTENT(IN) :: im(:)
-        REAL(psb_dpk_), INTENT(IN) :: x(:)
-        REAL(psb_dpk_), INTENT(INOUT) :: bx(:)
-    END SUBROUTINE update_boundary_wall_s
+        MODULE SUBROUTINE update_boundary_wall_s(ib,bc,dim,msh,mats,im,x,bx)
+    !        USE class_dimensions
+    !        USE class_face
+    !        USE class_material
+    !        USE class_mesh
+    !        USE tools_bc
+            IMPLICIT NONE
+            INTEGER, INTENT(IN) :: ib
+            TYPE(bc_wall), INTENT(IN) :: bc
+            TYPE(dimensions), INTENT(IN) :: dim
+            TYPE(mesh), INTENT(IN) :: msh
+            TYPE(matptr), INTENT(IN), POINTER:: mats(:)
+            INTEGER, INTENT(IN) :: im(:)
+            REAL(psb_dpk_), INTENT(IN) :: x(:)
+            REAL(psb_dpk_), INTENT(INOUT) :: bx(:)
+        END SUBROUTINE update_boundary_wall_s
 
-    MODULE SUBROUTINE update_boundary_wall_v(ib,bc,dim,msh,x,bx)
-        !! WARNING!
-        !! - Use intent(inout) for BX(:).
+        MODULE SUBROUTINE update_boundary_wall_v(ib,bc,dim,msh,x,bx)
+            !! WARNING!
+            !! - Use intent(inout) for BX(:).
 
-        !! Number of boundary faces with flag < IB
- !       USE class_dimensions
- !       USE class_face
- !       USE class_mesh
- !       USE class_vector
- !       USE tools_bc
-        IMPLICIT NONE
-        INTEGER, INTENT(IN) :: ib
-        TYPE(bc_wall), INTENT(IN) :: bc
-        TYPE(dimensions), INTENT(IN) :: dim
-        TYPE(mesh), INTENT(IN) :: msh
-        TYPE(vector), INTENT(IN) :: x(:)
-        TYPE(vector), INTENT(INOUT) :: bx(:)
-    END SUBROUTINE update_boundary_wall_v
+            !! Number of boundary faces with flag < IB
+    !       USE class_dimensions
+    !       USE class_face
+    !       USE class_mesh
+    !       USE class_vector
+    !       USE tools_bc
+            IMPLICIT NONE
+            INTEGER, INTENT(IN) :: ib
+            TYPE(bc_wall), INTENT(IN) :: bc
+            TYPE(dimensions), INTENT(IN) :: dim
+            TYPE(mesh), INTENT(IN) :: msh
+            TYPE(vector), INTENT(IN) :: x(:)
+            TYPE(vector), INTENT(INOUT) :: bx(:)
+        END SUBROUTINE update_boundary_wall_v
 
-  END INTERFACE update_boundary_wall
+    END INTERFACE update_boundary_wall
 
 END MODULE class_bc_wall

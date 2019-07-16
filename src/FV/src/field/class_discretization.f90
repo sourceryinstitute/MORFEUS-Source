@@ -63,32 +63,32 @@ MODULE class_discretization
     END TYPE discretization
 
 
-  ! ----- Generic Interfaces -----
+    ! ----- Generic Interfaces -----
 
-  INTERFACE
-    MODULE FUNCTION nemo_discretization_sizeof(dsc)
-        USE psb_base_mod
-        USE class_psblas
-        IMPLICIT NONE
-        CLASS(discretization), INTENT(IN) :: dsc
-        INTEGER(kind=nemo_int_long_)   :: nemo_discretization_sizeof
-    END FUNCTION nemo_discretization_sizeof
-  END INTERFACE
+    INTERFACE
+        MODULE FUNCTION nemo_discretization_sizeof(dsc)
+            USE psb_base_mod
+            USE class_psblas
+            IMPLICIT NONE
+            CLASS(discretization), INTENT(IN) :: dsc
+            INTEGER(kind=nemo_int_long_)   :: nemo_discretization_sizeof
+        END FUNCTION nemo_discretization_sizeof
+    END INTERFACE
 
-  ! ----- Constructors -----
+    ! ----- Constructors -----
 
-  INTERFACE read_par
-    MODULE FUNCTION read_par_discretization(input_file,sec,par,default)RESULT(r)
-        USE class_psblas
-        USE tools_input
-        IMPLICIT NONE
-        TYPE(discretization) :: r
-        CHARACTER(len=*),     INTENT(IN) :: input_file
-        CHARACTER(len=*),     INTENT(IN) :: sec
-        CHARACTER(len=*),     INTENT(IN) :: par
-        TYPE(discretization), INTENT(IN) :: default
-    END FUNCTION read_par_discretization
-  END INTERFACE read_par
+    INTERFACE read_par
+        MODULE FUNCTION read_par_discretization(input_file,sec,par,default)RESULT(r)
+            USE class_psblas
+            USE tools_input
+            IMPLICIT NONE
+            TYPE(discretization) :: r
+            CHARACTER(len=*),     INTENT(IN) :: input_file
+            CHARACTER(len=*),     INTENT(IN) :: sec
+            CHARACTER(len=*),     INTENT(IN) :: par
+            TYPE(discretization), INTENT(IN) :: default
+        END FUNCTION read_par_discretization
+    END INTERFACE read_par
 
 
     ! ----- Named Constants -----
@@ -103,13 +103,13 @@ MODULE class_discretization
 
 
     ! ----- Getters -----
-  INTERFACE
+    INTERFACE
 
-    MODULE FUNCTION id_(ds)
-        INTEGER :: id_
-        CLASS(discretization), INTENT(IN) :: ds
-    END FUNCTION id_
+        MODULE FUNCTION id_(ds)
+            INTEGER :: id_
+            CLASS(discretization), INTENT(IN) :: ds
+        END FUNCTION id_
 
-  END INTERFACE
+    END INTERFACE
 
 END MODULE class_discretization

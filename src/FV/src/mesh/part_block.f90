@@ -48,14 +48,14 @@ MODULE part_block
 
     IMPLICIT NONE
 
-  INTERFACE
+    INTERFACE
 
-    MODULE SUBROUTINE bld_part_block(ncells,nprocs,part)
-       IMPLICIT NONE
-       INTEGER, INTENT(IN) :: ncells, nprocs
-       INTEGER, ALLOCATABLE, INTENT(OUT) :: part(:)
-    END SUBROUTINE bld_part_block
+        MODULE SUBROUTINE bld_part_block(ncells,nprocs,part)
+            IMPLICIT NONE
+            INTEGER, INTENT(IN) :: ncells, nprocs
+            INTEGER, ALLOCATABLE, INTENT(OUT) :: part(:)
+        END SUBROUTINE bld_part_block
 
-  END INTERFACE
+    END INTERFACE
 
 END MODULE part_block

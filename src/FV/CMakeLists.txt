@@ -412,14 +412,14 @@ macro( find_morfeus_fv_prereq pkg_name )
     if( IS_DIRECTORY ${_${lower_pkg}_root} )
       message(STATUS "preferred ${pkg_name} root: ${_${lower_pkg}_root}")
       if(FIND_MFV_REQS_USER_LOC_VAR)
-	if( NOT IS_DIRECTORY "${${FIND_MFV_REQS_USER_LOC_VAR}}" )
-	  set( ${FIND_MFV_REQS_USER_LOC_VAR} "${_${lower_pkg}_root}" )
-	endif()
+  if( NOT IS_DIRECTORY "${${FIND_MFV_REQS_USER_LOC_VAR}}" )
+    set( ${FIND_MFV_REQS_USER_LOC_VAR} "${_${lower_pkg}_root}" )
+  endif()
       endif()
       if(FIND_MFV_REQS_USER_LOC_ENV_VAR)
-	if( NOT IS_DIRECTORY "$ENV{${FIND_MFV_REQS_USER_LOC_ENV_VAR}}" )
-	  set( ENV{${FIND_MFV_REQS_USER_LOC_ENV_VAR}} )
-	endif()
+  if( NOT IS_DIRECTORY "$ENV{${FIND_MFV_REQS_USER_LOC_ENV_VAR}}" )
+    set( ENV{${FIND_MFV_REQS_USER_LOC_ENV_VAR}} )
+  endif()
       endif()
     endif()
   endif()
@@ -546,6 +546,11 @@ target_compile_options(morfeus_fv
   PUBLIC ${FAST_Fortran_FLAGS})
 target_link_libraries(morfeus_fv
   PUBLIC morfeus_fv_C)
+if(TARGET morfeus_fd)
+  # Support FV dependencies on FD
+  target_link_libraries(morfeus_fv
+    PUBLIC morfeus_fd)
+endif()
 target_compile_definitions(morfeus_fv_C
   PRIVATE ${Fortran_INTROSPECTION_MANGLING})
 if(TARGET MatLib)
@@ -602,7 +607,9 @@ endif()
 
 foreach(lib morfeus_fv morfeus_fv_C)
   target_include_directories(${lib}
-    PUBLIC "${CMAKE_Fortran_MODULE_DIRECTORY}" "${MORFEUSFV_MODULE_DIRECTORY}" "${CMAKE_CURRENT_SOURCE_DIR}/src/mesh_optimize/OptMS")
+    PUBLIC "${CMAKE_Fortran_MODULE_DIRECTORY}"
+    PUBLIC "${MORFEUSFV_MODULE_DIRECTORY}"
+    PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src/mesh_optimize/OptMS")
   set_property( TARGET ${lib}
     PROPERTY ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/lib")
   set_property( TARGET ${lib}
@@ -719,7 +726,8 @@ function(add_morfeus_fv_test name partitions test_target mesh_file input_file wo
         set( _loc_partitions 2 )
       endif()
       set (pre_flags --oversubscribe)
-      message( STATUS "Open-MPI back end detected, passing --oversubscribe for oversubscribed test, ${name}, with ${_loc_partitions} ranks/partitions." )
+      message( STATUS
+        "Open-MPI detected, passing --oversubscribe for oversubscribed test, ${name}, with ${_loc_partitions} ranks/partitions." )
     endif()
   endif()
   if( MPI_FOUND )

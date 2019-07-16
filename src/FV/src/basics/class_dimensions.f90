@@ -123,9 +123,9 @@ MODULE class_dimensions
     ! Computation
     INTERFACE
         MODULE FUNCTION dim_sqrt(dim)
-           IMPLICIT NONE
-           TYPE(dimensions) :: dim_sqrt
-           CLASS(dimensions), INTENT(IN) :: dim
+            IMPLICIT NONE
+            TYPE(dimensions) :: dim_sqrt
+            CLASS(dimensions), INTENT(IN) :: dim
         END FUNCTION dim_sqrt
     END INTERFACE
 

@@ -96,7 +96,7 @@ SUBMODULE (tools_input) get_par_h_implementation
 100         FORMAT(1x,a15,1x,a)
 200         FORMAT(' ERROR! Mandatory parameter "',a,'" not found in section ',a,'.')
 300         FORMAT(' WARNING! Parameter "',a,'" not found in section ',a,'.',&
-              &    ' Set to default = ',a)
+                &    ' Set to default = ',a)
 
         END PROCEDURE get_par_h
 

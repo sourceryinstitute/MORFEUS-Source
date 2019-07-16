@@ -47,9 +47,9 @@ SUBMODULE (tools_mesh) rd_gambit_implementation
     USE class_connectivity
     IMPLICIT NONE
 
-    CONTAINS
+CONTAINS
 
-        MODULE PROCEDURE rd_gambit_mesh
+    MODULE PROCEDURE rd_gambit_mesh
         USE class_psblas
         USE class_cell
         !USE class_connectivity
@@ -855,7 +855,7 @@ SUBMODULE (tools_mesh) rd_gambit_implementation
 
         !     FORMAT Instructions
 050     FORMAT(' ERROR! Failure to open Gambit mesh file.',/,&
-          &    ' File expected: ', a)
+        &    ' File expected: ', a)
 100     FORMAT(' ERROR! Memory allocation failure in RD_GAMBIT_MESH')
 500     FORMAT(a80)
 510     FORMAT(6(1x,i9))
@@ -868,6 +868,6 @@ SUBMODULE (tools_mesh) rd_gambit_implementation
 580     FORMAT(a32,2i8)
 590     FORMAT(i10,2i7)
 
-        END PROCEDURE rd_gambit_mesh
+    END PROCEDURE rd_gambit_mesh
 
 END SUBMODULE rd_gambit_implementation

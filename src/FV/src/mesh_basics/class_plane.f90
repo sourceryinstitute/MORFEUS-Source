@@ -79,79 +79,79 @@ MODULE class_plane
     END TYPE plane
 
 
-  ! ----- Generic Interfaces -----
+    ! ----- Generic Interfaces -----
 
     INTERFACE
 
-    ELEMENTAL MODULE FUNCTION nemo_plane_sizeof(pl)
-        USE class_psblas, ONLY : nemo_int_long_
-        IMPLICIT NONE
-        CLASS(plane), INTENT(IN) :: pl
-        INTEGER(kind=nemo_int_long_)   :: nemo_plane_sizeof
-    END FUNCTION nemo_plane_sizeof
+        ELEMENTAL MODULE FUNCTION nemo_plane_sizeof(pl)
+            USE class_psblas, ONLY : nemo_int_long_
+            IMPLICIT NONE
+            CLASS(plane), INTENT(IN) :: pl
+            INTEGER(kind=nemo_int_long_)   :: nemo_plane_sizeof
+        END FUNCTION nemo_plane_sizeof
 
-    ! ----- Constructor -----
+        ! ----- Constructor -----
 
-    MODULE SUBROUTINE alloc_plane(vertices,this_plane)
-      !! Constructs plane by a least-squares fit
-        USE class_psblas
-        USE class_vector
-        USE class_vertex
-        USE tools_math
-        IMPLICIT NONE
-        TYPE(vertex),INTENT(IN)      :: vertices(:)
-        TYPE(plane),POINTER          :: this_plane       !inout, so that we can check SET.
-    END SUBROUTINE alloc_plane
+        MODULE SUBROUTINE alloc_plane(vertices,this_plane)
+        !! Constructs plane by a least-squares fit
+            USE class_psblas
+            USE class_vector
+            USE class_vertex
+            USE tools_math
+            IMPLICIT NONE
+            TYPE(vertex),INTENT(IN)      :: vertices(:)
+            TYPE(plane),POINTER          :: this_plane       !inout, so that we can check SET.
+        END SUBROUTINE alloc_plane
 
-    ! ----- Destructor -----
+        ! ----- Destructor -----
 
-    MODULE SUBROUTINE free_plane(this_plane)
-        USE class_psblas
-        IMPLICIT NONE
-        TYPE( plane ), POINTER  :: this_plane
-    END SUBROUTINE free_plane
+        MODULE SUBROUTINE free_plane(this_plane)
+            USE class_psblas
+            IMPLICIT NONE
+            TYPE( plane ), POINTER  :: this_plane
+        END SUBROUTINE free_plane
 
-    ! ----- Getters -----
+        ! ----- Getters -----
 
-    MODULE FUNCTION get_plane_normal(this_plane)
-      !! Returns the plane normal
-      !! (which is trivial for a plane, since the normal is constant)
-        USE class_psblas
-        USE class_vector
-        IMPLICIT NONE
-        TYPE(vector)              :: get_plane_normal
-        CLASS(plane), INTENT(IN)   :: this_plane
-    END FUNCTION get_plane_normal
-
-
-    MODULE FUNCTION get_plane_r2(this_plane)
-      !! Returns an approximation for the goodness of fit, R2 value, from 0 to 1
-        USE class_vector
-        IMPLICIT NONE
-        REAL(psb_dpk_)  :: get_plane_r2
-        CLASS(plane)        :: this_plane
-    END FUNCTION get_plane_r2
-
-    MODULE FUNCTION get_pt_plane(this_plane,point)
-      !! Returns the point on a plane that is closest to the given point
-        USE class_vector
-        IMPLICIT NONE
-        TYPE(vector)              :: get_pt_plane   ! function result
-        CLASS(plane),  INTENT(IN)  :: this_plane     ! the plane that we are on
-        TYPE(vector) ,INTENT(IN)  :: point          ! the point off the plane
-    END FUNCTION get_pt_plane
+        MODULE FUNCTION get_plane_normal(this_plane)
+        !! Returns the plane normal
+        !! (which is trivial for a plane, since the normal is constant)
+            USE class_psblas
+            USE class_vector
+            IMPLICIT NONE
+            TYPE(vector)              :: get_plane_normal
+            CLASS(plane), INTENT(IN)   :: this_plane
+        END FUNCTION get_plane_normal
 
 
-    ! ----- Setters -----
+        MODULE FUNCTION get_plane_r2(this_plane)
+        !! Returns an approximation for the goodness of fit, R2 value, from 0 to 1
+            USE class_vector
+            IMPLICIT NONE
+            REAL(psb_dpk_)  :: get_plane_r2
+            CLASS(plane)        :: this_plane
+        END FUNCTION get_plane_r2
 
-    MODULE SUBROUTINE translate_plane(this_plane,offset)
-      !! moves the definition of a plane in the direction of the offset vector
-        USE class_vector
-        IMPLICIT NONE
-        CLASS(plane), INTENT(INOUT) :: this_plane       ! the plane we are moving
-        TYPE(vector),  INTENT(IN)    :: offset           ! translation vector
-    END SUBROUTINE translate_plane
+        MODULE FUNCTION get_pt_plane(this_plane,point)
+        !! Returns the point on a plane that is closest to the given point
+            USE class_vector
+            IMPLICIT NONE
+            TYPE(vector)              :: get_pt_plane   ! function result
+            CLASS(plane),  INTENT(IN)  :: this_plane     ! the plane that we are on
+            TYPE(vector) ,INTENT(IN)  :: point          ! the point off the plane
+        END FUNCTION get_pt_plane
 
-  END INTERFACE
+
+        ! ----- Setters -----
+
+        MODULE SUBROUTINE translate_plane(this_plane,offset)
+        !! moves the definition of a plane in the direction of the offset vector
+            USE class_vector
+            IMPLICIT NONE
+            CLASS(plane), INTENT(INOUT) :: this_plane       ! the plane we are moving
+            TYPE(vector),  INTENT(IN)    :: offset           ! translation vector
+        END SUBROUTINE translate_plane
+
+    END INTERFACE
 
 END MODULE class_plane

@@ -3,14 +3,24 @@ workflow "Push" {
   resolves = ["Mirror to repo"]
 }
 
-workflow "Delete-ref" {
-  on = "delete"
-  resolves = ["Mirror to repo"]
+workflow "Create ref" {
+  on = "create"
+  resolves = ["Possible dupe"]
 }
 
-workflow "Create-ref" {
-  on = "create"
-  resolves = ["Mirror to repo"]
+workflow "Delete ref" {
+  on = "delete"
+  resolves = ["Possible dupe"]
+}
+
+workflow "Wiki-update" {
+  on = "gollum"
+  resolves = ["Mirror wiki"]
+}
+
+workflow "Nightly-mirror" {
+  on = "schedule(49 7 * * *)" # 07:49 UTC daily
+  resolves = ["Mirror to repo", "Mirror wiki"]
 }
 
 action "Mirror to repo" {
@@ -19,5 +29,54 @@ action "Mirror to repo" {
   env = {
       MIRROR_URL = "git@github.com:nrc-fuels/MORFEUS-mirror.git"
   }
-  secrets = ["IBB_PWLESS_DEPLOY_KEY", "SI_BOT_KEY", "GITHUB_TOKEN"]
+  secrets = ["IBB_PWLESS_DEPLOY_KEY", "GITHUB_TOKEN"]
+}
+
+action "Possible dupe" {
+  needs = "Delay"
+  uses = "docker://buildpack-deps:testing-scm"
+  runs = ".github/main.workflow.sh"
+  env = {
+      MIRROR_URL = "git@github.com:nrc-fuels/MORFEUS-mirror.git"
+  }
+  secrets = ["IBB_PWLESS_DEPLOY_KEY", "GITHUB_TOKEN"]
+}
+
+action "Delay" {
+  uses = "docker://alpine:latest"
+  runs = ["sh", "-c", "sleep 30"]
+}
+
+action "Mirror wiki" {
+  uses = "docker://buildpack-deps:testing-scm"
+  runs = ".github/wiki-update.workflow.sh"
+  env = {
+      SOURCE_WIKI = "git@github.com:sourceryinstitute/MORFEUS-Source.wiki.git"
+      MIRROR_WIKI = "git@github.com:nrc-fuels/MORFEUS-mirror.wiki.git"
+  }
+  secrets = ["IBB_PWLESS_DEPLOY_KEY", "GITHUB_TOKEN"]
+}
+
+workflow "style linting" {
+  on = "push"
+  resolves = ["EditorConfig Audit"]
+}
+
+action "EditorConfig Audit" {
+  uses = "zbeekman/EditorConfig-Action@v1.1.0"
+  env = {
+    ALWAYS_LINT_ALL_FILES = "false"
+    }
+}
+
+workflow "PR Audit" {
+  on = "pull_request"
+  resolves = ["EC PR Audit"]
+}
+
+action "EC PR Audit" {
+  uses = "zbeekman/EditorConfig-Action@v1.1.0"
+  env = {
+    ALWAYS_LINT_ALL_FILES = "false"
+    }
 }
