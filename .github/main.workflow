@@ -63,7 +63,7 @@ workflow "style linting" {
 }
 
 action "EditorConfig Audit" {
-  uses = "zbeekman/EditorConfig-Action@v1.1.0"
+  uses = "zbeekman/EditorConfig-Action@v1.1.1"
   env = {
     ALWAYS_LINT_ALL_FILES = "false"
     }
@@ -75,7 +75,7 @@ workflow "PR Audit" {
 }
 
 action "EC PR Audit" {
-  uses = "zbeekman/EditorConfig-Action@v1.1.0"
+  uses = "zbeekman/EditorConfig-Action@v1.1.1"
   env = {
     ALWAYS_LINT_ALL_FILES = "false"
     }

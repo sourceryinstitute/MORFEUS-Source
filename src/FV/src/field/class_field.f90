@@ -48,6 +48,7 @@ MODULE class_field
     USE class_dimensions, ONLY : dimensions
     USE class_material, ONLY : matptr, material
     USE class_mesh, ONLY : mesh
+    USE grid_interface, ONLY : grid
 
     IMPLICIT NONE
 
@@ -55,7 +56,7 @@ MODULE class_field
     PUBLIC :: field                           !! Class
     PUBLIC :: fld_internal_, fld_boundary_    !! Named constants
 
-    TYPE field
+    TYPE, EXTENDS(grid) :: field
         PRIVATE
         CHARACTER(len=32)       :: name
         TYPE(dimensions)        :: dim

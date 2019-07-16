@@ -640,7 +640,9 @@ function( add_morfeus_fv_exe main_src )
     PROPERTY FOLDER Morfeus_FV-Tests)
 endfunction()
 
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/applications")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/applications")
+  add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/applications")
+endif()
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/unit-tests")
 
 #------------------------------------------
