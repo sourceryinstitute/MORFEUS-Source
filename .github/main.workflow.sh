@@ -50,7 +50,7 @@ git config --show-origin --list
 
 echo "Creating a local mirror of ${GITHUB_REPOSITORY}"
 cd ~ || exit 77
-git clone --mirror https://${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+git clone --mirror git@github.com:${GITHUB_REPOSITORY}.git
 
 echo "Attempting push to MIRROR repository..."
 cd ${GITHUB_REPOSITORY#*/}.git || exit 77
