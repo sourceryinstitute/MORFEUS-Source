@@ -7,11 +7,11 @@
 MODULE vtkmofo_io
     USE class_psblas, ONLY : psb_dpk_
     USE class_mesh,   ONLY : mesh
-      !! An Intel 18.0.5 bug precludes putting this in the interface bodies
+    !! An Intel 18.0.5 bug precludes putting this in the interface bodies
     USE class_scalar_field, ONLY : scalar_field
-      !! An Intel 18.0.5 bug precludes putting this in the interface bodies
+    !! An Intel 18.0.5 bug precludes putting this in the interface bodies
     USE class_vector_field, ONLY : vector_field
-      !! An Intel 18.0.5 bug precludes putting this in the interface bodies
+    !! An Intel 18.0.5 bug precludes putting this in the interface bodies
     IMPLICIT NONE
     !! author: Ian Porter, NRC
     !! date: 01/23/2019

@@ -150,7 +150,7 @@ SUBMODULE(op_field) rhie_chow_implementation
             !  end do
 
             ! Eventually construct the result
-            res = scalar_field_(base,x=r_x,bx=r_bx)
+            res = scalar_field(base,x=r_x,bx=r_bx)
 
             NULLIFY(if2b)
             DEALLOCATE(r_x,r_bx, fld_x, fld_bx, phi_x, phi_bx, phi_fx,phi_fbx)

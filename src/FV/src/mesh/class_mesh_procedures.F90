@@ -16,15 +16,15 @@ SUBMODULE(class_mesh) class_mesh_procedures
     USE class_vertex
     IMPLICIT NONE
 
-    CONTAINS
+CONTAINS
 
     ! ----- Constructors -----
 
     MODULE PROCEDURE create_mesh
         !! Global constructor
         USE tools_mesh,          ONLY : rd_inp_mesh, rd_gambit_mesh, rd_cgns_mesh, cmp_mesh_c2c, cmp_mesh_desc,  &
-          &                             cmp_mesh_f2b, cmp_mesh_f2f, cmp_mesh_part, cmp_mesh_renum, cmp_mesh_v2b, &
-          &                             cmp_mesh_v2ve, cmp_moving_surf, supplement_v2c, supplement_v2f
+            &                           cmp_mesh_f2b, cmp_mesh_f2f, cmp_mesh_part, cmp_mesh_renum, cmp_mesh_v2b, &
+            &                           cmp_mesh_v2ve, cmp_moving_surf, supplement_v2c, supplement_v2f
         USE tools_mesh_basics,   ONLY : geom_face, geom_cell, geom_diff
         USE tools_output_basics, ONLY : wr_mtx_pattern
         USE class_least_squares, ONLY : set_least_squares
@@ -300,7 +300,7 @@ SUBMODULE(class_mesh) class_mesh_procedures
     END SUBROUTINE g2l_mesh
 
     MODULE PROCEDURE free_mesh
-      !! ----- Destructor -----
+    !! ----- Destructor -----
         USE psb_base_mod
         USE class_least_squares, ONLY : free_least_squares
         IMPLICIT NONE
@@ -487,9 +487,9 @@ SUBMODULE(class_mesh) class_mesh_procedures
             & + msh%f2b%nemo_sizeof()
 
         val = val + msh%ov2c_sup%nemo_sizeof() &
-          & + msh%c2ov_sup%nemo_sizeof() &
-          & + msh%ov2f_sup%nemo_sizeof() &
-          & + msh%f2ov_sup%nemo_sizeof()
+        & + msh%c2ov_sup%nemo_sizeof() &
+        & + msh%ov2f_sup%nemo_sizeof() &
+        & + msh%f2ov_sup%nemo_sizeof()
 
         IF (ALLOCATED(msh%verts))&
             & val = val + SUM(msh%verts%nemo_sizeof())

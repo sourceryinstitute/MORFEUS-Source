@@ -1,0 +1,118 @@
+#
+#     (c) 2019 Guide Star Engineering, LLC
+#     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
+#     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
+#     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+#
+
+
+# EditorConfig file. For more info, please see:
+# https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# All files should have a final newline and not have trailing whitespace
+# but we need to explicitly enumerate files we care about to prevent random junk
+# from being linted
+
+[*.{f90,F90}]
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+max_line_length = 132
+insert_final_newline = true
+
+# There's some very old C code
+# [*.{c,h}]
+# indent_style = space
+# indent_size = 4
+# trim_trailing_whitespace = true
+# insert_final_newline = true
+
+[Dockerfile]
+indent_style = tab
+indent_size = 4
+trim_trailing_whitespace = true
+max_line_length = 80
+insert_final_newline = true
+
+[{CMakeLists.txt, *.cmake}]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+max_line_length = 132
+insert_final_newline = true
+
+[{package.json,package-lock.json}]
+max_line_length = off
+insert_final_newline = true
+
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false
+charset = utf-8
+insert_final_newline = true
+
+[*.sln,*.vcproj}]
+max_line_length = off
+trim_trailing_whitespace = off
+end_of_line = crlf
+
+[*.bat]
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+max_line_length = 132
+end_of_line = crlf
+insert_final_newline = true
+
+# Matches multiple files with brace expansion notation
+# Set default charset
+[*.{js,py}]
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+max_line_length = 132
+charset = utf-8
+insert_final_newline = true
+
+# Tab indentation (no size specified)
+[Makefile]
+indent_style = tab
+indent_size = 4
+trim_trailing_whitespace = true
+max_line_length = 132
+insert_final_newline = true
+
+[*.sh]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+max_line_length = 132
+insert_final_newline = true
+
+[*.nml]
+trim_trailing_whitespace = true
+max_line_length = 132
+insert_final_newline = true
+
+[*.{el,elisp}]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+max_line_length = 132
+insert_final_newline = true
+
+[main.workflow]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+max_line_length = 132
+insert_final_newline = true
+
+[*.{yml,json}]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+insert_final_newline = true

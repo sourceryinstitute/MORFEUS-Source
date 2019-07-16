@@ -67,62 +67,62 @@ MODULE class_output
     ! ----- Generic Interface -----
 
 
-  INTERFACE
+    INTERFACE
 
-    MODULE FUNCTION nemo_output_sizeof(obj)
-        USE psb_base_mod
-        USE class_psblas
-        CLASS(output), INTENT(IN) :: obj
-        INTEGER(kind=nemo_int_long_)   :: nemo_output_sizeof
-    END FUNCTION nemo_output_sizeof
+        MODULE FUNCTION nemo_output_sizeof(obj)
+            USE psb_base_mod
+            USE class_psblas
+            CLASS(output), INTENT(IN) :: obj
+            INTEGER(kind=nemo_int_long_)   :: nemo_output_sizeof
+        END FUNCTION nemo_output_sizeof
 
-  END INTERFACE
+        END INTERFACE
 
-    ! ----- Setters -----
+        ! ----- Setters -----
 
-  INTERFACE
+        INTERFACE
 
-    MODULE SUBROUTINE set_output_path_h(out,path)
-        CLASS(output),      INTENT(INOUT) :: out
-        CHARACTER(len=32), INTENT(IN) :: path
-    END SUBROUTINE set_output_path_h
-
-
-    MODULE SUBROUTINE set_output_path_iter(out,iter)
-        USE class_iterating
-        USE tools_output_basics
-        CLASS(output),    INTENT(INOUT) :: out
-        TYPE(iterating), INTENT(IN) :: iter
-    END SUBROUTINE set_output_path_iter
-
-    ! ----- Constructor -----
-
-    MODULE SUBROUTINE create_output(out,input_file,sec)
-        USE tools_input
-        USE tools_output_basics
-        CLASS(output),      INTENT(INOUT) :: out
-        CHARACTER(len=*), INTENT(IN) :: input_file
-        CHARACTER(len=*), INTENT(IN) :: sec
-    END SUBROUTINE create_output
+        MODULE SUBROUTINE set_output_path_h(out,path)
+            CLASS(output),      INTENT(INOUT) :: out
+            CHARACTER(len=32), INTENT(IN) :: path
+        END SUBROUTINE set_output_path_h
 
 
-    ! ----- Getters -----
+        MODULE SUBROUTINE set_output_path_iter(out,iter)
+            USE class_iterating
+            USE tools_output_basics
+            CLASS(output),    INTENT(INOUT) :: out
+            TYPE(iterating), INTENT(IN) :: iter
+        END SUBROUTINE set_output_path_iter
 
-    MODULE FUNCTION fmt_(out)
-        INTEGER :: fmt_
-        CLASS(output), INTENT(IN) :: out
-    END FUNCTION fmt_
+        ! ----- Constructor -----
+
+        MODULE SUBROUTINE create_output(out,input_file,sec)
+            USE tools_input
+            USE tools_output_basics
+            CLASS(output),      INTENT(INOUT) :: out
+            CHARACTER(len=*), INTENT(IN) :: input_file
+            CHARACTER(len=*), INTENT(IN) :: sec
+        END SUBROUTINE create_output
 
 
-    MODULE FUNCTION path_(out)
-        USE tools_output_basics
-        CHARACTER(len=32) :: path_
-        CLASS(output), INTENT(IN) :: out
-        !
-        INTEGER :: l
-        CHARACTER(len=1) :: path_end
-    END FUNCTION path_
+        ! ----- Getters -----
 
-  END INTERFACE
+        MODULE FUNCTION fmt_(out)
+            INTEGER :: fmt_
+            CLASS(output), INTENT(IN) :: out
+        END FUNCTION fmt_
+
+
+        MODULE FUNCTION path_(out)
+            USE tools_output_basics
+            CHARACTER(len=32) :: path_
+            CLASS(output), INTENT(IN) :: out
+            !
+            INTEGER :: l
+            CHARACTER(len=1) :: path_end
+        END FUNCTION path_
+
+    END INTERFACE
 
 END MODULE class_output

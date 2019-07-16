@@ -92,95 +92,95 @@ MODULE class_cell
     INTEGER, PARAMETER :: itet_ = 3, ipyr_ = 4  !! tetrahedral, pyramid
     INTEGER, PARAMETER :: ipri_ = 5, ihex_ = 6  !! prism, hexahedron
 
-  INTERFACE
+    INTERFACE
 
-    ELEMENTAL MODULE FUNCTION nemo_cell_sizeof(cll)
-        USE psb_base_mod
-        IMPLICIT NONE
-        CLASS(cell), INTENT(IN) :: cll
-        INTEGER(kind=nemo_int_long_)   :: nemo_cell_sizeof
-    END FUNCTION nemo_cell_sizeof
-      ! ----- Constructors -----
+        ELEMENTAL MODULE FUNCTION nemo_cell_sizeof(cll)
+            USE psb_base_mod
+            IMPLICIT NONE
+            CLASS(cell), INTENT(IN) :: cll
+            INTEGER(kind=nemo_int_long_)   :: nemo_cell_sizeof
+        END FUNCTION nemo_cell_sizeof
+        ! ----- Constructors -----
 
-    ELEMENTAL MODULE FUNCTION cell_(nv,nf,group,geo)
-        IMPLICIT NONE
-        TYPE(cell) :: cell_
-        INTEGER, INTENT(IN) :: nv, nf, group
-        CHARACTER(len=nlen), INTENT(IN) :: geo
-    END FUNCTION cell_
-
-
-    MODULE SUBROUTINE alloc_cell(cells,n)
-      !! Array constructor
-        IMPLICIT NONE
-        TYPE(cell), ALLOCATABLE :: cells(:)
-        INTEGER, INTENT(IN)     :: n
-    END SUBROUTINE alloc_cell
+        ELEMENTAL MODULE FUNCTION cell_(nv,nf,group,geo)
+            IMPLICIT NONE
+            TYPE(cell) :: cell_
+            INTEGER, INTENT(IN) :: nv, nf, group
+            CHARACTER(len=nlen), INTENT(IN) :: geo
+        END FUNCTION cell_
 
 
-    ! ----- Destructor -----
+        MODULE SUBROUTINE alloc_cell(cells,n)
+        !! Array constructor
+            IMPLICIT NONE
+            TYPE(cell), ALLOCATABLE :: cells(:)
+            INTEGER, INTENT(IN)     :: n
+        END SUBROUTINE alloc_cell
 
-    MODULE SUBROUTINE free_cell(cells)
-        IMPLICIT NONE
-        TYPE(cell), ALLOCATABLE  :: cells(:)
-    END SUBROUTINE free_cell
+
+        ! ----- Destructor -----
+
+        MODULE SUBROUTINE free_cell(cells)
+            IMPLICIT NONE
+            TYPE(cell), ALLOCATABLE  :: cells(:)
+        END SUBROUTINE free_cell
 
 
-    ! ----- Parallel Ops. -----
+        ! ----- Parallel Ops. -----
 
-    MODULE SUBROUTINE bcast_cell(cells)
-        IMPLICIT NONE
-        TYPE(cell), ALLOCATABLE :: cells(:)
-    END SUBROUTINE bcast_cell
+        MODULE SUBROUTINE bcast_cell(cells)
+            IMPLICIT NONE
+            TYPE(cell), ALLOCATABLE :: cells(:)
+        END SUBROUTINE bcast_cell
 
-    MODULE SUBROUTINE g2l_cell(cells,desc_c)
-        USE psb_base_mod
-        IMPLICIT NONE
-        TYPE(cell), ALLOCATABLE :: cells(:)
-        TYPE(psb_desc_type), INTENT(IN) :: desc_c
-    END SUBROUTINE g2l_cell
+        MODULE SUBROUTINE g2l_cell(cells,desc_c)
+            USE psb_base_mod
+            IMPLICIT NONE
+            TYPE(cell), ALLOCATABLE :: cells(:)
+            TYPE(psb_desc_type), INTENT(IN) :: desc_c
+        END SUBROUTINE g2l_cell
 
-    MODULE SUBROUTINE l2g_cell(cells_loc,cells_glob,desc_c)
-        !! WARNING! The global results is allocated only on P0. After its usage
-        !! it must be deallocated in the calling unit by means of the statement:
-        !! "if(associated(glob_res)) deallocate(glob_res)"
-        USE psb_base_mod
-        IMPLICIT NONE
-        TYPE(cell), ALLOCATABLE  :: cells_loc(:)
-        TYPE(cell), ALLOCATABLE  :: cells_glob(:)
-        TYPE(psb_desc_type), INTENT(IN) :: desc_c
-    END SUBROUTINE l2g_cell
+        MODULE SUBROUTINE l2g_cell(cells_loc,cells_glob,desc_c)
+            !! WARNING! The global results is allocated only on P0. After its usage
+            !! it must be deallocated in the calling unit by means of the statement:
+            !! "if(associated(glob_res)) deallocate(glob_res)"
+            USE psb_base_mod
+            IMPLICIT NONE
+            TYPE(cell), ALLOCATABLE  :: cells_loc(:)
+            TYPE(cell), ALLOCATABLE  :: cells_glob(:)
+            TYPE(psb_desc_type), INTENT(IN) :: desc_c
+        END SUBROUTINE l2g_cell
 
-  ! ----- Generic Interfaces -----
+        ! ----- Generic Interfaces -----
 
-  ! ----- Getters -----
-    ELEMENTAL MODULE FUNCTION get_cell_nv(c)
-        IMPLICIT NONE
-        INTEGER :: get_cell_nv
-        CLASS(cell), INTENT(IN) :: c
-    END FUNCTION get_cell_nv
+        ! ----- Getters -----
+        ELEMENTAL MODULE FUNCTION get_cell_nv(c)
+            IMPLICIT NONE
+            INTEGER :: get_cell_nv
+            CLASS(cell), INTENT(IN) :: c
+        END FUNCTION get_cell_nv
 
-    MODULE FUNCTION get_cell_geo(c)
-        IMPLICIT NONE
-        CHARACTER(len=nlen) :: get_cell_geo
-        CLASS(cell), INTENT(IN) :: c
-    END FUNCTION get_cell_geo
+        MODULE FUNCTION get_cell_geo(c)
+            IMPLICIT NONE
+            CHARACTER(len=nlen) :: get_cell_geo
+            CLASS(cell), INTENT(IN) :: c
+        END FUNCTION get_cell_geo
 
-    MODULE FUNCTION get_cell_group(c)
-        IMPLICIT NONE
-        INTEGER :: get_cell_group
-        CLASS(cell), INTENT(IN) :: c
-    END FUNCTION get_cell_group
+        MODULE FUNCTION get_cell_group(c)
+            IMPLICIT NONE
+            INTEGER :: get_cell_group
+            CLASS(cell), INTENT(IN) :: c
+        END FUNCTION get_cell_group
 
-    MODULE SUBROUTINE get_cells_type(cells,nctype,ictype,desc)
-        USE psb_base_mod
-        IMPLICIT NONE
-        TYPE(cell), INTENT(IN) :: cells(:)     !!array of cells structs
-        INTEGER, ALLOCATABLE, INTENT(OUT) :: nctype(:)   !!count of each type
-        INTEGER, ALLOCATABLE, INTENT(OUT)  :: ictype(:)  !!array of cell id's sorted by type
-        TYPE(psb_desc_type), INTENT(IN), OPTIONAL :: desc
-    END SUBROUTINE get_cells_type
+        MODULE SUBROUTINE get_cells_type(cells,nctype,ictype,desc)
+            USE psb_base_mod
+            IMPLICIT NONE
+            TYPE(cell), INTENT(IN) :: cells(:)     !!array of cells structs
+            INTEGER, ALLOCATABLE, INTENT(OUT) :: nctype(:)   !!count of each type
+            INTEGER, ALLOCATABLE, INTENT(OUT)  :: ictype(:)  !!array of cell id's sorted by type
+            TYPE(psb_desc_type), INTENT(IN), OPTIONAL :: desc
+        END SUBROUTINE get_cells_type
 
-  END INTERFACE
+    END INTERFACE
 
 END MODULE class_cell

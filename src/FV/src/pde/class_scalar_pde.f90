@@ -53,148 +53,113 @@ MODULE class_scalar_pde
     IMPLICIT NONE
 
     PRIVATE ! Default
-    PUBLIC :: scalar_pde                       ! Class
-    PUBLIC :: spins_pde, geins_pde             ! Linear System Solving
+    PUBLIC  :: scalar_pde                       ! Class
     PRIVATE :: pde ! Requuired by INTEL FC!
     ! INTEL Bug!
     ! The Intel compiler for some reason ignores the default PRIVATE
     ! clause and makes available also outside the module the PDE type.
     !
 
-    TYPE scalar_pde
+    TYPE, EXTENDS(PDE) :: scalar_pde
         PRIVATE
-        TYPE(pde) :: base
         REAL(psb_dpk_), ALLOCATABLE :: b(:)
     CONTAINS
-        PROCEDURE, PRIVATE :: create_scalar_pde, free_scalar_pde
-        GENERIC, PUBLIC :: create_pde => create_scalar_pde   ! Constructor
-        GENERIC, PUBLIC :: free_pde =>  free_scalar_pde      ! Destructor
-        PROCEDURE, PRIVATE :: get_scalar_pde_dim, get_scalar_pde_msh_fun  ! Getters
-        GENERIC, PUBLIC :: dim_ => get_scalar_pde_dim
-        GENERIC, PUBLIC :: msh_ => get_scalar_pde_msh_fun
-        PROCEDURE, PRIVATE :: reinit_scalar_pde
-        GENERIC, PUBLIC :: reinit_pde => reinit_scalar_pde
-        PROCEDURE, PRIVATE :: get_scalar_pde_name
-        GENERIC, PUBLIC :: name_ => get_scalar_pde_name
-        PROCEDURE, PRIVATE :: nemo_scalar_pde_sizeof
-        GENERIC, PUBLIC :: nemo_sizeof => nemo_scalar_pde_sizeof
-        PROCEDURE, PRIVATE :: get_scalar_pde_msh_sub
-        GENERIC, PUBLIC :: get_mesh => get_scalar_pde_msh_sub
-        PROCEDURE, PRIVATE :: asb_scalar_pde
-        GENERIC, PUBLIC :: asb_pde => asb_scalar_pde
+        PROCEDURE, PUBLIC :: create_pde                   !! Constructor
+        PROCEDURE, PUBLIC :: free_pde                     !! Destructor
+        PROCEDURE, PUBLIC :: write_scalar_pde
+        PROCEDURE, PUBLIC, PASS(pde) :: geins_scalar_pde
+        GENERIC, PUBLIC :: geins_pde => geins_scalar_pde  !! Linear System Solving
+        PROCEDURE, PUBLIC :: nemo_sizeof
+        PROCEDURE, PUBLIC :: reinit_pde
+        PROCEDURE, PUBLIC :: asb_pde_
         PROCEDURE, PRIVATE :: solve_scalar_pde
         GENERIC, PUBLIC :: solve_pde => solve_scalar_pde
-        PROCEDURE, PRIVATE :: write_scalar_pde
-        GENERIC, PUBLIC :: write_pde => write_scalar_pde     ! Output
     END TYPE scalar_pde
 
-  ! ----- Generic Interfaces -----
-
-    INTERFACE spins_pde
-        PROCEDURE :: spins_scalar_pde
-    END INTERFACE spins_pde
-
-    INTERFACE geins_pde
-        PROCEDURE :: geins_scalar_pde
-    END INTERFACE geins_pde
+    !! ----- Generic Interfaces -----
 
     INTERFACE
 
-        MODULE FUNCTION nemo_scalar_pde_sizeof(eqn)
-        IMPLICIT NONE
-        CLASS(scalar_pde), INTENT(IN) :: eqn
-        INTEGER(kind=nemo_int_long_)   :: nemo_scalar_pde_sizeof
-        END FUNCTION nemo_scalar_pde_sizeof
+        MODULE FUNCTION nemo_sizeof(eqn)
+            IMPLICIT NONE
+            CLASS(scalar_pde), INTENT(IN) :: eqn
+            INTEGER(kind=nemo_int_long_)  :: nemo_sizeof
+        END FUNCTION nemo_sizeof
 
-        MODULE SUBROUTINE create_scalar_pde(pde,input_file,sec,msh,dim)
-        !! ----- Constructor -----
-        IMPLICIT NONE
-        CLASS(scalar_pde), INTENT(OUT)           :: pde
-        CHARACTER(len=*), INTENT(IN)            :: input_file
-        CHARACTER(len=*), INTENT(IN)            :: sec
-        TYPE(mesh),       INTENT(INOUT), TARGET :: msh
-        TYPE(dimensions), INTENT(IN)            :: dim
-        END SUBROUTINE create_scalar_pde
+        MODULE SUBROUTINE create_pde(eqn,input_file,sec,msh,dim)
+            !! ----- Constructor -----
+            IMPLICIT NONE
+            CLASS(scalar_pde), INTENT(OUT)           :: eqn
+            CHARACTER(len=*),  INTENT(IN)            :: input_file
+            CHARACTER(len=*),  INTENT(IN)            :: sec
+            TYPE(mesh),        INTENT(INOUT), TARGET :: msh
+            TYPE(dimensions),  INTENT(IN)            :: dim
+        END SUBROUTINE create_pde
 
-        MODULE SUBROUTINE free_scalar_pde(pde)
-        !! ----- Destructor -----
-        IMPLICIT NONE
-        CLASS(scalar_pde), INTENT(INOUT) :: pde
-        END SUBROUTINE free_scalar_pde
+        MODULE SUBROUTINE free_pde(eqn)
+            !! ----- Destructor -----
+            IMPLICIT NONE
+            CLASS(scalar_pde), INTENT(INOUT) :: eqn
+        END SUBROUTINE free_pde
 
-        ! Getters
+        !! Getters
 
         MODULE FUNCTION get_scalar_pde_name(pde)
-        IMPLICIT NONE
-        CHARACTER(len=32) :: get_scalar_pde_name
-        CLASS(scalar_pde), INTENT(IN) :: pde
+            IMPLICIT NONE
+            CLASS(scalar_pde), INTENT(IN) :: pde
+            CHARACTER(len=32) :: get_scalar_pde_name
         END FUNCTION get_scalar_pde_name
 
-        MODULE FUNCTION get_scalar_pde_dim(pde)
-        IMPLICIT NONE
-        TYPE(dimensions) :: get_scalar_pde_dim
-        CLASS(scalar_pde), INTENT(IN) :: pde
-        END FUNCTION get_scalar_pde_dim
-
         MODULE FUNCTION get_scalar_pde_msh_fun(pde)
-        IMPLICIT NONE
-        TYPE(mesh), POINTER :: get_scalar_pde_msh_fun
-        CLASS(scalar_pde), INTENT(IN) :: pde
+            IMPLICIT NONE
+            CLASS(scalar_pde), INTENT(IN) :: pde
+            TYPE(mesh), POINTER :: get_scalar_pde_msh_fun
         END FUNCTION get_scalar_pde_msh_fun
 
-        ! ----- Temporary up to Gfortran patch -----
+        !! ----- Temporary up to Gfortran patch -----
 
         MODULE SUBROUTINE get_scalar_pde_msh_sub(pde,msh)
-        IMPLICIT NONE
-        CLASS(scalar_pde), INTENT(IN) :: pde
-        TYPE(mesh), POINTER :: msh
+            IMPLICIT NONE
+            CLASS(scalar_pde), INTENT(IN) :: pde
+            TYPE(mesh), POINTER :: msh
         END SUBROUTINE get_scalar_pde_msh_sub
 
-        ! Linear System Solving
-        MODULE SUBROUTINE spins_scalar_pde(n,ia,ja,cloud,pde)
-        !! ----- Linear System Solving -----
-        !! Inserts a ``cloud'' of coefficients into pde%A
-        IMPLICIT NONE
-        INTEGER,          INTENT(IN)    :: n
-        INTEGER,          INTENT(IN)    :: ia(:), ja(:)
-        REAL(psb_dpk_), INTENT(IN)    :: cloud(:)
-        TYPE(scalar_pde), INTENT(INOUT) :: pde
-        END SUBROUTINE spins_scalar_pde
-
+        !! Linear System Solving
         MODULE SUBROUTINE geins_scalar_pde(n,ia,cloud,pde)
-        IMPLICIT NONE
-        ! Inserts a ``cloud'' of RHS terms into pde%b
-        INTEGER, INTENT(IN) :: n
-        INTEGER, INTENT(IN) :: ia(:)
-        REAL(psb_dpk_), INTENT(IN) :: cloud(:)
-        TYPE(scalar_pde), INTENT(INOUT) :: pde
+            IMPLICIT NONE
+            !! Inserts a ``cloud'' of RHS terms into pde%b
+            INTEGER,           INTENT(IN)    :: n
+            INTEGER,           INTENT(IN)    :: ia(:)
+            REAL(psb_dpk_),    INTENT(IN)    :: cloud(:)
+            CLASS(scalar_pde), INTENT(INOUT) :: pde
         END SUBROUTINE geins_scalar_pde
 
-        MODULE SUBROUTINE asb_scalar_pde(pde)
-        IMPLICIT NONE
-        CLASS(scalar_pde), INTENT(INOUT) :: pde
-        END SUBROUTINE asb_scalar_pde
+        MODULE SUBROUTINE asb_pde_(eqn)
+            IMPLICIT NONE
+            CLASS(scalar_pde), INTENT(INOUT) :: eqn
+        END SUBROUTINE asb_pde_
 
         MODULE SUBROUTINE solve_scalar_pde(pde, mats, phi,var)
-        IMPLICIT NONE
-        CLASS(scalar_pde), INTENT(INOUT) :: pde
-        TYPE(matptr),   INTENT(IN), OPTIONAL, POINTER :: mats(:)
-        TYPE(scalar_field), INTENT(INOUT) :: phi
-        REAL(psb_dpk_), INTENT(OUT), OPTIONAL :: var
+            IMPLICIT NONE
+            CLASS(scalar_pde),  INTENT(INOUT) :: pde
+            TYPE(matptr),       INTENT(IN), OPTIONAL, POINTER :: mats(:)
+            TYPE(scalar_field), INTENT(INOUT) :: phi
+            REAL(psb_dpk_),     INTENT(OUT), OPTIONAL :: var
         END SUBROUTINE solve_scalar_pde
 
-        MODULE SUBROUTINE reinit_scalar_pde(pde)
-        IMPLICIT NONE
-        CLASS(scalar_pde), INTENT(INOUT) :: pde
-        END SUBROUTINE reinit_scalar_pde
+        MODULE SUBROUTINE reinit_pde(eqn)
+            IMPLICIT NONE
+            CLASS(scalar_pde), INTENT(INOUT) :: eqn
+        END SUBROUTINE reinit_pde
 
-        ! Output
+        !! Output
 
-        MODULE SUBROUTINE write_scalar_pde(pde,mat,rhs)
-        !! ----- Output -----
-        IMPLICIT NONE
-        CLASS(scalar_pde), INTENT(IN) :: pde
-        CHARACTER(len=*), INTENT(IN) :: mat, rhs
+        MODULE SUBROUTINE write_scalar_pde(eqn,mat,rhs)
+            !! ----- Output -----
+            IMPLICIT NONE
+            CLASS(scalar_pde), INTENT(IN) :: eqn
+            CHARACTER(len=*),  INTENT(IN) :: mat
+            CHARACTER(len=*),  INTENT(IN) :: rhs
         END SUBROUTINE write_scalar_pde
 
     END INTERFACE

@@ -44,18 +44,15 @@
 !    Remark: FLD is optional.
 !
 SUBMODULE (op_ddt) scalar_pde_ddt_implementation
-    USE class_dimensions
     IMPLICIT NONE
 
     CONTAINS
 
     MODULE PROCEDURE scalar_pde_ddt
-    USE class_psblas
-    USE class_dimensions
-    USE class_scalar_field
+    USE class_psblas, ONLY : psb_dpk_, mypnum_, sw_pde, psb_cd_get_local_rows, abort_psblas, psb_get_loc_to_glob
+    USE class_dimensions, ONLY : dimensions, volume_, time_, OPERATOR(/=)
     USE class_mesh, ONLY : mesh, check_mesh_consistency
-    USE class_scalar_pde
-    USE tools_operators
+    USE tools_operators, ONLY : lhs_, pde_sign, size_blk
     IMPLICIT NONE
     !
     CHARACTER(len=*), PARAMETER :: op_name = 'SCALAR_PDE_DDT'
@@ -198,8 +195,8 @@ SUBMODULE (op_ddt) scalar_pde_ddt_implementation
             ja(i)= ic_glob
         END DO BLOCK
 
-        CALL spins_pde(nel,ia,ja,A,pde)
-        CALL geins_pde(nel,ia,b,pde)
+        CALL pde%spins_pde(nel,ia,ja,A)
+        CALL pde%geins_pde(nel,ia,b)
 
         ifirst = ifirst +  nel
 

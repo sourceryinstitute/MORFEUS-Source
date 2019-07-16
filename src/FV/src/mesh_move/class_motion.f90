@@ -77,81 +77,81 @@ MODULE class_motion
 
     INTERFACE
 
-    ELEMENTAL MODULE FUNCTION nemo_motion_sizeof(mot)
-        USE psb_base_mod
-        USE class_psblas
-        IMPLICIT NONE
-        CLASS(motion), INTENT(IN) :: mot
-        INTEGER(kind=nemo_int_long_)   :: nemo_motion_sizeof
-    END FUNCTION nemo_motion_sizeof
+        ELEMENTAL MODULE FUNCTION nemo_motion_sizeof(mot)
+            USE psb_base_mod
+            USE class_psblas
+            IMPLICIT NONE
+            CLASS(motion), INTENT(IN) :: mot
+            INTEGER(kind=nemo_int_long_)   :: nemo_motion_sizeof
+        END FUNCTION nemo_motion_sizeof
 
-    ! ----- Constructor -----
+        ! ----- Constructor -----
 
-    MODULE SUBROUTINE create_motion(mot,surface_motion,vertex_motion,ml_file)
-        IMPLICIT NONE
-        CLASS(motion), INTENT(INOUT) :: mot
-        INTEGER, INTENT(IN) :: surface_motion
-        INTEGER, INTENT(IN) :: vertex_motion
-        CHARACTER(len=*), INTENT(IN) :: ml_file
-    END SUBROUTINE create_motion
-
-
-    ! ----- Destructor -----
-
-    MODULE SUBROUTINE free_motion(mot)
-        IMPLICIT NONE
-        CLASS(motion), INTENT(INOUT) :: mot
-    END SUBROUTINE free_motion
+        MODULE SUBROUTINE create_motion(mot,surface_motion,vertex_motion,ml_file)
+            IMPLICIT NONE
+            CLASS(motion), INTENT(INOUT) :: mot
+            INTEGER, INTENT(IN) :: surface_motion
+            INTEGER, INTENT(IN) :: vertex_motion
+            CHARACTER(len=*), INTENT(IN) :: ml_file
+        END SUBROUTINE create_motion
 
 
-    ! ----- Getters -----
+        ! ----- Destructor -----
 
-    MODULE FUNCTION surface_motion_(mot)
-        IMPLICIT NONE
-        INTEGER :: surface_motion_
-        CLASS(motion), INTENT(IN) :: mot
-    END FUNCTION surface_motion_
+        MODULE SUBROUTINE free_motion(mot)
+            IMPLICIT NONE
+            CLASS(motion), INTENT(INOUT) :: mot
+        END SUBROUTINE free_motion
 
 
-    MODULE FUNCTION vertex_motion_(mot)
-        IMPLICIT NONE
-        INTEGER :: vertex_motion_
-        CLASS(motion), INTENT(IN) :: mot
-    END FUNCTION vertex_motion_
+        ! ----- Getters -----
 
-    MODULE FUNCTION get_motion_displacement(mot,x1,x2)
-        USE tools_math
-        USE tools_mesh_move
-        IMPLICIT NONE
-        TYPE(vector) :: get_motion_displacement
-        CLASS(motion), INTENT(IN) :: mot
-        REAL(psb_dpk_), INTENT(IN) :: x1, x2
-    END FUNCTION get_motion_displacement
+        MODULE FUNCTION surface_motion_(mot)
+            IMPLICIT NONE
+            INTEGER :: surface_motion_
+            CLASS(motion), INTENT(IN) :: mot
+        END FUNCTION surface_motion_
 
-    MODULE FUNCTION get_motion_velocity(mot,x)
-        USE tools_math
-        USE tools_mesh_move
-        IMPLICIT NONE
-        TYPE(vector) :: get_motion_velocity
-        CLASS(motion), INTENT(IN) :: mot
-        REAL(psb_dpk_), INTENT(IN) :: x
-    END FUNCTION get_motion_velocity
 
-    MODULE SUBROUTINE move_boundary(ib,this_motion,displacement,msh)
-      !! Moves the boundary vertices and the associated surface
-        USE class_psblas
-        !USE class_connectivity
-        USE class_mesh
-        !USE class_surface
-        !USE class_vertex
-        USE tools_mesh_move, ONLY: stationary_, moving_, sticky_, sliding_
-        IMPLICIT NONE
-        INTEGER, INTENT(IN)        :: ib
-        TYPE(motion), INTENT(IN)   :: this_motion
-        TYPE(vector),INTENT(IN)    :: displacement
-        TYPE(mesh), INTENT(INOUT)  :: msh
-    END SUBROUTINE move_boundary
+        MODULE FUNCTION vertex_motion_(mot)
+            IMPLICIT NONE
+            INTEGER :: vertex_motion_
+            CLASS(motion), INTENT(IN) :: mot
+        END FUNCTION vertex_motion_
 
-  END INTERFACE
+        MODULE FUNCTION get_motion_displacement(mot,x1,x2)
+            USE tools_math
+            USE tools_mesh_move
+            IMPLICIT NONE
+            TYPE(vector) :: get_motion_displacement
+            CLASS(motion), INTENT(IN) :: mot
+            REAL(psb_dpk_), INTENT(IN) :: x1, x2
+        END FUNCTION get_motion_displacement
+
+        MODULE FUNCTION get_motion_velocity(mot,x)
+            USE tools_math
+            USE tools_mesh_move
+            IMPLICIT NONE
+            TYPE(vector) :: get_motion_velocity
+            CLASS(motion), INTENT(IN) :: mot
+            REAL(psb_dpk_), INTENT(IN) :: x
+        END FUNCTION get_motion_velocity
+
+        MODULE SUBROUTINE move_boundary(ib,this_motion,displacement,msh)
+        !! Moves the boundary vertices and the associated surface
+            USE class_psblas
+            !USE class_connectivity
+            USE class_mesh
+            !USE class_surface
+            !USE class_vertex
+            USE tools_mesh_move, ONLY: stationary_, moving_, sticky_, sliding_
+            IMPLICIT NONE
+            INTEGER, INTENT(IN)        :: ib
+            TYPE(motion), INTENT(IN)   :: this_motion
+            TYPE(vector),INTENT(IN)    :: displacement
+            TYPE(mesh), INTENT(INOUT)  :: msh
+        END SUBROUTINE move_boundary
+
+    END INTERFACE
 
 END MODULE class_motion

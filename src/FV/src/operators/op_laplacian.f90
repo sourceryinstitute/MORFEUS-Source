@@ -44,15 +44,15 @@
 !
 MODULE op_laplacian
     USE class_scalar_pde, ONLY : scalar_pde
-     !! A gfortran 8.3.0 bug precludes putting this in the scalar_pde_laplacian_phi and
-     !! scalar_pde_laplacian_gamma_phi interface bodies
+    !! A gfortran 8.3.0 bug precludes putting this in the scalar_pde_laplacian_phi and
+    !! scalar_pde_laplacian_gamma_phi interface bodies
     USE class_vector_pde, ONLY : vector_pde
-     !! A gfortran 8.3.0 bug precludes putting this in the vector_pde_laplacian_gamma_phi and
-     !! vector_pde_laplacian_gamma_phi interface bodies
+    !! A gfortran 8.3.0 bug precludes putting this in the vector_pde_laplacian_gamma_phi and
+    !! vector_pde_laplacian_gamma_phi interface bodies
     USE class_vector_field, ONLY : vector_field
-      !! An Intel 18.0.5 bug precludes putting this in the interface bodies
+    !! An Intel 18.0.5 bug precludes putting this in the interface bodies
     USE class_scalar_field, ONLY : scalar_field
-      !! An Intel 18.0.5 bug precludes putting this in the interface bodies
+    !! An Intel 18.0.5 bug precludes putting this in the interface bodies
     USE class_psblas, ONLY : psb_dpk_
     IMPLICIT NONE
 
@@ -69,43 +69,43 @@ MODULE op_laplacian
 
     INTERFACE
 
-      ! ----- Laplacian Operator Wrappers -----
+        ! ----- Laplacian Operator Wrappers -----
 
-      MODULE SUBROUTINE scalar_pde_laplacian_phi(sign,pde,phi,side)
-          IMPLICIT NONE
-          CHARACTER(len=1),   INTENT(IN) :: sign
-          TYPE(scalar_pde),   INTENT(INOUT) :: pde
-          TYPE(scalar_field), INTENT(IN) :: phi
-          REAL(psb_dpk_),   INTENT(IN), OPTIONAL :: side
-      END SUBROUTINE scalar_pde_laplacian_phi
+        MODULE SUBROUTINE scalar_pde_laplacian_phi(sign,pde,phi,side)
+            IMPLICIT NONE
+            CHARACTER(len=1),   INTENT(IN) :: sign
+            TYPE(scalar_pde),   INTENT(INOUT) :: pde
+            TYPE(scalar_field), INTENT(IN) :: phi
+            REAL(psb_dpk_),   INTENT(IN), OPTIONAL :: side
+        END SUBROUTINE scalar_pde_laplacian_phi
 
-      MODULE SUBROUTINE scalar_pde_laplacian_gamma_phi(sign,pde,gamma,phi,side)
-          IMPLICIT NONE
-          CHARACTER(len=1),   INTENT(IN) :: sign
-          TYPE(scalar_pde),   INTENT(INOUT) :: pde
-          TYPE(scalar_field), INTENT(IN) :: gamma
-          TYPE(scalar_field), INTENT(IN) :: phi
-          REAL(psb_dpk_),   INTENT(IN), OPTIONAL :: side
-      END SUBROUTINE scalar_pde_laplacian_gamma_phi
+        MODULE SUBROUTINE scalar_pde_laplacian_gamma_phi(sign,pde,gamma,phi,side)
+            IMPLICIT NONE
+            CHARACTER(len=1),   INTENT(IN) :: sign
+            TYPE(scalar_pde),   INTENT(INOUT) :: pde
+            TYPE(scalar_field), INTENT(IN) :: gamma
+            TYPE(scalar_field), INTENT(IN) :: phi
+            REAL(psb_dpk_),   INTENT(IN), OPTIONAL :: side
+        END SUBROUTINE scalar_pde_laplacian_gamma_phi
 
-      MODULE SUBROUTINE vector_pde_laplacian_phi(sign,pde,phi,side)
-          IMPLICIT NONE
-          CHARACTER(len=1),   INTENT(IN) :: sign
-          TYPE(vector_pde),   INTENT(INOUT) :: pde
-          TYPE(vector_field), INTENT(IN) :: phi
-          REAL(psb_dpk_),   INTENT(IN), OPTIONAL :: side
-      END SUBROUTINE vector_pde_laplacian_phi
+        MODULE SUBROUTINE vector_pde_laplacian_phi(sign,pde,phi,side)
+            IMPLICIT NONE
+            CHARACTER(len=1),   INTENT(IN) :: sign
+            TYPE(vector_pde),   INTENT(INOUT) :: pde
+            TYPE(vector_field), INTENT(IN) :: phi
+            REAL(psb_dpk_),   INTENT(IN), OPTIONAL :: side
+        END SUBROUTINE vector_pde_laplacian_phi
 
-      MODULE SUBROUTINE vector_pde_laplacian_gamma_phi(sign,pde,gamma,phi,side)
-          IMPLICIT NONE
-          CHARACTER(len=1),   INTENT(IN) :: sign
-          TYPE(vector_pde),   INTENT(INOUT) :: pde
-          TYPE(scalar_field), INTENT(IN) :: gamma
-          TYPE(vector_field), INTENT(IN) :: phi
-          REAL(psb_dpk_),   INTENT(IN), OPTIONAL :: side
-      END SUBROUTINE vector_pde_laplacian_gamma_phi
+        MODULE SUBROUTINE vector_pde_laplacian_gamma_phi(sign,pde,gamma,phi,side)
+            IMPLICIT NONE
+            CHARACTER(len=1),   INTENT(IN) :: sign
+            TYPE(vector_pde),   INTENT(INOUT) :: pde
+            TYPE(scalar_field), INTENT(IN) :: gamma
+            TYPE(vector_field), INTENT(IN) :: phi
+            REAL(psb_dpk_),   INTENT(IN), OPTIONAL :: side
+        END SUBROUTINE vector_pde_laplacian_gamma_phi
 
-    ! ----- Private Interfaces -----
+        ! ----- Private Interfaces -----
 
         MODULE SUBROUTINE scalar_pde_laplacian(sign,pde,phi,gamma,side)
             IMPLICIT NONE

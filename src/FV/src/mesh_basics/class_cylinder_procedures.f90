@@ -1,4 +1,10 @@
 !
+!     (c) 2019 Guide Star Engineering, LLC
+!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
+!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+!
+!
 !    NEMO - Numerical Engine (for) Multiphysics Operators
 ! Copyright (c) 2007, Stefano Toninel
 !                     Gian Marco Bianchi  University of Bologna
@@ -452,7 +458,7 @@ CONTAINS
     END FUNCTION calc_error
 
     SUBROUTINE FCN(iflag,nverts,nunknowns,unknowns,err,FJAC,LDFJAC)
-      !! This is the function of merit to be optimized
+    !! This is the function of merit to be optimized
         USE class_psblas
         USE class_vector
 

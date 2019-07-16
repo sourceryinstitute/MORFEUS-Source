@@ -135,7 +135,7 @@ MODULE class_connectivity
 
     ! Global 2 Local
     INTERFACE g2l_conn
-         MODULE SUBROUTINE g2l_conn_1d(a2b,desc_a,is_a2a)
+        MODULE SUBROUTINE g2l_conn_1d(a2b,desc_a,is_a2a)
             IMPLICIT NONE
             TYPE(connectivity), INTENT(INOUT) :: a2b
             TYPE(psb_desc_type), INTENT(IN) :: desc_a

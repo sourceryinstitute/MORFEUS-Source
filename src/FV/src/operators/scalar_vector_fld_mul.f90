@@ -82,7 +82,7 @@ SUBMODULE(op_field) scalar_vector_fld_mul_implementation
             CALL fld_v%get_bx(bx_v)
 
             ! Construct the result object
-            res = vector_field_(base_v, &
+            res = vector_field(base_v, &
                 &            x = x_s  * x_v, &
                 &            bx = bx_s * bx_v)
 

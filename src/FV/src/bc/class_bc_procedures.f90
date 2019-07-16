@@ -1,4 +1,10 @@
 !
+!     (c) 2019 Guide Star Engineering, LLC
+!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
+!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
+!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+!
+!
 !    NEMO - Numerical Engine (for) Multiphysics Operators
 ! Copyright (c) 2007, Stefano Toninel
 !                     Gian Marco Bianchi  University of Bologna
@@ -59,7 +65,7 @@ CONTAINS
     ! ----- Constuctors -----
 
     MODULE PROCEDURE create_bc
-      !! Global constructor
+    !! Global constructor
         USE class_mesh
         USE tools_bc
         USE tools_input
@@ -318,8 +324,8 @@ CONTAINS
 
 
     MODULE PROCEDURE move_boundaries
-      !! loop over all boundaries, moving the vertices and conceptual surfaces
-      !! from the time interval t1 to t2
+    !! loop over all boundaries, moving the vertices and conceptual surfaces
+    !! from the time interval t1 to t2
         USE class_mesh
         USE class_vector
 
