@@ -222,7 +222,7 @@ set(morfeus_fv_srcs
   src/mesh/rd_cgns_mesh.F90
 #  src/mesh/rd_exodus_mesh.f90 # Commented out b/c functionality does not yet work
   src/mesh/rd_gambit_implementation.f90
-  src/mesh/rd_inp_implementation.f90
+  src/mesh/rd_inp_mesh_implementation.f90
   src/mesh/renum.F90
   src/mesh/renum_procedures.F90
   src/mesh/supplement_implementation.f90
