@@ -54,7 +54,7 @@ ls -ld "${GITHUB_REPOSITORY#*/}.git"
 
 git clone --verbose --mirror "$MIRROR_URL"
 
-echo "Attempting push to MIRROR repository..."
+
 cd "${GITHUB_REPOSITORY#*/}.git" || exit 1
 
 echo "Setting mirror remote url"
@@ -67,7 +67,7 @@ git show-ref
 
 git config --show-origin --list
 
-# Push to the mirrored repository
+echo "Attempting push to MIRROR repository..."
 if ! git push --mirror --force --progress ; then
     sleep 25
     git push --mirror --force --progress || exit 78 # nuetral exit
