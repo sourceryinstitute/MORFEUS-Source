@@ -44,12 +44,16 @@ git config --global user.email "ibeekman@paratools.com"
 git config --global core.sshCommand "ssh -i ~/.ssh/id_ed25519 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 git config --show-origin --list
 
+ssh -i ~/.ssh/id_ed25519 -T git@github.com
+
 echo "Creating a local mirror of ${GITHUB_REPOSITORY}"
-cd ~ || exit 77
+cd ~ || exit 1
 git clone --mirror "git@github.com:${GITHUB_REPOSITORY}.git"
+pwd
+ls -ld "${GITHUB_REPOSITORY#*/}.git"
 
 echo "Attempting push to MIRROR repository..."
-cd "${GITHUB_REPOSITORY#*/}.git" || exit 77
+cd "${GITHUB_REPOSITORY#*/}.git" || exit 1
 
 echo "Setting mirror remote url"
 git remote set-url origin "${MIRROR_URL}"
