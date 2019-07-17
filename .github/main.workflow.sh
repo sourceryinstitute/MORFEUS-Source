@@ -2,10 +2,6 @@
 
 set -o errexit
 
-# configure git
-git config --global user.name "Sourcery-Bot"
-git config --global user.email "si-bot@izaakbeekman.com"
-
 # Print diagnostic info
 echo "Workflow name: $GITHUB_WORKFLOW"
 echo "Action name: $GITHUB_ACTION"
@@ -50,13 +46,14 @@ git config --show-origin --list
 
 echo "Creating a local mirror of ${GITHUB_REPOSITORY}"
 cd ~ || exit 77
-git clone --mirror git@github.com:${GITHUB_REPOSITORY}.git
+git clone --mirror "git@github.com:${GITHUB_REPOSITORY}.git"
 
 echo "Attempting push to MIRROR repository..."
-cd ${GITHUB_REPOSITORY#*/}.git || exit 77
+cd "${GITHUB_REPOSITORY#*/}.git" || exit 77
 
 echo "Setting mirror remote url"
-git remote set-url --push origin "${MIRROR_URL}"
+git remote set-url origin "${MIRROR_URL}"
+git remote -v
 
 echo "Pruning PR refs"
 git show-ref | cut -d' ' -f2 | grep 'refs/pull/' | xargs -r -L1 git update-ref -d
