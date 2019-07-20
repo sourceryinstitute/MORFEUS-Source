@@ -13,8 +13,20 @@ echo "GITHUB_SHA: $GITHUB_SHA"
 echo "GitHub branch/tag/ref: $GITHUB_REF"
 echo "Current directory: $(pwd)"
 
+echo "Contents of Workspace:"
+ls -al "$GITHUB_WORKSPACE"
+
 echo "Git version:"
 git --version
+
+echo "Git Status:"
+git status
+
+echo "Checking git remotes"
+git remote -v
+
+echo "Branches found:"
+git branch -avvv
 
 echo "Setting up SSH"
 [ -d ~/.ssh ] || mkdir -p ~/.ssh
@@ -30,20 +42,19 @@ echo "Configure git for authorized user"
 git config --global user.name "Izaak Beekman"
 git config --global user.email "ibeekman@paratools.com"
 git config --global core.sshCommand "ssh -i ~/.ssh/id_ed25519 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+git config --show-origin --list
 
 echo "Creating a local mirror of ${SOURCE_WIKI}"
 cd ~ || exit 77
-git clone --mirror ${SOURCE_WIKI}
+git clone --mirror "${SOURCE_WIKI}"
 
 echo "Attempting push to MIRROR wiki repository..."
-cd ${SOURCE_WIKI##*/} || exit 77
+cd "${SOURCE_WIKI##*/}" || exit 77
 
 echo "Setting mirrored wiki remote url"
-git remote set-url --push origin "${MIRROR_WIKI}"
+git remote set-url origin "${MIRROR_WIKI}"
 git remote -v
 
-echo "Pruning PR refs"
-#git show-ref | cut -d' ' -f2 | grep 'refs/pull/' | xargs -r -L1 git update-ref -d
 git show-ref
 
 git config --show-origin --list

@@ -2,10 +2,6 @@
 
 set -o errexit
 
-# configure git
-git config --global user.name "Sourcery-Bot"
-git config --global user.email "si-bot@izaakbeekman.com"
-
 # Print diagnostic info
 echo "Workflow name: $GITHUB_WORKFLOW"
 echo "Action name: $GITHUB_ACTION"
@@ -48,15 +44,23 @@ git config --global user.email "ibeekman@paratools.com"
 git config --global core.sshCommand "ssh -i ~/.ssh/id_ed25519 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 git config --show-origin --list
 
-echo "Creating a local mirror of ${GITHUB_REPOSITORY}"
-cd ~ || exit 77
-git clone --mirror git@github.com:${GITHUB_REPOSITORY}.git
+echo "Verifying ssh access to github"
+ssh -i ~/.ssh/id_ed25519 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -T git@github.com || true
 
-echo "Attempting push to MIRROR repository..."
-cd ${GITHUB_REPOSITORY#*/}.git || exit 77
+echo "Creating a local mirror of ${GITHUB_REPOSITORY}"
+cd ~ || exit 1
+git clone --mirror "git@github.com:${GITHUB_REPOSITORY}.git"
+pwd
+ls -ld "${GITHUB_REPOSITORY#*/}.git"
+
+git clone --verbose --mirror "$MIRROR_URL"
+
+
+cd "${GITHUB_REPOSITORY#*/}.git" || exit 1
 
 echo "Setting mirror remote url"
-git remote set-url --push origin "${MIRROR_URL}"
+git remote set-url origin "${MIRROR_URL}"
+git remote -v
 
 echo "Pruning PR refs"
 git show-ref | cut -d' ' -f2 | grep 'refs/pull/' | xargs -r -L1 git update-ref -d
@@ -64,7 +68,7 @@ git show-ref
 
 git config --show-origin --list
 
-# Push to the mirrored repository
+echo "Attempting push to MIRROR repository..."
 if ! git push --mirror --force --progress ; then
     sleep 25
     git push --mirror --force --progress || exit 78 # nuetral exit
