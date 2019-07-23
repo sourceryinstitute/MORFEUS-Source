@@ -138,17 +138,7 @@ set(morfeus_fv_srcs
   src/field/class_vector_field.f90
   src/field/class_vector_field_procedures.f90
   src/input/find_section.f90
-  src/input/get_par_l.f90
-  src/input/get_par_i.f90
-  src/input/get_par_d.f90
-  src/input/get_par_h.f90
-  src/input/get_par_v.f90
   src/input/open_file.F90
-  src/input/read_par_l.f90
-  src/input/read_par_i.f90
-  src/input/read_par_d.f90
-  src/input/read_par_h.f90
-  src/input/read_par_v.f90
   src/input/tools_input.f90
   src/material/class_material.f90
   src/material/class_material_procedures.f90
