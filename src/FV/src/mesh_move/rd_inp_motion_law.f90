@@ -65,8 +65,8 @@ SUBMODULE(tools_mesh_move) rd_inp_motion_law_implementation
             IF(mypnum == 0) THEN
                 CALL open_file(ml_file,nemo_json)
 
-                iml    = get_par(inp,sec=TRIM(ml_file),par='iml',default=ml_position_)
-                nsteps = get_par(inp,sec=TRIM(ml_file),par='nsteps',default=mandatory_i_)
+                ! iml    = get_par(inp,sec=TRIM(ml_file),par='iml',default=ml_position_)
+                ! nsteps = get_par(inp,sec=TRIM(ml_file),par='nsteps',default=mandatory_i_)
 
                 IF(.NOT.(iml == ml_position_ .OR. &
                     &   iml == ml_velocity_)) THEN

@@ -137,6 +137,7 @@ set(morfeus_fv_srcs
   src/field/class_scalar_field_procedures.f90
   src/field/class_vector_field.f90
   src/field/class_vector_field_procedures.f90
+  src/input/read_par_d.f90
   src/input/find_section.f90
   src/input/open_file.F90
   src/input/tools_input.f90
