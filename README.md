@@ -2,7 +2,8 @@
 
 # MORFEUS
 
-**M**ulti-physics **O**bject-oriented ...
+**M**ulti-physics **O**bject-oriented **R**econfigurable **F**luid **E**nvironment for **U**nified **S**imulations
+
 </div>
 
 <details><summary><b>Table of Contents</b></summary>
