@@ -560,9 +560,15 @@ else()
   message( FATAL_ERROR
     "Please run CMake from the top level FAST directory; the MatLib library is now required by MORFEUS_FV.")
 endif()
+
 if(TARGET vtkmofo)
   target_link_libraries(morfeus_fv
     PUBLIC vtkmofo)
+endif()
+
+if(TARGET jsonfortran-static)
+  target_link_libraries(morfeus_fv
+    PUBLIC jsonfortran-static)
 endif()
 
 if(${FAST_USE_CGNS})
@@ -640,7 +646,9 @@ function( add_morfeus_fv_exe main_src )
     PROPERTY FOLDER Morfeus_FV-Tests)
 endfunction()
 
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/applications")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/applications")
+  add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/applications")
+endif()
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/unit-tests")
 
 #------------------------------------------
@@ -663,9 +671,10 @@ enable_testing()
 # Test directories
 set( unit_test_dir "${CMAKE_CURRENT_BINARY_DIR}/tests/unit")
 set( integ_test_dir "${CMAKE_CURRENT_BINARY_DIR}/tests/integration")
-set( example_mesh_dir "${CMAKE_CURRENT_SOURCE_DIR}/applications/examples/mesh")
-set( example_inputs_dir "${CMAKE_CURRENT_SOURCE_DIR}/applications/examples/input")
-
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/applications")
+  set( example_mesh_dir "${CMAKE_CURRENT_SOURCE_DIR}/applications/examples/mesh")
+  set( example_inputs_dir "${CMAKE_CURRENT_SOURCE_DIR}/applications/examples/input")
+endif()
 
 function(add_morfeus_fv_test name partitions test_target mesh_file input_file workdir)
   # This function will create a test directory for each test, where the specified input file
@@ -741,19 +750,21 @@ function(add_morfeus_fv_test name partitions test_target mesh_file input_file wo
 endfunction()
 
 # FAST heat conduction multiple zones
-add_morfeus_fv_test( unsteady_heat_pipe 6 unsteady_fast
-  applications/fast_heat/cases/test_unsteady/heat_pipe.neu
-  applications/fast_heat/cases/test_unsteady/heat_pipe.inp
-  ${integ_test_dir}/unsteady_heat_pipe)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/applications")
+  add_morfeus_fv_test( unsteady_heat_pipe 6 unsteady_fast
+    applications/fast_heat/cases/test_unsteady/heat_pipe.neu
+    applications/fast_heat/cases/test_unsteady/heat_pipe.inp
+    ${integ_test_dir}/unsteady_heat_pipe)
 
-if(${FAST_USE_CGNS})
-  # Steady piston conduction test
-  # Should produce:
-  #   a_sparse.mtx b_rhs.mtx out_nemo.vtk time.dat
-  add_morfeus_fv_test( steady_piston 4 steady_conduction
-    ${example_mesh_dir}/piston.cgns
-    ${example_inputs_dir}/piston.inp
-    ${integ_test_dir}/steady_piston)
+  if(${FAST_USE_CGNS})
+    # Steady piston conduction test
+    # Should produce:
+    #   a_sparse.mtx b_rhs.mtx out_nemo.vtk time.dat
+    add_morfeus_fv_test( steady_piston 4 steady_conduction
+      ${example_mesh_dir}/piston.cgns
+      ${example_inputs_dir}/piston.inp
+      ${integ_test_dir}/steady_piston)
+  endif()
 endif()
 
 # # Steady conduction cylinder hybrid gambit neutral file
