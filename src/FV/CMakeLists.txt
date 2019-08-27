@@ -745,8 +745,12 @@ function(add_morfeus_fv_test name partitions test_target mesh_file input_file wo
 
   add_test( NAME ${name} COMMAND ${test_command}
     WORKING_DIRECTORY ${workdir})
-  set_property(TEST ${name} PROPERTY LABELS "MORFEUS_FV" "integration-test")
-  set_property(TEST ${name} PROPERTY PASS_REGULAR_EXPRESSION "${PASS_REGEX}")
+  set_property(TEST ${name}
+    APPEND
+    PROPERTY LABELS "MORFEUS" "MORFEUS_FV" "integration-test")
+  set_property(TEST ${name}
+    APPEND
+    PROPERTY PASS_REGULAR_EXPRESSION "${PASS_REGEX}")
 endfunction()
 
 # FAST heat conduction multiple zones
