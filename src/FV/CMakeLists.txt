@@ -743,7 +743,7 @@ endfunction()
 
 # FAST heat conduction multiple zones
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/applications")
-  add_morfeus_fv_test( unsteady_heat_pipe 6 unsteady_fast
+  add_morfeus_fv_test( unsteady_heat_pipe 1 unsteady_fast
     applications/fast_heat/cases/test_unsteady/heat_pipe.neu
     applications/fast_heat/cases/test_unsteady/fast.json
     ${integ_test_dir}/unsteady_heat_pipe)
