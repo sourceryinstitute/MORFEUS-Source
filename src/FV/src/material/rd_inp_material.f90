@@ -77,7 +77,7 @@ SUBMODULE(tools_material) rd_inp_material_implementation
                 str = TRIM('MORFEUS_FV.MATERIALS.'//TRIM(sec))
                 CALL nemo_json%get(str, id, found)
                 ! Gets material name from input file
-                name = 'COPPER'
+                name = 'copper'
                 type = 'default'
 
                 ! material%ilaw(irho) -> density
