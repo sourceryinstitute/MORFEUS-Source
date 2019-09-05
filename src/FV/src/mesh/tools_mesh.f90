@@ -90,6 +90,24 @@ MODULE tools_mesh
             TYPE(connectivity), INTENT(OUT) :: v2f, v2c, f2c, c2g
         END SUBROUTINE rd_gambit_mesh
 
+    ! ----- Reading: Import mesh EXODUS -----
+
+        MODULE SUBROUTINE rd_exodus_mesh(mesh_file, mesh_id, nbc, ncd, &
+            & verts, faces, cells, v2f, v2c, f2c, c2g)
+            USE class_cell, ONLY : cell
+            USE class_face, ONLY : face
+            USE class_vertex, ONLY : vertex
+            IMPLICIT NONE
+            CHARACTER(len=*), INTENT(IN) :: mesh_file
+            CHARACTER(len=*), INTENT(OUT) :: mesh_id
+            INTEGER, INTENT(OUT) :: nbc
+            INTEGER, INTENT(OUT) :: ncd
+            TYPE(vertex), ALLOCATABLE :: verts(:)
+            TYPE(face),  ALLOCATABLE :: faces(:)
+            TYPE(cell),  ALLOCATABLE :: cells(:)
+            TYPE(connectivity), INTENT(OUT) :: v2f, v2c, f2c, c2g
+        END SUBROUTINE rd_exodus_mesh
+
     ! ----- Reading: Import mesh CGNS -----
 
         MODULE SUBROUTINE rd_cgns_mesh(mesh_file, mesh_id, nbc, ncd, &
