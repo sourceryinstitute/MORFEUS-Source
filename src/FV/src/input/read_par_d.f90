@@ -49,11 +49,15 @@ SUBMODULE (tools_input) read_par_d_implementation
 
         MODULE PROCEDURE read_par_d
             USE class_psblas
-            USE tools_input, ONLY : get_par, open_file, find_section
+            USE json_module
+            USE tools_input, ONLY : open_file
             IMPLICIT NONE
             !
+            TYPE(json_file) :: nemo_json
             INTEGER :: icontxt, mypnum
             INTEGER :: inp
+            LOGICAL :: found
+            CHARACTER(len=132) :: par_name
 
             icontxt = icontxt_()
             mypnum  = mypnum_()
@@ -61,10 +65,11 @@ SUBMODULE (tools_input) read_par_d_implementation
 
             IF(mypnum == 0) THEN
 
-                CALL open_file(input_file,inp)
-                CALL find_section(sec,inp)
+                CALL open_file(input_file,nemo_json)
 
-                read_par_d = get_par(inp,sec,par,default)
+                par_name = "MORFEUS_FV."//trim(sec)//"."//trim(par)
+                CALL nemo_json%get(trim(par_name), read_par_d, found)
+                print *, par_name, read_par_d
 
                 CALL psb_bcast(icontxt,read_par_d)
 

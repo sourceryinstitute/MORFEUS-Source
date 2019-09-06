@@ -70,6 +70,7 @@ CONTAINS
         USE tools_bc
         USE tools_input
         !
+        CHARACTER(LEN=2) :: ib_string
         CHARACTER(len=32) :: bc_sec
         INTEGER :: info, mypnum
         INTEGER :: ib, nbf
@@ -109,15 +110,11 @@ CONTAINS
         DO ib = 1, msh%nbc
 
             ! Composes BC section name
-
-            digits = INT(LOG10(REAL(ib))) + 1
-            ! equivalent to using itoh
-            WRITE(aformat,'(a,i1,a)') '(2a,i', digits, ')'
-            WRITE(bc_sec,aformat) TRIM(sec),' ',ib
+            WRITE(ib_string, '(i0)') ib
+            bc_sec = "MORFEUS_FV.BCS("//trim(ib_string)//")"
 
             ! Counts number of boundary faces
             nbf = COUNT(msh%faces%flag_() == ib)
-            PRINT *, ib, nbf
             SELECT CASE(bc(ib)%id)
             CASE(bc_math_)
                 CALL create_bc_math(bc(ib)%math,input_file,bc_sec,nbf)

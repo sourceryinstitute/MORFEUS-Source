@@ -73,19 +73,6 @@ MODULE class_bc_math
         GENERIC, PUBLIC :: nemo_sizeof => nemo_bc_math_sizeof
     END TYPE bc_math
 
-
-    ! ----- Generic Interface -----
-
-
-    ! ----- Description -----
-
-    ! Id            | a    | b    | c
-    !------------------------------------------
-    ! bc_dirichlet_ | 1.d0 | 0.d0 | phi_b
-    ! bc_neumann_   | 0.d0 | 1.d0 | grad(phi)_b
-    ! bc_robin_     | a    | b    | c
-
-
     INTERFACE
 
         ELEMENTAL MODULE FUNCTION nemo_bc_math_sizeof(bc)

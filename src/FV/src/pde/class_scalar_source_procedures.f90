@@ -63,14 +63,28 @@ CONTAINS
 
     MODULE PROCEDURE create_scalar_source
         USE tools_input
+        USE json_module, ONLY : json_file
+
+        TYPE(json_file) :: nemo_json
+        CHARACTER(LEN=80) :: src_sec
+        LOGICAL :: found
 
         src%dim = dim
 
-        IF(mypnum_() == 0) WRITE(*,*) 'Reading ', TRIM(sec), &
+        src_sec = 'MORFEUS_FV.Source-terms.'//TRIM(sec)
+
+        CALL open_file(input_file,nemo_json)
+        IF(mypnum_() == 0) WRITE(*,*) 'Reading ', TRIM(src_sec), &
             &             ' section from ', TRIM(input_file)
 
-        src%sc = read_par(input_file,sec,'sc',default=0.d0)
-        src%sp = read_par(input_file,sec,'sp',default=0.d0)
+        CALL nemo_json%get(TRIM(src_sec)//'.sc.value', src%sc, found)
+        IF (.NOT.found) THEN
+            src%sc = 0.0d0
+        END IF
+        CALL nemo_json%get(TRIM(src_sec)//'.sp.value', src%sc, found)
+        IF (.NOT.found) THEN
+            src%sp = 0.0d0
+        END IF
 
         IF(mypnum_() == 0) WRITE(*,*)
 

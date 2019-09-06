@@ -49,10 +49,12 @@ SUBMODULE(tools_input) open_file_implementation
 
         MODULE PROCEDURE open_file
         USE class_psblas, ONLY : abort_psblas
+        USE json_module, ONLY : json_file
         IMPLICIT NONE
         !! Opens a file
+
         LOGICAL :: ex
-        INTEGER :: path_length, var_status
+        INTEGER :: path_length, var_status, inp
         CHARACTER(LEN=:), ALLOCATABLE :: dirname
 #ifdef WIN32
         CHARACTER(LEN=*), PARAMETER :: cwd_var = 'CD'
@@ -82,10 +84,9 @@ SUBMODULE(tools_input) open_file_implementation
         END IF
 
         IF(inp == -1) THEN
-            OPEN(file=input_file,newunit=inp)
+            CALL nemo_json%initialize()
+            CALL nemo_json%load_file(filename=input_file)
         END IF
-
-        REWIND(inp)
 
 100     FORMAT(' ERROR! Input file "',a,'" doesn''t exist',/,' in directory ',a)
 
