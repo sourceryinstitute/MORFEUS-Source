@@ -72,7 +72,6 @@ SUBMODULE (tools_mesh) rd_inp_implementation
                 WRITE(*,*) 'Reading MESH section from ', TRIM(input_file)
 
                 CALL open_file(input_file,nemo_json)
-                CALL nemo_json%print_file()
                 CALL nemo_json%get('MORFEUS_FV.MESH.mesh-dir',cval,found)
                 mesh_file_1 = trim(cval)
                 CALL nemo_json%get('MORFEUS_FV.MESH.mesh-file',cval,found)

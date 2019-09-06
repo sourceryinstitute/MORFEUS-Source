@@ -137,18 +137,9 @@ set(morfeus_fv_srcs
   src/field/class_scalar_field_procedures.f90
   src/field/class_vector_field.f90
   src/field/class_vector_field_procedures.f90
-  src/input/find_section.f90
-  src/input/get_par_l.f90
-  src/input/get_par_i.f90
-  src/input/get_par_d.f90
-  src/input/get_par_h.f90
-  src/input/get_par_v.f90
-  src/input/open_file.F90
-  src/input/read_par_l.f90
-  src/input/read_par_i.f90
   src/input/read_par_d.f90
-  src/input/read_par_h.f90
-  src/input/read_par_v.f90
+  src/input/find_section.f90
+  src/input/open_file.F90
   src/input/tools_input.f90
   src/material/class_material.f90
   src/material/class_material_procedures.f90
@@ -547,7 +538,7 @@ target_compile_options(morfeus_fv
 target_link_libraries(morfeus_fv
   PUBLIC morfeus_fv_C)
 if(TARGET morfeus_fd)
-  # Support FV dependencies on FD
+  # FV mesh extends FD mesh class
   target_link_libraries(morfeus_fv
     PUBLIC morfeus_fd)
 endif()
@@ -701,8 +692,9 @@ function(add_morfeus_fv_test name partitions test_target mesh_file input_file wo
   # Get mesh file basename
   get_filename_component( mesh_basename ${mesh_file} NAME )
   set( mesh_path "./")
+  get_filename_component( input_basename ${input_file} NAME)
   # First copy and configure the input file and the mesh file to the test working directory
-  configure_file( "${input_file}" "${workdir}/nemo.inp"
+  configure_file( "${input_file}" "${workdir}/${input_basename}"
     @ONLY)
   configure_file( "${mesh_file}" "${workdir}"
     COPYONLY)
@@ -745,15 +737,19 @@ function(add_morfeus_fv_test name partitions test_target mesh_file input_file wo
 
   add_test( NAME ${name} COMMAND ${test_command}
     WORKING_DIRECTORY ${workdir})
-  set_property(TEST ${name} PROPERTY LABELS "MORFEUS_FV" "integration-test")
-  set_property(TEST ${name} PROPERTY PASS_REGULAR_EXPRESSION "${PASS_REGEX}")
+  set_property(TEST ${name}
+    APPEND
+    PROPERTY LABELS "MORFEUS" "MORFEUS_FV" "integration-test")
+  set_property(TEST ${name}
+    APPEND
+    PROPERTY PASS_REGULAR_EXPRESSION "${PASS_REGEX}")
 endfunction()
 
 # FAST heat conduction multiple zones
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/applications")
-  add_morfeus_fv_test( unsteady_heat_pipe 6 unsteady_fast
+  add_morfeus_fv_test( unsteady_heat_pipe 1 unsteady_fast
     applications/fast_heat/cases/test_unsteady/heat_pipe.neu
-    applications/fast_heat/cases/test_unsteady/heat_pipe.inp
+    applications/fast_heat/cases/test_unsteady/fast.json
     ${integ_test_dir}/unsteady_heat_pipe)
 
   if(${FAST_USE_CGNS})
