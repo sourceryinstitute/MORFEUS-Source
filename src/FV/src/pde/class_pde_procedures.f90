@@ -76,10 +76,15 @@ SUBMODULE(class_pde) class_pde_procedures
     MODULE PROCEDURE create_pde
         USE class_connectivity
         USE tools_input
+        USE json_module, ONLY : json_file, json_CK
         IMPLICIT NONE
 
+        TYPE(json_file) :: nemo_json
+        CHARACTER(KIND=json_CK,LEN=:),ALLOCATABLE :: cval
+        CHARACTER(LEN=80) :: pde_sec
         !
         LOGICAL, PARAMETER :: debug = .FALSE.
+        LOGICAL :: found
         !
         INTEGER :: info, err_act, nnz
 
@@ -87,16 +92,23 @@ SUBMODULE(class_pde) class_pde_procedures
         CALL psb_erractionsave(err_act)
 
         ! Reads input parameters
-        eqn%cmethod = TRIM(read_par(input_file,sec,'cmethod','BICGSTAB'))
-        eqn%cprec   = TRIM(read_par(input_file,sec,'cprec','BJAC'))
+        CALL open_file(input_file,nemo_json)
+        pde_sec = 'MORFEUS_FV.PDES.'//TRIM(sec)
+        CALL nemo_json%get(TRIM(pde_sec)//'.convergence-method', cval, found)
+        eqn%cmethod = cval
+        CALL nemo_json%get(TRIM(pde_sec)//'.preconditioning-method', cval, found)
+        eqn%cprec = cval
         IF(eqn%cprec == 'NLDI' .OR. eqn%cprec == 'NLDU') THEN
-            eqn%nlev = read_par(input_file,sec,'nlev',mandatory_i_)
+            CALL nemo_json%get(TRIM(pde_sec)//'.number-levels', eqn%nlev, found)
+            IF (.NOT.found) THEN
+                CALL abort_psblas()
+            END IF
         ELSE
             eqn%nlev    = 1
         END IF
-        eqn%eps_solv   = read_par(input_file,sec,'eps_solv',1.d-05)
-        eqn%itmax_solv = read_par(input_file,sec,'itmax_solv',100)
-        eqn%mtx_sys    = read_par(input_file,sec,'mtx_sys',.FALSE.)
+        CALL nemo_json%get(TRIM(pde_sec)//'.solve-epsilon', eqn%eps_solv, found)
+        CALL nemo_json%get(TRIM(pde_sec)//'.max-solve-iterations', eqn%itmax_solv, found)
+        CALL nemo_json%get(TRIM(pde_sec)//'.write-matrix-system-diagnostics', eqn%mtx_sys, found)
 
         ! Name
         eqn%name = TRIM(sec)

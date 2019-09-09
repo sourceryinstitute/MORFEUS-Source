@@ -49,10 +49,12 @@ SUBMODULE(tools_mesh_move) rd_inp_motion_law_implementation
 
         MODULE PROCEDURE rd_inp_motion_law
             USE class_psblas, ONLY : psb_dpk_, abort_psblas, mypnum_, icontxt_, psb_bcast
+            USE json_module, ONLY : json_file
             USE class_vector
             USE tools_input
             IMPLICIT NONE
             !
+            TYPE(json_file) :: nemo_json
             CHARACTER(len=32), PARAMETER :: sec = 'MOTION LAW'
             INTEGER :: i, info, inp, icontxt, mypnum, nsteps
             REAL(psb_dpk_) :: law_y1, law_y2, law_y3
@@ -61,10 +63,10 @@ SUBMODULE(tools_mesh_move) rd_inp_motion_law_implementation
             icontxt = icontxt_()
 
             IF(mypnum == 0) THEN
-                CALL open_file(ml_file,inp)
+                CALL open_file(ml_file,nemo_json)
 
-                iml    = get_par(inp,sec=TRIM(ml_file),par='iml',default=ml_position_)
-                nsteps = get_par(inp,sec=TRIM(ml_file),par='nsteps',default=mandatory_i_)
+                ! iml    = get_par(inp,sec=TRIM(ml_file),par='iml',default=ml_position_)
+                ! nsteps = get_par(inp,sec=TRIM(ml_file),par='nsteps',default=mandatory_i_)
 
                 IF(.NOT.(iml == ml_position_ .OR. &
                     &   iml == ml_velocity_)) THEN
@@ -85,7 +87,7 @@ SUBMODULE(tools_mesh_move) rd_inp_motion_law_implementation
             END IF
 
             IF(mypnum == 0) THEN
-                CALL find_section(TRIM(sec),inp)
+                CALL find_section(TRIM(sec),nemo_json)
 
                 ! Skip header
                 READ(inp,'()')

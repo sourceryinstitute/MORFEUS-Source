@@ -46,6 +46,7 @@ MODULE tools_input
 
     USE class_vector, ONLY : vector
     USE class_psblas, ONLY : psb_dpk_
+    USE json_module, ONLY : json_file
     IMPLICIT NONE
 
     PUBLIC
@@ -152,19 +153,19 @@ MODULE tools_input
 
 
     INTERFACE
-        MODULE SUBROUTINE find_section(sec,inp)
+        MODULE SUBROUTINE find_section(sec,nemo_json)
             IMPLICIT NONE
             CHARACTER(len=*), INTENT(IN) :: sec
-            INTEGER, INTENT(IN) :: inp
+            TYPE(json_file), INTENT(INOUT) :: nemo_json
         END SUBROUTINE find_section
     END INTERFACE
 
 
     INTERFACE
-        MODULE SUBROUTINE open_file(input_file,inp)
+        MODULE SUBROUTINE open_file(input_file,nemo_json)
             IMPLICIT NONE
             CHARACTER(len=*), INTENT(IN) :: input_file
-            INTEGER, INTENT(OUT) :: inp
+            TYPE(json_file), INTENT(OUT) :: nemo_json
         END SUBROUTINE open_file
     END INTERFACE
 
