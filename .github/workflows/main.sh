@@ -48,15 +48,14 @@ echo "Verifying ssh access to github"
 ssh -i ~/.ssh/id_ed25519 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -T git@github.com || true
 
 echo "Creating a local mirror of ${GITHUB_REPOSITORY}"
-cd ~ || exit 1
-git clone --mirror "git@github.com:${GITHUB_REPOSITORY}.git"
+git clone --mirror "git@github.com:${GITHUB_REPOSITORY}.git" || true
 pwd
 ls -ld "${GITHUB_REPOSITORY#*/}.git"
 
-git clone --verbose --mirror "$MIRROR_URL"
+git clone --verbose --mirror "$MIRROR_URL" || true
 
 
-cd "${GITHUB_REPOSITORY#*/}.git" || exit 1
+cd "${GITHUB_REPOSITORY#*/}.git" || true
 
 echo "Setting mirror remote url"
 git remote set-url origin "${MIRROR_URL}"
