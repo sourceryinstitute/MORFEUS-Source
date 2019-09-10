@@ -1,0 +1,17 @@
+on: gollum
+name: Wiki-update
+jobs:
+  mirrorWiki:
+    name: Mirror wiki
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Mirror wiki
+      uses: docker://buildpack-deps:testing-scm
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        IBB_PWLESS_DEPLOY_KEY: ${{ secrets.IBB_PWLESS_DEPLOY_KEY }}
+        MIRROR_WIKI: git@github.com:nrc-fuels/MORFEUS-mirror.wiki.git
+        SOURCE_WIKI: git@github.com:sourceryinstitute/MORFEUS-Source.wiki.git
+      with:
+        entrypoint: .github/workflows/wiki-update.sh
