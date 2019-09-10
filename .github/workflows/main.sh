@@ -45,7 +45,8 @@ git config --global core.sshCommand "ssh -i ~/.ssh/id_ed25519 -o UserKnownHostsF
 git config --show-origin --list
 
 echo "Verifying ssh access to github"
-ssh -i ~/.ssh/id_ed25519 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -T git@github.com || echo "Test ssh authentication failed!"
+ssh -vvvv -i ~/.ssh/id_ed25519 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -T git@github.com || \
+  echo "Test ssh authentication failed!" >&2
 
 git show-ref
 
