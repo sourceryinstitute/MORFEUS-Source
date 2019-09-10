@@ -45,18 +45,16 @@ git config --global core.sshCommand "ssh -i ~/.ssh/id_ed25519 -o UserKnownHostsF
 git config --show-origin --list
 
 echo "Verifying ssh access to github"
-ssh -vvvv -i ~/.ssh/id_ed25519 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -T git@github.com || \
+ssh -i ~/.ssh/id_ed25519 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -T git@github.com || \
   echo "Test ssh authentication failed!" >&2
 
 git show-ref
 
+cd ~ || exit
 echo "Creating a local mirror of ${GITHUB_REPOSITORY}"
-git clone --mirror "git@github.com:${GITHUB_REPOSITORY}.git" || true
+git clone --mirror "git@github.com:${GITHUB_REPOSITORY}.git"
 pwd
 ls -ld "${GITHUB_REPOSITORY#*/}.git"
-
-git clone --verbose --mirror "$MIRROR_URL" || true
-
 
 cd "${GITHUB_REPOSITORY#*/}.git" || true
 

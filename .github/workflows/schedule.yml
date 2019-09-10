@@ -13,7 +13,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         IBB_PWLESS_DEPLOY_KEY: ${{ secrets.IBB_PWLESS_DEPLOY_KEY }}
-        MIRROR_WIKI: git@github.com:nrc-fuels/MORFEUS-mirror.wiki.git
+        MIRROR_WIKI: ${{ secrets.MIRROR_WIKI }}.wiki.git
         SOURCE_WIKI: git@github.com:sourceryinstitute/MORFEUS-Source.wiki.git
       with:
         entrypoint: .github/workflows/wiki-update.sh
@@ -22,6 +22,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         IBB_PWLESS_DEPLOY_KEY: ${{ secrets.IBB_PWLESS_DEPLOY_KEY }}
-        MIRROR_URL: git@github.com:nrc-fuels/MORFEUS-mirror.git
+        MIRROR_URL: ${{ secrets.MIRROR_URL }}.git
       with:
         entrypoint: .github/workflows/main.sh
