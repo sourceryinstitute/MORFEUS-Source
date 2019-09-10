@@ -1,0 +1,12 @@
+on: push
+name: style linting
+jobs:
+  editorConfigAudit:
+    name: EditorConfig Audit
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: EditorConfig Audit
+      uses: zbeekman/EditorConfig-Action@v1.1.1
+      env:
+        ALWAYS_LINT_ALL_FILES: "false"
