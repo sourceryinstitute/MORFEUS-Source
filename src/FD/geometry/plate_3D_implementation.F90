@@ -8,6 +8,7 @@ submodule(plate_3D_interface) plate_3D_implementation
   !! author: Damian Rouson
   !! date: 8/16/2019
   use assertions_interface, only : assert
+  use Kinds, only : r8k
   implicit none
 
   character(len=*), parameter :: base_object = "MORFEUS_FD.GEOMETRY"
@@ -65,12 +66,17 @@ contains
     character(len=:), allocatable :: key, label
     logical found
     integer, dimension(:), allocatable :: block_metadata_shape
-    real, dimension(:), allocatable :: subdomain
+    real(r8k), dimension(:), allocatable :: subdomain
     integer, parameter :: num_end_points=2
+    real(r8k) max_spacing
 
     call this%grid_specification%get( base_object // ".global_shape", block_metadata_shape, found)
     call assert( found, "set_block_metadata: found" )
     call assert( size(block_metadata_shape)==space_dimension, "size(block_metadata_shape)==space_dimension")
+
+    call this%grid_specification%get( base_object//".max_spacing",  max_spacing, found )
+    call assert( found , base_object//".max_spacing found" )
+    call assert(max_spacing>0., "max_spacing>0." )
 
     associate(nx=>block_metadata_shape(1), ny=>block_metadata_shape(2), nz=>block_metadata_shape(3))
       allocate(this%metadata(nx, ny, nz), stat=alloc_stat )
@@ -95,6 +101,8 @@ contains
             call this%grid_specification%get( key, label, found)
             call assert( found, "set_block_metadata: found key " // key )
             call this%metadata(ix,iy,iz)%set_label(label)
+
+            call this%metadata(ix,iy,iz)%set_max_spacing(max_spacing)
           end do
         end do
       end do

@@ -196,9 +196,9 @@ contains
 
   end function
 
-  module procedure minimally_resolved_plate_3D
+  module procedure initialize_from_plate_3D
     integer, parameter :: lo_bound=1, up_bound=2 !! array indices corresponding to end points on 1D spatial interval
-    integer, parameter :: nx=2, ny=2, nz=2 !! only create grid points at the corners of each 4D rectangular block
+    integer, parameter :: nx_min=2, ny_min=2, nz_min=2
     integer n
 
     call this%partition( plate_3D_geometry%get_block_metadata_shape() )
@@ -206,21 +206,36 @@ contains
 
       associate( my_subdomains => this%my_subdomains() )
         do n = my_subdomains(lo_bound) , my_subdomains(up_bound) ! TODO: make concurrent after Intel supports co_sum
+
           associate( ijk => this%block_indicial_coordinates(n) )
-            associate( subdomain => plate_3D_geometry%get_block_domain(ijk) )
+
+            associate( metadata => plate_3D_geometry%get_block_metadata(ijk))
+
+              call this%vertices(n)%set_metadata( metadata  )
+
               associate( &
-                x => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=1 ), &
-                y => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=2 ), &
-                z => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=3 ) )
-                call this%set_vertices(x,y,z,block_identifier=n)
-                call this%vertices(n)%set_metadata( plate_3D_geometry%get_block_metadata(ijk) )
+                subdomain => plate_3D_geometry%get_block_domain(ijk), &
+                max_spacing => metadata%get_max_spacing() &
+              )
+                associate( &
+                  nx => max( nx_min, floor( abs(subdomain(1,up_bound) - subdomain(1,lo_bound))/max_spacing ) ), &
+                  ny => max( ny_min, floor( abs(subdomain(2,up_bound) - subdomain(2,lo_bound))/max_spacing ) ), &
+                  nz => max( nz_min, floor( abs(subdomain(3,up_bound) - subdomain(3,lo_bound))/max_spacing ) ) &
+                )
+                  associate( &
+                    x => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=1 ), &
+                    y => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=2 ), &
+                    z => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=3 ) )
+                    call this%set_vertices(x,y,z,block_identifier=n)
+                  end associate
+                end associate
               end associate
             end associate
           end associate
         end do
       end associate
 
-  end procedure minimally_resolved_plate_3D
+  end procedure
 
   module procedure partition
 

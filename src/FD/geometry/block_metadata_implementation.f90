@@ -25,6 +25,10 @@ contains
     this%subdomain_ = subdomain
   end procedure
 
+  module procedure set_max_spacing
+    this%max_spacing_ = max_spacing
+  end procedure
+
   module procedure get_tag
     this_tag = this%tag_
   end procedure
@@ -35,6 +39,10 @@ contains
 
   module procedure get_subdomain
     this_subdomain = this%subdomain_
+  end procedure
+
+  module procedure get_max_spacing
+    this_max_spacing = this%max_spacing_
   end procedure
 
 end submodule block_metadata_implementation

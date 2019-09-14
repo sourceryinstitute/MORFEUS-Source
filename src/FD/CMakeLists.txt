@@ -127,7 +127,12 @@ endforeach()
 enable_testing()
 
 # Add test fixtures for setup and teardown
-set(MORFEUS_FD_INPUTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/problem_description.json")
+set(MORFEUS_FD_INPUTS
+  "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-low-resolution.json"
+  "${CMAKE_CURRENT_SOURCE_DIR}/tests/integration/3Dplate-high-resolution.json"
+)
+
+#  "${CMAKE_CURRENT_SOURCE_DIR}/tests/integration/3Dplate-high-resolution.json"
 add_test(NAME morfeus-fd-setup-fixture
   WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
   COMMAND ${CMAKE_COMMAND} -E copy ${MORFEUS_FD_INPUTS} "${CMAKE_CURRENT_BINARY_DIR}")
