@@ -189,6 +189,8 @@ set( base_names
   write-problem-discretization
   read-geometry
   array-functions
+  spatial-derivatives
+  adi-time-advancing
   units
 )
 foreach(unit_test ${base_names})
