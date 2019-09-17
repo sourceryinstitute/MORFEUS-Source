@@ -1,0 +1,21 @@
+{
+  "MORFEUS_FD": {
+    "layers": {
+      "type": "3D_plate",
+      "units_system": "SI",
+      "max_spacing": "1.0E+06",
+      "material_names": ["filling", "tortilla", "foil", "gap", "bag"],
+      "core": {
+        "x_thickness" : {"value" : 2.0E-01, "dimension" : "length"},
+        "y_thickness" : {"value" : 1.0E-01, "dimension" : "length"},
+        "z_length"    : {"value" : 9.0E-01, "dimension" : "length"},
+        "grid_blocks" : {"nx" : 5, "ny" : 5, "nz": 10 }
+      },
+      "wrappers": {
+        "xy_thickness" : {"values" : [1.0E-01, 1.0E-01, 1.0E-01, 1.0E-01], "dimension" : "length"},
+        "z_length"     : {"value" : 1.0E+01, "dimension" : "length"},
+        "grid_blocks"  : {"nxy" : [1, 1, 1, 1]}
+      }
+    }
+  }
+}
