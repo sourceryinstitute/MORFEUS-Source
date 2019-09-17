@@ -406,7 +406,7 @@ contains
       open(newunit=error_file_unit, file="error-order.dat")
       do k=1, nz-1
         write(error_file_unit, *) &
-           grid_blocks(20,20,k)%v(1,4)-grid_blocks(20,20,k)%T_analytical(1)
+          grid_blocks(20,20,k)%v(1,4)-grid_blocks(20,20,k)%T_analytical(1)
       end do
       close(error_file_unit)
     end block
