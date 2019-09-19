@@ -11,9 +11,9 @@ submodule(plate_3D_interface) plate_3D_implementation
   use Kinds, only : r8k
   implicit none
 
-  character(len=*), parameter :: base_object = "MORFEUS_FD.GEOMETRY"
+  character(len=*), parameter :: base_object = "MORFEUS_FD.layers"
   character(len=*), parameter :: csv_format = '(*(G0,:,","))'
-  integer, parameter :: success=0
+  integer, parameter :: success=0, max_stringlen=32
 
 contains
 
@@ -60,8 +60,44 @@ contains
   end procedure
 
   module procedure set_block_metadata
+
+    !! Encapsulate json key/value pair hierarchy to be read from a 3Dplate*.json file
+
+    type material_name
+      !! Facilitate ragged-edged array of strings
+      character(len=:), allocatable :: string
+    end type
+
+    type thickness
+      real, allocatable, dimension(:) :: x, y, z
+      character(len=:), allocatable :: dimensions
+    end type
+
+    type num_grid_blocks
+      integer, allocatable, dimension(:) :: x, y, z
+    end type
+
+    type core
+      type(material_name) material_name_
+      type(thickness) thickness_
+      type(num_grid_blocks) num_grid_blocks_
+    end type
+
+    type wrappers
+      type(material_name), allocatable, dimension(:) ::  material_name_
+      type(thickness) thickness_
+      type(num_grid_blocks) num_grid_blocks_
+    end type
+
+    type layers
+      character(len=:), allocatable :: type_, units_system_, max_spacing_
+      type(core) core_
+      type(wrappers) wrappers_
+    end type
+
+    type(layers) layers_
+
     integer ix, iy, iz, tag, alloc_stat
-    integer, parameter :: max_stringlen=32 !! 3*10 digits + 2 commas
     character(len=max_stringlen) element
     character(len=:), allocatable :: key, label
     logical found
@@ -70,42 +106,51 @@ contains
     integer, parameter :: num_end_points=2
     real(r8k) max_spacing
 
-    call this%grid_specification%get( base_object // ".global_shape", block_metadata_shape, found)
-    call assert( found, "set_block_metadata: found" )
-    call assert( size(block_metadata_shape)==space_dimension, "size(block_metadata_shape)==space_dimension")
+    call this%grid_specification%get( base_object // ".core.num_grid_blocks.x", layers_%core_%num_grid_blocks_%x, found)
+    call assert( found, "set_block_metadata: core_%num_grid_blocks_%x found" )
+
+    call this%grid_specification%get( base_object // ".core.num_grid_blocks.y", layers_%core_%num_grid_blocks_%y, found)
+    call assert( found, "set_block_metadata: core_%num_grid_blocks_%y found" )
+
+    call this%grid_specification%get( base_object // ".core.num_grid_blocks.z", layers_%core_%num_grid_blocks_%z, found)
+    call assert( found, "set_block_metadata: core_%num_grid_blocks_%z found" )
+
+    call this%grid_specification%get( base_object // ".wrappers.num_grid_blocks.x", layers_%wrappers_%num_grid_blocks_%x, found)
+    call assert( found, "set_block_metadata: wrappers_%num_grid_blocks_%x found" )
+
+    call this%grid_specification%get( base_object // ".wrappers.num_grid_blocks.y", layers_%wrappers_%num_grid_blocks_%y, found)
+    call assert( found, "set_block_metadata: wrappers_%num_grid_blocks_%y found" )
+
+    call this%grid_specification%get( base_object // ".wrappers.num_grid_blocks.z", layers_%wrappers_%num_grid_blocks_%z, found)
+    call assert( found, "set_block_metadata: wrappers_%num_grid_blocks_%z found" )
 
     call this%grid_specification%get( base_object//".max_spacing",  max_spacing, found )
     call assert( found , base_object//".max_spacing found" )
     call assert(max_spacing>0., "max_spacing>0." )
 
-    associate(nx=>block_metadata_shape(1), ny=>block_metadata_shape(2), nz=>block_metadata_shape(3))
-      allocate(this%metadata(nx, ny, nz), stat=alloc_stat )
-      call assert( alloc_stat==success, "set_block_metadata: allocate(this%metadata(nx,ny,nz),...)" )
+    associate( &
+      num_core_blocks => layers_%core_%num_grid_blocks_, &
+      num_wrapper_blocks => layers_%wrappers_%num_grid_blocks_ )
+      associate(  &
+        nx => sum(num_core_blocks%x) + sum(num_wrapper_blocks%x) , &
+        ny => sum(num_core_blocks%y) + sum(num_wrapper_blocks%y) , &
+        nz => sum(num_core_blocks%z) + sum(num_wrapper_blocks%z) )
 
-      do ix=1, nx
-        do iy=1, ny
-          do iz=1, nz
-            write(element, csv_format) ix, iy, iz
+        block_metadata_shape = [nx, ny, nz]
 
-            key = trim( base_object // ".structured_grid_blocks." // trim(element) // ".subdomain" )
-            call this%grid_specification%get( key, subdomain, found)
-            call assert( found, "set_block_metadata: found key " // key )
-            call this%metadata(ix,iy,iz)%set_subdomain( reshape(subdomain, [space_dimension, num_end_points]) )
+        allocate(this%metadata(nx, ny, nz), stat=alloc_stat )
+        call assert( alloc_stat==success, "set_block_metadata: allocate(this%metadata(nx,ny,nz),...)" )
 
-            key = trim( base_object // ".structured_grid_blocks." // trim(element) // ".tag" )
-            call this%grid_specification%get( key, tag, found)
-            call assert( found, "set_block_metadata: found key " // key )
-            call this%metadata(ix,iy,iz)%set_tag(tag)
+        do concurrent( ix=1:nx, iy=1:ny, iz=1:nz )
 
-            key = trim( base_object // ".structured_grid_blocks." // trim(element) // ".label" )
-            call this%grid_specification%get( key, label, found)
-            call assert( found, "set_block_metadata: found key " // key )
-            call this%metadata(ix,iy,iz)%set_label(label)
+          write(element, csv_format) ix, iy, iz
 
-            call this%metadata(ix,iy,iz)%set_max_spacing(max_spacing)
-          end do
+          call this%metadata(ix,iy,iz)%set_tag(element)
+          call this%metadata(ix,iy,iz)%set_max_spacing(max_spacing)
+          call this%metadata(ix,iy,iz)%set_label(label)
+          call this%metadata(ix,iy,iz)%set_subdomain( reshape(subdomain, [space_dimension, num_end_points]) )
         end do
-      end do
+      end associate
     end associate
   end procedure
 
