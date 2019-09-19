@@ -1,21 +1,52 @@
 {
-  "MORFEUS_FD": {
-    "layers": {
-      "type": "3D_plate",
-      "units_system": "SI",
-      "max_spacing": "1.0E+06",
-      "material_names": ["filling", "tortilla", "foil", "gap", "bag"],
-      "core": {
-        "x_thickness" : {"value" : 2.0E-01, "dimension" : "length"},
-        "y_thickness" : {"value" : 1.0E-01, "dimension" : "length"},
-        "z_length"    : {"value" : 9.0E-01, "dimension" : "length"},
-        "grid_blocks" : {"nx" : 5, "ny" : 5, "nz": 10 }
-      },
-      "wrappers": {
-        "xy_thickness" : {"values" : [1.0E-01, 1.0E-01, 1.0E-01, 1.0E-01], "dimension" : "length"},
-        "z_length"     : {"value" : 1.0E+01, "dimension" : "length"},
-        "grid_blocks"  : {"nxy" : [1, 1, 1, 1]}
-      }
-    }
-  }
+	"file_validation": {
+		"validator": "https://jsonlint.com/",
+		"validated_by": "Damian Rouson",
+		"validation_date": "2019-09-17"
+	},
+	"MORFEUS_FD": {
+		"layers": {
+			"type": "3D_plate",
+			"units_system": "SI",
+			"max_spacing": 1.0E+06,
+			"core": {
+				"material_name": "filling",
+				"thickness": {
+					"x": 2.0E-01,
+					"y": 1.0E-01,
+					"z": 9.0E-01,
+					"dimensions": "length"
+				},
+				"num_grid_blocks": {
+					"x": [10],
+					"y": [10],
+					"z": [10]
+				},
+				"constraint": {
+					"type": "Fortran",
+					"minimum_version": "2003",
+					"expression": "all( mod( [num_grid_blocks%x, num_grid_bloccks%y], 2)==0 )"
+				}
+			},
+			"wrappers": {
+				"material_name": ["tortilla", "foil", "gap", "bag"],
+				"thickness": {
+					"x": [1.0E-01, 1.0E-01, 1.0E-01, 1.0E-01],
+					"y": [1.0E-01, 1.0E-01, 1.0E-01, 1.0E-01],
+					"z": 1.0E+01,
+					"dimensions": "length"
+				},
+				"num_grid_blocks": {
+					"x": [1, 1, 1, 1],
+					"y": [1, 1, 1, 1],
+					"z": [11]
+				}
+			},
+			"constraint": {
+				"type": "Fortran",
+				"minimum_version": "2003",
+				"expression": "all( [ max_spacing>0., wrappers%num_grid_blocks%z >= core%num_grid_blocks%z ] )"
+			}
+		}
+	}
 }

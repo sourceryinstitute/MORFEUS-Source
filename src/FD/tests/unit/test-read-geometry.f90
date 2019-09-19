@@ -13,7 +13,7 @@ program main
 
   type(plate_3D) plate_3D_geometry
 
-  call plate_3D_geometry%build( "3Dplate-low-resolution-blocks.json" )
+  call plate_3D_geometry%build( "3Dplate-low-resolution-layers.json" )
 
   print *,"Test passed."
 end program

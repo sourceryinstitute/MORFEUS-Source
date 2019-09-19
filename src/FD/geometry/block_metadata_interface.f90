@@ -65,6 +65,9 @@ module block_metadata_interface
       real(r8k), dimension(:,:), intent(in) :: subdomain
     end subroutine
 
+#ifdef HAVE_ERROR_STOP_IN_PURE
+    pure &
+#endif
     module subroutine set_max_spacing(this, max_spacing)
       !! Define the maximum allowable grid spacing
       implicit none
