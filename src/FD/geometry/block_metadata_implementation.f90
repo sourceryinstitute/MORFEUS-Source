@@ -21,8 +21,10 @@ contains
   end procedure
 
   module procedure set_subdomain
-  !call assert( shape(subdomain)==[space_dimension, num_end_points], "shape(subdomain)==[space_dimension, num_end_points]" )
-    this%subdomain_ = subdomain
+    ! HAVE_PURE_IN_ERROR_STOP is not working
+    !call assert( shape(subdomain%edges)==[space_dimension, num_end_points], &
+    !  "shape(subdomain%edges)==[space_dimension, num_end_points]" )
+    this%subdomain%edges = subdomain%edges
   end procedure
 
   module procedure set_max_spacing
@@ -38,7 +40,7 @@ contains
   end procedure
 
   module procedure get_subdomain
-    this_subdomain = this%subdomain_
+    edges = this%subdomain%edges
   end procedure
 
   module procedure get_max_spacing

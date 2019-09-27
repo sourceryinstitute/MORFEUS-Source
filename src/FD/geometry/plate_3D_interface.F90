@@ -10,7 +10,7 @@ module plate_3D_interface
   !! Encapsulate a 3D plate geometry and grid-verification method
   use geometry_interface, only : geometry
   use json_module, only : json_file
-  use block_metadata_interface, only : block_metadata
+  use block_metadata_interface, only : block_metadata, subdomain_t, max_name_length, space_dimension, num_end_points
 
   implicit none
 
@@ -31,8 +31,6 @@ module plate_3D_interface
     procedure get_block_domain
     procedure get_block_metadata
   end type
-
-  integer, parameter :: space_dimension=3
 
   interface
 

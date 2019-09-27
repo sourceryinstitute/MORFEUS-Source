@@ -13,21 +13,25 @@ module block_metadata_interface
   implicit none
 
   private
-  public :: block_metadata, tag_kind, untagged, lower, upper
+  public :: block_metadata, tag_kind, untagged, lower, upper, subdomain_t, max_name_length, space_dimension, num_end_points
 
-  integer, parameter :: space_dimension=3, num_end_points=2, tag_kind=c_int, lower=1, upper=2
+  integer, parameter :: space_dimension=3, num_end_points=2, tag_kind=c_int, lower=1, upper=2, max_name_length=32
 
   enum, bind(C)
     enumerator :: untagged = -huge(1_tag_kind)
   end enum
 
+  type subdomain_t !! scalar argument for elemental set_subdomain procedure
+    real(r8k), dimension(space_dimension,num_end_points) :: edges
+  end type
+
   type block_metadata
     !! structured-grid block descriptor
     private
-    real(r8k) subdomain_(space_dimension,num_end_points)
+    type(subdomain_t) subdomain
     real(r8k) max_spacing_
     integer(tag_kind) :: tag_ = untagged
-    character(len=len('unlabeled')) :: label_='unlabeled'
+    character(len=max_name_length) :: label_='unlabeled'
   contains
     procedure set_tag
     procedure set_label
@@ -62,13 +66,13 @@ module block_metadata_interface
       !! Define the end point of a block-structured grid coordinate direction
       implicit none
       class(block_metadata), intent(inout) :: this
-      real(r8k), dimension(:,:), intent(in) :: subdomain
+      type(subdomain_t), intent(in) :: subdomain
     end subroutine
 
-#ifdef HAVE_ERROR_STOP_IN_PURE
-    pure &
+#ifndef HAVE_ERROR_STOP_IN_PURE
+   !impure &
 #endif
-    module subroutine set_max_spacing(this, max_spacing)
+    elemental module subroutine set_max_spacing(this, max_spacing)
       !! Define the maximum allowable grid spacing
       implicit none
       class(block_metadata), intent(inout) :: this
@@ -89,11 +93,11 @@ module block_metadata_interface
       character(len=:), allocatable :: this_label
     end function
 
-    pure module function get_subdomain( this ) result(this_subdomain)
+    pure module function get_subdomain( this ) result(edges)
       !! Result contains the coordinate intervals delimiting this block_metadata object
       implicit none
       class(block_metadata), intent(in) :: this
-      real(r8k), dimension(space_dimension, num_end_points) :: this_subdomain
+      real(r8k), dimension(space_dimension,num_end_points) :: edges
     end function
 
     pure module function get_max_spacing( this ) result(this_max_spacing)
