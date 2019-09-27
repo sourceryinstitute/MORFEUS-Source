@@ -2,7 +2,7 @@
 	"file_validation": {
 		"validator": "https://jsonlint.com/",
 		"validated_by": "Damian Rouson",
-		"validation_date": "2019-09-17"
+		"validation_date": 20190920
 	},
 	"MORFEUS_FD": {
 		"layers": {
@@ -10,42 +10,54 @@
 			"units_system": "SI",
 			"max_spacing": 1.0E+06,
 			"core": {
-				"material_name": "filling",
+				"material_name": ["burrito"],
 				"thickness": {
-					"x": 2.0E-01,
-					"y": 1.0E-01,
-					"z": 9.0E-01,
+					"x": [2.0E-01],
+					"y": [1.0E-01],
+					"z": [2.0E-01],
 					"dimensions": "length"
 				},
 				"num_grid_blocks": {
-					"x": [10],
-					"y": [10],
-					"z": [10]
+					"x": [2],
+					"y": [1],
+					"z": [2]
 				},
 				"constraint": {
-					"type": "Fortran",
+					"language": "Fortran",
 					"minimum_version": "2003",
-					"expression": "all( mod( [num_grid_blocks%x, num_grid_bloccks%y], 2)==0 )"
+					"expressions": [
+            "all( [num_grid_blocks%x,num_grid_blocks%y,num_grid_blocks%z] > 0 )",
+            "all( [thickness%x,thickness%y,thickness%z] > 0. )",
+            "size(material_name)==1",
+            "all( [size(thickness%x), size(thickness%y), size(thickness%z)]==1 )",
+            "all( [size(num_grid_blocks%x), size(num_grid_blocks%y), size(num_grid_blocks%z)]==1 )"
+          ]
 				}
 			},
 			"wrappers": {
-				"material_name": ["tortilla", "foil", "gap", "bag"],
+				"material_name": ["bag", "foil"],
 				"thickness": {
-					"x": [1.0E-01, 1.0E-01, 1.0E-01, 1.0E-01],
-					"y": [1.0E-01, 1.0E-01, 1.0E-01, 1.0E-01],
-					"z": 1.0E+01,
+					"x": [2.0E-01, 1.0E-01],
+					"y": [1.0E-01, 1.0E-01],
+					"z": [3.0E-01],
 					"dimensions": "length"
 				},
 				"num_grid_blocks": {
-					"x": [1, 1, 1, 1],
-					"y": [1, 1, 1, 1],
-					"z": [11]
+					"x": [2, 1],
+					"y": [1, 1],
+					"z": [3]
 				}
 			},
 			"constraint": {
-				"type": "Fortran",
+				"language": "Fortran",
 				"minimum_version": "2003",
-				"expression": "all( [ max_spacing>0., wrappers%num_grid_blocks%z >= core%num_grid_blocks%z ] )"
+			  "expressions": [
+          "max_spacing > 0.",
+          "all([num_grid_blocks%x,num_grid_blocks%y,num_grid_blocks%z]>0)",
+          "all([thickness%x,thickness%y,thickness%z]>0)",
+          "all( [size(thickness%x), size(thickness%y), size(thickness%z)] == [size(num_grid_blocks%x), size(num_grid_blocks%y), size(num_grid_blocks%z)] )",
+          "all( [size(thickness%x), size(thickness%y)] == size(material_name) )"
+        ]
 			}
 		}
 	}
