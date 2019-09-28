@@ -14,8 +14,9 @@ program main
   use problem_discretization_interface, only : problem_discretization
   implicit none
 
-  call create_grid_for_plate(input="3Dplate-low-resolution.json", output="3Dplate-low-resolution.vtk")
-  call create_grid_for_plate(input="3Dplate-high-resolution.json", output="3Dplate-high-resolution.vtk")
+ !call create_grid_for_plate(input="3Dplate-min-resolution-layers.json", output="3Dplate-min-resolution-layers.vtk")
+  call create_grid_for_plate(input="3Dplate-low-resolution-layers.json", output="3Dplate-low-resolution-layers.vtk")
+ !call create_grid_for_plate(input="3Dplate-high-resolution-layers.json", output="3Dplate-high-resolution-layers.vtk")
 
   ! Outer surface BC: 500 K for all external surfaces
   ! Initial condition: 293 K everywhere, 10 kW/m

@@ -9,7 +9,7 @@ module block_metadata_interface
   !! date: August 2, 2019
   !! summary: encapsulate metadata describing structured-grid blocks
   use iso_c_binding, only : c_int
-  use Kinds, only : r8k
+  use kind_parameters, only : r8k
   implicit none
 
   private
@@ -52,7 +52,7 @@ module block_metadata_interface
       integer, intent(in) :: tag
     end subroutine
 
-    elemental module subroutine set_label( this, label )
+    pure module subroutine set_label( this, label )
       !! Define the label of a this block_metadata object
       implicit none
       class(block_metadata), intent(inout) :: this

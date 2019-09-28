@@ -130,6 +130,7 @@ enable_testing()
 set(MORFEUS_FD_INPUTS
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-low-resolution-blocks.json"
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-low-resolution-layers.json"
+  "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-min-resolution-layers.json"
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/integration/3Dplate-high-resolution.json"
 )
 

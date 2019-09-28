@@ -8,7 +8,6 @@ submodule(plate_3D_interface) plate_3D_implementation
   !! author: Damian Rouson
   !! date: 8/16/2019
   use assertions_interface, only : assert
-  use Kinds, only : r8k
   implicit none
 
   character(len=*), parameter :: base_object = "MORFEUS_FD.layers"
@@ -91,9 +90,8 @@ contains
     use emulated_intrinsics_interface, only : findloc
 #endif
 
-    integer i, j, ix, iy, iz, tag, alloc_stat, supremum
+    integer i, j, ix, iy, iz, alloc_stat, supremum
     logical found
-    real(r8k), dimension(:), allocatable :: subdomain
     integer, parameter :: num_end_points=2, symmetry=2
     character(len=max_name_length), allocatable, dimension(:) :: names
 
@@ -223,13 +221,16 @@ contains
 
     subroutine set_metadata
 
+      character(len=max_name_length), parameter :: cavity="cavity"
+      character(len=max_name_length) block_material
+
       associate( &
         nx_wrappers => layers%wrappers%num_grid_blocks%x, &
         ny_wrappers => layers%wrappers%num_grid_blocks%y, &
         nz_wrappers => layers%wrappers%num_grid_blocks%z, &
-        nx_core => layers%core%num_grid_blocks%x, &
-        ny_core => layers%core%num_grid_blocks%y, &
-        nz_core => layers%core%num_grid_blocks%z, &
+        nx_core => layers%core%num_grid_blocks%x(1), &
+        ny_core => layers%core%num_grid_blocks%y(1), &
+        nz_core => layers%core%num_grid_blocks%z(1), &
         wrappers_thickness_x => layers%wrappers%thickness%x, &
         wrappers_thickness_y => layers%wrappers%thickness%y, &
         wrappers_thickness_z => layers%wrappers%thickness%z, &
@@ -238,9 +239,14 @@ contains
         core_thickness_z => layers%core%thickness%z )
 
         associate(  &
-          nx => sum(nx_core) + symmetry*sum(nx_wrappers), &
-          ny => sum(ny_core) + symmetry*sum(ny_wrappers), &
+          nx => nx_core + symmetry*sum(nx_wrappers), &
+          ny => ny_core + symmetry*sum(ny_wrappers), &
           nz => sum(nz_wrappers) )
+
+          print *,"nx_core, nx_wrappers :",nx_core, nx_wrappers
+          print *,"ny_core, ny_wrappers :",ny_core, ny_wrappers
+          print *,"nz_core, nz_wrappers :",nz_core, nz_wrappers
+          print *,"nx, ny, nz :",nx, ny, nz
 
           allocate(this%metadata(nx, ny, nz), stat=alloc_stat )
           call assert( alloc_stat==success, "set_block_metadata: allocate(this%metadata(nx,ny,nz),...)" )
@@ -250,7 +256,7 @@ contains
             ny_layers => [ny_wrappers, ny_core, ny_wrappers(size(ny_wrappers):1:-1) ], &
             nz_layers => [nz_core, nz_wrappers - nz_core], &
             wrappers_material => layers%wrappers%material_name, &
-            core_material => layers%core%material_name )
+            core_material => layers%core%material_name(1) )
 
             associate( &
               material => [wrappers_material, core_material, wrappers_material(size(wrappers_material):1:-1)], &
@@ -266,27 +272,55 @@ contains
                 block_thickness_z => [( [( thickness_z(i)/nz_layers(i), j=1,nz_layers(i))], i=1,size(nz_layers) )], &
                 max_spacing => layers%max_spacing, &
                 first_core_y_block => sum(ny_wrappers) + 1, &
-                last_core_y_block => sum(ny_wrappers) + sum(ny_core) )
+                last_core_y_block => sum(ny_wrappers) + ny_core )
 
-                set_metadata_for_y_dir_with_core: &
-                do concurrent( iz=1:sum(nz_core), iy = first_core_y_block : last_core_y_block )
-                  call this%metadata(:,iy,iz)%set_max_spacing(real(max_spacing,r8k))
-                  call this%metadata(:,iy,iz)%set_label( block_material_x )
+                call assert( all( lbound(this%metadata)==[1,1,1] .and. ubound(this%metadata)==[nx,ny,nz]), &
+                "all( lbound(this%metadata)==[1,1,1] .and. ubound(this%metadata)==[nx,ny,nz] ) ")
 
-                  do concurrent( ix=lbound(this%metadata,1): ubound(this%metadata,1) )
-                    associate( &
-                      x_domain =>  [ sum( block_thickness_x(1:ix-1) ), sum( block_thickness_x(1:ix) ) ], &
-                      y_domain =>  [ sum( block_thickness_y(1:iy-1) ), sum( block_thickness_y(1:iy) ) ], &
-                      z_domain =>  [ sum( block_thickness_z(1:iz-1) ), sum( block_thickness_z(1:iz) ) ] )
+               !set_spacing_and_subdomain: &
+               !do concurrent( iz=1:nz, iy=1:ny, ix=1:nx )
+                do iz=1,nz
+                do iy=1,ny
+                do ix=1,nx
 
-                      call this%metadata(ix,iy,iz)%set_subdomain( &
-                       subdomain_t( reshape([x_domain(1), y_domain(1), z_domain(1), x_domain(2), y_domain(2), z_domain(2)], &
-                       [space_dimension,num_end_points]) ) )
+                   !block_material => merge( block_material_x(ix), &
+                   !  merge(block_material_x(ix),block_material_y(iy), block_material_x(ix)/=core_material ), &
+                   !  block_material_x(ix)==block_material_y(iy) ), &
 
-                    end associate
-                  end do
+                  call this%metadata(ix,iy,iz)%set_max_spacing(real(max_spacing,r8k))
+                  associate( &
+                    x_domain =>  [ sum( block_thickness_x(1:ix-1) ), sum( block_thickness_x(1:ix) ) ], &
+                    y_domain =>  [ sum( block_thickness_y(1:iy-1) ), sum( block_thickness_y(1:iy) ) ], &
+                    z_domain =>  [ sum( block_thickness_z(1:iz-1) ), sum( block_thickness_z(1:iz) ) ], &
+                    tag => [wrappers_material, core_material, cavity] )
 
-                end do set_metadata_for_y_dir_with_core
+                    if (block_material_x(ix) == block_material_y(iy)) then
+                      block_material = block_material_x(ix)
+                    else if (block_material_x(ix) /= core_material) then
+                      block_material = block_material_x(ix)
+                    else
+                      block_material = block_material_y(iy)
+                    end if
+
+
+                   !associate( block_material_ =>merge(block_material, cavity, iz<=nz_core .and. block_material==core_material) )
+
+                    call this%metadata(ix,iy,iz)%set_label( block_material )
+
+                    call this%metadata(ix,iy,iz)%set_tag( findloc(tag, block_material, 1, back=.true.) )
+
+                    print *,"ix, iy, iz, tag:",ix, iy, iz, block_material, findloc(tag, block_material, 1, back=.true.)
+
+                   !end associate
+
+                    call this%metadata(ix,iy,iz)%set_subdomain( &
+                     subdomain_t( reshape([x_domain(1), y_domain(1), z_domain(1), x_domain(2), y_domain(2), z_domain(2)], &
+                     [space_dimension,num_end_points]) ) )
+
+                  end associate
+               !end do set_spacing_and_subdomain
+                end do; end do; end do
+
               end associate
             end associate
           end associate

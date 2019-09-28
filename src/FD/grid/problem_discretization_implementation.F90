@@ -69,7 +69,6 @@ contains
 
       SUBROUTINE define_scalar( s, vals, dataname )
           USE vtk_attributes, ONLY : scalar, attributes
-          USE Precision, ONLY : r8k, i4k
           CLASS(attributes), INTENT(INOUT) :: s
           REAL(r8k),         INTENT(IN)    :: vals(:)
           CHARACTER(LEN=*),  INTENT(IN)    :: dataname
@@ -79,7 +78,6 @@ contains
       END SUBROUTINE
 
       SUBROUTINE  VTK_output
-            USE Precision, ONLY : r8k, i4k
             USE vtk_datasets,   ONLY : unstruct_grid
             USE vtk,            ONLY : vtk_legacy_write
             USE vtk_cells, ONLY : voxel, vtkcell_list
@@ -153,7 +151,7 @@ contains
 
   pure function evenly_spaced_points( boundaries, resolution, direction ) result(grid_nodes)
     !! Define grid point coordinates with uniform spacing in the chosen subdomain
-    real, intent(in) :: boundaries(:,:)
+    real(r8k), intent(in) :: boundaries(:,:)
       !! subdomain boundaries of each coordinate direction
     integer, intent(in) :: resolution(:)
       !! number of grid points in each direction
@@ -161,7 +159,7 @@ contains
       !! coordinate direction to define
     real, allocatable :: grid_nodes(:,:,:)
       !! grid node locations and spacing in each coordination direction
-    real dx(space_dimensions)
+    real(r8k) dx(space_dimensions)
     integer alloc_status
     character(len=128) :: alloc_error
 

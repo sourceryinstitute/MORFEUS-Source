@@ -15,6 +15,7 @@ set( morfeus_utils_sources
   array_functions_implementation.f90
   string_functions_interface.f90
   string_functions_implementation.f90
+  kind_parameters.f90
 )
 if(EMULATE_MISSING_INTRINSICS)
   set( morfeus_utils_sources

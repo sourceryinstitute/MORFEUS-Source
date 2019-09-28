@@ -8,6 +8,7 @@ module problem_discretization_interface
   use object_interface, only : object
   use structured_grid_interface, only : structured_grid
   use geometry_interface, only : geometry
+  use kind_parameters, only : r8k, i4k
   implicit none
 
   private

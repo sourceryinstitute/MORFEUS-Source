@@ -11,6 +11,7 @@ module plate_3D_interface
   use geometry_interface, only : geometry
   use json_module, only : json_file
   use block_metadata_interface, only : block_metadata, subdomain_t, max_name_length, space_dimension, num_end_points
+  use kind_parameters, only : r8k
 
   implicit none
 
@@ -60,7 +61,7 @@ module plate_3D_interface
       class(plate_3D), intent(in) :: this
       integer, dimension(space_dimension) :: indicial_coordinates
       integer, parameter :: num_end_points=2
-      real, dimension(space_dimension,num_end_points) :: this_domain
+      real(r8k), dimension(space_dimension,num_end_points) :: this_domain
     end function
 
     module function get_block_metadata(this, indicial_coordinates) result(this_metadata)
