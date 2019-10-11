@@ -291,7 +291,7 @@ contains
 
                     if ( block_material_y(iy) == core_material ) then
                       block_material = block_material_x(ix)
-                    else if ( block_material_x(ix) == core_material )
+                    else if ( block_material_x(ix) == core_material ) then
                       block_material = block_material_y(iy)
                     else
                       block_material = block_material_y(iy)
