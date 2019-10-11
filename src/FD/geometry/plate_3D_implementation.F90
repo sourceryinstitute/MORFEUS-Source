@@ -243,11 +243,6 @@ contains
           ny => ny_core + symmetry*sum(ny_wrappers), &
           nz => sum(nz_wrappers) )
 
-          print *,"nx_core, nx_wrappers :",nx_core, nx_wrappers
-          print *,"ny_core, ny_wrappers :",ny_core, ny_wrappers
-          print *,"nz_core, nz_wrappers :",nz_core, nz_wrappers
-          print *,"nx, ny, nz :",nx, ny, nz
-
           allocate(this%metadata(nx, ny, nz), stat=alloc_stat )
           call assert( alloc_stat==success, "set_block_metadata: allocate(this%metadata(nx,ny,nz),...)" )
 
@@ -294,10 +289,10 @@ contains
                     z_domain =>  [ sum( block_thickness_z(1:iz-1) ), sum( block_thickness_z(1:iz) ) ], &
                     tag => [wrappers_material, core_material, cavity] )
 
-                    if (block_material_x(ix) == block_material_y(iy)) then
+                    if ( block_material_y(iy) == core_material ) then
                       block_material = block_material_x(ix)
-                    else if (block_material_x(ix) /= core_material) then
-                      block_material = block_material_x(ix)
+                    else if ( block_material_x(ix) == core_material )
+                      block_material = block_material_y(iy)
                     else
                       block_material = block_material_y(iy)
                     end if
