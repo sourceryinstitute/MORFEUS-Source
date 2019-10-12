@@ -24,32 +24,37 @@ program main
   type(material_t) core, wrapper
 
   integer, parameter :: symmetry=2
+  character(len=len('burrito')), dimension(:,:), allocatable :: mat
+  character(len=*), parameter :: csv_format = '(*(G0,:,","))'
 
   core%material_name = ['burrito']
-  wrapper%material_name = [character(len=len('burrito')) :: 'bag', 'foil']
-  core%nx_blocks = [2]
-  core%ny_blocks = [1]
-  wrapper%nx_blocks = [2,1]
-  wrapper%ny_blocks = [1,1]
+  wrapper%material_name = [character(len=len('burrito')) :: 'bag', 'air', 'foil']
+  core%nx_blocks = [1]
+  core%ny_blocks = [2]
+  wrapper%nx_blocks = [3,2,1]
+  wrapper%ny_blocks = [1,2,3]
 
   associate( &
     nx => core%nx_blocks(1) + symmetry*sum(wrapper%nx_blocks), &
     ny => core%ny_blocks(1) + symmetry*sum(wrapper%ny_blocks) )
 
-    do i=1,nx
-      do j=1,ny
-        call material(i, j, core, wrapper)
+    allocate( mat(nx,ny) )
+
+    do j=1,ny
+      do i=1,nx
+        mat(i,j) = material(i, j, core, wrapper)
       end do
+      write(*,csv_format) mat(:,j)
     end do
 
   end associate
 
 contains
 
-  subroutine material(ix, iy, core_, wrapper_)
+  function material(ix, iy, core_, wrapper_) result(material_ix_iy)
     integer, intent(in) :: ix, iy
     type(material_t), intent(in) :: core_, wrapper_
-    integer m
+    character(len=len('burrito')) material_ix_iy
 
     associate( &
       nx_layers => [wrapper_%nx_blocks, core_%nx_blocks, wrapper_%nx_blocks(size(wrapper_%nx_blocks):1:-1) ], &
@@ -60,34 +65,34 @@ contains
         block_material_x => [( [(material(i), j=1,nx_layers(i))], i=1,size(nx_layers) )], &
         block_material_y => [( [(material(i), j=1,ny_layers(i))], i=1,size(ny_layers) )] )
 
-       if ( (block_material_x(ix) == core_%material_name(1)) .and. (block_material_y(iy) == core_%material_name(1)) ) then
-         print *,ix,",", iy, ":", block_material_x(ix), " | ", block_material_y(iy), " => ",core_%material_name(1)
-       else if ( &
-         (ix<=sum(wrapper_%nx_blocks)) .and. (iy>sum(wrapper_%ny_blocks)) .and. (iy<=sum(wrapper_%ny_blocks)+core%ny_blocks(1)))then
-         print *,ix,",", iy, ":", block_material_x(ix), " | ", block_material_y(iy), " => ",block_material_x(ix)
-       else if ( &
-         (ix>sum(wrapper_%nx_blocks)+core_%nx_blocks(1)) .and. &
-         (iy>sum(wrapper_%ny_blocks)) .and. (iy<=sum(wrapper_%ny_blocks)+core%ny_blocks(1))) then
-         print *,ix,",", iy, ":", block_material_x(ix), " | ", block_material_y(iy), " => ",block_material_x(ix)
-       else if ( &
-         (iy<=sum(wrapper_%ny_blocks)) .and. (ix>sum(wrapper_%nx_blocks)) .and. (ix<=sum(wrapper_%nx_blocks)+core%nx_blocks(1)))then
-         print *,ix,",", iy, ":", block_material_x(ix), " | ", block_material_y(iy), " => ",block_material_y(iy)
-       else if ( &
-         (iy>sum(wrapper_%ny_blocks)+core_%ny_blocks(1)) .and. &
-         (ix>sum(wrapper_%nx_blocks)) .and. (ix<=sum(wrapper_%nx_blocks)+core%nx_blocks(1)))then
-         print *,ix,",", iy, ":", block_material_x(ix), " | ", block_material_y(iy), " => ",block_material_y(iy)
-       else if ( &
-         (ix<=sum(wrapper_%nx_blocks)) .and. (iy<=sum(wrapper_%ny_blocks)) ) then
-         print *,ix,",", iy, ":", block_material_x(ix), " | ", block_material_y(iy), " => ------- ",block_material_y(iy)
-       else
-         print *,ix,",", iy, ":", block_material_x(ix), " | ", block_material_y(iy)
-       end if
+        associate( wrapper_material_x => replace_layers(block_material_x, block_material_y, iy) )
+          material_ix_iy = wrapper_material_x(ix)
+        end associate
+      end associate
+    end associate
+  end function
 
+  function replace_layers(full_delineation_x, full_delineation_y, iy) result(wrapper_layer_x)
+    character(len=*), intent(in) :: full_delineation_x(:), full_delineation_y(:)
+    character(len=len('burrito')), allocatable :: wrapper_layer_x(:)
+    integer layer, layer_block
+    integer ix, iy
+
+
+    allocate(wrapper_layer_x( size(full_delineation_x) ))
+
+    associate( layer=>full_delineation_y(iy) )
+      associate( &
+        first => findloc(full_delineation_x, layer, dim=1, back=.false.), &
+        last => findloc(full_delineation_x, layer, dim=1, back=.true.) )
+
+        wrapper_layer_x(1:first-1) = full_delineation_x(1:first-1)
+        wrapper_layer_x(first:last) = layer
+        wrapper_layer_x(last+1:) = full_delineation_x(last+1:)
       end associate
     end associate
 
-  end subroutine
-
+  end function
 
 #ifdef __GNUC__
 #if __GNUC__ >= 9
