@@ -54,7 +54,7 @@ contains
   function material(ix, iy, core_, wrapper_) result(material_ix_iy)
     integer, intent(in) :: ix, iy
     type(material_t), intent(in) :: core_, wrapper_
-    character(len=len('burrito')) material_ix_iy
+    character(len=:), allocatable :: material_ix_iy
 
     associate( &
       nx_layers => [wrapper_%nx_blocks, core_%nx_blocks, wrapper_%nx_blocks(size(wrapper_%nx_blocks):1:-1) ], &
@@ -74,12 +74,9 @@ contains
 
   function replace_layers(full_delineation_x, full_delineation_y, iy) result(wrapper_layer_x)
     character(len=*), intent(in) :: full_delineation_x(:), full_delineation_y(:)
-    character(len=len('burrito')), allocatable :: wrapper_layer_x(:)
+    character(len=len(full_delineation_x)) :: wrapper_layer_x( size(full_delineation_x) )
     integer layer, layer_block
     integer ix, iy
-
-
-    allocate(wrapper_layer_x( size(full_delineation_x) ))
 
     associate( layer=>full_delineation_y(iy) )
       associate( &
