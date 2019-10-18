@@ -152,7 +152,7 @@ contains
 #endif
 
 #ifndef HAVE_FINDLOC
-  module procedure findloc_integer_dim1_backtrue
+  module procedure findloc_integer_dim1
     use assertions_interface, only : assert
     integer, parameter :: loop_increment=-1, base_index=1
     integer index_
@@ -171,15 +171,26 @@ contains
 
   end procedure
 
-  module procedure findloc_character_dim1_backtrue
+  module procedure findloc_character_dim1
     use assertions_interface, only : assert
-    integer, parameter :: loop_increment=-1, base_index=1
-    integer index_
+    integer, parameter :: base_index=1
+    integer index_, loop_increment, start, finish
 
-    call assert(back .and. dim==1,"findloc_character_dim1_backtrue: unsupported use case")
+    call assert(dim==1,"findloc_character_dim1: unsupported use case")
 
     associate( lower_bound=>lbound(array,dim) )
-      do index_=ubound(array,dim), lower_bound, loop_increment
+      select case(back)
+        case(.true.)
+           start = ubound(array,dim)
+           finish = lower_bound
+           loop_increment=-1
+        case(.false.)
+           start = lower_bound
+           finish = ubound(array,dim)
+           loop_increment=1
+      end select
+
+      do index_=start, finish, loop_increment
         if (array(index_)==value) then
           location = index_ - lower_bound + base_index
           return
