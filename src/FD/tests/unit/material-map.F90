@@ -14,21 +14,17 @@ program main
   !! via ctest.
   implicit none
 
-  integer i, j, k
-
   type material_t
-    character(len=len('burrito')), dimension(:), allocatable :: material_name
+    character(len=len('burrito')), allocatable :: material_name(:)
     integer, dimension(:), allocatable :: nx_blocks, ny_blocks, nz_blocks
   end type
 
   type(material_t) core, wrapper
-
   integer, parameter :: symmetry=2
-  character(len=len('burrito')), dimension(:,:), allocatable :: mat
-  character(len=*), parameter :: csv_format = '(*(G0,:,","))'
+  character(len=len(core%material_name)) , allocatable :: mat(:,:,:)
 
   core%material_name = ['burrito']
-  wrapper%material_name = [character(len=len('burrito')) :: 'bag', 'air', 'foil']
+  wrapper%material_name = [character(len=len(core%material_name)) :: 'bag', 'air', 'foil']
   core%nx_blocks = [1]
   core%ny_blocks = [2]
   core%nz_blocks = [1]
@@ -43,17 +39,21 @@ program main
     ny => core%ny_blocks(1) + symmetry*sum(wrapper%ny_blocks), &
     nz => wrapper%nz_blocks(1) )
 
-    allocate( mat(nx,ny) )
+    allocate( mat(nx, ny, nz) )
 
-    do k=1,nz
-      do j=1,ny
-        do i=1,nx
-          mat(i,j) = material(i, j, k, core, wrapper)
+    block
+      character(len=*), parameter :: csv_format = '(*(G0,:,","))'
+      integer i, j, k
+      do k=1,nz
+        do j=1,ny
+          do i=1,nx
+            mat(i,j,k) = material(i, j, k, core, wrapper)
+          end do
+          write(*,csv_format) mat(:,j,k)
         end do
-        write(*,csv_format) mat(:,j)
+        write(*,*)
       end do
-      write(*,*)
-    end do
+    end block
 
   end associate
 
@@ -62,6 +62,7 @@ contains
   function material(ix, iy, iz, core_, wrapper_) result(material_ix_iy)
     integer, intent(in) :: ix, iy, iz
     type(material_t), intent(in) :: core_, wrapper_
+    integer i, j, k
     character(len=:), allocatable :: material_ix_iy
     character(len=len(core_%material_name)), parameter :: void_name="void"
 
@@ -86,8 +87,7 @@ contains
   function replace_layers(full_delineation_x, full_delineation_y, iy) result(wrapper_layer_x)
     character(len=*), intent(in) :: full_delineation_x(:), full_delineation_y(:)
     character(len=len(full_delineation_x)) :: wrapper_layer_x( size(full_delineation_x) )
-    integer layer, layer_block
-    integer ix, iy
+    integer iy
 
     associate( layer=>full_delineation_y(iy) )
       associate( &
