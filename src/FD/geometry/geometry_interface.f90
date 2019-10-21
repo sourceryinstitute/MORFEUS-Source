@@ -19,8 +19,8 @@ module geometry_interface
     private
   contains
     procedure build
-    procedure(set_json_file), deferred, private ::  set_grid_specification
-    procedure(set_metadata), deferred, private ::  set_block_metadata
+    procedure(set_json_file), deferred ::  set_grid_specification
+    procedure(set_metadata), deferred ::  set_block_metadata
   end type
 
 
@@ -37,7 +37,7 @@ module geometry_interface
   end interface
 
 
-  abstract interface
+  interface
 
     module subroutine set_json_file(this, grid_description_file)
       !! define json_file problem description
