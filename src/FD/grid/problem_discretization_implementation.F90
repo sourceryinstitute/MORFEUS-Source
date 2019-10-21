@@ -81,7 +81,7 @@ contains
       SUBROUTINE  VTK_output
             USE Precision, ONLY : r8k, i4k
             USE vtk_datasets,   ONLY : unstruct_grid
-            USE vtk,            ONLY : vtk_legacy_write
+            USE vtk,            ONLY : vtk_serial_write
             USE vtk_cells, ONLY : voxel, vtkcell_list
             USE vtk_attributes, ONLY : attributes
             USE array_functions_interface, ONLY : OPERATOR(.catColumns.), OPERATOR(.columnVectors.)
@@ -143,7 +143,7 @@ contains
             CALL define_scalar(  cell_values, REAL( block_cell_tag, r8k),  'cell_tag' )
 
             CALL vtk_grid%init (points=points, cell_list=cell_list )
-            CALL vtk_legacy_write( &
+            CALL vtk_serial_write( &
               unit=unit, geometry=vtk_grid, title='Morfeus-FD voxels', multiple_io=.TRUE., &
               celldatasets=[cell_values], pointdatasets=[point_values] )
 
