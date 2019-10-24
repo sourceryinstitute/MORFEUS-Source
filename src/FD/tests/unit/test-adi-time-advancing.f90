@@ -51,6 +51,7 @@ program main
     real(rkind)  :: dx_m, dy_m, dz_m
     real(rkind)  :: dx_f, dy_f, dz_f
     real(rkind)  :: dx_b, dy_b, dz_b
+    integer(ikind), dimension(3) :: n
     real(rkind), dimension(:), allocatable :: a,b,c,d
     real(rkind)                            :: f,dt,t
 
@@ -58,7 +59,8 @@ program main
     dt=0.002
     t=0.0
     do while(t<=0.1)
-    associate(n=>shape(global_grid_block))
+    !associate(n=>shape(global_grid_block))
+    n = shape(global_grid_block)
       !x direction
       allocate(a(n(1)-1),b(n(1)-1),c(n(1)-1),d(n(1)-1))
       call get_ddy2(global_grid_block)
@@ -163,7 +165,7 @@ program main
         end do
       end do
       deallocate(a,b,c,d)
-    end associate
+    !end associate
     t=t+dt
     end do
   end block time_advancing
@@ -226,15 +228,16 @@ contains
     real(rkind), parameter :: dx=0.6/(15.0), dy=0.6/(15.0)
     real(rkind), parameter :: dx_s=0.4/5.0, dy_s=0.4/5.0
     real(rkind), dimension(:,:,:,:) ,allocatable  :: vector_field
+    integer(ikind) :: ii, jj, kk
 
     allocate( vector_field(nx,ny,nz,components) )
 
     associate( dz=>2.0/(nz-1) )
-      do concurrent( i=1:nx, j=1:ny, k=1:nz )
-        vector_field(i,j,k,1) = merge(-0.6+(i-6)*dx, merge( -1.0+(i-1)*dx_s, 0.6+(i-36)*dx_s, i<6), i>=6 .and. i<=36)
-        vector_field(i,j,k,2) = merge(-0.6+(j-6)*dy, merge( -1.0+(j-1)*dy_s, 0.6+(j-36)*dy_s, j<6), j>=6 .and. j<=36)
-        vector_field(i,j,k,3) = -1.0+(k-1)*dz
-        vector_field(i,j,k,4) = merge(2.0, 1.0, (i==1 .or. i==nx .or. j==1 .or. j==ny .or. k==1 .or. k==nz))
+      do concurrent( ii=1:nx, jj=1:ny, kk=1:nz )
+        vector_field(ii,jj,kk,1) = merge(-0.6+(ii-6)*dx, merge( -1.0+(ii-1)*dx_s, 0.6+(ii-36)*dx_s, ii<6), ii>=6 .and. ii<=36)
+        vector_field(ii,jj,kk,2) = merge(-0.6+(jj-6)*dy, merge( -1.0+(jj-1)*dy_s, 0.6+(jj-36)*dy_s, jj<6), jj>=6 .and. jj<=36)
+        vector_field(ii,jj,kk,3) = -1.0+(kk-1)*dz
+        vector_field(ii,jj,kk,4) = merge(2.0, 1.0, (ii==1 .or. ii==nx .or. jj==1 .or. jj==ny .or. kk==1 .or. kk==nz))
       end do
     end associate
   end function

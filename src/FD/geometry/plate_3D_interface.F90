@@ -17,7 +17,6 @@ module plate_3D_interface
   private
   public :: plate_3D
 
-
   type, extends(geometry) :: plate_3D
     !! encapsulate the grid specification for a plate_3D object
     private
