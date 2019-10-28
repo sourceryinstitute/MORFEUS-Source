@@ -21,7 +21,7 @@ module adi_mod
   integer(ikind)  :: i, j, k
   integer(ikind) ,parameter :: nx=41, ny=41, nz=41
 
-contains  
+contains
 
   pure function position_vectors(nx,ny,nz) result(vector_field)
     integer(ikind), intent(in) :: nx, ny, nz
@@ -379,12 +379,12 @@ program main
     t=t+dt
     end do
   end block time_advancing
-  
+
 !  analytical_solution: block
 !    real(rkind), dimension(:,:,:), allocatable :: a_mnl, k_mnl
 !    integer(ikind)                             :: l,m,n,kk,jj,ii
 !    real(rkind)                                :: pi, t
-  
+
     pi=4.0*atan(1.0)
     t=0.1
     allocate(a_mnl(10,10,10), k_mnl(10,10,10))
@@ -414,7 +414,7 @@ program main
       global_grid_block(i,j,k-1)%T_analytical(5)=global_grid_block(i,j,k)%T_analytical(1)
     end do
 !  end block analytical_solution
-  
+
 !  error_calculation: block
 !    real(rkind)            :: avg_err_percentage
 !    real(rkind), parameter :: err_percentage=0.1
@@ -427,7 +427,7 @@ program main
     avg_err_percentage=100*avg_err_percentage/((nz-1)*(ny-1)*(nx-1)*8)
     if (avg_err_percentage < 0.1) print *, "Test passed."
 !  end block error_calculation
-  
+
   call output_result(global_grid_block)
 
 end program main
