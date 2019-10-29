@@ -25,7 +25,6 @@ contains
 
   pure function position_vectors(nx,ny,nz) result(vector_field)
     integer(ikind), intent(in) :: nx, ny, nz
-    integer(ikind) :: ii, jj, kk
     integer(ikind), parameter :: components=3
     real(rkind), parameter :: dx=0.75/(5.0), dy=0.75/(5.0)
     real(rkind), parameter :: dx_s=0.25/5.0, dy_s=0.25/5.0
@@ -34,7 +33,7 @@ contains
     allocate( vector_field(nx,ny,nz,components) )
 
     associate( dz=>10.0/(nz-1) )
-      do concurrent( ii=1:nx, jj=1:ny, kk=1:nz )
+      do concurrent( i=1:nx, j=1:ny, k=1:nz )
         vector_field(i,j,k,1) = merge(-0.75+(i-6)*dx, merge( -1.0+(i-1)*dx_s, 0.75+(i-16)*dx_s, i<6), i>=6 .and. i<=16)
         vector_field(i,j,k,2) = merge(-0.75+(j-6)*dy, merge( -1.0+(j-1)*dy_s, 0.75+(j-16)*dy_s, j<6), j>=6 .and. j<=16)
         vector_field(i,j,k,3) = (k-1)*dz
