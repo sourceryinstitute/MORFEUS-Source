@@ -7,7 +7,7 @@
 SUBMODULE (vtkmofo_io) vtkmofo_io_implementation
     USE iso_fortran_env, ONLY : r8k => real64
     USE class_psblas,    ONLY : psb_dpk_
-    USE class_mesh, ONLY : mesh
+    USE class_mesh,      ONLY : mesh
     IMPLICIT NONE
     !! author: Ian Porter, NRC
     !! date: 01/23/2019
@@ -62,7 +62,6 @@ CONTAINS
         USE class_mesh
         USE class_output
         USE class_vertex
-        !
         USE tools_output_basics
 
         IMPLICIT NONE
@@ -265,7 +264,6 @@ CONTAINS
         USE class_mesh
         USE class_output
         USE class_scalar_field
-        !
         USE tools_output_basics
 
         IMPLICIT NONE
@@ -354,7 +352,6 @@ CONTAINS
         USE class_mesh
         USE class_output
         USE class_vector_field
-        !
         USE tools_output_basics
 
         IMPLICIT NONE
@@ -415,7 +412,6 @@ CONTAINS
         DEALLOCATE(x_glob,x_loc)
         NULLIFY(msh)
 
-
         ! ----- Normal Termination -----
         CALL psb_erractionrestore(err_act)
 
@@ -429,8 +425,7 @@ CONTAINS
         USE vtk_attributes, ONLY : attributes, scalar
         USE vtk_cells,      ONLY : vtkcell, vtkcell_list, set_cell_type
         USE vtk_datasets,   ONLY : unstruct_grid
-        USE vtk,            ONLY : vtk_legacy_write
-        !        USE vtk_vars
+        USE vtk,            ONLY : vtk_serial_write
         !! author: Ian Porter, NRC
         !! date: 01/23/2019
         !!
@@ -498,9 +493,11 @@ CONTAINS
         END DO
 
         CALL vtk_mesh%init (points=points, cell_list=morfeus_cells, datatype='double')
-        !! Set up the geometry using a vtk structured grid
+                             !! Set up the geometry using a vtk structured grid
+        CALL vtk_serial_write (geometry=vtk_mesh, filename=file_name, multiple_io=.FALSE.)
+
         DO i = 1, n_cell_values
-            !! Cell values
+            !! Set cell values
             IF (.NOT. ALLOCATED(cell_vals_to_write(i)%attribute)) THEN
                 ALLOCATE(scalar::cell_vals_to_write(i)%attribute)
             END IF
@@ -514,14 +511,7 @@ CONTAINS
             END SELECT
         END DO
 
-        !        DO i = 1, n_point_values
-        !            !! Point values
-        !            CALL point_vals_to_write(i)%attribute%init (TRIM(point_dataname(i)), numcomp=1, real1d=point_vals(:,i))
-        !        END DO
-
-        CALL vtk_legacy_write (unit=15, geometry=vtk_mesh, filename=file_name, celldatasets=cell_vals_to_write, &
-            &                    multiple_io=.FALSE., title=title)
-        !          &                    pointdatasets=point_vals_to_write, multiple_io=.TRUE., title=title)
+        CALL vtk_serial_write (celldatasets=cell_vals_to_write)  ! pointdatasets=point_vals_to_write
 
     END PROCEDURE
 
