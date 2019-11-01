@@ -8,6 +8,7 @@ module emulated_intrinsics_interface
   !! author: Damian Rouson
   !!
   !! Fortran 2008 coarray emulations of Fortran 2018 intrinsic collective subroutines
+  !! and Fortran 2003 emulation of Fortran 2008 intrinsic procedures (e.g, findloc)
   implicit none
 
 #ifndef HAVE_FINDLOC
