@@ -11,7 +11,9 @@ module string_functions_interface
   implicit none
 
   private
-  public file_extension
+  public :: file_extension, csv_format
+
+  character(len=*), parameter :: csv_format = '(*(G0,:,","))'
 
   interface
     pure module function file_extension(file_name) result(extension)
