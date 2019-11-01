@@ -111,18 +111,29 @@ contains
 #ifndef HAVE_FINDLOC
 
   pure function findloc(array, value, dim, back) result(location)
-    implicit none
-    integer, intent(in) :: array(:), value, dim
+    character(len=*), intent(in) :: array(:), value
+    integer, intent(in) :: dim
     logical, intent(in) :: back
     integer location
 
-    integer, parameter :: loop_increment=-1, base_index=1
-    integer index_
+    integer, parameter :: base_index=1
+    integer index_, loop_increment, start, finish
 
-    if ( (.not. back) .or. dim/=1) error stop "findloc: unsupported use case"
+    if (dim/=1) error stop "findloc_character_dim1: unsupported use case"
 
     associate( lower_bound=>lbound(array,dim) )
-      do index_=ubound(array,dim), lower_bound, loop_increment
+      select case(back)
+        case(.true.)
+           start = ubound(array,dim)
+           finish = lower_bound
+           loop_increment=-1
+        case(.false.)
+           start = lower_bound
+           finish = ubound(array,dim)
+           loop_increment=1
+      end select
+
+      do index_=start, finish, loop_increment
         if (array(index_)==value) then
           location = index_ - lower_bound + base_index
           return
