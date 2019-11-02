@@ -6,7 +6,7 @@
 !
 module block_metadata_interface
   !! author: Damian Rouson
-  !! date: August 2, 2019
+  !! date: 8/2/2019
   !! summary: encapsulate metadata describing structured-grid blocks
   use iso_c_binding, only : c_int
   use kind_parameters, only : r8k

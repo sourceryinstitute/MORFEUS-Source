@@ -128,10 +128,9 @@ enable_testing()
 
 # Add test fixtures for setup and teardown
 set(MORFEUS_FD_INPUTS
-  "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-low-resolution-blocks.json"
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-low-resolution-layers.json"
-  "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-min-resolution-layers.json"
-  "${CMAKE_CURRENT_SOURCE_DIR}/tests/integration/3Dplate-high-resolution.json"
+  "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-low-resolution-layers-material-map.json"
+  "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-high-resolution-layers.json"
 )
 
 #  "${CMAKE_CURRENT_SOURCE_DIR}/tests/integration/3Dplate-high-resolution.json"
@@ -235,6 +234,7 @@ endforeach()
 
 # Single-image integration tests
 set( base_names
+  plate-material-mapping
   discretize-3D-plate
   write-slab-vtk
   write-vtk-voxels

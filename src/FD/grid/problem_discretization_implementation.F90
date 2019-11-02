@@ -5,6 +5,8 @@
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 submodule(problem_discretization_interface) define_problem_discretization
+  !! author: Damian Rouson and Karla Morris
+  !! date: 9/9/2019
   use assertions_interface, only : assert,assertions
   use iso_fortran_env, only : error_unit
   implicit none
@@ -207,7 +209,7 @@ contains
 
           associate( ijk => this%block_indicial_coordinates(n) )
 
-            associate( metadata => plate_3D_geometry%get_block_metadata(ijk))
+            associate( metadata => plate_3D_geometry%get_block_metadatum(ijk))
 
               call this%vertices(n)%set_metadata( metadata  )
 
