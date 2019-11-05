@@ -14,7 +14,24 @@
 			}
     },
     "heat_source" : {
-      "power_density" : 10000,
+      "type" : "lhgr",
+      "time": [ 1.0, 2.0, 3.0, 4.0 ],
+      "power": [ 2.5, 5.0, 7.5, 10.0 ],
+      "power_shape_index": [ 1, 1, 2, 3 ],
+      "shapes": [
+        {
+        "elevations": [ 0.0, 20.0e-1 ],
+        "power_factor": [ 1.0, 1.0 ]
+        },
+        {
+        "elevations": [ 0.0, 10.0e-1, 15.0e-1, 20.0e-1 ],
+        "power_factor": [ 0.1, 0.5, 1.2, 0.8 ]
+        },
+        {
+        "elevations": [ 0.0, 10.0e-1, 20.0e-1 ],
+        "power_factor": [ 0.5, 1.0, 0.5 ]
+        }
+      ],
 			"constraint": {
 				"language": "Fortran",
 				"minimum_version": "2003",
