@@ -2,7 +2,7 @@
   "file_validation": {
     "validator": "https://jsonlint.com/",
     "validated_by": "Damian Rouson",
-    "validation_date": 20190920
+    "validation_date": 20191104
   },
   "MORFEUS_FD": {
     "initial_condition" : {
@@ -15,6 +15,7 @@
     },
     "heat_source" : {
       "type" : "lhgr",
+      "type_description" : "linear heat generation rate",
       "time": [ 1.0, 2.0, 3.0, 4.0 ],
       "power": [ 2.5, 5.0, 7.5, 10.0 ],
       "power_shape_index": [ 1, 1, 2, 3 ],
@@ -35,7 +36,12 @@
       "constraint": {
         "language": "Fortran",
         "minimum_version": "2003",
-        "expressions": [ "power_density > 0." ]
+        "expressions": [
+          "all(power >= 0.)",
+          "all( [size(power)==size(time), size(power_shape_index)==size(time), ",
+          "all( power_shape_index <= ubound(shapes)",
+          "all( power_shape_index => lbound(shapes)"
+        ]
       }
     },
     "layers": {
@@ -80,9 +86,6 @@
           "y": [2, 1, 1],
           "z": [10]
         },
-        "boundary_condition" : {
-          "temperature" : 500
-        },
         "constraint": {
           "language": "Fortran",
           "minimum_version": "2003",
@@ -96,12 +99,16 @@
           ]
         }
       },
+      "bottom_boundary" : {
+        "temperature" : [400, 450, 500, 600],
+        "pressure" : [400, 450, 500, 600],
+        "flow_rate" : [400, 450, 500, 600]
+       },
       "constraint": {
         "language": "Fortran",
         "minimum_version": "2003",
         "expressions": [
-          "all( wrappers%thickness%z >= core%thickness%z )",
-          "all( wrappers%num_grid_blocks%z >= core%num_grid_blocks%z )"
+          "size(bottom_boundary%temperature) == size(time)"
         ]
       }
     }
