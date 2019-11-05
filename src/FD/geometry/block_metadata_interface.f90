@@ -70,7 +70,7 @@ module block_metadata_interface
     end subroutine
 
 #ifndef HAVE_ERROR_STOP_IN_PURE
-   !impure &
+    !impure &
 #endif
     elemental module subroutine set_max_spacing(this, max_spacing)
       !! Define the maximum allowable grid spacing

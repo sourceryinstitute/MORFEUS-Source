@@ -105,9 +105,9 @@ contains
       "bag","bag","bag","air","air","air ","air   ","air ","air","air","bag","bag","bag",&
       "bag","bag","bag","bag","bag","bag ","bag   ","bag ","bag","bag","bag","bag","bag" &
       ], [13,14,1] )
-   allocate( character(len=len(lower_z)) :: material_map(size(lower_z,1), size(lower_z,2), size(lower_z,3)+size(upper_z,3)) )
-   material_map(:,:,1) = lower_z(:,:,1)
-   material_map(:,:,2) = upper_z(:,:,1)
+    allocate( character(len=len(lower_z)) :: material_map(size(lower_z,1), size(lower_z,2), size(lower_z,3)+size(upper_z,3)) )
+    material_map(:,:,1) = lower_z(:,:,1)
+    material_map(:,:,2) = upper_z(:,:,1)
   end function
 
 end program

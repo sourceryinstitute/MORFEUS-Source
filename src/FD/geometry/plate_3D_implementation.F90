@@ -127,7 +127,7 @@ contains
       call assert( found , base_object//".core.material_name found" )
 
       supremum = maxval( [( len( trim(names(i)) ), i=1,size(names) )] )
-     !allocate( character(len=supremum) :: layers%core%material_name(size(names)) ) !! precluded by gfortran 8.3 bug
+      !allocate( character(len=supremum) :: layers%core%material_name(size(names)) ) !! precluded by gfortran 8.3 bug
       if (allocated(layers%core%material_name)) deallocate(layers%core%material_name)
       allocate(  layers%core%material_name(size(names)) )
       layers%core%material_name = names
@@ -176,7 +176,7 @@ contains
       call assert( found , base_object//".wrappers.material_name found" )
 
       supremum = maxval( [( len( trim(names(i)) ), i=1,size(names) )] )
-     !allocate( character(len=supremum) :: layers%wrappers%material_name(size(names)) ) !! precluded by gfortran 8.3 bug
+      !allocate( character(len=supremum) :: layers%wrappers%material_name(size(names)) ) !! precluded by gfortran 8.3 bug
       if (allocated(layers%wrappers%material_name)) deallocate(layers%wrappers%material_name)
       allocate(  layers%wrappers%material_name(size(names)) )
       layers%wrappers%material_name = names
@@ -217,12 +217,12 @@ contains
 
     subroutine verify_layers
 
-       associate( wrappers => layers%wrappers, core=> layers%core )
-         call assert( all( wrappers%thickness%z >= core%thickness%z ), "all( wrappers%thickness%z >= core%thickness%z )" )
-         call assert( &
-           all( wrappers%num_grid_blocks%z >= core%num_grid_blocks%z ), &
-           "all( wrappers%num_grid_blocks%z >= core%num_grid_blocks%z )")
-       end associate
+      associate( wrappers => layers%wrappers, core=> layers%core )
+        call assert( all( wrappers%thickness%z >= core%thickness%z ), "all( wrappers%thickness%z >= core%thickness%z )" )
+        call assert( &
+          all( wrappers%num_grid_blocks%z >= core%num_grid_blocks%z ), &
+          "all( wrappers%num_grid_blocks%z >= core%num_grid_blocks%z )")
+      end associate
 
     end subroutine
 
@@ -288,8 +288,8 @@ contains
                     call this%metadata(ix,iy,iz)%set_label( block_material )
                     call this%metadata(ix,iy,iz)%set_tag( findloc(tag, block_material, 1, back=.true.) )
                     call this%metadata(ix,iy,iz)%set_subdomain( &
-                     subdomain_t( reshape([x_domain(1), y_domain(1), z_domain(1), x_domain(2), y_domain(2), z_domain(2)], &
-                     [space_dimension,num_end_points]) ) )
+                      subdomain_t( reshape([x_domain(1), y_domain(1), z_domain(1), x_domain(2), y_domain(2), z_domain(2)], &
+                      [space_dimension,num_end_points]) ) )
 
                   end associate
                 end do; end do; end do

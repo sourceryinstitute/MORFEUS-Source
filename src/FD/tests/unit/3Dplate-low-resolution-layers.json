@@ -1,17 +1,17 @@
 {
-	"file_validation": {
-		"validator": "https://jsonlint.com/",
-		"validated_by": "Damian Rouson",
-		"validation_date": 20190920
-	},
-	"MORFEUS_FD": {
+  "file_validation": {
+    "validator": "https://jsonlint.com/",
+    "validated_by": "Damian Rouson",
+    "validation_date": 20190920
+  },
+  "MORFEUS_FD": {
     "initial_condition" : {
       "temperature" : 293,
-			"constraint": {
-				"language": "Fortran",
-				"minimum_version": "2003",
-				"expressions": [ "temperature > 0." ]
-			}
+      "constraint": {
+        "language": "Fortran",
+        "minimum_version": "2003",
+        "expressions": [ "temperature > 0." ]
+      }
     },
     "heat_source" : {
       "type" : "lhgr",
@@ -32,61 +32,61 @@
         "power_factor": [ 0.5, 1.0, 0.5 ]
         }
       ],
-			"constraint": {
-				"language": "Fortran",
-				"minimum_version": "2003",
-				"expressions": [ "power_density > 0." ]
-			}
+      "constraint": {
+        "language": "Fortran",
+        "minimum_version": "2003",
+        "expressions": [ "power_density > 0." ]
+      }
     },
-		"layers": {
-			"type": "3D_plate",
-			"units_system": "SI",
-			"max_spacing": 1.0E+06,
-			"core": {
-				"material_name": ["burrito"],
-				"thickness": {
-					"x": [1.0E-01],
-					"y": [3.0E-01],
-					"z": [16.0E-01],
-					"dimensions": "length"
-				},
-				"num_grid_blocks": {
-					"x": [1],
-					"y": [3],
-					"z": [8]
-				},
-				"constraint": {
-					"language": "Fortran",
-					"minimum_version": "2003",
-					"expressions": [
+    "layers": {
+      "type": "3D_plate",
+      "units_system": "SI",
+      "max_spacing": 1.0E+06,
+      "core": {
+        "material_name": ["burrito"],
+        "thickness": {
+          "x": [1.0E-01],
+          "y": [3.0E-01],
+          "z": [16.0E-01],
+          "dimensions": "length"
+        },
+        "num_grid_blocks": {
+          "x": [1],
+          "y": [3],
+          "z": [8]
+        },
+        "constraint": {
+          "language": "Fortran",
+          "minimum_version": "2003",
+          "expressions": [
             "all( [num_grid_blocks%x,num_grid_blocks%y,num_grid_blocks%z] > 0 )",
             "all( [thickness%x,thickness%y,thickness%z] > 0. )",
             "size(material_name)==1",
             "all( [size(thickness%x), size(thickness%y), size(thickness%z)]==1 )",
             "all( [size(num_grid_blocks%x), size(num_grid_blocks%y), size(num_grid_blocks%z)]==1 )"
           ]
-				}
-			},
-			"wrappers": {
-				"material_name": ["bag", "air", "foil"],
-				"thickness": {
-					"x": [0.25E-01, 0.25E-01, 0.25E-01],
-					"y": [0.5E-01, 0.25E-01, 0.25E-01],
-					"z": [20.0E-01],
-					"dimensions": "length"
-				},
-				"num_grid_blocks": {
-					"x": [1, 1, 1],
-					"y": [2, 1, 1],
-					"z": [10]
-				},
+        }
+      },
+      "wrappers": {
+        "material_name": ["bag", "air", "foil"],
+        "thickness": {
+          "x": [0.25E-01, 0.25E-01, 0.25E-01],
+          "y": [0.5E-01, 0.25E-01, 0.25E-01],
+          "z": [20.0E-01],
+          "dimensions": "length"
+        },
+        "num_grid_blocks": {
+          "x": [1, 1, 1],
+          "y": [2, 1, 1],
+          "z": [10]
+        },
         "boundary_condition" : {
          "temperature" : 500
         },
-		  	"constraint": {
-		  		"language": "Fortran",
-		  		"minimum_version": "2003",
-		  	  "expressions": [
+        "constraint": {
+          "language": "Fortran",
+          "minimum_version": "2003",
+          "expressions": [
             "max_spacing > 0.",
             "all([num_grid_blocks%x,num_grid_blocks%y,num_grid_blocks%z]>0)",
             "all([thickness%x,thickness%y,thickness%z]>0)",
@@ -94,16 +94,16 @@
             "all( [size(thickness%x), size(thickness%y)] == size(material_name) )",
             "boundary_condition%temperature > 0."
           ]
-		  	}
-		  },
+        }
+      },
       "constraint": {
-	  		"language": "Fortran",
-	  		"minimum_version": "2003",
-	  	  "expressions": [
+        "language": "Fortran",
+        "minimum_version": "2003",
+        "expressions": [
           "all( wrappers%thickness%z >= core%thickness%z )",
           "all( wrappers%num_grid_blocks%z >= core%num_grid_blocks%z )"
         ]
       }
     }
-	}
+  }
 }
