@@ -100,7 +100,7 @@ program main
 
 contains
 
-  pure function position_vectors(nx,ny,nz) result(vector_field)
+  impure function position_vectors(nx,ny,nz) result(vector_field)
     integer(ikind), intent(in) :: nx, ny, nz
     integer(ikind), parameter :: components=3
     real(rkind), parameter :: dx=0.75/(5.0), dy=0.75/(5.0)
