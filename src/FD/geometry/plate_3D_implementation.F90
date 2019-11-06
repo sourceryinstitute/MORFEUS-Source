@@ -9,7 +9,9 @@ submodule(plate_3D_interface) plate_3D_implementation
   !! date: 8/16/2019
   use assertions_interface, only : assert
   use string_functions_interface, only : csv_format
-  use emulated_intrinsics_interface, only : findloc
+#ifndef HAVE_FINDLOC
+    use emulated_intrinsics_interface, only : findloc
+#endif
   implicit none
 
   character(len=*), parameter :: base_object = "MORFEUS_FD.layers"

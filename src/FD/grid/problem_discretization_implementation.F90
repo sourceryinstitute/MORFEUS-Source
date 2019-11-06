@@ -9,6 +9,7 @@ submodule(problem_discretization_interface) define_problem_discretization
   !! date: 9/9/2019
   use assertions_interface, only : assert,assertions
   use iso_fortran_env, only : error_unit
+  use kind_parameters, only : i4k, r8k
   implicit none
 
   integer, parameter :: space_dimensions=3
