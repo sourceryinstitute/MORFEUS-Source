@@ -195,9 +195,9 @@ set( base_names
   write-problem-discretization
   read-geometry
   array-functions
-  units
   spatial-derivatives
   adi-time-advancing
+  units
 )
 foreach(unit_test ${base_names})
   add_caf_test( fd-${unit_test} 1 ${CMAKE_CURRENT_BINARY_DIR}/tests/unit/test-${unit_test}

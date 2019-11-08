@@ -9,6 +9,7 @@ module problem_discretization_interface
   use structured_grid_interface, only : structured_grid
   use geometry_interface, only : geometry
   use kind_parameters, only : r8k, i4k
+  use plate_3D_interface, only : plate_3D
   implicit none
 
   private
@@ -53,7 +54,6 @@ module problem_discretization_interface
 
     module subroutine initialize_from_plate_3D(this,plate_3D_geometry)
       !! Define a grid with points only at the corners of each structured-grid block subdomain
-      use plate_3D_interface, only : plate_3D
       implicit none
       class(problem_discretization), intent(inout) :: this
       type(plate_3D), intent(in) :: plate_3D_geometry

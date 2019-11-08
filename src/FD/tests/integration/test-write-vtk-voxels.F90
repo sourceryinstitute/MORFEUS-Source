@@ -63,7 +63,7 @@ PROGRAM T_shape_test
 
     BLOCK
         !! Defne scalar quantities and write grid
-        USE vtk, ONLY : vtk_legacy_write
+        USE vtk, ONLY : vtk_serial_write
         USE vtk_attributes, ONLY : attributes
         TYPE (attributes) :: cell_vals_to_write, point_vals_to_write
         INTEGER(i4k) :: j
@@ -73,7 +73,7 @@ PROGRAM T_shape_test
         CALL define_scalar(  cell_vals_to_write, REAL( cell_ID, r8k),  'Cell_ID' )
         CALL define_scalar( point_vals_to_write, REAL(point_ID, r8k), 'Point_ID' )
 
-        CALL vtk_legacy_write (                 &
+        CALL vtk_serial_write (                  &
             t_shape,                             &
             celldatasets=[cell_vals_to_write],   &
             pointdatasets=[point_vals_to_write], &
