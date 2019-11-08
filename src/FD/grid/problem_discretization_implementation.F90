@@ -113,7 +113,7 @@ contains
 
                     points = points .catColumns. ( .columnVectors. vertex_positions )
                     block_point_tag = [ block_point_tag, first_point_in_block + [( ip, ip=1, PRODUCT(npoints) )] ]
-                    block_cell_tag = [ block_cell_tag, this%vertices(b)%get_tag() ]
+                    block_cell_tag = [ block_cell_tag, (this%vertices(b)%get_tag(), ic=1,PRODUCT(ncells)) ]
 
                     DO ic=1,ncells(1)
                       DO jc=1,ncells(2)
@@ -140,6 +140,8 @@ contains
             END DO loop_over_grid_blocks
 
             CALL assert( SIZE(block_point_tag,1) == SIZE(points,2), "VTK point data set & point set size match" )
+            CALL assert( SIZE(block_cell_tag,1) == SIZE(cell_list,1), "VTK cell data set & cell set size match" )
+
             CALL define_scalar(  point_values, REAL( block_point_tag, r8k),  'point_tag' )
             CALL define_scalar(  cell_values, REAL( block_cell_tag, r8k),  'cell_tag' )
 
