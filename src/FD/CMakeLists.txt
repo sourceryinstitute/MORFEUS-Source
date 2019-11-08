@@ -196,6 +196,8 @@ set( base_names
   read-geometry
   array-functions
   units
+  spatial-derivatives
+  adi-time-advancing
 )
 foreach(unit_test ${base_names})
   add_caf_test( fd-${unit_test} 1 ${CMAKE_CURRENT_BINARY_DIR}/tests/unit/test-${unit_test}
