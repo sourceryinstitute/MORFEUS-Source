@@ -154,8 +154,7 @@ contains
 
   end procedure write_formatted
 
- !pure function evenly_spaced_points( boundaries, resolution, direction ) result(grid_nodes)
- function evenly_spaced_points( boundaries, resolution, direction ) result(grid_nodes)
+  pure function evenly_spaced_points( boundaries, resolution, direction ) result(grid_nodes)
     !! Define grid point coordinates with uniform spacing in the chosen subdomain
     real(r8k), intent(in) :: boundaries(:,:)
       !! subdomain boundaries of each coordinate direction
