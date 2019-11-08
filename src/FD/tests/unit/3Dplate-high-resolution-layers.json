@@ -2,7 +2,7 @@
   "file_validation": {
     "validator": "https://jsonlint.com/",
     "validated_by": "Damian Rouson",
-    "validation_date": 20190920
+    "validation_date": 20191104
   },
   "MORFEUS_FD": {
     "initial_condition" : {
@@ -14,17 +14,40 @@
       }
     },
     "heat_source" : {
-      "power_density" : 10000,
+      "type" : "lhgr",
+      "type_description" : "linear heat generation rate",
+      "time": [ 1.0, 2.0, 3.0, 4.0 ],
+      "power": [ 2.5, 5.0, 7.5, 10.0 ],
+      "power_shape_index": [ 1, 1, 2, 3 ],
+      "shapes": [
+        {
+        "elevations": [ 0.0, 20.0e-1 ],
+        "power_factor": [ 1.0, 1.0 ]
+        },
+        {
+        "elevations": [ 0.0, 10.0e-1, 15.0e-1, 20.0e-1 ],
+        "power_factor": [ 0.1, 0.5, 1.2, 0.8 ]
+        },
+        {
+        "elevations": [ 0.0, 10.0e-1, 20.0e-1 ],
+        "power_factor": [ 0.5, 1.0, 0.5 ]
+        }
+      ],
       "constraint": {
         "language": "Fortran",
         "minimum_version": "2003",
-        "expressions": [ "power_density > 0." ]
+        "expressions": [
+          "all(power >= 0.)",
+          "all( [size(power)==size(time), size(power_shape_index)==size(time), ",
+          "all( power_shape_index <= ubound(shapes)",
+          "all( power_shape_index => lbound(shapes)"
+        ]
       }
     },
     "layers": {
       "type": "3D_plate",
       "units_system": "SI",
-      "max_spacing": 0.1E-01,
+      "max_spacing": 1.0E+06,
       "core": {
         "material_name": ["burrito"],
         "thickness": {
@@ -63,9 +86,6 @@
           "y": [2, 1, 1],
           "z": [10]
         },
-        "boundary_condition" : {
-          "temperature" : 500
-        },
         "constraint": {
           "language": "Fortran",
           "minimum_version": "2003",
@@ -79,12 +99,16 @@
           ]
         }
       },
+      "bottom_boundary" : {
+        "temperature" : [400, 450, 500, 600],
+        "pressure" : [400, 450, 500, 600],
+        "flow_rate" : [400, 450, 500, 600]
+       },
       "constraint": {
         "language": "Fortran",
         "minimum_version": "2003",
         "expressions": [
-          "all( wrappers%thickness%z >= core%thickness%z )",
-          "all( wrappers%num_grid_blocks%z >= core%num_grid_blocks%z )"
+          "size(bottom_boundary%temperature) == size(time)"
         ]
       }
     }
