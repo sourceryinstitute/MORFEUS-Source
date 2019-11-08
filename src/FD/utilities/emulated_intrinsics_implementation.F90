@@ -181,13 +181,13 @@ contains
     associate( lower_bound=>lbound(array,dim) )
       select case(back)
         case(.true.)
-           start = ubound(array,dim)
-           finish = lower_bound
-           loop_increment=-1
+          start = ubound(array,dim)
+          finish = lower_bound
+          loop_increment=-1
         case(.false.)
-           start = lower_bound
-           finish = ubound(array,dim)
-           loop_increment=1
+          start = lower_bound
+          finish = ubound(array,dim)
+          loop_increment=1
       end select
 
       do index_=start, finish, loop_increment
