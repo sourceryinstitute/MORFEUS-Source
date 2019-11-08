@@ -5,6 +5,7 @@
 #     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 #
 set( base_names
+  plate-material-mapping
   discretize-3D-plate
   write-slab-vtk
   write-vtk-voxels

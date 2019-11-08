@@ -9,8 +9,8 @@ PROGRAM T_shape_test
     !! date: 05/03/2018
     !!
     !! Write a T-shaped, unstructured-grid geometry defined in VTK voxels
-    USE Precision,    ONLY : i4k, r8k
-    USE vtk_datasets, ONLY : unstruct_grid
+    USE kind_parameters, ONLY : i4k, r8k
+    USE vtk_datasets,   ONLY : unstruct_grid
     IMPLICIT NONE
     TYPE (unstruct_grid)  :: t_shape
     INTEGER(i4k), PARAMETER :: n_points = 24, n_cells = 5

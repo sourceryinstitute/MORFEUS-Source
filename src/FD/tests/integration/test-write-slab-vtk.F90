@@ -11,7 +11,7 @@ MODULE vtk_dtio_interface
   !! Encapsulate data for writing a VTK structured grid using derived-type input/output
   !!
 
-  USE Precision,      ONLY : i4k
+  USE kind_parameters, ONLY : i4k
   USE vtk_datasets,   ONLY : struct_grid
   USE vtk_attributes, ONLY : attributes
   IMPLICIT NONE
@@ -60,7 +60,7 @@ CONTAINS
 END SUBMODULE vtk_dtio_implementation
 
 PROGRAM Slab_VTK_output
-    USE Precision
+    USE kind_parameters, only : i4k, r8k
     USE vtk_attributes, ONLY : scalar
     USE vtk_dtio_interface, only : vtk_dtio, n_params_to_write
     IMPLICIT NONE

@@ -9,7 +9,7 @@ MODULE array_functions_interface
   !! date: 04/25/2019
   !!
   !! Functionally pure array utilties
-  USE Kinds, ONLY : r8k
+  USE kind_parameters, ONLY : r8k
   IMPLICIT NONE
 
   PRIVATE

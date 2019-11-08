@@ -8,7 +8,7 @@ program main
   !! Test the definition of a block-structured problem discretization
   use assertions_interface, only : assert, assertions
   use problem_discretization_interface, only :  problem_discretization
-  use kinds, only : i8k, r8k
+  use kind_parameters, only : i8k, r8k
   implicit none
 
   type(problem_discretization) global_grid

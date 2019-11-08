@@ -5,8 +5,11 @@
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 submodule(problem_discretization_interface) define_problem_discretization
+  !! author: Damian Rouson and Karla Morris
+  !! date: 9/9/2019
   use assertions_interface, only : assert,assertions
   use iso_fortran_env, only : error_unit
+  use kind_parameters, only : i4k, r8k
   implicit none
 
   integer, parameter :: space_dimensions=3
@@ -69,7 +72,6 @@ contains
 
       SUBROUTINE define_scalar( s, vals, dataname )
           USE vtk_attributes, ONLY : scalar, attributes
-          USE Precision, ONLY : r8k, i4k
           CLASS(attributes), INTENT(INOUT) :: s
           REAL(r8k),         INTENT(IN)    :: vals(:)
           CHARACTER(LEN=*),  INTENT(IN)    :: dataname
@@ -79,7 +81,6 @@ contains
       END SUBROUTINE
 
       SUBROUTINE  VTK_output
-            USE Precision, ONLY : r8k, i4k
             USE vtk_datasets,   ONLY : unstruct_grid
             USE vtk,            ONLY : vtk_serial_write
             USE vtk_cells, ONLY : voxel, vtkcell_list
@@ -112,7 +113,7 @@ contains
 
                     points = points .catColumns. ( .columnVectors. vertex_positions )
                     block_point_tag = [ block_point_tag, first_point_in_block + [( ip, ip=1, PRODUCT(npoints) )] ]
-                    block_cell_tag = [ block_cell_tag, this%vertices(b)%get_tag() ]
+                    block_cell_tag = [ block_cell_tag, (this%vertices(b)%get_tag(), ic=1,PRODUCT(ncells)) ]
 
                     DO ic=1,ncells(1)
                       DO jc=1,ncells(2)
@@ -139,6 +140,8 @@ contains
             END DO loop_over_grid_blocks
 
             CALL assert( SIZE(block_point_tag,1) == SIZE(points,2), "VTK point data set & point set size match" )
+            CALL assert( SIZE(block_cell_tag,1) == SIZE(cell_list,1), "VTK cell data set & cell set size match" )
+
             CALL define_scalar(  point_values, REAL( block_point_tag, r8k),  'point_tag' )
             CALL define_scalar(  cell_values, REAL( block_cell_tag, r8k),  'cell_tag' )
 
@@ -153,7 +156,7 @@ contains
 
   pure function evenly_spaced_points( boundaries, resolution, direction ) result(grid_nodes)
     !! Define grid point coordinates with uniform spacing in the chosen subdomain
-    real, intent(in) :: boundaries(:,:)
+    real(r8k), intent(in) :: boundaries(:,:)
       !! subdomain boundaries of each coordinate direction
     integer, intent(in) :: resolution(:)
       !! number of grid points in each direction
@@ -161,32 +164,40 @@ contains
       !! coordinate direction to define
     real, allocatable :: grid_nodes(:,:,:)
       !! grid node locations and spacing in each coordination direction
-    real dx(space_dimensions)
+    real(r8k) dx(space_dimensions)
     integer alloc_status
     character(len=128) :: alloc_error
 
-    integer, parameter :: lo_bound=1, up_bound=2, success=0
+    integer, parameter :: lo_bound=1, up_bound=2, success=0, num_boundaries=2
     integer ix,iy,iz
 
     allocate(grid_nodes(resolution(1),resolution(2),resolution(3)), stat=alloc_status, errmsg=alloc_error )
     CALL assert( alloc_status==success, "evenly_spaced_points allocation ("//alloc_error//")", PRODUCT(resolution) )
 
-    dx = ( boundaries(:,up_bound) - boundaries(:,lo_bound) ) / resolution(:)
+    associate( num_intervals => resolution - 1 )
+      dx = ( boundaries(:,up_bound) - boundaries(:,lo_bound) ) / num_intervals(:)
+    end associate
 
     associate( nx=>resolution(1), ny=>resolution(2), nz=>resolution(3) )
 
     select case(direction)
       case(1)
         do concurrent(iy=1:ny,iz=1:nz)
-          grid_nodes(:,iy,iz) = [ boundaries(direction,lo_bound), (ix*dx(direction),ix=2,nx-1), boundaries(direction,up_bound) ]
+          associate( internal_points => boundaries(direction,lo_bound) + [(ix*dx(direction),ix=1,nx-num_boundaries)] )
+            grid_nodes(:,iy,iz) = [ boundaries(direction,lo_bound), internal_points , boundaries(direction,up_bound) ]
+          end associate
         end do
       case(2)
         do concurrent(ix=1:nx,iz=1:nz)
-          grid_nodes(ix,:,iz) = [ boundaries(direction,lo_bound), (iy*dx(direction),iy=2,ny-1), boundaries(direction,up_bound) ]
+          associate( internal_points => boundaries(direction,lo_bound) + [(iy*dx(direction),iy=1,ny-num_boundaries)] )
+            grid_nodes(ix,:,iz) = [ boundaries(direction,lo_bound), internal_points , boundaries(direction,up_bound) ]
+          end associate
         end do
       case(3)
         do concurrent(ix=1:nx,iy=1:ny)
-          grid_nodes(ix,iy,:) = [ boundaries(direction,lo_bound), (iz*dx(direction),iz=2,nz-1), boundaries(direction,up_bound) ]
+          associate( internal_points => boundaries(direction,lo_bound) + [(iz*dx(direction),iz=1,nz-num_boundaries)] )
+            grid_nodes(ix,iy,:) = [ boundaries(direction,lo_bound), internal_points, boundaries(direction,up_bound) ]
+          end associate
         end do
       case default
         error stop "evenly_spaced_points: invalid direction"
@@ -196,9 +207,9 @@ contains
 
   end function
 
-  module procedure minimally_resolved_plate_3D
+  module procedure initialize_from_plate_3D
     integer, parameter :: lo_bound=1, up_bound=2 !! array indices corresponding to end points on 1D spatial interval
-    integer, parameter :: nx=2, ny=2, nz=2 !! only create grid points at the corners of each 4D rectangular block
+    integer, parameter :: nx_min=2, ny_min=2, nz_min=2
     integer n
 
     call this%partition( plate_3D_geometry%get_block_metadata_shape() )
@@ -206,21 +217,36 @@ contains
 
       associate( my_subdomains => this%my_subdomains() )
         do n = my_subdomains(lo_bound) , my_subdomains(up_bound) ! TODO: make concurrent after Intel supports co_sum
+
           associate( ijk => this%block_indicial_coordinates(n) )
-            associate( subdomain => plate_3D_geometry%get_block_domain(ijk) )
+
+            associate( metadata => plate_3D_geometry%get_block_metadatum(ijk))
+
+              call this%vertices(n)%set_metadata( metadata  )
+
               associate( &
-                x => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=1 ), &
-                y => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=2 ), &
-                z => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=3 ) )
-                call this%set_vertices(x,y,z,block_identifier=n)
-                call this%vertices(n)%set_metadata( plate_3D_geometry%get_block_metadata(ijk) )
+                subdomain => plate_3D_geometry%get_block_domain(ijk), &
+                max_spacing => metadata%get_max_spacing() &
+              )
+                associate( &
+                  nx => max( nx_min, floor( abs(subdomain(1,up_bound) - subdomain(1,lo_bound))/max_spacing ) + 1 ), &
+                  ny => max( ny_min, floor( abs(subdomain(2,up_bound) - subdomain(2,lo_bound))/max_spacing ) + 1 ), &
+                  nz => max( nz_min, floor( abs(subdomain(3,up_bound) - subdomain(3,lo_bound))/max_spacing ) + 1 ) &
+                )
+                  associate( &
+                    x => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=1 ), &
+                    y => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=2 ), &
+                    z => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=3 ) )
+                    call this%set_vertices(x,y,z,block_identifier=n)
+                  end associate
+                end associate
               end associate
             end associate
           end associate
         end do
       end associate
 
-  end procedure minimally_resolved_plate_3D
+  end procedure
 
   module procedure partition
 
