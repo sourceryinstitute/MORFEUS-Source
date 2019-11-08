@@ -11,7 +11,7 @@ MODULE vtk_dtio_interface
   !! Encapsulate data for writing a VTK structured grid using derived-type input/output
   !!
 
-  USE Precision, ONLY : i4k
+  USE kind_parameters, ONLY : i4k
   USE vtk_datasets,   ONLY : struct_grid
   USE vtk_attributes, ONLY : attributes
   IMPLICIT NONE
@@ -22,7 +22,7 @@ MODULE vtk_dtio_interface
   INTEGER(i4k), PARAMETER     :: n_params_to_write = 1
 
   TYPE vtk_dtio
-    !! vtk_legacy_write required arguments
+    !! vtk_serial_write required arguments
     CHARACTER(LEN=LEN('slab.vtk')) :: filename = 'slab.vtk'
     TYPE (struct_grid) grid
     TYPE (attributes), DIMENSION(n_params_to_write) :: vals_to_write
@@ -36,7 +36,7 @@ MODULE vtk_dtio_interface
   INTERFACE
 
     MODULE SUBROUTINE write_formatted (this,unit,iotype, v_list, iostat, iomsg)
-      !! Write a vtk_dtio object via user-defined derived type output wrapping vtk_legacy_write
+      !! Write a vtk_dtio object via user-defined derived type output wrapping vtk_serial_write
       IMPLICIT NONE
       CLASS(vtk_dtio), INTENT(IN) ::this
       INTEGER, INTENT(IN) :: unit, v_list(:)
@@ -53,14 +53,14 @@ SUBMODULE(vtk_dtio_interface) vtk_dtio_implementation
   IMPLICIT NONE
 CONTAINS
   MODULE PROCEDURE write_formatted
-    USE vtk, ONLY : vtk_legacy_write
-    !! Invoke vtk_legacy_write with this object's components as arguments
-    CALL vtk_legacy_write (unit=unit, geometry=this%grid, filename=this%filename, pointdatasets=this%vals_to_write)
+    USE vtk, ONLY : vtk_serial_write
+    !! Invoke vtk_serial_write with this object's components as arguments
+    CALL vtk_serial_write (unit=unit, geometry=this%grid, filename=this%filename, pointdatasets=this%vals_to_write)
   END PROCEDURE write_formatted
 END SUBMODULE vtk_dtio_implementation
 
 PROGRAM Slab_VTK_output
-    USE Precision
+    USE kind_parameters, only : i4k, r8k
     USE vtk_attributes, ONLY : scalar
     USE vtk_dtio_interface, only : vtk_dtio, n_params_to_write
     IMPLICIT NONE

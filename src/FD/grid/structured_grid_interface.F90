@@ -7,7 +7,7 @@
 module structured_grid_interface
   use block_metadata_interface, only : block_metadata
   use grid_interface, only : grid
-  use Kinds, only : r8k
+  use kind_parameters, only : r8k
   implicit none
 
   private

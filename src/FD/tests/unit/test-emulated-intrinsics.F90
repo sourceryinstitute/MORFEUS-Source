@@ -63,6 +63,11 @@ program main
     if (me==1) then
       test_findloc: block
         integer i,j
+        character(len=*), parameter :: names(*) = &
+          [character(len=len("dressing"))::"absent", "core", "dressing", "gap", "wrap", "ring", "foil", "skin", "fabric", "chamber"]
+
+        character(len=*), parameter :: empty(*) = [character(len=len("dressing"))::]
+
         integer, parameter :: zero_sized(*) = [ integer :: ]
 
         enum, bind(C)
@@ -84,6 +89,26 @@ program main
         associate( outermost_core => findloc(full_delineation, core, dim=1, back=.true.) )
           call assert( outermost_core==x_blocks(core), "findloc: right outermost core layer" )
         end associate; end associate; end associate; end associate
+
+        associate( non_existent_value=> findloc(names, value="dreffing", dim=1, back=.true.) )
+          call assert(non_existent_value==0, "findloc: handles non-existent string")
+        end associate
+
+        associate( dressing_location => findloc(names, value="dressing", dim=1, back=.true.) )
+          call assert(dressing_location==3, "findloc: finds string location", dressing_location)
+        end associate
+
+        associate( empty_array => findloc(empty, value="dressing", dim=1, back=.true.) )
+          call assert(empty_array==0, "findloc: handles empty character array")
+        end associate
+
+        associate( dressing_location => findloc(names, value="dressing", dim=1, back=.false.) )
+          call assert(dressing_location==3, "findloc: finds string location from front", dressing_location)
+        end associate
+
+        associate( empty_array => findloc(empty, value="dressing", dim=1, back=.false.) )
+          call assert(empty_array==0, "findloc: handles empty character array from front")
+        end associate
 
       end block test_findloc
     end if

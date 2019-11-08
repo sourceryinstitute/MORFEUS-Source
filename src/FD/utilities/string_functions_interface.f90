@@ -11,10 +11,13 @@ module string_functions_interface
   implicit none
 
   private
-  public file_extension
+  public :: file_extension, csv_format
+
+  character(len=*), parameter :: csv_format = '(*(G0,:,","))'
 
   interface
     pure module function file_extension(file_name) result(extension)
+      !! result contains all characters in file_name after the first dot (.)
       character(len=*), intent(in) :: file_name
       character(len=:), allocatable :: extension
     end function
