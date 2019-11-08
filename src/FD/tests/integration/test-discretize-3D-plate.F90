@@ -16,9 +16,6 @@ program main
 
   call minimal_resolution
 
-  ! Outer surface BC: 500 K for all external surfaces
-  ! Initial condition: 293 K everywhere, 10 kW/m
-
   print *,"Test passed."
 
 contains
