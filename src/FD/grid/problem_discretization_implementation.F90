@@ -152,7 +152,8 @@ contains
 
   end procedure write_formatted
 
-  pure function evenly_spaced_points( boundaries, resolution, direction ) result(grid_nodes)
+ !pure function evenly_spaced_points( boundaries, resolution, direction ) result(grid_nodes)
+ function evenly_spaced_points( boundaries, resolution, direction ) result(grid_nodes)
     !! Define grid point coordinates with uniform spacing in the chosen subdomain
     real(r8k), intent(in) :: boundaries(:,:)
       !! subdomain boundaries of each coordinate direction
@@ -166,28 +167,36 @@ contains
     integer alloc_status
     character(len=128) :: alloc_error
 
-    integer, parameter :: lo_bound=1, up_bound=2, success=0
+    integer, parameter :: lo_bound=1, up_bound=2, success=0, num_boundaries=2
     integer ix,iy,iz
 
     allocate(grid_nodes(resolution(1),resolution(2),resolution(3)), stat=alloc_status, errmsg=alloc_error )
     CALL assert( alloc_status==success, "evenly_spaced_points allocation ("//alloc_error//")", PRODUCT(resolution) )
 
-    dx = ( boundaries(:,up_bound) - boundaries(:,lo_bound) ) / resolution(:)
+    associate( num_intervals => resolution - 1 )
+      dx = ( boundaries(:,up_bound) - boundaries(:,lo_bound) ) / num_intervals(:)
+    end associate
 
     associate( nx=>resolution(1), ny=>resolution(2), nz=>resolution(3) )
 
     select case(direction)
       case(1)
         do concurrent(iy=1:ny,iz=1:nz)
-          grid_nodes(:,iy,iz) = [ boundaries(direction,lo_bound), (ix*dx(direction),ix=2,nx-1), boundaries(direction,up_bound) ]
+          associate( internal_points => boundaries(direction,lo_bound) + [(ix*dx(direction),ix=1,nx-num_boundaries)] )
+            grid_nodes(:,iy,iz) = [ boundaries(direction,lo_bound), internal_points , boundaries(direction,up_bound) ]
+          end associate
         end do
       case(2)
         do concurrent(ix=1:nx,iz=1:nz)
-          grid_nodes(ix,:,iz) = [ boundaries(direction,lo_bound), (iy*dx(direction),iy=2,ny-1), boundaries(direction,up_bound) ]
+          associate( internal_points => boundaries(direction,lo_bound) + [(iy*dx(direction),iy=1,ny-num_boundaries)] )
+            grid_nodes(ix,:,iz) = [ boundaries(direction,lo_bound), internal_points , boundaries(direction,up_bound) ]
+          end associate
         end do
       case(3)
         do concurrent(ix=1:nx,iy=1:ny)
-          grid_nodes(ix,iy,:) = [ boundaries(direction,lo_bound), (iz*dx(direction),iz=2,nz-1), boundaries(direction,up_bound) ]
+          associate( internal_points => boundaries(direction,lo_bound) + [(iz*dx(direction),iz=1,nz-num_boundaries)] )
+            grid_nodes(ix,iy,:) = [ boundaries(direction,lo_bound), internal_points, boundaries(direction,up_bound) ]
+          end associate
         end do
       case default
         error stop "evenly_spaced_points: invalid direction"
@@ -219,9 +228,9 @@ contains
                 max_spacing => metadata%get_max_spacing() &
               )
                 associate( &
-                  nx => max( nx_min, floor( abs(subdomain(1,up_bound) - subdomain(1,lo_bound))/max_spacing ) ), &
-                  ny => max( ny_min, floor( abs(subdomain(2,up_bound) - subdomain(2,lo_bound))/max_spacing ) ), &
-                  nz => max( nz_min, floor( abs(subdomain(3,up_bound) - subdomain(3,lo_bound))/max_spacing ) ) &
+                  nx => max( nx_min, floor( abs(subdomain(1,up_bound) - subdomain(1,lo_bound))/max_spacing ) + 1 ), &
+                  ny => max( ny_min, floor( abs(subdomain(2,up_bound) - subdomain(2,lo_bound))/max_spacing ) + 1 ), &
+                  nz => max( nz_min, floor( abs(subdomain(3,up_bound) - subdomain(3,lo_bound))/max_spacing ) + 1 ) &
                 )
                   associate( &
                     x => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=1 ), &
