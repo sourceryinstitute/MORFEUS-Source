@@ -92,7 +92,7 @@ contains
             INTEGER(i4k) :: ip, jp, kp !! block-local point id
             INTEGER(i4k) :: ic, jc, kc !! block-local cell id
             REAL(r8k), DIMENSION(:,:), ALLOCATABLE :: points
-            INTEGER(i4k), DIMENSION(:), ALLOCATABLE :: block_point_tag, block_cell_tag
+            INTEGER(i4k), DIMENSION(:), ALLOCATABLE :: block_cell_material, point_block_id
             TYPE(attributes) :: point_values, cell_values
             INTEGER :: b, first_point_in_block, first_cell_in_block
             INTEGER, PARAMETER :: vector_indices=4, writer=1
@@ -100,7 +100,7 @@ contains
             CALL assert(this_image()==writer, "problem_discretization%write_formatted: output from image 1")
 
             ALLOCATE( cell_list(SUM( this%vertices%num_cells())) )
-            ALLOCATE( points(space_dimensions,0), block_point_tag(0), block_cell_tag(0) )
+            ALLOCATE( points(space_dimensions,0), block_cell_material(0), point_block_id(0) )
 
             first_point_in_block = 0
             first_cell_in_block = 1
@@ -112,8 +112,8 @@ contains
                   ASSOCIATE( ncells => npoints-1 )
 
                     points = points .catColumns. ( .columnVectors. vertex_positions )
-                    block_point_tag = [ block_point_tag, first_point_in_block + [( ip, ip=1, PRODUCT(npoints) )] ]
-                    block_cell_tag = [ block_cell_tag, (this%vertices(b)%get_tag(), ic=1,PRODUCT(ncells)) ]
+                    block_cell_material = [ block_cell_material, (this%vertices(b)%get_tag(), ic=1,PRODUCT(ncells)) ]
+                    point_block_id = [ point_block_id, [( b, ip=1, PRODUCT(npoints) )] ]
 
                     DO ic=1,ncells(1)
                       DO jc=1,ncells(2)
@@ -139,11 +139,11 @@ contains
               END ASSOCIATE
             END DO loop_over_grid_blocks
 
-            CALL assert( SIZE(block_point_tag,1) == SIZE(points,2), "VTK point data set & point set size match" )
-            CALL assert( SIZE(block_cell_tag,1) == SIZE(cell_list,1), "VTK cell data set & cell set size match" )
+            CALL assert( SIZE(point_block_id,1) == SIZE(points,2), "VTK block point data set & point set size match" )
+            CALL assert( SIZE(block_cell_material,1) == SIZE(cell_list,1), "VTK cell data set & cell set size match" )
 
-            CALL define_scalar(  point_values, REAL( block_point_tag, r8k),  'point_tag' )
-            CALL define_scalar(  cell_values, REAL( block_cell_tag, r8k),  'cell_tag' )
+            CALL define_scalar(  cell_values, REAL( block_cell_material, r8k),  'material' )
+            CALL define_scalar(  point_values, REAL( point_block_id, r8k),  'block' )
 
             CALL vtk_grid%init (points=points, cell_list=cell_list )
             CALL vtk_legacy_write( &
