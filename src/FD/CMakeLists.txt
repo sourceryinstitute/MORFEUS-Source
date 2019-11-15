@@ -217,6 +217,7 @@ endforeach()
 if(EMULATE_MISSING_INTRINSICS)
 set( base_names
   emulated-intrinsics
+  differentiate-grid
 )
 foreach(unit_test ${base_names})
   add_caf_test( fd-${unit_test} 3 ${CMAKE_CURRENT_BINARY_DIR}/tests/unit/test-${unit_test}

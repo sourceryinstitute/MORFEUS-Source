@@ -9,6 +9,7 @@ set( base_names
   discretize-3D-plate
   write-slab-vtk
   write-vtk-voxels
+  differentiate-grid
 )
 foreach(integration_test ${base_names})
   add_executable( test-${integration_test} test-${integration_test}.F90 )

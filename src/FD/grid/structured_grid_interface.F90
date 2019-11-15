@@ -39,11 +39,21 @@ module structured_grid_interface
 #endif
   end type
 
-  real, allocatable :: vertices_inbox(:,:,:, :,:,:, :, :,:,:)[:]
+  real, allocatable :: vertices_inbox_i_plus_1( :,:, :,:, :, :, :)[:]
+  real, allocatable :: vertices_inbox_i_minus_1(:,:, :,:, :, :, :)[:]
+
+  real, allocatable :: vertices_inbox_j_plus_1( :,:, :,:, :, :, :)[:]
+  real, allocatable :: vertices_inbox_j_minus_1(:,:, :,:, :, :, :)[:]
+
+  real, allocatable :: vertices_inbox_k_plus_1( :,:, :,:, :, :, :)[:]
+  real, allocatable :: vertices_inbox_k_minus_1(:,:, :,:, :, :, :)[:]
+
     !! Communication buffer storing incoming planes of nodal_values from the neighboring halo image in each coordinate direction
-    !! 6 dims corresponding to the nodal_values dimensions
-    !! 1 dim for block identifier number; extent equals global maximum block_load (num_blocks/num_images+1)
-    !! 3 dims for the direction of the block from which incoming data arrive; each with extent -h:h, h=halo halfwidth
+    !! 2 dims for indexing through 2D planes of data coming from halo blocks
+    !! 2 dims for tensor free indices to handle scalars, vectors, & dyads
+    !! 1 dim for indexing through instances in time
+    !! 1 dim for receiver block identifier
+    !! 1 dim for each variable that requires an in-box
 
     !! To avoid race conditions, each unique combination of block identifier and incoming directions denotes an array section
     !! that only one halo image accesses.  Assertions should be used to verify that each neighbor writes exclusively to its
