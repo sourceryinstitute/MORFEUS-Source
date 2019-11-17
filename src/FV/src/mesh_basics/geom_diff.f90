@@ -57,7 +57,7 @@ CONTAINS
 
         IMPLICIT NONE
         !
-        LOGICAL, PARAMETER :: debug = .TRUE.
+        LOGICAL, PARAMETER :: debug = .FALSE.
         INTEGER :: icontxt, mypnum
         INTEGER :: i, ib, IF, im, info, is, m, n, nbc, nfaces
         INTEGER, ALLOCATABLE :: imaster(:), islave(:)

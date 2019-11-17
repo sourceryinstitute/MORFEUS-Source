@@ -553,6 +553,14 @@ else()
     "Please run CMake from the top level FAST directory; the MatLib library is now required by MORFEUS_FV.")
 endif()
 
+if(TARGET Coolant)
+  target_link_libraries(morfeus_fv
+    PUBLIC Coolant)
+else()
+  message( FATAL_ERROR
+    "Please run CMake from the top level FAST directory; the Coolant library is now required by MORFEUS_FV.")
+endif()
+
 if(TARGET vtkmofo)
   target_link_libraries(morfeus_fv
     PUBLIC vtkmofo)

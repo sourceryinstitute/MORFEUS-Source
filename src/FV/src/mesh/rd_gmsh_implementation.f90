@@ -60,7 +60,7 @@ CONTAINS
         ! --- Local variables ---
         !
         ! Parameters
-        LOGICAL, PARAMETER :: debug = .TRUE.
+        LOGICAL, PARAMETER :: debug = .FALSE.
         INTEGER, PARAMETER :: mesh = 10
         !
         ! Local copies of V2F_, V2C_, F2C_ objects (connectivity class)
