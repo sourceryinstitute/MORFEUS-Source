@@ -42,27 +42,25 @@
 ! Description:
 !    To be added...
 !
-SUBMODULE (tools_mesh) rd_gambit_implementation
+SUBMODULE (tools_mesh) rd_gmsh_implementation
     USE type_table, ONLY : table
     USE class_connectivity
     IMPLICIT NONE
 
 CONTAINS
 
-    MODULE PROCEDURE rd_gambit_mesh
+    MODULE PROCEDURE rd_gmsh_mesh
         USE class_psblas
         USE class_cell
         !USE class_connectivity
         USE class_face
         USE class_vertex
         IMPLICIT NONE
-        !
-        INTEGER, PARAMETER :: nlen = 80
-        !
+
         ! --- Local variables ---
         !
         ! Parameters
-        LOGICAL, PARAMETER :: debug = .FALSE.
+        LOGICAL, PARAMETER :: debug = .TRUE.
         INTEGER, PARAMETER :: mesh = 10
         !
         ! Local copies of V2F_, V2C_, F2C_ objects (connectivity class)
@@ -85,36 +83,38 @@ CONTAINS
         !
         ! Group-related variables
         INTEGER :: ngroups
-        INTEGER, ALLOCATABLE :: groupnc(:), groupmat(:)
-        CHARACTER(len=32), ALLOCATABLE:: groupname(:)
         TYPE(table) :: c2g_
         !
         ! BC-related variables
         INTEGER :: nbcfaces
-        INTEGER, ALLOCATABLE :: bcnf(:)
         TYPE(table) :: f2b
         !
         ! Work variables
         LOGICAL :: found
         INTEGER :: i, i1, i2, info, j, j1, j2, k, l, m, n
-        INTEGER :: ib, ic, ig, icl
+        INTEGER :: ib, ic, ig
         INTEGER :: IF, if1, if2
-        INTEGER :: iv, iv1, iv2, iv3, iv4, iv5, iv6, iv7, iv8
-        INTEGER, ALLOCATABLE :: perm(:), pinv(:)
-        INTEGER, ALLOCATABLE :: aux(:,:), buf(:), work(:)
-        CHARACTER(len=32) :: str
+        INTEGER :: iv, iv1, iv2, iv3, iv4, iv5, iv6, iv7, iv8, cellid
+        INTEGER, ALLOCATABLE :: perm(:), pinv(:), nvs(:), nbcf(:), faceid(:), ftype(:), facev(:,:), cellv(:,:), gcells(:)
+        INTEGER, ALLOCATABLE :: aux(:,:), buf(:), work(:), pftags(:,:), pctags(:,:), facebc(:)
         TYPE(table) :: f2v, dmy
         INTEGER :: status
 
 
         CHARACTER(LEN=32) :: pname
+        CHARACTER(LEN=80) :: adummy
         REAL(psb_dpk_) :: vers
-        INTEGER :: ftype, dsize, nnames, pdim, pid, itemp, i1, i2, i3, i4
+        INTEGER :: ftype, dsize, nnames, pdim, pid, itemp, i1, i2, i3, i4, ngroups, &
+                      dim_entt, tag_entt, nv_in_entt, edim, etag, etype, ibc, icell, ielem, &
+                      ientt, iface, igroup, inv, ncmax, ncmin, nelems, nentts, npt, nv, nvmax, &
+                      nvmin, tag, ibc_temp, vi(4), vj(4), jf
+        REAL(psb_dpk_) :: xn, yn, zn, xx, yx, zx
         ! ------------------------------------------------------------------
 
         WRITE(*,*) 'Importing mesh in .MSH format on P0'
+        WRITE(6,*) "Reading mesh from ", TRIM(ADJUSTL(mesh_file))
 
-        ! Opens file *.neu
+        ! Opens file *.msh
         OPEN(unit=mesh,file=ADJUSTL(mesh_file),status='old',iostat=status)
         IF(status /=0 ) THEN
             WRITE(*,050) ADJUSTL(mesh_file)
@@ -126,7 +126,7 @@ CONTAINS
         READ (mesh, *) vers, ftype, dsize
 
         ! Abort of mesh file version is less than 4.1 or if filetype is not ASCII
-        IF (vers < 4.1 or ftype /= 0) THEN
+        IF (vers < 4.0) THEN
           WRITE(*, 100)
           CALL abort_psblas
         END IF
@@ -139,22 +139,58 @@ CONTAINS
         ! and count the number of BCs and volumes
         nbc = 0
         ngroups = 0
+        ncd = 0
         READ (mesh, '(I2)') nnames
+
         DO i = 1, nnames
           READ (mesh, *) pdim, pid, pname
-          IF (pid == 2) nbc = nbc + 1
-          IF (pid == 3) ngroups = ngroups + 1
+          IF (pdim == 2) THEN
+            ncd =2
+            nbc = nbc + 1
+          END IF
+          IF (pdim == 3) THEN
+            ncd = 3
+            ngroups = ngroups + 1
+          END IF
         END DO
+
+        IF (ncd < 2) THEN
+          WRITE(6,*) "Mesh is less than 2 dimensions"
+          CALL abort_psblas
+        END IF
 
         DO i = 1,2
           READ (mesh, '()') ! Read section footer and header
         END DO
 
-        ! Read the entities section. Since we don't use this information,
-        ! we just skip the lines for now
-        READ (mesh, *), i1, i2, i3, i4
-        DO i = 1, (i1+i2+i3,i4)
+        ! Read the entities section. This matches the numerical entities to the physical entities.
+        ! The numerical entities correspond to the vertices, lines, faces, volumes that were
+        ! constructed to create the geometry.
+        READ (mesh, *) i1, i2, i3, i4
+        DO i = 1, (i1+i2)
           READ (mesh, '()')
+          ! We ignore the nodes and the lines.
+        END DO
+        ALLOCATE(pftags(i3, 2), pctags(i4, 2), stat=info)
+        IF(info /= 0) THEN
+          WRITE (*,100)
+          CALL abort_psblas
+        END IF
+        DO i = 1, i3
+          READ(mesh, *) ientt, xn, yn, zn, xx, yx, zx, npt, tag, adummy
+          IF (npt == 1) THEN
+            ! key-value store (ientt, tag) for the geometric and physical entity tags
+            pftags(i, 1) = ientt
+            pftags(i, 2) = tag
+          END IF
+        END DO
+        DO i = 1, i4
+          READ(mesh, *) ientt, xn, yn, zn, xx, yx, zx, npt, tag, adummy
+          IF (npt == 1) THEN
+            ! key-value store (ientt, tag) for the geometric and physical entity tags
+            pctags(i, 1) = ientt
+            pctags(i, 2) = tag - nbc
+          END IF
         END DO
 
         DO i = 1,2
@@ -181,7 +217,7 @@ CONTAINS
           END DO
           DO inv = 1, nv_in_entt
             nv = nvs(inv)
-            READ (mesh, *), xv(nv), yv(nv), zv(nv)
+            READ (mesh, *) xv(nv), yv(nv), zv(nv)
           END DO
           DEALLOCATE (nvs)
         END DO
@@ -192,77 +228,67 @@ CONTAINS
 
         ! Read the cells information
         READ (mesh, *) nentts, ncells, ncmin, ncmax
-        ALLOCATE(cellid(ncells), cellv(ncells, 8),stat=info)
+        IF (ncells /= ncmax) THEN
+          WRITE (*,100)
+          write (*, *) "Cell and face numbering is not continuous"
+          CALL abort_psblas
+        END IF
+        ALLOCATE (nbcf(nbc), faceid(ncells), facev(ncells,4), facebc(ncells), ftype(ncells), cellgroup(ncells), &
+                      cellnv(ncells), cellnf(ncells), cellgeo(ncells), cellv(ncells, 8), gcells(ngroups), stat=info)
         IF(info /= 0) THEN
             WRITE (*,100)
             CALL abort_psblas
         END IF
         icell = 0
-        igroup = 0
+        iface = 0
+        nbcf = 0
+        gcells = 0
         DO ientt = 1, nentts
           READ(mesh, *) edim, etag, etype, nelems
-          DO ielem = 1, nelems
-            IF (edim == 2) THEN
-              READ (mesh, '()') ! Ignore faces since we reconstruct them from the cells information
-            ELSE
+          IF (edim == 2) THEN
+            ibc_temp = MINLOC(pftags(:,1), DIM=1, MASK=(pftags(:,1) == etag))
+            ! Above call should be replaced by FINDLOC when gfortran 9.0 bugs are resolved
+            ibc = pftags(ibc_temp, 2)
+            nbcf(ibc) = nbcf(ibc) + nelems
+            DO ielem = 1, nelems
+              iface = iface + 1
+              READ (mesh, *) faceid(iface), facev(iface, :)
+              facebc(iface) = ibc
+              ftype(iface) = etype
+            END DO
+          ELSE
+            igroup = MINLOC(pctags(:,1), DIM=1, MASK=(pctags(:,1) == etag))
+            ! Above call should be replaced by FINDLOC when gfortran 9.0 bugs are resolved
+            ig = pctags(igroup, 2)
+            gcells(ig) = gcells(ig) + nelems
+            DO ielem = 1, nelems
               icell = icell + 1
-              igroup = igroup + 1
-              READ (mesh, *), cellid(icell), cellv(icell,:)
-              cellgroup(icell) = igroup
-            END IF
-          END DO
+              READ (mesh, *) cellid, cellv(icell,:)
+              cellgroup(icell) = ig
+              SELECT CASE(etype)
+              CASE (5)
+                cellnv(icell) = 8
+                cellnf(icell) = 6
+                cellgeo(icell) = 'hex'
+              CASE default
+                WRITE(*,*) 'WARNING! Unsupported celltype: ', etype, ' IGNORING'
+                CONTINUE
+              END SELECT
+            END DO
+          END IF
         END DO
-        ncells = icell
 
+        CLOSE(mesh)
+
+        nfaces = iface
+        ncells = icell
+        ALLOCATE(work(ncells*8))
         CALL v2c_%alloc_table(nel=ncells)
 
-        READ (mesh,'()')
         i1 = 1; i2 = 0; v2c_%lookup(1) = 1
         DO ic = 1, ncells
-
-            READ(mesh,530,advance='no') i, j, k
-
-            cellnv(ic) = k
             i2 = i1 + cellnv(ic) - 1
-
-            SELECT CASE(j)
-            CASE(2)
-                cellnf(ic) = 4
-                cellgeo(ic) = 'qua'
-                READ(mesh,540) work(i1:i2)
-            CASE(3)
-                cellnf(ic) = 3
-                cellgeo(ic) = 'tri'
-                READ(mesh,540) work(i1:i2)
-            CASE(4)
-                cellnf(ic) = 6
-                cellgeo(ic) = 'hex'
-                READ(mesh,540) work(i1:i2)
-                iv3 = work(i1+2)
-                iv4 = work(i1+3)
-                iv7 = work(i1+6)
-                iv8 = work(i1+7)
-                work(i1+2) = iv4
-                work(i1+3) = iv3
-                work(i1+6) = iv8
-                work(i1+7) = iv7
-            CASE(5)
-                cellnf(ic) = 5
-                cellgeo(ic) = 'pri'
-                READ(mesh,540) work(i1:i2)
-            CASE(6)
-                cellnf(ic) = 4
-                cellgeo(ic) = 'tet'
-                READ(mesh,540) work(i1:i2)
-            CASE(7)
-                cellnf(ic) = 5
-                cellgeo(ic) = 'pyr'
-                READ(mesh,540) work(i1:i2)
-                iv3 = work(i1+2)
-                iv4 = work(i1+3)
-                work(i1+2) = iv4
-                work(i1+3) = iv3
-            END SELECT
+            work(i1:i2) = cellv(ic,1:cellnv(ic))
             i1 = i2 + 1
             v2c_%lookup(ic+1) = i1
         END DO
@@ -270,34 +296,18 @@ CONTAINS
 
         v2c_%tab = work(1:i2)
         DEALLOCATE(work)
-        READ (mesh,'()')
-
 
         ! Reads groups definition.
         CALL c2g_%alloc_table(nel=ngroups,ntab=ncells)
 
-        ALLOCATE(groupnc(ngroups),groupmat(ngroups), &
-            &   groupname(ngroups),stat=info)
-        IF(info /= 0) THEN
-            WRITE(*,100)
-            CALL abort_psblas
-        END IF
-
-        i1 = 1; i2 = 0; c2g_%lookup(1) = 1
+        i1 = 1
         DO ig = 1, ngroups
-            READ (mesh,'()')
-            READ (mesh,550) i, groupnc(ig), groupmat(ig), j
-            READ (mesh,560) groupname(ig)
-            READ (mesh,'()')
-            i2  =i1 + groupnc(ig) - 1
-            READ (mesh,570) c2g_%tab(i1:i2)
-            DO ic = i1, i2
-                icl = c2g_%tab(ic)
-                cellgroup(icl) = ig
-            END DO
-            i1 = i2 + 1
-            c2g_%lookup(ig+1) = i1
-            READ (mesh,'()')
+          c2g_%lookup(ig) = i1
+          i2 = i1 + gcells(ig) - 1
+          DO ic = i1, i2
+            c2g_%tab(ic) = ic
+          END DO
+          i1 = i2 + 1
         END DO
 
         ! Creates face-cell connectivity
@@ -374,7 +384,7 @@ CONTAINS
                 fnv(i1:i2) = (/ 2, 2, 2 /)
             CASE('hex')
                 j2 = j1 + 24 - 1
-                v2f_%tab(j1:j2) = (/ iv1,iv2,iv6,iv5, iv2,iv3,iv7,iv6, iv3,iv4,iv8,iv7, &
+                v2f_%tab(j1:j2) =  (/ iv1,iv2,iv6,iv5, iv2,iv3,iv7,iv6, iv3,iv4,iv8,iv7, &
                     &             iv4,iv1,iv5,iv8, iv2,iv1,iv4,iv3, iv5,iv6,iv7,iv8 /)
                 v2f_%lookup(i1:i2) = (/ j1, (j1+4), (j1+8), (j1+12), (j1+16), (j1+20) /)
                 fnv(i1:i2) = (/ 4, 4, 4, 4, 4, 4 /)
@@ -659,56 +669,33 @@ CONTAINS
         ! Counts boundary faces (faceslave = 0)
         k = COUNT(faceslave == 0)
 
-        IF(nbc /= 0) THEN
-            ALLOCATE(f2b%lookup(nbc+1),f2b%tab(k), &
-                &   bcnf(nbc),stat=info)
-        ELSE
-            ALLOCATE(f2b%lookup(2),f2b%tab(k), &
-                &   bcnf(1),stat=info)
-        END IF
-        IF(info /= 0) THEN
-            WRITE(*,100)
-            CALL abort_psblas
-        END IF
-
-        ! Reads bc section
-        IF(nbc /= 0) THEN
-            i1 = 1; i2 = 0; f2b%lookup(1) = i1
-            DO ib = 1, nbc
-                READ (mesh,'()')
-                READ (mesh,580) str, j, bcnf(ib)
-
-                i2 = i1 + bcnf(ib) - 1
-
-                DO j = 1, bcnf(ib)
-                    READ (mesh,590) ic, k, l
-
-                    m = f2c_%lookup(ic) - 1
-                    IF = f2c_%tab(m+l)
-
-                    f2b%tab(i1+j-1) = IF
-                    faceflag(IF) = ib
-                END DO
-
-                i1 = i2 + 1
-                f2b%lookup(ib+1) = i1
-                READ (mesh,'()')
-            END DO
-        ELSE
-            nbc = 1
-            bcnf(1) = COUNT(faceslave == 0)
-            f2b%lookup(1) = 1
-            k = 0
-            DO IF = 1, nfaces
-                IF(faceslave(IF) == 0) THEN
-                    k = k + 1
-                    f2b%tab(k) = IF
+        IF (nbc > 0) THEN
+          ALLOCATE(f2b%lookup(nbc), f2b%tab(k))
+          i1 = 1
+          DO ib = 1, nbc
+            f2b%lookup(ib) = i1
+            i2 = i1 + nbcf(ib) - 1
+            DO j = 1, nbcf(ib)
+              if = i1 + j - 1
+              vi = facev(if, :)
+              jf_loop: DO jf = 1, nfaces
+                IF (faceslave(jf) /= 0) CYCLE
+                j1 = v2f_%lookup(jf)
+                j2 = v2f_%lookup(jf+1) - 1
+                vj = v2f_%tab(j1:j2)
+                IF (ANY(vi == vj(1)) .AND. ANY(vi == vj(2)) .AND. ANY(vi == vj(3))) THEN
+                  f2b%tab(if) = jf
+                  faceflag(jf) = ib
+                  EXIT jf_loop
                 END IF
+              END DO jf_loop
             END DO
-            f2b%lookup(2)=k+1
-            WHERE (faceslave == 0)
-                faceflag = 1
-            END WHERE
+            i1 = i2 + 1
+          END DO
+
+        ELSE
+          WRITE( *, *) "ERROR! No boundary conditions in GMSH file."
+          CALL abort_psblas
         END IF
 
         ! Reordering of if-indexing following the flag sequence: 0,1,2,...,nbc
@@ -736,6 +723,7 @@ CONTAINS
         ! ... then bc faces.
 
         IF ( nfaces-k /= SIZE(f2b%tab) ) THEN
+            WRITE(6,*) nfaces, k, nfaces-k, size(f2b%tab)
             WRITE(6,400)
             WRITE(6,*)"Check that the CAD model exported all faces."
             CALL abort_psblas
@@ -800,7 +788,7 @@ CONTAINS
 
             DO ib = 1, nbc
                 i1 = f2b%lookup(ib)
-                i2 = i1 + bcnf(ib) - 1
+                i2 = i1 + nbcf(ib) - 1
                 WRITE(*,360) ib, f2b%tab(i1:i2)
             END DO
             WRITE(*,*)
@@ -826,7 +814,7 @@ CONTAINS
         ! f2b is no longer useful. It can be deallocated
         CALL f2b%free_table()
         CALL dmy%free_table()
-        DEALLOCATE(perm,pinv,aux,bcnf)
+        DEALLOCATE(perm,pinv,aux,nbcf)
 
         ! Defines ON_BOUNDARY array
         ALLOCATE(on_boundary(nverts),stat=info)
@@ -900,29 +888,14 @@ CONTAINS
         CALL f2c_%free_table()
         CALL c2g_%free_table()
 
-        ! Currently group data GROUPNC, GROUPMAT, GROUPNAME are not exported
-        ! to the calling program => deallocation
-        DEALLOCATE(groupnc,groupmat,groupname)
-
-        CLOSE(mesh)
-
         WRITE(*,'()')
 
         !     FORMAT Instructions
 050     FORMAT(' ERROR! Failure to open Gambit mesh file.',/,&
         &    ' File expected: ', a)
-100     FORMAT(' ERROR! Memory allocation failure in RD_GAMBIT_MESH')
-500     FORMAT(a80)
-510     FORMAT(6(1x,i9))
-520     FORMAT(i10,3(e20.11))
-530     FORMAT(i8,1x,i2,1x,i2,1x)
-540     FORMAT(7i8:/(t16,7i8:))
-550     FORMAT(t8,i10,tr11,i10,tr11,i10,tr9,i10)
-560     FORMAT(a32)
-570     FORMAT((10i8))
-580     FORMAT(a32,2i8)
-590     FORMAT(i10,2i7)
+100     FORMAT(' ERROR! Memory allocation failure in RD_GMSH_MESH')
 
-    END PROCEDURE rd_gambit_mesh
 
-END SUBMODULE rd_gambit_implementation
+    END PROCEDURE rd_gmsh_mesh
+
+END SUBMODULE rd_gmsh_implementation

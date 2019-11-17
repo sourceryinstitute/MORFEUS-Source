@@ -84,7 +84,7 @@ CONTAINS
 
         ! open exodusII file for reading
 
-        PRINT *, "Reading mesh from ", TRIM(ADJUSTL(mesh_file))
+        WRITE(6,*) "Reading mesh from ", TRIM(ADJUSTL(mesh_file))
 
         cpu_ws = 0
         io_ws = 0
@@ -164,7 +164,7 @@ CONTAINS
                     CONTINUE
                 END SELECT
                 i2 = i1 + cellnv(ic) - 1
-                work(i1:i2) = conn(:,ielem)
+                work(i1:i2) = conn(1:cellnv(ic),ielem)
                 i1 = i2 + 1
                 table_v2c%lookup(ic+1) = i1
             end do
@@ -542,7 +542,6 @@ CONTAINS
         ! Counts boundary faces (faceslave = 0)
 
         k = COUNT(faceslave == 0)
-        PRINT *, "FACESLAVES", k
 
         IF (num_side_sets > 0) THEN
             ALLOCATE(side_set_ids(num_side_sets), num_sides_per_set(num_side_sets), &
@@ -565,7 +564,6 @@ CONTAINS
 
             i1 = 1
             DO ib = 1, num_side_sets
-                print *, ib, i1, num_side_sets, num_sides_per_set(ib)
                 f2b%lookup(ib) = i1
                 i2 = i1 + num_sides_per_set(ib) - 1
                 DO j = 1, num_sides_per_set(ib)
@@ -587,7 +585,6 @@ CONTAINS
 
         END IF
 
-        PRINT *, "Finished reading EXODUS mesh file"
         CALL exclos(exodus_file_id, ierr)
 
 
@@ -616,7 +613,7 @@ CONTAINS
         ! ... then bc faces.
 
         IF ( nfaces-k /= SIZE(f2b%tab) ) THEN
-            PRINT *, nfaces, k, nfaces-k, size(f2b%tab)
+            WRITE(6,*) nfaces, k, nfaces-k, size(f2b%tab)
             WRITE(6,400)
             WRITE(6,*)"Check that the CAD model exported all faces."
             CALL abort_psblas
