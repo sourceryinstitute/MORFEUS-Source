@@ -14,6 +14,7 @@ set( base_names
   array-functions
   spatial-derivatives
   adi-time-advancing
+  spatial-derivatives-new
 )
 foreach(unit_test ${base_names})
   add_executable( test-${unit_test} test-${unit_test}.f90 )

@@ -197,6 +197,7 @@ set( base_names
   array-functions
   spatial-derivatives
   adi-time-advancing
+  spatial-derivatives-new
   units
 )
 foreach(unit_test ${base_names})
