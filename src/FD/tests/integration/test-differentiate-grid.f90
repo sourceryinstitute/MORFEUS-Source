@@ -15,21 +15,28 @@ program main
   implicit none
 
   integer file_unit, open_status
-  integer, parameter :: success=0
-  character(len=*), intent(in) :: input_file = "3Dplate-high-resolution-layers.json"
-  character(len=*), intent(in) :: output_file = "3Dplate-high-resolution-layers.vtk"
+  integer, parameter :: success=0, max_digits=9
+  character(len=max_digits) image_number
+  character(len=*), parameter:: input_file = "3Dplate-high-resolution-layers.json"
+  character(len=*), parameter:: base_name = "3Dplate-high-resolution-layers-derivatives"
+  character(len=:), allocatable :: output_file
   type(problem_discretization) :: global_grid
   type(plate_3D) :: plate_geometry
 
-  call plate_geometry%build( input_file ) !! read geometrical information
-! call global_grid%initialize_from_geometry( plate_geometry ) !! partition block-structured grid & define grid vertex locations
+  associate( me => this_image() )
+    write(image_number,'(i4)') me
+    output_file = base_name //"-image-"// trim(adjustl(image_number)) // ".vtk"
 
-! open(newunit=file_unit, file=output_file, iostat=open_status)
-! call assert(open_status==success, output_file//" opened succesfully")
+    call plate_geometry%build( input_file ) !! read geometrical information
+    call global_grid%initialize_from_geometry( plate_geometry ) !! partition block-structured grid & define grid vertex locations
 
-! call output_grid( global_grid, file_unit)
+    open(newunit=file_unit, file=output_file, iostat=open_status)
+    call assert(open_status==success, output_file//" opened succesfully")
+    call output_grid( global_grid, file_unit)
 
-  print *,"Test passed."
+    sync all
+    if (me==1) print *,"Test passed."
+  end associate
 
 contains
 

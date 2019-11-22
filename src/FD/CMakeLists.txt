@@ -196,8 +196,8 @@ set( base_names
   read-geometry
   array-functions
   spatial-derivatives
-  adi-time-advancing
   spatial-derivatives-new
+  adi-time-advancing
   units
 )
 foreach(unit_test ${base_names})
@@ -218,7 +218,6 @@ endforeach()
 if(EMULATE_MISSING_INTRINSICS)
 set( base_names
   emulated-intrinsics
-  differentiate-grid
 )
 foreach(unit_test ${base_names})
   add_caf_test( fd-${unit_test} 3 ${CMAKE_CURRENT_BINARY_DIR}/tests/unit/test-${unit_test}
@@ -245,5 +244,14 @@ set( base_names
 )
 foreach(integration_test ${base_names})
   add_caf_test( fd-${integration_test} 1 ${CMAKE_CURRENT_BINARY_DIR}/tests/integration/test-${integration_test}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+endforeach()
+
+# Tri-image integration tests
+set( base_names
+  differentiate-grid
+)
+foreach(integration_test ${base_names})
+  add_caf_test( fd-${integration_test} 3 ${CMAKE_CURRENT_BINARY_DIR}/tests/integration/test-${integration_test}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 endforeach()

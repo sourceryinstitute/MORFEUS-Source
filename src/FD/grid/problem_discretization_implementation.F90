@@ -97,8 +97,6 @@ contains
             INTEGER :: b, first_point_in_block, first_cell_in_block
             INTEGER, PARAMETER :: vector_indices=4, writer=1
 
-            CALL assert(this_image()==writer, "problem_discretization%write_formatted: output from image 1")
-
             ALLOCATE( cell_list(SUM( this%vertices%num_cells())) )
             ALLOCATE( points(space_dimensions,0), block_cell_material(0), point_block_id(0) )
 
