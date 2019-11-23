@@ -12,7 +12,7 @@ set( morfeus_fd_sources
   grid_interface.F90
   problem_discretization_implementation.F90
   problem_discretization_interface.F90
-  rectangular_grid_interface.f90
+  cartesian_grid_interface.f90
   structured_grid_implementation.f90
   structured_grid_interface.F90
   ../geometry/geometry_interface.f90
