@@ -17,7 +17,7 @@ program main
     !! maximum number of spatial dimensions
   integer, parameter :: lo_bound=1, up_bound=2
     !! array index values for defining lower & upper bounds for 1D spatial interval
-  real, parameter :: global_domain(*,*) = reshape([0.,120., 0.,2.5, 0.,2.5],[up_bound,space_dimensions])
+  real(r8k), parameter :: global_domain(*,*) = reshape([0.,120., 0.,2.5, 0.,2.5],[up_bound,space_dimensions])
     !! overall rectangular domain boundaries
   integer, parameter :: num_structured_grids(*) = [240,5,5]
     !! number of subdomains in each coordinate direction
@@ -30,9 +30,9 @@ program main
     block
       integer ijk(space_dimensions)
         !! indicial coordinates of this subdomain
-      real, allocatable, dimension(:,:,:) :: x, y, z
+      real(r8k), allocatable, dimension(:,:,:) :: x, y, z
         !! coordinates of grid vertex locations
-      real subdomain(lo_bound:up_bound,space_dimensions)
+      real(r8k) subdomain(lo_bound:up_bound,space_dimensions)
       integer m,n
       integer, parameter :: nx=11,ny=11,nz=11
         !! resolution within subdomains
@@ -71,15 +71,15 @@ contains
 
   pure function evenly_spaced_points( boundaries, resolution, direction ) result(grid_nodes)
     !! Define grid point coordinates with uniform spacing in the chosen subdomain
-    real, intent(in) :: boundaries(:,:)
+    real(r8k), intent(in) :: boundaries(:,:)
       !! subdomain boundaries of each coordinate direction
     integer, intent(in) :: resolution(:)
       !! number of grid points in each direction
     integer, intent(in) :: direction
       !! coordinate direction to define
-    real, allocatable :: grid_nodes(:,:,:)
+    real(r8k), allocatable :: grid_nodes(:,:,:)
       !! grid node locations and spacing in each coordination direction
-    real dx(space_dimensions)
+    real(r8k) dx(space_dimensions)
 
     integer ix,iy,iz
 

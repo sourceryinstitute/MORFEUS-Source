@@ -156,18 +156,18 @@ contains
     !! Define grid point coordinates with uniform spacing in the chosen subdomain
     real(r8k), intent(in) :: boundaries(:,:)
       !! subdomain boundaries of each coordinate direction
-    integer, intent(in) :: resolution(:)
+    integer(i4k), intent(in) :: resolution(:)
       !! number of grid points in each direction
-    integer, intent(in) :: direction
+    integer(i4k), intent(in) :: direction
       !! coordinate direction to define
-    real, allocatable :: grid_nodes(:,:,:)
+    real(r8k), allocatable :: grid_nodes(:,:,:)
       !! grid node locations and spacing in each coordination direction
     real(r8k) dx(space_dimensions)
     integer alloc_status
     character(len=128) :: alloc_error
 
-    integer, parameter :: lo_bound=1, up_bound=2, success=0, num_boundaries=2
-    integer ix,iy,iz
+    integer(i4k), parameter :: lo_bound=1, up_bound=2, success=0, num_boundaries=2
+    integer(i4k) ix,iy,iz
 
     allocate(grid_nodes(resolution(1),resolution(2),resolution(3)), stat=alloc_status, errmsg=alloc_error )
     CALL assert( alloc_status==success, "evenly_spaced_points allocation ("//alloc_error//")", PRODUCT(resolution) )
@@ -373,6 +373,28 @@ contains
       call this%vertices(n)%set_vector_components(x_nodes,y_nodes,z_nodes)
     end associate
 
+  end procedure
+
+  module procedure set_analytical_scalars
+    integer b, f
+
+    procedure(field_function), pointer :: setter_f
+    setter_f => null()
+
+    allocate( this%scalar_fields( lbound(this%vertices,1) : ubound(this%vertices,1), size(setters) ) )
+
+    loop_over_blocks: &
+    do b = lbound(this%vertices,1), ubound(this%vertices,1)
+      loop_over_functions: &
+      do f = 1, size(setters)
+        setter_f => setters(f)%define_scalar
+        associate( positions => this%vertices(b)%vectors() )
+          associate( x=>positions(:,:,:,1), y=>positions(:,:,:,2), z=>positions(:,:,:,3) )
+            call this%scalar_fields(b,f)%set_scalar( setter_f(x, y, z) )
+          end associate
+        end associate
+      end do loop_over_functions
+    end do loop_over_blocks
   end procedure
 
 end submodule define_problem_discretization

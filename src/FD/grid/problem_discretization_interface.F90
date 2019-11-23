@@ -13,16 +13,30 @@ module problem_discretization_interface
   implicit none
 
   private
-  public :: problem_discretization
+  public :: problem_discretization, setter
 
   integer, parameter :: space_dimension=3
+
+  abstract interface
+    pure function field_function(x, y, z) result(f_xyz)
+      import r8k
+      real(r8k), intent(in), dimension(:,:,:) :: x, y, z
+      real(r8k), allocatable :: f_xyz(:,:,:)
+    end function
+  end interface
+
+  type setter
+    procedure(field_function), pointer, nopass :: define_scalar=>null()
+  end type
 
   type, extends(object) :: problem_discretization
     private
     integer global_block_shape_(space_dimension)
       !! global shape of the structured_grid blocks
     type(structured_grid), allocatable :: vertices(:)
-      !! grid nodal locations
+      !! grid nodal locations: size(vertices) == number of blocks owned by the executing image
+    type(structured_grid), allocatable :: scalar_fields(:,:)
+      !! scalar values at the grid nodes: size(scalar_fields,1)==size(vertices), size(scalar_fields,2) == number of scalar fields
     class(geometry), allocatable :: problem_geometry
   contains
     procedure partition
@@ -32,7 +46,9 @@ module problem_discretization_interface
     procedure block_load
     procedure user_defined_vertices
     generic :: set_vertices => user_defined_vertices
-    procedure :: initialize_from_plate_3D
+    procedure set_analytical_scalars
+    generic :: set_scalars => set_analytical_scalars
+    procedure initialize_from_plate_3D
     generic :: initialize_from_geometry => initialize_from_plate_3D
     procedure write_formatted
 #ifdef HAVE_UDDTIO
@@ -67,12 +83,19 @@ module problem_discretization_interface
       integer, intent(in) :: global_block_shape(:)
     end subroutine
 
-    impure module subroutine user_defined_vertices(this,x_nodes,y_nodes,z_nodes,block_identifier)
+    module subroutine user_defined_vertices(this,x_nodes,y_nodes,z_nodes,block_identifier)
       !! Define the vertex locations within the specified structured_grid block
       implicit none
       class(problem_discretization), intent(inout) :: this
-      real, intent(in) :: x_nodes(:,:,:), y_nodes(:,:,:), z_nodes(:,:,:)
+      real(r8k), intent(in) :: x_nodes(:,:,:), y_nodes(:,:,:), z_nodes(:,:,:)
       integer, intent(in) :: block_identifier
+    end subroutine
+
+    module subroutine set_analytical_scalars(this, setters)
+      !! Use functions to define scalar values at vertex locations
+      implicit none
+      class(problem_discretization), intent(inout) :: this
+      type(setter), intent(in) :: setters(:)
     end subroutine
 
     pure module function my_subdomains(this) result(block_identifier_range)

@@ -5,6 +5,7 @@
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 program test_structured_grid
+  use kind_parameters, only : i4k, r8k
   use structured_grid_interface, only : structured_grid
   use assertions_interface, only : assert
 #ifndef HAVE_COLLECTIVE_SUBROUTINES
@@ -14,9 +15,9 @@ program test_structured_grid
 
   type(structured_grid) :: coordinate_plane
 
-  integer, parameter :: nx=101,ny=11,nz=11
+  integer(i4k), parameter :: nx=101,ny=11,nz=11
     !! Grid resolution in 3 coordinate directions
-  real :: x(nx,ny,nz)=1.,y(nx,ny,nz)=0.,z(nx,ny,nz)=-1.
+  real(r8k) :: x(nx,ny,nz)=1.,y(nx,ny,nz)=0.,z(nx,ny,nz)=-1.
     !! Vector components
 
   call coordinate_plane%set_vector_components(x,y,z)

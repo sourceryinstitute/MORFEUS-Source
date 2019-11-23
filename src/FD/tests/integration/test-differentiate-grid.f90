@@ -11,17 +11,21 @@ program main
 
   use assertions_interface, only : assert
   use plate_3D_interface, only : plate_3D
-  use problem_discretization_interface, only : problem_discretization
+  use problem_discretization_interface, only : problem_discretization, setter
+  use kind_parameters, only : i4k, r8k
   implicit none
 
   integer file_unit, open_status
-  integer, parameter :: success=0, max_digits=9
+  integer(i4k), parameter :: success=0, max_digits=9, num_scalars=1
   character(len=max_digits) image_number
   character(len=*), parameter:: input_file = "3Dplate-high-resolution-layers.json"
   character(len=*), parameter:: base_name = "3Dplate-high-resolution-layers-derivatives"
   character(len=:), allocatable :: output_file
   type(problem_discretization) :: global_grid
-  type(plate_3D) :: plate_geometry
+  type(plate_3D) plate_geometry
+  type(setter) scalar_setter
+
+  scalar_setter%define_scalar => f
 
   associate( me => this_image() )
     write(image_number,'(i4)') me
@@ -29,6 +33,7 @@ program main
 
     call plate_geometry%build( input_file ) !! read geometrical information
     call global_grid%initialize_from_geometry( plate_geometry ) !! partition block-structured grid & define grid vertex locations
+    call global_grid%set_scalars( [scalar_setter] )
 
     open(newunit=file_unit, file=output_file, iostat=open_status)
     call assert(open_status==success, output_file//" opened succesfully")
@@ -49,5 +54,11 @@ contains
 
     call mesh%write_formatted (file_unit, 'DT', v_list, io_status, io_message)
   end subroutine
+
+  pure function f(x,y,z) result(f_value)
+    real(r8k), intent(in), dimension(:,:,:) :: x,y,z
+    real(r8k), allocatable :: f_value(:,:,:)
+    f_value = x**2 * y
+  end function
 
 end program

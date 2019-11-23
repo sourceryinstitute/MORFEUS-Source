@@ -32,6 +32,7 @@ module structured_grid_interface
     procedure set_metadata
     procedure get_tag
     procedure set_vector_components
+    procedure set_scalar
     procedure vectors
     procedure write_formatted
 #ifdef HAVE_UDDTIO
@@ -122,10 +123,17 @@ module structured_grid_interface
     end function
 
     pure module subroutine set_vector_components(this,x_nodes,y_nodes,z_nodes)
-      !! Set this structured_grid to a spatially constant value
+      !! set this%nodal_values to provided vector field components
       implicit none
       class(structured_grid), intent(inout) :: this
-      real, intent(in), dimension(:,:,:) :: x_nodes, y_nodes, z_nodes
+      real(r8k), intent(in), dimension(:,:,:) :: x_nodes, y_nodes, z_nodes
+    end subroutine
+
+    pure module subroutine set_scalar(this, scalar)
+      !! set this%nodal_values to provided scalar field
+      implicit none
+      class(structured_grid), intent(inout) :: this
+      real(r8k), intent(in), dimension(:,:,:) :: scalar
     end subroutine
 
   end interface

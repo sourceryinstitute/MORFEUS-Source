@@ -80,14 +80,13 @@ contains
     module procedure set_vector_components
 
       integer alloc_status
+      integer, parameter :: components=3, time_stamps=1, dyad_components=1
 
       associate( x_shape=>shape(x_nodes),  y_shape=>shape(y_nodes), z_shape=>shape(z_nodes) )
 
       ! Requires
       if (assertions) &
         call assert( all(x_shape==y_shape) .and. all(y_shape==z_shape), "set_vector_components: inconsistent nodal values arrays" )
-
-      associate(components=>3,time_stamps=>1,dyad_components=>1)
 
         allocate( this%nodal_values(x_shape(1),x_shape(2),x_shape(3),components,dyad_components,time_stamps), stat=alloc_status )
         call assert( alloc_status==0, "set_vector_components: allocation successful" )
@@ -96,7 +95,19 @@ contains
         this%nodal_values(:,:,:,2,dyad_components,time_stamps) = y_nodes(:,:,:)
         this%nodal_values(:,:,:,3,dyad_components,time_stamps)= z_nodes(:,:,:)
 
-      end associate; end associate
+      end associate
+
+    end procedure
+
+    module procedure set_scalar
+
+      integer alloc_status
+      integer, parameter :: time_stamps=1
+
+      allocate( this%nodal_values(size(scalar,1),size(scalar,2),size(scalar,3),1,1,time_stamps), stat=alloc_status )
+      call assert( alloc_status==0, "set_scalar: allocation successful" )
+
+      this%nodal_values(:,:,:,1,1,time_stamps) = scalar
 
     end procedure
 
