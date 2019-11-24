@@ -33,10 +33,12 @@ module problem_discretization_interface
     private
     integer global_block_shape_(space_dimension)
       !! global shape of the structured_grid blocks
-    type(structured_grid), allocatable :: vertices(:)
+    class(structured_grid), allocatable :: vertices(:)
       !! grid nodal locations: size(vertices) == number of blocks owned by the executing image
-    type(structured_grid), allocatable :: scalar_fields(:,:)
+    class(structured_grid), allocatable :: scalar_fields(:,:)
       !! scalar values at the grid nodes: size(scalar_fields,1)==size(vertices), size(scalar_fields,2) == number of scalar fields
+    class(structured_grid), allocatable :: scalar_2nd_derivatives(:,:,:)
+      !! size(scalar_2nd_derivatives,3) == space_dimension
     class(geometry), allocatable :: problem_geometry
   contains
     procedure partition
