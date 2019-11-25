@@ -18,16 +18,11 @@ program main
 
   type(plate_3D) plate_geometry
   type(problem_discretization) global_grid
-  integer file_unit, open_status
-  integer, parameter :: success=0
   character(len=*), parameter :: output = "3Dplate-low-resolution-layers-material-map"
   character(len=*), parameter :: input = "3Dplate-low-resolution-layers-material-map.json"
 
   call plate_geometry%build( input )
   call global_grid%initialize_from_geometry( plate_geometry ) !! partition block-structured grid & define grid vertex locations
-
-!  open(newunit=file_unit, file=output_file, iostat=open_status)
-!  call assert(open_status==success, output_file//" opened succesfully")
 
   check_metadata: block
     character(len=max_name_length), allocatable :: map(:,:,:)

@@ -7,7 +7,7 @@
 program main
   !! Test the invertibility of mapping between 3D indicial coordinates and 1D identifiers
   !! for the regular grid blocks encapsulated inside a problem_discretization object.
-  use assertions_interface, only : assert, assertions
+  use assertions_interface, only : assert
   use problem_discretization_interface, only :  problem_discretization
   implicit none
 

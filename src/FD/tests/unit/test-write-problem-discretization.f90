@@ -10,7 +10,7 @@ program main
   !!
   !! Test the problem_discretization creation and output of new problem_discretization to a json file
 
-  use assertions_interface, only : assert, assertions
+  use assertions_interface, only : assert
   use json_module, only : json_file, rk=>json_rk, ik=>json_ik
   use problem_discretization_interface, only :  problem_discretization
   implicit none
@@ -24,7 +24,7 @@ program main
     !! number of spatial dimensions, array index extent for defining 1D spatial intervals
   real(rk), parameter:: global_domain(*,*)= reshape([real(rk):: 0.,120., 0.,2.5, 0.,2.5 ],[interval_extent,space_dimensions])
     !! overall rectangular domain boundaries
-  integer, parameter :: max_block_identifier     =     999999999
+  integer, parameter :: max_block_identifier = 999999999
   integer, parameter :: nx_local=11,ny_local=11,nz_local=11
   integer ix,iy,iz
   character(len=99) identifier_string
