@@ -38,6 +38,7 @@ module problem_discretization_interface
 #ifdef HAVE_UDDTIO
     generic :: write(formatted) => write_formatted
 #endif
+    procedure :: write_output
   end type
 
   interface
@@ -50,6 +51,14 @@ module problem_discretization_interface
       character (len=*), intent(in) :: iotype
       integer, intent(out) :: iostat
       character(len=*), intent(inout) :: iomsg
+    end subroutine
+
+    module subroutine write_output (this, filename, filetype)
+      !! Generic write output interface
+      implicit none
+      class(problem_discretization), intent(in) ::this
+      character (len=*), intent(in) :: filename
+      character (len=*), intent(in) :: filetype
     end subroutine
 
     module subroutine initialize_from_plate_3D(this,plate_3D_geometry)
