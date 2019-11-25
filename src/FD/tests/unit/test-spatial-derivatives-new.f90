@@ -22,7 +22,7 @@ module spatial_derivative_procedures
   type(grid_block) :: global_grid_block
 
 contains
-  
+
   impure function position_vectors(nx,ny,nz) result(vector_field)
     integer(ikind), intent(in) :: nx, ny, nz
     integer(ikind), parameter :: components=3
@@ -226,4 +226,3 @@ program main
   call output_result(global_grid_block)
 
   end program main
-
