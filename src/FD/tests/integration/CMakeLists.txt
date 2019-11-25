@@ -8,7 +8,7 @@ set( base_names
   plate-material-mapping
   discretize-3D-plate
   write-slab-vtk
-  write-vtk-voxels
+  write-voxels-vtk
 )
 foreach(integration_test ${base_names})
   add_executable( test-${integration_test} test-${integration_test}.F90 )

@@ -4,74 +4,26 @@
 !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
-MODULE vtk_dtio_interface
-  !! author: Damian Rouson
-  !! date: 04/01/2019
-  !!
-  !! Encapsulate data for writing a VTK structured grid using derived-type input/output
-  !!
-
-  USE kind_parameters, ONLY : i4k
-  USE vtk_datasets,   ONLY : struct_grid
-  USE vtk_attributes, ONLY : attributes
-  IMPLICIT NONE
-
-  PRIVATE
-  PUBLIC :: vtk_dtio, n_params_to_write
-
-  INTEGER(i4k), PARAMETER     :: n_params_to_write = 1
-
-  TYPE vtk_dtio
-    !! vtk_legacy_write required arguments
-    CHARACTER(LEN=LEN('slab.vtk')) :: filename = 'slab.vtk'
-    TYPE (struct_grid) grid
-    TYPE (attributes), DIMENSION(n_params_to_write) :: vals_to_write
-  CONTAINS
-    PROCEDURE :: write_formatted
-#ifdef HAVE_UDDTIO
-    GENERIC :: WRITE(FORMATTED)=>write_formatted
-#endif
-  END TYPE
-
-  INTERFACE
-
-    MODULE SUBROUTINE write_formatted (this,unit,iotype, v_list, iostat, iomsg)
-      !! Write a vtk_dtio object via user-defined derived type output wrapping vtk_legacy_write
-      IMPLICIT NONE
-      CLASS(vtk_dtio), INTENT(IN) ::this
-      INTEGER, INTENT(IN) :: unit, v_list(:)
-      CHARACTER (LEN=*), INTENT(IN) :: iotype
-      INTEGER, INTENT(OUT) :: iostat
-      CHARACTER(LEN=*), INTENT(INOUT) :: iomsg
-    END SUBROUTINE
-
-  END INTERFACE
-
-END MODULE
-
-SUBMODULE(vtk_dtio_interface) vtk_dtio_implementation
-  IMPLICIT NONE
-CONTAINS
-  MODULE PROCEDURE write_formatted
-    USE vtk, ONLY : vtk_legacy_write
-    !! Invoke vtk_legacy_write with this object's components as arguments
-    CALL vtk_legacy_write (unit=unit, geometry=this%grid, filename=this%filename, pointdatasets=this%vals_to_write)
-  END PROCEDURE write_formatted
-END SUBMODULE vtk_dtio_implementation
-
 PROGRAM Slab_VTK_output
-    USE kind_parameters, only : i4k, r8k
-    USE vtk_attributes, ONLY : scalar
-    USE vtk_dtio_interface, only : vtk_dtio, n_params_to_write
+    USE kind_parameters, ONLY : i4k, r8k
+    USE vtk, ONLY : vtk_serial_write
+    USE vtk_attributes, ONLY : scalar, attributes
+    USE vtk_datasets, ONLY : struct_grid
     IMPLICIT NONE
     !! author: Damian Rouson and Ian Porter
     !! date: 03/22/2019
+    !!       11/25/2019 Modified by IP to remove DTIO due to vtkmofo doing the full file handling
     !!
     !! This tests output of a slab geometry as a VTK structured grid
     !!
-    TYPE(vtk_dtio) slab
-    INTEGER(i4k)                :: i, j, k
-    INTEGER(i4k),     PARAMETER :: unit = 20
+    INTEGER(i4k), PARAMETER :: n_params_to_write = 1
+    TYPE vtk_obj
+      CHARACTER(LEN=LEN('slab')) :: filename = 'test-write-slab'
+      TYPE(struct_grid) :: grid
+      TYPE(attributes), DIMENSION(n_params_to_write) :: vals_to_write
+    END TYPE vtk_obj
+    TYPE (vtk_obj) :: slab
+    INTEGER(i4k) :: i, j, k
     REAL(r8k), DIMENSION(*), PARAMETER :: x_vals = &
       & [ 0.00E+00_r8k, 8.03E-04_r8k, 1.51E-03_r8k, 2.12E-03_r8k, 2.64E-03_r8k, &
       &   3.08E-03_r8k, 3.45E-03_r8k, 3.75E-03_r8k, 3.99E-03_r8k, 4.18E-03_r8k, &
@@ -101,16 +53,8 @@ PROGRAM Slab_VTK_output
         CALL slab%vals_to_write(i)%attribute%init ('Temperature_(K)     ' , numcomp=1, real1d=temperature)
     END DO
 
-    OPEN(unit,FILE=slab%filename)
-#ifdef HAVE_UDDTIO
-    WRITE(unit,'(DT)') slab
-#else
-    BLOCK
-      INTEGER :: io_status
-      CHARACTER(LEN=132) :: io_message
-      CALL slab%write_formatted(unit, iotype='DT', v_list=[INTEGER::], iostat=io_status, iomsg=io_message)
-    END BLOCK
-#endif
+    !! Invoke vtk_serial_write with this object's components as arguments
+    CALL vtk_serial_write (filename=slab%filename, geometry=slab%grid, pointdatasets=slab%vals_to_write)
 
     WRITE(*,*) 'Test passed.'
 
