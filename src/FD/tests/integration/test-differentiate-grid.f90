@@ -9,7 +9,7 @@ program main
   !! date: 11/15/2019
   !! Test the computation of spatial derivatives on a structured_grid
 
-  use assertions_interface, only : assert
+  use assertions_interface, only : assert, assertions
   use plate_3D_interface, only : plate_3D
   use problem_discretization_interface, only : problem_discretization, setter
   use kind_parameters, only : i4k, r8k
@@ -34,6 +34,7 @@ program main
     call plate_geometry%build( input_file ) !! read geometrical information
     call global_grid%initialize_from_geometry( plate_geometry ) !! partition block-structured grid & define grid vertex locations
     call global_grid%set_scalars( [scalar_setter] )
+    call global_grid%set_scalar_2nd_derivatives()
 
     open(newunit=file_unit, file=output_file, iostat=open_status)
     call assert(open_status==success, output_file//" opened succesfully")
@@ -55,10 +56,13 @@ contains
     call mesh%write_formatted (file_unit, 'DT', v_list, io_status, io_message)
   end subroutine
 
-  pure function f(x,y,z) result(f_value)
-    real(r8k), intent(in), dimension(:,:,:) :: x,y,z
+  pure function f(position_vectors) result(f_value)
+    real(r8k), intent(in) :: position_vectors(:,:,:,:)
     real(r8k), allocatable :: f_value(:,:,:)
-    f_value = x**2 * y
+    if (assertions) call assert(lbound(position_vectors,4)==1 .and. ubound(position_vectors,4)>=2, "field dimension >= 2")
+    associate( x=>position_vectors(:,:,:,1), y=>position_vectors(:,:,:,2) )
+      f_value = x**2 * y
+    end associate
   end function
 
 end program

@@ -18,10 +18,10 @@ module problem_discretization_interface
   integer, parameter :: space_dimension=3
 
   abstract interface
-    pure function field_function(x, y, z) result(f_xyz)
+    pure function field_function(x) result(f_x)
       import r8k
-      real(r8k), intent(in), dimension(:,:,:) :: x, y, z
-      real(r8k), allocatable :: f_xyz(:,:,:)
+      real(r8k), intent(in), dimension(:,:,:,:) :: x
+      real(r8k), allocatable :: f_x(:,:,:)
     end function
   end interface
 
@@ -36,9 +36,9 @@ module problem_discretization_interface
     class(structured_grid), allocatable :: vertices(:)
       !! grid nodal locations: size(vertices) == number of blocks owned by the executing image
     class(structured_grid), allocatable :: scalar_fields(:,:)
-      !! scalar values at the grid nodes: size(scalar_fields,1)==size(vertices), size(scalar_fields,2) == number of scalar fields
+      !! scalar values at the grid nodes: size(scalar_fields,1)==size(vertices), size(scalar_fields,2)== number of scalar fields
     class(structured_grid), allocatable :: scalar_2nd_derivatives(:,:,:)
-      !! size(scalar_2nd_derivatives,3) == space_dimension
+      !! size(scalar_2nd_derivatives,3) == space_dimension; other dimensions match scalar_field
     class(geometry), allocatable :: problem_geometry
   contains
     procedure partition
@@ -47,10 +47,12 @@ module problem_discretization_interface
     procedure block_identifier
     procedure block_load
     procedure user_defined_vertices
-    generic :: set_vertices => user_defined_vertices
     procedure set_analytical_scalars
-    generic :: set_scalars => set_analytical_scalars
+    procedure num_scalars
     procedure initialize_from_plate_3D
+    procedure set_scalar_2nd_derivatives
+    generic :: set_vertices => user_defined_vertices
+    generic :: set_scalars => set_analytical_scalars
     generic :: initialize_from_geometry => initialize_from_plate_3D
     procedure write_formatted
 #ifdef HAVE_UDDTIO
@@ -99,6 +101,19 @@ module problem_discretization_interface
       class(problem_discretization), intent(inout) :: this
       type(setter), intent(in) :: setters(:)
     end subroutine
+
+    module subroutine set_scalar_2nd_derivatives(this)
+      !! Compute 2nd derivative approximateions in each coordinate direction
+      implicit none
+      class(problem_discretization), intent(inout) :: this
+    end subroutine
+
+    pure module function num_scalars(this) result(num_scalar_fields)
+      !! Result contains the total number of scalar_field components
+      implicit none
+      class(problem_discretization), intent(in) :: this
+      integer num_scalar_fields
+    end function
 
     pure module function my_subdomains(this) result(block_identifier_range)
       !! Result contains the first & last identifiers for blocks owned by this image

@@ -7,12 +7,12 @@
 submodule(problem_discretization_interface) define_problem_discretization
   !! author: Damian Rouson and Karla Morris
   !! date: 9/9/2019
-  use assertions_interface, only : assert,assertions
+  use assertions_interface, only : assert, assertions, max_errmsg_len
   use iso_fortran_env, only : error_unit
   use kind_parameters, only : i4k, r8k
   implicit none
 
-  integer, parameter :: space_dimensions=3
+  integer, parameter :: space_dimensions=3, success=0
 
 contains
 
@@ -164,9 +164,9 @@ contains
       !! grid node locations and spacing in each coordination direction
     real(r8k) dx(space_dimensions)
     integer alloc_status
-    character(len=128) :: alloc_error
+    character(len=max_errmsg_len) :: alloc_error
 
-    integer(i4k), parameter :: lo_bound=1, up_bound=2, success=0, num_boundaries=2
+    integer(i4k), parameter :: lo_bound=1, up_bound=2, num_boundaries=2
     integer(i4k) ix,iy,iz
 
     allocate(grid_nodes(resolution(1),resolution(2),resolution(3)), stat=alloc_status, errmsg=alloc_error )
@@ -375,13 +375,42 @@ contains
 
   end procedure
 
+  module procedure set_scalar_2nd_derivatives
+    integer b, f, d, alloc_status
+    character(len=128) alloc_error
+
+    call assert(allocated(this%scalar_fields), "set_scalar_2nd_derivatives: allocated(this%scalar_fields)")
+    if (allocated(this%scalar_2nd_derivatives)) deallocate(this%scalar_2nd_derivatives)
+
+    associate(num_fields => this%num_scalars())
+    allocate(this%scalar_2nd_derivatives(lbound(this%vertices,1) : ubound(this%vertices,1), num_fields, space_dimensions), &
+      stat=alloc_status, errmsg=alloc_error)
+    call assert( alloc_status==success, "set_scalar_2nd_derivatives: allocation ("//alloc_error//")" )
+
+      loop_over_blocks: &
+      do b = lbound(this%vertices,1), ubound(this%vertices,1)
+        loop_over_fields: &
+        do f = 1, num_fields
+          loop_over_directions: &
+          do d = 1, space_dimensions
+          end do loop_over_directions
+        end do loop_over_fields
+      end do loop_over_blocks
+    end associate
+
+  end procedure
+
   module procedure set_analytical_scalars
-    integer b, f
+    integer b, f, alloc_status
+    character(len=max_errmsg_len) :: alloc_error
 
     procedure(field_function), pointer :: setter_f
     setter_f => null()
 
-    allocate( this%scalar_fields( lbound(this%vertices,1) : ubound(this%vertices,1), size(setters) ) )
+    if (allocated(this%scalar_fields)) deallocate(this%scalar_fields)
+    allocate( this%scalar_fields(lbound(this%vertices,1) : ubound(this%vertices,1), size(setters)), &
+      stat=alloc_status, errmsg=alloc_error )
+    call assert( alloc_status==success, "set_analytical_scalars: allocation ("//alloc_error//")" )
 
     loop_over_blocks: &
     do b = lbound(this%vertices,1), ubound(this%vertices,1)
@@ -389,12 +418,14 @@ contains
       do f = 1, size(setters)
         setter_f => setters(f)%define_scalar
         associate( positions => this%vertices(b)%vectors() )
-          associate( x=>positions(:,:,:,1), y=>positions(:,:,:,2), z=>positions(:,:,:,3) )
-            call this%scalar_fields(b,f)%set_scalar( setter_f(x, y, z) )
-          end associate
+          call this%scalar_fields(b,f)%set_scalar( setter_f( positions ) )
         end associate
       end do loop_over_functions
     end do loop_over_blocks
+  end procedure
+
+  module procedure  num_scalars
+    num_scalar_fields = size(this%scalar_fields,2)
   end procedure
 
 end submodule define_problem_discretization
