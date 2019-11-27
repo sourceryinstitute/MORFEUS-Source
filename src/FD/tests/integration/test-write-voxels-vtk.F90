@@ -10,7 +10,7 @@ PROGRAM T_shape_test
     !!
     !! Write a T-shaped, unstructured-grid geometry defined in VTK voxels
     USE kind_parameters, ONLY : i4k, r8k
-    USE vtk_datasets,   ONLY : unstruct_grid
+    USE vtk_datasets,    ONLY : unstruct_grid
     IMPLICIT NONE
     TYPE (unstruct_grid)  :: t_shape
     INTEGER(i4k), PARAMETER :: n_points = 24, n_cells = 5
@@ -54,7 +54,7 @@ PROGRAM T_shape_test
         CALL voxel_cells(4)%setup ( [ 9, 10, 13, 14, 17, 18, 21, 22 ] )
         CALL voxel_cells(5)%setup ( [ 10, 11, 14, 15, 18, 19, 22, 23 ] )
 
-        DO i=1,SIZE(voxel_cells)                               !! workaround gfortran 8.3.0 bug
+        DO i=1,SIZE(voxel_cells)                                 !! workaround gfortran 8.3.0 bug
             ALLOCATE(cell_list(i)%cell, source=voxel_cells(i))   !! Alternative: cell_list(i)%cell = voxel_cells(i)
         END DO
 
@@ -63,7 +63,7 @@ PROGRAM T_shape_test
 
     BLOCK
         !! Defne scalar quantities and write grid
-        USE vtk, ONLY : vtk_legacy_write
+        USE vtk, ONLY : vtk_serial_write
         USE vtk_attributes, ONLY : attributes
         TYPE (attributes) :: cell_vals_to_write, point_vals_to_write
         INTEGER(i4k) :: j
@@ -73,13 +73,12 @@ PROGRAM T_shape_test
         CALL define_scalar(  cell_vals_to_write, REAL( cell_ID, r8k),  'Cell_ID' )
         CALL define_scalar( point_vals_to_write, REAL(point_ID, r8k), 'Point_ID' )
 
-        CALL vtk_legacy_write (                  &
+        CALL vtk_serial_write (                  &
             t_shape,                             &
             celldatasets=[cell_vals_to_write],   &
             pointdatasets=[point_vals_to_write], &
-            filename='t_shape-voxels.vtk',       &
-            title='T-shaped voxel grid',         &
-            multiple_io=.TRUE.)
+            filename='test-write-voxels',        &
+            multiple_io=.FALSE.)
     END BLOCK
 
     WRITE(*,*) 'Test passed.'

@@ -14,43 +14,23 @@ program main
   use problem_discretization_interface, only : problem_discretization
   implicit none
 
-  call create_grid_for_plate(input="3Dplate-low-resolution-layers.json", output="3Dplate-low-resolution-layers.vtk")
-  call create_grid_for_plate(input="3Dplate-high-resolution-layers.json", output="3Dplate-high-resolution-layers.vtk")
+  call create_grid_for_plate(input="3Dplate-low-resolution-layers.json", output="3Dplate-low-resolution-layers")
+  call create_grid_for_plate(input="3Dplate-high-resolution-layers.json", output="3Dplate-high-resolution-layers")
 
   print *,"Test passed."
 
 contains
 
-  subroutine output_grid( mesh, file_unit )
-    type(problem_discretization) :: mesh
-    integer file_unit
-
-#ifdef HAVE_UDDTIO
-    write(file_unit,*) mesh
-#else
-    block
-      integer, dimension(0) :: v_list
-      character(len=132) io_message
-      integer io_status
-      call mesh%write_formatted (file_unit, 'DT', v_list, io_status, io_message)
-    end block
-#endif
-  end subroutine
-
   subroutine create_grid_for_plate( input, output)
+    implicit none
     character(len=*), intent(in) :: input, output
     type(plate_3D) :: plate_geometry
     type(problem_discretization) :: global_grid
-    integer file_unit, open_status
-    integer, parameter :: success=0
 
     call plate_geometry%build( input ) !! read geometrical information
     call global_grid%initialize_from_geometry( plate_geometry ) !! partition block-structured grid & define grid vertex locations
 
-    open(newunit=file_unit, file=output, iostat=open_status)
-    call assert(open_status==success, output//" opened succesfully")
-
-    call output_grid( global_grid, file_unit)
+    call global_grid%write_output (output, 'vtk') !! TODO. Make more sophisticated to allow calling of other output types
 
   end subroutine
 

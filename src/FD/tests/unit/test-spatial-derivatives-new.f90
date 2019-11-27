@@ -4,7 +4,7 @@
 !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
-program main
+module spatial_derivative_procedures
   implicit none
   integer ,parameter :: digits=8  ! num. digits of kind
   integer ,parameter :: decades=9 ! num. representable decades
@@ -20,39 +20,10 @@ program main
   integer(ikind) ,parameter :: nx=21, ny=21, nz=21
 
   type(grid_block) :: global_grid_block
-  allocate(global_grid_block%v(nx,ny,nz,4), global_grid_block%ddx2(nx,ny,nz), &
-           global_grid_block%ddy2(nx,ny,nz), global_grid_block%ddz2(nx,ny,nz))
-  global_grid_block%v(:,:,:,:)=0.0
-  global_grid_block%ddx2(:,:,:)=0.0
-  global_grid_block%ddy2(:,:,:)=0.0
-  global_grid_block%ddz2(:,:,:)=0.0
 
-  associate( p => position_vectors(nx,ny,nz) )
-    global_grid_block%v(:,:,:,1) = p(:,:,:,1)
-    global_grid_block%v(:,:,:,2) = p(:,:,:,2)
-    global_grid_block%v(:,:,:,3) = p(:,:,:,3)
-    global_grid_block%v(:,:,:,4) = global_grid_block%v(:,:,:,1)**2 * global_grid_block%v(:,:,:,2) ! T=x^2*y => d^2T/dx^2=y
-  end associate
-
-  call get_ddx2(global_grid_block)
-  call get_ddy2(global_grid_block)
-  call get_ddz2(global_grid_block)
-
-  error_calculation: block
-    real(rkind)            :: avg_err, minimum_dx
-    minimum_dx=0.25/5.0
-    avg_err=0.0
-    do concurrent(k=1:nz,j=1:ny,i=2:nx-1)
-      avg_err=avg_err+abs(global_grid_block%ddx2(i,j,k)-2.0*global_grid_block%v(i,j,k,2))
-    end do
-    avg_err=avg_err/((nz)*(ny)*(nx-2))
-    if (avg_err <= minimum_dx**2) print *, "Test passed."
-  end block error_calculation
-
-  call output_result(global_grid_block)
 contains
 
-  pure function position_vectors(nx,ny,nz) result(vector_field)
+  impure function position_vectors(nx,ny,nz) result(vector_field)
     integer(ikind), intent(in) :: nx, ny, nz
     integer(ikind), parameter :: components=3
     real(rkind), parameter :: dx=0.75/(5.0), dy=0.75/(5.0)
@@ -217,4 +188,41 @@ contains
     close(file_unit)
   end subroutine
 
-end program
+end module spatial_derivative_procedures
+
+program main
+  use spatial_derivative_procedures
+  implicit none
+  real(rkind)            :: avg_err, minimum_dx
+  allocate(global_grid_block%v(nx,ny,nz,4), global_grid_block%ddx2(nx,ny,nz), &
+           global_grid_block%ddy2(nx,ny,nz), global_grid_block%ddz2(nx,ny,nz))
+  global_grid_block%v(:,:,:,:)=0.0
+  global_grid_block%ddx2(:,:,:)=0.0
+  global_grid_block%ddy2(:,:,:)=0.0
+  global_grid_block%ddz2(:,:,:)=0.0
+
+  associate( p => position_vectors(nx,ny,nz) )
+    global_grid_block%v(:,:,:,1) = p(:,:,:,1)
+    global_grid_block%v(:,:,:,2) = p(:,:,:,2)
+    global_grid_block%v(:,:,:,3) = p(:,:,:,3)
+    global_grid_block%v(:,:,:,4) = global_grid_block%v(:,:,:,1)**2 * global_grid_block%v(:,:,:,2) ! T=x^2*y => d^2T/dx^2=y
+  end associate
+
+  call get_ddx2(global_grid_block)
+  call get_ddy2(global_grid_block)
+  call get_ddz2(global_grid_block)
+
+!  error_calculation: block
+!    real(rkind)            :: avg_err, minimum_dx
+    minimum_dx=0.25/5.0
+    avg_err=0.0
+    do concurrent(k=1:nz,j=1:ny,i=2:nx-1)
+      avg_err=avg_err+abs(global_grid_block%ddx2(i,j,k)-2.0*global_grid_block%v(i,j,k,2))
+    end do
+    avg_err=avg_err/((nz)*(ny)*(nx-2))
+    if (avg_err <= minimum_dx**2) print *, "Test passed."
+!  end block error_calculation
+
+  call output_result(global_grid_block)
+
+  end program main

@@ -54,22 +54,17 @@ module problem_discretization_interface
     generic :: set_vertices => user_defined_vertices
     generic :: set_scalars => set_analytical_scalars
     generic :: initialize_from_geometry => initialize_from_plate_3D
-    procedure write_formatted
-#ifdef HAVE_UDDTIO
-    generic :: write(formatted) => write_formatted
-#endif
+    procedure :: write_output
   end type
 
   interface
 
-    module subroutine write_formatted (this,unit,iotype, v_list, iostat, iomsg)
-      !! Formatted user-defined derived type output
+    module subroutine write_output (this, filename, filetype)
+      !! Generic write output interface
       implicit none
       class(problem_discretization), intent(in) ::this
-      integer, intent(in) :: unit, v_list(:)
-      character (len=*), intent(in) :: iotype
-      integer, intent(out) :: iostat
-      character(len=*), intent(inout) :: iomsg
+      character (len=*), intent(in) :: filename
+      character (len=*), intent(in) :: filetype
     end subroutine
 
     module subroutine initialize_from_plate_3D(this,plate_3D_geometry)

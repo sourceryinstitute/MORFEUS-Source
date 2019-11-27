@@ -16,141 +16,144 @@ submodule(problem_discretization_interface) define_problem_discretization
 
 contains
 
-  module procedure write_formatted
-    use string_functions_interface, only : file_extension
-    integer subdomain
-
-    character(len=:), allocatable :: file_name, suffix
-    integer, parameter :: max_name_length=128
-
-    iostat=0
-
-    allocate(character(len=max_name_length)::file_name)
-    inquire(unit=unit,name=file_name)
-
-    suffix = file_extension( file_name )
-    select case(suffix)
-      case('csv')
-        call csv_output
-      case('vtk')
-        CALL VTK_output
-      case('json')
-        CALL json_output
-      case default
-        error stop "problem_discretization%write_formatted: unsupported file name extension" // &
+  module procedure write_output
+    implicit none
+    !! author: Ian Porter
+    !! date: 11/25/2019
+    !!
+    !! This is a generic procedure for writing output files. This procedure eliminates the DTIO
+    !! to allow for linking to external libraries that handle all of the file output
+    !!
+    integer :: iostat
+    iostat = 0
+    select case (filetype)
+    case ('vtk')
+      call vtk_output (this, filename, iostat)
+    case ('csv')
+      call csv_output (this, filename, iostat)
+    case ('json')
+     call json_output (this, filename, iostat)
+   case default
+     error stop "problem_discretization%write_output: unsupported file type" // &
 #ifdef HAVE_NON_CONSTANT_ERROR_STOP
-        & file_name ! Fortran 2018
+     & filename ! Fortran 2018
 #else
-        & "."       ! Fortran 2008
+     & "."       ! Fortran 2008
 #endif
-      end select
+   end select
 
-    contains
+  end procedure write_output
 
-      subroutine json_output
-        error stop "json_output: not yet implemented"
-      end subroutine
+  subroutine json_output (this, filename, iostat)
+    class(problem_discretization), intent(in) ::this
+    character(LEN=*), intent(in) :: filename
+    integer, intent(inout), optional :: iostat
+    error stop "json_output: not yet implemented"
+  end subroutine
 
-      subroutine csv_output
-        integer ix,iy,iz
-        associate( nx=>this%global_block_shape_(1), ny=>this%global_block_shape_(2), nz=>this%global_block_shape_(3) )
-          write(unit,'(4("      ",a,:,",",5x))') "x","y","z","layer (phony)"
-          write(unit,*) new_line('a')
-          do iz=1,nz
-            do iy=1,ny
-              do ix=1,nx
-#ifdef HAVE_UDDTIO
-                write(unit,*) this%vertices( this%block_identifier([ix,iy,iz])  )
-#else
-                CALL this%vertices( this%block_identifier([ix,iy,iz])  )%write_formatted(unit,iotype, v_list, iostat, iomsg)
-#endif
+  subroutine csv_output (this, filename, unit, iostat)
+    class(problem_discretization), intent(in) ::this
+    character(len=*), intent(in) :: filename
+    integer, intent(in), optional :: unit
+    integer, intent(inout), optional :: iostat
+    character(len=132) :: iomsg
+    integer, dimension(0) :: v_list
+    integer ix,iy,iz
+    associate( nx=>this%global_block_shape_(1), ny=>this%global_block_shape_(2), nz=>this%global_block_shape_(3) )
+      write(unit,'(4("      ",a,:,",",5x))') "x","y","z","layer (phony)"
+      write(unit,*) new_line('a')
+      do iz=1,nz
+        do iy=1,ny
+          do ix=1,nx
+            call this%vertices( this%block_identifier([ix,iy,iz]) )%write_formatted(unit,'DT', v_list, iostat, iomsg)
+          end do
+        end do
+      end do
+    end associate
+  end subroutine
+
+  subroutine define_scalar( s, vals, dataname )
+    use vtk_attributes, only : scalar, attributes
+    implicit none
+    class(attributes), intent(INOUT) :: s
+    real(r8k),         intent(in)    :: vals(:)
+    character(LEN=*),  intent(in)    :: dataname
+
+    if (.NOT. allocated(s%attribute)) allocate(scalar::s%attribute)
+    call s%attribute%init (dataname, numcomp=1, real1d=vals)
+  end subroutine
+
+  subroutine VTK_output (this, filename, iostat)
+    use vtk_datasets,   only : unstruct_grid
+    use vtk,            only : vtk_serial_write
+    use vtk_cells,      only : voxel, vtkcell_list
+    use vtk_attributes, only : attributes
+    use array_functions_interface, only : OPERATOR(.catColumns.), OPERATOR(.columnVectors.)
+    implicit none
+    class(problem_discretization), intent(in) ::this
+    character(LEN=*), intent(in), optional :: filename
+    integer, intent(out) :: iostat
+    type(voxel) :: voxel_cell  !! Voxel cell type
+    type(vtkcell_list), dimension(:), allocatable :: cell_list !! Full list of all cells
+    type (unstruct_grid) :: vtk_grid
+    integer(i4k) :: ip, jp, kp !! block-local point id
+    integer(i4k) :: ic, jc, kc !! block-local cell id
+    real(r8k), dimension(:,:), allocatable :: points
+    integer(i4k), dimension(:), allocatable :: block_cell_material, point_block_id
+    type(attributes) :: point_values, cell_values
+    integer :: b, first_point_in_block, first_cell_in_block
+    integer, parameter :: vector_indices=4, writer=1
+
+    allocate( cell_list(SUM( this%vertices%num_cells())) )
+    allocate( points(space_dimensions,0), block_cell_material(0), point_block_id(0) )
+
+    first_point_in_block = 0
+    first_cell_in_block = 1
+
+    loop_over_grid_blocks: do b=lbound(this%vertices,1), ubound(this%vertices,1)
+
+      associate( vertex_positions => this%vertices(b)%vectors() ) !! 4D array of nodal position vectors
+        associate( npoints => shape(vertex_positions(:,:,:,1)) )  !! shape of 1st 3 dims specifies # points in ea. direction
+          associate( ncells => npoints-1 )
+            points = points .catColumns. ( .columnVectors. vertex_positions )
+            block_cell_material = [ block_cell_material, (this%vertices(b)%get_tag(), ic=1,PRODUCT(ncells)) ]
+            point_block_id = [ point_block_id, [( b, ip=1, PRODUCT(npoints) )] ]
+
+            do ic=1,ncells(1)
+              do jc=1,ncells(2)
+                do kc=1,ncells(3)
+                  associate( block_local_point_id => & !! 8-element array of block-local ID's for voxel corners
+                    [( [( [( kp*PRODUCT(npoints(1:2)) + jp*npoints(1) + ip, ip=ic,ic+1 )], jp=jc-1,jc )], kp=kc-1,kc )] &
+                  )
+                    call voxel_cell%setup ( first_point_in_block + block_local_point_id-1 )
+                  end associate
+                  associate( local_cell_id => (kc-1)*PRODUCT(ncells(1:2)) + (jc-1)*ncells(1) + ic )
+                    associate(  cell_id => first_cell_in_block + local_cell_id - 1 )
+                      allocate(cell_list(cell_id)%cell, source=voxel_cell)!GCC8 workaround for cell_list(i)%cell= voxel_cell
+                    end associate
+                  end associate
+                end do
               end do
             end do
-          end do
+
+            first_cell_in_block  = first_cell_in_block  + PRODUCT( ncells  )
+            first_point_in_block = first_point_in_block + PRODUCT( npoints )
+          end associate
         end associate
-      end subroutine
+      end associate
+    end do loop_over_grid_blocks
 
-      SUBROUTINE define_scalar( s, vals, dataname )
-          USE vtk_attributes, ONLY : scalar, attributes
-          CLASS(attributes), INTENT(INOUT) :: s
-          REAL(r8k),         INTENT(IN)    :: vals(:)
-          CHARACTER(LEN=*),  INTENT(IN)    :: dataname
+    call assert( SIZE(point_block_id,1) == SIZE(points,2), "VTK block point data set & point set size match" )
+    call assert( SIZE(block_cell_material,1) == SIZE(cell_list,1), "VTK cell data set & cell set size match" )
 
-          IF (.NOT. ALLOCATED(s%attribute)) ALLOCATE(scalar::s%attribute)
-          CALL s%attribute%init (dataname, numcomp=1, real1d=vals)
-      END SUBROUTINE
+    call define_scalar(  cell_values, REAL( block_cell_material, r8k),  'material' )
+    call define_scalar(  point_values, REAL( point_block_id, r8k),  'block' )
 
-      SUBROUTINE  VTK_output
-            USE vtk_datasets,   ONLY : unstruct_grid
-            USE vtk,            ONLY : vtk_legacy_write
-            USE vtk_cells, ONLY : voxel, vtkcell_list
-            USE vtk_attributes, ONLY : attributes
-            USE array_functions_interface, ONLY : OPERATOR(.catColumns.), OPERATOR(.columnVectors.)
-            TYPE(voxel) :: voxel_cell  !! Voxel cell type
-            TYPE(vtkcell_list), DIMENSION(:), ALLOCATABLE :: cell_list !! Full list of all cells
-            TYPE (unstruct_grid) :: vtk_grid
-            INTEGER(i4k) :: ip, jp, kp !! block-local point id
-            INTEGER(i4k) :: ic, jc, kc !! block-local cell id
-            REAL(r8k), DIMENSION(:,:), ALLOCATABLE :: points
-            INTEGER(i4k), DIMENSION(:), ALLOCATABLE :: block_cell_material, point_block_id
-            TYPE(attributes) :: point_values, cell_values
-            INTEGER :: b, first_point_in_block, first_cell_in_block
-            INTEGER, PARAMETER :: vector_indices=4, writer=1
-
-            ALLOCATE( cell_list(SUM( this%vertices%num_cells())) )
-            ALLOCATE( points(space_dimensions,0), block_cell_material(0), point_block_id(0) )
-
-            first_point_in_block = 0
-            first_cell_in_block = 1
-
-            loop_over_grid_blocks: DO b=lbound(this%vertices,1), ubound(this%vertices,1)
-
-              ASSOCIATE( vertex_positions => this%vertices(b)%vectors() ) !! 4D array of nodal position vectors
-                ASSOCIATE( npoints => shape(vertex_positions(:,:,:,1)) )  !! shape of 1st 3 dims specifies # points in ea. direction
-                  ASSOCIATE( ncells => npoints-1 )
-
-                    points = points .catColumns. ( .columnVectors. vertex_positions )
-                    block_cell_material = [ block_cell_material, (this%vertices(b)%get_tag(), ic=1,PRODUCT(ncells)) ]
-                    point_block_id = [ point_block_id, [( b, ip=1, PRODUCT(npoints) )] ]
-
-                    DO ic=1,ncells(1)
-                      DO jc=1,ncells(2)
-                        DO kc=1,ncells(3)
-                          ASSOCIATE( block_local_point_id => & !! 8-element array of block-local ID's for voxel corners
-                            [( [( [( kp*PRODUCT(npoints(1:2)) + jp*npoints(1) + ip, ip=ic,ic+1 )], jp=jc-1,jc )], kp=kc-1,kc )] &
-                          )
-                            CALL voxel_cell%setup ( first_point_in_block + block_local_point_id-1 )
-                          END ASSOCIATE
-                          ASSOCIATE( local_cell_id => (kc-1)*PRODUCT(ncells(1:2)) + (jc-1)*ncells(1) + ic )
-                            ASSOCIATE(  cell_id => first_cell_in_block + local_cell_id - 1 )
-                              ALLOCATE(cell_list(cell_id)%cell, source=voxel_cell)!GCC8 workaround for cell_list(i)%cell= voxel_cell
-                            END ASSOCIATE
-                          END ASSOCIATE
-                        END DO
-                      END DO
-                    END DO
-
-                    first_cell_in_block  = first_cell_in_block  + PRODUCT( ncells  )
-                    first_point_in_block = first_point_in_block + PRODUCT( npoints )
-                  END ASSOCIATE
-                END ASSOCIATE
-              END ASSOCIATE
-            END DO loop_over_grid_blocks
-
-            CALL assert( SIZE(point_block_id,1) == SIZE(points,2), "VTK block point data set & point set size match" )
-            CALL assert( SIZE(block_cell_material,1) == SIZE(cell_list,1), "VTK cell data set & cell set size match" )
-
-            CALL define_scalar(  cell_values, REAL( block_cell_material, r8k),  'material' )
-            CALL define_scalar(  point_values, REAL( point_block_id, r8k),  'block' )
-
-            CALL vtk_grid%init (points=points, cell_list=cell_list )
-            CALL vtk_legacy_write( &
-              unit=unit, geometry=vtk_grid, title='Morfeus-FD voxels', multiple_io=.TRUE., &
-              celldatasets=[cell_values], pointdatasets=[point_values] )
-
-        END SUBROUTINE VTK_output
-
-  end procedure write_formatted
+    call vtk_grid%init (points=points, cell_list=cell_list )
+    call vtk_serial_write(filename=filename, geometry=vtk_grid, multiple_io=.TRUE., &
+      &                   celldatasets=[cell_values], pointdatasets=[point_values] )
+    iostat = 0
+  end subroutine VTK_output
 
   pure function evenly_spaced_points( boundaries, resolution, direction ) result(grid_nodes)
     !! Define grid point coordinates with uniform spacing in the chosen subdomain
@@ -170,7 +173,7 @@ contains
     integer(i4k) ix,iy,iz
 
     allocate(grid_nodes(resolution(1),resolution(2),resolution(3)), stat=alloc_status, errmsg=alloc_error )
-    CALL assert( alloc_status==success, "evenly_spaced_points allocation ("//alloc_error//")", PRODUCT(resolution) )
+    call assert( alloc_status==success, "evenly_spaced_points allocation ("//alloc_error//")", PRODUCT(resolution) )
 
     associate( num_intervals => resolution - 1 )
       dx = ( boundaries(:,up_bound) - boundaries(:,lo_bound) ) / num_intervals(:)
@@ -214,7 +217,7 @@ contains
       !! partition a block-structured grid into subdomains with connectivity implied by the indexing of the 3D array of blocks
 
       associate( my_subdomains => this%my_subdomains() )
-        do n = my_subdomains(lo_bound) , my_subdomains(up_bound) ! TODO: make concurrent after Intel supports co_sum
+        do n = my_subdomains(lo_bound) , my_subdomains(up_bound) ! TOdo: make concurrent after Intel supports co_sum
 
           associate( ijk => this%block_indicial_coordinates(n) )
 
@@ -270,7 +273,7 @@ contains
     if (assertions) then
       call assert(alloc_status==0,"partition: data distribution established")
       block
-#ifndef HAVE_COLLECTIVE_SUBROUTINES
+#ifndef HAVE_COLLECTIVE_subroutineS
         use emulated_intrinsics_interface, only : co_sum
 #endif
         integer total_blocks

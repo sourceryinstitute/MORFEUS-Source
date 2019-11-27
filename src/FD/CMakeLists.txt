@@ -240,7 +240,7 @@ set( base_names
   plate-material-mapping
   discretize-3D-plate
   write-slab-vtk
-  write-vtk-voxels
+  write-voxels-vtk
 )
 foreach(integration_test ${base_names})
   add_caf_test( fd-${integration_test} 1 ${CMAKE_CURRENT_BINARY_DIR}/tests/integration/test-${integration_test}

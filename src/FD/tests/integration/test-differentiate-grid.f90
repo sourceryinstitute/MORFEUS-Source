@@ -29,16 +29,16 @@ program main
 
   associate( me => this_image() )
     write(image_number,'(i4)') me
-    output_file = base_name //"-image-"// trim(adjustl(image_number)) // ".vtk"
+    output_file = base_name //"-image-"// trim(adjustl(image_number))! // ".vtk"
 
     call plate_geometry%build( input_file ) !! read geometrical information
     call global_grid%initialize_from_geometry( plate_geometry ) !! partition block-structured grid & define grid vertex locations
     call global_grid%set_scalars( [scalar_setter] )
     call global_grid%set_scalar_2nd_derivatives()
 
-    open(newunit=file_unit, file=output_file, iostat=open_status)
-    call assert(open_status==success, output_file//" opened succesfully")
-    call output_grid( global_grid, file_unit)
+!    open(newunit=file_unit, file=output_file, iostat=open_status)
+!    call assert(open_status==success, output_file//" opened succesfully")
+    call output_grid(global_grid, output_file)
 
     sync all
     if (me==1) print *,"Test passed."
@@ -46,14 +46,12 @@ program main
 
 contains
 
-  subroutine output_grid( mesh, file_unit )
+  subroutine output_grid( mesh, file_name )
     type(problem_discretization), intent(in) :: mesh
-    integer, intent(in) :: file_unit
-    integer, dimension(0) :: v_list
-    character(len=132) io_message
-    integer io_status
+    character(len=*), intent(in) :: file_name
 
-    call mesh%write_formatted (file_unit, 'DT', v_list, io_status, io_message)
+    call mesh%write_output (file_name, 'vtk')
+
   end subroutine
 
   pure function f(position_vectors) result(f_value)
