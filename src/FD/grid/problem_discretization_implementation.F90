@@ -378,17 +378,17 @@ contains
 
   end procedure
 
-  module procedure set_scalar_2nd_derivatives
+  module procedure set_div_scalar_flux
     integer b, f, d, alloc_status
     character(len=128) alloc_error
 
-    call assert(allocated(this%scalar_fields), "set_scalar_2nd_derivatives: allocated(this%scalar_fields)")
-    if (allocated(this%scalar_2nd_derivatives)) deallocate(this%scalar_2nd_derivatives)
+    call assert(allocated(this%scalar_fields), "set_div_scalar_flux: allocated(this%scalar_fields)")
+    if (allocated(this%div_scalar_flux)) deallocate(this%div_scalar_flux)
 
     associate(num_fields => this%num_scalars())
-    allocate(this%scalar_2nd_derivatives(lbound(this%vertices,1) : ubound(this%vertices,1), num_fields, space_dimensions), &
+    allocate(this%div_scalar_flux(lbound(this%vertices,1) : ubound(this%vertices,1), num_fields, space_dimensions), &
       stat=alloc_status, errmsg=alloc_error)
-    call assert( alloc_status==success, "set_scalar_2nd_derivatives: allocation ("//alloc_error//")" )
+    call assert( alloc_status==success, "set_div_scalar_flux: allocation ("//alloc_error//")" )
 
       loop_over_blocks: &
       do b = lbound(this%vertices,1), ubound(this%vertices,1)

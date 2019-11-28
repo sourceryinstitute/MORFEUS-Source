@@ -37,8 +37,8 @@ module problem_discretization_interface
       !! grid nodal locations: size(vertices) == number of blocks owned by the executing image
     class(structured_grid), allocatable :: scalar_fields(:,:)
       !! scalar values at the grid nodes: size(scalar_fields,1)==size(vertices), size(scalar_fields,2)== number of scalar fields
-    class(structured_grid), allocatable :: scalar_2nd_derivatives(:,:,:)
-      !! size(scalar_2nd_derivatives,3) == space_dimension; other dimensions match scalar_field
+    class(structured_grid), allocatable :: div_scalar_flux(:,:,:)
+      !! div( D grad(s)); size(div_scalar_flux,3) == space_dimension; other dimensions match scalar_field;
     class(geometry), allocatable :: problem_geometry
   contains
     procedure partition
@@ -50,7 +50,7 @@ module problem_discretization_interface
     procedure set_analytical_scalars
     procedure num_scalars
     procedure initialize_from_plate_3D
-    procedure set_scalar_2nd_derivatives
+    procedure set_div_scalar_flux
     generic :: set_vertices => user_defined_vertices
     generic :: set_scalars => set_analytical_scalars
     generic :: initialize_from_geometry => initialize_from_plate_3D
@@ -97,8 +97,8 @@ module problem_discretization_interface
       type(setter), intent(in) :: setters(:)
     end subroutine
 
-    module subroutine set_scalar_2nd_derivatives(this)
-      !! Compute 2nd derivative approximateions in each coordinate direction
+    module subroutine set_div_scalar_flux(this)
+      !! Compute and store div( D grad( s )) for each scalar
       implicit none
       class(problem_discretization), intent(inout) :: this
     end subroutine
