@@ -13,11 +13,11 @@ module spatial_derivative_procedures
 
   type grid_block
     real(rkind), allocatable :: v(:,:,:,:)
-    real(rkind), allocatable :: ddx2(:,:,:), ddy2(:,:,:), ddz2(:,:,:)
+    real(rkind), allocatable :: ddx2(:,:,:,:)
   end type grid_block
 
   integer(ikind)  :: i,j,k
-  integer(ikind) ,parameter :: nx=21, ny=21, nz=21
+  integer(ikind) ,parameter :: nx=21, ny=25, nz=30
 
   type(grid_block) :: global_grid_block
 
@@ -51,141 +51,50 @@ contains
     kc=1.0
   end function
 
-  subroutine get_ddx2(this)
-    type(grid_block), intent(inout)     :: this
-    integer(ikind)                      :: i, j, k
-    real(rkind)                         :: dx_f, dx_b, dx_m
-    associate( n=>shape(this%v) )
-      do concurrent(k=1:n(3), j=1:n(2), i=2:n(1)-1)
-        dx_m=0.5*(this%v(i+1,j,k,1)-this%v(i-1,j,k,1))
-        dx_f=this%v(i+1,j,k,1)-this%v(i,j,k,1)
-        dx_b=this%v(i,j,k,1)-this%v(i-1,j,k,1)
-        this%ddx2(i,j,k)=kc(0.5*(this%v(i+1,j,k,1)+this%v(i,j,k,1)))*(this%v(i+1,j,k,4) - this%v(i,j,k,4))/(dx_f*dx_m) - &
-                        kc(0.5*(this%v(i,j,k,1)+this%v(i-1,j,k,1)))*(this%v(i,j,k,4) - this%v(i-1,j,k,4))/(dx_b*dx_m)
-      end do
-    end associate
-  end subroutine
+  subroutine set_scalar_fluxes(this)
+    type(grid_block), intent(inout) :: this
+    integer(ikind) i, j, k
 
-  subroutine get_ddy2(this)
-    type(grid_block), intent(inout)     :: this
-    integer(ikind)                      :: i, j, k
-    real(rkind)                         :: dy_f, dy_b, dy_m
-    associate( n=>shape(this%v) )
-      do concurrent(k=1:n(3), j=2:n(2)-1, i=1:n(1))
-        dy_m=0.5*(this%v(i,j+1,k,2)-this%v(i,j-1,k,2))
-        dy_f=this%v(i,j+1,k,2)-this%v(i,j,k,2)
-        dy_b=this%v(i,j,k,2)-this%v(i,j-1,k,2)
-        this%ddy2(i,j,k)=kc(0.5*(this%v(i,j+1,k,2)+this%v(i,j,k,2)))*(this%v(i,j+1,k,4) - this%v(i,j,k,4))/(dy_f*dy_m) - &
-                        kc(0.5*(this%v(i,j,k,2)+this%v(i,j-1,k,2)))*(this%v(i,j,k,4) - this%v(i,j-1,k,4))/(dy_b*dy_m)
-      end do
-    end associate
-  end subroutine
-
-  subroutine get_ddz2(this)
-    type(grid_block), intent(inout)     :: this
-    integer(ikind)                      :: i, j, k
-    real(rkind)                         :: dz_f, dz_b, dz_m
-    associate( n=>shape(this%v) )
-      do concurrent(k=2:n(3)-1, j=1:n(2), i=1:n(1))
-        dz_m=0.5*(this%v(i,j,k+1,3)-this%v(i,j,k-1,3))
-        dz_f=this%v(i,j,k+1,3)-this%v(i,j,k,3)
-        dz_b=this%v(i,j,k,3)-this%v(i,j,k-1,3)
-        this%ddz2(i,j,k)=kc(0.5*(this%v(i,j,k+1,3)+this%v(i,j,k,3)))*(this%v(i,j,k+1,4) - this%v(i,j,k,4))/(dz_f*dz_m) - &
-                        kc(0.5*(this%v(i,j,k,3)+this%v(i,j,k-1,3)))*(this%v(i,j,k,4) - this%v(i,j,k-1,4))/(dz_b*dz_m)
-      end do
-    end associate
-  end subroutine
-
-  subroutine write_component(grid_blocks, component, file_unit, string)
-    type(grid_block), intent(in) :: grid_blocks
-    character(len=*), intent(in) :: component
-    character(len=*), intent(in), optional :: string
-    integer, intent(in) :: file_unit
-    integer(ikind) :: i, j, k, ndimension
-    associate( n=>shape(grid_blocks%v) )
-    do k=1, n(3)-1
-      do j=1, n(2)-1
-        do i=1, n(1)-1
-          select case(component)
-            case("T")
-              write (file_unit,*) grid_blocks%v(i,j,k,4)
-              write (file_unit,*) grid_blocks%v(i+1,j,k,4)
-              write (file_unit,*) grid_blocks%v(i,j+1,k,4)
-              write (file_unit,*) grid_blocks%v(i+1,j+1,k,4)
-              write (file_unit,*) grid_blocks%v(i,j,k+1,4)
-              write (file_unit,*) grid_blocks%v(i+1,j,k+1,4)
-              write (file_unit,*) grid_blocks%v(i,j+1,k+1,4)
-              write (file_unit,*) grid_blocks%v(i+1,j+1,k+1,4)
-            case("v")
-              write(file_unit, *) (grid_blocks%v(i,j,k,ndimension), ndimension=1,3)
-              write(file_unit, *) (grid_blocks%v(i+1,j,k,ndimension), ndimension=1,3)
-              write(file_unit, *) (grid_blocks%v(i,j+1,k,ndimension), ndimension=1,3)
-              write(file_unit, *) (grid_blocks%v(i+1,j+1,k,ndimension), ndimension=1,3)
-              write(file_unit, *) (grid_blocks%v(i,j,k+1,ndimension), ndimension=1,3)
-              write(file_unit, *) (grid_blocks%v(i+1,j,k+1,ndimension), ndimension=1,3)
-              write(file_unit, *) (grid_blocks%v(i,j+1,k+1,ndimension), ndimension=1,3)
-              write(file_unit, *) (grid_blocks%v(i+1,j+1,k+1,ndimension), ndimension=1,3)
-            case("ddx2")
-              write (file_unit,*) grid_blocks%ddx2(i,j,k)
-              write (file_unit,*) grid_blocks%ddx2(i+1,j,k)
-              write (file_unit,*) grid_blocks%ddx2(i,j+1,k)
-              write (file_unit,*) grid_blocks%ddx2(i+1,j+1,k)
-              write (file_unit,*) grid_blocks%ddx2(i,j,k+1)
-              write (file_unit,*) grid_blocks%ddx2(i+1,j,k+1)
-              write (file_unit,*) grid_blocks%ddx2(i,j+1,k+1)
-              write (file_unit,*) grid_blocks%ddx2(i+1,j+1,k+1)
-            case("string")
-              write (file_unit,*) string
-            case default
-              error stop "write_component: unrecognized component"
-          end select
-        end do
-      end do
-    end do
-    end associate
-  end subroutine
-
-  subroutine output_result(grid_blocks)
-    type(grid_block), intent(in) :: grid_blocks
-    integer file_unit
-
-    open(newunit=file_unit, file="spatial-derivatives-new.vtk")
-    write(file_unit, '(a)') '# vtk DataFile Version 3.0'
-    write(file_unit, '(a)') '3d-htc voxels'
-    write(file_unit, '(a)') 'ASCII'
-    write(file_unit, '(a)') 'DATASET UNSTRUCTURED_GRID'
-    write(file_unit, '(a,i5,a)') "POINTS ", 8*(nx-1)*(ny-1)*(nz-1), " double"
-    call write_component( grid_blocks, "v", file_unit)
-
-    block
-      integer i, j, k, nv
-      write(file_unit,'(a,i5,3x,i5)') "CELLS ", (nx-1)*(ny-1)*(nz-1), 9*(nx-1)*(ny-1)*(nz-1)
-      associate( n=>shape(grid_blocks%v) )
-        do k=1, n(3)-1
-          do j=1, n(2)-1
-            do i=1, n(1)-1
-              associate( grid_block_id => 8*(i+(j-1)*(n(1)-1)+(k-1)*(n(1)-1)*(n(2)-1)-1) )
-                write(file_unit,*) "8", (grid_block_id+nv-1, nv=1,8)
-              end associate
-            end do
-          end do
+    associate( n=>shape(this%v), s=>this%v(:,:,:,4) )
+      associate( x=>this%v(:,:,:,1))
+        do concurrent(k=1:n(3), j=1:n(2), i=2:n(1)-1)
+          associate( &
+            dx_m => 0.5_rkind*(x(i+1,j,k) - x(i-1,j,k)), &
+            dx_f =>  x(i+1,j,k) - x(i,j,k), &
+            dx_b =>  x(i,j,k)-x(i-1,j,k) )
+            this%ddx2(i,j,k,1) = &
+              kc(0.5_rkind*(x(i+1,j,k) + x(i,j,k))  )*(s(i+1,j,k) - s(i,j,k)  )/(dx_f*dx_m) - &
+              kc(0.5_rkind*(x(i,j,k)   + x(i-1,j,k)))*(s(i,j,k)   - s(i-1,j,k))/(dx_b*dx_m)
+          end associate
         end do
       end associate
-    end block
 
-    write(file_unit,'(a,I5)') "CELL_TYPES ", (nx-1)*(ny-1)*(nz-1)
-    call write_component( grid_blocks, "string", file_unit, string="11")
+      associate( y=>this%v(:,:,:,2) )
+        do concurrent(k=1:n(3), j=2:n(2)-1, i=1:n(1))
+          associate( &
+            dy_m => 0.5_rkind*(y(i,j+1,k) - y(i,j-1,k)), &
+            dy_f =>     y(i,j+1,k) - y(i,j,k ), &
+            dy_b =>     y(i,j,k)   - y(i,j-1,k) )
+            this%ddx2(i,j,k,2) = &
+              kc(0.5_rkind*(y(i,j+1,k)+y(i,j,k)))*(s(i,j+1,k) - s(i,j,k))/(dy_f*dy_m) - &
+              kc(0.5_rkind*(y(i,j,k)+y(i,j-1,k)))*(s(i,j,k) - s(i,j-1,k))/(dy_b*dy_m)
+           end associate
+        end do
+      end associate
 
-    write(file_unit,'(a, I5)') 'POINT_DATA ', 8*(nx-1)*(ny-1)*(nz-1)
-    write(file_unit,'(a)') 'SCALARS Temperature double 1'
-    write(file_unit,'(a)') 'LOOKUP_TABLE default'
-    call write_component( grid_blocks, "T", file_unit)
-
-    write(file_unit,'(a)') 'SCALARS ddx2_Temperature double 1'
-    write(file_unit,'(a)') 'LOOKUP_TABLE default'
-    call write_component( grid_blocks, "ddx2", file_unit)
-
-    close(file_unit)
+      associate( z=>this%v(:,:,:,3) )
+        do concurrent(k=2:n(3)-1, j=1:n(2), i=1:n(1))
+          associate( &
+            dz_m => 0.5*(z(i,j,k+1)-z(i,j,k-1)), &
+            dz_f => z(i,j,k+1)-z(i,j,k), &
+            dz_b => z(i,j,k)-z(i,j,k-1) )
+            this%ddx2(i,j,k,3) = &
+              kc(0.5*(z(i,j,k+1)+z(i,j,k)))*(s(i,j,k+1) - s(i,j,k))/(dz_f*dz_m) - &
+              kc(0.5*(z(i,j,k)+z(i,j,k-1)))*(s(i,j,k) - s(i,j,k-1))/(dz_b*dz_m)
+          end associate
+        end do
+      end associate
+    end associate
   end subroutine
 
 end module spatial_derivative_procedures
@@ -193,36 +102,26 @@ end module spatial_derivative_procedures
 program main
   use spatial_derivative_procedures
   implicit none
-  real(rkind)            :: avg_err, minimum_dx
-  allocate(global_grid_block%v(nx,ny,nz,4), global_grid_block%ddx2(nx,ny,nz), &
-           global_grid_block%ddy2(nx,ny,nz), global_grid_block%ddz2(nx,ny,nz))
-  global_grid_block%v(:,:,:,:)=0.0
-  global_grid_block%ddx2(:,:,:)=0.0
-  global_grid_block%ddy2(:,:,:)=0.0
-  global_grid_block%ddz2(:,:,:)=0.0
+  real(rkind) ::  minimum_dx=0.25/5.0
+  allocate(global_grid_block%v(nx,ny,nz,4), global_grid_block%ddx2(nx,ny,nz,3), source=0._rkind)
 
   associate( p => position_vectors(nx,ny,nz) )
-    global_grid_block%v(:,:,:,1) = p(:,:,:,1)
-    global_grid_block%v(:,:,:,2) = p(:,:,:,2)
-    global_grid_block%v(:,:,:,3) = p(:,:,:,3)
-    global_grid_block%v(:,:,:,4) = global_grid_block%v(:,:,:,1)**2 * global_grid_block%v(:,:,:,2) ! T=x^2*y => d^2T/dx^2=y
+    associate( x => p(:,:,:,1), y => p(:,:,:,2), z => p(:,:,:,3) )
+      global_grid_block%v(:,:,:,1) = x
+      global_grid_block%v(:,:,:,2) = y
+      global_grid_block%v(:,:,:,3) = z
+      global_grid_block%v(:,:,:,4) = x**2 * y ! T = x^2*y => (d^2/dx^2)x = 2x, (d^2/dy^2)y = 2y
+    end associate
   end associate
 
-  call get_ddx2(global_grid_block)
-  call get_ddy2(global_grid_block)
-  call get_ddz2(global_grid_block)
+  call set_scalar_fluxes(global_grid_block)
 
-!  error_calculation: block
-!    real(rkind)            :: avg_err, minimum_dx
-    minimum_dx=0.25/5.0
-    avg_err=0.0
-    do concurrent(k=1:nz,j=1:ny,i=2:nx-1)
-      avg_err=avg_err+abs(global_grid_block%ddx2(i,j,k)-2.0*global_grid_block%v(i,j,k,2))
-    end do
-    avg_err=avg_err/((nz)*(ny)*(nx-2))
-    if (avg_err <= minimum_dx**2) print *, "Test passed."
-!  end block error_calculation
-
-  call output_result(global_grid_block)
+  associate( y => global_grid_block%v(2:nx-1,:,:,2) )
+    associate( exact_answer => 2*y, approximation =>  global_grid_block%ddx2(2:nx-1,:,:,1) )
+      associate( avg_err => sum ( abs( approximation - exact_answer ) )/ SIZE(exact_answer) )
+        if (avg_err <= minimum_dx**2) print *, "Test passed."
+      end associate
+    end associate
+  end associate
 
   end program main
