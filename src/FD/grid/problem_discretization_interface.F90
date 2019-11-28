@@ -37,8 +37,8 @@ module problem_discretization_interface
       !! grid nodal locations: size(vertices) == number of blocks owned by the executing image
     class(structured_grid), allocatable :: scalar_fields(:,:)
       !! scalar values at the grid nodes: size(scalar_fields,1)==size(vertices), size(scalar_fields,2)== number of scalar fields
-    class(structured_grid), allocatable :: div_scalar_flux(:,:,:)
-      !! div( D grad(s)); size(div_scalar_flux,3) == space_dimension; other dimensions match scalar_field;
+    class(structured_grid), allocatable :: scalar_flux_divergence(:,:,:)
+      !! div( D grad(s)); size(scalar_flux_divergence,3) == space_dimension; other dimensions match scalar_field
     class(geometry), allocatable :: problem_geometry
   contains
     procedure partition
@@ -50,7 +50,7 @@ module problem_discretization_interface
     procedure set_analytical_scalars
     procedure num_scalars
     procedure initialize_from_plate_3D
-    procedure set_div_scalar_flux
+    procedure set_scalar_flux_divergence
     generic :: set_vertices => user_defined_vertices
     generic :: set_scalars => set_analytical_scalars
     generic :: initialize_from_geometry => initialize_from_plate_3D
@@ -74,12 +74,13 @@ module problem_discretization_interface
       type(plate_3D), intent(in) :: plate_3D_geometry
     end subroutine
 
-    module subroutine partition(this,global_block_shape)
+    module subroutine partition(this,global_block_shape, prototype)
       !! Define the distribution of subdomains across images for the given shape of the block-structured partitions
       !! (impure because of image-control statement in emulated co_sum -- may be pure when replaced by intrinsic co_sum)
       implicit none
       class(problem_discretization), intent(inout) :: this
       integer, intent(in) :: global_block_shape(:)
+      class(structured_grid), intent(in) :: prototype
     end subroutine
 
     module subroutine user_defined_vertices(this,x_nodes,y_nodes,z_nodes,block_identifier)
@@ -97,7 +98,7 @@ module problem_discretization_interface
       type(setter), intent(in) :: setters(:)
     end subroutine
 
-    module subroutine set_div_scalar_flux(this)
+    module subroutine set_scalar_flux_divergence(this)
       !! Compute and store div( D grad( s )) for each scalar
       implicit none
       class(problem_discretization), intent(inout) :: this

@@ -13,6 +13,7 @@ program main
   use assertions_interface, only : assert
   use json_module, only : json_file, rk=>json_rk, ik=>json_ik
   use problem_discretization_interface, only :  problem_discretization
+  use cartesian_grid_interface, only :  cartesian_grid
   implicit none
 
   type(problem_discretization) block_structured_grid
@@ -32,7 +33,7 @@ program main
   call assert(num_images()==1,"single-image json file creation")
   call assert(product(num_structured_grids)<=max_block_identifier,"number of blocks is representable")
 
-  call block_structured_grid%partition( num_structured_grids )
+  call block_structured_grid%partition( num_structured_grids, cartesian_grid() )
     !! partition the block-structured grid into subdomains with connectivity implied by the supplied shape array
 
   call json_problem_description%initialize()  ! specify whatever init options you want.

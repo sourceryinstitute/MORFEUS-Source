@@ -34,7 +34,7 @@ program main
     call plate_geometry%build( input_file ) !! read geometrical information
     call global_grid%initialize_from_geometry( plate_geometry ) !! partition block-structured grid & define grid vertex locations
     call global_grid%set_scalars( [scalar_setter] )
-    call global_grid%set_div_scalar_flux()
+    call global_grid%set_scalar_flux_divergence()
 
 !    open(newunit=file_unit, file=output_file, iostat=open_status)
 !    call assert(open_status==success, output_file//" opened succesfully")

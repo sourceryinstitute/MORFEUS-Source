@@ -7,18 +7,25 @@
 program test_structured_grid
   use kind_parameters, only : i4k, r8k
   use structured_grid_interface, only : structured_grid
-  use assertions_interface, only : assert
+  use cartesian_grid_interface, only : cartesian_grid
+  use assertions_interface, only : assert, max_errmsg_len
 #ifndef HAVE_COLLECTIVE_SUBROUTINES
   use emulated_intrinsics_interface, only : co_sum
 #endif
   implicit none
 
-  type(structured_grid) :: coordinate_plane
+  character(len=max_errmsg_len) :: alloc_error
 
+  integer(i4k), parameter :: lo_bound=1, up_bound=2, num_boundaries=2, success=0
+  integer(i4k) ix, iy, iz, alloc_status
   integer(i4k), parameter :: nx=101,ny=11,nz=11
     !! Grid resolution in 3 coordinate directions
   real(r8k) :: x(nx,ny,nz)=1.,y(nx,ny,nz)=0.,z(nx,ny,nz)=-1.
     !! Vector components
+  class(structured_grid), allocatable :: coordinate_plane
+
+  allocate( coordinate_plane, stat=alloc_status, errmsg=alloc_error, mold=cartesian_grid() )
+  call assert( alloc_status==success, "test_structured_grid: allocation ("//alloc_error//")" )
 
   call coordinate_plane%set_vector_components(x,y,z)
   call assert(coordinate_plane%space_dimension()==3    ,"test_structured_grid: 3D")

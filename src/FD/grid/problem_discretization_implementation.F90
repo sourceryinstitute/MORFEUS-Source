@@ -209,11 +209,12 @@ contains
   end function
 
   module procedure initialize_from_plate_3D
+    use cartesian_grid_interface, only : cartesian_grid
     integer, parameter :: lo_bound=1, up_bound=2 !! array indices corresponding to end points on 1D spatial interval
     integer, parameter :: nx_min=2, ny_min=2, nz_min=2
     integer n
 
-    call this%partition( plate_3D_geometry%get_block_metadata_shape() )
+    call this%partition( plate_3D_geometry%get_block_metadata_shape(), cartesian_grid() )
       !! partition a block-structured grid into subdomains with connectivity implied by the indexing of the 3D array of blocks
 
       associate( my_subdomains => this%my_subdomains() )
@@ -251,8 +252,9 @@ contains
 
   module procedure partition
 
-    integer :: alloc_status, image
-    !! error checking code, image number
+    integer alloc_status, image
+      !! error checking code, image number
+    character(len=max_errmsg_len) alloc_error
 
     ! Requires
     if (assertions) call assert(size(global_block_shape)==3,"partition: 3D structured_grid blocks")
@@ -267,11 +269,10 @@ contains
     associate( my_first => 1 + sum([(quotient+overflow(image,remainder),image=1,me-1)]) )
     associate( my_last => my_first + quotient + overflow(me,remainder) - 1 )
 
-    allocate( this%vertices(my_first:my_last), stat=alloc_status )
-    !! allocate this image's subset of the vertices
+    allocate( this%vertices(my_first:my_last), stat=alloc_status, errmsg=alloc_error, mold=prototype )
+    call assert(alloc_status==0, "partition: allocate(this%vertices(...)", alloc_error)
 
     if (assertions) then
-      call assert(alloc_status==0,"partition: data distribution established")
       block
 #ifndef HAVE_COLLECTIVE_subroutineS
         use emulated_intrinsics_interface, only : co_sum
@@ -378,17 +379,17 @@ contains
 
   end procedure
 
-  module procedure set_div_scalar_flux
+  module procedure set_scalar_flux_divergence
     integer b, f, d, alloc_status
     character(len=128) alloc_error
 
-    call assert(allocated(this%scalar_fields), "set_div_scalar_flux: allocated(this%scalar_fields)")
-    if (allocated(this%div_scalar_flux)) deallocate(this%div_scalar_flux)
+    call assert(allocated(this%scalar_fields), "set_scalar_flux_divergence: allocated(this%scalar_fields)")
+    if (allocated(this%scalar_flux_divergence)) deallocate(this%scalar_flux_divergence)
 
     associate(num_fields => this%num_scalars())
-    allocate(this%div_scalar_flux(lbound(this%vertices,1) : ubound(this%vertices,1), num_fields, space_dimensions), &
-      stat=alloc_status, errmsg=alloc_error)
-    call assert( alloc_status==success, "set_div_scalar_flux: allocation ("//alloc_error//")" )
+    allocate(this%scalar_flux_divergence(lbound(this%vertices,1) : ubound(this%vertices,1), num_fields, space_dimensions), &
+      stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
+    call assert( alloc_status==success, "set_scalar_flux_divergence: allocation ("//alloc_error//")" )
 
       loop_over_blocks: &
       do b = lbound(this%vertices,1), ubound(this%vertices,1)
@@ -412,7 +413,7 @@ contains
 
     if (allocated(this%scalar_fields)) deallocate(this%scalar_fields)
     allocate( this%scalar_fields(lbound(this%vertices,1) : ubound(this%vertices,1), size(setters)), &
-      stat=alloc_status, errmsg=alloc_error )
+      stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
     call assert( alloc_status==success, "set_analytical_scalars: allocation ("//alloc_error//")" )
 
     loop_over_blocks: &

@@ -15,7 +15,7 @@ module structured_grid_interface
 
   integer, parameter :: num_bounds=2, max_space_dims=3, undefined=-1
 
-  type, extends(grid) :: structured_grid
+  type, extends(grid), abstract :: structured_grid
     !! Morfeus structured grid class
     private
     real(r8k), allocatable :: nodal_values(:,:,:,:,:,:)

@@ -8,6 +8,7 @@ program main
   !! Test the definition of a block-structured problem discretization
   use assertions_interface, only : assert, assertions
   use problem_discretization_interface, only :  problem_discretization
+  use cartesian_grid_interface, only : cartesian_grid
   use kind_parameters, only : r8k
   implicit none
 
@@ -22,7 +23,7 @@ program main
   integer, parameter :: num_structured_grids(*) = [240,5,5]
     !! number of subdomains in each coordinate direction
 
-  call global_grid%partition( num_structured_grids )
+  call global_grid%partition( num_structured_grids, cartesian_grid() )
     !! partition the block-structured grid into subdomains with connectivity implied by the supplied shape of the 3D array of blocks
 
   associate( my_subdomains => global_grid%my_subdomains() )
