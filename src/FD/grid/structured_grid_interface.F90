@@ -33,6 +33,7 @@ module structured_grid_interface
     procedure get_tag
     procedure set_vector_components
     procedure set_scalar
+    procedure get_scalar
     procedure vectors
     procedure(div_scalar_flux_interface), deferred :: div_scalar_flux
     procedure write_formatted
@@ -66,8 +67,8 @@ module structured_grid_interface
     !! of structured_grid objects.
 
   abstract interface
-    module function div_scalar_flux_interface(this, diffusion_coefficient) result(div_flux)
-     class(structured_grid), intent(in) :: this, diffusion_coefficient
+    module function div_scalar_flux_interface(this, vertices, diffusion_coefficient) result(div_flux)
+     class(structured_grid), intent(in) :: this, vertices, diffusion_coefficient
      class(structured_grid), allocatable :: div_flux
     end function
   end interface
@@ -115,6 +116,13 @@ module structured_grid_interface
       implicit none
       class(structured_grid), intent(in) :: this
       real(r8k), dimension(:,:,:,:), allocatable :: vectors3D
+    end function
+
+    pure module function get_scalar(this) result(scalar_values)
+      !! result is an array of scalar values at grid vertices
+      implicit none
+      class(structured_grid), intent(in) :: this
+      real(r8k), dimension(:,:,:), allocatable :: scalar_values
     end function
 
     pure module subroutine set_metadata(this,metadata)

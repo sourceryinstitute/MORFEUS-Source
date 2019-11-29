@@ -17,6 +17,12 @@ contains
       end associate
     end procedure
 
+    module procedure get_scalar
+      call assert(this%space_dimension()==3 .and. this%free_tensor_indices()==0 .and. this%num_time_stamps()==1, &
+        "structured_grid%get_scalar: single snapshot of scalar data at 3D grid vertices")
+      scalar_values = this%nodal_values(:,:,:,1,1,1)
+    end procedure
+
     module procedure vectors
       call assert(this%space_dimension()==3 .and. this%free_tensor_indices()==1 .and. this%num_time_stamps()==1, &
         "structured_grid%vectors: single snapshot of 3D vector data")

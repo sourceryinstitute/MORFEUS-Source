@@ -259,7 +259,6 @@ contains
   module procedure partition
 
     integer alloc_status, image
-      !! error checking code, image number
     character(len=max_errmsg_len) alloc_error
 
     ! Requires
@@ -401,7 +400,7 @@ contains
       do b = lbound(this%vertices,1), ubound(this%vertices,1)
         loop_over_fields: &
         do f = 1, num_fields
-          this%scalar_flux_divergence = this%scalar_fields(b,f)%div_scalar_flux(this%diffusion_coefficients(b,f))
+          this%scalar_flux_divergence = this%scalar_fields(b,f)%div_scalar_flux(this%vertices(b), this%diffusion_coefficients(b,f))
         end do loop_over_fields
       end do loop_over_blocks
     end associate
