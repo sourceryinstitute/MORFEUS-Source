@@ -23,9 +23,10 @@ program main
   character(len=:), allocatable :: output_file
   type(problem_discretization) :: global_grid
   type(plate_3D) plate_geometry
-  type(setter) scalar_setter
+  type(setter) scalar_setter, diffusion_coeff_setter
 
   scalar_setter%define_scalar => f
+  diffusion_coeff_setter%define_scalar => d
 
   associate( me => this_image() )
     write(image_number,'(i4)') me
@@ -33,7 +34,7 @@ program main
 
     call plate_geometry%build( input_file ) !! read geometrical information
     call global_grid%initialize_from_geometry( plate_geometry ) !! partition block-structured grid & define grid vertex locations
-    call global_grid%set_scalars( [scalar_setter] )
+    call global_grid%set_scalars( [scalar_setter], [diffusion_coeff_setter] )
     call global_grid%set_scalar_flux_divergence()
     call global_grid%write_output (output_file)
 
@@ -50,6 +51,14 @@ contains
     associate( x=>position_vectors(:,:,:,1), y=>position_vectors(:,:,:,2) )
       f_value = x**2 * y
     end associate
+  end function
+
+  pure function d(position_vectors) result(d_value)
+    real(r8k), intent(in) :: position_vectors(:,:,:,:)
+    real(r8k), allocatable :: d_value(:,:,:)
+    if (assertions) call assert(lbound(position_vectors,4)==1 .and. ubound(position_vectors,4)>=2, "field dimension >= 2")
+    allocate( d_value, mold=position_vectors(:,:,:,1) )
+    d_value = 1._r8k
   end function
 
 end program

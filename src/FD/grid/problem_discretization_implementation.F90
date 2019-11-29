@@ -386,14 +386,14 @@ contains
   end procedure
 
   module procedure set_scalar_flux_divergence
-    integer b, f, d, alloc_status
+    integer b, f, alloc_status
     character(len=128) alloc_error
 
     call assert(allocated(this%scalar_fields), "set_scalar_flux_divergence: allocated(this%scalar_fields)")
     if (allocated(this%scalar_flux_divergence)) deallocate(this%scalar_flux_divergence)
 
     associate(num_fields => this%num_scalars())
-    allocate(this%scalar_flux_divergence(lbound(this%vertices,1) : ubound(this%vertices,1), num_fields, space_dimensions), &
+    allocate(this%scalar_flux_divergence(lbound(this%vertices,1) : ubound(this%vertices,1), num_fields ), &
       stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
     call assert( alloc_status==success, "set_scalar_flux_divergence: allocation ("//alloc_error//")" )
 
@@ -401,7 +401,7 @@ contains
       do b = lbound(this%vertices,1), ubound(this%vertices,1)
         loop_over_fields: &
         do f = 1, num_fields
-          this%scalar_flux_divergence = this%scalar_fields(b,f)%div_scalar_flux(this%diffusion_coefficient(b,f))
+          this%scalar_flux_divergence = this%scalar_fields(b,f)%div_scalar_flux(this%diffusion_coefficients(b,f))
         end do loop_over_fields
       end do loop_over_blocks
     end associate
@@ -412,21 +412,32 @@ contains
     integer b, f, alloc_status
     character(len=max_errmsg_len) :: alloc_error
 
-    procedure(field_function), pointer :: setter_f
-    setter_f => null()
+    procedure(field_function), pointer :: setter_s, setter_d
+    setter_s => null()
+    setter_d => null()
+
+    call assert(size(scalar_setters)==size(diffusion_coeff_setters), "set_analytical_scalars: scalar/diffusion_coeff sizes match")
 
     if (allocated(this%scalar_fields)) deallocate(this%scalar_fields)
-    allocate( this%scalar_fields(lbound(this%vertices,1) : ubound(this%vertices,1), size(setters)), &
+    if (allocated(this%diffusion_coefficients)) deallocate(this%diffusion_coefficients)
+
+    allocate( this%scalar_fields(lbound(this%vertices,1) : ubound(this%vertices,1), size(scalar_setters)), &
       stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
-    call assert( alloc_status==success, "set_analytical_scalars: allocation ("//alloc_error//")" )
+    call assert( alloc_status==success, "set_analytical_scalars: scalar_field allocation ("//alloc_error//")" )
+
+    allocate( this%diffusion_coefficients(lbound(this%vertices,1) : ubound(this%vertices,1), size(diffusion_coeff_setters)), &
+      stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
+    call assert( alloc_status==success, "set_analytical_scalars: diffusion_coefficient allocation ("//alloc_error//")" )
 
     loop_over_blocks: &
     do b = lbound(this%vertices,1), ubound(this%vertices,1)
       loop_over_functions: &
-      do f = 1, size(setters)
-        setter_f => setters(f)%define_scalar
+      do f = 1, size(scalar_setters)
+        setter_s => scalar_setters(f)%define_scalar
+        setter_d => diffusion_coeff_setters(f)%define_scalar
         associate( positions => this%vertices(b)%vectors() )
-          call this%scalar_fields(b,f)%set_scalar( setter_f( positions ) )
+          call this%scalar_fields(b,f)%set_scalar( setter_s( positions ) )
+          call this%diffusion_coefficients(b,f)%set_scalar( setter_d( positions ) )
         end associate
       end do loop_over_functions
     end do loop_over_blocks

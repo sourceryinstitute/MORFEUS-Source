@@ -104,6 +104,7 @@ contains
       integer alloc_status
       integer, parameter :: time_stamps=1
 
+      if (allocated(this%nodal_values)) deallocate(this%nodal_values)
       allocate( this%nodal_values(size(scalar,1),size(scalar,2),size(scalar,3),1,1,time_stamps), stat=alloc_status )
       call assert( alloc_status==0, "set_scalar: allocation successful" )
 
