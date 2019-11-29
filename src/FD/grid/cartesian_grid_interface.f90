@@ -13,6 +13,16 @@ module cartesian_grid_interface
   public :: cartesian_grid
 
   type, extends(structured_grid) :: cartesian_grid
+  contains
+    procedure div_scalar_flux
   end type
+
+  interface
+    module function div_scalar_flux( this, diffusion_coefficient) result(div_flux)
+     class(cartesian_grid), intent(in) :: this
+     class(structured_grid), intent(in) :: diffusion_coefficient
+     class(structured_grid), allocatable :: div_flux
+    end function
+  end interface
 
 end module

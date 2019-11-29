@@ -34,6 +34,7 @@ module structured_grid_interface
     procedure set_vector_components
     procedure set_scalar
     procedure vectors
+    procedure(div_scalar_flux_interface), deferred :: div_scalar_flux
     procedure write_formatted
 #ifdef HAVE_UDDTIO
     generic :: write(formatted) => write_formatted
@@ -63,6 +64,13 @@ module structured_grid_interface
     !! For now, each type of data needs its own *_inbox coarray.  A proposed Fortran 202X feature will facilitate encapsulating
     !! the inbox coarray in the structured_grid derived type, which is currently precluded by the need to have allocatable arrays
     !! of structured_grid objects.
+
+  abstract interface
+    module function div_scalar_flux_interface(this, diffusion_coefficient) result(div_flux)
+     class(structured_grid), intent(in) :: this, diffusion_coefficient
+     class(structured_grid), allocatable :: div_flux
+    end function
+  end interface
 
   interface
 

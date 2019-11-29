@@ -4,15 +4,13 @@
 !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
-module curvilinear_grid_interface
-  use structured_grid_interface, only : structured_grid
+submodule(cartesian_grid_interface) cartesian_grid_implementation
+  !! author: Damian Rouson and Karla Morris
   implicit none
 
-  private
-  public :: curvilinear_grid
+contains
 
-  type, extends(structured_grid), abstract :: curvilinear_grid
-    class(structured_grid), allocatable :: metric_tensor(:,:)
-  end type
+  module procedure div_scalar_flux
+  end procedure div_scalar_flux
 
-end module
+end submodule
