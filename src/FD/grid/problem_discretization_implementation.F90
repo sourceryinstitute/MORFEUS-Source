@@ -17,6 +17,7 @@ submodule(problem_discretization_interface) define_problem_discretization
 contains
 
   module procedure write_output
+    use string_functions_interface, only : file_extension, base_name
     implicit none
     !! author: Ian Porter
     !! date: 11/25/2019
@@ -24,11 +25,16 @@ contains
     !! This is a generic procedure for writing output files. This procedure eliminates the DTIO
     !! to allow for linking to external libraries that handle all of the file output
     !!
+    character(len=:), allocatable :: extension, basename
     integer :: iostat
     iostat = 0
-    select case (filetype)
-    case ('vtk')
-      call vtk_output (this, filename, iostat)
+
+    basename = base_name(filename)
+    extension = file_extension(filename)
+
+    select case (extension)
+    case ('vtu')
+      call vtk_output (this, basename, iostat)
     case ('csv')
       call csv_output (this, filename, iostat)
     case ('json')
@@ -395,9 +401,7 @@ contains
       do b = lbound(this%vertices,1), ubound(this%vertices,1)
         loop_over_fields: &
         do f = 1, num_fields
-          loop_over_directions: &
-          do d = 1, space_dimensions
-          end do loop_over_directions
+          this%scalar_flux_divergence = this%scalar_fields(b,f)%div_scalar_flux(this%diffusion_coefficient(b,f))
         end do loop_over_fields
       end do loop_over_blocks
     end associate

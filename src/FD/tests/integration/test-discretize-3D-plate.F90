@@ -14,8 +14,8 @@ program main
   use problem_discretization_interface, only : problem_discretization
   implicit none
 
-  call create_grid_for_plate(input="3Dplate-low-resolution-layers.json", output="3Dplate-low-resolution-layers")
-  call create_grid_for_plate(input="3Dplate-high-resolution-layers.json", output="3Dplate-high-resolution-layers")
+  call create_grid_for_plate(input="3Dplate-low-resolution-layers.json", output="3Dplate-low-resolution-layers.vtu")
+  call create_grid_for_plate(input="3Dplate-high-resolution-layers.json", output="3Dplate-high-resolution-layers.vtu")
 
   print *,"Test passed."
 
@@ -30,7 +30,7 @@ contains
     call plate_geometry%build( input ) !! read geometrical information
     call global_grid%initialize_from_geometry( plate_geometry ) !! partition block-structured grid & define grid vertex locations
 
-    call global_grid%write_output (output, 'vtk') !! TODO. Make more sophisticated to allow calling of other output types
+    call global_grid%write_output (output) !! TODO. Make more sophisticated to allow calling of other output types
 
   end subroutine
 

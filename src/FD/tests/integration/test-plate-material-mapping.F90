@@ -18,7 +18,7 @@ program main
 
   type(plate_3D) plate_geometry
   type(problem_discretization) global_grid
-  character(len=*), parameter :: output = "3Dplate-low-resolution-layers-material-map"
+  character(len=*), parameter :: output = "3Dplate-low-resolution-layers-material-map.vtu"
   character(len=*), parameter :: input = "3Dplate-low-resolution-layers-material-map.json"
 
   call plate_geometry%build( input )
@@ -44,7 +44,7 @@ program main
     end do
   end block check_metadata
 
-  call global_grid%write_output (output, 'vtk') !! TODO. Make more sophisticated to allow calling of other output types
+  call global_grid%write_output (output) !! TODO. Make more sophisticated to allow calling of other output types
 
   print *,"Test passed."
 

@@ -9,7 +9,6 @@ module problem_discretization_interface
   use structured_grid_interface, only : structured_grid
   use geometry_interface, only : geometry
   use kind_parameters, only : r8k, i4k
-  use plate_3D_interface, only : plate_3D
   implicit none
 
   private
@@ -37,6 +36,8 @@ module problem_discretization_interface
       !! grid nodal locations: size(vertices) == number of blocks owned by the executing image
     class(structured_grid), allocatable :: scalar_fields(:,:)
       !! scalar values at the grid nodes: size(scalar_fields,1)==size(vertices), size(scalar_fields,2)== number of scalar fields
+    class(structured_grid), allocatable :: diffusion_coefficient(:,:)
+      !! scalar values at the grid nodes: size(scalar_fields,1)==size(vertices), size(scalar_fields,2)== number of scalar fields
     class(structured_grid), allocatable :: scalar_flux_divergence(:,:,:)
       !! div( D grad(s)); size(scalar_flux_divergence,3) == space_dimension; other dimensions match scalar_field
     class(geometry), allocatable :: problem_geometry
@@ -59,15 +60,15 @@ module problem_discretization_interface
 
   interface
 
-    module subroutine write_output (this, filename, filetype)
+    module subroutine write_output (this, filename)
       !! Generic write output interface
       implicit none
       class(problem_discretization), intent(in) ::this
       character (len=*), intent(in) :: filename
-      character (len=*), intent(in) :: filetype
     end subroutine
 
     module subroutine initialize_from_plate_3D(this,plate_3D_geometry)
+      use plate_3D_interface, only : plate_3D
       !! Define a grid with points only at the corners of each structured-grid block subdomain
       implicit none
       class(problem_discretization), intent(inout) :: this
@@ -99,7 +100,7 @@ module problem_discretization_interface
     end subroutine
 
     module subroutine set_scalar_flux_divergence(this)
-      !! Compute and store div( D grad( s )) for each scalar
+      !! Compute and store div( D grad( S )) for each scalar S and diffusion coefficient D
       implicit none
       class(problem_discretization), intent(inout) :: this
     end subroutine

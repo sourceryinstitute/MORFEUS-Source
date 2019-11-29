@@ -52,6 +52,7 @@ contains
   end function
 
   subroutine set_scalar_fluxes(this)
+    !! compute each directional term in the divergence of scalar flux: .div. ( k .grad. T)
     type(grid_block), intent(inout) :: this
     integer(ikind) i, j, k
 
@@ -110,7 +111,7 @@ program main
       global_grid_block%v(:,:,:,1) = x
       global_grid_block%v(:,:,:,2) = y
       global_grid_block%v(:,:,:,3) = z
-      global_grid_block%v(:,:,:,4) = x**2 * y ! T = x^2*y => (d^2/dx^2)x = 2x, (d^2/dy^2)y = 2y
+      global_grid_block%v(:,:,:,4) = x**2 * y ! T = x^2*y => (d^2/dx^2)x = 2y, (d^2/dy^2)y = 0
     end associate
   end associate
 

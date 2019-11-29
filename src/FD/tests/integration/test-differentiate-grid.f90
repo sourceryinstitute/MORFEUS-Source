@@ -29,30 +29,19 @@ program main
 
   associate( me => this_image() )
     write(image_number,'(i4)') me
-    output_file = base_name //"-image-"// trim(adjustl(image_number))! // ".vtk"
+    output_file = base_name //"-image-"// trim(adjustl(image_number)) // ".vtu"
 
     call plate_geometry%build( input_file ) !! read geometrical information
     call global_grid%initialize_from_geometry( plate_geometry ) !! partition block-structured grid & define grid vertex locations
     call global_grid%set_scalars( [scalar_setter] )
     call global_grid%set_scalar_flux_divergence()
-
-!    open(newunit=file_unit, file=output_file, iostat=open_status)
-!    call assert(open_status==success, output_file//" opened succesfully")
-    call output_grid(global_grid, output_file)
+    call global_grid%write_output (output_file)
 
     sync all
     if (me==1) print *,"Test passed."
   end associate
 
 contains
-
-  subroutine output_grid( mesh, file_name )
-    type(problem_discretization), intent(in) :: mesh
-    character(len=*), intent(in) :: file_name
-
-    call mesh%write_output (file_name, 'vtk')
-
-  end subroutine
 
   pure function f(position_vectors) result(f_value)
     real(r8k), intent(in) :: position_vectors(:,:,:,:)
