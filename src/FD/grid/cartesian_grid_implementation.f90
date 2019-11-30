@@ -18,8 +18,9 @@ contains
     integer(i4k), parameter :: success=0
     real(r8k), parameter :: half=0.5_r8k
     character(len=max_errmsg_len) :: alloc_error
+    real(r8k), allocatable, dimension(:,:,:) :: div_flux_x, div_flux_y, div_flux_z
 
-    call assert( same_type_as(this, diffusion_coefficient),"div_scalar_flux: scalar/diffusion_coefficient type match")
+    call assert(all([same_type_as(this, diffusion_coefficient), same_type_as(this, vertices)]), "div_scalar_flux: consistent types")
 
     allocate(div_flux, mold=this, stat=alloc_stat, errmsg=alloc_error )
     call assert( alloc_stat==success, "div_scalar_flux (cartesian): result allocation fails with message '"//alloc_error//"'" )
@@ -27,13 +28,16 @@ contains
     associate( positions => vertices%vectors(), s=>this%get_scalar(), D=>diffusion_coefficient%get_scalar() )
       associate( npoints => shape(positions(:,:,:,1)) )
 
+        allocate(div_flux_x, div_flux_y, div_flux_z, mold=positions(:,:,:,1), stat=alloc_stat, errmsg=alloc_error )
+        call assert( alloc_stat==success, "div_scalar_flux (cartesian): allocate(div_flux_{x,y,z}) (error: "//alloc_error//")" )
+
         associate( x=>positions(:,:,:,1) )
           do concurrent(k=1:npoints(3), j=1:npoints(2), i=2:npoints(1)-1)
             associate( &
               dx_m => (x(i+1,j,k) - x(i-1,j,k))*half, &
               dx_f =>  x(i+1,j,k) - x(i,j,k), &
               dx_b =>  x(i,j,k)   - x(i-1,j,k) )
-              !call div_flux%set_discrete_scalar(i,j,k,1) = &
+              !div_flux_x(i,j,k) = &
               !  D(half*(x(i+1,j,k) + x(i,j,k))  )*(s(i+1,j,k) - s(i,j,k)  )/(dx_f*dx_m) - &
               !  D(half*(x(i,j,k)   + x(i-1,j,k)))*(s(i,j,k)   - s(i-1,j,k))/(dx_b*dx_m)
             end associate
@@ -46,7 +50,7 @@ contains
               dy_m => (y(i,j+1,k) - y(i,j-1,k))*half, &
               dy_f =>  y(i,j+1,k) - y(i,j,k ), &
               dy_b =>  y(i,j,k)   - y(i,j-1,k) )
-              !call div_flux%set_discrete_scalar(i,j,k,2) = &
+              !div_flux_y(i,j,k) = &
               !  D(half*(y(i,j+1,k)+y(i,j,k)))*(s(i,j+1,k) - s(i,j,k))/(dy_f*dy_m) - &
               !  D(half*(y(i,j,k)+y(i,j-1,k)))*(s(i,j,k) - s(i,j-1,k))/(dy_b*dy_m)
            end associate
@@ -59,12 +63,14 @@ contains
              dz_m => (z(i,j,k+1) - z(i,j,k-1))*half, &
              dz_f =>  z(i,j,k+1) - z(i,j,k), &
              dz_b =>  z(i,j,k)   - z(i,j,k-1) )
-             !call div_flux%set_discrete_scalar(i,j,k,3) = &
-             !D(half*(z(i,j,k+1)+z(i,j,k)))*(s(i,j,k+1) - s(i,j,k))/(dz_f*dz_m) - &
-             !D(half*(z(i,j,k)+z(i,j,k-1)))*(s(i,j,k) - s(i,j,k-1))/(dz_b*dz_m)
+             !div_flux_z(i,j,k) = &
+             !  D(half*(z(i,j,k+1)+z(i,j,k)))*(s(i,j,k+1) - s(i,j,k))/(dz_f*dz_m) - &
+             !  D(half*(z(i,j,k)+z(i,j,k-1)))*(s(i,j,k) - s(i,j,k-1))/(dz_b*dz_m)
            end associate
          end do
        end associate
+
+        call div_flux%set_scalar( div_flux_x + div_flux_y + div_flux_z )
 
       end associate
     end associate
