@@ -67,9 +67,10 @@ module structured_grid_interface
     !! of structured_grid objects.
 
   abstract interface
-    module function div_scalar_flux_interface(this, vertices, diffusion_coefficient) result(div_flux)
-     class(structured_grid), intent(in) :: this, vertices, diffusion_coefficient
-     class(structured_grid), allocatable :: div_flux
+    function div_scalar_flux_interface(this, vertices, diffusion_coefficient) result(div_flux)
+      import structured_grid
+      class(structured_grid), intent(in) :: this, vertices, diffusion_coefficient
+      class(structured_grid), allocatable :: div_flux
     end function
   end interface
 
