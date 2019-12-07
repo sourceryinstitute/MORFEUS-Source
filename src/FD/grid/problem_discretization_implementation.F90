@@ -89,7 +89,7 @@ contains
     call s%attribute%init (dataname, numcomp=1, real1d=vals)
   end subroutine
 
-  subroutine VTK_output (this, filename, iostat)
+  subroutine vtk_output (this, filename, iostat)
     use vtk_datasets,   only : unstruct_grid
     use vtk,            only : vtk_serial_write
     use vtk_cells,      only : voxel, vtkcell_list
@@ -106,24 +106,29 @@ contains
     integer(i4k) :: ic, jc, kc !! block-local cell id
     real(r8k), dimension(:,:), allocatable :: points
     integer(i4k), dimension(:), allocatable :: block_cell_material, point_block_id
+    real(r8k), dimension(:), allocatable :: point_scalars
     type(attributes) :: point_values, cell_values
+    type(attributes) :: scalar_values, flux_divergence_values
     integer :: b, first_point_in_block, first_cell_in_block
     integer, parameter :: vector_indices=4, writer=1
 
     allocate( cell_list(SUM( this%vertices%num_cells())) )
-    allocate( points(space_dimensions,0), block_cell_material(0), point_block_id(0) )
+    allocate( points(space_dimensions,0), block_cell_material(0), point_block_id(0), point_scalars(0) )
 
     first_point_in_block = 0
     first_cell_in_block = 1
 
     loop_over_grid_blocks: do b=lbound(this%vertices,1), ubound(this%vertices,1)
 
-      associate( vertex_positions => this%vertices(b)%vectors() ) !! 4D array of nodal position vectors
+      associate( &
+        vertex_positions => this%vertices(b)%vectors(), & !! 4D array of nodal position vectors
+        scalar_fields_values => this%scalar_fields(b,1)%get_scalar() )
         associate( npoints => shape(vertex_positions(:,:,:,1)) )  !! shape of 1st 3 dims specifies # points in ea. direction
           associate( ncells => npoints-1 )
             points = points .catColumns. ( .columnVectors. vertex_positions )
             block_cell_material = [ block_cell_material, (this%vertices(b)%get_tag(), ic=1,PRODUCT(ncells)) ]
             point_block_id = [ point_block_id, [( b, ip=1, PRODUCT(npoints) )] ]
+            point_scalars = [ point_scalars,  reshape( scalar_fields_values, shape(scalar_fields_values) ) ]
 
             do ic=1,ncells(1)
               do jc=1,ncells(2)
@@ -150,14 +155,19 @@ contains
     end do loop_over_grid_blocks
 
     call assert( SIZE(point_block_id,1) == SIZE(points,2), "VTK block point data set & point set size match" )
+    call assert( SIZE(point_scalars,1) == SIZE(points,2), "VTK scalar data set & point set size match" )
     call assert( SIZE(block_cell_material,1) == SIZE(cell_list,1), "VTK cell data set & cell set size match" )
 
     call define_scalar(  cell_values, REAL( block_cell_material, r8k),  'material' )
     call define_scalar(  point_values, REAL( point_block_id, r8k),  'block' )
+    call define_scalar(  scalar_values, point_scalars, 'temperature' )
 
     call vtk_grid%init (points=points, cell_list=cell_list )
-    call vtk_serial_write(filename=filename, geometry=vtk_grid, multiple_io=.TRUE., &
-      &                   celldatasets=[cell_values], pointdatasets=[point_values] )
+    call vtk_serial_write( &
+      filename=filename, geometry=vtk_grid, multiple_io=.TRUE., &
+      celldatasets=[cell_values], &
+      pointdatasets=[point_values, scalar_values] )
+     !pointdatasets=[point_values, scalar_values, flux_divergence_values ] )
     iostat = 0
   end subroutine VTK_output
 
@@ -400,7 +410,7 @@ contains
       do b = lbound(this%vertices,1), ubound(this%vertices,1)
         loop_over_fields: &
         do f = 1, num_fields
-          this%scalar_flux_divergence = this%scalar_fields(b,f)%div_scalar_flux(this%vertices(b), this%diffusion_coefficients(b,f))
+          this%scalar_flux_divergence = this%scalar_fields(b,f)%div_scalar_flux(this%vertices(b) )
         end do loop_over_fields
       end do loop_over_blocks
     end associate
@@ -411,32 +421,22 @@ contains
     integer b, f, alloc_status
     character(len=max_errmsg_len) :: alloc_error
 
-    procedure(field_function), pointer :: setter_s, setter_d
+    procedure(field_function), pointer :: setter_s
     setter_s => null()
-    setter_d => null()
-
-    call assert(size(scalar_setters)==size(diffusion_coeff_setters), "set_analytical_scalars: scalar/diffusion_coeff sizes match")
 
     if (allocated(this%scalar_fields)) deallocate(this%scalar_fields)
-    if (allocated(this%diffusion_coefficients)) deallocate(this%diffusion_coefficients)
 
     allocate( this%scalar_fields(lbound(this%vertices,1) : ubound(this%vertices,1), size(scalar_setters)), &
       stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
     call assert( alloc_status==success, "set_analytical_scalars: scalar_field allocation ("//alloc_error//")" )
-
-    allocate( this%diffusion_coefficients(lbound(this%vertices,1) : ubound(this%vertices,1), size(diffusion_coeff_setters)), &
-      stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
-    call assert( alloc_status==success, "set_analytical_scalars: diffusion_coefficient allocation ("//alloc_error//")" )
 
     loop_over_blocks: &
     do b = lbound(this%vertices,1), ubound(this%vertices,1)
       loop_over_functions: &
       do f = 1, size(scalar_setters)
         setter_s => scalar_setters(f)%define_scalar
-        setter_d => diffusion_coeff_setters(f)%define_scalar
         associate( positions => this%vertices(b)%vectors() )
           call this%scalar_fields(b,f)%set_scalar( setter_s( positions ) )
-          call this%diffusion_coefficients(b,f)%set_scalar( setter_d( positions ) )
         end associate
       end do loop_over_functions
     end do loop_over_blocks

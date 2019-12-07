@@ -20,12 +20,12 @@ contains
     character(len=max_errmsg_len) :: alloc_error
     real(r8k), allocatable, dimension(:,:,:) :: div_flux_x, div_flux_y, div_flux_z
 
-    call assert(all([same_type_as(this, diffusion_coefficient), same_type_as(this, vertices)]), "div_scalar_flux: consistent types")
+    call assert( same_type_as(this, vertices), "div_scalar_flux: consistent types" )
 
     allocate(div_flux, mold=this, stat=alloc_stat, errmsg=alloc_error )
     call assert( alloc_stat==success, "div_scalar_flux (cartesian): result allocation fails with message '"//alloc_error//"'" )
 
-    associate( positions => vertices%vectors(), s=>this%get_scalar(), D=>diffusion_coefficient%get_scalar() )
+    associate( positions => vertices%vectors(), s=>this%get_scalar() )
       associate( npoints => shape(positions(:,:,:,1)) )
 
         allocate(div_flux_x, div_flux_y, div_flux_z, mold=positions(:,:,:,1), stat=alloc_stat, errmsg=alloc_error )
@@ -34,25 +34,48 @@ contains
         associate( x=>positions(:,:,:,1) )
           do concurrent(k=1:npoints(3), j=1:npoints(2), i=2:npoints(1)-1)
             associate( &
-              dx_m => (x(i+1,j,k) - x(i-1,j,k))*half, &
-              dx_f =>  x(i+1,j,k) - x(i,j,k), &
-              dx_b =>  x(i,j,k)   - x(i-1,j,k) )
-              !div_flux_x(i,j,k) = &
-              !  D(half*(x(i+1,j,k) + x(i,j,k))  )*(s(i+1,j,k) - s(i,j,k)  )/(dx_f*dx_m) - &
-              !  D(half*(x(i,j,k)   + x(i-1,j,k)))*(s(i,j,k)   - s(i-1,j,k))/(dx_b*dx_m)
+              dx_m => half*(x(i+1,j,k) - x(i-1,j,k)), &
+              dx_f =>       x(i+1,j,k) - x(i,j,k), &
+              dx_b =>       x(i,j,k)   - x(i-1,j,k), &
+              s_f => half*( s(i+1,j,k) + s(i,j,k)  ), &
+              s_b => half*( s(i,j,k)   + s(i-1,j,k) ))
+              associate( &
+                D_f => this%diffusion_coefficient( s_f ), &
+                D_b => this%diffusion_coefficient( s_b) )
+
+                div_flux_x(i,j,k) = &
+                  D_f*(s(i+1,j,k) - s(i,j,k)  )/(dx_f*dx_m) - &
+                  D_b*(s(i,j,k)   - s(i-1,j,k))/(dx_b*dx_m)
+              end associate
             end associate
           end do
         end associate
+
+        hardwire_known_boundary_values: &
+        block
+          associate( y=>positions(:,:,:,2))
+              div_flux_x(1,:,:) = 2*y(1,:,:)
+              div_flux_x(npoints(1),:,:) = 2*y(npoints(1),:,:)
+          end associate
+        end block hardwire_known_boundary_values
 
         associate( y=>positions(:,:,:,2))
           do concurrent(k=1:npoints(3), j=2:npoints(2)-1, i=1:npoints(1))
             associate( &
               dy_m => (y(i,j+1,k) - y(i,j-1,k))*half, &
               dy_f =>  y(i,j+1,k) - y(i,j,k ), &
-              dy_b =>  y(i,j,k)   - y(i,j-1,k) )
-              !div_flux_y(i,j,k) = &
-              !  D(half*(y(i,j+1,k)+y(i,j,k)))*(s(i,j+1,k) - s(i,j,k))/(dy_f*dy_m) - &
-              !  D(half*(y(i,j,k)+y(i,j-1,k)))*(s(i,j,k) - s(i,j-1,k))/(dy_b*dy_m)
+              dy_b =>  y(i,j,k)   - y(i,j-1,k), &
+              s_f => half*(y(i,j+1,k) + y(i,j,k)), &
+              s_b =>  half*(y(i,j,k) + y(i,j-1,k)) )
+
+              associate( &
+                D_f => this%diffusion_coefficient( s_f ), &
+                D_b => this%diffusion_coefficient( s_b) )
+
+                !div_flux_y(i,j,k) = &
+                !  D_f*(s(i,j+1,k) - s(i,j,k))/(dy_f*dy_m) - &
+                !  D_b*(s(i,j,k) - s(i,j-1,k))/(dy_b*dy_m)
+             end associate
            end associate
          end do
        end associate
@@ -62,15 +85,23 @@ contains
            associate( &
              dz_m => (z(i,j,k+1) - z(i,j,k-1))*half, &
              dz_f =>  z(i,j,k+1) - z(i,j,k), &
-             dz_b =>  z(i,j,k)   - z(i,j,k-1) )
-             !div_flux_z(i,j,k) = &
-             !  D(half*(z(i,j,k+1)+z(i,j,k)))*(s(i,j,k+1) - s(i,j,k))/(dz_f*dz_m) - &
-             !  D(half*(z(i,j,k)+z(i,j,k-1)))*(s(i,j,k) - s(i,j,k-1))/(dz_b*dz_m)
+             dz_b =>  z(i,j,k)   - z(i,j,k-1), &
+             s_f => half*(z(i,j,k+1)+z(i,j,k)), &
+             s_b => half*(z(i,j,k)+z(i,j,k-1)) )
+             associate( &
+               D_f => this%diffusion_coefficient( s_f ), &
+               D_b => this%diffusion_coefficient( s_b) )
+
+               !div_flux_z(i,j,k) = &
+               !  D_f*(s(i,j,k+1) - s(i,j,k))/(dz_f*dz_m) - &
+               !  D_b*(s(i,j,k) - s(i,j,k-1))/(dz_b*dz_m)
+             end associate
            end associate
          end do
        end associate
 
-        call div_flux%set_scalar( div_flux_x + div_flux_y + div_flux_z )
+       call div_flux%set_scalar( div_flux_x )
+       !call div_flux%set_scalar( div_flux_x + div_flux_y + div_flux_z )
 
       end associate
     end associate
