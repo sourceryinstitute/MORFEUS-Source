@@ -14,6 +14,8 @@ program main
 
   type(problem_discretization) global_grid
     !! encapsulate the global grid structure
+  type(cartesian_grid) prototype
+    !! pass the cartesian_grid type
   integer, parameter :: space_dimensions=3
     !! maximum number of spatial dimensions
   integer, parameter :: lo_bound=1, up_bound=2
@@ -23,7 +25,7 @@ program main
   integer, parameter :: num_structured_grids(*) = [240,5,5]
     !! number of subdomains in each coordinate direction
 
-  call global_grid%partition( num_structured_grids, cartesian_grid() )
+  call global_grid%partition( num_structured_grids, prototype )
     !! partition the block-structured grid into subdomains with connectivity implied by the supplied shape of the 3D array of blocks
 
   associate( my_subdomains => global_grid%my_subdomains() )

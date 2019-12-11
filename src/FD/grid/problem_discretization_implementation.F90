@@ -219,8 +219,10 @@ contains
     integer, parameter :: lo_bound=1, up_bound=2 !! array indices corresponding to end points on 1D spatial interval
     integer, parameter :: nx_min=2, ny_min=2, nz_min=2
     integer n
+    type(cartesian_grid) prototype
+      !! pass the cartesian_grid type
 
-    call this%partition( plate_3D_geometry%get_block_metadata_shape(), cartesian_grid() )
+    call this%partition( plate_3D_geometry%get_block_metadata_shape(), prototype )
       !! partition a block-structured grid into subdomains with connectivity implied by the indexing of the 3D array of blocks
 
       associate( my_subdomains => this%my_subdomains() )

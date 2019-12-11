@@ -18,6 +18,8 @@ program main
 
   type(problem_discretization) block_structured_grid
     !! encapsulate the global grid structure
+  type(cartesian_grid) prototype
+    !! pass the cartesian_grid type
   type(json_file) json_problem_description
   integer, parameter :: num_structured_grids(*) = [120,5,5]
     !! number of subdomains in each coordinate direction
@@ -33,7 +35,7 @@ program main
   call assert(num_images()==1,"single-image json file creation")
   call assert(product(num_structured_grids)<=max_block_identifier,"number of blocks is representable")
 
-  call block_structured_grid%partition( num_structured_grids, cartesian_grid() )
+  call block_structured_grid%partition( num_structured_grids, prototype )
     !! partition the block-structured grid into subdomains with connectivity implied by the supplied shape array
 
   call json_problem_description%initialize()  ! specify whatever init options you want.

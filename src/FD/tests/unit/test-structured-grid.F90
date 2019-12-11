@@ -23,8 +23,11 @@ program test_structured_grid
   real(r8k) :: x(nx,ny,nz)=1.,y(nx,ny,nz)=0.,z(nx,ny,nz)=-1.
     !! Vector components
   class(structured_grid), allocatable :: coordinate_plane
+    !!
+  type(cartesian_grid) prototype
+    !! pass the cartesian_grid type
 
-  allocate( coordinate_plane, stat=alloc_status, errmsg=alloc_error, mold=cartesian_grid() )
+  allocate( coordinate_plane, stat=alloc_status, errmsg=alloc_error, mold=prototype )
   call assert( alloc_status==success, "test_structured_grid: allocation ("//alloc_error//")" )
 
   call coordinate_plane%set_vector_components(x,y,z)
