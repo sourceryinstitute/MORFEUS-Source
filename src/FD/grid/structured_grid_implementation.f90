@@ -10,6 +10,12 @@ submodule(structured_grid_interface) structured_grid_implementation
 
 contains
 
+    module procedure clone
+      this%nodal_values = original%nodal_values
+      this%global_bounds = original%global_bounds
+      this%metadata = original%metadata
+    end procedure
+
     module procedure num_cells
       associate( grid_shape => shape(this%nodal_values) )
         cell_count = (grid_shape(1)-1) * (grid_shape(2)-1) * (grid_shape(3)-1)
@@ -18,8 +24,8 @@ contains
     end procedure
 
     module procedure get_scalar
-      call assert(this%space_dimension()==3 .and. this%free_tensor_indices()==0 .and. this%num_time_stamps()==1, &
-        "structured_grid%get_scalar: single snapshot of scalar data at 3D grid vertices")
+      call assert(this%space_dimension()==3 .and. this%free_tensor_indices()==0, "structured_grid%get_scalar: scalar on 3D grid")
+      call assert(this%num_time_stamps()==1, "structured_grid%get_scalar: single snapshot of scalar data at 3D grid vertices")
       scalar_values = this%nodal_values(:,:,:,1,1,1)
     end procedure
 
