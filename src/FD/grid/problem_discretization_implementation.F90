@@ -108,8 +108,10 @@ contains
     integer(i4k), dimension(:), allocatable :: block_cell_material, point_block_id
     real(r8k), dimension(:), allocatable :: point_scalars, point_div_flux
     type(attributes) :: point_attributes, cell_attributes, scalar_attributes, flux_divergence_attributes
+    type(attributes), dimension(:), allocatable :: attributes_objects
     integer :: b, first_point_in_block, first_cell_in_block
     integer, parameter :: vector_indices=4, num_scalars=1
+    real(r8k), dimension(:,:,:), allocatable :: scalar_fields_values, div_flux_values
 
     allocate( cell_list(SUM( this%vertices%num_cells())) )
     allocate( points(space_dimensions,0), block_cell_material(0), point_block_id(0), point_scalars(0), point_div_flux(0) )
@@ -117,22 +119,30 @@ contains
     first_point_in_block = 0
     first_cell_in_block = 1
 
-    call assert( size(this%scalar_fields,2)==num_scalars,"problem_discretization%vtk_output: multiple scalars not supported" )
+    if (allocated(this%scalar_fields)) &
+      call assert( size(this%scalar_fields,2)==num_scalars,"problem_discretization%vtk_output: # scalars > 1" )
+
+    if (allocated(this%scalar_flux_divergence)) &
+      call assert( size(this%scalar_flux_divergence,2)==num_scalars,"problem_discretization%vtk_output: scalars > 1" )
 
     loop_over_grid_blocks: do b=lbound(this%vertices,1), ubound(this%vertices,1)
 
-      associate( &
-        vertex_positions => this%vertices(b)%vectors(), & !! 4D array of nodal position vectors
-        scalar_fields_attributes => this%scalar_fields(b,num_scalars)%get_scalar() ) ! , &
-       !div_flux_attributes  => this%scalar_flux_divergence(b,num_scalars)%get_scalar() )
+      associate( vertex_positions => this%vertices(b)%vectors() ) !! 4D array of nodal position vectors
         associate( npoints => shape(vertex_positions(:,:,:,1)) )  !! shape of 1st 3 dims specifies # points in ea. direction
           associate( ncells => npoints-1 )
+
+            if (allocated(this%scalar_fields)) then
+              scalar_fields_values = this%scalar_fields(b,num_scalars)%get_scalar()
+              point_scalars = [ point_scalars,  reshape( scalar_fields_values, shape(scalar_fields_values) ) ]
+            end if
+            if (allocated(this%scalar_flux_divergence)) then
+              div_flux_values = this%scalar_flux_divergence(b,num_scalars)%get_scalar()
+              point_div_flux = [ point_div_flux,  reshape( div_flux_values, shape(div_flux_values) ) ]
+            end if
 
             points = points .catColumns. ( .columnVectors. vertex_positions )
             block_cell_material = [ block_cell_material, (this%vertices(b)%get_tag(), ic=1,PRODUCT(ncells)) ]
             point_block_id = [ point_block_id, [( b, ip=1, PRODUCT(npoints) )] ]
-            point_scalars = [ point_scalars,  reshape( scalar_fields_attributes, shape(scalar_fields_attributes) ) ]
-       !    point_div_flux = [ point_div_flux,  reshape( div_flux_attributes, shape(div_flux_attributes) ) ]
 
             do ic=1,ncells(1)
               do jc=1,ncells(2)
@@ -153,30 +163,33 @@ contains
 
             first_cell_in_block  = first_cell_in_block  + PRODUCT( ncells  )
             first_point_in_block = first_point_in_block + PRODUCT( npoints )
-
           end associate
         end associate
       end associate
     end do loop_over_grid_blocks
 
     call assert( SIZE(point_block_id,1) == SIZE(points,2), "VTK block point data set & point set size match" )
-    call assert( SIZE(point_scalars,1) == SIZE(points,2), "VTK scalar data set & point set size match" )
-   !call assert( SIZE(point_div_flux,1) == SIZE(points,2), "VTK scalar flux divergence set & point set size match" )
     call assert( SIZE(block_cell_material,1) == SIZE(cell_list,1), "VTK cell data set & cell set size match" )
 
     call define_scalar(  cell_attributes, REAL( block_cell_material, r8k),  'material' )
     call define_scalar(  point_attributes, REAL( point_block_id, r8k),  'block' )
-    call define_scalar(  scalar_attributes, point_scalars, 'temperature' )
-   !call define_scalar(  flux_divergence_attributes, point_div_flux, 'div(k grad T)' )
+
+    attributes_objects = [point_attributes]
+    if (allocated(this%scalar_fields)) then
+      call assert( SIZE(point_scalars,1) == SIZE(points,2), "VTK scalar data set & point set size match" )
+      call define_scalar(  scalar_attributes, point_scalars, 'temperature' )
+      attributes_objects = [attributes_objects, scalar_attributes]
+    end if
+    if (allocated(this%scalar_flux_divergence)) then
+      call assert( SIZE(point_div_flux,1) == SIZE(points,2), "VTK scalar flux divergence set & point set size match" )
+      call define_scalar(  flux_divergence_attributes, point_div_flux, 'div(k grad T)' )
+      attributes_objects = [attributes_objects, flux_divergence_attributes]
+    end if
 
     call vtk_grid%init (points=points, cell_list=cell_list )
-    call vtk_serial_write( &
-      filename=filename, geometry=vtk_grid, multiple_io=.TRUE., &
-      celldatasets=[cell_attributes], &
-      pointdatasets=[point_attributes, scalar_attributes]) !, flux_divergence_attributes ] )
-
-    iostat = 0 ! Report success
-
+    call vtk_serial_write(filename=filename, geometry=vtk_grid, multiple_io=.TRUE., &
+      &                   celldatasets=[cell_attributes], pointdatasets=[attributes_objects] )
+    iostat = 0
   end subroutine VTK_output
 
   pure function evenly_spaced_points( boundaries, resolution, direction ) result(grid_nodes)
