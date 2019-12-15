@@ -29,6 +29,11 @@ contains
       vectors3D = this%nodal_values(:,:,:,:,1,1)
     end procedure
 
+    module procedure diffusion_coefficient
+      coefficient = 1._r8k
+      !coefficient = this%metadata%diffusion_coefficent
+    end procedure
+
     module procedure write_formatted
       integer xloc, yloc, zloc
 

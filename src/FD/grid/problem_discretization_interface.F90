@@ -37,8 +37,6 @@ module problem_discretization_interface
       !! grid nodal locations: size(vertices) == number of blocks owned by the executing image
     class(structured_grid), allocatable :: scalar_fields(:,:)
       !! scalar values at the grid nodes: size(scalar_fields,1)==size(vertices), size(scalar_fields,2)==number of scalar fields
-    class(structured_grid), allocatable :: diffusion_coefficients(:,:)
-      !! scalar values at the grid nodes: same dimensions as scalar_fields
     class(structured_grid), allocatable :: scalar_flux_divergence(:,:)
       !! div( D grad(s)): same dimensions as scalar_fields
     class(geometry), allocatable :: problem_geometry
@@ -92,11 +90,11 @@ module problem_discretization_interface
       integer, intent(in) :: block_identifier
     end subroutine
 
-    module subroutine set_analytical_scalars(this, scalar_setters, diffusion_coeff_setters)
-      !! Use functions to define scalar values and diffusion coefficients at vertex locations
+    module subroutine set_analytical_scalars(this, scalar_setters )
+      !! Use functions to define scalar values at vertex locations
       implicit none
       class(problem_discretization), intent(inout) :: this
-      type(setter), intent(in), dimension(:) :: scalar_setters, diffusion_coeff_setters
+      type(setter), intent(in), dimension(:) :: scalar_setters
     end subroutine
 
     module subroutine set_scalar_flux_divergence(this)

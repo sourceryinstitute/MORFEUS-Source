@@ -35,6 +35,7 @@ module structured_grid_interface
     procedure set_scalar
     procedure get_scalar
     procedure vectors
+    procedure diffusion_coefficient
     procedure(div_scalar_flux_interface), deferred :: div_scalar_flux
     procedure write_formatted
 #ifdef HAVE_UDDTIO
@@ -67,14 +68,20 @@ module structured_grid_interface
     !! of structured_grid objects.
 
   abstract interface
-    function div_scalar_flux_interface(this, vertices, diffusion_coefficient) result(div_flux)
+    function div_scalar_flux_interface(this, vertices) result(div_flux)
       import structured_grid
-      class(structured_grid), intent(in) :: this, vertices, diffusion_coefficient
+      class(structured_grid), intent(in) :: this, vertices
       class(structured_grid), allocatable :: div_flux
     end function
   end interface
 
   interface
+
+    pure module function diffusion_coefficient(this, temperature) result(coefficient)
+      class(structured_grid), intent(in) :: this
+      real(r8k), intent(in) :: temperature
+      real(r8k) coefficient
+    end function
 
     module subroutine write_formatted (this,unit,iotype, v_list, iostat, iomsg)
       class(structured_grid), intent(in) ::this
