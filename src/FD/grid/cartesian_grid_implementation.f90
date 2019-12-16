@@ -12,7 +12,14 @@ submodule(cartesian_grid_interface) cartesian_grid_implementation
 
 contains
 
+  module procedure assign_structured_grid
+    call assert( same_type_as(this, rhs), "cartesian_grid%assign_structured_grid: consistent types" )
+    call this%clone(rhs)
+  end procedure
+
   module procedure div_scalar_flux
+    !! Evaluate 2nd partial derivatives in each coordinate direction according to equations (2.2) & (2.4) in
+    !! Sundqvist & Veronis (1969) "A simple finite-difference grid with non-constant intervals", Tellus 22:1
 
     integer(i4k) i, j, k, alloc_stat
     integer(i4k), parameter :: success=0
@@ -31,10 +38,12 @@ contains
         allocate(div_flux_x, div_flux_y, div_flux_z, mold=positions(:,:,:,1), stat=alloc_stat, errmsg=alloc_error )
         call assert( alloc_stat==success, "div_scalar_flux (cartesian): allocate(div_flux_{x,y,z}) (error: "//alloc_error//")" )
 
+
         associate( x=>positions(:,:,:,1) )
           do concurrent(k=1:npoints(3), j=1:npoints(2), i=2:npoints(1)-1)
+
             associate( &
-              dx_m => half*(x(i+1,j,k) - x(i-1,j,k)), &
+              dx_m => half*(x(i+1,j,k) - x(i-1,j,k)), &!! half*(x(i+1,j,k) - x(i,j,k) + x(i,j,k) - x(i-1,j,k))
               dx_f =>       x(i+1,j,k) - x(i,j,k), &
               dx_b =>       x(i,j,k)   - x(i-1,j,k), &
               s_f => half*( s(i+1,j,k) + s(i,j,k)  ), &

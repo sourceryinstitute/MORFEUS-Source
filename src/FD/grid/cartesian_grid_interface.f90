@@ -15,14 +15,22 @@ module cartesian_grid_interface
   type, extends(structured_grid) :: cartesian_grid
   contains
     procedure div_scalar_flux
+    procedure assign_structured_grid
   end type
 
   interface
-    module function div_scalar_flux( this, vertices) result(div_flux)
+
+    module function div_scalar_flux(this, vertices) result(div_flux)
      class(cartesian_grid), intent(in) :: this
      class(structured_grid), intent(in) :: vertices
      class(structured_grid), allocatable :: div_flux
     end function
+
+    module subroutine assign_structured_grid(this, rhs)
+     class(cartesian_grid), intent(inout) :: this
+     class(structured_grid), intent(in) :: rhs
+    end subroutine
+
   end interface
 
 end module

@@ -49,6 +49,7 @@ module problem_discretization_interface
     procedure user_defined_vertices
     procedure set_analytical_scalars
     procedure num_scalars
+    procedure num_scalar_flux_divergences
     procedure initialize_from_plate_3D
     procedure set_scalar_flux_divergence
     generic :: set_vertices => user_defined_vertices
@@ -108,6 +109,13 @@ module problem_discretization_interface
       implicit none
       class(problem_discretization), intent(in) :: this
       integer num_scalar_fields
+    end function
+
+    pure module function num_scalar_flux_divergences(this) result(num_divergences)
+      !! Result contains the total number of scalar_field components
+      implicit none
+      class(problem_discretization), intent(in) :: this
+      integer num_divergences
     end function
 
     pure module function my_subdomains(this) result(block_identifier_range)

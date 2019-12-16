@@ -546,7 +546,7 @@ target_compile_definitions(morfeus_fv_C
   PRIVATE ${Fortran_INTROSPECTION_MANGLING})
 if(TARGET MatLib)
   target_link_libraries(morfeus_fv
-    PUBLIC MatLib)
+    PUBLIC MatLib Coolant)
 else()
   message( FATAL_ERROR
     "Please run CMake from the top level FAST directory; the MatLib library is now required by MORFEUS_FV.")

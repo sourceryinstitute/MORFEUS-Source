@@ -25,19 +25,23 @@ module structured_grid_interface
     integer :: global_bounds(num_bounds,max_space_dims)=undefined
     type(block_metadata) metadata
   contains
-    procedure num_cells
+    procedure(assignment_interface), deferred :: assign_structured_grid
+    generic :: assignment(=) => assign_structured_grid
+    procedure(div_scalar_flux_interface), deferred :: div_scalar_flux
+
+    procedure clone
+    procedure diffusion_coefficient
+    procedure write_formatted
     procedure space_dimension
     procedure free_tensor_indices
+    procedure num_cells
     procedure num_time_stamps
+    procedure vectors
+    procedure get_scalar
     procedure set_metadata
     procedure get_tag
     procedure set_vector_components
     procedure set_scalar
-    procedure get_scalar
-    procedure vectors
-    procedure diffusion_coefficient
-    procedure(div_scalar_flux_interface), deferred :: div_scalar_flux
-    procedure write_formatted
 #ifdef HAVE_UDDTIO
     generic :: write(formatted) => write_formatted
 #endif
@@ -68,22 +72,39 @@ module structured_grid_interface
     !! of structured_grid objects.
 
   abstract interface
+
     function div_scalar_flux_interface(this, vertices) result(div_flux)
       import structured_grid
       class(structured_grid), intent(in) :: this, vertices
       class(structured_grid), allocatable :: div_flux
     end function
+
+    module subroutine assignment_interface(this, rhs)
+     implicit none
+     class(structured_grid), intent(inout) :: this
+     class(structured_grid), intent(in) :: rhs
+    end subroutine
+
   end interface
 
   interface
 
+    pure module subroutine clone(this,original)
+     implicit none
+     class(structured_grid), intent(inout) :: this
+     class(structured_grid), intent(in) :: original
+    end subroutine
+
     pure module function diffusion_coefficient(this, temperature) result(coefficient)
+      implicit none
       class(structured_grid), intent(in) :: this
       real(r8k), intent(in) :: temperature
       real(r8k) coefficient
     end function
 
+
     module subroutine write_formatted (this,unit,iotype, v_list, iostat, iomsg)
+      implicit none
       class(structured_grid), intent(in) ::this
       integer, intent(in) :: unit, v_list(:)
       character (len=*), intent(in) :: iotype
