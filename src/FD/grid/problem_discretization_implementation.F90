@@ -78,17 +78,6 @@ contains
     end associate
   end subroutine
 
-  subroutine define_scalar( s, vals, dataname )
-    use vtk_attributes, only : scalar, attributes
-    implicit none
-    class(attributes), intent(INOUT) :: s
-    real(r8k),         intent(in)    :: vals(:)
-    character(LEN=*),  intent(in)    :: dataname
-
-    if (.NOT. allocated(s%attribute)) allocate(scalar::s%attribute)
-    call s%attribute%init (dataname, numcomp=1, real1d=vals)
-  end subroutine
-
   subroutine vtk_output (this, filename, iostat)
     use vtk_datasets,   only : unstruct_grid
     use vtk,            only : vtk_serial_write
@@ -96,34 +85,32 @@ contains
     use vtk_attributes, only : attributes
     use array_functions_interface, only : OPERATOR(.catColumns.), OPERATOR(.columnVectors.)
     implicit none
+    type vtk_data
+      real(r8k), dimension(:), allocatable :: point_scalars, point_div_flux
+    end type
+    type(vtk_data), dimension(:), allocatable :: vtk_data_
     class(problem_discretization), intent(in) ::this
     character(LEN=*), intent(in), optional :: filename
     integer, intent(out) :: iostat
     type(voxel) :: voxel_cell  !! Voxel cell type
     type(vtkcell_list), dimension(:), allocatable :: cell_list !! Full list of all cells
-    type (unstruct_grid) :: vtk_grid
     integer(i4k) :: ip, jp, kp !! block-local point id
     integer(i4k) :: ic, jc, kc !! block-local cell id
     real(r8k), dimension(:,:), allocatable :: points
     integer(i4k), dimension(:), allocatable :: block_cell_material, point_block_id
-    real(r8k), dimension(:), allocatable :: point_scalars, point_div_flux
-    type(attributes) :: point_attributes, cell_attributes, scalar_attributes, flux_divergence_attributes
-    type(attributes), dimension(:), allocatable :: attributes_objects
-    integer :: b, first_point_in_block, first_cell_in_block
-    integer, parameter :: vector_indices=4, num_scalars=1
+    type(attributes) :: grid_point_attributes, cell_attributes
+    integer :: b, s, first_point_in_block, first_cell_in_block
     real(r8k), dimension(:,:,:), allocatable :: scalar_fields_values, div_flux_values
 
-    allocate( cell_list(SUM( this%vertices%num_cells())) )
-    allocate( points(space_dimensions,0), block_cell_material(0), point_block_id(0), point_scalars(0), point_div_flux(0) )
+    allocate( cell_list(sum( this%vertices%num_cells())) )
+    allocate( points(space_dimensions,0), block_cell_material(0), point_block_id(0) )
+    allocate( vtk_data_(this%num_scalars()) )
+    do s = 1, this%num_scalars()
+      allocate( vtk_data_(s)%point_scalars(0), vtk_data_(s)%point_div_flux(0) )
+    end do
 
     first_point_in_block = 0
     first_cell_in_block = 1
-
-    if (allocated(this%scalar_fields)) &
-      call assert( size(this%scalar_fields,2)==num_scalars,"problem_discretization%vtk_output: # scalars > 1" )
-
-    if (allocated(this%scalar_flux_divergence)) &
-      call assert( size(this%scalar_flux_divergence,2)==num_scalars,"problem_discretization%vtk_output: scalars > 1" )
 
     loop_over_grid_blocks: do b=lbound(this%vertices,1), ubound(this%vertices,1)
 
@@ -132,12 +119,17 @@ contains
           associate( ncells => npoints-1 )
 
             if (allocated(this%scalar_fields)) then
-              scalar_fields_values = this%scalar_fields(b,num_scalars)%get_scalar()
-              point_scalars = [ point_scalars,  reshape( scalar_fields_values, shape(scalar_fields_values) ) ]
-            end if
-            if (allocated(this%scalar_flux_divergence)) then
-              div_flux_values = this%scalar_flux_divergence(b,num_scalars)%get_scalar()
-              point_div_flux = [ point_div_flux,  reshape( div_flux_values, shape(div_flux_values) ) ]
+              loop_over_sclar_fields: &
+              do s = 1, this%num_scalars()
+                vtk_data_(s)%point_scalars = [vtk_data_(s)%point_scalars, this%scalar_fields(b,s)%get_scalar()]
+              end do loop_over_sclar_fields
+              if (allocated(this%scalar_flux_divergence)) then
+                call assert(shape(this%scalar_fields)==shape(this%scalar_flux_divergence), "vtk_output: consistent scalar data")
+                loop_over_flux_divergences: &
+                do s = 1, this%num_scalars()
+                  vtk_data_(s)%point_div_flux = [vtk_data_(s)%point_div_flux, this%scalar_flux_divergence(b,s)%get_scalar()]
+                end do loop_over_flux_divergences
+              end if
             end if
 
             points = points .catColumns. ( .columnVectors. vertex_positions )
@@ -172,25 +164,51 @@ contains
     call assert( SIZE(block_cell_material,1) == SIZE(cell_list,1), "VTK cell data set & cell set size match" )
 
     call define_scalar(  cell_attributes, REAL( block_cell_material, r8k),  'material' )
-    call define_scalar(  point_attributes, REAL( point_block_id, r8k),  'block' )
+    call define_scalar(  grid_point_attributes, REAL( point_block_id, r8k),  'block' )
 
-    attributes_objects = [point_attributes]
-    if (allocated(this%scalar_fields)) then
-      call assert( SIZE(point_scalars,1) == SIZE(points,2), "VTK scalar data set & point set size match" )
-      call define_scalar(  scalar_attributes, point_scalars, 'temperature' )
-      attributes_objects = [attributes_objects, scalar_attributes]
-    end if
-    if (allocated(this%scalar_flux_divergence)) then
-      call assert( SIZE(point_div_flux,1) == SIZE(points,2), "VTK scalar flux divergence set & point set size match" )
-      call define_scalar(  flux_divergence_attributes, point_div_flux, 'div(k grad T)' )
-      attributes_objects = [attributes_objects, flux_divergence_attributes]
-    end if
+    block
+      type(unstruct_grid) vtk_grid
+      type(attributes), dimension(:), allocatable :: scalar_attributes, flux_divergence_attributes, point_attributes
+      character(len=*), parameter :: max_num_scalars='999'
+      character(len=len(max_num_scalars)) scalar_number
 
-    call vtk_grid%init (points=points, cell_list=cell_list )
-    call vtk_serial_write(filename=filename, geometry=vtk_grid, multiple_io=.TRUE., &
-      &                   celldatasets=[cell_attributes], pointdatasets=[attributes_objects] )
+      point_attributes = [grid_point_attributes]
+
+      allocate( scalar_attributes(this%num_scalars()) )
+      do s=1,size(scalar_attributes)
+        write(scalar_number,'(i3)') s
+        call define_scalar( scalar_attributes(s), vtk_data_(s)%point_scalars, 'scalar '//adjustl(trim(scalar_number)) )
+        point_attributes = [point_attributes, scalar_attributes]
+      end do
+
+      allocate( flux_divergence_attributes(this%num_scalar_flux_divergences()) )
+      do s=1,size(flux_divergence_attributes)
+        write(scalar_number,'(i3)') s
+        call define_scalar(flux_divergence_attributes(s), vtk_data_(s)%point_div_flux, 'divergence '//adjustl(trim(scalar_number)))
+        point_attributes = [point_attributes, flux_divergence_attributes]
+      end do
+
+      call vtk_grid%init (points=points, cell_list=cell_list )
+      call vtk_serial_write( &
+        filename=filename, geometry=vtk_grid, multiple_io=.TRUE., celldatasets=[cell_attributes], pointdatasets=point_attributes)
+    end block
+
     iostat = 0
-  end subroutine VTK_output
+
+  contains
+
+    subroutine define_scalar( s, vals, dataname )
+      use vtk_attributes, only : scalar, attributes
+      implicit none
+      class(attributes), intent(INOUT) :: s
+      real(r8k),         intent(in)    :: vals(:)
+      character(LEN=*),  intent(in)    :: dataname
+
+      if (.NOT. allocated(s%attribute)) allocate(scalar::s%attribute)
+      call s%attribute%init (dataname, numcomp=1, real1d=vals)
+    end subroutine
+
+  end subroutine vtk_output
 
   pure function evenly_spaced_points( boundaries, resolution, direction ) result(grid_nodes)
     !! Define grid point coordinates with uniform spacing in the chosen subdomain
@@ -465,7 +483,19 @@ contains
   end procedure
 
   module procedure  num_scalars
-    num_scalar_fields = size(this%scalar_fields,2)
+    if (allocated(this%scalar_fields)) then
+      num_scalar_fields = size(this%scalar_fields,2)
+    else
+      num_scalar_fields = 0
+    end if
+  end procedure
+
+  module procedure  num_scalar_flux_divergences
+    if (allocated(this%scalar_flux_divergence)) then
+      num_divergences = size(this%scalar_flux_divergence,2)
+    else
+      num_divergences = 0
+    end if
   end procedure
 
 end submodule define_problem_discretization
