@@ -75,14 +75,16 @@ module structured_grid_interface
 
     function div_scalar_flux_interface(this, vertices) result(div_flux)
       import structured_grid
+      implicit none
       class(structured_grid), intent(in) :: this, vertices
       class(structured_grid), allocatable :: div_flux
     end function
 
-    module subroutine assignment_interface(this, rhs)
-     implicit none
-     class(structured_grid), intent(inout) :: this
-     class(structured_grid), intent(in) :: rhs
+    subroutine assignment_interface(this, rhs)
+      import structured_grid
+      implicit none
+      class(structured_grid), intent(inout) :: this
+      class(structured_grid), intent(in) :: rhs
     end subroutine
 
   end interface
