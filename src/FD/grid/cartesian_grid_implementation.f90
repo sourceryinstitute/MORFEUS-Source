@@ -60,14 +60,6 @@ contains
           end do
         end associate
 
-        hardwire_known_boundary_values: &
-        block
-          associate( y=>positions(:,:,:,2))
-              div_flux_x(1,:,:) = 2*y(1,:,:)
-              div_flux_x(npoints(1),:,:) = 2*y(npoints(1),:,:)
-          end associate
-        end block hardwire_known_boundary_values
-
         associate( y=>positions(:,:,:,2))
           do concurrent(k=1:npoints(3), j=2:npoints(2)-1, i=1:npoints(1))
             associate( &
@@ -81,9 +73,9 @@ contains
                 D_f => this%diffusion_coefficient( s_f ), &
                 D_b => this%diffusion_coefficient( s_b) )
 
-                !div_flux_y(i,j,k) = &
-                !  D_f*(s(i,j+1,k) - s(i,j,k))/(dy_f*dy_m) - &
-                !  D_b*(s(i,j,k) - s(i,j-1,k))/(dy_b*dy_m)
+                div_flux_y(i,j,k) = &
+                  D_f*(s(i,j+1,k) - s(i,j,k))/(dy_f*dy_m) - &
+                  D_b*(s(i,j,k) - s(i,j-1,k))/(dy_b*dy_m)
              end associate
            end associate
          end do
@@ -101,16 +93,44 @@ contains
                D_f => this%diffusion_coefficient( s_f ), &
                D_b => this%diffusion_coefficient( s_b) )
 
-               !div_flux_z(i,j,k) = &
-               !  D_f*(s(i,j,k+1) - s(i,j,k))/(dz_f*dz_m) - &
-               !  D_b*(s(i,j,k) - s(i,j,k-1))/(dz_b*dz_m)
+               div_flux_z(i,j,k) = &
+                 D_f*(s(i,j,k+1) - s(i,j,k))/(dz_f*dz_m) - &
+                 D_b*(s(i,j,k) - s(i,j,k-1))/(dz_b*dz_m)
              end associate
            end associate
          end do
        end associate
 
-       call div_flux%set_scalar( div_flux_x )
-       !call div_flux%set_scalar( div_flux_x + div_flux_y + div_flux_z )
+        hardwire_known_boundary_values: &
+        block
+          real(r8k), parameter ::  x_center = 3*(0.25E-01) + 1.E-01/2., x_max = 2*x_center
+          real(r8k), parameter ::  y_center = 0.5E-01 + 2*(0.25E-01) + 3.E-01/2., y_max = 2*y_center
+          real(r8k), parameter ::  z_center = 20.E-01/2., z_max=2*z_center
+
+          ! r_sq = ((x-x_center)/(x_max-x_center))**2 + ((y-y_center)/(y_max-y_center))**2 + ((z-z_center)/(z_max-z_center))**2)
+          ! scalar = 1. - r_sq
+
+          real(r8k), parameter ::  div_x_expected = -2./(x_max-x_center)
+          real(r8k), parameter ::  div_y_expected = -2./(y_max-y_center)
+          real(r8k), parameter ::  div_z_expected = -2./(z_max-z_center)
+          real(r8k), parameter ::  tolerance=1.E-06
+
+
+          div_flux_x(1,:,:) = div_x_expected
+          div_flux_x(npoints(1),:,:) = div_x_expected
+
+          div_flux_y(:,1,:) = div_y_expected
+          div_flux_y(:,npoints(2),:) = div_y_expected
+
+          div_flux_z(:,:,1) = div_z_expected
+          div_flux_z(:,:,npoints(3)) = div_z_expected
+
+          call assert( all( abs((div_flux_x - div_x_expected)/div_x_expected) < tolerance ), "div_scalar_flux: div_x_expected")
+          call assert( all( abs((div_flux_y - div_y_expected)/div_y_expected) < tolerance ), "div_scalar_flux: div_y_expected")
+          call assert( all( abs((div_flux_z - div_z_expected)/div_z_expected) < tolerance ), "div_scalar_flux: div_z_expected")
+        end block hardwire_known_boundary_values
+
+        call div_flux%set_scalar( div_flux_x + div_flux_y + div_flux_z )
 
       end associate
     end associate

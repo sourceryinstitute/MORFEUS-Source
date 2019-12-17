@@ -46,9 +46,14 @@ contains
   pure function f(position_vectors) result(f_value)
     real(r8k), intent(in) :: position_vectors(:,:,:,:)
     real(r8k), allocatable :: f_value(:,:,:)
-    if (assertions) call assert(lbound(position_vectors,4)==1 .and. ubound(position_vectors,4)>=2, "field dimension >= 2")
-    associate( x=>position_vectors(:,:,:,1), y=>position_vectors(:,:,:,2) )
-      f_value = x**2 * y
+    real(r8k), parameter ::  x_center = 3*(0.25E-01) + 1.E-01/2., x_max = 2*x_center
+    real(r8k), parameter ::  y_center = 0.5E-01 + 2*(0.25E-01) + 3.E-01/2., y_max = 2*y_center
+    real(r8k), parameter ::  z_center = 20.E-01/2., z_max=2*z_center
+    if (assertions) call assert(lbound(position_vectors,4)==1 .and. ubound(position_vectors,4)==3, "field dimension == 3")
+    associate( x=>position_vectors(:,:,:,1), y=>position_vectors(:,:,:,2), z=>position_vectors(:,:,:,3) )
+      associate(r_sq=>((x-x_center)/(x_max-x_center))**2 + ((y-y_center)/(y_max-y_center))**2 + ((z-z_center)/(z_max-z_center))**2)
+        f_value = 400. - r_sq
+      end associate
     end associate
   end function
 
