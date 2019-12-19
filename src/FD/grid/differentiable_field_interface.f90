@@ -5,7 +5,7 @@
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 module differentiable_field_interface
-  use structured_grid_interface, only : structured_grid
+  use cartesian_grid_interface, only : cartesian_grid
   implicit none
 
   private
@@ -19,12 +19,12 @@ module differentiable_field_interface
 
   abstract interface
     function field_interface(this, grid_points) result(f)
-      use structured_grid_interface, only : structured_grid
+      use cartesian_grid_interface, only : cartesian_grid
       import differentiable_field
       implicit none
       class(differentiable_field), intent(in)  :: this
-      class(structured_grid), intent(in)  :: grid_points
-      class(structured_grid), allocatable :: f
+      type(cartesian_grid), intent(in)  :: grid_points
+      type(cartesian_grid) f
     end function
   end interface
 

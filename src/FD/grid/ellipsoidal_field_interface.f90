@@ -6,13 +6,13 @@
 !
 module ellipsoidal_field_interface
   use differentiable_field_interface, only : differentiable_field
-  use structured_grid_interface, only : structured_grid
+  use cartesian_grid_interface, only : cartesian_grid
   implicit none
 
   private
-  public :: ellipsoidal
+  public :: ellipsoidal_field
 
-  type, extends(differentiable_field) :: ellipsoidal
+  type, extends(differentiable_field) :: ellipsoidal_field
   contains
     procedure evaluate
     procedure laplacian
@@ -22,16 +22,16 @@ module ellipsoidal_field_interface
 
     module function evaluate(this, grid_points) result(f)
       implicit none
-      class(ellipsoidal), intent(in)  :: this
-      class(structured_grid), intent(in)  :: grid_points
-      class(structured_grid), allocatable :: f
+      class(ellipsoidal_field), intent(in)  :: this
+      type(cartesian_grid), intent(in)  :: grid_points
+      type(cartesian_grid f
     end function
 
     module function laplacian(this, grid_points) result(laplacian_f)
       implicit none
-      class(ellipsoidal), intent(in)  :: this
-      class(structured_grid), intent(in)  :: grid_points
-      class(structured_grid), allocatable :: laplacian_f
+      class(ellipsoidal_field), intent(in)  :: this
+      type(cartesian_grid), intent(in)  :: grid_points
+      type(cartesian_grid) laplacian_f
     end function
 
   end interface
