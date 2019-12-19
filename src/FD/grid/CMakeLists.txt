@@ -16,6 +16,9 @@ set( morfeus_fd_sources
   cartesian_grid_implementation.f90
   structured_grid_implementation.f90
   structured_grid_interface.F90
+  differentiable_field_interface.f90
+  ellipsoidal_field_interface.f90
+  ellipsoidal_field_implementation.f90
   ../geometry/geometry_interface.f90
   ../geometry/geometry_implementation.f90
   ../geometry/plate_3D_implementation.F90
