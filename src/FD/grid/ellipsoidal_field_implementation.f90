@@ -50,6 +50,3 @@ contains
   end procedure
 
 end submodule ellipsoidal_field_implementation
-
-
-end program
