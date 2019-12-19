@@ -12,11 +12,15 @@ submodule(ellipsoidal_field_interface) ellipsoidal_field_implementation
 contains
 
   module procedure evaluate
+    use cartesian_grid_interface, only : cartesian_grid
     real(r8k), allocatable, dimension(:,:,:,:) :: position_vectors
     real(r8k), allocatable :: f_value(:,:,:)
     real(r8k), parameter ::  x_center = 3*(0.25E-01) + 1.E-01/2., x_max = 2*x_center
     real(r8k), parameter ::  y_center = 0.5E-01 + 2*(0.25E-01) + 3.E-01/2., y_max = 2*y_center
     real(r8k), parameter ::  z_center = 20.E-01/2., z_max=2*z_center
+
+    allocate( cartesian_grid :: f)
+    call assert(same_type_as(f, grid_points), "ellipsoidal_field%evaluate: expected cartesian_grid")
 
     position_vectors = grid_points%vectors()
     associate( x=>position_vectors(:,:,:,1), y=>position_vectors(:,:,:,2), z=>position_vectors(:,:,:,3) )
@@ -30,6 +34,7 @@ contains
   end procedure
 
   module procedure laplacian
+    use cartesian_grid_interface, only : cartesian_grid
     real(r8k), allocatable, dimension(:,:,:,:) :: position_vectors
     real(r8k), allocatable, dimension(:,:,:) :: laplacian_values
     real(r8k), parameter ::  x_center = 3*(0.25E-01) + 1.E-01/2., x_max = 2*x_center
@@ -38,6 +43,9 @@ contains
     integer alloc_stat
     integer, parameter :: success=0
     character(len=max_errmsg_len) error_message
+
+    allocate( cartesian_grid :: laplacian_f)
+    call assert(same_type_as(laplacian_f, grid_points), "ellipsoidal_field%laplacian: expected cartesian_grid")
 
     position_vectors = grid_points%vectors()
     associate( dim=>shape(position_vectors) )
