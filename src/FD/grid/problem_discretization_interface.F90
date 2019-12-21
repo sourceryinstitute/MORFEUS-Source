@@ -10,6 +10,7 @@ module problem_discretization_interface
   use geometry_interface, only : geometry
   use kind_parameters, only : r8k, i4k
   use plate_3D_interface, only : plate_3D
+  use differentiable_field_interface, only : differentiable_field
   implicit none
 
   private
@@ -98,10 +99,11 @@ module problem_discretization_interface
       type(setter), intent(in), dimension(:) :: scalar_setters
     end subroutine
 
-    module subroutine set_scalar_flux_divergence(this)
+    module subroutine set_scalar_flux_divergence(this, exact_result)
       !! Compute and store div( D grad( S )) for each scalar S and diffusion coefficient D
       implicit none
       class(problem_discretization), intent(inout) :: this
+      class(differentiable_field), intent(in), optional :: exact_result
     end subroutine
 
     pure module function num_scalars(this) result(num_scalar_fields)

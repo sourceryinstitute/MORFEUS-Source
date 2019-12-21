@@ -7,6 +7,7 @@
 module cartesian_grid_interface
   !! author: Damian Rouson and Karla Morris
   use structured_grid_interface, only : structured_grid
+  use differentiable_field_interface, only : differentiable_field
   implicit none
 
   private
@@ -20,10 +21,11 @@ module cartesian_grid_interface
 
   interface
 
-    module function div_scalar_flux(this, vertices) result(div_flux)
+    module function div_scalar_flux(this, vertices, exact_result) result(div_flux)
      class(cartesian_grid), intent(in) :: this
      class(structured_grid), intent(in) :: vertices
      class(structured_grid), allocatable :: div_flux
+     class(differentiable_field), intent(in), optional :: exact_result
     end function
 
     module subroutine assign_structured_grid(this, rhs)

@@ -12,6 +12,7 @@ program main
   use assertions_interface, only : assert, assertions
   use plate_3D_interface, only : plate_3D
   use problem_discretization_interface, only : problem_discretization, setter
+  use ellipsoidal_field_interface, only : ellipsoidal_field
   use kind_parameters, only : i4k, r8k
   implicit none
 
@@ -24,6 +25,7 @@ program main
   type(problem_discretization) :: global_grid
   type(plate_3D) plate_geometry
   type(setter) scalar_setter
+  type(ellipsoidal_field) ellipsoidal_function
 
   scalar_setter%define_scalar => f
 
@@ -34,7 +36,7 @@ program main
     call plate_geometry%build( input_file ) !! read geometrical information
     call global_grid%initialize_from_geometry( plate_geometry ) !! partition block-structured grid & define grid vertex locations
     call global_grid%set_scalars( [scalar_setter] )
-    call global_grid%set_scalar_flux_divergence()
+    call global_grid%set_scalar_flux_divergence( exact_result=ellipsoidal_function )
     call global_grid%write_output (output_file)
 
     sync all

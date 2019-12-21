@@ -8,6 +8,7 @@ module structured_grid_interface
   use block_metadata_interface, only : block_metadata
   use grid_interface, only : grid
   use kind_parameters, only : r8k
+  use differentiable_field_interface, only : differentiable_field
   implicit none
 
   private
@@ -73,11 +74,12 @@ module structured_grid_interface
 
   abstract interface
 
-    function div_scalar_flux_interface(this, vertices) result(div_flux)
-      import structured_grid
+    function div_scalar_flux_interface(this, vertices, exact_result) result(div_flux)
+      import structured_grid, differentiable_field
       implicit none
       class(structured_grid), intent(in) :: this, vertices
       class(structured_grid), allocatable :: div_flux
+      class(differentiable_field), intent(in), optional :: exact_result
     end function
 
     subroutine assignment_interface(this, rhs)
