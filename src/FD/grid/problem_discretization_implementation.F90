@@ -462,9 +462,6 @@ contains
     integer b, f, alloc_status
     character(len=max_errmsg_len) :: alloc_error
 
-    procedure(field_function), pointer :: setter_s
-    setter_s => null()
-
     if (allocated(this%scalar_fields)) deallocate(this%scalar_fields)
 
     allocate( this%scalar_fields(lbound(this%vertices,1) : ubound(this%vertices,1), size(scalar_setters)), &
@@ -475,10 +472,12 @@ contains
     do b = lbound(this%vertices,1), ubound(this%vertices,1)
       loop_over_functions: &
       do f = 1, size(scalar_setters)
-        setter_s => scalar_setters(f)%define_scalar
-        associate( positions => this%vertices(b)%vectors() )
-          call this%scalar_fields(b,f)%set_scalar( setter_s( positions ) )
-        end associate
+        select type( scalar_values => scalar_setters(f)%evaluate( this%vertices(b) ) )
+          class is( structured_grid )
+            call this%scalar_fields(b,f)%clone( scalar_values )
+          class default
+            error stop "problem_discretization%set_analytical_scalars: unsupported scalar_values grid type"
+        end select
       end do loop_over_functions
     end do loop_over_blocks
   end procedure

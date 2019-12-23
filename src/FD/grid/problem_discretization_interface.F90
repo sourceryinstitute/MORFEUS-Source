@@ -14,21 +14,9 @@ module problem_discretization_interface
   implicit none
 
   private
-  public :: problem_discretization, setter
+  public :: problem_discretization
 
   integer, parameter :: space_dimension=3
-
-  abstract interface
-    pure function field_function(x) result(f_x)
-      import r8k
-      real(r8k), intent(in), dimension(:,:,:,:) :: x
-      real(r8k), allocatable :: f_x(:,:,:)
-    end function
-  end interface
-
-  type setter
-    procedure(field_function), pointer, nopass :: define_scalar=>null()
-  end type
 
   type, extends(object) :: problem_discretization
     private
@@ -96,7 +84,7 @@ module problem_discretization_interface
       !! Use functions to define scalar values at vertex locations
       implicit none
       class(problem_discretization), intent(inout) :: this
-      type(setter), intent(in), dimension(:) :: scalar_setters
+      class(differentiable_field), intent(in), dimension(:) :: scalar_setters
     end subroutine
 
     module subroutine set_scalar_flux_divergence(this, exact_result)
