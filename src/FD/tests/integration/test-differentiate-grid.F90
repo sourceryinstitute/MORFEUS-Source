@@ -33,7 +33,7 @@ program main
     call plate_geometry%build( input_file ) !! read geometrical information
     call global_grid%initialize_from_geometry( plate_geometry ) !! partition block-structured grid & define grid vertex locations
     call global_grid%set_scalars( [ellipsoidal_function] )
-    call global_grid%set_scalar_flux_divergence( exact_result=ellipsoidal_function )
+    call global_grid%set_scalar_flux_divergence( exact_result=[ellipsoidal_function] )
     call global_grid%write_output (output_file)
 
     sync all

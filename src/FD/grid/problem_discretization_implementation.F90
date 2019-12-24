@@ -438,6 +438,7 @@ contains
   module procedure set_scalar_flux_divergence
     integer b, f, alloc_status
     character(len=128) alloc_error
+    class(structured_grid), allocatable :: exact_flux_div
 
     call assert(allocated(this%scalar_fields), "set_scalar_flux_divergence: allocated(this%scalar_fields)")
     if (allocated(this%scalar_flux_divergence)) deallocate(this%scalar_flux_divergence)
@@ -447,11 +448,18 @@ contains
       stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
     call assert( alloc_status==success, "set_scalar_flux_divergence: allocation ("//alloc_error//")" )
 
+    if (present(exact_result)) &
+      call assert(size(exact_result)==num_fields, "problem_discretization%set_scalar_flux_divergence: size(exact_result)")
+
       loop_over_blocks: &
       do b = lbound(this%vertices,1), ubound(this%vertices,1)
         loop_over_fields: &
         do f = 1, num_fields
-          this%scalar_flux_divergence(b,f) = this%scalar_fields(b,f)%div_scalar_flux(this%vertices(b), exact_result)
+          this%scalar_flux_divergence(b,f) = this%scalar_fields(b,f)%div_scalar_flux(this%vertices(b))
+          if (present(exact_result)) then
+            exact_flux_div = exact_result(f)%laplacian(this%vertices(b))
+            call this%scalar_flux_divergence(b,f)%compare( exact_flux_div, tolerance=1.E-06_r8k )
+          end if
         end do loop_over_fields
       end do loop_over_blocks
     end associate

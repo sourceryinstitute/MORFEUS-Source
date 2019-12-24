@@ -43,6 +43,9 @@ module structured_grid_interface
     procedure get_tag
     procedure set_vector_components
     procedure set_scalar
+    procedure subtract
+    generic :: operator(-) => subtract
+    procedure compare
 #ifdef HAVE_UDDTIO
     generic :: write(formatted) => write_formatted
 #endif
@@ -183,6 +186,20 @@ module structured_grid_interface
       implicit none
       class(structured_grid), intent(inout) :: this
       real(r8k), intent(in), dimension(:,:,:) :: scalar
+    end subroutine
+
+    module function subtract(this, rhs) result(difference)
+      !! result contains the difference between this and rhs nodal_values compoents
+      implicit none
+      class(structured_grid), intent(in) :: this, rhs
+      class(structured_grid), allocatable :: difference
+    end function
+
+    pure module subroutine compare(this, reference, tolerance)
+      !! verify
+      implicit none
+      class(structured_grid), intent(in) :: this, reference
+      real(r8k), intent(in) :: tolerance
     end subroutine
 
   end interface

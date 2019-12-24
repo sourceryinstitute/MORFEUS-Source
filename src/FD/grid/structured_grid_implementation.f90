@@ -129,4 +129,21 @@ contains
 
     end procedure
 
+    module procedure subtract
+      error stop "structured_grid%subtract: this implementation generates a runtime invalid memory reference with GCC 8.3"
+      call assert (allocated(this%nodal_values) .and. allocated(rhs%nodal_values), "structured_grid%subtract: operands allocated")
+      call assert (shape(this%nodal_values) == shape(rhs%nodal_values), "structured_grid%subtract: operands conform")
+      call assert (same_type_as(this, rhs), "structured_grid%subtract: operand types match")
+      difference%nodal_values = this%nodal_values - rhs%nodal_values
+    end procedure
+
+    module procedure compare
+      call assert (allocated(this%nodal_values).and.allocated(reference%nodal_values),"structured_grid%compare: operands allocated")
+      call assert (shape(this%nodal_values) == shape(reference%nodal_values), "structured_grid%subtract: operands conform")
+      call assert (same_type_as(this, reference), "structured_grid%subtract: operand types match")
+      associate(L_infinity_norm => maxval(abs(this%nodal_values - reference%nodal_values)))
+        call assert(L_infinity_norm <= tolerance, "structured_grid%compare: L_infinity_norm <= tolerance")
+      end associate
+    end procedure
+
 end submodule

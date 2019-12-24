@@ -62,29 +62,29 @@ contains
 
     select type(grid_points)
       class is(cartesian_grid)
-        allocate( cartesian_grid :: laplacian_f)
+
         position_vectors = grid_points%vectors()
 
         associate( dim=>shape(position_vectors) )
-          allocate( laplacian_values(dim(1),dim(2),dim(3)), stat=alloc_stat, errmsg=error_message)
+          allocate( laplacian_values(dim(1),dim(2),dim(3)), stat=alloc_stat, errmsg=error_message, &
+            source =  - ( (2./(x_max-x_center)) + (2./(y_max-y_center)) + (2./(z_max-z_center)) ) )
           call assert( alloc_stat==success, &
-            "ellipsoidal_function%laplacian: allocate f (error: "//adjustl(trim(error_message))//")" )
+            "ellipsoidal_field%laplacian: allocate laplacian_values (error: "//adjustl(trim(error_message))//")" )
         end associate
 
-        laplacian_values =  - ( (2./(x_max-x_center)) + (2./(y_max-y_center)) + (2./(z_max-z_center)) )
         allocate( cartesian_grid :: laplacian_f, stat=alloc_stat, errmsg=error_message)
         call assert(alloc_stat==success, &
-          "ellipsoidal_field%evaluate: allocate laplacian_values (error: "//adjustl(trim(error_message))//")")
+          "ellipsoidal_field%evaluate: allocate laplacian_f (error: "//adjustl(trim(error_message))//")")
 
         select type(laplacian_f)
           class is(cartesian_grid)
             call laplacian_f%set_scalar(laplacian_values)
           class default
-            error stop "ellipsoidal_field%laplacian: unsupported laplacian_f class"
+            error stop "ellipsoidal_field%laplacian: unsupported laplacian_f type"
         end select
 
       class default
-        error stop "ellipsoidal_field%laplacian: unsupported laplacian_f class"
+        error stop "ellipsoidal_field%laplacian: unsupported laplacian_f type"
     end select
 
   end procedure

@@ -22,13 +22,15 @@ module cartesian_grid_interface
   interface
 
     module function div_scalar_flux(this, vertices, exact_result) result(div_flux)
+     implicit none
      class(cartesian_grid), intent(in) :: this
      class(structured_grid), intent(in) :: vertices
-     class(structured_grid), allocatable :: div_flux
      class(differentiable_field), intent(in), optional :: exact_result
+     class(structured_grid), allocatable :: div_flux
     end function
 
     module subroutine assign_structured_grid(this, rhs)
+     implicit none
      class(cartesian_grid), intent(inout) :: this
      class(structured_grid), intent(in) :: rhs
     end subroutine

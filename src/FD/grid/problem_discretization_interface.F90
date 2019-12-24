@@ -91,7 +91,7 @@ module problem_discretization_interface
       !! Compute and store div( D grad( S )) for each scalar S and diffusion coefficient D
       implicit none
       class(problem_discretization), intent(inout) :: this
-      class(differentiable_field), intent(in), optional :: exact_result
+      class(differentiable_field), intent(in), dimension(:), optional :: exact_result
     end subroutine
 
     pure module function num_scalars(this) result(num_scalar_fields)
