@@ -402,7 +402,12 @@ contains
         do f = 1, num_fields
           this%scalar_flux_divergence(b,f) = this%scalar_fields(b,f)%div_scalar_flux(this%vertices(b))
           if (present(exact_result)) then
-            exact_flux_div = exact_result(f)%laplacian(this%vertices(b))
+            select type (my_flux_div => exact_result(f)%laplacian(this%vertices(b)))
+            class is (structured_grid)
+              exact_flux_div = my_flux_div
+            class default
+              error stop 'Error: the type of exact_result(f)%laplacian(this%vertices(b)) is not structured_grid.'
+            end select
             call this%scalar_flux_divergence(b,f)%compare( exact_flux_div, tolerance=1.E-06_r8k )
           end if
         end do loop_over_fields

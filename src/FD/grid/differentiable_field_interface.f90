@@ -19,8 +19,7 @@ module differentiable_field_interface
 
   abstract interface
     function field_interface(this, grid_points) result(f)
-      use grid_interface, only : grid
-      import differentiable_field
+      import differentiable_field, grid
       implicit none
       class(differentiable_field), intent(in)  :: this
       class(grid), intent(in)  :: grid_points
