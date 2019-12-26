@@ -5,6 +5,7 @@
 #     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 #
 set( morfeus_fd_sources
+  inbox_interface.f90
   curvilinear_grid_interface.f90
   units_implementation.f90
   units_interface.F90

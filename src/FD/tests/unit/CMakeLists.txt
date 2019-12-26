@@ -15,6 +15,7 @@ set( base_names
   spatial-derivatives
   adi-time-advancing
   spatial-derivatives-new
+  halo-exchange
 )
 foreach(unit_test ${base_names})
   add_executable( test-${unit_test} test-${unit_test}.f90 )

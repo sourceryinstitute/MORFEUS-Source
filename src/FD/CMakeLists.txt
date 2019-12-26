@@ -235,6 +235,15 @@ foreach(unit_test ${base_names})
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 endforeach()
 
+# 7-image unit tests
+set( base_names
+  halo-exchange
+)
+foreach(unit_test ${base_names})
+  add_caf_test( fd-${unit_test} 4 ${CMAKE_CURRENT_BINARY_DIR}/tests/unit/test-${unit_test}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+endforeach()
+
 # Single-image integration tests
 set( base_names
   plate-material-mapping
