@@ -7,7 +7,7 @@
 submodule(cartesian_grid_interface) cartesian_grid_implementation
   !! author: Damian Rouson and Karla Morris
   use kind_parameters, only : i4k, r8k
-  use assertions_interface,only : assert, max_errmsg_len
+  use assertions_interface,only : assert, max_errmsg_len, assertions
   implicit none
 
 contains
@@ -135,5 +135,45 @@ contains
       end associate
     end associate
   end procedure div_scalar_flux
+
+  module procedure block_indicial_coordinates
+
+    call assert(n>0 .and. n<=product(this%get_global_block_shape()), "cartesian_grid%block_indicial_coordinates: identifier bounds")
+
+    associate( extents=>this%get_global_block_shape() )
+      associate( nx=>extents(1), ny=>extents(2), nz=>extents(3) )
+        ijk = [ mod(n-1,nx)+1, mod( (n-1)/nx, ny ) + 1, (n-1)/(nx*ny) + 1]
+      end associate
+    end associate
+
+    call assert(all(ijk>[0,0,0]) .and. all(ijk<=this%get_global_block_shape()), "block_indicial_coordinates: coordinates bounds")
+
+  end procedure
+
+  module procedure block_identifier
+
+    character(len=256) :: diagnostic_string
+
+    ! Requires
+    if (assertions) then
+      associate(assertion => all(ijk>[0,0,0]).and.all(ijk<=this%get_global_block_shape()))
+        if (assertions) then
+          write(diagnostic_string,*) "all(",ijk,">[0,0,0]), all(",ijk,"<=",this%get_global_block_shape(),")"
+          call assert( assertion , "block_identifier: indicial coordinates in bounds", diagnostic_data=diagnostic_string)
+        end if
+      end associate
+    end if
+
+    associate( extents=>this%get_global_block_shape() )
+      associate( i=>ijk(1), j=>ijk(2), k=>ijk(3),nx=>extents(1), ny=>extents(2) )
+        n = (k-1)*(ny*nx) + (j-1)*ny + i
+      end associate
+
+      ! Assures
+      if (assertions) &
+        call assert( n>0 .and. n<=product(extents), "block_identifier: block identifier in bounds" )
+    end associate
+
+  end procedure
 
 end submodule

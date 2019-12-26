@@ -35,8 +35,6 @@ contains
     select case (extension)
     case ('vtu')
       call vtk_output (this, basename, iostat)
-    case ('csv')
-      call csv_output (this, filename, iostat)
     case ('json')
      call json_output (this, filename, iostat)
    case default
@@ -55,27 +53,6 @@ contains
     character(LEN=*), intent(in) :: filename
     integer, intent(inout), optional :: iostat
     error stop "json_output: not yet implemented"
-  end subroutine
-
-  subroutine csv_output (this, filename, unit, iostat)
-    class(problem_discretization), intent(in) ::this
-    character(len=*), intent(in) :: filename
-    integer, intent(in), optional :: unit
-    integer, intent(inout), optional :: iostat
-    character(len=132) :: iomsg
-    integer, dimension(0) :: v_list
-    integer ix,iy,iz
-    associate( nx=>this%global_block_shape_(1), ny=>this%global_block_shape_(2), nz=>this%global_block_shape_(3) )
-      write(unit,'(4("      ",a,:,",",5x))') "x","y","z","layer (phony)"
-      write(unit,*) new_line('a')
-      do iz=1,nz
-        do iy=1,ny
-          do ix=1,nx
-            call this%vertices( this%block_identifier([ix,iy,iz]) )%write_formatted(unit,'DT', v_list, iostat, iomsg)
-          end do
-        end do
-      end do
-    end associate
   end subroutine
 
   subroutine vtk_output (this, filename, iostat)
@@ -277,7 +254,7 @@ contains
       associate( my_subdomains => this%my_subdomains() )
         do n = my_subdomains(lo_bound) , my_subdomains(up_bound) ! TOdo: make concurrent after Intel supports co_sum
 
-          associate( ijk => this%block_indicial_coordinates(n) )
+          associate( ijk => this%block_map%block_indicial_coordinates(n) )
 
             associate( metadata => plate_3D_geometry%get_block_metadatum(ijk))
 
@@ -312,12 +289,12 @@ contains
     integer alloc_status, image
     character(len=max_errmsg_len) alloc_error
 
-    ! Requires
-    if (assertions) call assert(size(global_block_shape)==3,"partition: 3D structured_grid blocks")
+    allocate( this%block_map, stat=alloc_status, errmsg=alloc_error, mold=prototype )
+    call assert(alloc_status==0, "problem_discretization%partition: allocate(this%block_map)", alloc_error)
 
-    this%global_block_shape_ =  global_block_shape
+    call this%block_map%set_global_block_shape( global_block_shape )
 
-    associate( num_blocks => product(this%global_block_shape_) )
+    associate( num_blocks => product(global_block_shape) )
     associate( me => this_image() )
     associate( ni => num_images() )
     associate( remainder => mod(num_blocks,ni) )
@@ -343,7 +320,6 @@ contains
 
     end associate; end associate; end associate; end associate; end associate; end associate; end associate
 
-
     ! Assures
     call this%mark_as_defined
 
@@ -359,52 +335,21 @@ contains
 
   module procedure my_subdomains
 
-    ! Requires
-    if (assertions) call assert(size(this%global_block_shape_)==3,"partition: 3D structured_grid blocks")
-
     block_identifier_range = [ lbound(this%vertices), ubound(this%vertices) ]
 
   end procedure
 
   module procedure block_identifier
 
-    character(len=256) :: diagnostic_string
-
-    ! Requires
-    if (assertions) then
-      associate(assertion => all(ijk>[0,0,0]).and.all(ijk<=this%global_block_shape_))
-        if (assertions) write(diagnostic_string,*) "all(",ijk,">[0,0,0]), all(",ijk,"<=",this%global_block_shape_,")"
-        call assert( assertion , "block_identifier: indicial coordinates in bounds", diagnostic_data=diagnostic_string)
-      end associate
-    end if
-
-    associate( i=>ijk(1), nx=>this%global_block_shape_(1) )
-    associate( j=>ijk(2), ny=>this%global_block_shape_(2) )
-    associate( k=>ijk(3))
-      n = (k-1)*(ny*nx) + (j-1)*ny + i
-    end associate; end associate; end associate
-
-    ! Assures
-    if (assertions) &
-      call assert( n>0 .and. n<=product(this%global_block_shape_), "block_identifier: block identifier in bounds" )
+    call assert( allocated(this%block_map), "problem_discretization%block_identifier: allocated(this%block_map)")
+    n = this%block_map%block_identifier(ijk)
 
   end procedure
 
   module procedure block_indicial_coordinates
 
-    ! Requires
-    if (assertions) &
-      call assert( n>0 .and. n<=product(this%global_block_shape_), "block_indicial_coordinates: identifier in bounds" )
-
-    associate( nx=>this%global_block_shape_(1) )
-    associate( ny=>this%global_block_shape_(2) )
-    associate( nz=>this%global_block_shape_(3) )
-      ijk = [ mod(n-1,nx)+1, mod( (n-1)/nx, ny ) + 1, (n-1)/(nx*ny) + 1]
-    end associate; end associate; end associate
-
-    ! Assures
-    if (assertions) &
-      call assert( all(ijk>[0,0,0]).and.all(ijk<=this%global_block_shape_),"block_indicial_coordinates: coordinates in bounds")
+    call assert( allocated(this%block_map), "problem_discretization%block_indicial_coordinates: allocated(this%block_map)")
+    ijk = this%block_map%block_indicial_coordinates(n)
 
   end procedure
 
@@ -438,6 +383,7 @@ contains
   module procedure set_scalar_flux_divergence
     integer b, f, alloc_status
     character(len=128) alloc_error
+    class(structured_grid), allocatable :: exact_flux_div
 
     call assert(allocated(this%scalar_fields), "set_scalar_flux_divergence: allocated(this%scalar_fields)")
     if (allocated(this%scalar_flux_divergence)) deallocate(this%scalar_flux_divergence)
@@ -447,11 +393,23 @@ contains
       stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
     call assert( alloc_status==success, "set_scalar_flux_divergence: allocation ("//alloc_error//")" )
 
+    if (present(exact_result)) &
+      call assert(size(exact_result)==num_fields, "problem_discretization%set_scalar_flux_divergence: size(exact_result)")
+
       loop_over_blocks: &
       do b = lbound(this%vertices,1), ubound(this%vertices,1)
         loop_over_fields: &
         do f = 1, num_fields
-          this%scalar_flux_divergence(b,f) = this%scalar_fields(b,f)%div_scalar_flux(this%vertices(b), exact_result)
+          this%scalar_flux_divergence(b,f) = this%scalar_fields(b,f)%div_scalar_flux(this%vertices(b))
+          if (present(exact_result)) then
+            select type (my_flux_div => exact_result(f)%laplacian(this%vertices(b)))
+            class is (structured_grid)
+              exact_flux_div = my_flux_div
+            class default
+              error stop 'Error: the type of exact_result(f)%laplacian(this%vertices(b)) is not structured_grid.'
+            end select
+            call this%scalar_flux_divergence(b,f)%compare( exact_flux_div, tolerance=1.E-06_r8k )
+          end if
         end do loop_over_fields
       end do loop_over_blocks
     end associate
@@ -461,9 +419,6 @@ contains
   module procedure set_analytical_scalars
     integer b, f, alloc_status
     character(len=max_errmsg_len) :: alloc_error
-
-    procedure(field_function), pointer :: setter_s
-    setter_s => null()
 
     if (allocated(this%scalar_fields)) deallocate(this%scalar_fields)
 
@@ -475,10 +430,12 @@ contains
     do b = lbound(this%vertices,1), ubound(this%vertices,1)
       loop_over_functions: &
       do f = 1, size(scalar_setters)
-        setter_s => scalar_setters(f)%define_scalar
-        associate( positions => this%vertices(b)%vectors() )
-          call this%scalar_fields(b,f)%set_scalar( setter_s( positions ) )
-        end associate
+        select type( scalar_values => scalar_setters(f)%evaluate( this%vertices(b) ) )
+          class is( structured_grid )
+            call this%scalar_fields(b,f)%clone( scalar_values )
+          class default
+            error stop "problem_discretization%set_analytical_scalars: unsupported scalar_values grid type"
+        end select
       end do loop_over_functions
     end do loop_over_blocks
   end procedure

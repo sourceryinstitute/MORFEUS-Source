@@ -14,26 +14,14 @@ module problem_discretization_interface
   implicit none
 
   private
-  public :: problem_discretization, setter
+  public :: problem_discretization
 
   integer, parameter :: space_dimension=3
 
-  abstract interface
-    pure function field_function(x) result(f_x)
-      import r8k
-      real(r8k), intent(in), dimension(:,:,:,:) :: x
-      real(r8k), allocatable :: f_x(:,:,:)
-    end function
-  end interface
-
-  type setter
-    procedure(field_function), pointer, nopass :: define_scalar=>null()
-  end type
-
   type, extends(object) :: problem_discretization
     private
-    integer global_block_shape_(space_dimension)
-      !! global shape of the structured_grid blocks
+    class(structured_grid), allocatable :: block_map
+      !! hook for invoking block_indicial_coordindates and block_identifier
     class(structured_grid), allocatable :: vertices(:)
       !! grid nodal locations: size(vertices) == number of blocks owned by the executing image
     class(structured_grid), allocatable :: scalar_fields(:,:)
@@ -96,14 +84,14 @@ module problem_discretization_interface
       !! Use functions to define scalar values at vertex locations
       implicit none
       class(problem_discretization), intent(inout) :: this
-      type(setter), intent(in), dimension(:) :: scalar_setters
+      class(differentiable_field), intent(in), dimension(:) :: scalar_setters
     end subroutine
 
     module subroutine set_scalar_flux_divergence(this, exact_result)
       !! Compute and store div( D grad( S )) for each scalar S and diffusion coefficient D
       implicit none
       class(problem_discretization), intent(inout) :: this
-      class(differentiable_field), intent(in), optional :: exact_result
+      class(differentiable_field), intent(in), dimension(:), optional :: exact_result
     end subroutine
 
     pure module function num_scalars(this) result(num_scalar_fields)
@@ -133,7 +121,7 @@ module problem_discretization_interface
       implicit none
       class(problem_discretization), intent(in) :: this
       integer, intent(in) :: n
-      integer :: ijk(space_dimension)
+      integer, dimension(:), allocatable :: ijk(:)
     end function
 
     pure module function block_identifier(this,ijk) result(n)

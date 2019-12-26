@@ -29,7 +29,10 @@ module structured_grid_interface
     procedure(assignment_interface), deferred :: assign_structured_grid
     generic :: assignment(=) => assign_structured_grid
     procedure(div_scalar_flux_interface), deferred :: div_scalar_flux
-
+    procedure(block_indices_interface), deferred :: block_indicial_coordinates
+    procedure(block_identifier_interface), deferred :: block_identifier
+    procedure set_global_block_shape
+    procedure get_global_block_shape
     procedure clone
     procedure diffusion_coefficient
     procedure write_formatted
@@ -43,10 +46,15 @@ module structured_grid_interface
     procedure get_tag
     procedure set_vector_components
     procedure set_scalar
+    procedure subtract
+    generic :: operator(-) => subtract
+    procedure compare
 #ifdef HAVE_UDDTIO
     generic :: write(formatted) => write_formatted
 #endif
   end type
+
+  integer, dimension(:), allocatable :: global_block_shape
 
   real, allocatable :: vertices_inbox_i_plus_1( :,:, :,:, :, :, :)[:]
   real, allocatable :: vertices_inbox_i_minus_1(:,:, :,:, :, :, :)[:]
@@ -89,14 +97,44 @@ module structured_grid_interface
       class(structured_grid), intent(in) :: rhs
     end subroutine
 
+    pure function block_indices_interface(this,n) result(ijk)
+      !! calculate the 3D location of the block that has the provided 1D block identifer
+      import structured_grid
+      implicit none
+      class(structured_grid), intent(in) :: this
+      integer, intent(in) :: n
+      integer, dimension(:), allocatable :: ijk(:)
+    end function
+
+    pure function block_identifier_interface(this, ijk) result(n)
+      !! calculate the 1D block identifer associated with the provided 3D block location
+      import structured_grid
+      implicit none
+      class(structured_grid), intent(in) :: this
+      integer, intent(in), dimension(:) :: ijk
+      integer :: n
+    end function
+
   end interface
 
   interface
 
+    module subroutine set_global_block_shape(this, shape_array)
+      implicit none
+      class(structured_grid), intent(inout) :: this
+      integer, dimension(:), intent(in) :: shape_array
+    end subroutine
+
+    pure module function get_global_block_shape(this) result(shape_array)
+      implicit none
+      class(structured_grid), intent(in) :: this
+      integer, dimension(:), allocatable :: shape_array
+    end function
+
     pure module subroutine clone(this,original)
-     implicit none
-     class(structured_grid), intent(inout) :: this
-     class(structured_grid), intent(in) :: original
+      implicit none
+      class(structured_grid), intent(inout) :: this
+      class(structured_grid), intent(in) :: original
     end subroutine
 
     pure module function diffusion_coefficient(this, temperature) result(coefficient)
@@ -105,7 +143,6 @@ module structured_grid_interface
       real(r8k), intent(in) :: temperature
       real(r8k) coefficient
     end function
-
 
     module subroutine write_formatted (this,unit,iotype, v_list, iostat, iomsg)
       implicit none
@@ -183,6 +220,20 @@ module structured_grid_interface
       implicit none
       class(structured_grid), intent(inout) :: this
       real(r8k), intent(in), dimension(:,:,:) :: scalar
+    end subroutine
+
+    module function subtract(this, rhs) result(difference)
+      !! result contains the difference between this and rhs nodal_values compoents
+      implicit none
+      class(structured_grid), intent(in) :: this, rhs
+      class(structured_grid), allocatable :: difference
+    end function
+
+    pure module subroutine compare(this, reference, tolerance)
+      !! verify
+      implicit none
+      class(structured_grid), intent(in) :: this, reference
+      real(r8k), intent(in) :: tolerance
     end subroutine
 
   end interface
