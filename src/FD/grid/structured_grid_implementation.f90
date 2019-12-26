@@ -10,6 +10,14 @@ submodule(structured_grid_interface) structured_grid_implementation
 
 contains
 
+    module procedure set_global_block_shape
+      global_block_shape = shape_array
+    end procedure
+
+    module procedure get_global_block_shape
+      shape_array = global_block_shape
+    end procedure
+
     module procedure clone
       this%nodal_values = original%nodal_values
       this%global_bounds = original%global_bounds

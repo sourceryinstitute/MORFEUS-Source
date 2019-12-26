@@ -20,8 +20,8 @@ module problem_discretization_interface
 
   type, extends(object) :: problem_discretization
     private
-    integer global_block_shape_(space_dimension)
-      !! global shape of the structured_grid blocks
+    class(structured_grid), allocatable :: block_map
+      !! hook for invoking block_indicial_coordindates and block_identifier
     class(structured_grid), allocatable :: vertices(:)
       !! grid nodal locations: size(vertices) == number of blocks owned by the executing image
     class(structured_grid), allocatable :: scalar_fields(:,:)
@@ -121,7 +121,7 @@ module problem_discretization_interface
       implicit none
       class(problem_discretization), intent(in) :: this
       integer, intent(in) :: n
-      integer :: ijk(space_dimension)
+      integer, dimension(:), allocatable :: ijk(:)
     end function
 
     pure module function block_identifier(this,ijk) result(n)
