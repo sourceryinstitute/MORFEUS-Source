@@ -11,6 +11,7 @@ module problem_discretization_interface
   use kind_parameters, only : r8k, i4k
   use plate_3D_interface, only : plate_3D
   use differentiable_field_interface, only : differentiable_field
+  use inbox_interface, only : x_forward, x_backward, y_forward, y_backward, z_forward, z_backward
   implicit none
 
   private
@@ -31,6 +32,7 @@ module problem_discretization_interface
     class(geometry), allocatable :: problem_geometry
   contains
     procedure partition
+   !procedure my_neighbor
     procedure my_subdomains
     procedure block_indicial_coordinates
     procedure block_identifier

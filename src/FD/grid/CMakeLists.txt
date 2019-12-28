@@ -6,6 +6,7 @@
 #
 set( morfeus_fd_sources
   inbox_interface.f90
+  inbox_implementation.f90
   curvilinear_grid_interface.f90
   units_implementation.f90
   units_interface.F90
