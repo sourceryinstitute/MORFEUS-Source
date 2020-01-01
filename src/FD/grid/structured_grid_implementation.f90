@@ -8,6 +8,8 @@ submodule(structured_grid_interface) structured_grid_implementation
   use assertions_interface, only : assert,assertions
   implicit none
 
+  integer, dimension(:), allocatable :: global_block_shape
+
 contains
 
     module procedure set_global_block_shape

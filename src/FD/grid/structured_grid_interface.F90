@@ -54,8 +54,6 @@ module structured_grid_interface
 #endif
   end type
 
-  integer, dimension(:), allocatable :: global_block_shape
-
   real, allocatable :: vertices_inbox_i_plus_1( :,:, :,:, :, :, :)[:]
   real, allocatable :: vertices_inbox_i_minus_1(:,:, :,:, :, :, :)[:]
 
