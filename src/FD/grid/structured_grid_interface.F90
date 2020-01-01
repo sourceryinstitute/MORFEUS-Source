@@ -54,30 +54,6 @@ module structured_grid_interface
 #endif
   end type
 
-  real, allocatable :: vertices_inbox_i_plus_1( :,:, :,:, :, :, :)[:]
-  real, allocatable :: vertices_inbox_i_minus_1(:,:, :,:, :, :, :)[:]
-
-  real, allocatable :: vertices_inbox_j_plus_1( :,:, :,:, :, :, :)[:]
-  real, allocatable :: vertices_inbox_j_minus_1(:,:, :,:, :, :, :)[:]
-
-  real, allocatable :: vertices_inbox_k_plus_1( :,:, :,:, :, :, :)[:]
-  real, allocatable :: vertices_inbox_k_minus_1(:,:, :,:, :, :, :)[:]
-
-    !! Communication buffer storing incoming planes of nodal_values from the neighboring halo image in each coordinate direction
-    !! 2 dims for indexing through 2D planes of data coming from halo blocks
-    !! 2 dims for tensor free indices to handle scalars, vectors, & dyads
-    !! 1 dim for indexing through instances in time
-    !! 1 dim for receiver block identifier
-    !! 1 dim for each variable that requires an in-box
-
-    !! To avoid race conditions, each unique combination of block identifier and incoming directions denotes an array section
-    !! that only one halo image accesses.  Assertions should be used to verify that each neighbor writes exclusively to its
-    !! corresponding slice.
-
-    !! For now, each type of data needs its own *_inbox coarray.  A proposed Fortran 202X feature will facilitate encapsulating
-    !! the inbox coarray in the structured_grid derived type, which is currently precluded by the need to have allocatable arrays
-    !! of structured_grid objects.
-
   abstract interface
 
     function div_scalar_flux_interface(this, vertices, exact_result) result(div_flux)
