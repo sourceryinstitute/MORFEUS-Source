@@ -11,6 +11,7 @@ module problem_discretization_interface
   use kind_parameters, only : r8k, i4k
   use plate_3D_interface, only : plate_3D
   use differentiable_field_interface, only : differentiable_field
+  use package_interface, only : package
   implicit none
 
   private
@@ -28,6 +29,8 @@ module problem_discretization_interface
       !! scalar values at the grid nodes: size(scalar_fields,1)==size(vertices), size(scalar_fields,2)==number of scalar fields
     class(structured_grid), allocatable :: scalar_flux_divergence(:,:)
       !! div( D grad(s)): same dimensions as scalar_fields
+    class(package), allocatable :: scalar_flux_divergence_halo
+      !! boundary information for halo exchanges
     class(geometry), allocatable :: problem_geometry
   contains
     procedure partition

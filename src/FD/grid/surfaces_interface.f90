@@ -8,18 +8,14 @@ module surfaces_interface
   !! author: Damian Rouson
   !! date: 12/26/2019
   !! Encapsulate information and procedures for structured_grid block halo exchanges
+  use package_interface, only : package
   implicit none
 
   private
-  public :: surfaces, package, backward, forward
+  public :: surfaces, backward, forward
 
   integer, parameter :: backward=1, forward=2
     !! surface outward-normal direction for a given block
-
-  type package
-    !! basic transmission data. extend this type to add coordinate-specific data
-    integer sender_block_id, step
-  end type
 
   type surfaces
     !! hexahedral structured_grid block surface data: all components will be allocated to have the

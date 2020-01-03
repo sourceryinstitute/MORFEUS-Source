@@ -9,7 +9,8 @@ submodule(cartesian_grid_interface) cartesian_grid_implementation
   use kind_parameters, only : i4k, r8k
   use assertions_interface,only : assert, max_errmsg_len, assertions
   use plate_3D_interface, only : plate_3D
-  use surfaces_interface, only : surfaces, backward, forward, package
+  use surfaces_interface, only : surfaces, backward, forward
+  use package_interface, only : package
   implicit none
 
   type(surfaces) block_faces
