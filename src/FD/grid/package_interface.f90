@@ -17,6 +17,9 @@ module package_interface
     !! basic transmission data. extend this type to add coordinate-specific data
     private
     integer sender_block_id, step
+  contains
+    procedure set_sender_block_id
+    procedure set_step
   end type
 
   interface

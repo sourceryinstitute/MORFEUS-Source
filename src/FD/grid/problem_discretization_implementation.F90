@@ -385,6 +385,9 @@ contains
 
   end procedure
 
+  module procedure set_scalar_flux_divergence_halo
+  end procedure set_scalar_flux_divergence_halo
+
   module procedure set_scalar_flux_divergence
     integer b, f, alloc_status
     character(len=128) alloc_error

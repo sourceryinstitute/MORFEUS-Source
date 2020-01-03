@@ -23,6 +23,8 @@ module cartesian_grid_interface
     procedure block_indicial_coordinates
     procedure block_identifier
     procedure build_surfaces
+    procedure block_identifier_in_bounds
+    procedure block_coordinates_in_bounds
   end type
 
   interface
@@ -57,7 +59,7 @@ module cartesian_grid_interface
       implicit none
       class(cartesian_grid), intent(in) :: this
       integer, intent(in) :: n
-      integer, dimension(:), allocatable :: ijk(:)
+      integer, dimension(:), allocatable :: ijk
     end function
 
     pure module function block_identifier(this,ijk) result(n)
@@ -66,6 +68,20 @@ module cartesian_grid_interface
       class(cartesian_grid), intent(in) :: this
       integer, intent(in), dimension(:) :: ijk
       integer :: n
+    end function
+
+    pure module function block_identifier_in_bounds(this, id) result(in_bounds)
+      implicit none
+      class(cartesian_grid), intent(in) :: this
+      integer, intent(in) :: id
+      logical in_bounds
+    end function
+
+    pure module function block_coordinates_in_bounds(this, ijk) result(in_bounds)
+      implicit none
+      class(cartesian_grid), intent(in) :: this
+      integer, intent(in), dimension(:) :: ijk
+      logical in_bounds
     end function
 
   end interface

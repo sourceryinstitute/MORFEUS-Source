@@ -43,6 +43,7 @@ module problem_discretization_interface
     procedure num_scalars
     procedure num_scalar_flux_divergences
     procedure initialize_from_plate_3D
+    procedure set_scalar_flux_divergence_halo
     procedure set_scalar_flux_divergence
     generic :: set_vertices => user_defined_vertices
     generic :: set_scalars => set_analytical_scalars
@@ -88,6 +89,12 @@ module problem_discretization_interface
       implicit none
       class(problem_discretization), intent(inout) :: this
       class(differentiable_field), intent(in), dimension(:) :: scalar_setters
+    end subroutine
+
+    module subroutine set_scalar_flux_divergence_halo(this)
+      !! define package to be transmitted across block boundaries during halo exchanges
+      implicit none
+      class(problem_discretization), intent(inout) :: this
     end subroutine
 
     module subroutine set_scalar_flux_divergence(this, exact_result)

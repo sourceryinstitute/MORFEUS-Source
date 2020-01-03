@@ -33,6 +33,9 @@ module structured_grid_interface
     procedure(block_indices_interface), deferred :: block_indicial_coordinates
     procedure(block_identifier_interface), deferred :: block_identifier
     procedure(build_surfaces_interface), deferred :: build_surfaces
+    procedure(block_id_in_bounds_interface), deferred :: block_identifier_in_bounds
+    procedure(block_ijk_in_bounds_interface), deferred :: block_coordinates_in_bounds
+    generic :: block_in_bounds => block_identifier_in_bounds, block_coordinates_in_bounds
     procedure set_global_block_shape
     procedure get_global_block_shape
     procedure clone
@@ -79,7 +82,7 @@ module structured_grid_interface
       implicit none
       class(structured_grid), intent(in) :: this
       integer, intent(in) :: n
-      integer, dimension(:), allocatable :: ijk(:)
+      integer, dimension(:), allocatable :: ijk
     end function
 
     pure function block_identifier_interface(this, ijk) result(n)
@@ -99,6 +102,24 @@ module structured_grid_interface
       integer, intent(in), dimension(:) :: my_blocks
       integer, intent(in) :: space_dimension
     end subroutine
+
+    pure function block_id_in_bounds_interface(this, id) result(in_bounds)
+      !! verify block identifier
+      import structured_grid
+      implicit none
+      class(structured_grid), intent(in) :: this
+      integer, intent(in) :: id
+      logical in_bounds
+    end function
+
+    pure function block_ijk_in_bounds_interface(this, ijk) result(in_bounds)
+      !! verify block indicial coordinates
+      import structured_grid
+      implicit none
+      class(structured_grid), intent(in) :: this
+      integer, intent(in), dimension(:) :: ijk
+      logical in_bounds
+    end function
 
   end interface
 

@@ -18,23 +18,56 @@ submodule(cartesian_grid_interface) cartesian_grid_implementation
 contains
 
   module procedure build_surfaces
-    integer alloc_stat
-    character(len=max_errmsg_len) error_message
-    integer, parameter :: first=1, last=2, success=0
+    integer, parameter :: first=1, last=2, success=0, x_dir=1, y_dir=2, z_dir=3
     type(package), allocatable, dimension(:,:,:) :: bare
+    character(len=max_errmsg_len) error_message
+    integer alloc_stat, b
 
     select type(problem_geometry)
       type is(plate_3D)
-        !! this verifies correct geometry the assumption to be used in building the surfaces below
+        !! this verifies correct geometry for the assumptions in building the surfaces below
       class default
         error stop "cartesian_grid%build_surfaces: unsupported problem_geometry type"
     end select
 
     call assert(size(my_blocks)==2, "cartesian_grid%build_surfaces: size(my_blocks)==2")
 
-    allocate( bare(my_blocks(first):my_blocks(last), space_dimension, size([backward,forward])), &
+    allocate( bare(my_blocks(first):my_blocks(last), space_dimension, backward:forward), &
       stat=alloc_stat, errmsg=error_message)
     call assert(alloc_stat==success, "cartesian_grid%build_surfaces: allocate(bare)", error_message)
+
+    loop_over_blocks: &
+    do b=my_blocks(first), my_blocks(last)
+      associate(ijk => this%block_indicial_coordinates(b))
+        associate( &
+          ijk_i_backward => ijk + [-1, 0, 0], &
+          ijk_i_forward  => ijk + [ 1, 0, 0], &
+          ijk_j_backward => ijk + [ 0,-1, 0], &
+          ijk_j_forward  => ijk + [ 0, 1, 0], &
+          ijk_k_backward => ijk + [ 0, 0,-1], &
+          ijk_k_forward  => ijk + [ 0, 0, 1])
+
+          if (this%block_in_bounds(ijk_i_backward)) &
+             call bare(b, x_dir, backward)%set_sender_block_id( this%block_identifier(ijk_i_backward) )
+
+          if (this%block_in_bounds(ijk_i_forward)) &
+             call bare(b, x_dir, forward)%set_sender_block_id( this%block_identifier(ijk_i_forward) )
+
+          if (this%block_in_bounds(ijk_j_backward)) &
+             call bare(b, y_dir, backward)%set_sender_block_id( this%block_identifier(ijk_j_backward) )
+
+          if (this%block_in_bounds(ijk_j_forward)) &
+             call bare(b, y_dir, forward)%set_sender_block_id( this%block_identifier(ijk_j_forward) )
+
+          if (this%block_in_bounds(ijk_k_backward)) &
+             call bare(b, z_dir, backward)%set_sender_block_id( this%block_identifier(ijk_k_backward) )
+
+          if (this%block_in_bounds(ijk_k_forward)) &
+             call bare(b, z_dir, forward)%set_sender_block_id( this%block_identifier(ijk_k_forward) )
+
+        end associate
+      end associate
+    end do loop_over_blocks
 
     call block_faces%set_halo_data(bare)
   end procedure
@@ -193,14 +226,26 @@ contains
 
     associate( extents=>this%get_global_block_shape() )
       associate( i=>ijk(1), j=>ijk(2), k=>ijk(3),nx=>extents(1), ny=>extents(2) )
-        n = (k-1)*(ny*nx) + (j-1)*ny + i
+        n = (k-1)*(ny*nx) + (j-1)*nx + i
       end associate
 
       ! Assures
-      if (assertions) &
-        call assert( n>0 .and. n<=product(extents), "block_identifier: block identifier in bounds" )
+      if (assertions) then
+        write(diagnostic_string,*) "ijk->n:",ijk,"->",n," extents=",extents
+        call assert( n>0 .and. n<=product(extents), "structured_grid%block_identifier: identifier in bounds", diagnostic_string )
+      end if
     end associate
 
+  end procedure
+
+  module procedure block_identifier_in_bounds
+    associate( extents=>this%get_global_block_shape() )
+      in_bounds = id>0 .and. id<=product(extents)
+    end associate
+  end procedure
+
+  module procedure block_coordinates_in_bounds
+    in_bounds = all(ijk>[0,0,0]) .and. all(ijk<=this%get_global_block_shape())
   end procedure
 
 end submodule
