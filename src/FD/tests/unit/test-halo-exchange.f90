@@ -8,7 +8,7 @@ program main
   use assertions_interface, only : assert
   use problem_discretization_interface, only :  problem_discretization
   use cartesian_grid_interface, only : cartesian_grid
-  use inbox_interface, only : inbox, face_index
+  use surfaces_interface, only : surfaces, face_index
   implicit none
 
   type(problem_discretization) block_structured_grid
