@@ -9,41 +9,33 @@ submodule(cartesian_grid_interface) cartesian_grid_implementation
   use kind_parameters, only : i4k, r8k
   use assertions_interface,only : assert, max_errmsg_len, assertions
   use plate_3D_interface, only : plate_3D
-  use surfaces_interface, only : surfaces, enumeration
+  use surfaces_interface, only : surfaces, backward, forward, package
   implicit none
 
-  type(surfaces) block_faces[*]
+  type(surfaces) block_faces
 
 contains
 
   module procedure build_surfaces
-    integer alloc_stat, face, block_, max_num_blocks
-    integer, parameter :: lower=1, upper=2, success=0
-    integer(enumeration), allocatable, dimension(:,:,:) :: directions
+    integer alloc_stat
+    character(len=max_errmsg_len) error_message
+    integer, parameter :: first=1, last=2, success=0
+    type(package), allocatable, dimension(:,:,:) :: bare
 
     select type(problem_geometry)
       type is(plate_3D)
+        !! this verifies correct geometry the assumption to be used in building the surfaces below
       class default
         error stop "cartesian_grid%build_surfaces: unsupported problem_geometry type"
     end select
 
+    call assert(size(my_blocks)==2, "cartesian_grid%build_surfaces: size(my_blocks)==2")
 
-    associate( global_surfaces => this%get_global_block_shape() )
+    allocate( bare(my_blocks(first):my_blocks(last), space_dimension, size([backward,forward])), &
+      stat=alloc_stat, errmsg=error_message)
+    call assert(alloc_stat==success, "cartesian_grid%build_surfaces: allocate(bare)", error_message)
 
-      allocate(directions(global_surfaces(1), global_surfaces(2), global_surfaces(3)))
-
-     !directions(lbound(directions,1)+1:ubound(directions,1)-1,:,:)
-
-      call block_faces%set_direction( reshape( [integer(enumeration) ::], [0,0,0] ) )
-
-       !loop_over_blocks: &
-       !do block_ = block_bounds(lower), block_bounds(upper)
-       !  loop_over_faces: &
-       !  do face = lbound(face_index,1), ubound(face_index,1)
-       !  end do loop_over_faces
-       !end do loop_over_blocks
-
-    end associate
+    call block_faces%set_halo_data(bare)
   end procedure
 
   module procedure assign_structured_grid

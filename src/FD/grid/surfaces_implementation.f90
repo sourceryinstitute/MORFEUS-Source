@@ -8,32 +8,20 @@ submodule(surfaces_interface) surfaces_implementation
   !! author: Damian Rouson and Karla Morris
   !! date: 12/27/2019
   !! Implement procedures for exchanging information with halo blocks in block-structured grid
+  use assertions_interface, only : assert, max_errmsg_len
   implicit none
-
-  type(surfaces) singleton[*]
-    !! single instance per image with codimension for inter-image communication of halo_data
 
 contains
 
   module procedure set_halo_data
-    singleton%halo_data = halo_data
-  end procedure
+    integer alloc_stat
+    character(len=max_errmsg_len) error_message
+    integer, parameter :: success=0
 
-  module procedure set_internal
-    singleton%internal = internal
-  end procedure
+    if (.not. allocated(singleton)) allocate(singleton[*], stat=alloc_stat, errmsg=error_message)
+    call assert( alloc_stat==success, "surfaces%set_halo_data: allocate(singleton[*])", error_message)
 
-  module procedure set_direction
-    singleton%direction = direction
+    singleton%halo_data = my_halo_data
   end procedure
 
 end submodule
-    !associate( neighbor_id => block_structured_grid%block_neighbor(block_, face_index(face)) )
-    !  associate( neighbor_image => block_structured_grid%neighbor_image(neighbor_id) )
-    !     associate( my_blocks_array_b_index=> findloc(block_, my_blocks_array) )
-    !        call halo(my_blocks_array_b_index, face_index(face))%exchange() ! atomically decrement counter
-    !     end associate
-    !   end associate
-    ! end associate
-
-   !sync all

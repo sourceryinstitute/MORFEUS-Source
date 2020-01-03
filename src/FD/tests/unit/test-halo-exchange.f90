@@ -7,20 +7,27 @@
 program main
   use assertions_interface, only : assert
   use problem_discretization_interface, only :  problem_discretization
-  use cartesian_grid_interface, only : cartesian_grid
-  use surfaces_interface, only : surfaces, face_index
+  use surfaces_interface, only : surfaces
+  use plate_3D_interface, only : plate_3D
   implicit none
 
-  type(problem_discretization) block_structured_grid
-    !! encapsulate the global grid structure
-  type(cartesian_grid) prototype
-    !! pass the cartesian_grid type
-  integer, parameter :: num_structured_grids(*) = [3,3,3]
-    !! number of subdomains in each coordinate direction
+  type(plate_3D) plate_geometry
+  type(problem_discretization) global_grid
+  integer, parameter :: max_digits=9
+  character(len=*), parameter :: input = "3Dplate-low-resolution-halo.json"
+  character(len=*), parameter:: base_name = "3Dplate-low-resolution-halo"
+  character(len=:), allocatable :: output
+  character(len=max_digits) image_number
 
-  call assert( product(num_structured_grids) >= num_images(), "test-halo-exchange: enough blocks to distribute to images")
+  associate( me => this_image() )
+    write(image_number,'(i4)') me
+    output = base_name //"-image-"// trim(adjustl(image_number)) // ".vtu"
+  end associate
 
-  call block_structured_grid%partition( num_structured_grids, prototype )
+  call plate_geometry%build(input)
+  call global_grid%initialize_from_geometry(plate_geometry)
+  call global_grid%write_output(output)
 
+  sync all
   print *,"Test passed"
 end program

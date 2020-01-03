@@ -131,6 +131,7 @@ set(MORFEUS_FD_INPUTS
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-low-resolution-layers.json"
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-low-resolution-layers-material-map.json"
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-high-resolution-layers.json"
+  "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-low-resolution-halo.json"
 )
 
 #  "${CMAKE_CURRENT_SOURCE_DIR}/tests/integration/3Dplate-high-resolution.json"

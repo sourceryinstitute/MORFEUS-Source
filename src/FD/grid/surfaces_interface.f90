@@ -8,56 +8,44 @@ module surfaces_interface
   !! author: Damian Rouson
   !! date: 12/26/2019
   !! Encapsulate information and procedures for structured_grid block halo exchanges
-  use iso_c_binding, only : enumeration=>c_int
   implicit none
 
   private
-  public :: surfaces, envelope, enumeration
-  public :: face_index, east, west, north, south, up, down
+  public :: surfaces, package, backward, forward
 
-  enum, bind(C)
-    enumerator :: east=1, west, north, south, up, down
-      !! boundary direction: rename to coordinate-specific labels in (sub)modules that use this module
-  end enum
+  integer, parameter :: backward=1, forward=2
+    !! surface outward-normal direction for a given block
 
-  integer(enumeration), parameter, dimension(*) :: face_index = [east, west, north, south, up, down]
-
-  type envelope
+  type package
     !! basic transmission data. extend this type to add coordinate-specific data
-    integer sender, step
+    integer sender_block_id, step
   end type
 
   type surfaces
     !! hexahedral structured_grid block surface data: all components will be allocated to have the
-    !! bounds [my_blocks(first):my_blocks(last), space_dimension, size([east,west]))
+    !! bounds [my_blocks(first):my_blocks(last), space_dimension, size([forward, backward]))
     private
-    integer(enumeration), allocatable, dimension(:,:,:) :: direction
-    logical, allocatable, dimension(:,:,:) :: internal
-    type(envelope), allocatable, dimension(:,:,:) :: halo_data
+    class(package), allocatable, dimension(:,:,:) :: halo_data
   contains
-    procedure, nopass :: set_direction
-    procedure, nopass :: set_internal
     procedure, nopass :: set_halo_data
   end type
 
+  type(surfaces), allocatable :: singleton[:]
+    !! Singleton pattern (one instance per image).
+    !!
+    !! Design: making the object a coarray rather than the components coarrays frees us to use different component array bounds on
+    !! different images, which in turn facilitates using the global block ID as the first index.
+    !!
+    !! Gfortran 8.3 workarounds:
+    !! 1. Moving this to the submodule to eliminate the compiler warning about its not being used generates an ICE.
+    !! 2. Declaring this as singleton[*] also generates an ICE.
+
   interface
 
-    module subroutine set_direction(direction)
-      !! set surface direction component array
-      implicit none
-      integer(enumeration), intent(in), dimension(:,:,:) :: direction
-    end subroutine
-
-    module subroutine set_halo_data(halo_data)
+    module subroutine set_halo_data(my_halo_data)
       !! set halo_data component array
       implicit none
-      class(envelope), intent(in), dimension(:,:,:) :: halo_data
-    end subroutine
-
-    module subroutine set_internal(internal)
-      !! set logical internal component array
-      implicit none
-      logical, intent(in), dimension(:,:,:) :: internal
+      class(package), intent(in), dimension(:,:,:) :: my_halo_data
     end subroutine
 
   end interface

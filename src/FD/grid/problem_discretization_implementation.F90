@@ -250,11 +250,10 @@ contains
 
     call this%partition( plate_3D_geometry%get_block_metadata_shape(), prototype )
       !! partition a block-structured grids across images
-    call this%block_map%build_surfaces( plate_3D_geometry )
-      !!
 
       associate( my_subdomains => this%my_subdomains() )
-        do n = my_subdomains(lo_bound) , my_subdomains(up_bound) ! TOdo: make concurrent after Intel supports co_sum
+
+        do n = my_subdomains(lo_bound) , my_subdomains(up_bound) ! TODO: make concurrent after Intel supports co_sum
 
           associate( ijk => this%block_map%block_indicial_coordinates(n) )
 
@@ -282,6 +281,10 @@ contains
             end associate
           end associate
         end do
+
+        call this%block_map%build_surfaces( plate_3D_geometry, my_subdomains, &
+          this%vertices(my_subdomains(lo_bound))%space_dimension() )
+
       end associate
 
   end procedure

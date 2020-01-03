@@ -6,6 +6,8 @@
 !
 module cartesian_grid_interface
   !! author: Damian Rouson and Karla Morris
+  !! date: 9/9/2019
+  !! subject: perform coordinate-specific tasks on cartesian structured_grid objects
   use structured_grid_interface, only : structured_grid
   use differentiable_field_interface, only : differentiable_field
   use geometry_interface, only : geometry
@@ -25,13 +27,17 @@ module cartesian_grid_interface
 
   interface
 
-    module subroutine build_surfaces(this, problem_geometry)
+    module subroutine build_surfaces(this, problem_geometry, my_blocks, space_dimension)
+      !! allocate the surfaces array for use in halo exchanges and boundary conditions
       implicit none
       class(cartesian_grid), intent(in) :: this
       class(geometry), intent(in) :: problem_geometry
+      integer, intent(in), dimension(:) :: my_blocks
+      integer, intent(in) :: space_dimension
     end subroutine
 
     module function div_scalar_flux(this, vertices, exact_result) result(div_flux)
+     !! compute the divergance of a gradient-diffusion scalar flux
      implicit none
      class(cartesian_grid), intent(in) :: this
      class(structured_grid), intent(in) :: vertices
@@ -40,6 +46,7 @@ module cartesian_grid_interface
     end function
 
     module subroutine assign_structured_grid(this, rhs)
+     !! copy the rhs into this structured_grid
      implicit none
      class(cartesian_grid), intent(inout) :: this
      class(structured_grid), intent(in) :: rhs

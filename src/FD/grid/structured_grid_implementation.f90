@@ -73,7 +73,7 @@ contains
       logical finite_extents(max_space_dimension)
 
       ! Requires
-      call assert(allocated(this%nodal_values),"nodal values allocated")
+      call assert(allocated(this%nodal_values),"structured_grid%space_dimension: allocated(this%nodal_values)")
 
       finite_extents = [size(this%nodal_values,1)>1,size(this%nodal_values,2)>1,size(this%nodal_values,3)>1]
       num_dimensions = count(finite_extents)
