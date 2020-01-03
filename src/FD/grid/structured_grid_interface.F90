@@ -9,6 +9,7 @@ module structured_grid_interface
   use grid_interface, only : grid
   use kind_parameters, only : r8k
   use differentiable_field_interface, only : differentiable_field
+  use geometry_interface, only : geometry
   implicit none
 
   private
@@ -31,6 +32,7 @@ module structured_grid_interface
     procedure(div_scalar_flux_interface), deferred :: div_scalar_flux
     procedure(block_indices_interface), deferred :: block_indicial_coordinates
     procedure(block_identifier_interface), deferred :: block_identifier
+    procedure(build_surfaces_interface), deferred :: build_surfaces
     procedure set_global_block_shape
     procedure get_global_block_shape
     procedure clone
@@ -88,6 +90,13 @@ module structured_grid_interface
       integer, intent(in), dimension(:) :: ijk
       integer :: n
     end function
+
+    subroutine build_surfaces_interface(this, problem_geometry)
+      !! allocate coarray for communicating across structured_grid subdomains
+      import structured_grid, geometry
+      class(structured_grid), intent(in) :: this
+      class(geometry), intent(in) :: problem_geometry
+    end subroutine
 
   end interface
 

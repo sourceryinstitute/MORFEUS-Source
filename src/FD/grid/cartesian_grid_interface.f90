@@ -8,6 +8,7 @@ module cartesian_grid_interface
   !! author: Damian Rouson and Karla Morris
   use structured_grid_interface, only : structured_grid
   use differentiable_field_interface, only : differentiable_field
+  use geometry_interface, only : geometry
   implicit none
 
   private
@@ -19,9 +20,16 @@ module cartesian_grid_interface
     procedure assign_structured_grid
     procedure block_indicial_coordinates
     procedure block_identifier
+    procedure build_surfaces
   end type
 
   interface
+
+    module subroutine build_surfaces(this, problem_geometry)
+      implicit none
+      class(cartesian_grid), intent(in) :: this
+      class(geometry), intent(in) :: problem_geometry
+    end subroutine
 
     module function div_scalar_flux(this, vertices, exact_result) result(div_flux)
      implicit none

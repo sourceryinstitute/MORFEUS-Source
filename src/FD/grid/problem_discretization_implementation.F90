@@ -249,7 +249,9 @@ contains
       !! used only for dynamic type information about the grid type in the partitioning procedure
 
     call this%partition( plate_3D_geometry%get_block_metadata_shape(), prototype )
-      !! partition a block-structured grid into subdomains with connectivity implied by the indexing of the 3D array of blocks
+      !! partition a block-structured grids across images
+    call this%block_map%build_surfaces( plate_3D_geometry )
+      !!
 
       associate( my_subdomains => this%my_subdomains() )
         do n = my_subdomains(lo_bound) , my_subdomains(up_bound) ! TOdo: make concurrent after Intel supports co_sum
