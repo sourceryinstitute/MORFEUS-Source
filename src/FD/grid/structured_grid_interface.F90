@@ -10,6 +10,7 @@ module structured_grid_interface
   use kind_parameters, only : r8k
   use differentiable_field_interface, only : differentiable_field
   use geometry_interface, only : geometry
+  use surfaces_interface, only : surfaces
   implicit none
 
   private
@@ -61,12 +62,12 @@ module structured_grid_interface
 
   abstract interface
 
-    function div_scalar_flux_interface(this, vertices, exact_result) result(div_flux)
-      import structured_grid, differentiable_field
+    function div_scalar_flux_interface(this, vertices, surface_fluxes) result(div_flux)
+      import structured_grid, differentiable_field, surfaces
       implicit none
       class(structured_grid), intent(in) :: this, vertices
+      type(surfaces), intent(in) :: surface_fluxes
       class(structured_grid), allocatable :: div_flux
-      class(differentiable_field), intent(in), optional :: exact_result
     end function
 
     subroutine assignment_interface(this, rhs)
@@ -94,13 +95,14 @@ module structured_grid_interface
       integer :: n
     end function
 
-    subroutine build_surfaces_interface(this, problem_geometry, my_blocks, space_dimension)
+    subroutine build_surfaces_interface(this, problem_geometry, my_blocks, space_dimension, block_faces)
       !! allocate coarray for communicating across structured_grid subdomains
-      import structured_grid, geometry
+      import structured_grid, geometry, surfaces
       class(structured_grid), intent(in) :: this
       class(geometry), intent(in) :: problem_geometry
       integer, intent(in), dimension(:) :: my_blocks
       integer, intent(in) :: space_dimension
+      type(surfaces), intent(inout) :: block_faces
     end subroutine
 
     pure function block_id_in_bounds_interface(this, id) result(in_bounds)

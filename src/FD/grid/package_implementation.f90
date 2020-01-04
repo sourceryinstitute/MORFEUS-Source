@@ -20,4 +20,8 @@ contains
     this%step = step
   end procedure
 
+  module procedure set_datum
+    this%datum = datum
+  end procedure
+
 end submodule package_implementation

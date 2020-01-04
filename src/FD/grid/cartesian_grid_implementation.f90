@@ -9,11 +9,9 @@ submodule(cartesian_grid_interface) cartesian_grid_implementation
   use kind_parameters, only : i4k, r8k
   use assertions_interface,only : assert, max_errmsg_len, assertions
   use plate_3D_interface, only : plate_3D
-  use surfaces_interface, only : surfaces, backward, forward
+  use surfaces_interface, only : backward, forward
   use package_interface, only : package
   implicit none
-
-  type(surfaces) block_faces
 
 contains
 
@@ -160,6 +158,11 @@ contains
            end associate
          end do
        end associate
+
+       ! 1. Each block sets scalar_flux packages on halo blocks
+       ! 2. sync all (or sync images)
+       ! 3. Each block gets scalar_flux packages from its halo
+       ! 4. Each block uses its halo data to compute surface fluxes
 
         hardwire_known_boundary_values: &
         block

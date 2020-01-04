@@ -11,6 +11,7 @@ module cartesian_grid_interface
   use structured_grid_interface, only : structured_grid
   use differentiable_field_interface, only : differentiable_field
   use geometry_interface, only : geometry
+  use surfaces_interface, only : surfaces
   implicit none
 
   private
@@ -29,21 +30,22 @@ module cartesian_grid_interface
 
   interface
 
-    module subroutine build_surfaces(this, problem_geometry, my_blocks, space_dimension)
+    module subroutine build_surfaces(this, problem_geometry, my_blocks, space_dimension, block_faces)
       !! allocate the surfaces array for use in halo exchanges and boundary conditions
       implicit none
       class(cartesian_grid), intent(in) :: this
       class(geometry), intent(in) :: problem_geometry
       integer, intent(in), dimension(:) :: my_blocks
       integer, intent(in) :: space_dimension
+      type(surfaces), intent(inout) :: block_faces
     end subroutine
 
-    module function div_scalar_flux(this, vertices, exact_result) result(div_flux)
+    module function div_scalar_flux(this, vertices, surface_fluxes) result(div_flux)
      !! compute the divergance of a gradient-diffusion scalar flux
      implicit none
      class(cartesian_grid), intent(in) :: this
      class(structured_grid), intent(in) :: vertices
-     class(differentiable_field), intent(in), optional :: exact_result
+     type(surfaces), intent(in) :: surface_fluxes
      class(structured_grid), allocatable :: div_flux
     end function
 

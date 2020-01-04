@@ -8,18 +8,24 @@ module package_interface
   !! author: Damian Rouson and Karla Morris
   !! date: 1/2/2019
   !! Encapsulate halo data to be communicated across structured_grid block boundaries
+  use kind_parameters, only : r8k
   implicit none
 
   private
   public :: package
 
+  integer, parameter :: unset=0
+
   type package
     !! basic transmission data. extend this type to add coordinate-specific data
     private
-    integer sender_block_id, step
+    integer :: sender_block_id = unset
+    integer :: step = unset
+    real(r8k) datum
   contains
     procedure set_sender_block_id
     procedure set_step
+    procedure set_datum
   end type
 
   interface
@@ -36,6 +42,13 @@ module package_interface
       implicit none
       class(package), intent(inout) :: this
       integer, intent(in) :: step
+    end subroutine
+
+    elemental module subroutine set_datum(this, datum)
+      !! set datum to be communicated across structured_grid block internal surfaces
+      implicit none
+      class(package), intent(inout) :: this
+      real(r8k), intent(in) :: datum
     end subroutine
 
   end interface

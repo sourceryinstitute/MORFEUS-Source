@@ -251,41 +251,40 @@ contains
     call this%partition( plate_3D_geometry%get_block_metadata_shape(), prototype )
       !! partition a block-structured grids across images
 
-      associate( my_subdomains => this%my_subdomains() )
+    associate( my_subdomains => this%my_subdomains() )
 
-        do n = my_subdomains(lo_bound) , my_subdomains(up_bound) ! TODO: make concurrent after Intel supports co_sum
+      do n = my_subdomains(lo_bound) , my_subdomains(up_bound) ! TODO: make concurrent after Intel supports co_sum
 
-          associate( ijk => this%block_map%block_indicial_coordinates(n) )
+        associate( ijk => this%block_map%block_indicial_coordinates(n) )
 
-            associate( metadata => plate_3D_geometry%get_block_metadatum(ijk))
+          associate( metadata => plate_3D_geometry%get_block_metadatum(ijk))
 
-              call this%vertices(n)%set_metadata( metadata  )
+            call this%vertices(n)%set_metadata( metadata  )
 
+            associate( &
+              subdomain => plate_3D_geometry%get_block_domain(ijk), &
+              max_spacing => metadata%get_max_spacing() &
+            )
               associate( &
-                subdomain => plate_3D_geometry%get_block_domain(ijk), &
-                max_spacing => metadata%get_max_spacing() &
+                nx => max( nx_min, floor( abs(subdomain(1,up_bound) - subdomain(1,lo_bound))/max_spacing ) + 1 ), &
+                ny => max( ny_min, floor( abs(subdomain(2,up_bound) - subdomain(2,lo_bound))/max_spacing ) + 1 ), &
+                nz => max( nz_min, floor( abs(subdomain(3,up_bound) - subdomain(3,lo_bound))/max_spacing ) + 1 ) &
               )
                 associate( &
-                  nx => max( nx_min, floor( abs(subdomain(1,up_bound) - subdomain(1,lo_bound))/max_spacing ) + 1 ), &
-                  ny => max( ny_min, floor( abs(subdomain(2,up_bound) - subdomain(2,lo_bound))/max_spacing ) + 1 ), &
-                  nz => max( nz_min, floor( abs(subdomain(3,up_bound) - subdomain(3,lo_bound))/max_spacing ) + 1 ) &
-                )
-                  associate( &
-                    x => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=1 ), &
-                    y => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=2 ), &
-                    z => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=3 ) )
-                    call this%set_vertices(x,y,z,block_identifier=n)
-                  end associate
+                  x => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=1 ), &
+                  y => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=2 ), &
+                  z => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=3 ) )
+                  call this%set_vertices(x,y,z,block_identifier=n)
                 end associate
               end associate
             end associate
           end associate
-        end do
+        end associate
+      end do
 
-        call this%block_map%build_surfaces( plate_3D_geometry, my_subdomains, &
-          this%vertices(my_subdomains(lo_bound))%space_dimension() )
+    end associate
 
-      end associate
+    this%problem_geometry = plate_3D_geometry
 
   end procedure
 
@@ -385,9 +384,6 @@ contains
 
   end procedure
 
-  module procedure set_scalar_flux_divergence_halo
-  end procedure set_scalar_flux_divergence_halo
-
   module procedure set_scalar_flux_divergence
     integer b, f, alloc_status
     character(len=128) alloc_error
@@ -408,7 +404,7 @@ contains
       do b = lbound(this%vertices,1), ubound(this%vertices,1)
         loop_over_fields: &
         do f = 1, num_fields
-          this%scalar_flux_divergence(b,f) = this%scalar_fields(b,f)%div_scalar_flux(this%vertices(b))
+          this%scalar_flux_divergence(b,f) = this%scalar_fields(b,f)%div_scalar_flux(this%vertices(b), this%scalar_fluxes(f))
           if (present(exact_result)) then
             select type (my_flux_div => exact_result(f)%laplacian(this%vertices(b)))
             class is (structured_grid)
@@ -429,10 +425,9 @@ contains
     character(len=max_errmsg_len) :: alloc_error
 
     if (allocated(this%scalar_fields)) deallocate(this%scalar_fields)
-
     allocate( this%scalar_fields(lbound(this%vertices,1) : ubound(this%vertices,1), size(scalar_setters)), &
       stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
-    call assert( alloc_status==success, "set_analytical_scalars: scalar_field allocation ("//alloc_error//")" )
+    call assert( alloc_status==success, "set_analytical_scalars: scalar_field allocation", alloc_error)
 
     loop_over_blocks: &
     do b = lbound(this%vertices,1), ubound(this%vertices,1)
@@ -446,6 +441,22 @@ contains
         end select
       end do loop_over_functions
     end do loop_over_blocks
+
+    if (allocated(this%scalar_fluxes)) deallocate(this%scalar_fluxes)
+    allocate( this%scalar_fluxes(size(scalar_setters)), stat=alloc_status, errmsg=alloc_error )
+    call assert( alloc_status==success, "set_analytical_scalars: allocate(scalar_fluxes)", alloc_error )
+
+    call assert( allocated(this%problem_geometry), &
+      "problem_discretization%set_analytical_scalars: allocated(this%problem_geometry)")
+
+    loop_over_scalar_fields: &
+    do f = 1, size(scalar_setters)
+      associate( my_blocks => [lbound(this%vertices,1), ubound(this%vertices,1)] )
+        call this%block_map%build_surfaces( this%problem_geometry, my_blocks, &
+          this%vertices(my_blocks(1))%space_dimension(), this%scalar_fluxes(f))
+      end associate
+    end do loop_over_scalar_fields
+
   end procedure
 
   module procedure  num_scalars

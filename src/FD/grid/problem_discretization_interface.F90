@@ -12,6 +12,7 @@ module problem_discretization_interface
   use plate_3D_interface, only : plate_3D
   use differentiable_field_interface, only : differentiable_field
   use package_interface, only : package
+  use surfaces_interface, only : surfaces
   implicit none
 
   private
@@ -29,8 +30,8 @@ module problem_discretization_interface
       !! scalar values at the grid nodes: size(scalar_fields,1)==size(vertices), size(scalar_fields,2)==number of scalar fields
     class(structured_grid), allocatable :: scalar_flux_divergence(:,:)
       !! div( D grad(s)): same dimensions as scalar_fields
-    class(package), allocatable :: scalar_flux_divergence_halo
-      !! boundary information for halo exchanges
+    type(surfaces), allocatable :: scalar_fluxes(:)
+      !! dimension is size(scalar_fields,2)
     class(geometry), allocatable :: problem_geometry
   contains
     procedure partition
@@ -43,7 +44,6 @@ module problem_discretization_interface
     procedure num_scalars
     procedure num_scalar_flux_divergences
     procedure initialize_from_plate_3D
-    procedure set_scalar_flux_divergence_halo
     procedure set_scalar_flux_divergence
     generic :: set_vertices => user_defined_vertices
     generic :: set_scalars => set_analytical_scalars
@@ -60,7 +60,7 @@ module problem_discretization_interface
       character (len=*), intent(in) :: filename
     end subroutine
 
-    module subroutine initialize_from_plate_3D(this,plate_3D_geometry)
+    module subroutine initialize_from_plate_3D(this, plate_3D_geometry)
       !! Define a grid with points only at the corners of each structured-grid block subdomain
       implicit none
       class(problem_discretization), intent(inout) :: this
@@ -89,12 +89,6 @@ module problem_discretization_interface
       implicit none
       class(problem_discretization), intent(inout) :: this
       class(differentiable_field), intent(in), dimension(:) :: scalar_setters
-    end subroutine
-
-    module subroutine set_scalar_flux_divergence_halo(this)
-      !! define package to be transmitted across block boundaries during halo exchanges
-      implicit none
-      class(problem_discretization), intent(inout) :: this
     end subroutine
 
     module subroutine set_scalar_flux_divergence(this, exact_result)
