@@ -24,4 +24,8 @@ contains
     this%datum = datum
   end procedure
 
+  module procedure sender_block_id_unset
+    is_unset = (this%sender_block_id == unset)
+  end procedure
+
 end submodule package_implementation

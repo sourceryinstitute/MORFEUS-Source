@@ -19,6 +19,7 @@ module cartesian_grid_interface
 
   type, extends(structured_grid) :: cartesian_grid
   contains
+    procedure set_up_div_scalar_flux
     procedure div_scalar_flux
     procedure assign_structured_grid
     procedure block_indicial_coordinates
@@ -30,6 +31,22 @@ module cartesian_grid_interface
 
   interface
 
+    module subroutine set_up_div_scalar_flux(this, vertices, surface_fluxes, div_flux_internal_points)
+      implicit none
+      class(cartesian_grid), intent(in) :: this
+      class(structured_grid), intent(in) :: vertices
+      type(surfaces), intent(inout) :: surface_fluxes
+      class(structured_grid), intent(inout) :: div_flux_internal_points
+    end subroutine
+
+    module subroutine div_scalar_flux(this, vertices, surface_fluxes, div_flux)
+      implicit none
+      class(cartesian_grid), intent(in) :: this
+      class(structured_grid), intent(in) :: vertices
+      type(surfaces), intent(in) :: surface_fluxes
+      class(structured_grid), intent(inout) :: div_flux
+    end subroutine
+
     module subroutine build_surfaces(this, problem_geometry, my_blocks, space_dimension, block_faces)
       !! allocate the surfaces array for use in halo exchanges and boundary conditions
       implicit none
@@ -39,15 +56,6 @@ module cartesian_grid_interface
       integer, intent(in) :: space_dimension
       type(surfaces), intent(inout) :: block_faces
     end subroutine
-
-    module function div_scalar_flux(this, vertices, surface_fluxes) result(div_flux)
-     !! compute the divergance of a gradient-diffusion scalar flux
-     implicit none
-     class(cartesian_grid), intent(in) :: this
-     class(structured_grid), intent(in) :: vertices
-     type(surfaces), intent(in) :: surface_fluxes
-     class(structured_grid), allocatable :: div_flux
-    end function
 
     module subroutine assign_structured_grid(this, rhs)
      !! copy the rhs into this structured_grid

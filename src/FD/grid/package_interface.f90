@@ -26,6 +26,7 @@ module package_interface
     procedure set_sender_block_id
     procedure set_step
     procedure set_datum
+    procedure sender_block_id_unset
   end type
 
   interface
@@ -50,6 +51,12 @@ module package_interface
       class(package), intent(inout) :: this
       real(r8k), intent(in) :: datum
     end subroutine
+
+    elemental module function sender_block_id_unset(this) result(is_unset)
+      implicit none
+      class(package), intent(in) :: this
+      logical is_unset
+    end function
 
   end interface
 

@@ -9,12 +9,17 @@ module surfaces_interface
   !! date: 12/26/2019
   !! Encapsulate information and procedures for structured_grid block halo exchanges
   use package_interface, only : package
+  use iso_c_binding, only : enumeration=>c_int
   implicit none
 
   private
-  public :: surfaces, backward, forward
+  public :: surfaces, enumeration, face_normal, backward, forward
 
-  integer, parameter :: backward=1, forward=2
+  enum, bind(C)
+    enumerator :: backward=1, forward
+  end enum
+
+  integer(enumeration), parameter, dimension(*) :: face_normal = [backward, forward]
     !! surface outward-normal direction for a given block
 
   type surfaces
@@ -23,6 +28,7 @@ module surfaces_interface
     private
     class(package), allocatable, dimension(:,:,:) :: halo_data
   contains
+    procedure, nopass :: is_external_boundary
     procedure, nopass :: set_halo_data
   end type
 
@@ -37,6 +43,13 @@ module surfaces_interface
     !! 2. Declaring this as singleton[*] also generates an ICE.
 
   interface
+
+    module function is_external_boundary(this, block_id, coordinate_direction, face) result(is_external)
+      implicit none
+      class(surfaces), intent(in) :: this
+      integer, intent(in) :: block_id, coordinate_direction, face
+      logical is_external
+    end function
 
     module subroutine set_halo_data(my_halo_data)
       !! set halo_data component array

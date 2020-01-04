@@ -30,6 +30,7 @@ module structured_grid_interface
   contains
     procedure(assignment_interface), deferred :: assign_structured_grid
     generic :: assignment(=) => assign_structured_grid
+    procedure(set_up_div_scalar_flux_interface), deferred :: set_up_div_scalar_flux
     procedure(div_scalar_flux_interface), deferred :: div_scalar_flux
     procedure(block_indices_interface), deferred :: block_indicial_coordinates
     procedure(block_identifier_interface), deferred :: block_identifier
@@ -52,6 +53,7 @@ module structured_grid_interface
     procedure get_tag
     procedure set_vector_components
     procedure set_scalar
+    procedure increment_scalar
     procedure subtract
     generic :: operator(-) => subtract
     procedure compare
@@ -62,13 +64,21 @@ module structured_grid_interface
 
   abstract interface
 
-    function div_scalar_flux_interface(this, vertices, surface_fluxes) result(div_flux)
+    subroutine set_up_div_scalar_flux_interface(this, vertices, surface_fluxes, div_flux_internal_points)
+      import structured_grid, differentiable_field, surfaces
+      implicit none
+      class(structured_grid), intent(in) :: this, vertices
+      type(surfaces), intent(inout) :: surface_fluxes
+      class(structured_grid), intent(inout) :: div_flux_internal_points
+    end subroutine
+
+    subroutine div_scalar_flux_interface(this, vertices, surface_fluxes, div_flux)
       import structured_grid, differentiable_field, surfaces
       implicit none
       class(structured_grid), intent(in) :: this, vertices
       type(surfaces), intent(in) :: surface_fluxes
-      class(structured_grid), allocatable :: div_flux
-    end function
+      class(structured_grid), intent(inout) :: div_flux
+    end subroutine
 
     subroutine assignment_interface(this, rhs)
       import structured_grid
@@ -224,7 +234,14 @@ module structured_grid_interface
     end subroutine
 
     pure module subroutine set_scalar(this, scalar)
-      !! set this%nodal_values to provided scalar field
+      !! set this%nodal_values to the provided array
+      implicit none
+      class(structured_grid), intent(inout) :: this
+      real(r8k), intent(in), dimension(:,:,:) :: scalar
+    end subroutine
+
+    pure module subroutine increment_scalar(this, scalar)
+      !! increment this%nodal_values by the provided array
       implicit none
       class(structured_grid), intent(inout) :: this
       real(r8k), intent(in), dimension(:,:,:) :: scalar

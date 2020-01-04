@@ -75,7 +75,7 @@ contains
     call this%clone(rhs)
   end procedure
 
-  module procedure div_scalar_flux
+  module procedure set_up_div_scalar_flux
     !! Evaluate 2nd partial derivatives in each coordinate direction according to equations (2.2) & (2.4) in
     !! Sundqvist & Veronis (1969) "A simple finite-difference grid with non-constant intervals", Tellus 22:1
 
@@ -85,17 +85,17 @@ contains
     character(len=max_errmsg_len) :: alloc_error
     real(r8k), allocatable, dimension(:,:,:) :: div_flux_x, div_flux_y, div_flux_z
 
-    call assert( same_type_as(this, vertices), "div_scalar_flux: consistent types" )
-
-    allocate(div_flux, mold=this, stat=alloc_stat, errmsg=alloc_error )
-    call assert( alloc_stat==success, "div_scalar_flux (cartesian): result allocation fails with message '"//alloc_error//"'" )
+    call assert( same_type_as(this, vertices), "cartesian_grid%set_up_div_scalar_flux: same_type_as(this, vertices)" )
 
     associate( positions => vertices%vectors(), s=>this%get_scalar() )
       associate( npoints => shape(positions(:,:,:,1)) )
 
         allocate(div_flux_x, div_flux_y, div_flux_z, mold=positions(:,:,:,1), stat=alloc_stat, errmsg=alloc_error )
-        call assert( alloc_stat==success, "div_scalar_flux (cartesian): allocate(div_flux_{x,y,z}) (error: "//alloc_error//")" )
+        call assert( alloc_stat==success, "cartesian_grid%set_up_div_scalar_flux: allocate(div_flux_{x,y,z})", alloc_error )
 
+        div_flux_x = 0._r8k
+        div_flux_y = 0._r8k
+        div_flux_z = 0._r8k
 
         associate( x=>positions(:,:,:,1) )
           do concurrent(k=1:npoints(3), j=1:npoints(2), i=2:npoints(1)-1)
@@ -134,35 +134,60 @@ contains
                 div_flux_y(i,j,k) = &
                   D_f*(s(i,j+1,k) - s(i,j,k))/(dy_f*dy_m) - &
                   D_b*(s(i,j,k) - s(i,j-1,k))/(dy_b*dy_m)
-             end associate
-           end associate
-         end do
-       end associate
+              end associate
+            end associate
+          end do
+        end associate
 
-       associate( z=>positions(:,:,:,3))
-         do concurrent(k=2:npoints(3)-1, j=1:npoints(2), i=1:npoints(1))
-           associate( &
-             dz_m => (z(i,j,k+1) - z(i,j,k-1))*half, &
-             dz_f =>  z(i,j,k+1) - z(i,j,k), &
-             dz_b =>  z(i,j,k)   - z(i,j,k-1), &
-             s_f => half*(z(i,j,k+1)+z(i,j,k)), &
-             s_b => half*(z(i,j,k)+z(i,j,k-1)) )
-             associate( &
-               D_f => this%diffusion_coefficient( s_f ), &
-               D_b => this%diffusion_coefficient( s_b) )
+        associate( z=>positions(:,:,:,3))
+          do concurrent(k=2:npoints(3)-1, j=1:npoints(2), i=1:npoints(1))
+            associate( &
+              dz_m => (z(i,j,k+1) - z(i,j,k-1))*half, &
+              dz_f =>  z(i,j,k+1) - z(i,j,k), &
+              dz_b =>  z(i,j,k)   - z(i,j,k-1), &
+              s_f => half*(z(i,j,k+1)+z(i,j,k)), &
+              s_b => half*(z(i,j,k)+z(i,j,k-1)) )
+              associate( &
+                D_f => this%diffusion_coefficient( s_f ), &
+                D_b => this%diffusion_coefficient( s_b) )
 
-               div_flux_z(i,j,k) = &
-                 D_f*(s(i,j,k+1) - s(i,j,k))/(dz_f*dz_m) - &
-                 D_b*(s(i,j,k) - s(i,j,k-1))/(dz_b*dz_m)
-             end associate
-           end associate
-         end do
-       end associate
+                div_flux_z(i,j,k) = &
+                  D_f*(s(i,j,k+1) - s(i,j,k))/(dz_f*dz_m) - &
+                  D_b*(s(i,j,k) - s(i,j,k-1))/(dz_b*dz_m)
+              end associate
+            end associate
+          end do
+        end associate
 
-       ! 1. Each block sets scalar_flux packages on halo blocks
-       ! 2. sync all (or sync images)
-       ! 3. Each block gets scalar_flux packages from its halo
-       ! 4. Each block uses its halo data to compute surface fluxes
+        ! TO DO
+        ! 1. Each block sets scalar_flux packages on halo blocks
+
+        call div_flux_internal_points%set_scalar( div_flux_x + div_flux_y + div_flux_z )
+
+      end associate
+    end associate
+  end procedure set_up_div_scalar_flux
+
+  module procedure div_scalar_flux
+    integer alloc_stat
+    integer, parameter :: success=0
+    character(len=max_errmsg_len) :: alloc_error
+    real(r8k), allocatable, dimension(:,:,:) :: div_flux_x, div_flux_y, div_flux_z
+
+    call assert( same_type_as(this, vertices), "cartesian_grid%div_scalar_flux: same_type_as(this, vertices)" )
+
+    associate( positions => vertices%vectors(), s=>this%get_scalar() )
+      associate( npoints => shape(positions(:,:,:,1)) )
+
+        allocate(div_flux_x, div_flux_y, div_flux_z, mold=positions(:,:,:,1), stat=alloc_stat, errmsg=alloc_error )
+        call assert( alloc_stat==success, "cartesian_grid%div_scalar_flux: allocate(div_flux_{x,y,z})", alloc_error )
+
+        div_flux_x = 0._r8k
+        div_flux_y = 0._r8k
+        div_flux_z = 0._r8k
+
+        ! 2. Each block gets scalar_flux packages from its halo
+        ! 3. Each block uses its halo data to compute surface fluxes
 
         hardwire_known_boundary_values: &
         block
@@ -178,7 +203,6 @@ contains
           real(r8k), parameter ::  div_z_expected = -2./(z_max-z_center)
           real(r8k), parameter ::  tolerance=1.E-06
 
-
           div_flux_x(1,:,:) = div_x_expected
           div_flux_x(npoints(1),:,:) = div_x_expected
 
@@ -188,16 +212,18 @@ contains
           div_flux_z(:,:,1) = div_z_expected
           div_flux_z(:,:,npoints(3)) = div_z_expected
 
-          call assert( all( abs((div_flux_x - div_x_expected)/div_x_expected) < tolerance ), "div_scalar_flux: div_x_expected")
-          call assert( all( abs((div_flux_y - div_y_expected)/div_y_expected) < tolerance ), "div_scalar_flux: div_y_expected")
-          call assert( all( abs((div_flux_z - div_z_expected)/div_z_expected) < tolerance ), "div_scalar_flux: div_z_expected")
+          associate( div_flux_total => div_flux%get_scalar() + div_flux_x + div_flux_y + div_flux_z )
+            associate( div_expected => div_x_expected + div_y_expected + div_z_expected )
+              call assert( all( abs((div_flux_total - div_expected)/div_expected) < tolerance ), "div_scalar_flux: div_expected")
+            end associate
+          end associate
         end block hardwire_known_boundary_values
-
-        call div_flux%set_scalar( div_flux_x + div_flux_y + div_flux_z )
-
       end associate
     end associate
-  end procedure div_scalar_flux
+
+    call div_flux%increment_scalar( div_flux_x + div_flux_y + div_flux_z )
+
+  end procedure
 
   module procedure block_indicial_coordinates
 

@@ -139,6 +139,14 @@ contains
 
     end procedure
 
+    module procedure increment_scalar
+
+      integer, parameter :: time_stamps=1
+
+      this%nodal_values(:,:,:,1,1,time_stamps) = this%nodal_values(:,:,:,1,1,time_stamps) + scalar
+
+    end procedure
+
     module procedure subtract
       error stop "structured_grid%subtract: this implementation generates a runtime invalid memory reference with GCC 8.3"
       call assert (allocated(this%nodal_values) .and. allocated(rhs%nodal_values), "structured_grid%subtract: operands allocated")

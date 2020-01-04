@@ -393,29 +393,49 @@ contains
     if (allocated(this%scalar_flux_divergence)) deallocate(this%scalar_flux_divergence)
 
     associate(num_fields => this%num_scalars())
-    allocate(this%scalar_flux_divergence(lbound(this%vertices,1) : ubound(this%vertices,1), num_fields ), &
-      stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
-    call assert( alloc_status==success, "set_scalar_flux_divergence: allocation ("//alloc_error//")" )
 
-    if (present(exact_result)) &
-      call assert(size(exact_result)==num_fields, "problem_discretization%set_scalar_flux_divergence: size(exact_result)")
+      if (.not. allocated(this%scalar_flux_divergence)) then
+        allocate(this%scalar_flux_divergence(lbound(this%vertices,1) : ubound(this%vertices,1), num_fields ), &
+          stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
+        call assert( alloc_status==success, "set_scalar_flux_divergence: allocation", alloc_error )
+      end if
 
-      loop_over_blocks: &
-      do b = lbound(this%vertices,1), ubound(this%vertices,1)
-        loop_over_fields: &
-        do f = 1, num_fields
-          this%scalar_flux_divergence(b,f) = this%scalar_fields(b,f)%div_scalar_flux(this%vertices(b), this%scalar_fluxes(f))
-          if (present(exact_result)) then
-            select type (my_flux_div => exact_result(f)%laplacian(this%vertices(b)))
-            class is (structured_grid)
-              exact_flux_div = my_flux_div
-            class default
-              error stop 'Error: the type of exact_result(f)%laplacian(this%vertices(b)) is not structured_grid.'
-            end select
-            call this%scalar_flux_divergence(b,f)%compare( exact_flux_div, tolerance=1.E-06_r8k )
-          end if
-        end do loop_over_fields
-      end do loop_over_blocks
+      if (present(exact_result)) &
+        call assert(size(exact_result)==num_fields, "problem_discretization%set_scalar_flux_divergence: size(exact_result)")
+
+        loop_over_blocks: &
+        do b = lbound(this%vertices,1), ubound(this%vertices,1)
+          loop_over_fields: &
+          do f = 1, num_fields
+
+            call this%scalar_fields(b,f)%set_up_div_scalar_flux( &
+              this%vertices(b), this%scalar_fluxes(f), this%scalar_flux_divergence(b,f) )
+
+          end do loop_over_fields
+        end do loop_over_blocks
+
+        sync all
+
+        blocks_boundaries: &
+        do b = lbound(this%vertices,1), ubound(this%vertices,1)
+          fields_boundaries: &
+          do f = 1, num_fields
+
+            call this%scalar_fields(b,f)%div_scalar_flux( &
+              this%vertices(b), this%scalar_fluxes(f), this%scalar_flux_divergence(b,f) )
+
+            if (present(exact_result)) then
+              select type (my_flux_div => exact_result(f)%laplacian(this%vertices(b)))
+              class is (structured_grid)
+                exact_flux_div = my_flux_div
+              class default
+                error stop 'Error: the type of exact_result(f)%laplacian(this%vertices(b)) is not structured_grid.'
+              end select
+              call this%scalar_flux_divergence(b,f)%compare( exact_flux_div, tolerance=1.E-06_r8k )
+            end if
+          end do fields_boundaries
+        end do blocks_boundaries
+
     end associate
 
   end procedure
