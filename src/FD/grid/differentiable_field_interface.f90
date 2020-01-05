@@ -5,6 +5,10 @@
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 module differentiable_field_interface
+  !! author: Damian Rouson
+  !! date: 12/19/2019
+  !!
+  !! A differentiable field abstraction, deferring function evaluation and differential operator implementations to child classes
   use grid_interface, only : grid
   implicit none
 
@@ -19,6 +23,7 @@ module differentiable_field_interface
 
   abstract interface
     function field_interface(this, grid_points) result(f)
+      !! Compute function values sampled at the provided locations
       import differentiable_field, grid
       implicit none
       class(differentiable_field), intent(in)  :: this

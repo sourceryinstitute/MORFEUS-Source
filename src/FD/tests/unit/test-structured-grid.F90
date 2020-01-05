@@ -16,8 +16,8 @@ program test_structured_grid
 
   character(len=max_errmsg_len) :: alloc_error
 
-  integer(i4k), parameter :: lo_bound=1, up_bound=2, num_boundaries=2, success=0
-  integer(i4k) ix, iy, iz, alloc_status
+  integer(i4k), parameter :: success=0
+  integer(i4k) alloc_status
   integer(i4k), parameter :: nx=101,ny=11,nz=11
     !! Grid resolution in 3 coordinate directions
   real(r8k) :: x(nx,ny,nz)=1.,y(nx,ny,nz)=0.,z(nx,ny,nz)=-1.

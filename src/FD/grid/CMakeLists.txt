@@ -7,7 +7,6 @@
 set( morfeus_fd_sources
   package_interface.f90
   package_implementation.f90
-  surfaces_interface.f90
   surfaces_implementation.f90
   curvilinear_grid_interface.f90
   units_implementation.f90
@@ -27,7 +26,7 @@ set( morfeus_fd_sources
   ../geometry/geometry_implementation.f90
   ../geometry/plate_3D_implementation.F90
   ../geometry/plate_3D_interface.F90
-  ../geometry/block_metadata_interface.f90
+  ../geometry/block_metadata_interface.F90
   ../geometry/block_metadata_implementation.f90
 )
 add_library(morfeus_fd ${morfeus_fd_sources})

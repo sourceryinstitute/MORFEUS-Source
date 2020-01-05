@@ -222,7 +222,6 @@ program main
   use adi_mod
   implicit none
     real(rkind)            :: avg_err_percentage
-    real(rkind), parameter :: err_percentage=0.1
     integer(ikind)         :: nv
     real(rkind), dimension(:,:,:), allocatable :: a_mnl, k_mnl
     integer(ikind)                             :: l,m,n,kk,jj,ii
@@ -417,7 +416,6 @@ program main
 
 !  error_calculation: block
 !    real(rkind)            :: avg_err_percentage
-!    real(rkind), parameter :: err_percentage=0.1
 !    integer(ikind)         :: nv
     avg_err_percentage=0.0
     do concurrent(k=1:nz-1,j=1:ny-1,i=1:nx-1,nv=1:8)

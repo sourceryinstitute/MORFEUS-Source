@@ -5,13 +5,16 @@
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 module problem_discretization_interface
+  !! author: Damian Rouson
+  !! date: 9/9/2019
+  !!
+  !! Encapsulate the problem geometry, grid points, and dependent variables
   use object_interface, only : object
   use structured_grid_interface, only : structured_grid
   use geometry_interface, only : geometry
   use kind_parameters, only : r8k, i4k
   use plate_3D_interface, only : plate_3D
   use differentiable_field_interface, only : differentiable_field
-  use package_interface, only : package
   use surfaces_interface, only : surfaces
   implicit none
 
@@ -33,6 +36,7 @@ module problem_discretization_interface
     type(surfaces), allocatable :: scalar_fluxes(:)
       !! dimension is size(scalar_fields,2)
     class(geometry), allocatable :: problem_geometry
+      !! description of problem domain and material identities; child types: plate_3D, cylinder_2D, sphere_1D
   contains
     procedure partition
     procedure my_subdomains

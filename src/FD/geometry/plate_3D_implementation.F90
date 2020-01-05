@@ -231,7 +231,6 @@ contains
     subroutine set_metadata
 
       character(len=max_name_length), parameter :: cavity="cavity"
-      character(len=max_name_length) block_material
 
       associate( &
         nx_wrappers => layers%wrappers%num_grid_blocks%x, &
@@ -308,7 +307,7 @@ contains
   function material(ix, iy, iz, core_, wrapper_) result(material_ix_iy)
     integer, intent(in) :: ix, iy, iz
     type(material_t), intent(in) :: core_, wrapper_
-    integer i, j, k
+    integer i, j
     character(len=max_name_length), allocatable :: material_ix_iy
     character(len=max_name_length), parameter :: void_name="cavity"
 

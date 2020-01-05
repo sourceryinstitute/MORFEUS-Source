@@ -7,7 +7,8 @@
 module surfaces_interface
   !! author: Damian Rouson
   !! date: 12/26/2019
-  !! Encapsulate information and procedures for structured_grid block halo exchanges
+  !!
+  !! Encapsulate block boundary data for structured_grid halo exchanges
   use package_interface, only : package
   use iso_c_binding, only : enumeration=>c_int
   implicit none
@@ -24,7 +25,7 @@ module surfaces_interface
 
   type surfaces
     !! hexahedral structured_grid block surface data: all components will be allocated to have the
-    !! bounds [my_blocks(first):my_blocks(last), space_dimension, size([forward, backward]))
+    !! dimensions [my_blocks(first):my_blocks(last), space_dimension, size([forward, backward]))
     private
     class(package), allocatable, dimension(:,:,:) :: halo_data
   contains
@@ -32,27 +33,19 @@ module surfaces_interface
     procedure, nopass :: set_halo_data
   end type
 
-  type(surfaces), allocatable :: singleton[:]
-    !! Singleton pattern (one instance per image).
-    !!
-    !! Design: making the object a coarray rather than the components coarrays frees us to use different component array bounds on
-    !! different images, which in turn facilitates using the global block ID as the first index.
-    !!
-    !! Gfortran 8.3 workarounds:
-    !! 1. Moving this to the submodule to eliminate the compiler warning about its not being used generates an ICE.
-    !! 2. Declaring this as singleton[*] also generates an ICE.
-
   interface
 
     module function is_external_boundary(this, block_id, coordinate_direction, face) result(is_external)
+      !! result is .true. if the identified structured_grid block surface corresponds to a problem domain boundary
       implicit none
       class(surfaces), intent(in) :: this
-      integer, intent(in) :: block_id, coordinate_direction, face
+      integer, intent(in) :: block_id, coordinate_direction
+      integer(enumeration), intent(in) :: face
       logical is_external
     end function
 
     module subroutine set_halo_data(my_halo_data)
-      !! set halo_data component array
+      !! define halo_data component array
       implicit none
       class(package), intent(in), dimension(:,:,:) :: my_halo_data
     end subroutine

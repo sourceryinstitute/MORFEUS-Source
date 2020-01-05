@@ -63,17 +63,20 @@ program main
     if (me==1) then
       test_findloc: block
         integer i,j
-        character(len=*), parameter :: names(*) = &
-          [character(len=len("dressing"))::"absent", "core", "dressing", "gap", "wrap", "ring", "foil", "skin", "fabric", "chamber"]
+        character(len=*), parameter, dimension(*) :: names = &
+          [character(len=len("dressing"))::"absent", "core", "dressing", "gap", "wrap", "ring", "foil", "skin", "fabric" ]
 
-        character(len=*), parameter :: empty(*) = [character(len=len("dressing"))::]
+        character(len=*), parameter, dimension(*) :: empty = [character(len=len("dressing"))::]
 
-        integer, parameter :: zero_sized(*) = [ integer :: ]
+        integer, parameter, dimension(*) :: zero_sized = [ integer :: ]
 
         enum, bind(C)
           enumerator &
-          absent, core, dressing, gap, wrap, ring, foil, skin, fabric, chamber
+          absent, core, dressing, gap, wrap, ring, foil, skin, fabric
         end enum
+
+        associate( unused=>absent) !! eliminate unused variable warning
+        end associate
 
         associate( nothing_to_search => findloc(zero_sized, value=99, dim=1, back=.true.) )
           call assert(nothing_to_search==0, "findloc: handles zero-sized array")

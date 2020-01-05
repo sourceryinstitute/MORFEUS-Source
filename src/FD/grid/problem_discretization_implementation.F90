@@ -35,8 +35,6 @@ contains
     select case (extension)
     case ('vtu')
       call vtk_output (this, basename, iostat)
-    case ('json')
-     call json_output (this, filename, iostat)
    case default
      error stop "problem_discretization%write_output: unsupported file type" // &
 #ifdef HAVE_NON_CONSTANT_ERROR_STOP
@@ -47,13 +45,6 @@ contains
    end select
 
   end procedure write_output
-
-  subroutine json_output (this, filename, iostat)
-    class(problem_discretization), intent(in) ::this
-    character(LEN=*), intent(in) :: filename
-    integer, intent(inout), optional :: iostat
-    error stop "json_output: not yet implemented"
-  end subroutine
 
   subroutine vtk_output (this, filename, iostat)
     use vtk_datasets,   only : unstruct_grid
@@ -77,7 +68,7 @@ contains
     integer(i4k), dimension(:), allocatable :: block_cell_material, point_block_id
     type(attributes) :: grid_point_attributes, cell_attributes
     integer :: b, s, first_point_in_block, first_cell_in_block
-    real(r8k), dimension(:,:,:), allocatable :: scalar_fields_values, div_flux_values
+    real(r8k), dimension(:,:,:), allocatable :: scalar_fields_values
 
     allocate( cell_list(sum( this%vertices%num_cells())) )
     allocate( points(space_dimensions,0), block_cell_material(0), point_block_id(0) )

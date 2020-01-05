@@ -9,15 +9,12 @@ program main
   !! date: 11/15/2019
   !! Test the computation of spatial derivatives on a structured_grid
 
-  use assertions_interface, only : assert, assertions
   use plate_3D_interface, only : plate_3D
   use problem_discretization_interface, only : problem_discretization
   use ellipsoidal_field_interface, only : ellipsoidal_field
-  use kind_parameters, only : i4k, r8k
   implicit none
 
-  integer file_unit, open_status
-  integer(i4k), parameter :: success=0, max_digits=9, num_scalars=1
+  integer, parameter :: max_digits=9
   character(len=max_digits) image_number
   character(len=*), parameter:: input_file = "3Dplate-high-resolution-layers.json"
   character(len=*), parameter:: base_name = "3Dplate-high-resolution-layers-derivatives"

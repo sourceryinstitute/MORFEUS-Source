@@ -4,12 +4,20 @@
 !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
+include "surfaces_interface.f90"
+  !! required to work around a gfortran 8.3 internal compiler error
+
 submodule(surfaces_interface) surfaces_implementation
   !! author: Damian Rouson and Karla Morris
   !! date: 12/27/2019
   !! Implement procedures for exchanging information with halo blocks in block-structured grid
   use assertions_interface, only : assert, max_errmsg_len, assertions
   implicit none
+
+  type(surfaces) singleton[*]
+    !! Singleton pattern: one instance per image.
+    !! Design: using a derived-type coarray instead of component coarrays is both simpler and facilitates setting different
+    !! component array bounds on different images, which facilitates using the global block_identifier as the first index.
 
 contains
 
@@ -22,13 +30,6 @@ contains
   end procedure
 
   module procedure set_halo_data
-    integer alloc_stat
-    character(len=max_errmsg_len) error_message
-    integer, parameter :: success=0
-
-    if (.not. allocated(singleton)) allocate(singleton[*], stat=alloc_stat, errmsg=error_message)
-    call assert( alloc_stat==success, "surfaces%set_halo_data: allocate(singleton[*])", error_message)
-
     singleton%halo_data = my_halo_data
   end procedure
 

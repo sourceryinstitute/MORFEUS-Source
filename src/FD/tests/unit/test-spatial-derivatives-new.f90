@@ -49,6 +49,9 @@ contains
   pure real(rkind) function kc(x)
     real(rkind), intent(in)   :: x
     kc=1.0
+    associate( unused=>x )
+      !! eliminate "unused variable" compiler warnings
+    end associate
   end function
 
   subroutine set_scalar_fluxes(this)

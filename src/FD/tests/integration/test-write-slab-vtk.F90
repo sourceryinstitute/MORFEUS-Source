@@ -18,7 +18,7 @@ PROGRAM Slab_VTK_output
     !!
     INTEGER(i4k), PARAMETER :: n_params_to_write = 1
     TYPE vtk_obj
-      CHARACTER(LEN=LEN('slab')) :: filename = 'test-write-slab'
+      CHARACTER(LEN=LEN('test-write-slab')) :: filename = 'test-write-slab'
       TYPE(struct_grid) :: grid
       TYPE(attributes), DIMENSION(n_params_to_write) :: vals_to_write
     END TYPE vtk_obj

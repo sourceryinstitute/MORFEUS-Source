@@ -15,7 +15,7 @@ contains
 
     integer, save :: total[*]
     integer, parameter :: root_node=1, default_root_image=1
-    integer even_child_image, odd_child_image, parent_image, my_image, image
+    integer even_child_image, odd_child_image, parent_image, my_image
     integer even_child_node , odd_child_node , parent_node , my_node, default_parent_image
     integer, allocatable :: relatives(:)
 
@@ -93,7 +93,7 @@ contains
 
     integer, save :: message[*]
     integer, parameter :: root_node=1, default_root_image=1
-    integer even_child_image, odd_child_image, parent_image, my_image, image
+    integer even_child_image, odd_child_image, parent_image, my_image
     integer even_child_node , odd_child_node , parent_node , my_node, default_parent_image
     integer, allocatable :: relatives(:)
 

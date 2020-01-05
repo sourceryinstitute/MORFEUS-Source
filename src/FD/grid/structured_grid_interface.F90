@@ -5,6 +5,10 @@
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 module structured_grid_interface
+  !! author: Damian Rouson
+  !! date: 9/9/2019
+  !!
+  !! Hexahedral, structured-grid block encapsulating nodal data and deferring coordinate-specific procedures to child classes
   use block_metadata_interface, only : block_metadata
   use grid_interface, only : grid
   use kind_parameters, only : r8k
