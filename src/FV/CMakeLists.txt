@@ -75,7 +75,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/src/mesh_optimize/OptMS")
 
 
 # Add option for enabling exodus
-option(FAST_USE_EXODUS "Build with Exodus support (broken)" OFF)
+option(FAST_USE_EXODUS "Build with Exodus support (broken)" ON)
 
 # Make CGNS optional
 option(FAST_USE_CGNS "Build with CGNS support (broken)" OFF)
@@ -211,8 +211,9 @@ set(morfeus_fv_srcs
   src/mesh/part_random.f90
   src/mesh/part_random_procedures.f90
   src/mesh/rd_cgns_mesh.F90
-#  src/mesh/rd_exodus_mesh.f90 # Commented out b/c functionality does not yet work
+  src/mesh/rd_exodus_mesh.f90
   src/mesh/rd_gambit_implementation.f90
+  src/mesh/rd_gmsh_implementation.f90
   src/mesh/rd_inp_mesh_implementation.f90
   src/mesh/renum.F90
   src/mesh/renum_procedures.F90
@@ -552,6 +553,14 @@ else()
     "Please run CMake from the top level FAST directory; the MatLib library is now required by MORFEUS_FV.")
 endif()
 
+if(TARGET Coolant)
+  target_link_libraries(morfeus_fv
+    PUBLIC Coolant)
+else()
+  message( FATAL_ERROR
+    "Please run CMake from the top level FAST directory; the Coolant library is now required by MORFEUS_FV.")
+endif()
+
 if(TARGET vtkmofo)
   target_link_libraries(morfeus_fv
     PUBLIC vtkmofo)
@@ -573,10 +582,18 @@ target_link_libraries(morfeus_fv
   PUBLIC ${LAPACK_LIBRARIES}
   PUBLIC ${BLAS_LIBRARIES}
   )
-if(FAST_USE_EXODUS)
-  target_link_libraries(morfeus_fv
-    PUBLIC ${SEACASExodus_for_LIBRARIES})
-endif()
+
+SET(SEACASExodus_for_LIB1 "/Users/hari/Projects/FAST/build_FV/TPLs/lib/libexodus_for.a")
+SET(SEACASExodus_for_LIB2 "/Users/hari/Projects/FAST/build_FV/TPLs/lib/libexodus.a")
+SET(NETCDF_LIB1 "/usr/local/lib/libnetcdf.a" "/usr/lib/libcurl.dylib")
+SET(HDF5_LIB1 "/usr/local/lib/libhdf5.a" "/usr/local/lib/libhdf5_hl.a" "/usr/local/lib/libsz.a")
+
+target_link_libraries(morfeus_fv
+  PUBLIC ${SEACASExodus_for_LIB1}
+         ${SEACASExodus_for_LIB2}
+         ${NETCDF_LIB1}
+         ${HDF5_LIB1})
+
 if(HDF5_FOUND)
   target_link_libraries(morfeus_fv
     PUBLIC ${HDF5_Fortran_LIBRARIES} ${HDF5_Fortran_HL_LIBRARIES})
