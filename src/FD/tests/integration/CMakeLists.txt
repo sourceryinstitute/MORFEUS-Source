@@ -5,9 +5,11 @@
 #     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 #
 set( base_names
+  plate-material-mapping
+  differentiate-grid
   discretize-3D-plate
   write-slab-vtk
-  write-vtk-voxels
+  write-voxels-vtk
 )
 foreach(integration_test ${base_names})
   add_executable( test-${integration_test} test-${integration_test}.F90 )

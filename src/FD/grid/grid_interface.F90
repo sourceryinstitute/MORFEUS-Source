@@ -5,6 +5,10 @@
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 module grid_interface
+    !! author: Damian Rouson
+    !! date: 9/9/2019
+    !!
+    !! One parent abstraction for interacing with Morfeus-FD structured_grid objects or FV field objects
     use object_interface, only : object
     use units_interface, only : units
     implicit none

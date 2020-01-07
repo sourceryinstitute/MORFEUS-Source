@@ -10,13 +10,16 @@ program main
   !!
   !! Test the problem_discretization creation and output of new problem_discretization to a json file
 
-  use assertions_interface, only : assert, assertions
+  use assertions_interface, only : assert
   use json_module, only : json_file, rk=>json_rk, ik=>json_ik
   use problem_discretization_interface, only :  problem_discretization
+  use cartesian_grid_interface, only :  cartesian_grid
   implicit none
 
   type(problem_discretization) block_structured_grid
     !! encapsulate the global grid structure
+  type(cartesian_grid) prototype
+    !! pass the cartesian_grid type
   type(json_file) json_problem_description
   integer, parameter :: num_structured_grids(*) = [120,5,5]
     !! number of subdomains in each coordinate direction
@@ -24,7 +27,7 @@ program main
     !! number of spatial dimensions, array index extent for defining 1D spatial intervals
   real(rk), parameter:: global_domain(*,*)= reshape([real(rk):: 0.,120., 0.,2.5, 0.,2.5 ],[interval_extent,space_dimensions])
     !! overall rectangular domain boundaries
-  integer, parameter :: max_block_identifier     =     999999999
+  integer, parameter :: max_block_identifier = 999999999
   integer, parameter :: nx_local=11,ny_local=11,nz_local=11
   integer ix,iy,iz
   character(len=99) identifier_string
@@ -32,7 +35,7 @@ program main
   call assert(num_images()==1,"single-image json file creation")
   call assert(product(num_structured_grids)<=max_block_identifier,"number of blocks is representable")
 
-  call block_structured_grid%partition( num_structured_grids )
+  call block_structured_grid%partition( num_structured_grids, prototype )
     !! partition the block-structured grid into subdomains with connectivity implied by the supplied shape array
 
   call json_problem_description%initialize()  ! specify whatever init options you want.

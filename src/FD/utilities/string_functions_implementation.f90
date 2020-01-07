@@ -18,4 +18,13 @@ contains
     end associate
   end procedure
 
+  module procedure base_name
+    character(len=:), allocatable :: name_
+
+    name_ = trim(file_name)
+    associate( dot_location => index(name_, '.', back=.true.) )
+      base = merge( name_(1:dot_location-1), "", dot_location<len(name_))
+    end associate
+  end procedure
+
 end submodule

@@ -5,18 +5,18 @@
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 module plate_3D_interface
-  !! author: Damian Rouson
+  !! author: Damian Rouson and Karla Morris
   !!
   !! Encapsulate a 3D plate geometry and grid-verification method
   use geometry_interface, only : geometry
   use json_module, only : json_file
-  use block_metadata_interface, only : block_metadata
+  use block_metadata_interface, only : block_metadata, subdomain_t, max_name_length, space_dimension, num_end_points
+  use kind_parameters, only : r8k
 
   implicit none
 
   private
   public :: plate_3D
-
 
   type, extends(geometry) :: plate_3D
     !! encapsulate the grid specification for a plate_3D object
@@ -29,10 +29,9 @@ module plate_3D_interface
     procedure set_block_metadata
     procedure get_block_metadata_shape
     procedure get_block_domain
+    procedure get_block_metadatum
     procedure get_block_metadata
   end type
-
-  integer, parameter :: space_dimension=3
 
   interface
 
@@ -62,15 +61,22 @@ module plate_3D_interface
       class(plate_3D), intent(in) :: this
       integer, dimension(space_dimension) :: indicial_coordinates
       integer, parameter :: num_end_points=2
-      real, dimension(space_dimension,num_end_points) :: this_domain
+      real(r8k), dimension(space_dimension,num_end_points) :: this_domain
     end function
 
-    module function get_block_metadata(this, indicial_coordinates) result(this_metadata)
+    module function get_block_metadatum(this, indicial_coordinates) result(this_metadata_xyz)
       !! result is the block_metadata component for the block with the given indicial_coordinates
       implicit none
       class(plate_3D), intent(in) :: this
       integer, dimension(space_dimension) :: indicial_coordinates
-      type(block_metadata) :: this_metadata
+      type(block_metadata) :: this_metadata_xyz
+    end function
+
+    module function get_block_metadata(this) result(this_metadata)
+      !! result is the block_metadata component for all blocks
+      implicit none
+      class(plate_3D), intent(in) :: this
+      type(block_metadata), dimension(:,:,:), allocatable :: this_metadata
     end function
 
   end interface

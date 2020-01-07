@@ -5,19 +5,30 @@
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 program test_structured_grid
+  use kind_parameters, only : i4k, r8k
   use structured_grid_interface, only : structured_grid
-  use assertions_interface, only : assert
+  use cartesian_grid_interface, only : cartesian_grid
+  use assertions_interface, only : assert, max_errmsg_len
 #ifndef HAVE_COLLECTIVE_SUBROUTINES
   use emulated_intrinsics_interface, only : co_sum
 #endif
   implicit none
 
-  type(structured_grid) :: coordinate_plane
+  character(len=max_errmsg_len) :: alloc_error
 
-  integer, parameter :: nx=101,ny=11,nz=11
+  integer(i4k), parameter :: success=0
+  integer(i4k) alloc_status
+  integer(i4k), parameter :: nx=101,ny=11,nz=11
     !! Grid resolution in 3 coordinate directions
-  real :: x(nx,ny,nz)=1.,y(nx,ny,nz)=0.,z(nx,ny,nz)=-1.
+  real(r8k) :: x(nx,ny,nz)=1.,y(nx,ny,nz)=0.,z(nx,ny,nz)=-1.
     !! Vector components
+  class(structured_grid), allocatable :: coordinate_plane
+    !!
+  type(cartesian_grid) prototype
+    !! pass the cartesian_grid type
+
+  allocate( coordinate_plane, stat=alloc_status, errmsg=alloc_error, mold=prototype )
+  call assert( alloc_status==success, "test_structured_grid: allocation ("//alloc_error//")" )
 
   call coordinate_plane%set_vector_components(x,y,z)
   call assert(coordinate_plane%space_dimension()==3    ,"test_structured_grid: 3D")

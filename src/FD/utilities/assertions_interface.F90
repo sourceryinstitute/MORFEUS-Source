@@ -31,6 +31,7 @@ module assertions_interface
   private
   public :: assert
   public :: assertions
+  public :: max_errmsg_len
 
 ! Set the USE_ASSERTIONS constant below using the C preprocessor:
 !
@@ -44,6 +45,9 @@ module assertions_interface
 ! to eliminate assertion calls during a dead-code removal phase of optimization.
 
   logical, parameter :: assertions=USE_ASSERTIONS
+  integer, parameter :: max_errmsg_len = len( &
+  "warning (183): FASTMEM allocation is requested but the libmemkind library is not linked in, so using the default allocator.")
+  !! longest Intel compiler error messagea (see https://intel.ly/35x84yr).
 
   interface
 #ifndef HAVE_ERROR_STOP_IN_PURE
