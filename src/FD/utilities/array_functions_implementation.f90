@@ -26,15 +26,15 @@ CONTAINS
 
   MODULE PROCEDURE concatenate_columns
     !! Using RESHAPE rather than manipulating array elements directly frees the compiler to decide the particular order of array
-    !! element references that best exploits the given platform.  Alternatively, DO CONCURRENT could instead be free the compiler
+    !! element references that best exploits the given platform.  Alternatively, DO CONCURRENT could instead free the compiler
     !! to order element accesses however is best. Trade-off: RESHAPE requires the creation of temporary array results but RESHAPE
-    !! is likely to more mature compiler support than DO CONCURRENT.  If this code turns out to be a critical performance
+    !! is likely to have more mature compiler support than DO CONCURRENT.  If this code turns out to be a critical performance
     !! bottleneck, try replacing this implementation with element-by-element copying using DO CONCURRENT.
     ASSOCIATE(rows=>SIZE(a,1))
     ASSOCIATE(cols=>SIZE(a,2)+SIZE(b,2))
     ASSOCIATE(a_unrolled=>RESHAPE(a,[SIZE(a)]))
     ASSOCIATE(b_unrolled=>RESHAPE(b,[SIZE(b)]))
-      IF (assertions) CALL assert( rows==SIZE(b,1), "array_functions: incompatible shapes")
+      IF (assertions) CALL assert( rows==SIZE(b,1), "array_functions: compatible shapes")
       concatenated = RESHAPE( [a_unrolled, b_unrolled ],[rows, cols] )
     END ASSOCIATE; END ASSOCIATE; END ASSOCIATE; END ASSOCIATE
   END PROCEDURE

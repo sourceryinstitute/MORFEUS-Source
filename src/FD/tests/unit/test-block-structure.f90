@@ -7,12 +7,15 @@
 program main
   !! Test the invertibility of mapping between 3D indicial coordinates and 1D identifiers
   !! for the regular grid blocks encapsulated inside a problem_discretization object.
-  use assertions_interface, only : assert, assertions
+  use assertions_interface, only : assert
   use problem_discretization_interface, only :  problem_discretization
+  use cartesian_grid_interface, only : cartesian_grid
   implicit none
 
   type(problem_discretization) block_structured_grid
     !! encapsulate the global grid structure
+  type(cartesian_grid) prototype
+    !! pass the cartesian_grid type
   integer, parameter :: num_structured_grids(*) = [3,3,3]
     !! number of subdomains in each coordinate direction
   integer image
@@ -24,7 +27,7 @@ program main
 
     call assert( ni<=num_blocks, "test-problem-discretization-block-structure: enough blocks to distribute to images")
 
-    call block_structured_grid%partition( num_structured_grids )
+    call block_structured_grid%partition( num_structured_grids, prototype )
       !! partition the block-structured grid into subdomains with connectivity implied by the supplied shape array
 
       associate( remainder => mod(num_blocks,ni) )

@@ -82,7 +82,7 @@ submodule(units_interface) units_implementation
         module procedure real_power
             if (assertions) call assert(this%is_dimensionless(), &
                 &   "units%real_power: an entity raised to a real power must be dimensionless")
-            !! Require dimensionless operand
+            !! Require dimensionless operand => result is default-initialized as dimensionless
         end procedure
 
         module procedure negate
