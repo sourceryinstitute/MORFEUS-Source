@@ -30,7 +30,8 @@ contains
   end procedure
 
   module procedure set_halo_data
-    singleton%halo_data = my_halo_data
+    if(allocated(singleton%halo_data)) deallocate(singleton%halo_data)
+    allocate(singleton%halo_data, source = my_halo_data)
   end procedure
 
 end submodule

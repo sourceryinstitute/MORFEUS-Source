@@ -14,7 +14,11 @@ contains
 
     name_ = trim(file_name)
     associate( dot_location => index(name_, '.', back=.true.) )
-      extension = merge( name_(dot_location+1:), "", dot_location<len(name_))
+      if (dot_location < len(name_)) then
+        extension = name_(dot_location+1:)
+      else
+        extension = ""
+      end if
     end associate
   end procedure
 
@@ -23,7 +27,11 @@ contains
 
     name_ = trim(file_name)
     associate( dot_location => index(name_, '.', back=.true.) )
-      base = merge( name_(1:dot_location-1), "", dot_location<len(name_))
+      if (dot_location < len(name_)) then
+        base = name_(1:dot_location-1)
+      else
+        base = ""
+      end if
     end associate
   end procedure
 
