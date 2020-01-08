@@ -52,7 +52,7 @@ module surfaces_interface
 
     pure module function get_halo_data() result(singleton_halo_data)
       !! result contains halo-exchange data packaged in an object array with dimenions
-      !! [my_blocks(first):my_blocks(last), space_dimension, size([forward, backward]))
+      !! `[my_blocks(first):my_blocks(last), space_dimension, size([forward, backward]))]`
       implicit none
       class(package), dimension(:,:,:), allocatable :: singleton_halo_data
     end function
