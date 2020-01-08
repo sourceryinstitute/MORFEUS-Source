@@ -5,7 +5,7 @@
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 include "surfaces_interface.f90"
-  !! required to work around a gfortran 8.3 internal compiler error
+  !! required to work around a gfortran 8.3 bug 93158 (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=93158)
 
 submodule(surfaces_interface) surfaces_implementation
   !! author: Damian Rouson and Karla Morris
@@ -30,8 +30,35 @@ contains
   end procedure
 
   module procedure set_halo_data
+    !! With gfortran versions > 8.2, this function can be reduced to a single intrinsic assignment:
+    !! singleton%halo_data = my_halo_data
+    integer alloc_stat
+    integer, parameter :: success=0
+    character(len=max_errmsg_len) error_message
+
     if(allocated(singleton%halo_data)) deallocate(singleton%halo_data)
-    allocate(singleton%halo_data, source = my_halo_data)
+
+    associate( lower => lbound(my_halo_data), upper => ubound(my_halo_data) )
+      allocate(singleton%halo_data( lower(1):upper(1), lower(2):upper(2), lower(3):upper(3) ), source = my_halo_data, &
+        stat = alloc_stat, errmsg = error_message)
+      if (assertions) call assert(alloc_stat == success, "surfaces%set_halo_data: allocate(singleton%halo_data)", error_message)
+    end associate
+  end procedure
+
+  module procedure get_halo_data
+    !! With gfortran versions > 8.2, this function can be reduced to a single intrinsic assignment:
+    !! singleton_halo_data = singleton%halo_data
+    integer alloc_stat
+    integer, parameter :: success=0
+    character(len=max_errmsg_len) error_message
+
+    if (assertions) call assert(allocated(singleton%halo_data),"surfaces%get_halo_data: allocated(singleton%halo_data)")
+
+    associate( lower => lbound(singleton%halo_data), upper => ubound(singleton%halo_data) )
+      allocate(singleton_halo_data( lower(1):upper(1), lower(2):upper(2), lower(3):upper(3) ), source = singleton%halo_data, &
+        stat = alloc_stat, errmsg = error_message)
+      if (assertions) call assert(alloc_stat == success, "surfaces%get_halo_data: allocate(singleton_halo_data)", error_message)
+    end associate
   end procedure
 
 end submodule
