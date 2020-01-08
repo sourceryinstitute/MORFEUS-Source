@@ -183,9 +183,9 @@ contains
   end subroutine vtk_output
 
   pure function evenly_spaced_points( boundaries, resolution, direction ) result(grid_nodes)
-    !! Define grid point coordinates with uniform spacing in the chosen subdomain
+    !! Define grid point coordinates with uniform spacing in the chosen block
     real(r8k), intent(in) :: boundaries(:,:)
-      !! subdomain boundaries of each coordinate direction
+      !! block boundaries of each coordinate direction
     integer(i4k), intent(in) :: resolution(:)
       !! number of grid points in each direction
     integer(i4k), intent(in) :: direction
@@ -246,9 +246,9 @@ contains
     call this%partition( plate_3D_geometry%get_block_metadata_shape(), prototype )
       !! partition a block-structured grids across images
 
-    associate( my_subdomains => this%my_subdomains() )
+    associate( my_blocks => this%my_blocks() )
 
-      do n = my_subdomains(lo_bound) , my_subdomains(up_bound) ! TODO: make concurrent after Intel supports co_sum
+      do n = my_blocks(lo_bound) , my_blocks(up_bound) ! TODO: make concurrent after Intel supports co_sum
 
         associate( ijk => this%block_map%block_indicial_coordinates(n) )
 
@@ -257,18 +257,18 @@ contains
             call this%vertices(n)%set_metadata( metadata  )
 
             associate( &
-              subdomain => plate_3D_geometry%get_block_domain(ijk), &
+              block => plate_3D_geometry%get_block_domain(ijk), &
               max_spacing => metadata%get_max_spacing() &
             )
               associate( &
-                nx => max( nx_min, floor( abs(subdomain(1,up_bound) - subdomain(1,lo_bound))/max_spacing ) + 1 ), &
-                ny => max( ny_min, floor( abs(subdomain(2,up_bound) - subdomain(2,lo_bound))/max_spacing ) + 1 ), &
-                nz => max( nz_min, floor( abs(subdomain(3,up_bound) - subdomain(3,lo_bound))/max_spacing ) + 1 ) &
+                nx => max( nx_min, floor( abs(block(1,up_bound) - block(1,lo_bound))/max_spacing ) + 1 ), &
+                ny => max( ny_min, floor( abs(block(2,up_bound) - block(2,lo_bound))/max_spacing ) + 1 ), &
+                nz => max( nz_min, floor( abs(block(3,up_bound) - block(3,lo_bound))/max_spacing ) + 1 ) &
               )
                 associate( &
-                  x => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=1 ), &
-                  y => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=2 ), &
-                  z => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=3 ) )
+                  x => evenly_spaced_points(  block, [nx,ny,nz], direction=1 ), &
+                  y => evenly_spaced_points(  block, [nx,ny,nz], direction=2 ), &
+                  z => evenly_spaced_points(  block, [nx,ny,nz], direction=3 ) )
                   call this%set_vertices(x,y,z,block_identifier=n)
                 end associate
               end associate
@@ -332,7 +332,7 @@ contains
 
   end procedure
 
-  module procedure my_subdomains
+  module procedure my_blocks
 
     block_identifier_range = [ lbound(this%vertices), ubound(this%vertices) ]
 

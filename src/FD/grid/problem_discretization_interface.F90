@@ -37,7 +37,7 @@ module problem_discretization_interface
       !! description of problem domain and material identities; child types: plate_3D, cylinder_2D, sphere_1D
   contains
     procedure partition
-    procedure my_subdomains
+    procedure my_blocks
     procedure block_indicial_coordinates
     procedure block_identifier
     procedure block_load
@@ -63,14 +63,14 @@ module problem_discretization_interface
     end subroutine
 
     module subroutine initialize_from_plate_3D(this, plate_3D_geometry)
-      !! Define a grid with points only at the corners of each structured-grid block subdomain
+      !! Define a grid with points only at the corners of each structured-grid block block
       implicit none
       class(problem_discretization), intent(inout) :: this
       type(plate_3D), intent(in) :: plate_3D_geometry
     end subroutine
 
     module subroutine partition(this,global_block_shape,prototype)
-      !! Define the distribution of subdomains across images for the given shape of the block-structured partitions
+      !! Define the distribution of blocks across images for the given shape of the block-structured partitions
       !! (impure because of image-control statement in emulated co_sum -- may be pure when replaced by intrinsic co_sum)
       implicit none
       class(problem_discretization), intent(inout) :: this
@@ -114,7 +114,7 @@ module problem_discretization_interface
       integer num_divergences
     end function
 
-    pure module function my_subdomains(this) result(block_identifier_range)
+    pure module function my_blocks(this) result(block_identifier_range)
       !! Result contains the first & last identifiers for blocks owned by this image
       implicit none
       class(problem_discretization), intent(in) :: this

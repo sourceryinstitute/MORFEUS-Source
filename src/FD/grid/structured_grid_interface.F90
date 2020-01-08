@@ -110,7 +110,7 @@ module structured_grid_interface
     end function
 
     subroutine build_surfaces_interface(this, problem_geometry, my_blocks, space_dimension, block_faces)
-      !! allocate coarray for communicating across structured_grid subdomains
+      !! allocate coarray for communicating across structured_grid blocks
       import structured_grid, geometry, surfaces
       class(structured_grid), intent(in) :: this
       class(geometry), intent(in) :: problem_geometry
