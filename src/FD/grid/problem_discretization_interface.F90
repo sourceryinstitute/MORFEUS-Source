@@ -21,8 +21,6 @@ module problem_discretization_interface
   private
   public :: problem_discretization
 
-  integer, parameter :: space_dimension=3
-
   type, extends(object) :: problem_discretization
     private
     class(structured_grid), allocatable :: block_map
@@ -136,7 +134,7 @@ module problem_discretization_interface
       !! Calculate the 1D block identifer associated with the provided 3D block location
       implicit none
       class(problem_discretization), intent(in) :: this
-      integer, intent(in) :: ijk(space_dimension)
+      integer, intent(in) :: ijk(:)
       integer :: n
     end function
 

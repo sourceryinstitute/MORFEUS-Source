@@ -21,7 +21,7 @@ module surfaces_interface
   end enum
 
   integer(enumeration), parameter, dimension(*) :: face_normal = [backward, forward]
-    !! surface outward-normal direction for a given block
+    !! surface outward-normal direction: 'forward' for the direction of increasing coordinate; 'backward' for decreasing
 
   type surfaces
     !! hexahedral structured_grid block surface data: all components will be allocated to have the
@@ -31,14 +31,14 @@ module surfaces_interface
   contains
     procedure, nopass :: is_external_boundary
     procedure, nopass :: set_halo_data
+    procedure, nopass :: get_halo_data
   end type
 
   interface
 
-    module function is_external_boundary(this, block_id, coordinate_direction, face) result(is_external)
+    elemental module function is_external_boundary(block_id, coordinate_direction, face) result(is_external)
       !! result is .true. if the identified structured_grid block surface corresponds to a problem domain boundary
       implicit none
-      class(surfaces), intent(in) :: this
       integer, intent(in) :: block_id, coordinate_direction
       integer(enumeration), intent(in) :: face
       logical is_external
@@ -49,6 +49,13 @@ module surfaces_interface
       implicit none
       class(package), intent(in), dimension(:,:,:) :: my_halo_data
     end subroutine
+
+    pure module function get_halo_data() result(singleton_halo_data)
+      !! result contains halo-exchange data packaged in an object array with dimenions
+      !! `[my_blocks(first):my_blocks(last), space_dimension, size([forward, backward]))]`
+      implicit none
+      class(package), dimension(:,:,:), allocatable :: singleton_halo_data
+    end function
 
   end interface
 

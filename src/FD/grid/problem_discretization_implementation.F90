@@ -12,7 +12,7 @@ submodule(problem_discretization_interface) define_problem_discretization
   use kind_parameters, only : i4k, r8k
   implicit none
 
-  integer, parameter :: space_dimensions=3, success=0
+  integer, parameter :: success=0
 
 contains
 
@@ -70,8 +70,12 @@ contains
     integer :: b, s, first_point_in_block, first_cell_in_block
     real(r8k), dimension(:,:,:), allocatable :: scalar_fields_values
 
+    if (assertions) call assert(allocated(this%vertices), "problem_discretization%vtk_output: allocated(this%vertices())")
+
     allocate( cell_list(sum( this%vertices%num_cells())) )
-    allocate( points(space_dimensions,0), block_cell_material(0), point_block_id(0) )
+    associate(my_first_block => lbound(this%vertices,1))
+      allocate( points(this%vertices(my_first_block)%space_dimension(),0), block_cell_material(0), point_block_id(0) )
+    end associate
     allocate( vtk_data_(this%num_scalars()) )
     do s = 1, this%num_scalars()
       allocate( vtk_data_(s)%point_scalars(0), vtk_data_(s)%point_div_flux(0) )
@@ -188,7 +192,7 @@ contains
       !! coordinate direction to define
     real(r8k), allocatable :: grid_nodes(:,:,:)
       !! grid node locations and spacing in each coordination direction
-    real(r8k) dx(space_dimensions)
+    real(r8k), allocatable :: dx(:)
     integer alloc_status
     character(len=max_errmsg_len) :: alloc_error
 
@@ -434,6 +438,8 @@ contains
   module procedure set_analytical_scalars
     integer b, f, alloc_status
     character(len=max_errmsg_len) :: alloc_error
+
+    if (assertions) call assert(allocated(this%vertices), "problem_discretization%set_analytical_scalars: allocated(this%vertices)")
 
     if (allocated(this%scalar_fields)) deallocate(this%scalar_fields)
     allocate( this%scalar_fields(lbound(this%vertices,1) : ubound(this%vertices,1), size(scalar_setters)), &
