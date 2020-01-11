@@ -16,6 +16,7 @@ module problem_discretization_interface
   use plate_3D_interface, only : plate_3D
   use differentiable_field_interface, only : differentiable_field
   use surfaces_interface, only : surfaces
+  use package_interface, only : package
   implicit none
 
   private
@@ -25,17 +26,22 @@ module problem_discretization_interface
     private
     class(structured_grid), allocatable :: block_map
       !! hook for invoking block_indicial_coordindates and block_identifier
+    type(surfaces) block_surfaces
+      !! global surface information with singleton communication buffers
     class(structured_grid), allocatable :: vertices(:)
       !! grid nodal locations: size(vertices) == number of blocks owned by the executing image
     class(structured_grid), allocatable :: scalar_fields(:,:)
       !! scalar values at the grid nodes: size(scalar_fields,1)==size(vertices), size(scalar_fields,2)==number of scalar fields
     class(structured_grid), allocatable :: scalar_flux_divergence(:,:)
       !! div( D grad(s)): same dimensions as scalar_fields
-    type(surfaces), allocatable :: scalar_fluxes(:)
-      !! dimension is size(scalar_fields,2)
+    class(package), allocatable :: scalar_fluxes(:)
+      !! boundary data for halo exchanges
     class(geometry), allocatable :: problem_geometry
       !! description of problem domain and material identities; child types: plate_3D, cylinder_2D, sphere_1D
   contains
+    procedure get_surface_packages
+    procedure get_block_surfaces
+    procedure get_global_block_shape
     procedure partition
     procedure my_blocks
     procedure block_indicial_coordinates
@@ -54,6 +60,28 @@ module problem_discretization_interface
   end type
 
   interface
+
+    module subroutine get_surface_packages(this, this_surface_packages)
+      !! get this image's surface data packages
+      !! This can't be a function because the function result would not preserve the desired bounds.
+      implicit none
+      class(problem_discretization), intent(in) :: this
+      class(package), allocatable, dimension(:,:,:), intent(out) :: this_surface_packages
+    end subroutine
+
+    module function get_block_surfaces(this) result(this_block_surfaces)
+      !! get this image's surfaces
+      implicit none
+      class(problem_discretization), intent(in) :: this
+      type(surfaces) this_block_surfaces
+    end function
+
+    module function get_global_block_shape(this) result(block_shape)
+      !! result is shape of array of structured_grid blocks
+      implicit none
+      class(problem_discretization), intent(in) :: this
+      integer, dimension(:), allocatable :: block_shape
+    end function
 
     module subroutine write_output (this, filename)
       !! Generic write output interface

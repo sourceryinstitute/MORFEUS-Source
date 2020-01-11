@@ -16,6 +16,20 @@ submodule(problem_discretization_interface) define_problem_discretization
 
 contains
 
+  module procedure get_surface_packages
+    call this%block_surfaces%get_halo_data(this_surface_packages)
+  end procedure
+
+  module procedure get_block_surfaces
+    this_block_surfaces = this%block_surfaces
+  end procedure
+
+  module procedure get_global_block_shape
+    if (assertions) &
+      call assert(allocated(this%block_map), "problem_discretization%get_global_block_shape: allocated(this%block_map)")
+    block_shape = this%block_map%get_global_block_shape()
+  end procedure
+
   module procedure write_output
     use string_functions_interface, only : file_extension, base_name
     implicit none
@@ -306,7 +320,7 @@ contains
 
     if (assertions) then
       block
-#ifndef HAVE_COLLECTIVE_subroutineS
+#ifndef HAVE_COLLECTIVE_SUBROUTINES
         use emulated_intrinsics_interface, only : co_sum
 #endif
         integer total_blocks
@@ -436,7 +450,7 @@ contains
   end procedure
 
   module procedure set_analytical_scalars
-    integer b, f, alloc_status
+    integer b, f, alloc_status, coord_dir, face_dir
     character(len=max_errmsg_len) :: alloc_error
 
     if (assertions) call assert(allocated(this%vertices), "problem_discretization%set_analytical_scalars: allocated(this%vertices)")
@@ -459,20 +473,13 @@ contains
       end do loop_over_functions
     end do loop_over_blocks
 
-    if (allocated(this%scalar_fluxes)) deallocate(this%scalar_fluxes)
-    allocate( this%scalar_fluxes(size(scalar_setters)), stat=alloc_status, errmsg=alloc_error )
-    call assert( alloc_status==success, "set_analytical_scalars: allocate(scalar_fluxes)", alloc_error )
-
     call assert( allocated(this%problem_geometry), &
       "problem_discretization%set_analytical_scalars: allocated(this%problem_geometry)")
 
-    loop_over_scalar_fields: &
-    do f = 1, size(scalar_setters)
-      associate( my_blocks => [lbound(this%vertices,1), ubound(this%vertices,1)] )
-        call this%block_map%build_surfaces( this%problem_geometry, my_blocks, &
-          this%vertices(my_blocks(1))%space_dimension(), this%scalar_fluxes(f))
-      end associate
-    end do loop_over_scalar_fields
+    associate( my_blocks => this%my_blocks() )
+      call this%block_map%build_surfaces( this%problem_geometry, my_blocks, &
+        this%vertices(my_blocks(1))%space_dimension(), this%block_surfaces)
+    end associate
 
   end procedure
 
