@@ -8,12 +8,13 @@ module emulated_intrinsics_interface
   !! author: Damian Rouson
   !!
   !! Fortran 2008 coarray emulations of Fortran 2018 intrinsic collective subroutines
+  !! and Fortran 2003 emulation of Fortran 2008 intrinsic procedures (e.g, findloc)
   implicit none
 
 #ifndef HAVE_FINDLOC
   interface findloc
     !! result is the last occurence of a value in an array or zero if not found
-    module procedure findloc_integer_dim1_backtrue
+    module procedure findloc_integer_dim1, findloc_character_dim1
   end interface
 #endif
 
@@ -50,9 +51,17 @@ module emulated_intrinsics_interface
 #endif
 
 #ifndef HAVE_FINDLOC
-    pure module function findloc_integer_dim1_backtrue(array, value, dim, back) result(location)
+    pure module function findloc_integer_dim1(array, value, dim, back) result(location)
       implicit none
       integer, intent(in) :: array(:), value, dim
+      logical, intent(in) :: back
+      integer location
+    end function
+
+    pure module function findloc_character_dim1(array, value, dim, back) result(location)
+      implicit none
+      character(len=*), intent(in) :: array(:), value
+      integer, intent(in) :: dim
       logical, intent(in) :: back
       integer location
     end function

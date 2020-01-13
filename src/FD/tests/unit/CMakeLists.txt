@@ -12,6 +12,10 @@ set( base_names
   write-problem-discretization
   read-geometry
   array-functions
+  spatial-derivatives
+  adi-time-advancing
+  spatial-derivatives-new
+  halo-exchange
 )
 foreach(unit_test ${base_names})
   add_executable( test-${unit_test} test-${unit_test}.f90 )

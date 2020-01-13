@@ -5,6 +5,9 @@
 #     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 #
 set( morfeus_fd_sources
+  package_interface.f90
+  package_implementation.f90
+  surfaces_implementation.f90
   curvilinear_grid_interface.f90
   units_implementation.f90
   units_interface.F90
@@ -12,14 +15,18 @@ set( morfeus_fd_sources
   grid_interface.F90
   problem_discretization_implementation.F90
   problem_discretization_interface.F90
-  rectangular_grid_interface.f90
+  cartesian_grid_interface.f90
+  cartesian_grid_implementation.f90
   structured_grid_implementation.f90
   structured_grid_interface.F90
+  differentiable_field_interface.f90
+  ellipsoidal_field_interface.f90
+  ellipsoidal_field_implementation.f90
   ../geometry/geometry_interface.f90
   ../geometry/geometry_implementation.f90
   ../geometry/plate_3D_implementation.F90
   ../geometry/plate_3D_interface.F90
-  ../geometry/block_metadata_interface.f90
+  ../geometry/block_metadata_interface.F90
   ../geometry/block_metadata_implementation.f90
 )
 add_library(morfeus_fd ${morfeus_fd_sources})

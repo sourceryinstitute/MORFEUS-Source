@@ -11,8 +11,8 @@ module curvilinear_grid_interface
   private
   public :: curvilinear_grid
 
-  type, extends(structured_grid) :: curvilinear_grid
-    type(structured_grid), allocatable :: metric_tensor(:,:)
+  type, extends(structured_grid), abstract :: curvilinear_grid
+    class(structured_grid), allocatable :: metric_tensor(:,:)
   end type
 
 end module
