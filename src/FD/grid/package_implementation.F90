@@ -12,12 +12,6 @@ submodule(package_interface) package_implementation
 
 contains
 
-  module procedure assign
-    this%sender_block_id = rhs%sender_block_id
-    this%step = rhs%step
-    this%datum = rhs%datum
-  end procedure
-
   module procedure get_sender_block_id
     this_sender_block_id = this%sender_block_id
   end procedure

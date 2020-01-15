@@ -1,5 +1,5 @@
 !
-  !     (c) 2019-2020 Guide Star Engineering, LLC
+!     (c) 2019-2020 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract
 !     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
 !     contract # NRC-HQ-60-17-C-0007
@@ -125,7 +125,7 @@ contains
             do ic=1,ncells(1)
               do jc=1,ncells(2)
                 do kc=1,ncells(3)
-                  associate( block_local_point_id => & !! 8-element array of block-local ID's for voxel corners
+                  associate( block_local_point_id => & !! 8-element array of block-local IDs for voxel corners
                     [( [( [( kp*PRODUCT(npoints(1:2)) + jp*npoints(1) + ip, ip=ic,ic+1 )], jp=jc-1,jc )], kp=kc-1,kc )] &
                   )
                     call voxel_cell%setup ( first_point_in_block + block_local_point_id-1 )
@@ -181,7 +181,11 @@ contains
 
     iostat = 0
 
+#ifdef FORD
+  end subroutine vtk_output
+#else
   contains
+#endif
 
     subroutine define_scalar( s, vals, dataname )
       use vtk_attributes, only : scalar, attributes
@@ -194,7 +198,9 @@ contains
       call s%attribute%init (dataname, numcomp=1, real1d=vals)
     end subroutine
 
+#ifndef FORD
   end subroutine vtk_output
+#endif
 
   pure function evenly_spaced_points( boundaries, resolution, direction ) result(grid_nodes)
     !! Define grid point coordinates with uniform spacing in the chosen block
@@ -307,36 +313,40 @@ contains
 
     call this%block_map%set_global_block_shape( global_block_shape )
 
-    associate( num_blocks => product(global_block_shape) )
-    associate( me => this_image() )
-    associate( ni => num_images() )
-    associate( remainder => mod(num_blocks,ni) )
-    associate( quotient => num_blocks/ni )
-    associate( my_first => 1 + sum([(quotient+overflow(image,remainder),image=1,me-1)]) )
-    associate( my_last => my_first + quotient + overflow(me,remainder) - 1 )
 
-    allocate( this%vertices(my_first:my_last), stat=alloc_status, errmsg=alloc_error, mold=prototype )
-    call assert(alloc_status==0, "partition: allocate(this%vertices(...)", alloc_error)
+    associate( me => this_image(), ni => num_images(), num_blocks => product(global_block_shape) )
+      associate( remainder => mod(num_blocks,ni), quotient => num_blocks/ni )
+        associate( my_first => 1 + sum([(quotient+overflow(image,remainder),image=1,me-1)]) )
+          associate( my_last => my_first + quotient + overflow(me,remainder) - 1 )
 
-    if (assertions) then
-      block
+            allocate( this%vertices(my_first:my_last), stat=alloc_status, errmsg=alloc_error, mold=prototype )
+            call assert(alloc_status==0, "partition: allocate(this%vertices(...)", alloc_error)
+
+            if (assertions) then
+              block
 #ifndef HAVE_COLLECTIVE_SUBROUTINES
-        use emulated_intrinsics_interface, only : co_sum
+                use emulated_intrinsics_interface, only : co_sum
 #endif
-        integer total_blocks
-        total_blocks = size(this%vertices)
-        call co_sum(total_blocks,result_image=1)
-        if (me==1) call assert(total_blocks==num_blocks,"all blocks have been distributed amongst the images")
-        sync all
-      end block
-    end if
-
-    end associate; end associate; end associate; end associate; end associate; end associate; end associate
+                integer total_blocks
+                total_blocks = size(this%vertices)
+                call co_sum(total_blocks,result_image=1)
+                if (me==1) call assert(total_blocks==num_blocks,"all blocks have been distributed amongst the images")
+                sync all
+              end block
+            end if
+          end associate
+        end associate
+      end associate
+    end associate
 
     ! Assures
     call this%mark_as_defined
 
+#ifndef FORD
   contains
+#else
+  end procedure
+#endif
 
     pure function overflow(image,remainder) result(filler)
       integer, intent(in) :: image,remainder
@@ -344,7 +354,9 @@ contains
       filler = merge(1,0,image<=remainder)
     end function
 
+#ifndef FORD
   end procedure
+#endif
 
   module procedure my_blocks
 

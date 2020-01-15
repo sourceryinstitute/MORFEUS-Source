@@ -23,8 +23,6 @@ module package_interface
     integer :: step
     real(r8k) datum
   contains
-    procedure assign
-    generic :: assignment(=)=>assign
     procedure get_sender_block_id
     procedure set_sender_block_id
     procedure set_step
@@ -33,13 +31,6 @@ module package_interface
   end type
 
   interface
-
-    module subroutine assign(this, rhs)
-      !! copy rhs package components into this package
-      implicit none
-      class(package), intent(inout) :: this
-      type(package), intent(in) :: rhs
-    end subroutine
 
     module function get_sender_block_id(this) result(this_sender_block_id)
       !! result is sender_block_id for this package

@@ -26,7 +26,6 @@ program main
 
   associate( me=>this_image(), ni=>num_images() )
 
-
     test_collective_broadcast: block
       integer ::i, messenger, message
 
@@ -70,10 +69,12 @@ program main
 
         integer, parameter, dimension(*) :: zero_sized = [ integer :: ]
 
+#ifndef FORD
         enum, bind(C)
           enumerator &
-          absent, core, dressing, gap, wrap, ring, foil, skin, fabric
+            absent, core, dressing, gap, wrap, ring, foil, skin, fabric
         end enum
+#endif
 
         associate( unused=>absent) !! eliminate unused variable warning
         end associate

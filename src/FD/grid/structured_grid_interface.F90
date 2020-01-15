@@ -60,7 +60,9 @@ module structured_grid_interface
     procedure set_scalar
     procedure increment_scalar
     procedure subtract
+#ifndef FORD
     generic :: operator(-) => subtract
+#endif
     procedure compare
 #ifdef HAVE_UDDTIO
     generic :: write(formatted) => write_formatted

@@ -1,8 +1,9 @@
 ---
 project: morfeus-fd
 summary: A parallel finite difference solver
-src_dir: grid
 src_dir: tests
+src_dir: grid
+src_dir: geometry 
 src_dir: utilities
 output_dir: doc
 preprocess: true
@@ -36,11 +37,14 @@ website: http://www.sourceryinstitute.org
 
 --------------------
 
-Compilers
----------
-@warning
-This archive makes extensive use of Fortran 2018.   We recommend compiling wiht with the latest available version of any of the following recommended compilers:
+Supported Compilers
+-------------------
 
-* GNU Compiler Collection (GCC)
-* Intel
-* Cray
+* GNU Compiler Collection (GCC) 8
+* Intel 18
+
+Supported Operating Systems
+---------------------------
+* Windows
+* Linux
+* macOS

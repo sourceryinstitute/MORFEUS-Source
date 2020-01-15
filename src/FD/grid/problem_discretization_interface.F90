@@ -53,24 +53,26 @@ module problem_discretization_interface
     procedure num_scalar_flux_divergences
     procedure initialize_from_plate_3D
     procedure set_scalar_flux_divergence
+#ifndef FORD
     generic :: set_vertices => user_defined_vertices
     generic :: set_scalars => set_analytical_scalars
     generic :: initialize_from_geometry => initialize_from_plate_3D
+#endif
     procedure :: write_output
   end type
 
   interface
 
     module subroutine get_surface_packages(this, this_surface_packages)
-      !! get this image's surface data packages
-      !! This can't be a function because the function result would not preserve the desired bounds.
+      !! get surface data packages of this image
+      !! This cannot be a function because the function result would not preserve the desired bounds.
       implicit none
       class(problem_discretization), intent(in) :: this
       class(package), allocatable, dimension(:,:,:), intent(out) :: this_surface_packages
     end subroutine
 
     module function get_block_surfaces(this) result(this_block_surfaces)
-      !! get this image's surfaces
+      !! get surfaces owned by this image
       implicit none
       class(problem_discretization), intent(in) :: this
       type(surfaces) this_block_surfaces
