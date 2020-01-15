@@ -18,7 +18,11 @@ module block_metadata_interface
   integer, parameter :: space_dimension=3, num_end_points=2, tag_kind=c_int, lower=1, upper=2, max_name_length=32
 
   enum, bind(C)
+#ifdef FORD
+    enumerator :: untagged = -99999 ! compilers never see this; to generate documentation, run "ford -m FORD..." to circumvent a bug
+#else
     enumerator :: untagged = -huge(1_tag_kind)
+#endif
   end enum
 
   type subdomain_t !! scalar argument for elemental set_subdomain procedure
