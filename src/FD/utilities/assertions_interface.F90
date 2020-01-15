@@ -37,7 +37,7 @@ module assertions_interface
 !
 !    gfortran -cpp -DUSE_ASSERTIONS=.false. -c assertions_interface.f90
 !
-! or set the corresponding NO_ASSERTIONS variable defined in this directory's CMakeLists.txt:
+! or set the corresponding NO_ASSERTIONS variable defined in the CMakeLists.txt file in this directory:
 !
 !    FC=caf cmake <path-to-icar-source-dir> -DNO_ASSERTIONS=ON
 !
