@@ -1,6 +1,7 @@
 ---
 project: morfeus-fd
 summary: A parallel finite difference solver
+macro: FORD
 src_dir: tests
 src_dir: grid
 src_dir: geometry 
