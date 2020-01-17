@@ -113,8 +113,8 @@ contains
               dy_m => (y(i,j+1,k) - y(i,j-1,k))*half, &
               dy_f =>  y(i,j+1,k) - y(i,j,k ), &
               dy_b =>  y(i,j,k)   - y(i,j-1,k), &
-              s_f => half*(y(i,j+1,k) + y(i,j,k)), &
-              s_b =>  half*(y(i,j,k) + y(i,j-1,k)) )
+              s_f => half*(s(i,j+1,k) + s(i,j,k)), &
+              s_b =>  half*(s(i,j,k) + s(i,j-1,k)) )
 
               associate( &
                 D_f => this%diffusion_coefficient( s_f ), &
@@ -134,8 +134,8 @@ contains
               dz_m => (z(i,j,k+1) - z(i,j,k-1))*half, &
               dz_f =>  z(i,j,k+1) - z(i,j,k), &
               dz_b =>  z(i,j,k)   - z(i,j,k-1), &
-              s_f => half*(z(i,j,k+1)+z(i,j,k)), &
-              s_b => half*(z(i,j,k)+z(i,j,k-1)) )
+              s_f => half*(s(i,j,k+1) + s(i,j,k)), &
+              s_b => half*(s(i,j,k) + s(i,j,k-1)) )
               associate( &
                 D_f => this%diffusion_coefficient( s_f ), &
                 D_b => this%diffusion_coefficient( s_b) )
