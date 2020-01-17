@@ -148,7 +148,7 @@ contains
           end do
         end associate
 
-        ! TO DO
+        ! TODO
         ! 1. Each block sets scalar_flux packages on halo blocks
 
         call div_flux_internal_points%set_scalar( div_flux_x + div_flux_y + div_flux_z )
