@@ -7,7 +7,7 @@
 set( morfeus_fd_sources
   package_interface.F90
   package_implementation.F90
-  surfaces_implementation.f90
+  surfaces_implementation.F90
   curvilinear_grid_interface.f90
   units_implementation.F90
   units_interface.F90
