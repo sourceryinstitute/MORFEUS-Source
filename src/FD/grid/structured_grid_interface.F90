@@ -15,7 +15,6 @@ module structured_grid_interface
   use differentiable_field_interface, only : differentiable_field
   use geometry_interface, only : geometry
   use surfaces_interface, only : surfaces
-  use package_interface, only : package
   implicit none
 
   private
@@ -71,19 +70,19 @@ module structured_grid_interface
 
   abstract interface
 
-    subroutine set_up_div_scalar_flux_interface(this, vertices, surface_fluxes, div_flux_internal_points)
-      import structured_grid, differentiable_field, surfaces, package
+    subroutine set_up_div_scalar_flux_interface(this, vertices, block_surfaces, div_flux_internal_points)
+      import structured_grid, differentiable_field, surfaces
       implicit none
       class(structured_grid), intent(in) :: this, vertices
-      class(package), intent(inout) :: surface_fluxes
+      class(surfaces), intent(inout) :: block_surfaces
       class(structured_grid), intent(inout) :: div_flux_internal_points
     end subroutine
 
-    subroutine div_scalar_flux_interface(this, vertices, surface_fluxes, div_flux)
-      import structured_grid, differentiable_field, surfaces, package
+    subroutine div_scalar_flux_interface(this, vertices, block_surfaces, div_flux)
+      import structured_grid, differentiable_field, surfaces
       implicit none
       class(structured_grid), intent(in) :: this, vertices
-      class(package), intent(in) :: surface_fluxes
+      class(surfaces), intent(in) :: block_surfaces
       class(structured_grid), intent(inout) :: div_flux
     end subroutine
 
@@ -112,12 +111,12 @@ module structured_grid_interface
       integer :: n
     end function
 
-    subroutine build_surfaces_interface(this, problem_geometry, my_blocks, space_dimension, block_faces)
+    subroutine build_surfaces_interface(this, problem_geometry, my_blocks, space_dimension, block_faces, block_partitions)
       !! allocate coarray for communicating across structured_grid blocks
       import structured_grid, geometry, surfaces
       class(structured_grid), intent(in) :: this
       class(geometry), intent(in) :: problem_geometry
-      integer, intent(in), dimension(:) :: my_blocks
+      integer, intent(in), dimension(:) :: my_blocks, block_partitions
       integer, intent(in) :: space_dimension
       type(surfaces), intent(inout) :: block_faces
     end subroutine

@@ -12,6 +12,9 @@ submodule(surfaces_interface) surfaces_implementation
   !! date: 12/27/2019
   !! Implement procedures for exchanging information with halo blocks in block-structured grid
   use assertions_interface, only : assert, max_errmsg_len, assertions
+#ifndef HAVE_FINDLOC
+  use emulated_intrinsics_interface, only : findloc
+#endif
   implicit none
 
   type(surfaces) singleton[*]
@@ -26,37 +29,51 @@ contains
       call assert(any(face==[forward,backward]), "surfaces%is_external_boundary: any(face==[forward,backward])")
       call assert(any(coordinate_direction==[1,2,3]), "surfaces%is_external_boundary: any(coordinate_direction==[1,2,3])")
     end if
-    is_external = singleton%halo_data(block_id, coordinate_direction, face)%sender_block_id_null()
+    is_external = singleton%halo_inbox(block_id, coordinate_direction, face)%sender_block_id_null()
   end procedure
 
-  module procedure set_halo_data
+  module procedure set_halo_inbox
     integer alloc_stat
     integer, parameter :: success=0
     character(len=max_errmsg_len) error_message
 
-    call assert( size(my_halo_data,1)==my_blocks(2)-my_blocks(1)+1, &
-       "surfaces%set_halo_data: size(my_halo_data,1)==my_blocks(2)-my_blocks(1)+1")
+    call assert( size(my_halo_inbox,1)==my_blocks(2)-my_blocks(1)+1, &
+       "surfaces%set_halo_inbox: size(my_halo_inbox,1)==my_blocks(2)-my_blocks(1)+1")
 
-    if(allocated(singleton%halo_data)) deallocate(singleton%halo_data)
+    if(allocated(singleton%halo_inbox)) deallocate(singleton%halo_inbox)
 
-    allocate(singleton%halo_data( my_blocks(1):my_blocks(2), size(my_halo_data,2), size(my_halo_data,3) ), source = my_halo_data, &
-      stat = alloc_stat, errmsg = error_message)
-    if (assertions) call assert(alloc_stat == success, "surfaces%set_halo_data: allocate(singleton%halo_data)", error_message)
+    allocate(singleton%halo_inbox( my_blocks(1):my_blocks(2), size(my_halo_inbox,2), size(my_halo_inbox,3) ), &
+      source = my_halo_inbox, stat = alloc_stat, errmsg = error_message)
+    if (assertions) call assert(alloc_stat == success, "surfaces%set_halo_inbox: allocate(singleton%halo_inbox)", error_message)
+    allocate( singleton%block_partitions, source = block_partitions)
   end procedure
 
-  module procedure get_halo_data
-    integer b, coord_dir, face_dir
+  module procedure get_halo_inbox
     integer alloc_stat
     integer, parameter :: success=0
     character(len=max_errmsg_len) error_message
 
-    if (assertions) call assert(allocated(singleton%halo_data),"surfaces%get_halo_data: allocated(singleton%halo_data)")
+    if (assertions) call assert(allocated(singleton%halo_inbox),"surfaces%get_halo_inbox: allocated(singleton%halo_inbox)")
 
-    associate( lower => lbound(singleton%halo_data), upper => ubound(singleton%halo_data) )
-      allocate(singleton_halo_data( lower(1):upper(1), lower(2):upper(2), lower(3):upper(3) ), source = singleton%halo_data, &
+    associate( lower => lbound(singleton%halo_inbox), upper => ubound(singleton%halo_inbox) )
+      allocate(singleton_halo_inbox( lower(1):upper(1), lower(2):upper(2), lower(3):upper(3) ), source = singleton%halo_inbox, &
         stat = alloc_stat, errmsg = error_message)
-      if (assertions) call assert(alloc_stat == success, "surfaces%get_halo_data: allocate(singleton_halo_data)", error_message)
+      if (assertions) call assert(alloc_stat == success, "surfaces%get_halo_inbox: allocate(singleton_halo_inbox)", error_message)
     end associate
+  end procedure
+
+  module procedure set_surface
+    type(package) message
+    if (assertions) call assert(allocated(singleton%halo_inbox),"surfaces%set_surface: allocated(singleton%halo_inbox)")
+    call message%set_data(x_f, x_b, s_flux_f, s_flux_b)
+    associate( image => singleton%get_block_image(block_id) )
+     !singleton%halo_inbox( block_id, coordinate_direction, face) = message
+     !singleton[image]%halo_inbox( block_id, coordinate_direction, face) = message
+    end associate
+  end procedure
+
+  module procedure get_block_image
+    image = findloc( block_id >= singleton%block_partitions, value=.true., dim=1, back=.true.)
   end procedure
 
 end submodule

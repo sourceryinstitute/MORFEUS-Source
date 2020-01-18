@@ -10,6 +10,7 @@ module surfaces_interface
   !!
   !! Encapsulate block boundary data for structured_grid halo exchanges
   use package_interface, only : package
+  use kind_parameters, only : r8k
   use iso_c_binding, only : enumeration=>c_int
   implicit none
 
@@ -27,11 +28,14 @@ module surfaces_interface
     !! hexahedral structured_grid block surface data: all components will be allocated to have the
     !! dimensions [my_blocks(first):my_blocks(last), space_dimension, size([forward, backward]))
     private
-    class(package), allocatable, dimension(:,:,:) :: halo_data
+    class(package), allocatable, dimension(:,:,:) :: halo_inbox
+    integer, allocatable, dimension(:) :: block_partitions
   contains
     procedure, nopass :: is_external_boundary
-    procedure, nopass :: set_halo_data
-    procedure, nopass :: get_halo_data
+    procedure, nopass :: set_halo_inbox
+    procedure, nopass :: get_halo_inbox
+    procedure, nopass :: set_surface
+    procedure, nopass :: get_block_image
   end type
 
   interface
@@ -44,20 +48,38 @@ module surfaces_interface
       logical is_external
     end function
 
-    module subroutine set_halo_data(my_halo_data, my_blocks)
-      !! define halo_data component array
+    module subroutine set_halo_inbox(my_halo_inbox, my_blocks, block_partitions)
+      !! define halo_inbox component array
       implicit none
-      class(package), intent(in), dimension(:,:,:) :: my_halo_data
-      integer, intent(in), dimension(:) :: my_blocks
+      class(package), intent(in), dimension(:,:,:) :: my_halo_inbox
+      integer, intent(in), dimension(:) :: my_blocks, block_partitions
     end subroutine
 
-    module subroutine get_halo_data(singleton_halo_data)
-      !! output singleton_halo_data with the following bounds:
+    module subroutine get_halo_inbox(singleton_halo_inbox)
+      !! output singleton_halo_inbox with the following bounds:
       !! lbounds=[my_blocks(first), 1, backward], ubounds=[my_blocks(last), space_dimension, forward]
       !! This can't be a function because the function result would not preserve the desired bounds.
       implicit none
-      class(package), dimension(:,:,:), allocatable, intent(out) :: singleton_halo_data
+      class(package), dimension(:,:,:), allocatable, intent(out) :: singleton_halo_inbox
     end subroutine
+
+    module subroutine set_surface( block_id, coordinate_direction, face, x_f, x_b, s_flux_f, s_flux_b)
+      !! define halo inbox for a specific surface
+      implicit none
+      integer, intent(in) :: block_id, coordinate_direction
+      integer(enumeration), intent(in) :: face
+      real(r8k), allocatable, intent(in), dimension(:) :: x_f, x_b
+        !! forward/backward position vectors; size(x_f) = size(x_b) = space_dimension
+      real(r8k), allocatable, intent(in), dimension(:,:) :: s_flux_f, s_flux_b
+        !! forward/backward scalar flux components: shape(s_flux_f) = shape(s_flux_b) = [scalar_field ID, space_dimension], where
+        !! the second flux dimension is the coordinate direction of the flux component.
+    end subroutine
+
+    pure module function get_block_image(block_id) result(image)
+      !! result is the image that owns the given structured_grid block
+      integer, intent(in) :: block_id
+      integer image
+    end function
 
   end interface
 
