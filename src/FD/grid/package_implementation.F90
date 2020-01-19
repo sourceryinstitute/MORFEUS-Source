@@ -24,8 +24,11 @@ contains
     this%step = step
   end procedure
 
-  module procedure set_datum
-    this%datum = datum
+  module procedure set_message
+    this%x_f = this_x_f
+    this%x_b = this_x_b
+    this%s_flux_f = this_s_flux_f
+    this%s_flux_b = this_s_flux_b
   end procedure
 
   module procedure sender_block_id_null

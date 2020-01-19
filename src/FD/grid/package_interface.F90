@@ -21,12 +21,16 @@ module package_interface
     private
     integer :: sender_block_id
     integer :: step
-    real(r8k) datum
+    real(r8k), allocatable, dimension(:) :: x_f, x_b
+      !! forward/backward position vectors; size(x_f) = size(x_b) = space_dimension
+    real(r8k), allocatable, dimension(:,:) :: s_flux_f, s_flux_b
+      !! forward/backward scalar flux components: shape(s_flux_f) = shape(s_flux_b) = [scalar_field ID, space_dimension], where
+      !! the second flux dimension is the coordinate direction of the flux component.
   contains
     procedure get_sender_block_id
     procedure set_sender_block_id
     procedure set_step
-    procedure set_datum
+    procedure set_message
     procedure sender_block_id_null
   end type
 
@@ -53,11 +57,12 @@ module package_interface
       integer, intent(in) :: step
     end subroutine
 
-    elemental module subroutine set_datum(this, datum)
-      !! set datum to be communicated across structured_grid block internal surfaces
+    module subroutine set_message(this, this_x_f, this_x_b, this_s_flux_f, this_s_flux_b)
+      !! set message to be communicated across structured_grid block internal surfaces
       implicit none
       class(package), intent(inout) :: this
-      real(r8k), intent(in) :: datum
+      real(r8k), intent(in), dimension(:) :: this_x_f, this_x_b
+      real(r8k), intent(in), dimension(:,:) :: this_s_flux_f, this_s_flux_b
     end subroutine
 
     elemental module function sender_block_id_null(this) result(is_null)
