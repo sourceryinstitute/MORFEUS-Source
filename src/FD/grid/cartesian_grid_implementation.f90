@@ -16,7 +16,7 @@ submodule(cartesian_grid_interface) cartesian_grid_implementation
 contains
 
   module procedure build_surfaces
-    integer, parameter :: first=1, last=2, success=0, x_dir=1, y_dir=2, z_dir=3, vec_components=3, space_dimensions=3, num_faces=2
+    integer, parameter :: first=1, last=2, success=0, x_dir=1, z_dir=3, vec_components=3, space_dimensions=3, num_faces=2
     integer, parameter :: displacement(x_dir:z_dir, backward:forward, x_dir:z_dir) = &
       reshape( [ [-1,0,0], [1,0,0], [0,-1,0], [0,1,0], [0,0,-1], [0,0,1] ], [space_dimensions, num_faces, vec_components ] )
     type(package), allocatable, dimension(:,:,:) :: bare
@@ -55,7 +55,7 @@ contains
        end do loop_over_coordinate_directions
      end do loop_over_blocks
 
-    call block_faces%set_halo_data(bare, my_blocks)
+     call block_faces%set_halo_inbox(bare, my_blocks, block_partitions)
 
   end procedure
 
@@ -99,12 +99,20 @@ contains
                 D_f => this%diffusion_coefficient( s_f ), &
                 D_b => this%diffusion_coefficient( s_b) )
 
-                div_flux_x(i,j,k) = &
-                  D_f*(s(i+1,j,k) - s(i,j,k)  )/(dx_f*dx_m) - &
-                  D_b*(s(i,j,k)   - s(i-1,j,k))/(dx_b*dx_m)
+                div_flux_x(i,j,k) = ( &
+                  D_f*(s(i+1,j,k) - s(i,j,k)  )/dx_f - & !! forward flux in x direction
+                  D_b*(s(i,j,k)   - s(i-1,j,k))/dx_b &   !! backward flux in x direction
+                  ) / dx_m
               end associate
             end associate
           end do
+
+          do concurrent(k=1:npoints(3), j=1:npoints(2), i=1:1)
+          end do
+
+          do concurrent(k=1:npoints(3), j=1:npoints(2), i=npoints(1):npoints(1))
+          end do
+
         end associate
 
         associate( y=>positions(:,:,:,2))
@@ -120,9 +128,10 @@ contains
                 D_f => this%diffusion_coefficient( s_f ), &
                 D_b => this%diffusion_coefficient( s_b) )
 
-                div_flux_y(i,j,k) = &
-                  D_f*(s(i,j+1,k) - s(i,j,k))/(dy_f*dy_m) - &
-                  D_b*(s(i,j,k) - s(i,j-1,k))/(dy_b*dy_m)
+                div_flux_y(i,j,k) = ( &
+                  D_f*(s(i,j+1,k) - s(i,j,k))/dy_f - & !! forward flux in y direction
+                  D_b*(s(i,j,k) - s(i,j-1,k))/dy_b &   !! backward flux in y direction
+                  ) / dy_m
               end associate
             end associate
           end do
@@ -140,16 +149,17 @@ contains
                 D_f => this%diffusion_coefficient( s_f ), &
                 D_b => this%diffusion_coefficient( s_b) )
 
-                div_flux_z(i,j,k) = &
-                  D_f*(s(i,j,k+1) - s(i,j,k))/(dz_f*dz_m) - &
-                  D_b*(s(i,j,k) - s(i,j,k-1))/(dz_b*dz_m)
+                div_flux_z(i,j,k) = ( &
+                  D_f*(s(i,j,k+1) - s(i,j,k))/dz_f - &  !! forward flux in z direction
+                  D_b*(s(i,j,k) - s(i,j,k-1))/dz_b &    !! backward flux in z direction
+                  ) / dz_m
               end associate
             end associate
           end do
         end associate
 
         ! TODO
-        ! 1. Each block sets scalar_flux packages on halo blocks
+        ! 1. Each block sets block_surfaces packages on halo blocks
 
         call div_flux_internal_points%set_scalar( div_flux_x + div_flux_y + div_flux_z )
 
@@ -175,7 +185,8 @@ contains
         div_flux_y = 0._r8k
         div_flux_z = 0._r8k
 
-        ! 2. Each block gets scalar_flux packages from its halo
+        ! TODO
+        ! 2. Each block gets block_surfaces packages from its halo
         ! 3. Each block uses its halo data to compute surface fluxes
 
         hardwire_known_boundary_values: &

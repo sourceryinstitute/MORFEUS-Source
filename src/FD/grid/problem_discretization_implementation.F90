@@ -17,7 +17,7 @@ submodule(problem_discretization_interface) define_problem_discretization
 contains
 
   module procedure get_surface_packages
-    call this%block_surfaces%get_halo_data(this_surface_packages)
+    call this%block_surfaces%get_halo_inbox(this_surface_packages)
   end procedure
 
   module procedure get_block_surfaces
@@ -82,7 +82,6 @@ contains
     integer(i4k), dimension(:), allocatable :: block_cell_material, point_block_id
     type(attributes) :: grid_point_attributes, cell_attributes
     integer :: b, s, first_point_in_block, first_cell_in_block
-    real(r8k), dimension(:,:,:), allocatable :: scalar_fields_values
 
     if (assertions) call assert(allocated(this%vertices), "problem_discretization%vtk_output: allocated(this%vertices())")
 
@@ -317,27 +316,23 @@ contains
 
       this%block_partitions = [ [(first_block(image, num_blocks), image=1,ni)], last_block(ni, num_blocks) + 1 ]
 
-      associate( remainder => mod(num_blocks,ni), quotient => num_blocks/ni )
-        associate( my_first => 1 + sum([(quotient+overflow(image,remainder),image=1,me-1)]) )
-          associate( my_last => my_first + quotient + overflow(me,remainder) - 1 )
+      associate( my_first => first_block(me, num_blocks), my_last => last_block(me, num_blocks) )
 
-            allocate( this%vertices(my_first:my_last), stat=alloc_status, errmsg=alloc_error, mold=prototype )
-            call assert(alloc_status==0, "partition: allocate(this%vertices(...)", alloc_error)
+        allocate( this%vertices(my_first:my_last), stat=alloc_status, errmsg=alloc_error, mold=prototype )
+        call assert(alloc_status==success, "partition: allocate(this%vertices(...)", alloc_error)
 
-            if (assertions) then
-              block
+        if (assertions) then
+          block
 #ifndef HAVE_COLLECTIVE_SUBROUTINES
-                use emulated_intrinsics_interface, only : co_sum
+            use emulated_intrinsics_interface, only : co_sum
 #endif
-                integer total_blocks
-                total_blocks = size(this%vertices)
-                call co_sum(total_blocks,result_image=1)
-                if (me==1) call assert(total_blocks==num_blocks,"all blocks have been distributed amongst the images")
-                sync all
-              end block
-            end if
-          end associate
-        end associate
+            integer total_blocks
+            total_blocks = size(this%vertices)
+            call co_sum(total_blocks,result_image=1)
+            if (me==1) call assert(total_blocks==num_blocks,"all blocks have been distributed amongst the images")
+            sync all
+          end block
+        end if
       end associate
     end associate
 
@@ -387,6 +382,7 @@ contains
 
     if (assertions) then
       associate(me=>this_image())
+        call assert( allocated(this%block_partitions), "problem%discretization%my_blocks: allocated(this%block_partitions)" )
         write(error_data,*) block_identifier_range, "/=", [this%block_partitions(me), this%block_partitions(me+1)-1]
         call assert( all(block_identifier_range == [this%block_partitions(me), this%block_partitions(me+1)-1]), &
         "problem_discretization%my_blocks: all(blocks_identifer_range==[this%block_partitions(me),this%block_partitions(me+1)-1])",&
@@ -494,7 +490,7 @@ contains
   end procedure
 
   module procedure set_analytical_scalars
-    integer b, f, alloc_status, coord_dir, face_dir
+    integer b, f, alloc_status
     character(len=max_errmsg_len) :: alloc_error
 
     if (assertions) call assert(allocated(this%vertices), "problem_discretization%set_analytical_scalars: allocated(this%vertices)")
@@ -522,7 +518,7 @@ contains
 
     associate( my_blocks => this%my_blocks() )
       call this%block_map%build_surfaces( this%problem_geometry, my_blocks, &
-        this%vertices(my_blocks(1))%space_dimension(), this%block_surfaces)
+        this%vertices(my_blocks(1))%space_dimension(), this%block_surfaces, this%block_partitions)
     end associate
 
   end procedure

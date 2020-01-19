@@ -56,5 +56,5 @@ program main
   end associate
 
   sync all
-  print *,"Test passed"
+  if (this_image()==1) print *,"Test passed"
 end program

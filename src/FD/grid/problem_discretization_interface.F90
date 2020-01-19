@@ -26,10 +26,10 @@ module problem_discretization_interface
     private
     class(structured_grid), allocatable :: block_map
       !! hook for invoking block_indicial_coordinates and block_identifier
-    type(surfaces) block_surfaces
-      !! global surface information with singleton communication buffers
     integer, allocatable, dimension(:) :: block_partitions
       !! block ownership specification
+    type(surfaces) block_surfaces
+      !! global surface information with singleton communication buffers
     class(structured_grid), allocatable :: vertices(:)
       !! grid nodal locations: size(vertices) == number of blocks owned by the executing image
     class(structured_grid), allocatable :: scalar_fields(:,:)
