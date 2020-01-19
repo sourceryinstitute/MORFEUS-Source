@@ -25,17 +25,17 @@ module problem_discretization_interface
   type, extends(object) :: problem_discretization
     private
     class(structured_grid), allocatable :: block_map
-      !! hook for invoking block_indicial_coordindates and block_identifier
+      !! hook for invoking block_indicial_coordinates and block_identifier
     type(surfaces) block_surfaces
       !! global surface information with singleton communication buffers
+    integer, allocatable, dimension(:) :: block_partitions
+      !! block ownership specification
     class(structured_grid), allocatable :: vertices(:)
       !! grid nodal locations: size(vertices) == number of blocks owned by the executing image
     class(structured_grid), allocatable :: scalar_fields(:,:)
       !! scalar values at the grid nodes: size(scalar_fields,1)==size(vertices), size(scalar_fields,2)==number of scalar fields
     class(structured_grid), allocatable :: scalar_flux_divergence(:,:)
       !! div( D grad(s)): same dimensions as scalar_fields
-    class(package), allocatable :: scalar_fluxes(:)
-      !! boundary data for halo exchanges
     class(geometry), allocatable :: problem_geometry
       !! description of problem domain and material identities; child types: plate_3D, cylinder_2D, sphere_1D
   contains

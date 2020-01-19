@@ -15,7 +15,6 @@ module structured_grid_interface
   use differentiable_field_interface, only : differentiable_field
   use geometry_interface, only : geometry
   use surfaces_interface, only : surfaces
-  use package_interface, only : package
   implicit none
 
   private
@@ -71,19 +70,19 @@ module structured_grid_interface
 
   abstract interface
 
-    subroutine set_up_div_scalar_flux_interface(this, vertices, surface_fluxes, div_flux_internal_points)
-      import structured_grid, differentiable_field, surfaces, package
+    subroutine set_up_div_scalar_flux_interface(this, vertices, block_surfaces, div_flux_internal_points)
+      import structured_grid, differentiable_field, surfaces
       implicit none
       class(structured_grid), intent(in) :: this, vertices
-      class(package), intent(inout) :: surface_fluxes
+      type(surfaces), intent(inout) :: block_surfaces
       class(structured_grid), intent(inout) :: div_flux_internal_points
     end subroutine
 
-    subroutine div_scalar_flux_interface(this, vertices, surface_fluxes, div_flux)
-      import structured_grid, differentiable_field, surfaces, package
+    subroutine div_scalar_flux_interface(this, vertices, block_surfaces, div_flux)
+      import structured_grid, differentiable_field, surfaces
       implicit none
       class(structured_grid), intent(in) :: this, vertices
-      class(package), intent(in) :: surface_fluxes
+      type(surfaces), intent(in) :: block_surfaces
       class(structured_grid), intent(inout) :: div_flux
     end subroutine
 

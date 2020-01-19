@@ -430,7 +430,7 @@ contains
           do f = 1, num_fields
 
             call this%scalar_fields(b,f)%set_up_div_scalar_flux( &
-              this%vertices(b), this%scalar_fluxes(f), this%scalar_flux_divergence(b,f) )
+              this%vertices(b), this%block_surfaces, this%scalar_flux_divergence(b,f) )
 
           end do loop_over_fields
         end do loop_over_blocks
@@ -443,7 +443,7 @@ contains
           do f = 1, num_fields
 
             call this%scalar_fields(b,f)%div_scalar_flux( &
-              this%vertices(b), this%scalar_fluxes(f), this%scalar_flux_divergence(b,f) )
+              this%vertices(b), this%block_surfaces, this%scalar_flux_divergence(b,f) )
 
             if (present(exact_result)) then
               select type (my_flux_div => exact_result(f)%laplacian(this%vertices(b)))
