@@ -1,5 +1,5 @@
 ---
-project: morfeus-fd
+project: Morfeus-FD
 summary: A parallel finite difference solver for block-structured grids
 macro: FORD
 src_dir: .
