@@ -3,15 +3,21 @@ project: morfeus-fd
 summary: A parallel finite difference solver for block-structured grids
 macro: FORD
 src_dir: .
+exclude_dir: tests
+             doc
 output_dir: doc
 preprocess: true
 display: public
-        protected
-        private
+         protected
+         private
 source: true
 graph: true
+md_extensions: markdown.extensions.toc
+coloured_edges: true
 sort: alpha
 extra_mods: iso_fortran_env:https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html
+            iso_c_binding:https://gcc.gnu.org/onlinedocs/gcc-4.9.4/gfortran/ISO_005fC_005fBINDING.html
+lower: true
 print_creation_date: true
 creation_date: %Y-%m-%d %H:%M %z
 project_github: https://github.com/sourceryinstitute/MORFEUS-Source
@@ -23,6 +29,7 @@ author_description: An engineering services company specializing in hardware & s
 author_pic: https://gsellc.com/wp-content/uploads/2019/07/logo21.png
 github: https://github.com/sourceryinstitute/MORFEUS-Source
 website: http://www.gsellc.com
+---
 
 [_____ Comments _______]:#
 [source: display source code corresponding to item being documented]:#
@@ -33,14 +40,6 @@ website: http://www.gsellc.com
 [This document is a FORD project file, formatted with Pythonic Markdown                                      ]:#
 [See https://github.com/Fortran-FOSS-programmers/ford/wiki/Project-File-Options for more info on writing FORD project files]:#
 
-Supported Compilers
--------------------
+[TOC]
 
-* GNU Compiler Collection (GCC) 8
-* Intel 18
-
-Supported Operating Systems
----------------------------
-* Windows
-* Linux
-* macOS
+{!README.md!}
