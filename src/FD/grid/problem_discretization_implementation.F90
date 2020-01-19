@@ -381,8 +381,18 @@ contains
 #endif
 
   module procedure my_blocks
+    character(len=128) error_data
 
     block_identifier_range = [ lbound(this%vertices), ubound(this%vertices) ]
+
+    if (assertions) then
+      associate(me=>this_image())
+        write(error_data,*) block_identifier_range, "/=", [this%block_partitions(me), this%block_partitions(me+1)-1]
+        call assert( all(block_identifier_range == [this%block_partitions(me), this%block_partitions(me+1)-1]), &
+        "problem_discretization%my_blocks: all(blocks_identifer_range==[this%block_partitions(me),this%block_partitions(me+1)-1])",&
+        error_data)
+      end associate
+    end if
 
   end procedure
 
