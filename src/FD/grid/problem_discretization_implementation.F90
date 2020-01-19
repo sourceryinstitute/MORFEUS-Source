@@ -313,8 +313,10 @@ contains
 
     call this%block_map%set_global_block_shape( global_block_shape )
 
-
     associate( me => this_image(), ni => num_images(), num_blocks => product(global_block_shape) )
+
+      this%block_partitions = [ [(first_block(image, num_blocks), image=1,ni)], last_block(ni, num_blocks) + 1 ]
+
       associate( remainder => mod(num_blocks,ni), quotient => num_blocks/ni )
         associate( my_first => 1 + sum([(quotient+overflow(image,remainder),image=1,me-1)]) )
           associate( my_last => my_first + quotient + overflow(me,remainder) - 1 )
@@ -352,6 +354,26 @@ contains
       integer, intent(in) :: image,remainder
       integer :: filler
       filler = merge(1,0,image<=remainder)
+    end function
+
+    pure function first_block( image, num_blocks ) result(block_id)
+      integer, intent(in) :: image, num_blocks
+      integer block_id, i
+      associate( ni => num_images() )
+        associate( remainder => mod(num_blocks,ni), quotient => num_blocks/ni )
+          block_id = 1 + sum([(quotient + overflow(i, remainder), i= 1, image-1)])
+        end associate
+      end associate
+    end function
+
+    pure function last_block( image, num_blocks ) result(block_id)
+      integer, intent(in) :: image, num_blocks
+      integer block_id
+      associate( ni => num_images() )
+        associate( remainder => mod(num_blocks,ni), quotient => num_blocks/ni )
+           block_id = first_block(image, num_blocks) + quotient + overflow(image, remainder) - 1
+        end associate
+      end associate
     end function
 
 #ifndef FORD
