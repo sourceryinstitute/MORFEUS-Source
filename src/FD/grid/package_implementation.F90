@@ -13,12 +13,12 @@ submodule(package_interface) package_implementation
 
 contains
 
-  module procedure get_sender_block_id
-    this_sender_block_id = this%sender_block_id
+  module procedure get_neighbor_block_id
+    this_neighbor_block_id = this%neighbor_block_id
   end procedure
 
-  module procedure set_sender_block_id
-    this%sender_block_id = sender_block_id
+  module procedure set_neighbor_block_id
+    this%neighbor_block_id = neighbor_block_id
   end procedure
 
   module procedure set_step
@@ -30,8 +30,8 @@ contains
     this%positions = positions
   end procedure
 
-  module procedure sender_block_id_null
-    is_null = (this%sender_block_id == null_sender_id)
+  module procedure neighbor_block_id_null
+    is_null = (this%neighbor_block_id == null_neighbor_id)
   end procedure
 
   module procedure copy
@@ -39,7 +39,7 @@ contains
       call assert( all([allocated(rhs%s_flux_normal), allocated(rhs%positions)]), &
         " all([allocated(rhs%s_flux_normal), allocated(rhs%positions)])" )
     end if
-    this%sender_block_id = rhs%sender_block_id
+    this%neighbor_block_id = rhs%neighbor_block_id
     this%step = rhs%step
     this%s_flux_normal = rhs%s_flux_normal
     this%positions = rhs%positions

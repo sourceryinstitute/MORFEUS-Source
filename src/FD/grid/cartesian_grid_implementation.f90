@@ -10,7 +10,7 @@ submodule(cartesian_grid_interface) cartesian_grid_implementation
   use assertions_interface,only : assert, max_errmsg_len, assertions
   use plate_3D_interface, only : plate_3D
   use surfaces_interface, only : backward, forward
-  use package_interface, only : package, null_sender_id
+  use package_interface, only : package, null_neighbor_id
   implicit none
 
 contains
@@ -36,7 +36,7 @@ contains
           stat=alloc_stat, errmsg=error_message)
         call assert(alloc_stat==success, "cartesian_grid%build_surfaces: allocate(bare)", error_message)
 
-        call bare%set_sender_block_id(null_sender_id)
+        call bare%set_neighbor_block_id(null_neighbor_id)
         call bare%set_step(0)
 
          loop_over_blocks: &
@@ -47,7 +47,7 @@ contains
              do face_dir = backward, forward
                associate( ijk_displaced => this%block_indicial_coordinates(b) + displacement(coord_dir, face_dir, :) )
                  if (this%block_in_bounds(ijk_displaced)) then
-                   call bare(b, coord_dir, face_dir)%set_sender_block_id( this%block_identifier(ijk_displaced) )
+                   call bare(b, coord_dir, face_dir)%set_neighbor_block_id( this%block_identifier(ijk_displaced) )
                  end if
                end associate
              end do loop_over_face_directions

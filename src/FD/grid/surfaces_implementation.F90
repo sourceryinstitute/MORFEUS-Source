@@ -32,7 +32,7 @@ contains
       call assert(any(face==[forward,backward]), "surfaces%is_external_boundary: any(face==[forward,backward])")
       call assert(any(coordinate_direction==[1,2,3]), "surfaces%is_external_boundary: any(coordinate_direction==[1,2,3])")
     end if
-    is_external = singleton%halo_outbox(block_id, coordinate_direction, face)%sender_block_id_null()
+    is_external = singleton%halo_outbox(block_id, coordinate_direction, face)%neighbor_block_id_null()
   end procedure
 
   module procedure set_halo_outbox

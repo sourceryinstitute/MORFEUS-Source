@@ -12,43 +12,43 @@ module package_interface
   implicit none
 
   private
-  public :: package, null_sender_id
+  public :: package, null_neighbor_id
 
-  integer, parameter :: null_sender_id=-1
+  integer, parameter :: null_neighbor_id=-1
 
   type package
     !! basic transmission data. extend this type to add coordinate-specific data
     private
-    integer :: sender_block_id
+    integer :: neighbor_block_id
     integer :: step
     real(r8k), allocatable, dimension(:,:,:,:) :: s_flux_normal
       !! surface-normal scalar flux components: shape = [Nx, Ny, Nz, scalar_field ID], where one of Nx|Ny|Nz is 1
     real(r8k), allocatable, dimension(:,:,:) :: positions
       !! flux locations: shape = [Nx, Ny, Nz], where one of Nx|Ny|Nz is 1
   contains
-    procedure get_sender_block_id
-    procedure set_sender_block_id
+    procedure get_neighbor_block_id
+    procedure set_neighbor_block_id
     procedure set_step
     procedure set_normal_scalar_fluxes
-    procedure sender_block_id_null
+    procedure neighbor_block_id_null
     procedure copy
     generic :: assignment(=) => copy
   end type
 
   interface
 
-    module function get_sender_block_id(this) result(this_sender_block_id)
-      !! result is sender_block_id for this package
+    module function get_neighbor_block_id(this) result(this_neighbor_block_id)
+      !! result is neighbor_block_id for this package
       implicit none
       class(package), intent(in) :: this
-      integer :: this_sender_block_id
+      integer :: this_neighbor_block_id
     end function
 
-    elemental module subroutine set_sender_block_id(this, sender_block_id)
-      !! set sender_bock_id in order to verify sender identity
+    elemental module subroutine set_neighbor_block_id(this, neighbor_block_id)
+      !! set neighbor_bock_id in order to verify neighbor identity
       implicit none
       class(package), intent(inout) :: this
-      integer, intent(in) :: sender_block_id
+      integer, intent(in) :: neighbor_block_id
     end subroutine
 
     elemental module subroutine set_step(this, step)
@@ -68,8 +68,8 @@ module package_interface
         !! flux locations: shape = [Nx, Ny, Nz], where one of Nx|Ny|Nz is 1
     end subroutine
 
-    elemental module function sender_block_id_null(this) result(is_null)
-      !! set sender_block_id to invalid value for external boundaries (no block sends halo data to a boundary)
+    elemental module function neighbor_block_id_null(this) result(is_null)
+      !! set neighbor_block_id to invalid value for external boundaries (no block sends halo data to a boundary)
       implicit none
       class(package), intent(in) :: this
       logical is_null
