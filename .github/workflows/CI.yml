@@ -119,7 +119,7 @@ jobs:
         path: ${{ steps.set-outputs.outputs.py_cache_dir }}
         key: ${{ runner.os }}-pipcache-1-${{ hashFiles('**/requirements.txt') }}
         restore-keys: |
-          ${{ runner.os }}-pipcache-1
+          ${{ runner.os }}-pipcache-1-
 
     - name: setup-common
       run: |
@@ -130,7 +130,7 @@ jobs:
     - name: configure
       run: |
         ${CC} --version && ${FC} --version && cmake --version
-        type -a ${CC} && type -a ${CXX} && type -a ${FC}
+        type -a ${CC} && type -a ${CXX} && type -a ${FC} && type -a cmake
         mpifort --version
         mpicc --version
         echo "cmake -Wdev -Wdeprecated --warn-unused-vars --warn-uninitialized --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}"
