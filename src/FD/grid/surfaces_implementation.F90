@@ -45,13 +45,7 @@ contains
     if(allocated(singleton%halo_inbox)) deallocate(singleton%halo_inbox)
 
     allocate(singleton%halo_inbox, source = my_halo_inbox, stat = alloc_stat, errmsg = error_message)
-
-    if (assertions) then
-       call assert(allocated(singleton%halo_inbox), "surfaces% allocated(singleton%halo_inbox)", error_message)
-       call assert( &
-         all([lbound(singleton%halo_inbox), ubound(singleton%halo_inbox)] == [lbound(my_halo_inbox), ubound(my_halo_inbox)]), &
-         "surfaces%is_external_boundary: halo_index bounds copied correctly" )
-     end if
+    if (assertions) call assert(alloc_stat==success, "surfaces%set_halo_inbox: allocate(singleton%halo_inbox)", error_message)
 
     global_block_partitions = block_partitions
   end procedure
@@ -67,6 +61,19 @@ contains
         stat = alloc_stat, errmsg = error_message)
       if (assertions) call assert(alloc_stat == success, "surfaces%get_halo_inbox: allocate(singleton_halo_inbox)", error_message)
     end associate
+  end procedure
+
+  module procedure set_surface_package
+    type(package) message
+    if (assertions) call assert(allocated(singleton%halo_inbox),"surfaces%set_surface: allocated(singleton%halo_inbox)")
+    call message%set_data(x_f, x_b, s_flux_f, s_flux_b)
+    singleton%halo_inbox( block_id, coordinate_direction, face) = message
+  end procedure
+
+  module procedure get_block_image
+    if (assertions) &
+      call assert(allocated(global_block_partitions), "surfaces%set_surface_package: allocated(global_block_partitions)")
+    image = findloc( block_id >= global_block_partitions, value=.true., dim=1, back=.true.)
   end procedure
 
 end submodule

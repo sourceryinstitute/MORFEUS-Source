@@ -33,6 +33,8 @@ module surfaces_interface
     procedure, nopass :: is_external_boundary
     procedure, nopass :: set_halo_inbox
     procedure, nopass :: get_halo_inbox
+    procedure, nopass :: set_surface_package
+    procedure, nopass :: get_block_image
   end type
 
   interface
@@ -59,6 +61,24 @@ module surfaces_interface
       implicit none
       class(package), dimension(:,:,:), allocatable, intent(out) :: singleton_halo_inbox
     end subroutine
+
+    module subroutine set_surface_package( block_id, coordinate_direction, face, x_f, x_b, s_flux_f, s_flux_b)
+      !! define halo inbox for a specific surface
+      implicit none
+      integer, intent(in) :: block_id, coordinate_direction
+      integer(enumeration), intent(in) :: face
+      real(r8k), allocatable, intent(in), dimension(:) :: x_f, x_b
+        !! forward/backward position vectors; size(x_f) = size(x_b) = space_dimension
+      real(r8k), allocatable, intent(in), dimension(:,:) :: s_flux_f, s_flux_b
+        !! forward/backward scalar flux components: shape(s_flux_f) = shape(s_flux_b) = [scalar_field ID, space_dimension], where
+        !! the second flux dimension is the coordinate direction of the flux component.
+    end subroutine
+
+    pure module function get_block_image(block_id) result(image)
+      !! result is the image that owns the given structured_grid block
+      integer, intent(in) :: block_id
+      integer image
+    end function
 
   end interface
 
