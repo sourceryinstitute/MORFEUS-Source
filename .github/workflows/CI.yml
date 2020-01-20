@@ -92,7 +92,8 @@ jobs:
         --slave /usr/bingcov gcov /usr/bin/gcov-${GCC_V}
         sudo apt-get install -y mpich libmpich-dev
         echo "::add-path::/usr/lib/ccache"
-        echo "::set-env name=CCACHE_TEMPDIR::/dev/shm/ccache_tmp"
+        export CCACHE_TEMPDIR=/dev/shm/ccache_tmp
+        echo "::set-env name=CCACHE_TEMPDIR::${CCACHE_TEMPDIR}"
         mkdir -p ${CCACHE_TEMPDIR}
 
     - uses: actions/cache@v1
