@@ -1,0 +1,159 @@
+name: CI
+
+on: [push, pull_request]
+
+env:
+  CI: "ON"
+  CMAKE_BUILD_PARALLEL_LEVEL: "2"
+  CMAKE_CONFIG_TYPE: "RuntimeDebug"
+  CTEST_OUTPUT_ON_FAILURE: "ON"
+  CTEST_PARALLEL_LEVEL: "2"
+  HOMEBREW_DISPLAY_INSTALL_TIMES: "ON"
+  HOMEBREW_NO_ANALYTICS: "ON"
+  HOMEBREW_NO_AUTO_UPDATE: "ON"
+  HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK: "ON"
+  HOMEBREW_NO_GITHUB_API: "ON"
+  HOMEBREW_NO_INSTALL_CLEANUP: "ON"
+  LANG: "en_US.UTF-8"
+  LC_ALL: "en_US.UTF-8"
+  NCPU: "2"
+  PIP_DISABLE_PIP_VERSION_CHECK: "ON"
+  PIP_NO_CLEAN: "ON"
+  PIP_PREFER_BINARY: "ON"
+  TZ: "UTC"
+  ZERO_AR_DATE: "ON"
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        gcc: [8]
+
+    env:
+      FC: gfortran-${{ matrix.gcc }}
+      CC: gcc-${{ matrix.gcc }}
+      CXX: g++-${{ matrix.gcc }}
+      GCC_V: ${{ matrix.gcc }}
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: true
+
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.x
+
+
+    - name: set env
+      id: set-env
+      run: |
+        echo "::set-env name=BUILD_DIR::${GITHUB_WORKSPACE}/build"
+        echo "::set-env name=PIP_CACHE_DIR::${HOME}/py-cache/pip-cache"
+        echo "::set-env name=PY_CACHE_DIR::${HOME}/py-cache"
+        echo "::set-env name=PYTHONUSERBASE::${HOME}/py-cache/userbase"
+        echo "::set-env name=SOURCE_DATE_EPOCH::$(git log -1 --pretty='%ct' $GITHUB_SHA)"
+
+    - name: set outputs
+      id: set-outputs
+      run: |
+        echo "::set-output name=build_dir::${BUILD_DIR}"
+        echo "::set-output name=homedir::${HOME}"
+        echo "::set-output name=pip_cache_dir::${PIP_CACHE_DIR}"
+        echo "::set-output name=py_cache_dir::${PY_CACHE_DIR}"
+        echo "::set-output name=pythonuserbase::${PYTHONUSERBASE}"
+        echo "::set-output name=workon_home::${WORKON_HOME}"
+        echo "::set-output name=workspacedir::${GITHUB_WORKSPACE}"
+        mkdir -p ${PIP_CACHE_DIR} ${WORKON_HOME} ${PYTHONUSERBASE} || true
+        if brew --cache ; then
+          rm -rf $(brew --cache)
+          echo "::set-output name=homebrew_cache::$(brew --cache)"
+        fi
+
+    - name: setup-linux
+      if: contains(matrix.os, 'ubuntu')
+      run: |
+        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+        sudo apt-get update
+        sudo apt-get install -y build-dep ccache gcc-${GCC_V} g++-${GCC_V} gfortran-${GCC_V} graphviz libxml2-dev libxslt-dev
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_V} 100 \
+        --slave /usr/bin/g++ g++ /usr/bin/g++-${GCC_V} \
+        --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
+        --slave /usr/bingcov gcov /usr/bin/gcov-${GCC_V}
+        sudo apt-get install -y mpich libmpich-dev
+
+    - uses: actions/cache@v1
+      if: contains(matrix.os, 'macos')
+      with:
+        path: ${{ steps.set-outputs.outputs.homebrew_cache }}
+        key: ${{ runner.os }}-brew-cache-${{ matrix.gcc }}
+        restore-keys: |
+          ${{ runner.os }}-brew-cache-
+
+    - name: setup-macos
+      if: contains( matrix.os, 'macos')
+      run: |
+        mkdir -p $(brew --cache) || true
+        brew install gcc@${GCC_V} || brew upgrade gcc@{GCC_V} || true
+        brew install graphviz || brew upgrade graphviz || true
+        brew install ccache || brew upgrade ccache || true
+        brew install mpich || brew upgrade mpich || true
+        cd $(brew --prefix ccache)/libexec && \
+        ln -s $(brew --prefix ccache)/bin/ccache gcc-${GCC_V} && \
+        ln -s $(brew --prefix ccache)/bin/ccache g++-${GCC_V} && \
+        echo "::add-path::$(brew --prefix ccache)/libexec"
+
+    - uses: actions/cache@v1
+      with:
+        path: ${{ steps.set-outputs.outputs.py_cache_dir }}
+        key: ${{ runner.os }}-pycache-1-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pycache-1
+
+    - name: setup-common
+      run: |
+        pip install -U -r requirements.txt
+        curl -s https://raw.githubusercontent.com/zbeekman/codecov-bash/gcov-fix/codecov > "${GITHUB_WORKSPACE}/codecov"
+        chmod +x "${GITHUB_WORKSPACE}/codecov"
+
+    - name: configure
+      run: |
+        ${CC} --version && ${FC} --version && cmake --version
+        echo "cmake -Wdev -Wdeprecated --warn-unused-vars --warn-uninitialized --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}"
+
+    - name: upload cmake
+      uses: actions/upload-artifact@v1
+      with:
+        name: configure_logs
+        path: ./logs
+      if: failure()
+
+    - name: compile
+      run: echo compile
+
+    - name: test
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      run: |
+        cd ${BUILD_DIR} && echo ctest
+        # find "${BUILD_DIR}" -type f -path '*/extern/*' -name '*.*.gc*' -print -exec rm {} \; || true
+        # "${GITHUB_WORKSPACE}/codecov" -c \
+        #   -x gcov-${GCC_V} \
+        #   -p ${GITHUB_WORKSPACE} \
+        #   -F unittest_tests \
+        #   -G '*/test/*' \
+        #   -g '*/extern/*' \
+        #   -n "GHA-GCC${GCC_V}-${{ runner.os }}-unittest-tests"
+        # find "${BUILD_DIR}" -type f -name '*_test.*.gc*' -print -exec rm {} \; || true
+        # "${GITHUB_WORKSPACE}/codecov" -c \
+        #   -x gcov-${GCC_V} \
+        #   -p ${GITHUB_WORKSPACE} \
+        #   -F unittest_core \
+        #   -g '*/test/*' \
+        #   -g '*/extern/*' \
+        #   -n "GHA-GCC${GCC_V}-${{ runner.os }}-unittest-core"
+        # find "${BUILD_DIR}" -name '*.*.gc*' -print -exec rm {} \; || true
