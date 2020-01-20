@@ -37,6 +37,9 @@ jobs:
       CC: gcc-${{ matrix.gcc }}
       CXX: g++-${{ matrix.gcc }}
       GCC_V: ${{ matrix.gcc }}
+      MPICH_FC: gfortran-${{ matrix.gcc }}
+      MPICH_CC: gcc-${{ matrix.gcc }}
+      MPICH_CXX: g++-${{ matrix.gcc }}
 
     steps:
     - uses: actions/checkout@v1
@@ -56,6 +59,8 @@ jobs:
         echo "::set-env name=PIP_CACHE_DIR::${HOME}/py-cache/pip-cache"
         echo "::set-env name=PY_CACHE_DIR::${HOME}/py-cache"
         echo "::set-env name=PYTHONUSERBASE::${HOME}/py-cache/userbase"
+        echo "::set-env name=CCACHE_DIR::${HOME}/.ccache"
+        echo "::set-env name=CCACHE_BASEDIR::${GITHUB_WORKSPACE}"
         echo "::set-env name=SOURCE_DATE_EPOCH::$(git log -1 --pretty='%ct' $GITHUB_SHA)"
 
     - name: set outputs
@@ -67,6 +72,7 @@ jobs:
         echo "::set-output name=py_cache_dir::${PY_CACHE_DIR}"
         echo "::set-output name=pythonuserbase::${PYTHONUSERBASE}"
         echo "::set-output name=workon_home::${WORKON_HOME}"
+        echo "::set-output name=ccache_cache_dir::${CCACHE_DIR}"
         echo "::set-output name=workspacedir::${GITHUB_WORKSPACE}"
         mkdir -p ${BUILD_DIR} ${PIP_CACHE_DIR} ${WORKON_HOME} ${PYTHONUSERBASE} || true
         if brew --cache ; then
@@ -98,12 +104,11 @@ jobs:
       if: contains( matrix.os, 'macos')
       run: |
         mkdir -p $(brew --cache) || true
-        brew install gcc@${GCC_V} || brew upgrade gcc@{GCC_V} || true
+        brew install ccache gcc@${GCC_V} mpich || brew upgrade ccache gcc@{GCC_V} mpich || true
         brew install graphviz || brew upgrade graphviz || true
-        brew install ccache || brew upgrade ccache || true
-        brew install mpich || brew upgrade mpich || true
-        cd $(brew --prefix ccache)/libexec && ls -l
+        brew unlink gcc || true
         echo "::add-path::$(brew --prefix ccache)/libexec"
+        echo "::set-env name=CCACHE_PATH::$(brew --prefix gcc@${GCC_V})/bin:$(brew --prefix)/bin"
 
     - uses: actions/cache@v1
       with:
