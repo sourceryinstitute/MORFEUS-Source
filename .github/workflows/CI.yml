@@ -68,7 +68,7 @@ jobs:
         echo "::set-output name=pythonuserbase::${PYTHONUSERBASE}"
         echo "::set-output name=workon_home::${WORKON_HOME}"
         echo "::set-output name=workspacedir::${GITHUB_WORKSPACE}"
-        mkdir -p ${PIP_CACHE_DIR} ${WORKON_HOME} ${PYTHONUSERBASE} || true
+        mkdir -p ${BUILD_DIR} ${PIP_CACHE_DIR} ${WORKON_HOME} ${PYTHONUSERBASE} || true
         if brew --cache ; then
           rm -rf $(brew --cache)
           echo "::set-output name=homebrew_cache::$(brew --cache)"
