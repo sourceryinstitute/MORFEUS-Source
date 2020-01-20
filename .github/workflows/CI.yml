@@ -71,20 +71,14 @@ jobs:
         echo "::set-output name=pip_cache_dir::${PIP_CACHE_DIR}"
         echo "::set-output name=py_cache_dir::${PY_CACHE_DIR}"
         echo "::set-output name=pythonuserbase::${PYTHONUSERBASE}"
-        echo "::set-output name=workon_home::${WORKON_HOME}"
         echo "::set-output name=ccache_cache_dir::${CCACHE_DIR}"
         echo "::set-output name=workspacedir::${GITHUB_WORKSPACE}"
-        mkdir -p ${BUILD_DIR} ${PIP_CACHE_DIR} ${WORKON_HOME} ${PYTHONUSERBASE} || true
+        mkdir -p ${BUILD_DIR} ${PIP_CACHE_DIR} ${PYTHONUSERBASE}/bin || true
         if brew --cache ; then
           rm -rf $(brew --cache)
           echo "::set-output name=homebrew_cache::$(brew --cache)"
         fi
-
-    - name: fs-info
-      run: |
-        df -h
-        mount
-        lsblck || true
+        echo "::add-path::${PYTHONUSERBASE}/bin"
 
     - name: setup-linux
       if: contains(matrix.os, 'ubuntu')
@@ -97,9 +91,9 @@ jobs:
         --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
         --slave /usr/bingcov gcov /usr/bin/gcov-${GCC_V}
         sudo apt-get install -y mpich libmpich-dev
-        ls -l /usr/lib/ccache
-        type -a ccache
-        type -a gcc-${GCC_V}
+        echo "::add-path::/usr/lib/ccache"
+        echo "::set-env name=CCACHE_TEMPDIR::/dev/shm/ccache_tmp"
+        mkdir -p ${CCACHE_TEMPDIR}
 
     - uses: actions/cache@v1
       if: contains(matrix.os, 'macos')
@@ -128,13 +122,16 @@ jobs:
 
     - name: setup-common
       run: |
-        pip install -U -r requirements.txt
+        pip install --user -r requirements.txt
         curl -s https://raw.githubusercontent.com/zbeekman/codecov-bash/gcov-fix/codecov > "${GITHUB_WORKSPACE}/codecov"
         chmod +x "${GITHUB_WORKSPACE}/codecov"
 
     - name: configure
       run: |
         ${CC} --version && ${FC} --version && cmake --version
+        type -a ${CC} && type -a ${CXX} && type -a ${FC}
+        mpifort --version
+        mpicc --version
         echo "cmake -Wdev -Wdeprecated --warn-unused-vars --warn-uninitialized --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}"
 
     - name: upload cmake
