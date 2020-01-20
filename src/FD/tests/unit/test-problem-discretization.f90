@@ -62,7 +62,8 @@ program main
   if (assertions) &
     call assert(load_balanced(global_grid%block_load(),product(num_structured_grids)),"test_problem_discretization: load balanced")
 
-  print *,"Test passed"
+  sync all
+  if (this_image()==1) print *,"Test passed."
 
 contains
 
