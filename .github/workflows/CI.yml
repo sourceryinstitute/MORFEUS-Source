@@ -117,9 +117,9 @@ jobs:
     - uses: actions/cache@v1
       with:
         path: ${{ steps.set-outputs.outputs.py_cache_dir }}
-        key: ${{ runner.os }}-pycache-1-${{ hashFiles('**/requirements.txt') }}
+        key: ${{ runner.os }}-pipcache-1-${{ hashFiles('**/requirements.txt') }}
         restore-keys: |
-          ${{ runner.os }}-pycache-1
+          ${{ runner.os }}-pipcache-1
 
     - name: setup-common
       run: |
