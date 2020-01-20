@@ -102,9 +102,7 @@ jobs:
         brew install graphviz || brew upgrade graphviz || true
         brew install ccache || brew upgrade ccache || true
         brew install mpich || brew upgrade mpich || true
-        cd $(brew --prefix ccache)/libexec && \
-        ln -s $(brew --prefix ccache)/bin/ccache gcc-${GCC_V} && \
-        ln -s $(brew --prefix ccache)/bin/ccache g++-${GCC_V} && \
+        cd $(brew --prefix ccache)/libexec && ls -l
         echo "::add-path::$(brew --prefix ccache)/libexec"
 
     - uses: actions/cache@v1
