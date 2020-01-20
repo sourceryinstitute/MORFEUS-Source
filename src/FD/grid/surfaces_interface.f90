@@ -25,10 +25,10 @@ module surfaces_interface
     !! surface outward-normal direction: 'forward' for the direction of increasing coordinate; 'backward' for decreasing
 
   type surfaces
-    !! hexahedral structured_grid block surface data: all components will be allocated to have the
-    !! dimensions [my_blocks(first):my_blocks(last), space_dimension, size([forward, backward]))
+    !! hexahedral structured_grid block surface data
     private
     class(package), allocatable, dimension(:,:,:) :: halo_inbox
+      !! allocate to dimensions [my_blocks(first):my_blocks(last), space_dimension, size([forward, backward]))
   contains
     procedure, nopass :: is_external_boundary
     procedure, nopass :: set_halo_inbox
@@ -59,7 +59,7 @@ module surfaces_interface
       !! lbounds=[my_blocks(first), 1, backward], ubounds=[my_blocks(last), space_dimension, forward]
       !! This can't be a function because the function result would not preserve the desired bounds.
       implicit none
-      class(package), dimension(:,:,:), allocatable, intent(out) :: singleton_halo_inbox
+      type(package), dimension(:,:,:), allocatable, intent(out) :: singleton_halo_inbox
     end subroutine
 
     module subroutine set_surface_package( block_id, coordinate_direction, face, x_f, x_b, s_flux_f, s_flux_b)

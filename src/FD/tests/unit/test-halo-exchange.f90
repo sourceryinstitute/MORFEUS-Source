@@ -25,7 +25,7 @@ program main
   character(len=max_digits) image_number
   type(ellipsoidal_field) ellipsoidal_function
   integer b, coord_dir, face_dir
-  class(package), allocatable, dimension(:,:,:) ::  surface_packages
+  type(package), allocatable, dimension(:,:,:) ::  surface_packages
 
   call plate_geometry%build(input)
 

@@ -22,7 +22,6 @@ contains
     type(package), allocatable, dimension(:,:,:) :: bare
     character(len=max_errmsg_len) error_message
     integer alloc_stat, b, coord_dir, face_dir
-    class(package), allocatable, dimension(:,:,:) :: surface_packages
 
     select type(problem_geometry)
       type is(plate_3D)

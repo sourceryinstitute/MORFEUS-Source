@@ -68,7 +68,7 @@ module problem_discretization_interface
       !! This cannot be a function because the function result would not preserve the desired bounds.
       implicit none
       class(problem_discretization), intent(in) :: this
-      class(package), allocatable, dimension(:,:,:), intent(out) :: this_surface_packages
+      type(package), allocatable, dimension(:,:,:), intent(out) :: this_surface_packages
     end subroutine
 
     module function get_block_surfaces(this) result(this_block_surfaces)
