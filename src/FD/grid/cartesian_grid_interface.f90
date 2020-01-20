@@ -48,14 +48,14 @@ module cartesian_grid_interface
       class(structured_grid), intent(inout) :: div_flux
     end subroutine
 
-    module subroutine build_surfaces(this, problem_geometry, my_blocks, space_dimension, block_faces, block_partitions)
+    module subroutine build_surfaces(this, problem_geometry, space_dimension, block_faces, block_partitions)
       !! allocate the surfaces array for use in halo exchanges and boundary conditions
       implicit none
       class(cartesian_grid), intent(in) :: this
       class(geometry), intent(in) :: problem_geometry
-      integer, intent(in), dimension(:) :: my_blocks, block_partitions
       integer, intent(in) :: space_dimension
       type(surfaces), intent(inout) :: block_faces
+      integer, intent(in), dimension(:) :: block_partitions
     end subroutine
 
     module subroutine assign_structured_grid(this, rhs)

@@ -316,7 +316,7 @@ contains
 
       this%block_partitions = [ [(first_block(image, num_blocks), image=1,ni)], last_block(ni, num_blocks) + 1 ]
 
-      associate( my_first => first_block(me, num_blocks), my_last => last_block(me, num_blocks) )
+      associate( my_first => this%block_partitions(me), my_last =>  this%block_partitions(me+1)-1)
 
         allocate( this%vertices(my_first:my_last), stat=alloc_status, errmsg=alloc_error, mold=prototype )
         call assert(alloc_status==success, "partition: allocate(this%vertices(...)", alloc_error)
@@ -517,7 +517,7 @@ contains
       "problem_discretization%set_analytical_scalars: allocated(this%problem_geometry)")
 
     associate( my_blocks => this%my_blocks() )
-      call this%block_map%build_surfaces( this%problem_geometry, my_blocks, &
+      call this%block_map%build_surfaces( this%problem_geometry, &
         this%vertices(my_blocks(1))%space_dimension(), this%block_surfaces, this%block_partitions)
     end associate
 

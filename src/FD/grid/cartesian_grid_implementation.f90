@@ -30,31 +30,35 @@ contains
         error stop "cartesian_grid%build_surfaces: unsupported problem_geometry type"
     end select
 
-    call assert(size(my_blocks)==2, "cartesian_grid%build_surfaces: size(my_blocks)==2")
+    associate( me => this_image() )
+      associate( my_blocks => [block_partitions(me), block_partitions(me+1)-1] )
+        allocate( bare(my_blocks(first):my_blocks(last), space_dimension, backward:forward), &
+          stat=alloc_stat, errmsg=error_message)
+        call assert(alloc_stat==success, "cartesian_grid%build_surfaces: allocate(bare)", error_message)
 
-    allocate( bare(my_blocks(first):my_blocks(last), space_dimension, backward:forward), &
-      stat=alloc_stat, errmsg=error_message)
-    call assert(alloc_stat==success, "cartesian_grid%build_surfaces: allocate(bare)", error_message)
+        call bare%set_sender_block_id(null_sender_id)
+        call bare%set_step(0)
 
-    call bare%set_sender_block_id(null_sender_id)
-    call bare%set_step(0)
+         loop_over_blocks: &
+         do b=my_blocks(first), my_blocks(last)
+           loop_over_coordinate_directions: &
+           do coord_dir = x_dir, z_dir
+             loop_over_face_directions: &
+             do face_dir = backward, forward
+               associate( ijk_displaced => this%block_indicial_coordinates(b) + displacement(coord_dir, face_dir, :) )
+                 if (this%block_in_bounds(ijk_displaced)) then
+                   call bare(b, coord_dir, face_dir)%set_sender_block_id( this%block_identifier(ijk_displaced) )
+                 end if
+               end associate
+             end do loop_over_face_directions
+           end do loop_over_coordinate_directions
+         end do loop_over_blocks
 
-     loop_over_blocks: &
-     do b=my_blocks(first), my_blocks(last)
-       loop_over_coordinate_directions: &
-       do coord_dir = x_dir, z_dir
-         loop_over_face_directions: &
-         do face_dir = backward, forward
-           associate( ijk_displaced => this%block_indicial_coordinates(b) + displacement(coord_dir, face_dir, :) )
-             if (this%block_in_bounds(ijk_displaced)) then
-               call bare(b, coord_dir, face_dir)%set_sender_block_id( this%block_identifier(ijk_displaced) )
-             end if
-           end associate
-         end do loop_over_face_directions
-       end do loop_over_coordinate_directions
-     end do loop_over_blocks
+         call block_faces%set_halo_outbox(bare, my_blocks, block_partitions)
 
-     call block_faces%set_halo_outbox(bare, my_blocks, block_partitions)
+       end associate
+     end associate
+
 
   end procedure
 
