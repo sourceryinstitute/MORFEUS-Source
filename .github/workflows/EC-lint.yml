@@ -1,7 +1,7 @@
-on: pull_request
+on: [push, pull_request]
 name: PR Audit
 jobs:
-  eCPRAudit:
+  ECPRAudit:
     name: EC PR Audit
     runs-on: ubuntu-latest
     steps:
