@@ -17,7 +17,7 @@ submodule(problem_discretization_interface) define_problem_discretization
 contains
 
   module procedure get_surface_packages
-    call this%block_surfaces%get_halo_inbox(this_surface_packages)
+    call this%block_surfaces%get_halo_outbox(this_surface_packages)
   end procedure
 
   module procedure get_block_surfaces

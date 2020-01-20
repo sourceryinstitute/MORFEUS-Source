@@ -32,47 +32,47 @@ contains
       call assert(any(face==[forward,backward]), "surfaces%is_external_boundary: any(face==[forward,backward])")
       call assert(any(coordinate_direction==[1,2,3]), "surfaces%is_external_boundary: any(coordinate_direction==[1,2,3])")
     end if
-    is_external = singleton%halo_inbox(block_id, coordinate_direction, face)%sender_block_id_null()
+    is_external = singleton%halo_outbox(block_id, coordinate_direction, face)%sender_block_id_null()
   end procedure
 
-  module procedure set_halo_inbox
-    !! a shorter implementation of this procedure would simply assign my_halo_inbox to singleton%halo_inbox
+  module procedure set_halo_outbox
+    !! a shorter implementation of this procedure would simply assign my_halo_outbox to singleton%halo_outbox
     !! GCC 8 compiler bugs necessitate the source allocation and instead
     integer alloc_stat
     character(len=max_errmsg_len) error_message
 
     if (assertions) then
-      call assert(allocated(my_halo_inbox), "surfaces%set_halo_inbox: allocated(my_halo_inbox)")
-      call assert(all([lbound(my_halo_inbox,1), ubound(my_halo_inbox,1)] == my_blocks), &
-        "all([lbound(my_halo_inbox,1), ubound(my_halo_inbox,1)])==my_blocks")
+      call assert(allocated(my_halo_outbox), "surfaces%set_halo_outbox: allocated(my_halo_outbox)")
+      call assert(all([lbound(my_halo_outbox,1), ubound(my_halo_outbox,1)] == my_blocks), &
+        "all([lbound(my_halo_outbox,1), ubound(my_halo_outbox,1)])==my_blocks")
     end if
 
-    if(allocated(singleton%halo_inbox)) deallocate(singleton%halo_inbox)
+    if(allocated(singleton%halo_outbox)) deallocate(singleton%halo_outbox)
 
-    allocate(singleton%halo_inbox, source = my_halo_inbox, stat = alloc_stat, errmsg = error_message)
-    if (assertions) call assert(alloc_stat==success, "surfaces%set_halo_inbox: allocate(singleton%halo_inbox)", error_message)
+    allocate(singleton%halo_outbox, source = my_halo_outbox, stat = alloc_stat, errmsg = error_message)
+    if (assertions) call assert(alloc_stat==success, "surfaces%set_halo_outbox: allocate(singleton%halo_outbox)", error_message)
 
     global_block_partitions = block_partitions
   end procedure
 
-  module procedure get_halo_inbox
+  module procedure get_halo_outbox
     integer alloc_stat
     character(len=max_errmsg_len) error_message
 
-    if (assertions) call assert(allocated(singleton%halo_inbox),"surfaces%get_halo_inbox: allocated(singleton%halo_inbox)")
+    if (assertions) call assert(allocated(singleton%halo_outbox),"surfaces%get_halo_outbox: allocated(singleton%halo_outbox)")
 
-    associate( lower => lbound(singleton%halo_inbox), upper => ubound(singleton%halo_inbox) )
-      allocate(singleton_halo_inbox( lower(1):upper(1), lower(2):upper(2), lower(3):upper(3) ), source = singleton%halo_inbox, &
+    associate( lower => lbound(singleton%halo_outbox), upper => ubound(singleton%halo_outbox) )
+      allocate(singleton_halo_outbox( lower(1):upper(1), lower(2):upper(2), lower(3):upper(3) ), source = singleton%halo_outbox, &
         stat = alloc_stat, errmsg = error_message)
-      if (assertions) call assert(alloc_stat == success, "surfaces%get_halo_inbox: allocate(singleton_halo_inbox)", error_message)
+      if (assertions) call assert(alloc_stat == success, "surfaces%get_halo_outbox: allocate(singleton_halo_outbox)", error_message)
     end associate
   end procedure
 
   module procedure set_surface_package
     type(package) message
-    if (assertions) call assert(allocated(singleton%halo_inbox),"surfaces%set_surface: allocated(singleton%halo_inbox)")
+    if (assertions) call assert(allocated(singleton%halo_outbox),"surfaces%set_surface: allocated(singleton%halo_outbox)")
     call message%set_data(x_f, x_b, s_flux_f, s_flux_b)
-    singleton%halo_inbox( block_id, coordinate_direction, face) = message
+    singleton%halo_outbox( block_id, coordinate_direction, face) = message
   end procedure
 
   module procedure get_block_image

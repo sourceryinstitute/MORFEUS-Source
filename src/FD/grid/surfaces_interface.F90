@@ -27,13 +27,13 @@ module surfaces_interface
   type surfaces
     !! hexahedral structured_grid block surface data
     private
-    class(package), allocatable, dimension(:,:,:) :: halo_inbox
+    class(package), allocatable, dimension(:,:,:) :: halo_outbox
       !! allocate to dimensions [my_blocks(first):my_blocks(last), space_dimension, size([forward, backward]))
       !! A GCC 8 compiler necessitates the polymorphic (class) declaration.
   contains
     procedure, nopass :: is_external_boundary
-    procedure, nopass :: set_halo_inbox
-    procedure, nopass :: get_halo_inbox
+    procedure, nopass :: set_halo_outbox
+    procedure, nopass :: get_halo_outbox
     procedure, nopass :: set_surface_package
     procedure, nopass :: get_block_image
   end type
@@ -48,23 +48,23 @@ module surfaces_interface
       logical is_external
     end function
 
-    module subroutine set_halo_inbox(my_halo_inbox, my_blocks, block_partitions)
-      !! define halo_inbox component array
+    module subroutine set_halo_outbox(my_halo_outbox, my_blocks, block_partitions)
+      !! define halo_outbox component array
       implicit none
-      type(package), intent(in), dimension(:,:,:), allocatable :: my_halo_inbox
+      type(package), intent(in), dimension(:,:,:), allocatable :: my_halo_outbox
       integer, intent(in), dimension(:) :: my_blocks, block_partitions
     end subroutine
 
-    module subroutine get_halo_inbox(singleton_halo_inbox)
-      !! output singleton_halo_inbox with the following bounds:
+    module subroutine get_halo_outbox(singleton_halo_outbox)
+      !! output singleton_halo_outbox with the following bounds:
       !! lbounds=[my_blocks(first), 1, backward], ubounds=[my_blocks(last), space_dimension, forward]
       !! This can't be a function because the function result would not preserve the desired bounds.
       implicit none
-      type(package), dimension(:,:,:), allocatable, intent(out) :: singleton_halo_inbox
+      type(package), dimension(:,:,:), allocatable, intent(out) :: singleton_halo_outbox
     end subroutine
 
     module subroutine set_surface_package( block_id, coordinate_direction, face, x_f, x_b, s_flux_f, s_flux_b)
-      !! define halo inbox for a specific surface
+      !! define halo outbox for a specific surface
       implicit none
       integer, intent(in) :: block_id, coordinate_direction
       integer(enumeration), intent(in) :: face

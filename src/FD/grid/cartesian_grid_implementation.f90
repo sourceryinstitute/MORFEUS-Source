@@ -54,7 +54,7 @@ contains
        end do loop_over_coordinate_directions
      end do loop_over_blocks
 
-     call block_faces%set_halo_inbox(bare, my_blocks, block_partitions)
+     call block_faces%set_halo_outbox(bare, my_blocks, block_partitions)
 
   end procedure
 
