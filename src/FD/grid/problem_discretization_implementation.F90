@@ -82,7 +82,6 @@ contains
     integer(i4k), dimension(:), allocatable :: block_cell_material, point_block_id
     type(attributes) :: grid_point_attributes, cell_attributes
     integer :: b, s, first_point_in_block, first_cell_in_block
-    real(r8k), dimension(:,:,:), allocatable :: scalar_fields_values
 
     if (assertions) call assert(allocated(this%vertices), "problem_discretization%vtk_output: allocated(this%vertices())")
 
@@ -383,6 +382,7 @@ contains
 
     if (assertions) then
       associate(me=>this_image())
+        call assert( allocated(this%block_partitions), "problem%discretization%my_blocks: allocated(this%block_partitions)" )
         write(error_data,*) block_identifier_range, "/=", [this%block_partitions(me), this%block_partitions(me+1)-1]
         call assert( all(block_identifier_range == [this%block_partitions(me), this%block_partitions(me+1)-1]), &
         "problem_discretization%my_blocks: all(blocks_identifer_range==[this%block_partitions(me),this%block_partitions(me+1)-1])",&
@@ -490,7 +490,7 @@ contains
   end procedure
 
   module procedure set_analytical_scalars
-    integer b, f, alloc_status, coord_dir, face_dir
+    integer b, f, alloc_status
     character(len=max_errmsg_len) :: alloc_error
 
     if (assertions) call assert(allocated(this%vertices), "problem_discretization%set_analytical_scalars: allocated(this%vertices)")

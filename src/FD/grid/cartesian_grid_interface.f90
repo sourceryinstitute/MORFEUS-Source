@@ -36,7 +36,7 @@ module cartesian_grid_interface
       implicit none
       class(cartesian_grid), intent(in) :: this
       class(structured_grid), intent(in) :: vertices
-      class(surfaces), intent(inout) :: block_surfaces
+      type(surfaces), intent(inout) :: block_surfaces
       class(structured_grid), intent(inout) :: div_flux_internal_points
     end subroutine
 
@@ -44,7 +44,7 @@ module cartesian_grid_interface
       implicit none
       class(cartesian_grid), intent(in) :: this
       class(structured_grid), intent(in) :: vertices
-      class(surfaces), intent(in) :: block_surfaces
+      type(surfaces), intent(in) :: block_surfaces
       class(structured_grid), intent(inout) :: div_flux
     end subroutine
 

@@ -16,7 +16,7 @@ submodule(cartesian_grid_interface) cartesian_grid_implementation
 contains
 
   module procedure build_surfaces
-    integer, parameter :: first=1, last=2, success=0, x_dir=1, y_dir=2, z_dir=3, vec_components=3, space_dimensions=3, num_faces=2
+    integer, parameter :: first=1, last=2, success=0, x_dir=1, z_dir=3, vec_components=3, space_dimensions=3, num_faces=2
     integer, parameter :: displacement(x_dir:z_dir, backward:forward, x_dir:z_dir) = &
       reshape( [ [-1,0,0], [1,0,0], [0,-1,0], [0,1,0], [0,0,-1], [0,0,1] ], [space_dimensions, num_faces, vec_components ] )
     type(package), allocatable, dimension(:,:,:) :: bare

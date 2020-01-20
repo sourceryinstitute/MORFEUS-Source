@@ -74,7 +74,7 @@ module structured_grid_interface
       import structured_grid, differentiable_field, surfaces
       implicit none
       class(structured_grid), intent(in) :: this, vertices
-      class(surfaces), intent(inout) :: block_surfaces
+      type(surfaces), intent(inout) :: block_surfaces
       class(structured_grid), intent(inout) :: div_flux_internal_points
     end subroutine
 
@@ -82,7 +82,7 @@ module structured_grid_interface
       import structured_grid, differentiable_field, surfaces
       implicit none
       class(structured_grid), intent(in) :: this, vertices
-      class(surfaces), intent(in) :: block_surfaces
+      type(surfaces), intent(in) :: block_surfaces
       class(structured_grid), intent(inout) :: div_flux
     end subroutine
 

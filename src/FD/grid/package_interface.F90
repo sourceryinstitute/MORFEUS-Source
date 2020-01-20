@@ -32,6 +32,8 @@ module package_interface
     procedure set_step
     procedure set_data
     procedure sender_block_id_null
+    procedure copy
+    generic :: assignment(=) => copy
   end type
 
   interface
@@ -69,10 +71,17 @@ module package_interface
     end subroutine
 
     elemental module function sender_block_id_null(this) result(is_null)
+      !! set sender_block_id to invalid value for external boundaries (no block sends halo data to a boundary)
       implicit none
       class(package), intent(in) :: this
       logical is_null
     end function
+
+    module subroutine copy(this, rhs)
+      !! copy rhs package components into this package
+      class(package), intent(inout) :: this
+      type(package), intent(in) :: rhs
+    end subroutine
 
   end interface
 
