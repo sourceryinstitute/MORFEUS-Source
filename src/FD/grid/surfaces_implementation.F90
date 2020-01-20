@@ -36,11 +36,16 @@ contains
   end procedure
 
   module procedure set_halo_inbox
+    !! a shorter implementation of this procedure would simply assign my_halo_inbox to singleton%halo_inbox
+    !! GCC 8 compiler bugs necessitate the source allocation and instead
     integer alloc_stat
     character(len=max_errmsg_len) error_message
 
-    call assert( size(my_halo_inbox,1)==my_blocks(2)-my_blocks(1)+1, &
-       "surfaces%set_halo_inbox: size(my_halo_inbox,1)==my_blocks(2)-my_blocks(1)+1")
+    if (assertions) then
+      call assert(allocated(my_halo_inbox), "surfaces%set_halo_inbox: allocated(my_halo_inbox)")
+      call assert(all([lbound(my_halo_inbox,1), ubound(my_halo_inbox,1)] == my_blocks), &
+        "all([lbound(my_halo_inbox,1), ubound(my_halo_inbox,1)])==my_blocks")
+    end if
 
     if(allocated(singleton%halo_inbox)) deallocate(singleton%halo_inbox)
 

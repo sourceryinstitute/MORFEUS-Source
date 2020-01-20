@@ -29,6 +29,7 @@ module surfaces_interface
     private
     class(package), allocatable, dimension(:,:,:) :: halo_inbox
       !! allocate to dimensions [my_blocks(first):my_blocks(last), space_dimension, size([forward, backward]))
+      !! A GCC 8 compiler necessitates the polymorphic (class) declaration.
   contains
     procedure, nopass :: is_external_boundary
     procedure, nopass :: set_halo_inbox
