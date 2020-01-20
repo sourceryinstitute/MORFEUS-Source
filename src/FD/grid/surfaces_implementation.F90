@@ -68,10 +68,12 @@ contains
     end associate
   end procedure
 
-  module procedure set_surface_package
+  module procedure set_normal_scalar_fluxes
     type(package) message
-    if (assertions) call assert(allocated(singleton%halo_outbox),"surfaces%set_surface: allocated(singleton%halo_outbox)")
-    call message%set_data(x_f, x_b, s_flux_f, s_flux_b)
+    if (assertions) &
+      call assert(allocated(singleton%halo_outbox), "surfaces%set_normal_scalar_fluxes: allocated(singleton%halo_outbox)")
+
+    call message%set_normal_scalar_fluxes(s_flux_normal, positions)
     singleton%halo_outbox( block_id, coordinate_direction, face) = message
   end procedure
 

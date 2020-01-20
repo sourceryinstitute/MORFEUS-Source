@@ -25,11 +25,9 @@ contains
     this%step = step
   end procedure
 
-  module procedure set_data
-    this%x_f = this_x_f
-    this%x_b = this_x_b
-    this%s_flux_f = this_s_flux_f
-    this%s_flux_b = this_s_flux_b
+  module procedure set_normal_scalar_fluxes
+    this%s_flux_normal = s_flux_normal
+    this%positions = positions
   end procedure
 
   module procedure sender_block_id_null
@@ -38,15 +36,13 @@ contains
 
   module procedure copy
     if (assertions) then
-      call assert(all([allocated(rhs%x_b), allocated(rhs%x_f), allocated(rhs%s_flux_b), allocated(rhs%s_flux_f)]), &
-        "package%copy: all([allocated(rhs%x_b), allocated(rhs%x_f), allocated(rhs%s_flux_b), allocated(rhs%s_flux_f)])")
+      call assert( all([allocated(rhs%s_flux_normal), allocated(rhs%positions)]), &
+        " all([allocated(rhs%s_flux_normal), allocated(rhs%positions)])" )
     end if
     this%sender_block_id = rhs%sender_block_id
     this%step = rhs%step
-    this%x_b = rhs%x_b
-    this%x_f = rhs%x_f
-    this%s_flux_b = rhs%s_flux_b
-    this%s_flux_f = rhs%s_flux_f
+    this%s_flux_normal = rhs%s_flux_normal
+    this%positions = rhs%positions
   end procedure
 
 end submodule package_implementation

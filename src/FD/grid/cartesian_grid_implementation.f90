@@ -93,7 +93,7 @@ contains
           do concurrent(k=1:npoints(3), j=1:npoints(2), i=2:npoints(1)-1)
 
             associate( &
-              dx_m => half*(x(i+1,j,k) - x(i-1,j,k)), &!! half*(x(i+1,j,k) - x(i,j,k) + x(i,j,k) - x(i-1,j,k))
+              dx_m => half*(x(i+1,j,k) - x(i-1,j,k)), &!! (dx_b + dx_f)/2
               dx_f =>       x(i+1,j,k) - x(i,j,k), &
               dx_b =>       x(i,j,k)   - x(i-1,j,k), &
               s_f => half*( s(i+1,j,k) + s(i,j,k)  ), &

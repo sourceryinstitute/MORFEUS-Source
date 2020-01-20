@@ -21,16 +21,15 @@ module package_interface
     private
     integer :: sender_block_id
     integer :: step
-    real(r8k), allocatable, dimension(:) :: x_f, x_b
-      !! forward/backward position vectors; size(x_f) = size(x_b) = space_dimension
-    real(r8k), allocatable, dimension(:,:) :: s_flux_f, s_flux_b
-      !! forward/backward scalar flux components: shape(s_flux_f) = shape(s_flux_b) = [scalar_field ID, space_dimension], where
-      !! the second flux dimension is the coordinate direction of the flux component.
+    real(r8k), allocatable, dimension(:,:,:,:) :: s_flux_normal
+      !! surface-normal scalar flux components: shape = [Nx, Ny, Nz, scalar_field ID], where one of Nx|Ny|Nz is 1
+    real(r8k), allocatable, dimension(:,:,:) :: positions
+      !! flux locations: shape = [Nx, Ny, Nz], where one of Nx|Ny|Nz is 1
   contains
     procedure get_sender_block_id
     procedure set_sender_block_id
     procedure set_step
-    procedure set_data
+    procedure set_normal_scalar_fluxes
     procedure sender_block_id_null
     procedure copy
     generic :: assignment(=) => copy
@@ -59,15 +58,14 @@ module package_interface
       integer, intent(in) :: step
     end subroutine
 
-    module subroutine set_data(this, this_x_f, this_x_b, this_s_flux_f, this_s_flux_b)
+    module subroutine set_normal_scalar_fluxes(this, s_flux_normal, positions)
       !! set datum to be communicated across structured_grid block internal surfaces
       implicit none
       class(package), intent(inout) :: this
-      real(r8k), allocatable, intent(in), dimension(:) :: this_x_f, this_x_b
-        !! forward/backward position vectors; size(x_f) = size(x_b) = space_dimension
-      real(r8k), allocatable, intent(in), dimension(:,:) :: this_s_flux_f, this_s_flux_b
-        !! forward/backward scalar flux components: shape(s_flux_f) = shape(s_flux_b) = [scalar_field ID, space_dimension], where
-        !! the second flux dimension is the coordinate direction of the flux component.
+      real(r8k), intent(in), dimension(:,:,:,:) :: s_flux_normal
+        !! surface-normal scalar flux components: shape = [Nx, Ny, Nz, scalar_field ID], where one of Nx|Ny|Nz is 1
+      real(r8k), intent(in), dimension(:,:,:) :: positions
+        !! flux locations: shape = [Nx, Ny, Nz], where one of Nx|Ny|Nz is 1
     end subroutine
 
     elemental module function sender_block_id_null(this) result(is_null)

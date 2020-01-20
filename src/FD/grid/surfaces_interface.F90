@@ -29,12 +29,12 @@ module surfaces_interface
     private
     class(package), allocatable, dimension(:,:,:) :: halo_outbox
       !! allocate to dimensions [my_blocks(first):my_blocks(last), space_dimension, size([forward, backward]))
-      !! A GCC 8 compiler necessitates the polymorphic (class) declaration.
+      !! An appparent GCC 8 compiler bug necessitates the polymorphic (class) declaration.
   contains
     procedure, nopass :: is_external_boundary
     procedure, nopass :: set_halo_outbox
     procedure, nopass :: get_halo_outbox
-    procedure, nopass :: set_surface_package
+    procedure, nopass :: set_normal_scalar_fluxes
     procedure, nopass :: get_block_image
   end type
 
@@ -63,16 +63,15 @@ module surfaces_interface
       type(package), dimension(:,:,:), allocatable, intent(out) :: singleton_halo_outbox
     end subroutine
 
-    module subroutine set_surface_package( block_id, coordinate_direction, face, x_f, x_b, s_flux_f, s_flux_b)
+    module subroutine set_normal_scalar_fluxes( block_id, coordinate_direction, face, s_flux_normal, positions)
       !! define halo outbox for a specific surface
       implicit none
       integer, intent(in) :: block_id, coordinate_direction
       integer(enumeration), intent(in) :: face
-      real(r8k), allocatable, intent(in), dimension(:) :: x_f, x_b
-        !! forward/backward position vectors; size(x_f) = size(x_b) = space_dimension
-      real(r8k), allocatable, intent(in), dimension(:,:) :: s_flux_f, s_flux_b
-        !! forward/backward scalar flux components: shape(s_flux_f) = shape(s_flux_b) = [scalar_field ID, space_dimension], where
-        !! the second flux dimension is the coordinate direction of the flux component.
+      real(r8k), allocatable, intent(in), dimension(:,:,:,:) :: s_flux_normal
+        !! surface-normal scalar flux components: shape = [Nx, Ny, Nz, scalar_field ID], where one of Nx|Ny|Nz is 1
+      real(r8k), allocatable, intent(in), dimension(:,:,:) :: positions
+        !! flux locations: shape = [Nx, Ny, Nz], where one of Nx|Ny|Nz is 1
     end subroutine
 
     pure module function get_block_image(block_id) result(image)
