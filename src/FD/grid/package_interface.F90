@@ -42,7 +42,9 @@ module package_interface
     procedure get_neighbor_block_id
     procedure neighbor_block_id_null
     procedure copy
+#ifndef FORD
     generic :: assignment(=) => copy
+#endif
   end type
 
   interface
