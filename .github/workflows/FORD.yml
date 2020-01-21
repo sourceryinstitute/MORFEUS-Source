@@ -62,12 +62,14 @@ jobs:
           type -a ford
 
       - name: Build documentation
+        id: build-documentation
         run: |
           cd src/FD && \
           ford -r $(git describe --always) doc-generator.md
+          echo "::set-output name=ford_doc_dir::$(pwd)/doc"
 
       - name: Upload Documentation
         uses: actions/upload-artifact@v1
         with:
           name: FORD-API-docs
-          path: ./doc
+          path: ${{ steps.build-documentation.outputs.ford_doc_dir }}
