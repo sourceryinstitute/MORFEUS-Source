@@ -52,12 +52,8 @@ jobs:
       - name: Install packages
         run: |
           sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-          sudo apt-get update
-          sudo apt-get install -y  gcc-${GCC_V} g++-${GCC_V} gfortran-${GCC_V} graphviz libxml2-dev libxslt-dev
-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_V} 100 \
-          --slave /usr/bin/g++ g++ /usr/bin/g++-${GCC_V} \
-          --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
-          --slave /usr/bingcov gcov /usr/bin/gcov-${GCC_V}
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends graphviz libxml2-dev libxslt-dev
           pip install --user -r requirements.txt
           type -a ford
 
@@ -65,8 +61,8 @@ jobs:
         id: build-documentation
         run: |
           cd src/FD && \
-          ford -q -r $(git describe --always) doc-generator.md
-          toucher doc/.nojekyll
+          ford -r $(git describe --always) --quiet doc-generator.md
+          touch doc/.nojekyll
           echo "::set-output name=ford_doc_dir::$(pwd)/doc"
 
       - name: Upload Documentation
