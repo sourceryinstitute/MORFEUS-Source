@@ -1,0 +1,57 @@
+name: FORD
+
+on: [push]
+
+env:
+  LANG: "en_US.UTF-8"
+  LC_ALL: "en_US.UTF-8"
+  NCPU: "2"
+  PIP_DISABLE_PIP_VERSION_CHECK: "ON"
+  PIP_NO_CLEAN: "ON"
+  PIP_PREFER_BINARY: "ON"
+  TZ: "UTC"
+  GCC_V: 8
+
+jobs:
+  Build-API-Docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          submodules: false
+
+      - name: Setup Python 3.x
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.x
+
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.set-outputs.outputs.py_cache_dir }}
+          key: ${{ runner.os }}-pipcache-1-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pipcache-1-
+
+      - name: Install packages
+        run: |
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo apt-get update
+          sudo apt-get install -y  gcc-${GCC_V} g++-${GCC_V} gfortran-${GCC_V} graphviz libxml2-dev libxslt-dev
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_V} 100 \
+          --slave /usr/bin/g++ g++ /usr/bin/g++-${GCC_V} \
+          --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
+          --slave /usr/bingcov gcov /usr/bin/gcov-${GCC_V}
+          pip install --user -r requirements.txt
+          type -a ford
+
+      - name: Build documentation
+        run: |
+          cd src/FD && \
+          ford -r $(git describe --always) doc-generator.md
+
+      - name: Upload Documentation
+        uses: actions/upload-artifact@v1
+        with:
+          name: FORD-API-docs
+          path: ./doc
