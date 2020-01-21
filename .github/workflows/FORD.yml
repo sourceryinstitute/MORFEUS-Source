@@ -65,7 +65,8 @@ jobs:
         id: build-documentation
         run: |
           cd src/FD && \
-          ford -r $(git describe --always) doc-generator.md
+          ford -q -r $(git describe --always) doc-generator.md
+          toucher doc/.nojekyll
           echo "::set-output name=ford_doc_dir::$(pwd)/doc"
 
       - name: Upload Documentation
@@ -73,3 +74,15 @@ jobs:
         with:
           name: FORD-API-docs
           path: ${{ steps.build-documentation.outputs.ford_doc_dir }}
+
+      - name: Deploy API Docs
+        uses: docker://peaceiris/gh-pages:v2
+        env:
+          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: ${{ steps.build-documentation.outputs.ford_doc_dir }}
+        with:
+          emptyCommits: false
+          forceOrphan: true
+          commitMessage: ${{ github.event.head_commit.message }}
+          username: ${{ github.actor }}
