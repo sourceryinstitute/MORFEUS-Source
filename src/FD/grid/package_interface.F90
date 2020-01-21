@@ -48,7 +48,7 @@ module package_interface
   interface
 
     pure module subroutine set_surface_flux_positions(this, positions)
-      !! define grid locations at this structured_grid block's surface
+      !! define grid locations at a surface of this structured_grid block
       implicit none
       class(package), intent(inout) :: this
       real(r8k), dimension(:,:,:), intent(in) :: positions

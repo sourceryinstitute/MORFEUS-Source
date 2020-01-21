@@ -59,7 +59,7 @@ module surfaces_interface
     module subroutine get_halo_outbox(singleton_halo_outbox)
       !! output singleton_halo_outbox with the following bounds:
       !! lbounds=[my_blocks(first), 1, backward], ubounds=[my_blocks(last), space_dimension, forward]
-      !! This can't be a function because the function result would not preserve the desired bounds.
+      !! This cannot be a function because the function result would not preserve the desired bounds.
       implicit none
       type(package), dimension(:,:,:), allocatable, intent(out) :: singleton_halo_outbox
     end subroutine
