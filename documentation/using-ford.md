@@ -4,16 +4,33 @@ title: Documenting New and Modified Code
 
 # FORD the Fortran Documentation generator
 
+<details><summary><b>Table of Contents</b></summary>
+
+[TOC]
+
+</details>
+
+
 ## Getting started
 
 [FORD] has is [quite well documented]. Documentation is written in
 markdown syntax using the [python markdown] parser and
 generator. There are some important and often subtle differences from
 Github flavored markdown ([GFM]). In addition, other markdown source
-can be [included] in any FORD markdown with the custom FORD syntax
-`\{!include_file.md!\}` which gets injected before the document is
-processed. (This allows code to be included this way as well as [meta
-data].)
+can be [included] in any FORD markdown with the custom FORD syntax:
+
+``` markdown
+    {\! ./include_file.md \!}
+```
+
+@note
+The syntax above should have the backslash escape characters removed;
+[FORD] will try to look for `./include_file.md` and includes an empty string
+in this documentation if I do not add the escape character.
+
+The file gets injected before the document is
+processed. (This allows code to be included this way as well as
+[meta data].)
 
 [FORD] parses and understands modern Fortran and was written in a way
 to try to make [writing documentation] easy. The project options are
@@ -134,4 +151,4 @@ the [style guide] page in this wiki.
 [command line]: https://github.com/Fortran-FOSS-Programmers/ford/wiki/Command-Line-Options
 [included]: https://github.com/Fortran-FOSS-Programmers/ford/wiki/Writing-Documentation#include-capabilities
 [writing documentation]: https://github.com/Fortran-FOSS-Programmers/ford/wiki/Writing-Documentation
-[style guide]: ./style-guide
+[style guide]: ./style-guide.html

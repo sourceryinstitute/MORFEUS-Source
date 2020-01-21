@@ -1,5 +1,5 @@
 ---
-title: High Level Morfeus Developer Documentation
+title: Developer Documentation
 ---
 
 <details><summary><b>Table of Contents</b></summary>
@@ -12,7 +12,7 @@ About
 -----
 
 This page and directory contain links to various high-level [Morfeus] developer documentation pages.
-This content is written in Pythonic Markdown and rendered to HTML by [FORD] and served at |url|.
+This content is written in Pythonic Markdown and rendered to HTML by [FORD] and served at [|url|](|url|).
 For more details on writing documentation with [FORD], please see the [FORD wiki].
 
 Contents
@@ -28,14 +28,18 @@ Contents
 * __[Example Usage]__: Example code and discussion on how to use [Morfeus] in your application
 
 
-[Morfeus]: |url|
+[Morfeus]: https://sourceryinstitute/MORFEUS-Source#readme
 [FORD]: https://github.com/Fortran-FOSS-Programmers/ford#readme
 [FORD wiki]: https://github.com/Fortran-FOSS-Programmers/ford/wiki
 [EditorConfig]: https://editorconfig.org/
 [findent]: https://www.ratrabbit.nl/ratrabbit/content/findent/introduction
 [CMake]: https://cmake.org/
 [CTest]: https://cmake.org/cmake/help/latest/manual/ctest.1.html
-[Getting Started]: ./getting-started
-[Documenting New and Modified Code]: ./using-ford
-[Style Guide]: ./style-guide
+[Getting Started]: ./getting-started.html
+[Prerequisites]: ./getting-started.html#prerequisites
+[Configuring the Library]: ./getting-started.html#configuring-the-library
+[Building the Library]: ./getting-started.html#building-the-library
+[Running Tests]: ./getting-started.html#running-tests
+[Documenting New and Modified Code]: ./using-ford.html
+[Style Guide]: ./style-guide.html
 [Example Usage]: ./examples/
