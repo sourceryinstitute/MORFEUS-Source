@@ -60,7 +60,7 @@ jobs:
       - name: Build documentation
         id: build-documentation
         run: |
-          ford -r $(git describe --always) --quiet API-doc-FORD-file.md
+          ford -r $(git describe --always) --debug API-doc-FORD-file.md
           touch API-doc/.nojekyll
           echo "::set-output name=ford_doc_dir::$(pwd)/API-doc"
 
