@@ -113,7 +113,7 @@ module structured_grid_interface
       integer :: n
     end function
 
-    subroutine build_surfaces_interface(this, problem_geometry, space_dimension, block_faces, block_partitions)
+    subroutine build_surfaces_interface(this, problem_geometry, space_dimension, block_faces, block_partitions, num_scalars)
       !! allocate coarray for communicating across structured_grid blocks
       import structured_grid, geometry, surfaces
       class(structured_grid), intent(in) :: this
@@ -121,6 +121,7 @@ module structured_grid_interface
       integer, intent(in) :: space_dimension
       type(surfaces), intent(inout) :: block_faces
       integer, intent(in), dimension(:) :: block_partitions
+      integer, intent(in) :: num_scalars
     end subroutine
 
     pure function block_id_in_bounds_interface(this, id) result(in_bounds)

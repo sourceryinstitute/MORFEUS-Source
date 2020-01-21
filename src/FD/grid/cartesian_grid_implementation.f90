@@ -42,6 +42,7 @@ contains
         error stop "cartesian_grid%build_surfaces: unsupported problem_geometry type"
     end select
 
+    define_bare_package: & !! initialize packages with only the time step & neighbor block_id (no halo-exchange data yet)
     associate( me => this_image() )
       associate( my_blocks => [block_partitions(me), block_partitions(me+1)-1] )
         allocate( bare(my_blocks(first):my_blocks(last), space_dimension, backward:forward), &
@@ -65,11 +66,11 @@ contains
              end do loop_over_face_directions
            end do loop_over_coordinate_directions
          end do loop_over_blocks
-
-         call block_faces%set_halo_outbox(bare, block_partitions)
-
        end associate
-     end associate
+     end associate define_bare_package
+
+     call block_faces%set_halo_outbox(bare, block_partitions)
+     call block_faces%set_num_scalars(num_scalars)
 
   end procedure
 

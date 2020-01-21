@@ -36,6 +36,7 @@ module surfaces_interface
     procedure, nopass :: get_halo_outbox
     procedure, nopass :: set_normal_scalar_fluxes
     procedure, nopass :: get_block_image
+    procedure, nopass :: set_num_scalars
   end type
 
   interface
@@ -63,15 +64,13 @@ module surfaces_interface
       type(package), dimension(:,:,:), allocatable, intent(out) :: singleton_halo_outbox
     end subroutine
 
-    module subroutine set_normal_scalar_fluxes( block_id, coordinate_direction, face, s_flux_normal, positions)
+    module subroutine set_normal_scalar_fluxes( block_id, coordinate_direction, face, s_flux_normal, scalar_id)
       !! define halo outbox for a specific surface
       implicit none
-      integer, intent(in) :: block_id, coordinate_direction
+      integer, intent(in) :: block_id, coordinate_direction, scalar_id
       integer(enumeration), intent(in) :: face
-      real(r8k), allocatable, intent(in), dimension(:,:,:,:) :: s_flux_normal
-        !! surface-normal scalar flux components: shape = [Nx, Ny, Nz, scalar_field ID], where one of Nx|Ny|Nz is 1
-      real(r8k), allocatable, intent(in), dimension(:,:,:) :: positions
-        !! flux locations: shape = [Nx, Ny, Nz], where one of Nx|Ny|Nz is 1
+      real(r8k), allocatable, intent(in), dimension(:,:,:) :: s_flux_normal
+        !! surface-normal scalar flux components: shape = [Nx, Ny, Nz], where one of Nx|Ny|Nz is 1
     end subroutine
 
     pure module function get_block_image(block_id) result(image)
@@ -79,6 +78,12 @@ module surfaces_interface
       integer, intent(in) :: block_id
       integer image
     end function
+
+    module subroutine set_num_scalars(num_scalars)
+      !! allocate surface-normal scalar flux array
+      implicit none
+      integer, intent(in) :: num_scalars
+    end subroutine
 
   end interface
 

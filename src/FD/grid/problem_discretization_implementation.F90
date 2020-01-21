@@ -494,30 +494,32 @@ contains
 
     if (assertions) call assert(allocated(this%vertices), "problem_discretization%set_analytical_scalars: allocated(this%vertices)")
 
-    if (allocated(this%scalar_fields)) deallocate(this%scalar_fields)
-    allocate( this%scalar_fields(lbound(this%vertices,1) : ubound(this%vertices,1), size(scalar_setters)), &
-      stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
-    call assert( alloc_status==success, "set_analytical_scalars: scalar_field allocation", alloc_error)
+    associate( num_scalars => size(scalar_setters) )
+      if (allocated(this%scalar_fields)) deallocate(this%scalar_fields)
+      allocate( this%scalar_fields(lbound(this%vertices,1) : ubound(this%vertices,1), num_scalars), &
+        stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
+      call assert( alloc_status==success, "set_analytical_scalars: scalar_field allocation", alloc_error)
 
-    loop_over_blocks: &
-    do b = lbound(this%vertices,1), ubound(this%vertices,1)
-      loop_over_functions: &
-      do f = 1, size(scalar_setters)
-        select type( scalar_values => scalar_setters(f)%evaluate( this%vertices(b) ) )
-          class is( structured_grid )
-            call this%scalar_fields(b,f)%clone( scalar_values )
-          class default
-            error stop "problem_discretization%set_analytical_scalars: unsupported scalar_values grid type"
-        end select
-      end do loop_over_functions
-    end do loop_over_blocks
+      loop_over_blocks: &
+      do b = lbound(this%vertices,1), ubound(this%vertices,1)
+        loop_over_functions: &
+        do f = 1, num_scalars
+          select type( scalar_values => scalar_setters(f)%evaluate( this%vertices(b) ) )
+            class is( structured_grid )
+              call this%scalar_fields(b,f)%clone( scalar_values )
+            class default
+              error stop "problem_discretization%set_analytical_scalars: unsupported scalar_values grid type"
+          end select
+        end do loop_over_functions
+      end do loop_over_blocks
 
-    call assert( allocated(this%problem_geometry), &
-      "problem_discretization%set_analytical_scalars: allocated(this%problem_geometry)")
+      call assert( allocated(this%problem_geometry), &
+        "problem_discretization%set_analytical_scalars: allocated(this%problem_geometry)")
 
-    associate( my_blocks => this%my_blocks() )
-      call this%block_map%build_surfaces( this%problem_geometry, &
-        this%vertices(my_blocks(1))%space_dimension(), this%block_surfaces, this%block_partitions)
+      associate( my_blocks => this%my_blocks() )
+        call this%block_map%build_surfaces( this%problem_geometry, &
+          this%vertices(my_blocks(1))%space_dimension(), this%block_surfaces, this%block_partitions, num_scalars)
+      end associate
     end associate
 
   end procedure

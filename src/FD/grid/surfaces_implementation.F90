@@ -73,18 +73,19 @@ contains
   end procedure
 
   module procedure set_normal_scalar_fluxes
-    type(package) message
     if (assertions) &
       call assert(allocated(singleton%halo_outbox), "surfaces%set_normal_scalar_fluxes: allocated(singleton%halo_outbox)")
-
-    call message%set_normal_scalar_fluxes(s_flux_normal, positions)
-    singleton%halo_outbox( block_id, coordinate_direction, face) = message
+    call singleton%halo_outbox( block_id, coordinate_direction, face)%set_normal_scalar_fluxes(s_flux_normal, scalar_id)
   end procedure
 
   module procedure get_block_image
     if (assertions) &
       call assert(allocated(global_block_partitions), "surfaces%set_surface_package: allocated(global_block_partitions)")
     image = findloc( block_id >= global_block_partitions, value=.true., dim=1, back=.true.)
+  end procedure
+
+  module procedure set_num_scalars
+    call singleton%halo_outbox%set_num_scalars(num_scalars)
   end procedure
 
 end submodule
