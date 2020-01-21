@@ -1,0 +1,41 @@
+---
+title: High Level Morfeus Developer Documentation
+---
+
+<details><summary><b>Table of Contents</b></summary>
+
+[TOC]
+
+</details>
+
+About
+-----
+
+This page and directory contain links to various high-level [Morfeus] developer documentation pages.
+This content is written in Pythonic Markdown and rendered to HTML by [FORD] and served at |url|.
+For more details on writing documentation with [FORD], please see the [FORD wiki].
+
+Contents
+--------
+
+* __[Getting Started]__: Information required for building [Morfeus] from source
+    * __[Prerequisites]__: Required software libraries and tooling
+    * __[Configuring the Library]__: Running [CMake] to configure the [Morfeus] build, find compilers and optional and required prerequisites
+    * __[Building the Library]__: Compiling [Morfeus] from source
+    * __[Running Tests]__: How to run unit and integration tests with [CTest]
+* __[Documenting New and Modified Code]__: How to write [FORD] documentation, and what documentation is required in contributed code
+* __[Style Guide]__: Style requirements, many of which are enforced with [EditorConfig] or [findent].
+* __[Example Usage]__: Example code and discussion on how to use [Morfeus] in your application
+
+
+[Morfeus]: |url|
+[FORD]: https://github.com/Fortran-FOSS-Programmers/ford#readme
+[FORD wiki]: https://github.com/Fortran-FOSS-Programmers/ford/wiki
+[EditorConfig]: https://editorconfig.org/
+[findent]: https://www.ratrabbit.nl/ratrabbit/content/findent/introduction
+[CMake]: https://cmake.org/
+[CTest]: https://cmake.org/cmake/help/latest/manual/ctest.1.html
+[Getting Started]: ./getting-started
+[Documenting New and Modified Code]: ./using-ford
+[Style Guide]: ./style-guide
+[Example Usage]: ./examples/

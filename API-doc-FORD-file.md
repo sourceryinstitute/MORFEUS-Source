@@ -2,22 +2,21 @@
 project: Morfeus-FD
 summary: A parallel finite difference solver for block-structured grids
 macro: FORD
-src_dir: .
-exclude_dir: tests
-             doc
-output_dir: doc
+src_dir: src/FD
+exclude_dir: src/FD/tests
+             API-doc
+output_dir: API-doc
 preprocess: true
 display: public
          protected
          private
 source: true
-graph: true
+graph: false
 md_extensions: markdown.extensions.toc
 coloured_edges: true
 sort: alpha
 extra_mods: iso_fortran_env:https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html
             iso_c_binding:https://gcc.gnu.org/onlinedocs/gcc-4.9.4/gfortran/ISO_005fC_005fBINDING.html
-lower: true
 print_creation_date: true
 creation_date: %Y-%m-%d %H:%M %z
 project_github: https://github.com/sourceryinstitute/MORFEUS-Source
@@ -42,4 +41,4 @@ website: http://www.gsellc.com
 
 [TOC]
 
-{!README.md!}
+{!src/FD/README.md!}
