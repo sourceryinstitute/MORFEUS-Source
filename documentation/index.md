@@ -12,7 +12,7 @@ About
 -----
 
 This page and directory contain links to various high-level [Morfeus] developer documentation pages.
-This content is written in Pythonic Markdown and rendered to HTML by [FORD] and served at [|url|](|url|).
+This content is written in Pythonic Markdown and rendered to HTML by [FORD] and served at [https://sourceryinstitute.github.io/MORFEUS-Source].
 For more details on writing documentation with [FORD], please see the [FORD wiki].
 
 Contents
@@ -29,6 +29,7 @@ Contents
 
 
 [Morfeus]: https://sourceryinstitute/MORFEUS-Source#readme
+[https://sourceryinstitute.github.io/MORFEUS-Source]: https://sourceryinstitute.github.io/MORFEUS-Source
 [FORD]: https://github.com/Fortran-FOSS-Programmers/ford#readme
 [FORD wiki]: https://github.com/Fortran-FOSS-Programmers/ford/wiki
 [EditorConfig]: https://editorconfig.org/

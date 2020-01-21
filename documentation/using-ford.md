@@ -2,8 +2,6 @@
 title: Documenting New and Modified Code
 ---
 
-# FORD the Fortran Documentation generator
-
 <details><summary><b>Table of Contents</b></summary>
 
 [TOC]

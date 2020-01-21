@@ -6,9 +6,7 @@ src_dir: src/FD
 exclude_dir: src/FD/tests
              API-doc
 output_dir: API-doc
-media_dir: documentation/media
 page_dir: documentation
-project_url: https://sourceryinstitute.github.io/MORFEUS-Source
 preprocess: true
 display: public
          protected
