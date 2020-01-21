@@ -1,8 +1,8 @@
 !
-!     (c) 2019 Guide Star Engineering, LLC
-!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
-!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+!     (c) 2019-2020 Guide Star Engineering, LLC
+!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract
+!     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
+!     contract # NRC-HQ-60-17-C-0007
 !
 module surfaces_interface
   !! author: Damian Rouson
@@ -44,18 +44,20 @@ module surfaces_interface
       logical is_external
     end function
 
-    module subroutine set_halo_data(my_halo_data)
+    module subroutine set_halo_data(my_halo_data, my_blocks)
       !! define halo_data component array
       implicit none
       class(package), intent(in), dimension(:,:,:) :: my_halo_data
+      integer, intent(in), dimension(:) :: my_blocks
     end subroutine
 
-    pure module function get_halo_data() result(singleton_halo_data)
-      !! result contains halo-exchange data packaged in an object array with dimenions
-      !! `[my_blocks(first):my_blocks(last), space_dimension, size([forward, backward]))]`
+    module subroutine get_halo_data(singleton_halo_data)
+      !! output singleton_halo_data with the following bounds:
+      !! lbounds=[my_blocks(first), 1, backward], ubounds=[my_blocks(last), space_dimension, forward]
+      !! This can't be a function because the function result would not preserve the desired bounds.
       implicit none
-      class(package), dimension(:,:,:), allocatable :: singleton_halo_data
-    end function
+      class(package), dimension(:,:,:), allocatable, intent(out) :: singleton_halo_data
+    end subroutine
 
   end interface
 

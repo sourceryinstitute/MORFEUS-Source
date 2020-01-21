@@ -1,8 +1,8 @@
 !
-!     (c) 2019 Guide Star Engineering, LLC
-!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
-!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+!     (c) 2019-2020 Guide Star Engineering, LLC
+!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract
+!     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
+!     contract # NRC-HQ-60-17-C-0007
 !
 submodule(problem_discretization_interface) define_problem_discretization
   !! author: Damian Rouson and Karla Morris
@@ -15,6 +15,20 @@ submodule(problem_discretization_interface) define_problem_discretization
   integer, parameter :: success=0
 
 contains
+
+  module procedure get_surface_packages
+    call this%block_surfaces%get_halo_data(this_surface_packages)
+  end procedure
+
+  module procedure get_block_surfaces
+    this_block_surfaces = this%block_surfaces
+  end procedure
+
+  module procedure get_global_block_shape
+    if (assertions) &
+      call assert(allocated(this%block_map), "problem_discretization%get_global_block_shape: allocated(this%block_map)")
+    block_shape = this%block_map%get_global_block_shape()
+  end procedure
 
   module procedure write_output
     use string_functions_interface, only : file_extension, base_name
@@ -111,7 +125,7 @@ contains
             do ic=1,ncells(1)
               do jc=1,ncells(2)
                 do kc=1,ncells(3)
-                  associate( block_local_point_id => & !! 8-element array of block-local ID's for voxel corners
+                  associate( block_local_point_id => & !! 8-element array of block-local IDs for voxel corners
                     [( [( [( kp*PRODUCT(npoints(1:2)) + jp*npoints(1) + ip, ip=ic,ic+1 )], jp=jc-1,jc )], kp=kc-1,kc )] &
                   )
                     call voxel_cell%setup ( first_point_in_block + block_local_point_id-1 )
@@ -167,7 +181,11 @@ contains
 
     iostat = 0
 
+#ifdef FORD
+  end subroutine vtk_output
+#else
   contains
+#endif
 
     subroutine define_scalar( s, vals, dataname )
       use vtk_attributes, only : scalar, attributes
@@ -180,12 +198,14 @@ contains
       call s%attribute%init (dataname, numcomp=1, real1d=vals)
     end subroutine
 
+#ifndef FORD
   end subroutine vtk_output
+#endif
 
   pure function evenly_spaced_points( boundaries, resolution, direction ) result(grid_nodes)
-    !! Define grid point coordinates with uniform spacing in the chosen subdomain
+    !! Define grid point coordinates with uniform spacing in the chosen block
     real(r8k), intent(in) :: boundaries(:,:)
-      !! subdomain boundaries of each coordinate direction
+      !! block boundaries of each coordinate direction
     integer(i4k), intent(in) :: resolution(:)
       !! number of grid points in each direction
     integer(i4k), intent(in) :: direction
@@ -246,9 +266,9 @@ contains
     call this%partition( plate_3D_geometry%get_block_metadata_shape(), prototype )
       !! partition a block-structured grids across images
 
-    associate( my_subdomains => this%my_subdomains() )
+    associate( my_blocks => this%my_blocks() )
 
-      do n = my_subdomains(lo_bound) , my_subdomains(up_bound) ! TODO: make concurrent after Intel supports co_sum
+      do n = my_blocks(lo_bound) , my_blocks(up_bound) ! TODO: make concurrent after Intel supports co_sum
 
         associate( ijk => this%block_map%block_indicial_coordinates(n) )
 
@@ -257,18 +277,18 @@ contains
             call this%vertices(n)%set_metadata( metadata  )
 
             associate( &
-              subdomain => plate_3D_geometry%get_block_domain(ijk), &
+              block => plate_3D_geometry%get_block_domain(ijk), &
               max_spacing => metadata%get_max_spacing() &
             )
               associate( &
-                nx => max( nx_min, floor( abs(subdomain(1,up_bound) - subdomain(1,lo_bound))/max_spacing ) + 1 ), &
-                ny => max( ny_min, floor( abs(subdomain(2,up_bound) - subdomain(2,lo_bound))/max_spacing ) + 1 ), &
-                nz => max( nz_min, floor( abs(subdomain(3,up_bound) - subdomain(3,lo_bound))/max_spacing ) + 1 ) &
+                nx => max( nx_min, floor( abs(block(1,up_bound) - block(1,lo_bound))/max_spacing ) + 1 ), &
+                ny => max( ny_min, floor( abs(block(2,up_bound) - block(2,lo_bound))/max_spacing ) + 1 ), &
+                nz => max( nz_min, floor( abs(block(3,up_bound) - block(3,lo_bound))/max_spacing ) + 1 ) &
               )
                 associate( &
-                  x => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=1 ), &
-                  y => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=2 ), &
-                  z => evenly_spaced_points(  subdomain, [nx,ny,nz], direction=3 ) )
+                  x => evenly_spaced_points(  block, [nx,ny,nz], direction=1 ), &
+                  y => evenly_spaced_points(  block, [nx,ny,nz], direction=2 ), &
+                  z => evenly_spaced_points(  block, [nx,ny,nz], direction=3 ) )
                   call this%set_vertices(x,y,z,block_identifier=n)
                 end associate
               end associate
@@ -293,36 +313,40 @@ contains
 
     call this%block_map%set_global_block_shape( global_block_shape )
 
-    associate( num_blocks => product(global_block_shape) )
-    associate( me => this_image() )
-    associate( ni => num_images() )
-    associate( remainder => mod(num_blocks,ni) )
-    associate( quotient => num_blocks/ni )
-    associate( my_first => 1 + sum([(quotient+overflow(image,remainder),image=1,me-1)]) )
-    associate( my_last => my_first + quotient + overflow(me,remainder) - 1 )
 
-    allocate( this%vertices(my_first:my_last), stat=alloc_status, errmsg=alloc_error, mold=prototype )
-    call assert(alloc_status==0, "partition: allocate(this%vertices(...)", alloc_error)
+    associate( me => this_image(), ni => num_images(), num_blocks => product(global_block_shape) )
+      associate( remainder => mod(num_blocks,ni), quotient => num_blocks/ni )
+        associate( my_first => 1 + sum([(quotient+overflow(image,remainder),image=1,me-1)]) )
+          associate( my_last => my_first + quotient + overflow(me,remainder) - 1 )
 
-    if (assertions) then
-      block
-#ifndef HAVE_COLLECTIVE_subroutineS
-        use emulated_intrinsics_interface, only : co_sum
+            allocate( this%vertices(my_first:my_last), stat=alloc_status, errmsg=alloc_error, mold=prototype )
+            call assert(alloc_status==0, "partition: allocate(this%vertices(...)", alloc_error)
+
+            if (assertions) then
+              block
+#ifndef HAVE_COLLECTIVE_SUBROUTINES
+                use emulated_intrinsics_interface, only : co_sum
 #endif
-        integer total_blocks
-        total_blocks = size(this%vertices)
-        call co_sum(total_blocks,result_image=1)
-        if (me==1) call assert(total_blocks==num_blocks,"all blocks have been distributed amongst the images")
-        sync all
-      end block
-    end if
-
-    end associate; end associate; end associate; end associate; end associate; end associate; end associate
+                integer total_blocks
+                total_blocks = size(this%vertices)
+                call co_sum(total_blocks,result_image=1)
+                if (me==1) call assert(total_blocks==num_blocks,"all blocks have been distributed amongst the images")
+                sync all
+              end block
+            end if
+          end associate
+        end associate
+      end associate
+    end associate
 
     ! Assures
     call this%mark_as_defined
 
+#ifndef FORD
   contains
+#else
+  end procedure
+#endif
 
     pure function overflow(image,remainder) result(filler)
       integer, intent(in) :: image,remainder
@@ -330,9 +354,11 @@ contains
       filler = merge(1,0,image<=remainder)
     end function
 
+#ifndef FORD
   end procedure
+#endif
 
-  module procedure my_subdomains
+  module procedure my_blocks
 
     block_identifier_range = [ lbound(this%vertices), ubound(this%vertices) ]
 
@@ -436,7 +462,7 @@ contains
   end procedure
 
   module procedure set_analytical_scalars
-    integer b, f, alloc_status
+    integer b, f, alloc_status, coord_dir, face_dir
     character(len=max_errmsg_len) :: alloc_error
 
     if (assertions) call assert(allocated(this%vertices), "problem_discretization%set_analytical_scalars: allocated(this%vertices)")
@@ -459,20 +485,13 @@ contains
       end do loop_over_functions
     end do loop_over_blocks
 
-    if (allocated(this%scalar_fluxes)) deallocate(this%scalar_fluxes)
-    allocate( this%scalar_fluxes(size(scalar_setters)), stat=alloc_status, errmsg=alloc_error )
-    call assert( alloc_status==success, "set_analytical_scalars: allocate(scalar_fluxes)", alloc_error )
-
     call assert( allocated(this%problem_geometry), &
       "problem_discretization%set_analytical_scalars: allocated(this%problem_geometry)")
 
-    loop_over_scalar_fields: &
-    do f = 1, size(scalar_setters)
-      associate( my_blocks => [lbound(this%vertices,1), ubound(this%vertices,1)] )
-        call this%block_map%build_surfaces( this%problem_geometry, my_blocks, &
-          this%vertices(my_blocks(1))%space_dimension(), this%scalar_fluxes(f))
-      end associate
-    end do loop_over_scalar_fields
+    associate( my_blocks => this%my_blocks() )
+      call this%block_map%build_surfaces( this%problem_geometry, my_blocks, &
+        this%vertices(my_blocks(1))%space_dimension(), this%block_surfaces)
+    end associate
 
   end procedure
 

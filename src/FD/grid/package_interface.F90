@@ -1,8 +1,8 @@
 !
-!     (c) 2019 Guide Star Engineering, LLC
-!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
-!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+!     (c) 2019-2020 Guide Star Engineering, LLC
+!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract
+!     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
+!     contract # NRC-HQ-60-17-C-0007
 !
 module package_interface
   !! author: Damian Rouson and Karla Morris
@@ -12,24 +12,32 @@ module package_interface
   implicit none
 
   private
-  public :: package
+  public :: package, null_sender_id
 
-  integer, parameter :: unset=0
+  integer, parameter :: null_sender_id=-1
 
   type package
     !! basic transmission data. extend this type to add coordinate-specific data
     private
-    integer :: sender_block_id = unset
-    integer :: step = unset
+    integer :: sender_block_id
+    integer :: step
     real(r8k) datum
   contains
+    procedure get_sender_block_id
     procedure set_sender_block_id
     procedure set_step
     procedure set_datum
-    procedure sender_block_id_unset
+    procedure sender_block_id_null
   end type
 
   interface
+
+    module function get_sender_block_id(this) result(this_sender_block_id)
+      !! result is sender_block_id for this package
+      implicit none
+      class(package), intent(in) :: this
+      integer :: this_sender_block_id
+    end function
 
     elemental module subroutine set_sender_block_id(this, sender_block_id)
       !! set sender_bock_id in order to verify sender identity
@@ -52,10 +60,10 @@ module package_interface
       real(r8k), intent(in) :: datum
     end subroutine
 
-    elemental module function sender_block_id_unset(this) result(is_unset)
+    elemental module function sender_block_id_null(this) result(is_null)
       implicit none
       class(package), intent(in) :: this
-      logical is_unset
+      logical is_null
     end function
 
   end interface

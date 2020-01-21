@@ -1,8 +1,8 @@
 !
-!     (c) 2019 Guide Star Engineering, LLC
-!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
-!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+!     (c) 2019-2020 Guide Star Engineering, LLC
+!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract
+!     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
+!     contract # NRC-HQ-60-17-C-0007
 !
 submodule(plate_3D_interface) plate_3D_implementation
   !! author: Damian Rouson and Karla Morris
@@ -42,6 +42,7 @@ submodule(plate_3D_interface) plate_3D_implementation
   end type
 
   type(layers_t) layers
+
 contains
 
   module procedure set_grid_specification
@@ -112,7 +113,11 @@ contains
 
     call set_metadata
 
-  contains
+#ifdef FORD
+  end procedure ! compilers never see this line; when generating documentation, run "ford -m FORD..."  to circumvent a ford bug
+#else
+  contains ! compilers see this line
+#endif
 
     subroutine read_core_components
 
@@ -208,8 +213,8 @@ contains
 
         call assert( all( [size(thickness%x), size(thickness%y), size(thickness%z)] &
           == [size(num_grid_blocks%x), size(num_grid_blocks%y), size(num_grid_blocks%z)] ), &
-          "all( [size(thickness%x), size(thickness%y), size(thickness%z)] &
-          & == [size(num_grid_blocks%x), size(num_grid_blocks%y), size(num_grid_blocks%z)] )" )
+          "all( [size(thickness%x), size(thickness%y), size(thickness%z)] " // &
+          "== [size(num_grid_blocks%x), size(num_grid_blocks%y), size(num_grid_blocks%z)] )" )
 
         call assert( all( [size(thickness%x), size(thickness%y)] == size(material_name) ), &
                     "all( [size(thickness%x), size(thickness%y)] == size(material_name) )" )
@@ -302,7 +307,9 @@ contains
       end associate
     end subroutine
 
-  end procedure
+#ifndef FORD
+  end procedure ! compilers never see this line; when generating documentation, run "ford -m FORD ..." to circumvent a ford bug
+#endif
 
   function material(ix, iy, iz, core_, wrapper_) result(material_ix_iy)
     integer, intent(in) :: ix, iy, iz

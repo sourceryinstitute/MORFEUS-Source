@@ -1,0 +1,84 @@
+name: FORD
+
+on: [push]
+
+env:
+  LANG: "en_US.UTF-8"
+  LC_ALL: "en_US.UTF-8"
+  NCPU: "2"
+  PIP_DISABLE_PIP_VERSION_CHECK: "ON"
+  PIP_NO_CLEAN: "ON"
+  PIP_PREFER_BINARY: "ON"
+  TZ: "UTC"
+  GCC_V: 8
+
+jobs:
+  Build-API-Docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          submodules: false
+
+      - name: Setup Python 3.x
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.x
+
+      - name: set outputs
+        id: set-outputs
+        run: |
+          export PY_CACHE_DIR=${HOME}/py-cache
+          export PIP_CACHE_DIR=${PY_CACHE_DIR}/pip-cache
+          export PYTHONUSERBASE=${PY_CACHE_DIR}/userbase
+          echo "::set-env name=PIP_CACHE_DIR::${PIP_CACHE_DIR}"
+          echo "::set-env name=PY_CACHE_DIR::${PY_CACHE_DIR}"
+          echo "::set-env name=PYTHONUSERBASE::${PYTHONUSERBASE}"
+          echo "::set-output name=homedir::${HOME}"
+          echo "::set-output name=pip_cache_dir::${PIP_CACHE_DIR}"
+          echo "::set-output name=py_cache_dir::${PY_CACHE_DIR}"
+          echo "::set-output name=pythonuserbase::${PYTHONUSERBASE}"
+          mkdir -p ${PI_CACHE_DIR} ${PYTHONUSERBASE}/bin
+          echo "::add-path::${PYTHONUSERBASE}/bin"
+
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.set-outputs.outputs.py_cache_dir }}
+          key: ${{ runner.os }}-pipcache-1-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pipcache-1-
+
+      - name: Install packages
+        run: |
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends graphviz libxml2-dev libxslt-dev
+          pip install --user -r requirements.txt
+          type -a ford
+
+      - name: Build documentation
+        id: build-documentation
+        run: |
+          cd src/FD && \
+          ford -r $(git describe --always) --quiet doc-generator.md
+          touch doc/.nojekyll
+          echo "::set-output name=ford_doc_dir::$(pwd)/doc"
+
+      - name: Upload Documentation
+        uses: actions/upload-artifact@v1
+        with:
+          name: FORD-API-docs
+          path: ${{ steps.build-documentation.outputs.ford_doc_dir }}
+
+      - name: Deploy API Docs
+        uses: docker://peaceiris/gh-pages:v2
+        env:
+          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: ${{ steps.build-documentation.outputs.ford_doc_dir }}
+        with:
+          emptyCommits: false
+          forceOrphan: true
+          commitMessage: ${{ github.event.head_commit.message }}
+          username: ${{ github.actor }}
