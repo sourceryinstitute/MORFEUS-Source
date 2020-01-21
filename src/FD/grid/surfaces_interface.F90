@@ -48,11 +48,11 @@ module surfaces_interface
       logical is_external
     end function
 
-    module subroutine set_halo_outbox(my_halo_outbox, my_blocks, block_partitions)
+    module subroutine set_halo_outbox(my_halo_outbox, block_partitions)
       !! define halo_outbox component array
       implicit none
       type(package), intent(in), dimension(:,:,:), allocatable :: my_halo_outbox
-      integer, intent(in), dimension(:) :: my_blocks, block_partitions
+      integer, intent(in), dimension(:) :: block_partitions
     end subroutine
 
     module subroutine get_halo_outbox(singleton_halo_outbox)

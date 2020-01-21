@@ -43,8 +43,12 @@ contains
 
     if (assertions) then
       call assert(allocated(my_halo_outbox), "surfaces%set_halo_outbox: allocated(my_halo_outbox)")
-      call assert(all([lbound(my_halo_outbox,1), ubound(my_halo_outbox,1)] == my_blocks), &
-        "all([lbound(my_halo_outbox,1), ubound(my_halo_outbox,1)])==my_blocks")
+      associate( me => this_image() )
+        associate( my_blocks => [block_partitions(me), block_partitions(me+1)-1] )
+          call assert( all( my_blocks == [lbound(my_halo_outbox,1), ubound(my_halo_outbox,1)] ), &
+            "my_blocks == all([lbound(my_halo_outbox,1), ubound(my_halo_outbox,1)])")
+        end associate
+      end associate
     end if
 
     if(allocated(singleton%halo_outbox)) deallocate(singleton%halo_outbox)
