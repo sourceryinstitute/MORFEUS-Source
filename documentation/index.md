@@ -28,7 +28,7 @@ Contents
 * __[Example Usage]__: Example code and discussion on how to use [Morfeus] in your application
 
 
-[Morfeus]: https://sourceryinstitute/MORFEUS-Source#readme
+[Morfeus]: https://github.com/sourceryinstitute/MORFEUS-Source#readme
 [https://sourceryinstitute.github.io/MORFEUS-Source]: https://sourceryinstitute.github.io/MORFEUS-Source
 [FORD]: https://github.com/Fortran-FOSS-Programmers/ford#readme
 [FORD wiki]: https://github.com/Fortran-FOSS-Programmers/ford/wiki
