@@ -26,6 +26,22 @@ jobs:
         with:
           python-version: 3.x
 
+      - name: set outputs
+        id: set-outputs
+        run: |
+          export PY_CACHE_DIR=${HOME}/py-cache
+          export PIP_CACHE_DIR=${PY_CACHE_DIR}/pip-cache
+          export PYTHONUSERBASE=${PY_CACHE_DIR}/userbase
+          echo "::set-env name=PIP_CACHE_DIR::${PIP_CACHE_DIR}"
+          echo "::set-env name=PY_CACHE_DIR::${PY_CACHE_DIR}"
+          echo "::set-env name=PYTHONUSERBASE::${PYTHONUSERBASE}"
+          echo "::set-output name=homedir::${HOME}"
+          echo "::set-output name=pip_cache_dir::${PIP_CACHE_DIR}"
+          echo "::set-output name=py_cache_dir::${PY_CACHE_DIR}"
+          echo "::set-output name=pythonuserbase::${PYTHONUSERBASE}"
+          mkdir -p ${PI_CACHE_DIR} ${PYTHONUSERBASE}/bin
+          echo "::add-path::${PYTHONUSERBASE}/bin"
+
       - uses: actions/cache@v1
         with:
           path: ${{ steps.set-outputs.outputs.py_cache_dir }}
