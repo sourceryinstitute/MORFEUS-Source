@@ -1,8 +1,8 @@
 !
-!     (c) 2019 Guide Star Engineering, LLC
-!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
-!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+!     (c) 2019-2020 Guide Star Engineering, LLC
+!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract
+!     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
+!     contract # NRC-HQ-60-17-C-0007
 !
 submodule(cartesian_grid_interface) cartesian_grid_implementation
   !! author: Damian Rouson and Karla Morris
@@ -10,16 +10,19 @@ submodule(cartesian_grid_interface) cartesian_grid_implementation
   use assertions_interface,only : assert, max_errmsg_len, assertions
   use plate_3D_interface, only : plate_3D
   use surfaces_interface, only : backward, forward
-  use package_interface, only : package
+  use package_interface, only : package, null_sender_id
   implicit none
 
 contains
 
   module procedure build_surfaces
-    integer, parameter :: first=1, last=2, success=0, x_dir=1, y_dir=2, z_dir=3
+    integer, parameter :: first=1, last=2, success=0, x_dir=1, y_dir=2, z_dir=3, vec_components=3, space_dimensions=3, num_faces=2
+    integer, parameter :: displacement(x_dir:z_dir, backward:forward, x_dir:z_dir) = &
+      reshape( [ [-1,0,0], [1,0,0], [0,-1,0], [0,1,0], [0,0,-1], [0,0,1] ], [space_dimensions, num_faces, vec_components ] )
     type(package), allocatable, dimension(:,:,:) :: bare
     character(len=max_errmsg_len) error_message
-    integer alloc_stat, b
+    integer alloc_stat, b, coord_dir, face_dir
+    class(package), allocatable, dimension(:,:,:) :: surface_packages
 
     select type(problem_geometry)
       type is(plate_3D)
@@ -34,40 +37,26 @@ contains
       stat=alloc_stat, errmsg=error_message)
     call assert(alloc_stat==success, "cartesian_grid%build_surfaces: allocate(bare)", error_message)
 
-    loop_over_blocks: &
-    do b=my_blocks(first), my_blocks(last)
-      associate(ijk => this%block_indicial_coordinates(b))
-        associate( &
-          ijk_i_backward => ijk + [-1, 0, 0], &
-          ijk_i_forward  => ijk + [ 1, 0, 0], &
-          ijk_j_backward => ijk + [ 0,-1, 0], &
-          ijk_j_forward  => ijk + [ 0, 1, 0], &
-          ijk_k_backward => ijk + [ 0, 0,-1], &
-          ijk_k_forward  => ijk + [ 0, 0, 1])
+    call bare%set_sender_block_id(null_sender_id)
+    call bare%set_step(0)
 
-          if (this%block_in_bounds(ijk_i_backward)) &
-             call bare(b, x_dir, backward)%set_sender_block_id( this%block_identifier(ijk_i_backward) )
+     loop_over_blocks: &
+     do b=my_blocks(first), my_blocks(last)
+       loop_over_coordinate_directions: &
+       do coord_dir = x_dir, z_dir
+         loop_over_face_directions: &
+         do face_dir = backward, forward
+           associate( ijk_displaced => this%block_indicial_coordinates(b) + displacement(coord_dir, face_dir, :) )
+             if (this%block_in_bounds(ijk_displaced)) then
+               call bare(b, coord_dir, face_dir)%set_sender_block_id( this%block_identifier(ijk_displaced) )
+             end if
+           end associate
+         end do loop_over_face_directions
+       end do loop_over_coordinate_directions
+     end do loop_over_blocks
 
-          if (this%block_in_bounds(ijk_i_forward)) &
-             call bare(b, x_dir, forward)%set_sender_block_id( this%block_identifier(ijk_i_forward) )
+    call block_faces%set_halo_data(bare, my_blocks)
 
-          if (this%block_in_bounds(ijk_j_backward)) &
-             call bare(b, y_dir, backward)%set_sender_block_id( this%block_identifier(ijk_j_backward) )
-
-          if (this%block_in_bounds(ijk_j_forward)) &
-             call bare(b, y_dir, forward)%set_sender_block_id( this%block_identifier(ijk_j_forward) )
-
-          if (this%block_in_bounds(ijk_k_backward)) &
-             call bare(b, z_dir, backward)%set_sender_block_id( this%block_identifier(ijk_k_backward) )
-
-          if (this%block_in_bounds(ijk_k_forward)) &
-             call bare(b, z_dir, forward)%set_sender_block_id( this%block_identifier(ijk_k_forward) )
-
-        end associate
-      end associate
-    end do loop_over_blocks
-
-    call block_faces%set_halo_data(bare)
   end procedure
 
   module procedure assign_structured_grid
@@ -159,7 +148,7 @@ contains
           end do
         end associate
 
-        ! TO DO
+        ! TODO
         ! 1. Each block sets scalar_flux packages on halo blocks
 
         call div_flux_internal_points%set_scalar( div_flux_x + div_flux_y + div_flux_z )

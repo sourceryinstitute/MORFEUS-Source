@@ -1,8 +1,8 @@
 !
-!     (c) 2019 Guide Star Engineering, LLC
-!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
-!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+!     (c) 2019-2020 Guide Star Engineering, LLC
+!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract
+!     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
+!     contract # NRC-HQ-60-17-C-0007
 !
 module cartesian_grid_interface
   !! author: Damian Rouson and Karla Morris
@@ -12,6 +12,7 @@ module cartesian_grid_interface
   use differentiable_field_interface, only : differentiable_field
   use geometry_interface, only : geometry
   use surfaces_interface, only : surfaces
+  use package_interface, only : package
   implicit none
 
   private
@@ -32,10 +33,11 @@ module cartesian_grid_interface
   interface
 
     module subroutine set_up_div_scalar_flux(this, vertices, surface_fluxes, div_flux_internal_points)
+      !! define the scalar flux divergence at points internal to grid blocks grid; define block-surface data on halo blocks
       implicit none
       class(cartesian_grid), intent(in) :: this
       class(structured_grid), intent(in) :: vertices
-      type(surfaces), intent(inout) :: surface_fluxes
+      class(package), intent(inout) :: surface_fluxes
       class(structured_grid), intent(inout) :: div_flux_internal_points
     end subroutine
 
@@ -43,7 +45,7 @@ module cartesian_grid_interface
       implicit none
       class(cartesian_grid), intent(in) :: this
       class(structured_grid), intent(in) :: vertices
-      type(surfaces), intent(in) :: surface_fluxes
+      class(package), intent(in) :: surface_fluxes
       class(structured_grid), intent(inout) :: div_flux
     end subroutine
 

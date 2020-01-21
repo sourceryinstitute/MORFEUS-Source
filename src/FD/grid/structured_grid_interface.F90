@@ -1,8 +1,8 @@
 !
-!     (c) 2019 Guide Star Engineering, LLC
-!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
-!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+!     (c) 2019-2020 Guide Star Engineering, LLC
+!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract
+!     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
+!     contract # NRC-HQ-60-17-C-0007
 !
 module structured_grid_interface
   !! author: Damian Rouson
@@ -15,6 +15,7 @@ module structured_grid_interface
   use differentiable_field_interface, only : differentiable_field
   use geometry_interface, only : geometry
   use surfaces_interface, only : surfaces
+  use package_interface, only : package
   implicit none
 
   private
@@ -59,7 +60,9 @@ module structured_grid_interface
     procedure set_scalar
     procedure increment_scalar
     procedure subtract
+#ifndef FORD
     generic :: operator(-) => subtract
+#endif
     procedure compare
 #ifdef HAVE_UDDTIO
     generic :: write(formatted) => write_formatted
@@ -69,18 +72,18 @@ module structured_grid_interface
   abstract interface
 
     subroutine set_up_div_scalar_flux_interface(this, vertices, surface_fluxes, div_flux_internal_points)
-      import structured_grid, differentiable_field, surfaces
+      import structured_grid, differentiable_field, surfaces, package
       implicit none
       class(structured_grid), intent(in) :: this, vertices
-      type(surfaces), intent(inout) :: surface_fluxes
+      class(package), intent(inout) :: surface_fluxes
       class(structured_grid), intent(inout) :: div_flux_internal_points
     end subroutine
 
     subroutine div_scalar_flux_interface(this, vertices, surface_fluxes, div_flux)
-      import structured_grid, differentiable_field, surfaces
+      import structured_grid, differentiable_field, surfaces, package
       implicit none
       class(structured_grid), intent(in) :: this, vertices
-      type(surfaces), intent(in) :: surface_fluxes
+      class(package), intent(in) :: surface_fluxes
       class(structured_grid), intent(inout) :: div_flux
     end subroutine
 
@@ -110,7 +113,7 @@ module structured_grid_interface
     end function
 
     subroutine build_surfaces_interface(this, problem_geometry, my_blocks, space_dimension, block_faces)
-      !! allocate coarray for communicating across structured_grid subdomains
+      !! allocate coarray for communicating across structured_grid blocks
       import structured_grid, geometry, surfaces
       class(structured_grid), intent(in) :: this
       class(geometry), intent(in) :: problem_geometry

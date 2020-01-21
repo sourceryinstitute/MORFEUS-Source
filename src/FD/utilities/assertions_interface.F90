@@ -1,8 +1,8 @@
 !
-!     (c) 2019 Guide Star Engineering, LLC
-!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
-!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+!     (c) 2019-2020 Guide Star Engineering, LLC
+!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract
+!     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
+!     contract # NRC-HQ-60-17-C-0007
 !
 #ifndef USE_ASSERTIONS
 # define USE_ASSERTIONS .false.
@@ -37,7 +37,7 @@ module assertions_interface
 !
 !    gfortran -cpp -DUSE_ASSERTIONS=.false. -c assertions_interface.f90
 !
-! or set the corresponding NO_ASSERTIONS variable defined in this directory's CMakeLists.txt:
+! or set the corresponding NO_ASSERTIONS variable defined in the CMakeLists.txt file in this directory:
 !
 !    FC=caf cmake <path-to-icar-source-dir> -DNO_ASSERTIONS=ON
 !

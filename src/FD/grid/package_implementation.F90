@@ -1,8 +1,8 @@
 !
-!     (c) 2019 Guide Star Engineering, LLC
-!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
-!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+!     (c) 2019-2020 Guide Star Engineering, LLC
+!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract
+!     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
+!     contract # NRC-HQ-60-17-C-0007
 !
 submodule(package_interface) package_implementation
   !! author: Damian Rouson and Karla Morris
@@ -11,6 +11,10 @@ submodule(package_interface) package_implementation
   implicit none
 
 contains
+
+  module procedure get_sender_block_id
+    this_sender_block_id = this%sender_block_id
+  end procedure
 
   module procedure set_sender_block_id
     this%sender_block_id = sender_block_id
@@ -24,8 +28,8 @@ contains
     this%datum = datum
   end procedure
 
-  module procedure sender_block_id_unset
-    is_unset = (this%sender_block_id == unset)
+  module procedure sender_block_id_null
+    is_null = (this%sender_block_id == null_sender_id)
   end procedure
 
 end submodule package_implementation
