@@ -43,11 +43,10 @@
 !    To be added...
 !
 SUBMODULE(class_output) class_output_procedures
-    use class_iterating
+    USE class_iterating
     IMPLICIT NONE
 
 CONTAINS
-
 
     MODULE PROCEDURE nemo_output_sizeof
         USE class_psblas, ONLY : nemo_sizeof_int
@@ -110,7 +109,7 @@ CONTAINS
         END IF
 
         WRITE(proc_id,'(i10)') mypnum_()
-        out%basepath  = cval // '_image_' // TRIM(ADJUSTL(proc_id)) // '_'
+        out%basepath  = cval! // '_image_' // TRIM(ADJUSTL(proc_id)) // '_'
         ! Sets initial path
         out%path = out%basepath
 
@@ -155,7 +154,7 @@ CONTAINS
     END PROCEDURE set_output_path_h
 
     MODULE PROCEDURE set_output_path_iter
-        USE tools_output_basics
+        USE tools_output_basics, ONLY : itoh
         IMPLICIT NONE
         INTEGER :: it, ndigits
 
@@ -217,17 +216,6 @@ CONTAINS
 
         ! Local-to-global reallocation of CELL object
         CALL l2g_cell(msh%cells,cells_glob,msh%desc_c)
-!        IF(mypnum_() == 0) THEN
-!            SELECT CASE(out%fmt_())
-!            CASE(vtk_)
-!                ! call wr_vtk_field(field,x_glob,msh%ncd,path)
-!                ! Only need value for x_glob
-!            CASE default
-!                WRITE(*,300)
-!                CALL abort_psblas
-!            END SELECT
-!            WRITE(*,'()')
-!        END IF
 
         IF (ALLOCATED(cells_glob)) CALL free_cell(cells_glob)
         IF (ALLOCATED(x_loc)) DEALLOCATE(x_loc)
