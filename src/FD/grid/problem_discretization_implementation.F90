@@ -269,6 +269,8 @@ contains
 
       do n = my_blocks(lo_bound) , my_blocks(up_bound) ! TODO: make concurrent after Intel supports co_sum
 
+        call this%vertices(n)%set_block_identifier(n)
+
         associate( ijk => this%block_map%block_indicial_coordinates(n) )
 
           associate( metadata => plate_3D_geometry%get_block_metadatum(ijk))
@@ -452,28 +454,25 @@ contains
       if (present(exact_result)) &
         call assert(size(exact_result)==num_fields, "problem_discretization%set_scalar_flux_divergence: size(exact_result)")
 
-        loop_over_blocks: &
-        do b = lbound(this%vertices,1), ubound(this%vertices,1)
-          loop_over_fields: &
-          do f = 1, num_fields
+        internal_values: &
+        do concurrent( b = lbound(this%vertices,1): ubound(this%vertices,1), f = 1: num_fields )
+          call this%scalar_fields(b,f)%set_up_div_scalar_flux( &
+            this%vertices(b), this%block_surfaces, this%scalar_flux_divergence(b,f) )
+        end do internal_values
 
-            call this%scalar_fields(b,f)%set_up_div_scalar_flux( &
-              this%vertices(b), this%block_surfaces, this%scalar_flux_divergence(b,f) )
+        sync all !! the above loop sets normal-flux data just inside each block boundary for communication in the loop below
 
-          end do loop_over_fields
-        end do loop_over_blocks
+        halo_exchange: &
+        do concurrent( b = lbound(this%vertices,1): ubound(this%vertices,1), f = 1: num_fields )
+          call this%scalar_fields(b,f)%div_scalar_flux( this%vertices(b), this%block_surfaces, this%scalar_flux_divergence(b,f) )
+        end do halo_exchange
 
-        sync all
-
-        blocks_boundaries: &
-        do b = lbound(this%vertices,1), ubound(this%vertices,1)
-          fields_boundaries: &
-          do f = 1, num_fields
-
-            call this%scalar_fields(b,f)%div_scalar_flux( &
-              this%vertices(b), this%block_surfaces, this%scalar_flux_divergence(b,f) )
-
-            if (present(exact_result)) then
+        verify_result: &
+        if (present(exact_result)) then
+          loop_over_blocks: &
+          do  b = lbound(this%vertices,1), ubound(this%vertices,1)
+          loop_over_scalar_fields: &
+            do  f = 1, num_fields
               select type (my_flux_div => exact_result(f)%laplacian(this%vertices(b)))
               class is (structured_grid)
                 exact_flux_div = my_flux_div
@@ -481,9 +480,9 @@ contains
                 error stop 'Error: the type of exact_result(f)%laplacian(this%vertices(b)) is not structured_grid.'
               end select
               call this%scalar_flux_divergence(b,f)%compare( exact_flux_div, tolerance=1.E-06_r8k )
-            end if
-          end do fields_boundaries
-        end do blocks_boundaries
+            end do loop_over_scalar_fields
+          end do loop_over_blocks
+        end if verify_result
 
     end associate
 

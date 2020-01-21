@@ -29,7 +29,8 @@ module structured_grid_interface
       !! 3 dims for indexing through 3D space
       !! 2 dims for tensor free indices to handle scalars, vectors, & dyads
       !! 1 dim for instances in time
-    integer :: global_bounds(num_bounds,max_space_dims)=undefined
+    integer :: global_bounds(num_bounds,max_space_dims) = undefined
+    integer :: block_id = undefined
     type(block_metadata) metadata
   contains
     procedure(assignment_interface), deferred :: assign_structured_grid
@@ -66,11 +67,12 @@ module structured_grid_interface
 #ifdef HAVE_UDDTIO
     generic :: write(formatted) => write_formatted
 #endif
+    procedure set_block_identifier
   end type
 
   abstract interface
 
-    subroutine set_up_div_scalar_flux_interface(this, vertices, block_surfaces, div_flux_internal_points)
+    pure subroutine set_up_div_scalar_flux_interface(this, vertices, block_surfaces, div_flux_internal_points)
       import structured_grid, differentiable_field, surfaces
       implicit none
       class(structured_grid), intent(in) :: this, vertices
@@ -78,7 +80,7 @@ module structured_grid_interface
       class(structured_grid), intent(inout) :: div_flux_internal_points
     end subroutine
 
-    subroutine div_scalar_flux_interface(this, vertices, block_surfaces, div_flux)
+    pure subroutine div_scalar_flux_interface(this, vertices, block_surfaces, div_flux)
       import structured_grid, differentiable_field, surfaces
       implicit none
       class(structured_grid), intent(in) :: this, vertices
@@ -265,6 +267,13 @@ module structured_grid_interface
       implicit none
       class(structured_grid), intent(in) :: this, reference
       real(r8k), intent(in) :: tolerance
+    end subroutine
+
+    module subroutine set_block_identifier(this, id)
+      !! set block identification tag
+      implicit none
+      class(structured_grid), intent(inout) :: this
+      integer, intent(in) :: id
     end subroutine
 
   end interface

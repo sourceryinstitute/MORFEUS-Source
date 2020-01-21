@@ -31,7 +31,7 @@ module cartesian_grid_interface
 
   interface
 
-    module subroutine set_up_div_scalar_flux(this, vertices, block_surfaces, div_flux_internal_points)
+    pure module subroutine set_up_div_scalar_flux(this, vertices, block_surfaces, div_flux_internal_points)
       !! define the scalar flux divergence at points internal to grid blocks grid; define block-surface data on halo blocks
       implicit none
       class(cartesian_grid), intent(in) :: this
@@ -40,7 +40,7 @@ module cartesian_grid_interface
       class(structured_grid), intent(inout) :: div_flux_internal_points
     end subroutine
 
-    module subroutine div_scalar_flux(this, vertices, block_surfaces, div_flux)
+    pure module subroutine div_scalar_flux(this, vertices, block_surfaces, div_flux)
       implicit none
       class(cartesian_grid), intent(in) :: this
       class(structured_grid), intent(in) :: vertices

@@ -164,4 +164,8 @@ contains
       end associate
     end procedure
 
+    module procedure set_block_identifier
+      this%block_id = id
+    end procedure
+
 end submodule

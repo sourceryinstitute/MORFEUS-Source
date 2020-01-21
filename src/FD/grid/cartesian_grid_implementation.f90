@@ -13,12 +13,16 @@ submodule(cartesian_grid_interface) cartesian_grid_implementation
   use package_interface, only : package, null_neighbor_id
   implicit none
 
+  integer, parameter :: success=0
+    !! allocation stat value indicating success
+  integer, parameter :: x_dir=1, z_dir=3, max_coordinate_directions=3, num_faces=2, max_vec_components=3
+  integer, parameter :: displacement(x_dir:z_dir, backward:forward, x_dir:z_dir) = &
+    reshape([ [-1,0,0], [1,0,0], [0,-1,0], [0,1,0], [0,0,-1], [0,0,1] ], [max_coordinate_directions, num_faces, max_vec_components])
+
 contains
 
   module procedure build_surfaces
-    integer, parameter :: first=1, last=2, success=0, x_dir=1, z_dir=3, vec_components=3, space_dimensions=3, num_faces=2
-    integer, parameter :: displacement(x_dir:z_dir, backward:forward, x_dir:z_dir) = &
-      reshape( [ [-1,0,0], [1,0,0], [0,-1,0], [0,1,0], [0,0,-1], [0,0,1] ], [space_dimensions, num_faces, vec_components ] )
+    integer, parameter :: first=1, last=2
     type(package), allocatable, dimension(:,:,:) :: bare
     character(len=max_errmsg_len) error_message
     integer alloc_stat, b, coord_dir, face_dir
@@ -59,7 +63,6 @@ contains
        end associate
      end associate
 
-
   end procedure
 
   module procedure assign_structured_grid
@@ -93,7 +96,7 @@ contains
           do concurrent(k=1:npoints(3), j=1:npoints(2), i=2:npoints(1)-1)
 
             associate( &
-              dx_m => half*(x(i+1,j,k) - x(i-1,j,k)), &!! (dx_b + dx_f)/2
+              dx_m => half*(x(i+1,j,k) - x(i-1,j,k)), & !! (dx_b + dx_f)/2
               dx_f =>       x(i+1,j,k) - x(i,j,k), &
               dx_b =>       x(i,j,k)   - x(i-1,j,k), &
               s_f => half*( s(i+1,j,k) + s(i,j,k)  ), &
