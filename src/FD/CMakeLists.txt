@@ -1,9 +1,23 @@
-#
-#     (c) 2019 Guide Star Engineering, LLC
-#     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-#     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
-#     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
-#
+#! author: Izaak Beekman, ParaTools, Inc, Damian Rouson, GSE LLC, Ian Porter, NRC
+#! summary: Top level CMake file for building Morfeus-FD component
+#! category: Morfeus-FD
+#!
+#! # Morfeus-FD Top Level CMake file
+#!
+#!
+#!
+#! @note
+#! This file is currently being refactored
+#!
+#! ## Copyright Notice
+#!
+#!```
+#!     (c) 2019 Guide Star Engineering, LLC
+#!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
+#!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
+#!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+#!```
+
 cmake_minimum_required(VERSION 3.13.4)
 
 # Name project and specify source languages

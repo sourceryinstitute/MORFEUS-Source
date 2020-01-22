@@ -6,6 +6,7 @@ src_dir: src/FD
 exclude_dir: src/FD/tests
              API-doc
 output_dir: API-doc
+extra_filetypes: txt #
 page_dir: documentation
 preprocess: true
 display: public
