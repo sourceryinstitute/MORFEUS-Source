@@ -10,5 +10,6 @@ program main
   call assert(assertion=(1==1),description="scalar tautology")
   call assert([(1==1),(2>0)] ,["vector tautology 1","vector tautology 2"])
   call assert([.true.,.true.,.true.],"group tautology")
-  print *,"Test passed."
+  sync all
+  if (this_image()==1) print *,"Test passed."
 end program

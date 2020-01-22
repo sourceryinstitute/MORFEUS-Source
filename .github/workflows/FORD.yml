@@ -45,7 +45,7 @@ jobs:
       - uses: actions/cache@v1
         with:
           path: ${{ steps.set-outputs.outputs.py_cache_dir }}
-          key: ${{ runner.os }}-pipcache-1-${{ hashFiles('**/requirements.txt') }}
+          key: ${{ runner.os }}-pipcache-1-${{ hashFiles('developer-tools/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pipcache-1-
 
@@ -54,16 +54,15 @@ jobs:
           sudo add-apt-repository ppa:ubuntu-toolchain-r/test
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends graphviz libxml2-dev libxslt-dev
-          pip install --user -r requirements.txt
+          pip install --user -r developer-tools/requirements.txt
           type -a ford
 
       - name: Build documentation
         id: build-documentation
         run: |
-          cd src/FD && \
-          ford -r $(git describe --always) --quiet doc-generator.md
-          touch doc/.nojekyll
-          echo "::set-output name=ford_doc_dir::$(pwd)/doc"
+          ford -r $(git describe --always) --debug API-doc-FORD-file.md
+          touch API-doc/.nojekyll
+          echo "::set-output name=ford_doc_dir::$(pwd)/API-doc"
 
       - name: Upload Documentation
         uses: actions/upload-artifact@v1

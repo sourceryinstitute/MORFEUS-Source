@@ -10,19 +10,30 @@ submodule(cartesian_grid_interface) cartesian_grid_implementation
   use assertions_interface,only : assert, max_errmsg_len, assertions
   use plate_3D_interface, only : plate_3D
   use surfaces_interface, only : backward, forward
-  use package_interface, only : package, null_sender_id
+  use package_interface, only : package, null_neighbor_id
   implicit none
+
+  integer, parameter :: success=0
+    !! allocation stat value indicating success
+  integer, parameter :: x_dir=1, y_dir=2, z_dir=3
+    !! array indices
+  integer, parameter :: max_coord_dirs = size([x_dir,y_dir,z_dir])
+    !! maximum number of coordinate directions
+  integer, parameter :: max_vec_components = max_coord_dirs
+    !! maximum number of vector components
+  integer, parameter :: num_faces = size([backward, forward])
+    !! number of faces in each coordinate direction of a hexahedral volume with faces orthogonal to coordinate directions
+  integer, parameter, dimension(max_coord_dirs, num_faces , max_vec_components) :: displacement = &
+    reshape([ [-1,0,0], [1,0,0], [0,-1,0], [0,1,0], [0,0,-1], [0,0,1] ], [max_coord_dirs, num_faces, max_vec_components])
+    !! displacement vectors in indicial coordinates for structured_grid blocks
 
 contains
 
   module procedure build_surfaces
-    integer, parameter :: first=1, last=2, success=0, x_dir=1, y_dir=2, z_dir=3, vec_components=3, space_dimensions=3, num_faces=2
-    integer, parameter :: displacement(x_dir:z_dir, backward:forward, x_dir:z_dir) = &
-      reshape( [ [-1,0,0], [1,0,0], [0,-1,0], [0,1,0], [0,0,-1], [0,0,1] ], [space_dimensions, num_faces, vec_components ] )
+    integer, parameter :: first=1, last=2
     type(package), allocatable, dimension(:,:,:) :: bare
     character(len=max_errmsg_len) error_message
     integer alloc_stat, b, coord_dir, face_dir
-    class(package), allocatable, dimension(:,:,:) :: surface_packages
 
     select type(problem_geometry)
       type is(plate_3D)
@@ -31,31 +42,35 @@ contains
         error stop "cartesian_grid%build_surfaces: unsupported problem_geometry type"
     end select
 
-    call assert(size(my_blocks)==2, "cartesian_grid%build_surfaces: size(my_blocks)==2")
+    define_bare_package: & !! initialize packages with only the time step & neighbor block_id (no halo-exchange data yet)
+    associate( me => this_image() )
+      associate( my_blocks => [block_partitions(me), block_partitions(me+1)-1] )
+        allocate( bare(my_blocks(first):my_blocks(last), space_dimension, backward:forward), &
+          stat=alloc_stat, errmsg=error_message)
+        call assert(alloc_stat==success, "cartesian_grid%build_surfaces: allocate(bare)", error_message)
 
-    allocate( bare(my_blocks(first):my_blocks(last), space_dimension, backward:forward), &
-      stat=alloc_stat, errmsg=error_message)
-    call assert(alloc_stat==success, "cartesian_grid%build_surfaces: allocate(bare)", error_message)
+        call bare%set_neighbor_block_id(null_neighbor_id)
+        call bare%set_step(0)
 
-    call bare%set_sender_block_id(null_sender_id)
-    call bare%set_step(0)
+         loop_over_blocks: &
+         do b=my_blocks(first), my_blocks(last)
+           loop_over_coordinate_directions: &
+           do coord_dir = x_dir, z_dir
+             loop_over_face_directions: &
+             do face_dir = backward, forward
+               associate( ijk_displaced => this%block_indicial_coordinates(b) + displacement(coord_dir, face_dir, :) )
+                 if (this%block_in_bounds(ijk_displaced)) then
+                   call bare(b, coord_dir, face_dir)%set_neighbor_block_id( this%block_identifier(ijk_displaced) )
+                 end if
+               end associate
+             end do loop_over_face_directions
+           end do loop_over_coordinate_directions
+         end do loop_over_blocks
+       end associate
+     end associate define_bare_package
 
-     loop_over_blocks: &
-     do b=my_blocks(first), my_blocks(last)
-       loop_over_coordinate_directions: &
-       do coord_dir = x_dir, z_dir
-         loop_over_face_directions: &
-         do face_dir = backward, forward
-           associate( ijk_displaced => this%block_indicial_coordinates(b) + displacement(coord_dir, face_dir, :) )
-             if (this%block_in_bounds(ijk_displaced)) then
-               call bare(b, coord_dir, face_dir)%set_sender_block_id( this%block_identifier(ijk_displaced) )
-             end if
-           end associate
-         end do loop_over_face_directions
-       end do loop_over_coordinate_directions
-     end do loop_over_blocks
-
-    call block_faces%set_halo_data(bare, my_blocks)
+     call block_faces%set_halo_outbox(bare, block_partitions)
+     call block_faces%set_num_scalars(num_scalars)
 
   end procedure
 
@@ -69,28 +84,25 @@ contains
     !! Sundqvist & Veronis (1969) "A simple finite-difference grid with non-constant intervals", Tellus 22:1
 
     integer(i4k) i, j, k, alloc_stat
-    integer(i4k), parameter :: success=0
     real(r8k), parameter :: half=0.5_r8k
     character(len=max_errmsg_len) :: alloc_error
-    real(r8k), allocatable, dimension(:,:,:) :: div_flux_x, div_flux_y, div_flux_z
+    real(r8k), allocatable, dimension(:,:,:,:) :: div_flux
 
     call assert( same_type_as(this, vertices), "cartesian_grid%set_up_div_scalar_flux: same_type_as(this, vertices)" )
 
     associate( positions => vertices%vectors(), s=>this%get_scalar() )
       associate( npoints => shape(positions(:,:,:,1)) )
 
-        allocate(div_flux_x, div_flux_y, div_flux_z, mold=positions(:,:,:,1), stat=alloc_stat, errmsg=alloc_error )
-        call assert( alloc_stat==success, "cartesian_grid%set_up_div_scalar_flux: allocate(div_flux_{x,y,z})", alloc_error )
+        allocate(div_flux, mold=positions(:,:,:,:), stat=alloc_stat, errmsg=alloc_error )
+        call assert( alloc_stat==success, "cartesian_grid%set_up_div_scalar_flux: allocate(div_flux)", alloc_error )
 
-        div_flux_x = 0._r8k
-        div_flux_y = 0._r8k
-        div_flux_z = 0._r8k
+        div_flux = 0._r8k
 
         associate( x=>positions(:,:,:,1) )
           do concurrent(k=1:npoints(3), j=1:npoints(2), i=2:npoints(1)-1)
 
             associate( &
-              dx_m => half*(x(i+1,j,k) - x(i-1,j,k)), &!! half*(x(i+1,j,k) - x(i,j,k) + x(i,j,k) - x(i-1,j,k))
+              dx_m => half*(x(i+1,j,k) - x(i-1,j,k)), & !! (dx_b + dx_f)/2
               dx_f =>       x(i+1,j,k) - x(i,j,k), &
               dx_b =>       x(i,j,k)   - x(i-1,j,k), &
               s_f => half*( s(i+1,j,k) + s(i,j,k)  ), &
@@ -99,12 +111,20 @@ contains
                 D_f => this%diffusion_coefficient( s_f ), &
                 D_b => this%diffusion_coefficient( s_b) )
 
-                div_flux_x(i,j,k) = &
-                  D_f*(s(i+1,j,k) - s(i,j,k)  )/(dx_f*dx_m) - &
-                  D_b*(s(i,j,k)   - s(i-1,j,k))/(dx_b*dx_m)
+                div_flux(i,j,k,x_dir) = ( &
+                  D_f*(s(i+1,j,k) - s(i,j,k)  )/dx_f - & !! forward flux in x direction
+                  D_b*(s(i,j,k)   - s(i-1,j,k))/dx_b &   !! backward flux in x direction
+                  ) / dx_m
               end associate
             end associate
           end do
+
+          do concurrent(k=1:npoints(3), j=1:npoints(2), i=1:1)
+          end do
+
+          do concurrent(k=1:npoints(3), j=1:npoints(2), i=npoints(1):npoints(1))
+          end do
+
         end associate
 
         associate( y=>positions(:,:,:,2))
@@ -113,16 +133,17 @@ contains
               dy_m => (y(i,j+1,k) - y(i,j-1,k))*half, &
               dy_f =>  y(i,j+1,k) - y(i,j,k ), &
               dy_b =>  y(i,j,k)   - y(i,j-1,k), &
-              s_f => half*(y(i,j+1,k) + y(i,j,k)), &
-              s_b =>  half*(y(i,j,k) + y(i,j-1,k)) )
+              s_f => half*(s(i,j+1,k) + s(i,j,k)), &
+              s_b =>  half*(s(i,j,k) + s(i,j-1,k)) )
 
               associate( &
                 D_f => this%diffusion_coefficient( s_f ), &
                 D_b => this%diffusion_coefficient( s_b) )
 
-                div_flux_y(i,j,k) = &
-                  D_f*(s(i,j+1,k) - s(i,j,k))/(dy_f*dy_m) - &
-                  D_b*(s(i,j,k) - s(i,j-1,k))/(dy_b*dy_m)
+                div_flux(i,j,k,y_dir) = ( &
+                  D_f*(s(i,j+1,k) - s(i,j,k))/dy_f - & !! forward flux in y direction
+                  D_b*(s(i,j,k) - s(i,j-1,k))/dy_b &   !! backward flux in y direction
+                  ) / dy_m
               end associate
             end associate
           end do
@@ -134,24 +155,25 @@ contains
               dz_m => (z(i,j,k+1) - z(i,j,k-1))*half, &
               dz_f =>  z(i,j,k+1) - z(i,j,k), &
               dz_b =>  z(i,j,k)   - z(i,j,k-1), &
-              s_f => half*(z(i,j,k+1)+z(i,j,k)), &
-              s_b => half*(z(i,j,k)+z(i,j,k-1)) )
+              s_f => half*(s(i,j,k+1) + s(i,j,k)), &
+              s_b => half*(s(i,j,k) + s(i,j,k-1)) )
               associate( &
                 D_f => this%diffusion_coefficient( s_f ), &
                 D_b => this%diffusion_coefficient( s_b) )
 
-                div_flux_z(i,j,k) = &
-                  D_f*(s(i,j,k+1) - s(i,j,k))/(dz_f*dz_m) - &
-                  D_b*(s(i,j,k) - s(i,j,k-1))/(dz_b*dz_m)
+                div_flux(i,j,k,z_dir) = ( &
+                  D_f*(s(i,j,k+1) - s(i,j,k))/dz_f - &  !! forward flux in z direction
+                  D_b*(s(i,j,k) - s(i,j,k-1))/dz_b &    !! backward flux in z direction
+                  ) / dz_m
               end associate
             end associate
           end do
         end associate
 
         ! TODO
-        ! 1. Each block sets scalar_flux packages on halo blocks
+        ! 1. Each block sets block_surfaces packages on halo blocks
 
-        call div_flux_internal_points%set_scalar( div_flux_x + div_flux_y + div_flux_z )
+        call div_flux_internal_points%set_scalar( div_flux(:,:,:,x_dir) + div_flux(:,:,:,y_dir) + div_flux(:,:,:,z_dir) )
 
       end associate
     end associate
@@ -175,7 +197,8 @@ contains
         div_flux_y = 0._r8k
         div_flux_z = 0._r8k
 
-        ! 2. Each block gets scalar_flux packages from its halo
+        ! TODO
+        ! 2. Each block gets block_surfaces packages from its halo
         ! 3. Each block uses its halo data to compute surface fluxes
 
         hardwire_known_boundary_values: &

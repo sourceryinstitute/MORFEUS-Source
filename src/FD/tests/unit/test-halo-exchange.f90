@@ -25,7 +25,7 @@ program main
   character(len=max_digits) image_number
   type(ellipsoidal_field) ellipsoidal_function
   integer b, coord_dir, face_dir
-  class(package), allocatable, dimension(:,:,:) ::  surface_packages
+  type(package), allocatable, dimension(:,:,:) ::  surface_packages
 
   call plate_geometry%build(input)
 
@@ -44,11 +44,11 @@ program main
         loop_over_face_directions: &
         do face_dir = backward, forward
           if (block_surfaces%is_external_boundary(b, coord_dir, face_dir)) then
-            call assert( surface_packages(b, coord_dir, face_dir)%sender_block_id_null(), &
-              "test-halo-exchange: surface_packages(b, coord_dir, face_dir)%sender_block_id_null()")
+            call assert( surface_packages(b, coord_dir, face_dir)%neighbor_block_id_null(), &
+              "test-halo-exchange: surface_packages(b, coord_dir, face_dir)%neighbor_block_id_null()")
           else
-            call assert( .not. surface_packages(b, coord_dir, face_dir)%sender_block_id_null(), &
-              "test-halo-exchange: .not. surface_packages(b, coord_dir, face_dir)%sender_block_id_null()")
+            call assert( .not. surface_packages(b, coord_dir, face_dir)%neighbor_block_id_null(), &
+              "test-halo-exchange: .not. surface_packages(b, coord_dir, face_dir)%neighbor_block_id_null()")
           end if
         end do loop_over_face_directions
       end do loop_over_coordinate_directions
@@ -56,5 +56,5 @@ program main
   end associate
 
   sync all
-  print *,"Test passed"
+  if (this_image()==1) print *,"Test passed"
 end program

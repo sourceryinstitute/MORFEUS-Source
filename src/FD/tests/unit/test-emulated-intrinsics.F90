@@ -114,6 +114,10 @@ program main
           call assert(empty_array==0, "findloc: handles empty character array from front")
         end associate
 
+        associate( mostly_false => [.true., .false., .false.])
+          call assert( findloc(mostly_false, value=.true., dim=1, back=.true.) == 1, "findloc: logical test")
+        end associate
+
       end block test_findloc
     end if
 
