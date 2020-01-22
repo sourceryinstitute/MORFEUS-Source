@@ -85,7 +85,7 @@ jobs:
       run: |
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test
         sudo apt-get update
-        sudo apt-get install -y ccache gcc-${GCC_V} g++-${GCC_V} gfortran-${GCC_V} graphviz libxml2-dev libxslt-dev
+        sudo apt-get install -y ccache gcc-${GCC_V} g++-${GCC_V} gfortran-${GCC_V} graphviz
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_V} 100 \
         --slave /usr/bin/g++ g++ /usr/bin/g++-${GCC_V} \
         --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
@@ -110,21 +110,19 @@ jobs:
         mkdir -p $(brew --cache) || true
         brew install -f --force-bottle --keep-tmp ccache gcc@${GCC_V} || true
         brew install -f --force-bottle --keep-tmp --ignore-dependencies mpich || true
-        # brew install -f --force-bottle --keep-tmp graphviz || true
-        # brew unlink gcc || true
         echo "::add-path::$(brew --prefix ccache)/libexec"
         echo "::set-env name=CCACHE_PATH::$(brew --prefix gcc@${GCC_V})/bin:$(brew --prefix)/bin"
 
     - uses: actions/cache@v1
       with:
         path: ${{ steps.set-outputs.outputs.py_cache_dir }}
-        key: ${{ runner.os }}-pipcache-1-${{ hashFiles('**/requirements.txt') }}
+        key: ${{ runner.os }}-pipcache-1-${{ hashFiles('developer-tools/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pipcache-1-
 
     - name: setup-common
       run: |
-        pip install --user -r requirements.txt
+        pip install --user -r developer-tools/requirements.txt
         curl -s https://raw.githubusercontent.com/zbeekman/codecov-bash/gcov-fix/codecov > "${GITHUB_WORKSPACE}/codecov"
         chmod +x "${GITHUB_WORKSPACE}/codecov"
 

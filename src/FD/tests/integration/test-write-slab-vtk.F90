@@ -53,7 +53,7 @@ PROGRAM Slab_VTK_output
         CALL slab%vals_to_write(i)%attribute%init ('Temperature_(K)     ' , numcomp=1, real1d=temperature)
     END DO
 
-    !! Invoke vtk_serial_write with this object's components as arguments
+    !! Invoke vtk_serial_write with the components of this object as arguments
     CALL vtk_serial_write (filename=slab%filename, geometry=slab%grid, pointdatasets=slab%vals_to_write)
 
     WRITE(*,*) 'Test passed.'

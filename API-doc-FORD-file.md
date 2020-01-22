@@ -2,10 +2,12 @@
 project: Morfeus-FD
 summary: A parallel finite difference solver for block-structured grids
 macro: FORD
-src_dir: .
-exclude_dir: tests
-             doc
-output_dir: doc
+src_dir: src/FD
+exclude_dir: src/FD/tests
+             API-doc
+output_dir: API-doc
+extra_filetypes: txt #
+page_dir: documentation
 preprocess: true
 display: public
          protected
@@ -42,4 +44,4 @@ website: http://www.gsellc.com
 
 [TOC]
 
-{!README.md!}
+{!src/FD/README.md!}

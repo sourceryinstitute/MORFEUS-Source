@@ -25,7 +25,9 @@ module problem_discretization_interface
   type, extends(object) :: problem_discretization
     private
     class(structured_grid), allocatable :: block_map
-      !! hook for invoking block_indicial_coordindates and block_identifier
+      !! hook for invoking block_indicial_coordinates and block_identifier
+    integer, allocatable, dimension(:) :: block_partitions
+      !! block ownership specification
     type(surfaces) block_surfaces
       !! global surface information with singleton communication buffers
     class(structured_grid), allocatable :: vertices(:)
@@ -34,8 +36,6 @@ module problem_discretization_interface
       !! scalar values at the grid nodes: size(scalar_fields,1)==size(vertices), size(scalar_fields,2)==number of scalar fields
     class(structured_grid), allocatable :: scalar_flux_divergence(:,:)
       !! div( D grad(s)): same dimensions as scalar_fields
-    class(package), allocatable :: scalar_fluxes(:)
-      !! boundary data for halo exchanges
     class(geometry), allocatable :: problem_geometry
       !! description of problem domain and material identities; child types: plate_3D, cylinder_2D, sphere_1D
   contains
@@ -68,7 +68,7 @@ module problem_discretization_interface
       !! This cannot be a function because the function result would not preserve the desired bounds.
       implicit none
       class(problem_discretization), intent(in) :: this
-      class(package), allocatable, dimension(:,:,:), intent(out) :: this_surface_packages
+      type(package), allocatable, dimension(:,:,:), intent(out) :: this_surface_packages
     end subroutine
 
     module function get_block_surfaces(this) result(this_block_surfaces)
@@ -144,7 +144,7 @@ module problem_discretization_interface
       integer num_divergences
     end function
 
-    pure module function my_blocks(this) result(block_identifier_range)
+   pure module function my_blocks(this) result(block_identifier_range)
       !! Result contains the first & last identifiers for blocks owned by this image
       implicit none
       class(problem_discretization), intent(in) :: this

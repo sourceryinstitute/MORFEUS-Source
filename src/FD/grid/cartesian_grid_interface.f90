@@ -12,7 +12,6 @@ module cartesian_grid_interface
   use differentiable_field_interface, only : differentiable_field
   use geometry_interface, only : geometry
   use surfaces_interface, only : surfaces
-  use package_interface, only : package
   implicit none
 
   private
@@ -32,31 +31,32 @@ module cartesian_grid_interface
 
   interface
 
-    module subroutine set_up_div_scalar_flux(this, vertices, surface_fluxes, div_flux_internal_points)
+    pure module subroutine set_up_div_scalar_flux(this, vertices, block_surfaces, div_flux_internal_points)
       !! define the scalar flux divergence at points internal to grid blocks grid; define block-surface data on halo blocks
       implicit none
       class(cartesian_grid), intent(in) :: this
       class(structured_grid), intent(in) :: vertices
-      class(package), intent(inout) :: surface_fluxes
+      type(surfaces), intent(inout) :: block_surfaces
       class(structured_grid), intent(inout) :: div_flux_internal_points
     end subroutine
 
-    module subroutine div_scalar_flux(this, vertices, surface_fluxes, div_flux)
+    pure module subroutine div_scalar_flux(this, vertices, block_surfaces, div_flux)
       implicit none
       class(cartesian_grid), intent(in) :: this
       class(structured_grid), intent(in) :: vertices
-      class(package), intent(in) :: surface_fluxes
+      type(surfaces), intent(in) :: block_surfaces
       class(structured_grid), intent(inout) :: div_flux
     end subroutine
 
-    module subroutine build_surfaces(this, problem_geometry, my_blocks, space_dimension, block_faces)
+    module subroutine build_surfaces(this, problem_geometry, space_dimension, block_faces, block_partitions, num_scalars)
       !! allocate the surfaces array for use in halo exchanges and boundary conditions
       implicit none
       class(cartesian_grid), intent(in) :: this
       class(geometry), intent(in) :: problem_geometry
-      integer, intent(in), dimension(:) :: my_blocks
       integer, intent(in) :: space_dimension
       type(surfaces), intent(inout) :: block_faces
+      integer, intent(in), dimension(:) :: block_partitions
+      integer, intent(in) :: num_scalars
     end subroutine
 
     module subroutine assign_structured_grid(this, rhs)
