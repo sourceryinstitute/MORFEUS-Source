@@ -45,29 +45,45 @@ contains
     define_bare_package: & !! initialize packages with only the time step & neighbor block_id (no halo-exchange data yet)
     associate( me => this_image() )
       associate( my_blocks => [block_partitions(me), block_partitions(me+1)-1] )
-        allocate( bare(my_blocks(first):my_blocks(last), space_dimension, backward:forward), &
+        allocate( bare(my_blocks(first):my_blocks(last), vertices(my_blocks(1))%space_dimension(), backward:forward), &
           stat=alloc_stat, errmsg=error_message)
         call assert(alloc_stat==success, "cartesian_grid%build_surfaces: allocate(bare)", error_message)
 
         call bare%set_neighbor_block_id(null_neighbor_id)
         call bare%set_step(0)
 
-         loop_over_blocks: &
-         do b=my_blocks(first), my_blocks(last)
-           loop_over_coordinate_directions: &
-           do coord_dir = x_dir, z_dir
-             loop_over_face_directions: &
-             do face_dir = backward, forward
-               associate( ijk_displaced => this%block_indicial_coordinates(b) + displacement(coord_dir, face_dir, :) )
-                 if (this%block_in_bounds(ijk_displaced)) then
-                   call bare(b, coord_dir, face_dir)%set_neighbor_block_id( this%block_identifier(ijk_displaced) )
-                 end if
-               end associate
-             end do loop_over_face_directions
-           end do loop_over_coordinate_directions
-         end do loop_over_blocks
-       end associate
-     end associate define_bare_package
+        loop_over_blocks: &
+        do b=my_blocks(first), my_blocks(last)
+
+          loop_over_coordinate_directions: &
+          do coord_dir = x_dir, z_dir
+            loop_over_face_directions: &
+            do face_dir = backward, forward
+              associate( ijk_displaced => this%block_indicial_coordinates(b) + displacement(coord_dir, face_dir, :) )
+                if (this%block_in_bounds(ijk_displaced)) then
+                  call bare(b, coord_dir, face_dir)%set_neighbor_block_id( this%block_identifier(ijk_displaced) )
+                end if
+              end associate
+            end do loop_over_face_directions
+          end do loop_over_coordinate_directions
+
+          set_surface_vertices: &
+          associate(positions => vertices(b)%vectors())
+            associate( npoints => shape(positions(:,:,:,1)) )
+              call bare(b, x_dir, backward)%set_surface_flux_positions(positions(               2,:,:, y_dir:z_dir))
+              call bare(b, x_dir, forward )%set_surface_flux_positions(positions(npoints(x_dir)-1,:,:, y_dir:z_dir))
+
+              call bare(b, y_dir, backward)%set_surface_flux_positions(positions(:,               2,:, x_dir:z_dir:2))
+              call bare(b, y_dir, forward )%set_surface_flux_positions(positions(:,npoints(y_dir)-1,:, z_dir:z_dir:2))
+
+              call bare(b, z_dir, backward)%set_surface_flux_positions(positions(:,:,               2, x_dir:y_dir))
+              call bare(b, z_dir, forward )%set_surface_flux_positions(positions(:,:,npoints(z_dir)-1, x_dir:y_dir))
+            end associate
+          end associate set_surface_vertices
+
+        end do loop_over_blocks
+      end associate
+    end associate define_bare_package
 
      call block_faces%set_halo_outbox(bare, block_partitions)
      call block_faces%set_num_scalars(num_scalars)
@@ -98,8 +114,12 @@ contains
 
         div_flux = 0._r8k
 
+        x_direction_fluxes: &
         associate( x=>positions(:,:,:,1) )
+
+          all_but_x_dir_boundaries: &
           do concurrent(k=1:npoints(3), j=1:npoints(2), i=2:npoints(1)-1)
+            !! compute scalar flux divergence at internal points and boundary points excluding x-direction boundaries
 
             associate( &
               dx_m => half*(x(i+1,j,k) - x(i-1,j,k)), & !! (dx_b + dx_f)/2
@@ -117,16 +137,49 @@ contains
                   ) / dx_m
               end associate
             end associate
-          end do
+          end do all_but_x_dir_boundaries
 
-          do concurrent(k=1:npoints(3), j=1:npoints(2), i=1:1)
-          end do
+          x_normal_surface_fluxes: &
+          block
+            real(r8k), allocatable, dimension(:,:,:) :: surface_fluxes
 
-          do concurrent(k=1:npoints(3), j=1:npoints(2), i=npoints(1):npoints(1))
-          end do
+            allocate( surface_fluxes(1, npoints(2), npoints(3)), stat = alloc_stat, errmsg = alloc_error)
+            call assert(alloc_stat==success, "cartesian_grid%set_up_div_scalar_flux: allocate(surface_fluxes) x_dir", alloc_error)
 
-        end associate
+            do k=1, npoints(3)
+              do j=1, npoints(2)
 
+                i=1
+                forward_difference_at_backward_face: &
+                associate( &
+                  dx_f =>      x(i+1,j,k) - x(i,j,k), &
+                  s_f => half*(s(i+1,j,k) + s(i,j,k)) )
+                  associate( D_f => this%diffusion_coefficient( s_f ) )
+                    surface_fluxes(i,j,k) = D_f*(s(i+1,j,k) - s(i,j,k))/dx_f
+                  end associate
+                end associate forward_difference_at_backward_face
+                call block_surfaces%set_normal_scalar_fluxes( &
+                  this%get_block_identifier(), x_dir, backward, surface_fluxes, this%get_scalar_identifier())
+
+                i=npoints(1)
+                backward_difference_at_forward_face: &
+                associate( &
+                  dx_b =>       x(i,j,k)   - x(i-1,j,k), &
+                  s_b => half*( s(i,j,k)   + s(i-1,j,k) ))
+                  associate( D_b => this%diffusion_coefficient( s_b) )
+                    surface_fluxes(i,j,k) = D_b*(s(i,j,k) - s(i-1,j,k))/dx_b
+                  end associate
+                end associate backward_difference_at_forward_face
+                call block_surfaces%set_normal_scalar_fluxes( &
+                  this%get_block_identifier(), x_dir, forward, surface_fluxes, this%get_scalar_identifier())
+              end do
+            end do
+
+          end block x_normal_surface_fluxes
+
+        end associate x_direction_fluxes
+
+        y_direction_fluxes: &
         associate( y=>positions(:,:,:,2))
           do concurrent(k=1:npoints(3), j=2:npoints(2)-1, i=1:npoints(1))
             associate( &
@@ -147,7 +200,45 @@ contains
               end associate
             end associate
           end do
-        end associate
+
+          y_normal_surface_fluxes: &
+          block
+            real(r8k), allocatable, dimension(:,:,:) :: surface_fluxes
+
+            allocate( surface_fluxes(npoints(x_dir), 1, npoints(z_dir)), stat = alloc_stat, errmsg = alloc_error)
+            call assert( alloc_stat==success, "cartesian_grid%set_up_div_scalar_flux: allocate(surface_fluxes) y_dir", alloc_error )
+
+            do k=1, npoints(z_dir)
+              do i=1, npoints(x_dir)
+
+                j=1
+                forward_difference_at_backward_face: &
+                associate( &
+                  dy_f =>      y(i,j+1,k) - y(i,j,k), &
+                  s_f => half*(s(i,j+1,k) + s(i,j,k)) )
+                  associate( D_f => this%diffusion_coefficient( s_f ) )
+                    surface_fluxes(i,j,k) = D_f*(s(i,j+1,k) - s(i,j,k))/dy_f
+                  end associate
+                end associate forward_difference_at_backward_face
+                call block_surfaces%set_normal_scalar_fluxes( &
+                  this%get_block_identifier(), y_dir, backward, surface_fluxes, this%get_scalar_identifier())
+
+                j=npoints(y_dir)
+                backward_difference_at_forward_face: &
+                associate( &
+                  dy_b =>       y(i,j,k)   - y(i,j-1,k), &
+                  s_b => half*( s(i,j,k)   + s(i,j-1,k) ))
+                  associate( D_b => this%diffusion_coefficient( s_b) )
+                    surface_fluxes(i,j,k) = D_b*(s(i,j,k) - s(i,j-1,k))/dy_b
+                  end associate
+                end associate backward_difference_at_forward_face
+                call block_surfaces%set_normal_scalar_fluxes( &
+                  this%get_block_identifier(), y_dir, forward, surface_fluxes, this%get_scalar_identifier())
+              end do
+            end do
+
+          end block y_normal_surface_fluxes
+        end associate y_direction_fluxes
 
         associate( z=>positions(:,:,:,3))
           do concurrent(k=2:npoints(3)-1, j=1:npoints(2), i=1:npoints(1))
@@ -168,6 +259,44 @@ contains
               end associate
             end associate
           end do
+
+          z_normal_surface_fluxes: &
+          block
+            real(r8k), allocatable, dimension(:,:,:) :: surface_fluxes
+
+            allocate( surface_fluxes(npoints(x_dir), 1, npoints(z_dir)), stat = alloc_stat, errmsg = alloc_error)
+            call assert( alloc_stat==success, "cartesian_grid%set_up_div_scalar_flux: allocate(surface_fluxes) z_dir", alloc_error )
+
+            do j=1, npoints(y_dir)
+              do i=1, npoints(x_dir)
+
+                k=1
+                forward_difference_at_backward_face: &
+                associate( &
+                  dz_f =>      z(i,j,k+1) - z(i,j,k), &
+                  s_f => half*(s(i,j,k+1) + s(i,j,k)) )
+                  associate( D_f => this%diffusion_coefficient( s_f ) )
+                    surface_fluxes(i,j,k) = D_f*(s(i,j,k+1) - s(i,j,k))/dz_f
+                  end associate
+                end associate forward_difference_at_backward_face
+                call block_surfaces%set_normal_scalar_fluxes( &
+                  this%get_block_identifier(), z_dir, backward, surface_fluxes, this%get_scalar_identifier())
+
+                k=npoints(z_dir)
+                backward_difference_at_forward_face: &
+                associate( &
+                  dz_b =>       z(i,j,k)   - z(i,j,k-1), &
+                  s_b => half*( s(i,j,k)   + s(i,j,k-1) ))
+                  associate( D_b => this%diffusion_coefficient( s_b) )
+                    surface_fluxes(i,j,k) = D_b*(s(i,j,k) - s(i,j,k-1))/dz_b
+                  end associate
+                end associate backward_difference_at_forward_face
+                call block_surfaces%set_normal_scalar_fluxes( &
+                  this%get_block_identifier(), z_dir, forward, surface_fluxes, this%get_scalar_identifier())
+              end do
+            end do
+
+          end block z_normal_surface_fluxes
         end associate
 
         ! TODO

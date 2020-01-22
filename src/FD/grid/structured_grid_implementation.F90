@@ -168,4 +168,16 @@ contains
       this%block_id = id
     end procedure
 
+    module procedure get_block_identifier
+      this_block_id = this%block_id
+    end procedure
+
+    module procedure set_scalar_identifier
+      this%scalar_id = id
+    end procedure
+
+    module procedure get_scalar_identifier
+      this_scalar_id = this%scalar_id
+    end procedure
+
 end submodule

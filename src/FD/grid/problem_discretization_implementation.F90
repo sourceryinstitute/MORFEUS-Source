@@ -455,9 +455,11 @@ contains
         call assert(size(exact_result)==num_fields, "problem_discretization%set_scalar_flux_divergence: size(exact_result)")
 
         internal_values: &
-        do concurrent( b = lbound(this%vertices,1): ubound(this%vertices,1), f = 1: num_fields )
-          call this%scalar_fields(b,f)%set_up_div_scalar_flux( &
-            this%vertices(b), this%block_surfaces, this%scalar_flux_divergence(b,f) )
+        do b = lbound(this%vertices,1), ubound(this%vertices,1)
+          do f = 1, num_fields
+            call this%scalar_fields(b,f)%set_up_div_scalar_flux( &
+              this%vertices(b), this%block_surfaces, this%scalar_flux_divergence(b,f) )
+          end do
         end do internal_values
 
         sync all !! the above loop sets normal-flux data just inside each block boundary for communication in the loop below
@@ -507,6 +509,7 @@ contains
           select type( scalar_values => scalar_setters(f)%evaluate( this%vertices(b) ) )
             class is( structured_grid )
               call this%scalar_fields(b,f)%clone( scalar_values )
+              call this%scalar_fields(b,f)%set_scalar_identifier(f)
             class default
               error stop "problem_discretization%set_analytical_scalars: unsupported scalar_values grid type"
           end select
@@ -516,10 +519,8 @@ contains
       call assert( allocated(this%problem_geometry), &
         "problem_discretization%set_analytical_scalars: allocated(this%problem_geometry)")
 
-      associate( my_blocks => this%my_blocks() )
-        call this%block_map%build_surfaces( this%problem_geometry, &
-          this%vertices(my_blocks(1))%space_dimension(), this%block_surfaces, this%block_partitions, num_scalars)
-      end associate
+      call this%block_map%build_surfaces( &
+        this%problem_geometry, this%vertices, this%block_surfaces, this%block_partitions, num_scalars)
     end associate
 
   end procedure

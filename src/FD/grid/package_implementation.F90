@@ -9,6 +9,9 @@ submodule(package_interface) package_implementation
   !! date: 1/2/2019
   !! Encapsulate information and procedures for structured_grid block halo exchanges
   use assertions_interface, only: assert, assertions, max_errmsg_len
+#ifndef HAVE_FINDLOC
+  use emulated_intrinsics_interface, only : findloc
+#endif
   implicit none
 
   integer, parameter :: success = 0
@@ -40,6 +43,9 @@ contains
   module procedure set_normal_scalar_fluxes
     if (assertions) then
       call assert( allocated(this%positions), "package%normal_scalar_fluxes: allocated(positions)" )
+      call assert(&
+        findloc(shape(fluxes), dim=1, value=1, back=.true.) == findloc(shape(this%positions), dim=1, value=1, back=.true.), &
+        "surfaces%set_normal_scalar_fluxes: matching surface flux/position normal direction")
       call assert( lbound(this%surface_normal_fluxes,1) <= scalar_id .and. scalar_id <= ubound(this%surface_normal_fluxes,1), &
         "package%set_normal_scalar_fluxes: lbound(surface_normal_fluxes) <= scalar_id <= ubound(surface_normal_fluxes)" )
     end if

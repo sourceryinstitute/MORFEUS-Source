@@ -31,6 +31,7 @@ module structured_grid_interface
       !! 1 dim for instances in time
     integer :: global_bounds(num_bounds,max_space_dims) = undefined
     integer :: block_id = undefined
+    integer :: scalar_id = undefined
     type(block_metadata) metadata
   contains
     procedure(assignment_interface), deferred :: assign_structured_grid
@@ -68,14 +69,18 @@ module structured_grid_interface
     generic :: write(formatted) => write_formatted
 #endif
     procedure set_block_identifier
+    procedure get_block_identifier
+    procedure set_scalar_identifier
+    procedure get_scalar_identifier
   end type
 
   abstract interface
 
-    pure subroutine set_up_div_scalar_flux_interface(this, vertices, block_surfaces, div_flux_internal_points)
+    subroutine set_up_div_scalar_flux_interface(this, vertices, block_surfaces, div_flux_internal_points)
       import structured_grid, differentiable_field, surfaces
       implicit none
-      class(structured_grid), intent(in) :: this, vertices
+      class(structured_grid), intent(in) :: this
+      class(structured_grid), intent(in) :: vertices
       type(surfaces), intent(inout) :: block_surfaces
       class(structured_grid), intent(inout) :: div_flux_internal_points
     end subroutine
@@ -83,7 +88,8 @@ module structured_grid_interface
     pure subroutine div_scalar_flux_interface(this, vertices, block_surfaces, div_flux)
       import structured_grid, differentiable_field, surfaces
       implicit none
-      class(structured_grid), intent(in) :: this, vertices
+      class(structured_grid), intent(in) :: this
+      class(structured_grid), intent(in) :: vertices
       type(surfaces), intent(in) :: block_surfaces
       class(structured_grid), intent(inout) :: div_flux
     end subroutine
@@ -113,12 +119,12 @@ module structured_grid_interface
       integer :: n
     end function
 
-    subroutine build_surfaces_interface(this, problem_geometry, space_dimension, block_faces, block_partitions, num_scalars)
+    subroutine build_surfaces_interface(this, problem_geometry, vertices, block_faces, block_partitions, num_scalars)
       !! allocate coarray for communicating across structured_grid blocks
       import structured_grid, geometry, surfaces
       class(structured_grid), intent(in) :: this
       class(geometry), intent(in) :: problem_geometry
-      integer, intent(in) :: space_dimension
+      class(structured_grid), intent(in), dimension(:), allocatable :: vertices
       type(surfaces), intent(inout) :: block_faces
       integer, intent(in), dimension(:) :: block_partitions
       integer, intent(in) :: num_scalars
@@ -276,6 +282,25 @@ module structured_grid_interface
       class(structured_grid), intent(inout) :: this
       integer, intent(in) :: id
     end subroutine
+
+    pure module function get_block_identifier(this) result(this_block_id)
+      !! result is the block identification tag
+      class(structured_grid), intent(in) :: this
+      integer this_block_id
+    end function
+
+    module subroutine set_scalar_identifier(this, id)
+      !! set block identification tag
+      implicit none
+      class(structured_grid), intent(inout) :: this
+      integer, intent(in) :: id
+    end subroutine
+
+    pure module function get_scalar_identifier(this) result(this_scalar_id)
+      !! result is the block identification tag
+      class(structured_grid), intent(in) :: this
+      integer this_scalar_id
+    end function
 
   end interface
 

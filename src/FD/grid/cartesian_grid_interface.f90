@@ -31,7 +31,7 @@ module cartesian_grid_interface
 
   interface
 
-    pure module subroutine set_up_div_scalar_flux(this, vertices, block_surfaces, div_flux_internal_points)
+    module subroutine set_up_div_scalar_flux(this, vertices, block_surfaces, div_flux_internal_points)
       !! define the scalar flux divergence at points internal to grid blocks grid; define block-surface data on halo blocks
       implicit none
       class(cartesian_grid), intent(in) :: this
@@ -41,6 +41,7 @@ module cartesian_grid_interface
     end subroutine
 
     pure module subroutine div_scalar_flux(this, vertices, block_surfaces, div_flux)
+      !! comunicate scalar fluxes between block neighbors in a halo exchange; compute scalar flux divergence at block boundaries
       implicit none
       class(cartesian_grid), intent(in) :: this
       class(structured_grid), intent(in) :: vertices
@@ -48,12 +49,12 @@ module cartesian_grid_interface
       class(structured_grid), intent(inout) :: div_flux
     end subroutine
 
-    module subroutine build_surfaces(this, problem_geometry, space_dimension, block_faces, block_partitions, num_scalars)
+    module subroutine build_surfaces(this, problem_geometry, vertices, block_faces, block_partitions, num_scalars)
       !! allocate the surfaces array for use in halo exchanges and boundary conditions
       implicit none
       class(cartesian_grid), intent(in) :: this
       class(geometry), intent(in) :: problem_geometry
-      integer, intent(in) :: space_dimension
+      class(structured_grid), intent(in), dimension(:), allocatable :: vertices
       type(surfaces), intent(inout) :: block_faces
       integer, intent(in), dimension(:) :: block_partitions
       integer, intent(in) :: num_scalars
