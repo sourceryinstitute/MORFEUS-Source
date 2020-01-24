@@ -16,8 +16,8 @@ set( morfeus_fd_sources
   problem_discretization_implementation.F90
   problem_discretization_interface.F90
   cartesian_grid_interface.f90
-  cartesian_grid_implementation.F90
-  structured_grid_implementation.f90
+  cartesian_grid_implementation.f90
+  structured_grid_implementation.F90
   structured_grid_interface.F90
   differentiable_field_interface.f90
   ellipsoidal_field_interface.f90
