@@ -82,7 +82,7 @@ jobs:
         uses: peter-evans/create-issue-from-file@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          title:  Link check ${{ steps.so.outputs.branch }} @ ${{ stetps.so.outputs.short_sha }} by ${{github.actor}}
+          title:  Link check ${{ steps.so.outputs.branch }} @ ${{ steps.so.outputs.short_sha }} by ${{github.actor}}
           content-filepath: ./link-checker/out.md
           labels: report, automated issue, documentation
       - name: Fail on broken links
