@@ -173,7 +173,7 @@ contains
           call block_surfaces%set_normal_scalar_fluxes( &
             this%get_block_identifier(), x_dir, backward, surface_fluxes(:,:,backward), this%get_scalar_identifier())
           call block_surfaces%set_normal_scalar_fluxes( &
-            this%get_block_identifier(), x_dir, forward, surface_fluxes(:,:,forward), this%get_scalar_identifier())
+            this%get_block_identifier(), x_dir,  forward, surface_fluxes(:,:, forward), this%get_scalar_identifier())
 
         end associate x_direction_fluxes
 
@@ -199,45 +199,46 @@ contains
             end associate
           end do
 
-         ! y_normal_surface_fluxes: &
-         ! block
-         !   real(r8k), allocatable, dimension(:,:,:) :: surface_fluxes
+          if ( any(shape(surface_fluxes) /= [npoints(x_dir), npoints(z_dir), forward]) ) then
+            deallocate(surface_fluxes)
+            allocate( surface_fluxes(npoints(x_dir), npoints(z_dir), backward:forward), stat = alloc_stat, errmsg = alloc_error)
+            call assert( alloc_stat==success, "cartesian_grid%set_up_div_scalar_flux: allocate(surface_fluxes) y_dir", alloc_error )
+          end if
 
-         !   allocate( surface_fluxes(npoints(x_dir), 1, npoints(z_dir)), stat = alloc_stat, errmsg = alloc_error)
-         !   call assert( alloc_stat==success, "cartesian_grid%set_up_div_scalar_flux: allocate(surface_fluxes) y_dir", alloc_error )
+          y_normal_surface_fluxes: &
+          do k=1, npoints(z_dir)
+            do i=1, npoints(x_dir)
 
-         !   do k=1, npoints(z_dir)
-         !     do i=1, npoints(x_dir)
+              j=1
+              forward_difference_at_backward_face: &
+              associate( &
+                dy_f =>      y(i,j+1,k) - y(i,j,k), &
+                s_f => half*(s(i,j+1,k) + s(i,j,k)) )
+                associate( D_f => this%diffusion_coefficient( s_f ) )
+                  surface_fluxes(i,k,backward) = D_f*(s(i,j+1,k) - s(i,j,k))/dy_f
+                end associate
+              end associate forward_difference_at_backward_face
 
-         !       j=1
-         !       forward_difference_at_backward_face: &
-         !       associate( &
-         !         dy_f =>      y(i,j+1,k) - y(i,j,k), &
-         !         s_f => half*(s(i,j+1,k) + s(i,j,k)) )
-         !         associate( D_f => this%diffusion_coefficient( s_f ) )
-         !           surface_fluxes(i,j,k) = D_f*(s(i,j+1,k) - s(i,j,k))/dy_f
-         !         end associate
-         !       end associate forward_difference_at_backward_face
-         !       call block_surfaces%set_normal_scalar_fluxes( &
-         !         this%get_block_identifier(), y_dir, backward, surface_fluxes, this%get_scalar_identifier())
+              j=npoints(y_dir)
+              backward_difference_at_forward_face: &
+              associate( &
+                dy_b =>       y(i,j,k)   - y(i,j-1,k), &
+                s_b => half*( s(i,j,k)   + s(i,j-1,k) ))
+                associate( D_b => this%diffusion_coefficient( s_b) )
+                  surface_fluxes(i,k,forward) = D_b*(s(i,j,k) - s(i,j-1,k))/dy_b
+                end associate
+              end associate backward_difference_at_forward_face
+            end do
+          end do y_normal_surface_fluxes
 
-         !       j=npoints(y_dir)
-         !       backward_difference_at_forward_face: &
-         !       associate( &
-         !         dy_b =>       y(i,j,k)   - y(i,j-1,k), &
-         !         s_b => half*( s(i,j,k)   + s(i,j-1,k) ))
-         !         associate( D_b => this%diffusion_coefficient( s_b) )
-         !           surface_fluxes(i,j,k) = D_b*(s(i,j,k) - s(i,j-1,k))/dy_b
-         !         end associate
-         !       end associate backward_difference_at_forward_face
-         !       call block_surfaces%set_normal_scalar_fluxes( &
-         !         this%get_block_identifier(), y_dir, forward, surface_fluxes, this%get_scalar_identifier())
-         !     end do
-         !   end do
+          call block_surfaces%set_normal_scalar_fluxes( &
+            this%get_block_identifier(), y_dir, backward, surface_fluxes(:,:,backward), this%get_scalar_identifier())
+          call block_surfaces%set_normal_scalar_fluxes( &
+            this%get_block_identifier(), y_dir,  forward, surface_fluxes(:,:, forward), this%get_scalar_identifier())
 
-         ! end block y_normal_surface_fluxes
         end associate y_direction_fluxes
 
+        z_direction_fluxes: &
         associate( z=>positions(:,:,:,3))
           do concurrent(k=2:npoints(3)-1, j=1:npoints(2), i=1:npoints(1))
             associate( &
@@ -258,47 +259,44 @@ contains
             end associate
           end do
 
-         ! z_normal_surface_fluxes: &
-         ! block
-         !   real(r8k), allocatable, dimension(:,:,:) :: surface_fluxes
+          if ( any(shape(surface_fluxes) /= [npoints(x_dir), npoints(y_dir), forward]) ) then
+            deallocate(surface_fluxes)
+            allocate( surface_fluxes(npoints(x_dir), npoints(y_dir), backward:forward), stat = alloc_stat, errmsg = alloc_error)
+            call assert( alloc_stat==success, "cartesian_grid%set_up_div_scalar_flux: allocate(surface_fluxes) z_dir", alloc_error )
+          end if
 
-         !   allocate( surface_fluxes(npoints(x_dir), 1, npoints(z_dir)), stat = alloc_stat, errmsg = alloc_error)
-         !   call assert( alloc_stat==success, "cartesian_grid%set_up_div_scalar_flux: allocate(surface_fluxes) z_dir", alloc_error )
+          z_normal_surface_fluxes: &
+          do j=1, npoints(y_dir)
+            do i=1, npoints(x_dir)
 
-         !   do j=1, npoints(y_dir)
-         !     do i=1, npoints(x_dir)
+              k=1
+              forward_difference_at_backward_face: &
+              associate( &
+                dz_f =>      z(i,j,k+1) - z(i,j,k), &
+                s_f => half*(s(i,j,k+1) + s(i,j,k)) )
+                associate( D_f => this%diffusion_coefficient( s_f ) )
+                  surface_fluxes(i,j,backward) = D_f*(s(i,j,k+1) - s(i,j,k))/dz_f
+                end associate
+              end associate forward_difference_at_backward_face
 
-         !       k=1
-         !       forward_difference_at_backward_face: &
-         !       associate( &
-         !         dz_f =>      z(i,j,k+1) - z(i,j,k), &
-         !         s_f => half*(s(i,j,k+1) + s(i,j,k)) )
-         !         associate( D_f => this%diffusion_coefficient( s_f ) )
-         !           surface_fluxes(i,j,k) = D_f*(s(i,j,k+1) - s(i,j,k))/dz_f
-         !         end associate
-         !       end associate forward_difference_at_backward_face
-         !       call block_surfaces%set_normal_scalar_fluxes( &
-         !         this%get_block_identifier(), z_dir, backward, surface_fluxes, this%get_scalar_identifier())
+              k=npoints(z_dir)
+              backward_difference_at_forward_face: &
+              associate( &
+                dz_b =>       z(i,j,k)   - z(i,j,k-1), &
+                s_b => half*( s(i,j,k)   + s(i,j,k-1) ))
+                associate( D_b => this%diffusion_coefficient( s_b) )
+                  surface_fluxes(i,j,forward) = D_b*(s(i,j,k) - s(i,j,k-1))/dz_b
+                end associate
+              end associate backward_difference_at_forward_face
+            end do
+          end do z_normal_surface_fluxes
 
-         !       k=npoints(z_dir)
-         !       backward_difference_at_forward_face: &
-         !       associate( &
-         !         dz_b =>       z(i,j,k)   - z(i,j,k-1), &
-         !         s_b => half*( s(i,j,k)   + s(i,j,k-1) ))
-         !         associate( D_b => this%diffusion_coefficient( s_b) )
-         !           surface_fluxes(i,j,k) = D_b*(s(i,j,k) - s(i,j,k-1))/dz_b
-         !         end associate
-         !       end associate backward_difference_at_forward_face
-         !       call block_surfaces%set_normal_scalar_fluxes( &
-         !         this%get_block_identifier(), z_dir, forward, surface_fluxes, this%get_scalar_identifier())
-         !     end do
-         !   end do
+          call block_surfaces%set_normal_scalar_fluxes( &
+            this%get_block_identifier(), z_dir, backward, surface_fluxes(:,:,backward), this%get_scalar_identifier())
+          call block_surfaces%set_normal_scalar_fluxes( &
+            this%get_block_identifier(), z_dir,  forward, surface_fluxes(:,:, forward), this%get_scalar_identifier())
 
-         ! end block z_normal_surface_fluxes
-        end associate
-
-        ! TODO
-        ! 1. Each block sets block_surfaces packages on halo blocks
+        end associate z_direction_fluxes
 
         call div_flux_internal_points%set_scalar( div_flux(:,:,:,x_dir) + div_flux(:,:,:,y_dir) + div_flux(:,:,:,z_dir) )
 
@@ -325,8 +323,8 @@ contains
         div_flux_z = 0._r8k
 
         ! TODO
-        ! 2. Each block gets block_surfaces packages from its halo
-        ! 3. Each block uses its halo data to compute surface fluxes
+        ! 1. Each block gets block_surfaces packages from its halo
+        ! 2. Each block uses its halo data to compute surface fluxes
 
         hardwire_known_boundary_values: &
         block
