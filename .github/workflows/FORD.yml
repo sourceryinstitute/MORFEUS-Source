@@ -84,7 +84,11 @@ jobs:
         uses: peter-evans/link-checker@v1
         id: lc
         with:
-          args: -v -r *
+          args: -v -r --exclude '.*\/cmacmackin\/ford.*' *
+      - name: Prune OK links
+        run: |
+          sed -i '/^[[:space:]]*OK[[:space:]]*/d' ./link-checker/out.md
+          cat ./link-checker/out.md
       - name: Create Issue From File
         uses: peter-evans/create-issue-from-file@v2
         with:
