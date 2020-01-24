@@ -84,7 +84,7 @@ jobs:
         uses: peter-evans/link-checker@v1
         id: lc
         with:
-          args: -v -r --exclude '.*\/cmacmackin/ford.*' *
+          args: -v -r -x 'cmacmackin\/ford' *
       - name: Prune OK links
         if: steps.lc.outputs.exit_code != 0
         run: |

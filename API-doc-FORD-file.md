@@ -30,7 +30,7 @@ email: damian@gsellc.com
 author_description: An engineering services company specializing in hardware & software engineering design, R&D, testing, and systems integration.
 author_pic: https://gsellc.com/wp-content/uploads/2019/07/logo21.png
 github: https://github.com/sourceryinstitute/MORFEUS-Source
-website: http://www.gsellc.com
+website: https://www.gsellc.com
 ---
 
 [_____ Comments _______]:#
