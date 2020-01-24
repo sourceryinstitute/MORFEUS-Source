@@ -79,13 +79,14 @@ jobs:
         id: sgv
         run: |
           echo "::set-output name=short_sha::$(git rev-parse --short HEAD)"
-          echo "::set-output name=branch::$(git branch --show-current)"
+          echo "::set-output name=branch::${GITHUB_REF##*/}"
       - name: Check Links
         uses: peter-evans/link-checker@v1
         id: lc
         with:
-          args: -v -r --exclude '.*\/cmacmackin\/ford.*' *
+          args: -v -r *
       - name: Prune OK links
+        if: steps.lc.outputs.exit_code != 0
         run: |
           sed -i '/^[[:space:]]*OK[[:space:]]*/d' ./link-checker/out.md
           cat ./link-checker/out.md
@@ -93,21 +94,11 @@ jobs:
         uses: peter-evans/create-issue-from-file@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          title:  Link check ${{ steps.sgv.outputs.branch }} @ ${{ steps.sgv.outputs.short_sha }} by ${{github.actor}}
+          title:  Link check ${{ steps.sgv.outputs.branch }}@${{ steps.sgv.outputs.short_sha }} by ${{github.actor}}
           content-filepath: ./link-checker/out.md
           labels: report, automated issue, documentation
       - name: Fail on broken links
         run: exit ${{ steps.lc.outputs.exit_code }}
-
-  Deploy-docs:
-    needs: [Check-Links, Build-API-Docs]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get Documentation
-        uses: actions/download-artifact@v1
-        with:
-          name: FORD-API-docs
-          path: ./API-doc
       - name: Deploy API Docs
         uses: docker://peaceiris/gh-pages:v2
         env:
