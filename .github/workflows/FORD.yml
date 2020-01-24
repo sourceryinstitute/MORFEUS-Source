@@ -84,23 +84,21 @@ jobs:
         uses: peter-evans/link-checker@v1
         id: lc
         with:
-          args: -v -r *
+          args: -v -r --exclude '.*\/cmacmackin/ford.*' *
       - name: Prune OK links
         if: steps.lc.outputs.exit_code != 0
         run: |
-          sleep 2
-          sudo chown -R ${USER}:${USER} ./link-checker
-          sudo chmod -R a+rwX ./link-checker/out.md
-          ls -l ./link-checker/out.md
-          sed --in-place=bak '/^[[:space:]]*OK[[:space:]]*/d' ./link-checker/out.md
-          cat ./link-checker/out.md
+          sed '/^[[:space:]]*OK[[:space:]]*/d' ./link-checker/out.md > issue.md
+          echo "" >> issue.md
+          echo "ping @${{github.actor}}" >> issue.md
       - name: Create Issue From File
         uses: peter-evans/create-issue-from-file@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          title:  Link check ${{ steps.sgv.outputs.branch }}@${{ steps.sgv.outputs.short_sha }} by ${{github.actor}}
-          content-filepath: ./link-checker/out.md
+          title:  Broken links\: ATTN ${{github.actor}} ${{ steps.sgv.outputs.branch }}@${{ steps.sgv.outputs.short_sha }}
+          content-filepath: ./issue.md
           labels: report, automated issue, documentation
+          assignees: ${{ github.actor }}
       - name: Fail on broken links
         run: exit ${{ steps.lc.outputs.exit_code }}
       - name: Deploy API Docs
