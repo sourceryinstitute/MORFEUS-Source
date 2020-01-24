@@ -94,12 +94,20 @@ jobs:
           sed '/^[[:space:]]*OK[[:space:]]*/d' ./link-checker/out.md >> issue.md
       - name: Create Issue From File
         uses: peter-evans/create-issue-from-file@v2
+        if: github.event_name == 'push' && ( github.ref == 'refs/head/master' || github.ref == 'refs/head/develop' || endsWith( github.ref , '-dev' ) )
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           title:  "Broken links: ATTN @${{github.actor}} ${{ steps.sgv.outputs.branch }}@${{ steps.sgv.outputs.short_sha }}"
           content-filepath: ./issue.md
           labels: report, automated issue, documentation
           assignees: ${{ github.actor }}
+      - name: Comment PR when failed
+        uses: harupy/comment-on-pr@v1
+        if: steps.lc.outputs.exit_code != 0 && github.event_name == 'pull_request'
+        with:
+          filename: issue.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Fail on broken links
         run: exit ${{ steps.lc.outputs.exit_code }}
       - name: Deploy API Docs
@@ -113,4 +121,4 @@ jobs:
           forceOrphan: true
           commitMessage: ${{ github.event.head_commit.message }}
           username: ${{ github.actor }}
-        if: success() && github.event_name == 'push' # && github.ref == 'refs/head/fd-dev'
+        if: success() && github.event_name == 'push' && github.ref == 'refs/head/master'
