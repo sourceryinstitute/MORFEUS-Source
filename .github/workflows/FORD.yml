@@ -2,15 +2,25 @@ name: FORD
 
 on:
   push:
-    branches:
-      - fd-dev
-    
+    paths:
+      - .github/workflows/FORD.yml
+      - **/*.f90
+      - **/*.F90
+      - **/*.md
+  pull_request:
+    types: [opened, synchronize]
 
 env:
   LANG: "en_US.UTF-8"
   LC_ALL: "en_US.UTF-8"
   NCPU: "2"
-  PIP_DISABLE_PIP_VERSION_CHECK: "ON"
+  HOMEBREW_DISPLAY_INSTALL_TIMES: "ON" # Benchmark Homebrew install times
+  HOMEBREW_NO_ANALYTICS: "ON" # These speed up homebrew installs
+  HOMEBREW_NO_AUTO_UPDATE: "ON"
+  HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK: "ON"
+  HOMEBREW_NO_GITHUB_API: "ON"
+  HOMEBREW_NO_INSTALL_CLEANUP: "ON"
+  PIP_DISABLE_PIP_VERSION_CHECK: "ON" # These speed up installs from pip
   PIP_NO_CLEAN: "ON"
   PIP_PREFER_BINARY: "ON"
   TZ: "UTC"
@@ -18,52 +28,40 @@ env:
 
 jobs:
   Build-API-Docs:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v1
         with:
           submodules: false
 
-      - name: Setup Python 3.x
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.x
-
       - name: set outputs
         id: set-outputs
         run: |
-          export PY_CACHE_DIR=${HOME}/py-cache
-          export PIP_CACHE_DIR=${PY_CACHE_DIR}/pip-cache
-          export PYTHONUSERBASE=${PY_CACHE_DIR}/userbase
-          echo "::set-env name=PIP_CACHE_DIR::${PIP_CACHE_DIR}"
-          echo "::set-env name=PY_CACHE_DIR::${PY_CACHE_DIR}"
-          echo "::set-env name=PYTHONUSERBASE::${PYTHONUSERBASE}"
           echo "::set-output name=homedir::${HOME}"
-          echo "::set-output name=pip_cache_dir::${PIP_CACHE_DIR}"
-          echo "::set-output name=py_cache_dir::${PY_CACHE_DIR}"
-          echo "::set-output name=pythonuserbase::${PYTHONUSERBASE}"
-          mkdir -p ${PI_CACHE_DIR} ${PYTHONUSERBASE}/bin
-          echo "::add-path::${PYTHONUSERBASE}/bin"
+          mkdir -p ${BUILD_DIR} ${PIP_CACHE_DIR} ${PYTHONUSERBASE}/bin || true
+          if brew --cache ; then
+            rm -rf $(brew --cache)
+            echo "::set-output name=homebrew_cache::$(brew --cache)"
+          fi
+          echo "::set-output name=short_sha::$(git rev-parse --short HEAD)"
 
       - uses: actions/cache@v1
         with:
-          path: ${{ steps.set-outputs.outputs.py_cache_dir }}
-          key: ${{ runner.os }}-pipcache-1-${{ hashFiles('developer-tools/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pipcache-1-
+          path: ${{ steps.set-outputs.outputs.homebrew_cache }}
+          key: ${{ runner.os }}-brew-ford-cache
 
       - name: Install packages
         run: |
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends graphviz libxml2-dev libxslt-dev
-          pip install --user -r developer-tools/requirements.txt
+          brew install -f --force-bottle --keep-tmp libxml2 ford
+          pip3 install --prefer-binary --no-clean --disable-pip-version-check --prefer-binary --progress-bar off lxml
           type -a ford
+          ford --version
 
       - name: Build documentation
         id: build-documentation
         run: |
+          mkdir -p $(brew --cache) || true
           ford -r $(git describe --always) --debug API-doc-FORD-file.md
           touch API-doc/.nojekyll
           echo "::set-output name=ford_doc_dir::$(pwd)/API-doc"
@@ -73,6 +71,21 @@ jobs:
         with:
           name: FORD-API-docs
           path: ${{ steps.build-documentation.outputs.ford_doc_dir }}
+
+      - name: Check Links
+        uses: peter-evans/link-checker@v1
+        id: lc
+        with:
+          args: -v -r *
+      - name: Create Issue From File
+        uses: peter-evans/create-issue-from-file@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title:  ${{ format('Link check: {0}@{1} by {2}', github.ref, stetps.set-outputs.outputs.short_sha, github.actor) }}
+          content-filepath: ./link-checker/out.md
+          labels: report, automated issue, documentation
+      - name: Fail on broken links
+        run: exit ${{ steps.lc.outputs.exit_code }}
 
       - name: Deploy API Docs
         uses: docker://peaceiris/gh-pages:v2
@@ -85,3 +98,4 @@ jobs:
           forceOrphan: true
           commitMessage: ${{ github.event.head_commit.message }}
           username: ${{ github.actor }}
+        if: success() && github.event_name == 'push' # && github.ref == 'refs/head/fd-dev'
