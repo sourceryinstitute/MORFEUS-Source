@@ -27,7 +27,6 @@ contains
   end procedure
 
   module procedure set_surface_flux_positions
-    if (assertions) call assert( count(shape(positions)==1) == 1 , "package%set_positions: count(shape(positions)==1) == 1")
     this%positions = positions
   end procedure
 
@@ -42,14 +41,16 @@ contains
 
   module procedure set_normal_scalar_fluxes
     if (assertions) then
-      call assert( allocated(this%positions), "package%normal_scalar_fluxes: allocated(positions)" )
-      call assert(&
-        findloc(shape(fluxes), dim=1, value=1, back=.true.) == findloc(shape(this%positions), dim=1, value=1, back=.true.), &
-        "surfaces%set_normal_scalar_fluxes: matching surface flux/position normal direction")
+      call assert( allocated(this%positions), "package%set_normal_scalar_fluxes: allocated(positions)" )
       call assert( lbound(this%surface_normal_fluxes,1) <= scalar_id .and. scalar_id <= ubound(this%surface_normal_fluxes,1), &
         "package%set_normal_scalar_fluxes: lbound(surface_normal_fluxes) <= scalar_id <= ubound(surface_normal_fluxes)" )
     end if
     this%surface_normal_fluxes(scalar_id)%fluxes = fluxes
+  end procedure
+
+  module procedure get_positions
+    call assert(allocated(this%positions), "package%get_positions: allocated(this%positions)", this%neighbor_block_id)
+    this_positions = this%positions
   end procedure
 
   module procedure get_neighbor_block_id

@@ -17,8 +17,8 @@ module package_interface
   integer, parameter :: null_neighbor_id=-1
 
   type flux_planes
-    real(r8k), allocatable, dimension(:,:,:) :: fluxes
-      !! surface-normal scalar flux components: shape = shape(positions)
+    real(r8k), allocatable, dimension(:,:) :: fluxes
+      !! surface-normal scalar flux components: shape = [Ny, Nz] or [Nx, Nz] or [Nx, Ny]
   end type
 
   type package
@@ -32,7 +32,7 @@ module package_interface
       !! size = number of scalars; using a derived type allows for setting the number of scalars without knowing surface
       !! grid resolution and orientation (both of which are determined by shape(positions)).
     real(r8k), allocatable, dimension(:,:,:) :: positions
-      !! flux planar locations: shape = [Nx, Ny, Nz], where one of Nx|Ny|Nz is 1, denoting the surface-normal direction
+      !! flux planar locations: shape = [Ny, Nz, space_dim] or [Nx, Nz, space_dim] or [Nx, Ny, space_dim]
   contains
     procedure set_neighbor_block_id
     procedure set_step
@@ -40,6 +40,7 @@ module package_interface
     procedure set_num_scalars
     procedure set_normal_scalar_fluxes
     procedure get_neighbor_block_id
+    procedure get_positions
     procedure neighbor_block_id_null
     procedure copy
 #ifndef FORD
@@ -50,11 +51,11 @@ module package_interface
   interface
 
     pure module subroutine set_surface_flux_positions(this, positions)
-      !! define grid locations at a surface of this structured_grid block
+      !! define grid locations at a surface of this structured_grid block (invoke before set_normal_scalar_fluxes)
       implicit none
       class(package), intent(inout) :: this
       real(r8k), dimension(:,:,:), intent(in) :: positions
-        !! flux planar locations: shape = [Nx, Ny, Nz], where one of Nx|Ny|Nz is 1
+        !! flux planar locations: shape = [Ny, Nz, space_dim] or [Nx, Nz, space_dim] or [Nx, Ny, space_dim]
     end subroutine
 
     elemental module subroutine set_num_scalars(this, num_scalars)
@@ -86,22 +87,21 @@ module package_interface
       integer, intent(in) :: step
     end subroutine
 
-    pure module subroutine set_surface_positions(this, positions)
-      !! define grid point locations for block surfaces
-      implicit none
-      class(package), intent(inout) :: this
-      real(r8k), intent(in), dimension(:,:,:) :: positions
-        !! flux locations: shape = [Nx, Ny, Nz], where one of Nx|Ny|Nz is 1
-    end subroutine
-
     pure module subroutine set_normal_scalar_fluxes(this, fluxes, scalar_id)
       !! set datum to be communicated across structured_grid block internal surfaces
       implicit none
       class(package), intent(inout) :: this
-      real(r8k), intent(in), dimension(:,:,:) :: fluxes
-        !! surface-normal scalar flux components: shape = [Nx, Ny, Nz], where one of Nx|Ny|Nz is 1
+      real(r8k), intent(in), dimension(:,:) :: fluxes
+        !! surface-normal scalar flux components: shape = [Ny, Nz] or [Nx, Nz] or [Nx, Ny]
       integer, intent(in) :: scalar_id
     end subroutine
+
+    pure module function get_positions(this) result(this_positions)
+      !! result contains planar positions for surface fluxes
+      implicit none
+      class(package), intent(in) :: this
+      real(r8k), allocatable, dimension(:,:,:) :: this_positions
+    end function
 
     elemental module function neighbor_block_id_null(this) result(is_null)
       !! result is true if for external boundaries (no block sends halo data to a boundary)

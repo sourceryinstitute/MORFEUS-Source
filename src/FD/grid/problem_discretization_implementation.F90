@@ -439,6 +439,7 @@ contains
     integer b, f, alloc_status
     character(len=128) alloc_error
     class(structured_grid), allocatable :: exact_flux_div
+    type(package), allocatable, dimension(:,:,:) :: surface_packages
 
     call assert(allocated(this%scalar_fields), "set_scalar_flux_divergence: allocated(this%scalar_fields)")
     if (allocated(this%scalar_flux_divergence)) deallocate(this%scalar_flux_divergence)
@@ -449,6 +450,12 @@ contains
         allocate(this%scalar_flux_divergence(lbound(this%vertices,1) : ubound(this%vertices,1), num_fields ), &
           stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
         call assert( alloc_status==success, "set_scalar_flux_divergence: allocation", alloc_error )
+        do b = lbound(this%vertices,1), ubound(this%vertices,1)
+          do f = 1, num_fields
+            call this%scalar_flux_divergence(b,f)%set_scalar_identifier(f)
+            call this%scalar_flux_divergence(b,f)%set_block_identifier(b)
+          end do
+        end do
       end if
 
       if (present(exact_result)) &
@@ -497,10 +504,19 @@ contains
     if (assertions) call assert(allocated(this%vertices), "problem_discretization%set_analytical_scalars: allocated(this%vertices)")
 
     associate( num_scalars => size(scalar_setters) )
-      if (allocated(this%scalar_fields)) deallocate(this%scalar_fields)
-      allocate( this%scalar_fields(lbound(this%vertices,1) : ubound(this%vertices,1), num_scalars), &
-        stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
-      call assert( alloc_status==success, "set_analytical_scalars: scalar_field allocation", alloc_error)
+
+      if (.not. allocated(this%scalar_fields)) then
+        allocate( this%scalar_fields(lbound(this%vertices,1) : ubound(this%vertices,1), num_scalars), &
+          stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
+        call assert( alloc_status==success, "set_analytical_scalars: scalar_field allocation", alloc_error)
+
+        do b = lbound(this%vertices,1), ubound(this%vertices,1)
+          do f = 1, num_scalars
+            call this%scalar_fields(b,f)%set_scalar_identifier(f)
+            call this%scalar_fields(b,f)%set_block_identifier(b)
+          end do
+        end do
+      end if
 
       loop_over_blocks: &
       do b = lbound(this%vertices,1), ubound(this%vertices,1)
@@ -509,7 +525,6 @@ contains
           select type( scalar_values => scalar_setters(f)%evaluate( this%vertices(b) ) )
             class is( structured_grid )
               call this%scalar_fields(b,f)%clone( scalar_values )
-              call this%scalar_fields(b,f)%set_scalar_identifier(f)
             class default
               error stop "problem_discretization%set_analytical_scalars: unsupported scalar_values grid type"
           end select

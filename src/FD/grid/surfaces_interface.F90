@@ -39,6 +39,8 @@ module surfaces_interface
     procedure, nopass :: set_num_scalars
   end type
 
+  type(surfaces), save :: singleton
+
   interface
 
     elemental module function is_external_boundary(block_id, coordinate_direction, face) result(is_external)
@@ -69,8 +71,8 @@ module surfaces_interface
       implicit none
       integer, intent(in) :: block_id, coordinate_direction, scalar_id
       integer(enumeration), intent(in) :: face
-      real(r8k), allocatable, intent(in), dimension(:,:,:) :: s_flux_normal
-        !! surface-normal scalar flux components: shape = [Nx, Ny, Nz], where one of Nx|Ny|Nz is 1
+      real(r8k), intent(in), dimension(:,:) :: s_flux_normal
+        !! surface-normal scalar flux components: shape = [Ny, Nz] or [Nx, Nz] or [Nx, Ny]
     end subroutine
 
     pure module function get_block_image(block_id) result(image)

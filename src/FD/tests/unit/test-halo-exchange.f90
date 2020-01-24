@@ -30,13 +30,13 @@ program main
   call plate_geometry%build(input)
 
   call global_grid%initialize_from_geometry(plate_geometry)
-  call global_grid%set_scalars( [ellipsoidal_function] )
+  call global_grid%set_scalars( [ellipsoidal_function] ) ! includes build_surfaces call
   call global_grid%set_scalar_flux_divergence( exact_result=[ellipsoidal_function] )
   write(image_number,'(i4)') this_image()
   call global_grid%write_output(base_name //"-image-"// trim(adjustl(image_number)) // ".vtu")
   call global_grid%get_surface_packages(surface_packages)
 
- associate( block_surfaces => global_grid%get_block_surfaces(), my_blocks => global_grid%my_blocks() )
+  associate( block_surfaces => global_grid%get_block_surfaces(), my_blocks => global_grid%my_blocks() )
     loop_over_blocks: &
     do b=my_blocks(1), my_blocks(2)
       loop_over_coordinate_directions: &

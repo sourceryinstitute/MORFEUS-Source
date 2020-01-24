@@ -17,7 +17,7 @@ submodule(surfaces_interface) surfaces_implementation
 #endif
   implicit none
 
-  type(surfaces) singleton[*]
+   type(surfaces), save :: singleton[*]
     !! Singleton pattern: one instance per image.
     !! Design: using a derived-type coarray instead of component coarrays is both simpler and facilitates setting different
     !! component array bounds on different images, which facilitates using the global block_identifier as the first index.
