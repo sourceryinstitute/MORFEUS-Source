@@ -36,7 +36,7 @@ jobs:
           submodules: false
 
       - name: set outputs
-        id: set-outputs
+        id: so
         run: |
           echo "::set-output name=homedir::${HOME}"
           mkdir -p ${BUILD_DIR} ${PIP_CACHE_DIR} ${PYTHONUSERBASE}/bin || true
@@ -45,10 +45,11 @@ jobs:
             echo "::set-output name=homebrew_cache::$(brew --cache)"
           fi
           echo "::set-output name=short_sha::$(git rev-parse --short HEAD)"
+          echo "::set-output name=bracnh::$(git branch --show-current)"
 
       - uses: actions/cache@v1
         with:
-          path: ${{ steps.set-outputs.outputs.homebrew_cache }}
+          path: ${{ steps.so.outputs.homebrew_cache }}
           key: ${{ runner.os }}-brew-ford-cache
 
       - name: Install packages
@@ -81,7 +82,7 @@ jobs:
         uses: peter-evans/create-issue-from-file@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          title:  ${{ format('Link check: {0}@{1} by {2}', github.ref, stetps.set-outputs.outputs.short_sha, github.actor) }}
+          title:  Link check: ${{ steps.so.outputs.branch }}@${{ stetps.so.outputs.short_sha }} by ${{github.actor}}
           content-filepath: ./link-checker/out.md
           labels: report, automated issue, documentation
       - name: Fail on broken links
