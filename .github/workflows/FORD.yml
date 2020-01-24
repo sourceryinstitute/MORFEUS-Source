@@ -48,7 +48,7 @@ jobs:
       - name: Install packages
         run: |
           pip3 install --prefer-binary --no-clean --disable-pip-version-check --prefer-binary --progress-bar off lxml
-          brew install -f --force-bottle --keep-tmp libxml2 ford
+          brew install -f --force-bottle --keep-tmp ford
           type -a ford
           ford --version
       - name: Build documentation
@@ -84,7 +84,7 @@ jobs:
         uses: peter-evans/link-checker@v1
         id: lc
         with:
-          args: -c 5 -v -r -x cmacmackin API-doc
+          args: -c 5 -v -r -x cmacmackin -x gsellc API-doc
       - name: Prune OK links
         if: steps.lc.outputs.exit_code != 0
         run: |
@@ -96,7 +96,7 @@ jobs:
         uses: peter-evans/create-issue-from-file@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          title:  "Broken links: ATTN @${{github.actor}} ${{ steps.sgv.outputs.branch }} @ ${{ steps.sgv.outputs.short_sha }}"
+          title:  "Broken links: ATTN @${{github.actor}} ${{ steps.sgv.outputs.branch }}@${{ steps.sgv.outputs.short_sha }}"
           content-filepath: ./issue.md
           labels: report, automated issue, documentation
           assignees: ${{ github.actor }}
