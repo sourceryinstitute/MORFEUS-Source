@@ -88,7 +88,9 @@ jobs:
       - name: Prune OK links
         if: steps.lc.outputs.exit_code != 0
         run: |
-          sed -i '/^[[:space:]]*OK[[:space:]]*/d' ./link-checker/out.md
+          sleep 2
+          ls -l ./link-checker/out.md
+          sed -i .bak '/^[[:space:]]*OK[[:space:]]*/d' ./link-checker/out.md
           cat ./link-checker/out.md
       - name: Create Issue From File
         uses: peter-evans/create-issue-from-file@v2
