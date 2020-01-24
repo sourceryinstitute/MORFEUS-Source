@@ -84,7 +84,7 @@ jobs:
         uses: peter-evans/link-checker@v1
         id: lc
         with:
-          args: -v -r -x 'cmacmackin\/ford' *
+          args: -c 5 -v -r -x cmacmackin API-doc
       - name: Prune OK links
         if: steps.lc.outputs.exit_code != 0
         run: |
