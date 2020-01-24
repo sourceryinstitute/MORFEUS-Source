@@ -3,10 +3,10 @@ name: FORD
 on:
   push:
     paths:
-      - .github/workflows/FORD.yml
-      - **/*.f90
-      - **/*.F90
-      - **/*.md
+      - '.github/workflows/FORD.yml'
+      - '**/*.f90'
+      - '**/*.F90'
+      - '**/*.md'
   pull_request:
     types: [opened, synchronize]
 
