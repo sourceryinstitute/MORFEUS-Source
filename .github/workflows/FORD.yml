@@ -90,7 +90,7 @@ jobs:
         run: |
           sleep 2
           ls -l ./link-checker/out.md
-          sed -i .bak '/^[[:space:]]*OK[[:space:]]*/d' ./link-checker/out.md
+          sed --in-place=bak '/^[[:space:]]*OK[[:space:]]*/d' ./link-checker/out.md
           cat ./link-checker/out.md
       - name: Create Issue From File
         uses: peter-evans/create-issue-from-file@v2
