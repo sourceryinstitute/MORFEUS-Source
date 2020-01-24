@@ -95,7 +95,7 @@ jobs:
         uses: peter-evans/create-issue-from-file@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          title:  Broken links\: ATTN ${{github.actor}} ${{ steps.sgv.outputs.branch }}@${{ steps.sgv.outputs.short_sha }}
+          title:  "Broken links: ATTN ${{github.actor}} ${{ steps.sgv.outputs.branch }}@${{ steps.sgv.outputs.short_sha }}"
           content-filepath: ./issue.md
           labels: report, automated issue, documentation
           assignees: ${{ github.actor }}
