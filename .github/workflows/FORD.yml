@@ -45,7 +45,7 @@ jobs:
             echo "::set-output name=homebrew_cache::$(brew --cache)"
           fi
           echo "::set-output name=short_sha::$(git rev-parse --short HEAD)"
-          echo "::set-output name=bracnh::$(git branch --show-current)"
+          echo "::set-output name=branch::$(git branch --show-current)"
 
       - uses: actions/cache@v1
         with:
