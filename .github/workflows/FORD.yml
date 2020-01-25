@@ -88,13 +88,11 @@ jobs:
 #          |(gcc\.gnu\.org\/onlinedocs\/gfortran) API-doc
       - name: Prune OK links
         if: steps.lc.outputs.exit_code != 0
-        id: pol
         run: |
           echo "ping @${{github.actor}}" >> issue.md
           echo "On commit: ${GITHUB_SHA}" >> issue.md
           echo "" >> issue.md
           sed '/^[[:space:]]*OK[[:space:]]*/d' ./link-checker/out.md >> issue.md
-          echo "::set-output name=msg_txt::\"$(cat issue.md)\""
       - name: Create Issue From File
         uses: peter-evans/create-issue-from-file@v2
         if: github.event_name == 'push' && ( github.ref == 'refs/head/master' || github.ref == 'refs/head/develop' || endsWith( github.ref , '-dev' ) )
@@ -105,13 +103,12 @@ jobs:
           labels: report, automated issue, documentation
           assignees: ${{ github.actor }}
       - name: Comment PR when failed
-        uses: mshick/add-pr-comment@v1
+        uses: harupy/comment-on-pr@master
         if: steps.lc.outputs.exit_code != 0 && github.event_name == 'pull_request'
         with:
-          comment: '
-          ${{ steps.pol.outputs.msg_txt }}
-          '
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          filename: issue.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Fail on broken links
         run: exit ${{ steps.lc.outputs.exit_code }}
       - name: Deploy API Docs
