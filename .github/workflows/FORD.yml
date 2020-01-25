@@ -2,15 +2,25 @@ name: FORD
 
 on:
   push:
-    branches:
-      - fd-dev
-    
+    paths:
+      - '.github/workflows/FORD.yml'
+      - '**/*.f90'
+      - '**/*.F90'
+      - '**/*.md'
+  pull_request:
+    types: [opened, synchronize]
 
 env:
   LANG: "en_US.UTF-8"
   LC_ALL: "en_US.UTF-8"
   NCPU: "2"
-  PIP_DISABLE_PIP_VERSION_CHECK: "ON"
+  HOMEBREW_DISPLAY_INSTALL_TIMES: "ON" # Benchmark Homebrew install times
+  HOMEBREW_NO_ANALYTICS: "ON" # These speed up homebrew installs
+  HOMEBREW_NO_AUTO_UPDATE: "ON"
+  HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK: "ON"
+  HOMEBREW_NO_GITHUB_API: "ON"
+  HOMEBREW_NO_INSTALL_CLEANUP: "ON"
+  PIP_DISABLE_PIP_VERSION_CHECK: "ON" # These speed up installs from pip
   PIP_NO_CLEAN: "ON"
   PIP_PREFER_BINARY: "ON"
   TZ: "UTC"
@@ -18,70 +28,103 @@ env:
 
 jobs:
   Build-API-Docs:
-    runs-on: ubuntu-latest
-
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v1
         with:
           submodules: false
-
-      - name: Setup Python 3.x
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.x
-
       - name: set outputs
-        id: set-outputs
+        id: so
         run: |
-          export PY_CACHE_DIR=${HOME}/py-cache
-          export PIP_CACHE_DIR=${PY_CACHE_DIR}/pip-cache
-          export PYTHONUSERBASE=${PY_CACHE_DIR}/userbase
-          echo "::set-env name=PIP_CACHE_DIR::${PIP_CACHE_DIR}"
-          echo "::set-env name=PY_CACHE_DIR::${PY_CACHE_DIR}"
-          echo "::set-env name=PYTHONUSERBASE::${PYTHONUSERBASE}"
           echo "::set-output name=homedir::${HOME}"
-          echo "::set-output name=pip_cache_dir::${PIP_CACHE_DIR}"
-          echo "::set-output name=py_cache_dir::${PY_CACHE_DIR}"
-          echo "::set-output name=pythonuserbase::${PYTHONUSERBASE}"
-          mkdir -p ${PI_CACHE_DIR} ${PYTHONUSERBASE}/bin
-          echo "::add-path::${PYTHONUSERBASE}/bin"
-
+          if brew --cache ; then
+            rm -rf $(brew --cache)
+            echo "::set-output name=homebrew_cache::$(brew --cache)"
+          fi
       - uses: actions/cache@v1
         with:
-          path: ${{ steps.set-outputs.outputs.py_cache_dir }}
-          key: ${{ runner.os }}-pipcache-1-${{ hashFiles('developer-tools/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pipcache-1-
-
+          path: ${{ steps.so.outputs.homebrew_cache }}
+          key: ${{ runner.os }}-brew-ford-cache
       - name: Install packages
         run: |
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends graphviz libxml2-dev libxslt-dev
-          pip install --user -r developer-tools/requirements.txt
+          pip3 install --prefer-binary --no-clean --disable-pip-version-check --prefer-binary --progress-bar off lxml
+          brew install -f --force-bottle --keep-tmp ford
           type -a ford
-
+          ford --version
       - name: Build documentation
         id: build-documentation
         run: |
+          mkdir -p $(brew --cache) || true
           ford -r $(git describe --always) --debug API-doc-FORD-file.md
           touch API-doc/.nojekyll
-          echo "::set-output name=ford_doc_dir::$(pwd)/API-doc"
-
       - name: Upload Documentation
         uses: actions/upload-artifact@v1
         with:
           name: FORD-API-docs
-          path: ${{ steps.build-documentation.outputs.ford_doc_dir }}
+          path: ./API-doc
 
+  Check-Links:
+    runs-on: ubuntu-latest
+    needs: Build-API-Docs
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          submodules: false
+      - name: Get Documentation
+        uses: actions/download-artifact@v1
+        with:
+          name: FORD-API-docs
+          path: ./API-doc
+      - name: set git vars
+        id: sgv
+        run: |
+          echo "::set-output name=short_sha::$(git rev-parse --short HEAD)"
+          echo "::set-output name=branch::${GITHUB_REF##*/}"
+      - name: Check Links
+        uses: peter-evans/link-checker@v1
+        id: lc
+        with:
+          args: -c 5 -v -r -x (gsellc\.com$)|(github\.com\/cmacmackin\/ford$)|(gcc\.gnu\.org\/onlinedocs\/gfortran) API-doc
+      - name: Prune OK links
+        id: pol
+        if: steps.lc.outputs.exit_code != 0
+        shell: bash
+        run: |
+          echo "ping @${{github.actor}}" >> issue.md
+          echo "On commit: ${GITHUB_SHA}" >> issue.md
+          echo "" >> issue.md
+          sed '/^[[:space:]]*OK[[:space:]]*/d' ./link-checker/out.md >> issue.md
+          pr_msg=$(<issue.md)
+          pr_msg="${pr_msg//'%'/'%25'}"
+          pr_msg="${pr_msg//$'\n'/'%0A'}"
+          pr_msg="${pr_msg//$'\r'/'%0D'}"
+          echo "::set-output name=pr_msg::$pr_msg"
+      - name: Create Issue From File
+        uses: peter-evans/create-issue-from-file@v2
+        if: github.event_name == 'push' && ( github.ref == 'refs/head/master' || github.ref == 'refs/head/develop' || endsWith( github.ref , '-dev' ) )
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title:  "Broken links: ATTN @${{github.actor}} ${{ steps.sgv.outputs.branch }}@${{ steps.sgv.outputs.short_sha }}"
+          content-filepath: ./issue.md
+          labels: report, automated issue, documentation
+          assignees: ${{ github.actor }}
+      - name: Comment PR when failed
+        uses: mshick/add-pr-comment@v1
+        if: steps.lc.outputs.exit_code != 0 && github.event_name == 'pull_request'
+        with:
+          message: "${{ steps.pol.outputs.pr_msg }}"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Fail on broken links
+        run: exit ${{ steps.lc.outputs.exit_code }}
       - name: Deploy API Docs
         uses: docker://peaceiris/gh-pages:v2
         env:
           ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: ${{ steps.build-documentation.outputs.ford_doc_dir }}
+          PUBLISH_DIR: ./API-doc
         with:
           emptyCommits: false
           forceOrphan: true
           commitMessage: ${{ github.event.head_commit.message }}
           username: ${{ github.actor }}
+        if: success() && github.event_name == 'push' && github.ref == 'refs/head/master'
