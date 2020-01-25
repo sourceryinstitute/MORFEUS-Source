@@ -95,6 +95,7 @@ jobs:
           sed '/^[[:space:]]*OK[[:space:]]*/d' ./link-checker/out.md >> issue.md
           pr_msg="$(tr '%' '%25' < issue.md | tr '\n' '%0A' | tr '\r' '%0D')"
           echo "::set-output name=pr_msg::$pr_msg"
+          echo "${pr_msg}"
       - name: Create Issue From File
         uses: peter-evans/create-issue-from-file@v2
         if: github.event_name == 'push' && ( github.ref == 'refs/head/master' || github.ref == 'refs/head/develop' || endsWith( github.ref , '-dev' ) )
@@ -105,12 +106,11 @@ jobs:
           labels: report, automated issue, documentation
           assignees: ${{ github.actor }}
       - name: Comment PR when failed
-        uses: harupy/comment-on-pr@master
+        uses: mshick/add-pr-comment@v1
         if: steps.lc.outputs.exit_code != 0 && github.event_name == 'pull_request'
         with:
-          filename: issue.md
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          message: "${{ steps.pol.outputs.pr_msg }}"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Fail on broken links
         run: exit ${{ steps.lc.outputs.exit_code }}
       - name: Deploy API Docs
