@@ -84,14 +84,21 @@ jobs:
         uses: peter-evans/link-checker@v1
         id: lc
         with:
-          args: -c 5 -v -r -x (gsellc\.com$)|(github\.com\/cmacmackin\/ford$)|(gcc\.gnu\.org\/onlinedocs\/gfortran\/ISO_005fFORTRAN_005fENV\.html) API-doc
+          args: -c 5 -v -r -x (gsellc\.com$)|(github\.com\/cmacmackin\/ford$)|(gcc\.gnu\.org\/onlinedocs\/gfortran) API-doc
       - name: Prune OK links
+        id: pol
         if: steps.lc.outputs.exit_code != 0
+        shell: bash
         run: |
           echo "ping @${{github.actor}}" >> issue.md
           echo "On commit: ${GITHUB_SHA}" >> issue.md
           echo "" >> issue.md
           sed '/^[[:space:]]*OK[[:space:]]*/d' ./link-checker/out.md >> issue.md
+          pr_msg=$(<issue.md)
+          pr_msg="${pr_msg//'%'/'%25'}"
+          pr_msg="${pr_msg//$'\n'/'%0A'}"
+          pr_msg="${pr_msg//$'\r'/'%0D'}"
+          echo "::set-output name=pr_msg::$pr_msg"
       - name: Create Issue From File
         uses: peter-evans/create-issue-from-file@v2
         if: github.event_name == 'push' && ( github.ref == 'refs/head/master' || github.ref == 'refs/head/develop' || endsWith( github.ref , '-dev' ) )
@@ -102,12 +109,11 @@ jobs:
           labels: report, automated issue, documentation
           assignees: ${{ github.actor }}
       - name: Comment PR when failed
-        uses: harupy/comment-on-pr@v1
+        uses: mshick/add-pr-comment@v1
         if: steps.lc.outputs.exit_code != 0 && github.event_name == 'pull_request'
         with:
-          filename: issue.md
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          message: "${{ steps.pol.outputs.pr_msg }}"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Fail on broken links
         run: exit ${{ steps.lc.outputs.exit_code }}
       - name: Deploy API Docs
