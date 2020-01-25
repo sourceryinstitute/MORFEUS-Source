@@ -36,11 +36,12 @@ module package_interface
   contains
     procedure set_neighbor_block_id
     procedure set_step
-    procedure set_surface_flux_positions
+    procedure set_surface_positions
     procedure set_num_scalars
     procedure set_normal_scalar_fluxes
     procedure get_neighbor_block_id
     procedure get_positions
+    procedure get_fluxes
     procedure neighbor_block_id_null
     procedure copy
 #ifndef FORD
@@ -50,7 +51,7 @@ module package_interface
 
   interface
 
-    pure module subroutine set_surface_flux_positions(this, positions)
+    pure module subroutine set_surface_positions(this, positions)
       !! define grid locations at a surface of this structured_grid block (invoke before set_normal_scalar_fluxes)
       implicit none
       class(package), intent(inout) :: this
@@ -101,6 +102,14 @@ module package_interface
       implicit none
       class(package), intent(in) :: this
       real(r8k), allocatable, dimension(:,:,:) :: this_positions
+    end function
+
+    pure module function get_fluxes(this, scalar_id) result(this_fluxes)
+      !! result contains planar positions for surface fluxes
+      implicit none
+      class(package), intent(in) :: this
+      integer, intent(in) :: scalar_id
+      real(r8k), allocatable, dimension(:,:) :: this_fluxes
     end function
 
     elemental module function neighbor_block_id_null(this) result(is_null)

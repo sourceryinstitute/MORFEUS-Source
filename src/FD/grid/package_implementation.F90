@@ -26,7 +26,7 @@ contains
     this%step = step
   end procedure
 
-  module procedure set_surface_flux_positions
+  module procedure set_surface_positions
     this%positions = positions
   end procedure
 
@@ -51,6 +51,11 @@ contains
   module procedure get_positions
     call assert(allocated(this%positions), "package%get_positions: allocated(this%positions)", this%neighbor_block_id)
     this_positions = this%positions
+  end procedure
+
+  module procedure get_fluxes
+    call assert( allocated(this%surface_normal_fluxes), "package%get_fluxes: allocated(this%surface_normal_fluxes)" )
+    this_fluxes = this%surface_normal_fluxes(scalar_id)%fluxes
   end procedure
 
   module procedure get_neighbor_block_id

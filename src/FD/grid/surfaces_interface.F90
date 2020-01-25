@@ -27,19 +27,21 @@ module surfaces_interface
   type surfaces
     !! hexahedral structured_grid block surface data
     private
-    class(package), allocatable, dimension(:,:,:) :: halo_outbox
+    type(package), allocatable, dimension(:,:,:) :: halo_outbox
       !! allocate to dimensions [my_blocks(first):my_blocks(last), space_dimension, size([forward, backward]))
       !! An appparent GCC 8 compiler bug necessitates the polymorphic (class) declaration.
   contains
     procedure, nopass :: is_external_boundary
     procedure, nopass :: set_halo_outbox
-    procedure, nopass :: get_halo_outbox
     procedure, nopass :: set_normal_scalar_fluxes
-    procedure, nopass :: get_block_image
     procedure, nopass :: set_num_scalars
+    procedure, nopass :: get_halo_outbox
+    procedure, nopass :: get_global_block_partitions
+    procedure, nopass :: get_neighbor_block_id
+    procedure, nopass :: get_block_image
+    procedure, nopass :: get_surface_positions
+    procedure, nopass :: get_normal_scalar_fluxes
   end type
-
-  type(surfaces), save :: singleton
 
   interface
 
@@ -77,6 +79,7 @@ module surfaces_interface
 
     pure module function get_block_image(block_id) result(image)
       !! result is the image that owns the given structured_grid block
+      implicit none
       integer, intent(in) :: block_id
       integer image
     end function
@@ -86,6 +89,37 @@ module surfaces_interface
       implicit none
       integer, intent(in) :: num_scalars
     end subroutine
+
+    pure module function get_global_block_partitions() result(block_partitions)
+      !! result contains the block identifiers that start the subrange of blocks owned by each image such that
+      !! [block_partitions(me), block_partitions(me+1)-1] = spans the block identifiers owned by image me
+      implicit none
+      integer, allocatable, dimension(:) :: block_partitions
+    end function
+
+    pure module function get_neighbor_block_id(my_block_id, coordinate_direction, face_direction) result(neighbor_block_id)
+      !! result is the block_id of the neighbor adjacent to the image that owns the given structured_grid block
+      implicit none
+      integer, intent(in) :: my_block_id, coordinate_direction, face_direction
+      integer neighbor_block_id
+    end function
+
+    pure module function get_surface_positions(image, block_id, coordinate_direction, face_direction) result(positions)
+      !! result contains the vertices inside the designated grid block surface
+      implicit none
+      integer, intent(in) :: image, block_id, coordinate_direction, face_direction
+      real(r8k), allocatable, dimension(:,:,:) :: positions
+        !! planar locations: shape = [Ny, Nz, space_dim] or [Nx, Nz, space_dim] or [Nx, Ny, space_dim] depending on orientation
+    end function
+
+    pure module function get_normal_scalar_fluxes(image, block_id, coordinate_direction, face_direction, scalar_id) &
+      result(fluxes)
+      !! result contains the the surface-normal component of the designated scalar flus at the designated grid block surface
+      implicit none
+      integer, intent(in) :: image, block_id, coordinate_direction, face_direction, scalar_id
+      real(r8k), allocatable, dimension(:,:) :: fluxes
+        !! surface-normal scalar flux components: shape = [Ny, Nz] or [Nx, Nz] or [Nx, Ny] depending on orientation
+    end function
 
   end interface
 

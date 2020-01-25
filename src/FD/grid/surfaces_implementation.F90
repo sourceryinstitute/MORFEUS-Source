@@ -17,7 +17,7 @@ submodule(surfaces_interface) surfaces_implementation
 #endif
   implicit none
 
-   type(surfaces), save :: singleton[*]
+   type(surfaces) singleton[*]
     !! Singleton pattern: one instance per image.
     !! Design: using a derived-type coarray instead of component coarrays is both simpler and facilitates setting different
     !! component array bounds on different images, which facilitates using the global block_identifier as the first index.
@@ -86,6 +86,26 @@ contains
 
   module procedure set_num_scalars
     call singleton%halo_outbox%set_num_scalars(num_scalars)
+  end procedure
+
+  module procedure get_global_block_partitions
+    block_partitions = global_block_partitions
+  end procedure
+
+  module procedure get_neighbor_block_id
+    neighbor_block_id = singleton%halo_outbox(my_block_id, coordinate_direction, face_direction)%get_neighbor_block_id()
+  end procedure
+
+  module procedure get_surface_positions
+    type(package) neighbor_package
+    neighbor_package = singleton[image]%halo_outbox(block_id, coordinate_direction, face_direction)
+    positions = neighbor_package%get_positions()
+  end procedure
+
+  module procedure get_normal_scalar_fluxes
+    type(package) neighbor_package
+    neighbor_package = singleton[image]%halo_outbox(block_id, coordinate_direction, face_direction)
+    fluxes = neighbor_package%get_fluxes(scalar_id)
   end procedure
 
 end submodule
