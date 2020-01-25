@@ -101,7 +101,7 @@ jobs:
           echo "::set-output name=pr_msg::$pr_msg"
       - name: Create Issue From File
         uses: peter-evans/create-issue-from-file@v2
-        if: github.event_name == 'push' && ( github.ref == 'refs/head/master' || github.ref == 'refs/head/develop' || endsWith( github.ref , '-dev' ) )
+        if: github.event_name == 'push' && ( github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop' || endsWith( github.ref , '-dev' ) )
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           title:  "Broken links: ATTN @${{github.actor}} ${{ steps.sgv.outputs.branch }}@${{ steps.sgv.outputs.short_sha }}"
@@ -125,7 +125,7 @@ jobs:
           forceOrphan: true
           commitMessage: ${{ github.event.head_commit.message }}
           username: ${{ github.actor }}
-        if: success() && github.event_name == 'push' && github.ref == 'refs/head/master'
+        if: success() && github.event_name == 'push' && github.ref == 'refs/heads/master'
       - name: Fail on broken links
         run: |
           echo "Ref: ${{ github.ref }}"
