@@ -8,8 +8,8 @@ env:
   CMAKE_CONFIG_TYPE: "RuntimeDebug"
   CTEST_OUTPUT_ON_FAILURE: "ON"
   CTEST_PARALLEL_LEVEL: "2"
-  HOMEBREW_DISPLAY_INSTALL_TIMES: "ON"
-  HOMEBREW_NO_ANALYTICS: "ON"
+  HOMEBREW_DISPLAY_INSTALL_TIMES: "ON" # Benchmark Homebrew install times
+  HOMEBREW_NO_ANALYTICS: "ON" # These speed up homebrew installs
   HOMEBREW_NO_AUTO_UPDATE: "ON"
   HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK: "ON"
   HOMEBREW_NO_GITHUB_API: "ON"
@@ -17,7 +17,7 @@ env:
   LANG: "en_US.UTF-8"
   LC_ALL: "en_US.UTF-8"
   NCPU: "2"
-  PIP_DISABLE_PIP_VERSION_CHECK: "ON"
+  PIP_DISABLE_PIP_VERSION_CHECK: "ON" # These speed up installs from pip
   PIP_NO_CLEAN: "ON"
   PIP_PREFER_BINARY: "ON"
   TZ: "UTC"
@@ -83,9 +83,9 @@ jobs:
     - name: setup-linux
       if: contains(matrix.os, 'ubuntu')
       run: |
-        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-        sudo apt-get update
-        sudo apt-get install -y ccache gcc-${GCC_V} g++-${GCC_V} gfortran-${GCC_V} graphviz
+        sudo add-apt-repository ppa:ubuntu-toolchain-r/test || echo "Failed to add toolchain-r/test ppa!!!"
+        sudo apt-get update -qq || true
+        sudo apt-get install -y --no-install-recommends ccache gcc-${GCC_V} g++-${GCC_V} gfortran-${GCC_V} graphviz
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_V} 100 \
         --slave /usr/bin/g++ g++ /usr/bin/g++-${GCC_V} \
         --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
