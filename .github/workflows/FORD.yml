@@ -99,9 +99,6 @@ jobs:
           pr_msg="${pr_msg//$'\n'/'%0A'}"
           pr_msg="${pr_msg//$'\r'/'%0D'}"
           echo "::set-output name=pr_msg::$pr_msg"
-          echo "${pr_msg}"
-      - name: Show message
-        run: echo "${{ steps.pol.outputs.pr_msg }}"
       - name: Create Issue From File
         uses: peter-evans/create-issue-from-file@v2
         if: github.event_name == 'push' && ( github.ref == 'refs/head/master' || github.ref == 'refs/head/develop' || endsWith( github.ref , '-dev' ) )
