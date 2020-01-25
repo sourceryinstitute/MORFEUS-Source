@@ -88,14 +88,20 @@ jobs:
       - name: Prune OK links
         id: pol
         if: steps.lc.outputs.exit_code != 0
+        shell: bash
         run: |
           echo "ping @${{github.actor}}" >> issue.md
           echo "On commit: ${GITHUB_SHA}" >> issue.md
           echo "" >> issue.md
           sed '/^[[:space:]]*OK[[:space:]]*/d' ./link-checker/out.md >> issue.md
-          pr_msg="$(tr '%' '%25' < issue.md | tr '\n' '%0A' | tr '\r' '%0D')"
+          pr_msg=$(<issue.md)
+          pr_msg="${pr_msg//'%'/'%25'}"
+          pr_msg="${pr_msg//$'\n'/'%0A'}"
+          pr_msg="${pr_msg//$'\r'/'%0D'}"
           echo "::set-output name=pr_msg::$pr_msg"
           echo "${pr_msg}"
+      - name: Show message
+        run: echo "${{ steps.pol.outputs.pr_msg }}"
       - name: Create Issue From File
         uses: peter-evans/create-issue-from-file@v2
         if: github.event_name == 'push' && ( github.ref == 'refs/head/master' || github.ref == 'refs/head/develop' || endsWith( github.ref , '-dev' ) )
