@@ -84,15 +84,17 @@ jobs:
         uses: peter-evans/link-checker@v1
         id: lc
         with:
-          args: -c 5 -v -r -x (gsellc\.com$)|(github\.com\/cmacmackin\/ford$) API-doc
-#          |(gcc\.gnu\.org\/onlinedocs\/gfortran) API-doc
+          args: -c 5 -v -r -x (gsellc\.com$)|(github\.com\/cmacmackin\/ford$)|(gcc\.gnu\.org\/onlinedocs\/gfortran) API-doc
       - name: Prune OK links
+        id: pol
         if: steps.lc.outputs.exit_code != 0
         run: |
           echo "ping @${{github.actor}}" >> issue.md
           echo "On commit: ${GITHUB_SHA}" >> issue.md
           echo "" >> issue.md
           sed '/^[[:space:]]*OK[[:space:]]*/d' ./link-checker/out.md >> issue.md
+          pr_msg="$(tr '%' '%25' < issue.md | tr '\n' '%0A' | tr '\r' '%0D')"
+          echo "::set-output name=pr_msg::$pr_msg"
       - name: Create Issue From File
         uses: peter-evans/create-issue-from-file@v2
         if: github.event_name == 'push' && ( github.ref == 'refs/head/master' || github.ref == 'refs/head/develop' || endsWith( github.ref , '-dev' ) )

@@ -45,3 +45,5 @@ website: https://gsellc.com
 [TOC]
 
 {!src/FD/README.md!}
+
+[bad link](http://example.com/bad-link)
