@@ -31,27 +31,19 @@ module surfaces_interface
       !! allocate to dimensions [my_blocks(first):my_blocks(last), space_dimension, size([forward, backward]))
       !! An appparent GCC 8 compiler bug necessitates the polymorphic (class) declaration.
   contains
-    procedure, nopass :: is_external_boundary
     procedure, nopass :: set_halo_outbox
-    procedure, nopass :: set_normal_scalar_fluxes
     procedure, nopass :: set_num_scalars
+    procedure, nopass :: set_normal_scalar_fluxes
     procedure, nopass :: get_halo_outbox
+    procedure, nopass :: get_block_image
     procedure, nopass :: get_global_block_partitions
     procedure, nopass :: get_neighbor_block_id
-    procedure, nopass :: get_block_image
     procedure, nopass :: get_surface_positions
     procedure, nopass :: get_normal_scalar_fluxes
+    procedure, nopass :: is_external_boundary
   end type
 
   interface
-
-    elemental module function is_external_boundary(block_id, coordinate_direction, face) result(is_external)
-      !! result is .true. if the identified structured_grid block surface corresponds to a problem domain boundary
-      implicit none
-      integer, intent(in) :: block_id, coordinate_direction
-      integer(enumeration), intent(in) :: face
-      logical is_external
-    end function
 
     module subroutine set_halo_outbox(my_halo_outbox, block_partitions)
       !! define halo_outbox component array
@@ -60,12 +52,10 @@ module surfaces_interface
       integer, intent(in), dimension(:) :: block_partitions
     end subroutine
 
-    module subroutine get_halo_outbox(singleton_halo_outbox)
-      !! output singleton_halo_outbox with the following bounds:
-      !! lbounds=[my_blocks(first), 1, backward], ubounds=[my_blocks(last), space_dimension, forward]
-      !! This cannot be a function because the function result would not preserve the desired bounds.
+    module subroutine set_num_scalars(num_scalars)
+      !! allocate surface-normal scalar flux array
       implicit none
-      type(package), dimension(:,:,:), allocatable, intent(out) :: singleton_halo_outbox
+      integer, intent(in) :: num_scalars
     end subroutine
 
     module subroutine set_normal_scalar_fluxes( block_id, coordinate_direction, face, s_flux_normal, scalar_id)
@@ -77,18 +67,20 @@ module surfaces_interface
         !! surface-normal scalar flux components: shape = [Ny, Nz] or [Nx, Nz] or [Nx, Ny]
     end subroutine
 
+    module subroutine get_halo_outbox(singleton_halo_outbox)
+      !! output singleton_halo_outbox with the following bounds:
+      !! lbounds=[my_blocks(first), 1, backward], ubounds=[my_blocks(last), space_dimension, forward]
+      !! This cannot be a function because the function result would not preserve the desired bounds.
+      implicit none
+      type(package), dimension(:,:,:), allocatable, intent(out) :: singleton_halo_outbox
+    end subroutine
+
     pure module function get_block_image(block_id) result(image)
       !! result is the image that owns the given structured_grid block
       implicit none
       integer, intent(in) :: block_id
       integer image
     end function
-
-    module subroutine set_num_scalars(num_scalars)
-      !! allocate surface-normal scalar flux array
-      implicit none
-      integer, intent(in) :: num_scalars
-    end subroutine
 
     pure module function get_global_block_partitions() result(block_partitions)
       !! result contains the block identifiers that start the subrange of blocks owned by each image such that
@@ -120,6 +112,15 @@ module surfaces_interface
       real(r8k), allocatable, dimension(:,:) :: fluxes
         !! surface-normal scalar flux components: shape = [Ny, Nz] or [Nx, Nz] or [Nx, Ny] depending on orientation
     end function
+
+    elemental module function is_external_boundary(block_id, coordinate_direction, face) result(is_external)
+      !! result is .true. if the identified structured_grid block surface corresponds to a problem domain boundary
+      implicit none
+      integer, intent(in) :: block_id, coordinate_direction
+      integer(enumeration), intent(in) :: face
+      logical is_external
+    end function
+
 
   end interface
 

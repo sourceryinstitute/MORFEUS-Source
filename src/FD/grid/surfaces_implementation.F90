@@ -27,14 +27,6 @@ submodule(surfaces_interface) surfaces_implementation
 
 contains
 
-  module procedure is_external_boundary
-    if (assertions) then
-      call assert(any(face==[forward,backward]), "surfaces%is_external_boundary: any(face==[forward,backward])")
-      call assert(any(coordinate_direction==[1,2,3]), "surfaces%is_external_boundary: any(coordinate_direction==[1,2,3])")
-    end if
-    is_external = singleton%halo_outbox(block_id, coordinate_direction, face)%neighbor_block_id_null()
-  end procedure
-
   module procedure set_halo_outbox
     !! a shorter implementation of this procedure would simply assign my_halo_outbox to singleton%halo_outbox
     !! GCC 8 compiler bugs necessitate the source allocation and instead
@@ -59,6 +51,16 @@ contains
     global_block_partitions = block_partitions
   end procedure
 
+  module procedure set_num_scalars
+    call singleton%halo_outbox%set_num_scalars(num_scalars)
+  end procedure
+
+  module procedure set_normal_scalar_fluxes
+    if (assertions) &
+      call assert(allocated(singleton%halo_outbox), "surfaces%set_normal_scalar_fluxes: allocated(singleton%halo_outbox)")
+    call singleton%halo_outbox( block_id, coordinate_direction, face)%set_normal_scalar_fluxes(s_flux_normal, scalar_id)
+  end procedure
+
   module procedure get_halo_outbox
     integer alloc_stat
     character(len=max_errmsg_len) error_message
@@ -72,20 +74,10 @@ contains
     end associate
   end procedure
 
-  module procedure set_normal_scalar_fluxes
-    if (assertions) &
-      call assert(allocated(singleton%halo_outbox), "surfaces%set_normal_scalar_fluxes: allocated(singleton%halo_outbox)")
-    call singleton%halo_outbox( block_id, coordinate_direction, face)%set_normal_scalar_fluxes(s_flux_normal, scalar_id)
-  end procedure
-
   module procedure get_block_image
     if (assertions) &
       call assert(allocated(global_block_partitions), "surfaces%set_surface_package: allocated(global_block_partitions)")
     image = findloc( block_id >= global_block_partitions, value=.true., dim=1, back=.true.)
-  end procedure
-
-  module procedure set_num_scalars
-    call singleton%halo_outbox%set_num_scalars(num_scalars)
   end procedure
 
   module procedure get_global_block_partitions
@@ -106,6 +98,14 @@ contains
     type(package) neighbor_package
     neighbor_package = singleton[image]%halo_outbox(block_id, coordinate_direction, face_direction)
     fluxes = neighbor_package%get_fluxes(scalar_id)
+  end procedure
+
+  module procedure is_external_boundary
+    if (assertions) then
+      call assert(any(face==[forward,backward]), "surfaces%is_external_boundary: any(face==[forward,backward])")
+      call assert(any(coordinate_direction==[1,2,3]), "surfaces%is_external_boundary: any(coordinate_direction==[1,2,3])")
+    end if
+    is_external = singleton%halo_outbox(block_id, coordinate_direction, face)%neighbor_block_id_null()
   end procedure
 
 end submodule
