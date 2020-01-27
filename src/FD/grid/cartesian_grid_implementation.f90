@@ -9,14 +9,12 @@ submodule(cartesian_grid_interface) cartesian_grid_implementation
   use kind_parameters, only : i4k, r8k
   use assertions_interface,only : assert, max_errmsg_len, assertions
   use plate_3D_interface, only : plate_3D
-  use surfaces_interface, only : backward, forward
+  use surfaces_interface, only : backward, forward, x_dir, y_dir, z_dir
   use package_interface, only : package, null_neighbor_id
   implicit none
 
   integer, parameter :: success=0
     !! allocation stat value indicating success
-  integer, parameter :: x_dir=1, y_dir=2, z_dir=3
-    !! array indices
   integer, parameter :: max_coord_dirs = size([x_dir,y_dir,z_dir])
     !! maximum number of coordinate directions
   integer, parameter :: max_vec_components = max_coord_dirs

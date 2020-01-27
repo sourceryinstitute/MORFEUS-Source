@@ -15,21 +15,23 @@ module surfaces_interface
   implicit none
 
   private
-  public :: surfaces, enumeration, face_normal, backward, forward
+  public :: surfaces, enumeration, backward, forward, face_name, coordinate_name, x_dir, y_dir, z_dir
 
   enum, bind(C)
+    !! array indices
     enumerator :: backward=1, forward
+      !! surface outward-normal direction: 'forward'/'backward' -> direction of increasing/decreasing coordinate values
+    enumerator :: x_dir=1, y_dir=2, z_dir=3
   end enum
 
-  integer(enumeration), parameter, dimension(*) :: face_normal = [backward, forward]
-    !! surface outward-normal direction: 'forward' for the direction of increasing coordinate; 'backward' for decreasing
+  character(len=*), parameter, dimension(*) :: face_name = ["backward","forward "]
+  character(len=*), parameter, dimension(*) :: coordinate_name = ["x","y","z"]
 
   type surfaces
     !! hexahedral structured_grid block surface data
     private
     type(package), allocatable, dimension(:,:,:) :: halo_outbox
-      !! allocate to dimensions [my_blocks(first):my_blocks(last), space_dimension, size([forward, backward]))
-      !! An appparent GCC 8 compiler bug necessitates the polymorphic (class) declaration.
+      !! allocate to dimensions [number of blocks, space_dimension, size([forward, backward]))
   contains
     procedure, nopass :: set_halo_outbox
     procedure, nopass :: set_num_scalars
@@ -48,7 +50,7 @@ module surfaces_interface
     module subroutine set_halo_outbox(my_halo_outbox, block_partitions)
       !! define halo_outbox component array
       implicit none
-      type(package), intent(in), dimension(:,:,:), allocatable :: my_halo_outbox
+      type(package), intent(in), dimension(:,:,:) :: my_halo_outbox
       integer, intent(in), dimension(:) :: block_partitions
     end subroutine
 
@@ -67,13 +69,11 @@ module surfaces_interface
         !! surface-normal scalar flux components: shape = [Ny, Nz] or [Nx, Nz] or [Nx, Ny]
     end subroutine
 
-    module subroutine get_halo_outbox(singleton_halo_outbox)
-      !! output singleton_halo_outbox with the following bounds:
-      !! lbounds=[my_blocks(first), 1, backward], ubounds=[my_blocks(last), space_dimension, forward]
-      !! This cannot be a function because the function result would not preserve the desired bounds.
+    module function get_halo_outbox() result(singleton_halo_outbox)
+      !! output singleton_halo_outbox of shape [number of blocks, space_dimension, size([backward,forward])]
       implicit none
-      type(package), dimension(:,:,:), allocatable, intent(out) :: singleton_halo_outbox
-    end subroutine
+      type(package), dimension(:,:,:), allocatable :: singleton_halo_outbox
+    end function
 
     pure module function get_block_image(block_id) result(image)
       !! result is the image that owns the given structured_grid block

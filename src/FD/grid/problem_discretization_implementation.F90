@@ -17,7 +17,7 @@ submodule(problem_discretization_interface) define_problem_discretization
 contains
 
   module procedure get_surface_packages
-    call this%block_surfaces%get_halo_outbox(this_surface_packages)
+    this_surface_packages = this%block_surfaces%get_halo_outbox()
   end procedure
 
   module procedure get_block_surfaces
@@ -471,10 +471,10 @@ contains
 
         sync all !! the above loop sets normal-flux data just inside each block boundary for communication in the loop below
 
-        halo_exchange: &
-        do concurrent( b = lbound(this%vertices,1): ubound(this%vertices,1), f = 1: num_fields )
-          call this%scalar_fields(b,f)%div_scalar_flux( this%vertices(b), this%block_surfaces, this%scalar_flux_divergence(b,f) )
-        end do halo_exchange
+        ! halo_exchange: &
+        ! do concurrent( b = lbound(this%vertices,1): ubound(this%vertices,1), f = 1: num_fields )
+        !   call this%scalar_fields(b,f)%div_scalar_flux( this%vertices(b), this%block_surfaces, this%scalar_flux_divergence(b,f) )
+        ! end do halo_exchange
 
         verify_result: &
         if (present(exact_result)) then

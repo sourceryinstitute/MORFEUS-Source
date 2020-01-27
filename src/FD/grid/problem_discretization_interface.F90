@@ -23,7 +23,7 @@ module problem_discretization_interface
   public :: problem_discretization
 
   type, extends(object) :: problem_discretization
-    private
+   !private
     class(structured_grid), allocatable :: block_map
       !! hook for invoking block_indicial_coordinates and block_identifier
     integer, allocatable, dimension(:) :: block_partitions
@@ -63,13 +63,12 @@ module problem_discretization_interface
 
   interface
 
-    module subroutine get_surface_packages(this, this_surface_packages)
+    module function get_surface_packages(this) result(this_surface_packages)
       !! get surface data packages of this image
-      !! This cannot be a function because the function result would not preserve the desired bounds.
       implicit none
       class(problem_discretization), intent(in) :: this
-      type(package), allocatable, dimension(:,:,:), intent(out) :: this_surface_packages
-    end subroutine
+      type(package), allocatable, dimension(:,:,:) :: this_surface_packages
+    end function
 
     module function get_block_surfaces(this) result(this_block_surfaces)
       !! get surfaces owned by this image
