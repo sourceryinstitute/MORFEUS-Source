@@ -17,7 +17,7 @@ display: public
          protected
          private
 source: true
-graph: true
+graph: false
 md_extensions: markdown.extensions.toc
 coloured_edges: true
 sort: alpha
