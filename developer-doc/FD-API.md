@@ -43,9 +43,19 @@ Below is a list of the important high-level objects and classes, with a brief di
 links to detailed API documentation and their implementations.
 
 @todo
-This needs updating/fixing: These are just the FV procedures
+This needs updating/finishing
 
-### mesh
+
+### `[[object(type)]]`
+
+`[[object(type)]]` is an abstract type to ensure descendents declare the required deferred bindings to
+
+#### Methods
+
+* `[[object(type):mark_as_defined]]` : Set the object as defined
+* `[[object(type):user_defined]]` : Query whether the object is defined
+
+### grid
 
 
 ### matptr
