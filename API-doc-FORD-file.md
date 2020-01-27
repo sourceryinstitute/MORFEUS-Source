@@ -7,7 +7,7 @@ exclude_dir: src/FD/tests
              API-doc
 output_dir: API-doc
 extra_filetypes: txt #
-page_dir: documentation
+page_dir: developer-doc
 preprocess: true
 display: public
          protected
