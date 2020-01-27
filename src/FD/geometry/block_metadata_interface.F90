@@ -37,14 +37,14 @@ module block_metadata_interface
     integer(tag_kind) :: tag_ = untagged
     character(len=max_name_length) :: label_='unlabeled'
   contains
-    procedure set_tag
-    procedure set_label
-    procedure set_subdomain
-    procedure set_max_spacing
-    procedure get_tag
-    procedure get_label
-    procedure get_subdomain
-    procedure get_max_spacing
+    procedure :: set_tag
+    procedure :: set_label
+    procedure :: set_subdomain
+    procedure :: set_max_spacing
+    procedure :: get_tag
+    procedure :: get_label
+    procedure :: get_subdomain
+    procedure :: get_max_spacing
   end type
 
   interface
