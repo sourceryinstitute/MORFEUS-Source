@@ -46,7 +46,7 @@ links to detailed API documentation and their implementations.
 This needs updating/finishing
 
 
-### `[[object(type)]]`
+### [[object(type)]]
 
 `[[object(type)]]` is an abstract type to ensure descendents declare the required deferred bindings to
 
@@ -55,7 +55,9 @@ This needs updating/finishing
 * `[[object(type):mark_as_defined]]` : Set the object as defined
 * `[[object(type):user_defined]]` : Query whether the object is defined
 
-### grid
+### [[grid(type)]]
+
+`[[grid(type)]]`
 
 
 ### matptr

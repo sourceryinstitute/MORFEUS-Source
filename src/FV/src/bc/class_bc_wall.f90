@@ -60,7 +60,7 @@ MODULE class_bc_wall
 
     IMPLICIT NONE
 
-    PRIVATE ! Default
+    PRIVATE
     PUBLIC :: bc_wall                      !! Class
     PUBLIC :: create_bc_wall, free_bc_wall !! Constructor/Destructor
     PUBLIC :: update_boundary_wall         !! Updater
@@ -114,10 +114,6 @@ MODULE class_bc_wall
 
 
         MODULE SUBROUTINE set_bc_wall_map_s(bc,i,a,b,c)
-            !! Setter
-    !        USE class_vector
-    !        USE tools_bc
-    !        USE class_bc_math
             IMPLICIT NONE
             CLASS(bc_wall), INTENT(INOUT) :: bc
             INTEGER, INTENT(IN) :: i
@@ -125,9 +121,6 @@ MODULE class_bc_wall
         END SUBROUTINE set_bc_wall_map_s
 
         MODULE SUBROUTINE set_bc_wall_map_v(bc,i,a,b,c)
-    !        USE class_vector
-    !        USE tools_bc
-    !        USE class_bc_math
             IMPLICIT NONE
             CLASS(bc_wall), INTENT(INOUT) :: bc
             INTEGER, INTENT(IN) :: i
@@ -146,7 +139,6 @@ MODULE class_bc_wall
         END FUNCTION nemo_bc_wall_sizeof
 
         MODULE SUBROUTINE create_bc_wall(bc,input_file,sec,nbf)
-        !! Constructor
             IMPLICIT NONE
             TYPE(bc_wall), POINTER :: bc
             CHARACTER(len=*), INTENT(IN) :: input_file
@@ -155,7 +147,6 @@ MODULE class_bc_wall
         END SUBROUTINE create_bc_wall
 
         MODULE SUBROUTINE free_bc_wall(bc)
-            !! Destructor
             IMPLICIT NONE
 
             TYPE(bc_wall), POINTER :: bc
@@ -164,14 +155,8 @@ MODULE class_bc_wall
     END INTERFACE
 
     INTERFACE update_boundary_wall
-        !! Boundary Values Updater
 
         MODULE SUBROUTINE update_boundary_wall_s(ib,bc,dim,msh,mats,im,x,bx)
-    !        USE class_dimensions
-    !        USE class_face
-    !        USE class_material
-    !        USE class_mesh
-    !        USE tools_bc
             IMPLICIT NONE
             INTEGER, INTENT(IN) :: ib
             TYPE(bc_wall), INTENT(IN) :: bc
@@ -189,12 +174,8 @@ MODULE class_bc_wall
             !!
             !! @todo
             !! Explain why
+            !!
             !! Number of boundary faces with flag < IB
-    !       USE class_dimensions
-    !       USE class_face
-    !       USE class_mesh
-    !       USE class_vector
-    !       USE tools_bc
             IMPLICIT NONE
             INTEGER, INTENT(IN) :: ib
             TYPE(bc_wall), INTENT(IN) :: bc

@@ -18,8 +18,8 @@ module ellipsoidal_field_interface
 
   type, extends(differentiable_field) :: ellipsoidal_field
   contains
-    procedure evaluate
-    procedure laplacian
+    procedure :: evaluate
+    procedure :: laplacian
   end type
 
   interface
