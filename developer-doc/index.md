@@ -23,6 +23,8 @@ Contents
     * __[Configuring the Library]__: Running [CMake] to configure the [Morfeus] build, find compilers and optional and required prerequisites
     * __[Building the Library]__: Compiling [Morfeus] from source
     * __[Running Tests]__: How to run unit and integration tests with [CTest]
+* __[High-level FV API and Usage]__: An overview, discussion and list of the high-level finite volume (FV) framework
+* __[High-level FD API and Usage]__: An overview, discussion and list of the high-level finite difference (FD) framework
 * __[Documenting New and Modified Code]__: How to write [FORD] documentation, and what documentation is required in contributed code
 * __[Style Guide]__: Style requirements, many of which are enforced with [EditorConfig] or [findent].
 * __[Example Usage]__: Example code and discussion on how to use [Morfeus] in your application
@@ -44,3 +46,5 @@ Contents
 [Documenting New and Modified Code]: ./using-ford.html
 [Style Guide]: ./style-guide.html
 [Example Usage]: ./examples/
+[High-level FV API and Usage]: ./FV-API.html
+[High-level FD API and Usage]: ./FD-API.html
