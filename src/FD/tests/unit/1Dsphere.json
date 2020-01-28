@@ -1,0 +1,96 @@
+{
+  "file_validation": {
+    "validator": "https://jsonlint.com/",
+    "validated_by": "Ian Porter",
+    "validation_date": 20200127,
+    "problem description": "Example using the Earth composition"
+  },
+  "MORFEUS_FD": {
+    "time": {
+	  "end": 60.0,
+	  "units": "seconds",
+	  "end_time description": "Lets take it a minute at a time"
+	},
+    "heat_source" : {
+      "type" : "volumetric",
+      "type_description" : "volumetric heat source (W/m^3)",
+      "time": [ 1.0, 2.0, 3.0, 4.0 ],
+      "power": [ 2.5, 5.0, 7.5, 10.0 ],
+      "powered_materials": [ "inner core" ],
+      "constraint": {
+        "language": "Fortran",
+        "minimum_version": "2003",
+        "expressions": [
+          "all(power >= 0.)",
+          "all( [size(power)==size(time), size(power_shape_index)==size(time)]), ",
+          "all( [size(powered_materials) > 0]) "
+        ]
+      }
+    },
+    "geometry": {
+      "type": "1D_sphere",
+      "units_system": "SI",
+      "max_spacing": 0.99E-01,
+      "layout": {
+        "material_name": ["inner core","outer core","lower mantle","upper mantle","crust"],
+        "thickness": {
+          "r": [1.220E+01, 2.250E+01, 2.240E+01, 0.250E+01, 0.410E+01],
+          "dimensions": "length"
+        },
+        "num_grid_blocks": {
+          "r": [17,10, 10, 4, 3]
+        },
+        "constraint": {
+          "language": "Fortran",
+          "minimum_version": "2003",
+          "expressions": [
+            "all( [num_grid_blocks%r] > 0 )",
+            "all([num_grid_blocks%r]>0)",
+            "all([thickness%r]>0)",
+            "all( [size(thickness%r)] == [size(num_grid_blocks%r)] )"
+          ]
+        }
+      }
+    },
+    "materials": [
+      {
+        "material_name": ["inner core","outer core"],
+        "id": 1,
+        "description": "Earth core material"
+      },
+      {
+        "material_name": ["inner core","outer core"],
+        "id": 2,
+        "age": 4.543,
+        "age description": "Age of the earth, in billions of years",
+        "description": "Earth mantle material"
+      },
+      {
+        "material_name": ["crust"],
+        "id": 3,
+        "water_coverage": 71.0,
+        "description": "Earth crust material"
+      }
+    ],
+    "initial_condition" : {
+      "temperature" : 600,
+      "constraint": {
+        "language": "Fortran",
+        "minimum_version": "2003",
+        "expressions": [ "temperature > 0." ]
+      }
+    },
+    "boundary_conditions" : {
+      "surface_temperature": [600.0],
+      "time": [ 0.0 ],
+      "description": "fixed surface temperature of 600 degrees",
+      "constraint": {
+        "language": "Fortran",
+        "minimum_version": "2003",
+        "expressions": [
+          "size(bottom_boundary%temperature) == size(time)"
+        ]
+      }
+    }
+  }
+}
