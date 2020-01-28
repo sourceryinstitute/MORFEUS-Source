@@ -21,8 +21,8 @@ module grid_interface
         private
         type(units) :: units_
     contains
-        procedure set_units
-        procedure get_units
+        procedure :: set_units
+        procedure :: get_units
     end type
 
     interface

@@ -1,10 +1,18 @@
-!
-!     (c) 2019 Guide Star Engineering, LLC
-!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
-!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
-!
-!
+!! category: Morfeus-FV
+!! summary: Procedures for matrix LU factorization and solution
+!!
+!! Copyright Notice
+!! ----------------
+!!
+!!     (c) 2019 Guide Star Engineering, LLC
+!!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
+!!     under contract
+!!     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
+!!     contract # NRC-HQ-60-17-C-0007
+!!
+
+
+
 !    NEMO - Numerical Engine (for) Multiphysics Operators
 ! Copyright (c) 2007, Stefano Toninel
 !                     Gian Marco Bianchi  University of Bologna
@@ -37,20 +45,18 @@
 !
 !---------------------------------------------------------------------------------
 !
+
 SUBMODULE (tools_math) lu_implementation
-    IMPLICIT NONE
+  IMPLICIT NONE
 
-    CONTAINS
+contains
 
-MODULE PROCEDURE lu_solve
+  module procedure lu_solve
     USE class_psblas, ONLY : psb_dpk_
     IMPLICIT NONE
-    !! $Id: lu_solve.f90 2469 2007-10-08 10:34:43Z sfilippo $
-    !!
-    !! Description:
-    !!    Solve a system Ax=b where A has already been factored.
-    !!    Adapted from LAPACK, this is supposed to be called with
-    !!    small sizes (4 or thereabout)
+    !! Solve a system Ax=b where A has already been factored.
+    !! Adapted from LAPACK, this is supposed to be called with
+    !! small sizes (4 or thereabout)
     !!
     INTEGER :: i, j
     REAL(psb_dpk_) :: tmp
@@ -75,17 +81,14 @@ MODULE PROCEDURE lu_solve
         b(i) = b(i)/a(i,i)
     END DO
 
-END PROCEDURE lu_solve
+  end procedure
 
 
-MODULE PROCEDURE lu_fact
+  module procedure lu_fact
     USE class_psblas, ONLY : psb_dpk_
     IMPLICIT NONE
     !!
-    !! $Id: lu_fact.f90 2469 2007-10-08 10:34:43Z sfilippo $
-    !!
-    !! Description:
-    !!    Adapted from LAPACK and unrolled for small sizes.
+    !! Description: Adapted from LAPACK and unrolled for small sizes.
     !!
     REAL(psb_dpk_) :: tmp
     INTEGER :: j, k, jp
@@ -133,9 +136,13 @@ MODULE PROCEDURE lu_fact
         END DO
     END SELECT
 
-    RETURN
+#ifdef FORD
+  end procedure
+#else
 
-CONTAINS
+  contains
+
+#endif
 
     SUBROUTINE  lu_fact_4(a,ipiv,info)
         USE class_psblas, ONLY : psb_dpk_
@@ -386,6 +393,8 @@ CONTAINS
         ENDIF
     END SUBROUTINE lu_fact_2
 
-END PROCEDURE lu_fact
+#ifndef FORD
+  end procedure
+#endif
 
 END SUBMODULE lu_implementation

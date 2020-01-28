@@ -34,14 +34,14 @@ module package_interface
     real(r8k), allocatable, dimension(:,:,:) :: positions
       !! flux planar locations: shape = [Nx, Ny, Nz], where one of Nx|Ny|Nz is 1, denoting the surface-normal direction
   contains
-    procedure set_neighbor_block_id
-    procedure set_step
-    procedure set_surface_flux_positions
-    procedure set_num_scalars
-    procedure set_normal_scalar_fluxes
-    procedure get_neighbor_block_id
-    procedure neighbor_block_id_null
-    procedure copy
+    procedure :: set_neighbor_block_id
+    procedure :: set_step
+    procedure :: set_surface_flux_positions
+    procedure :: set_num_scalars
+    procedure :: set_normal_scalar_fluxes
+    procedure :: get_neighbor_block_id
+    procedure :: neighbor_block_id_null
+    procedure :: copy
 #ifndef FORD
     generic :: assignment(=) => copy
 #endif

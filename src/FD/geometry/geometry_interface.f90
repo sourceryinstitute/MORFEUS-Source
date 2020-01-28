@@ -18,7 +18,7 @@ module geometry_interface
     !! defer case-specific steps to child classes
     private
   contains
-    procedure build
+    procedure :: build
     procedure(set_json_file), deferred :: set_grid_specification
     procedure(set_metadata), deferred :: set_block_metadata
   end type

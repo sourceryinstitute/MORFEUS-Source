@@ -19,14 +19,14 @@ module cartesian_grid_interface
 
   type, extends(structured_grid) :: cartesian_grid
   contains
-    procedure set_up_div_scalar_flux
-    procedure div_scalar_flux
-    procedure assign_structured_grid
-    procedure block_indicial_coordinates
-    procedure block_identifier
-    procedure build_surfaces
-    procedure block_identifier_in_bounds
-    procedure block_coordinates_in_bounds
+    procedure :: set_up_div_scalar_flux
+    procedure :: div_scalar_flux
+    procedure :: assign_structured_grid
+    procedure :: block_indicial_coordinates
+    procedure :: block_identifier
+    procedure :: build_surfaces
+    procedure :: block_identifier_in_bounds
+    procedure :: block_coordinates_in_bounds
   end type
 
   interface
