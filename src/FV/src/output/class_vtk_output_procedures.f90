@@ -102,7 +102,7 @@ CONTAINS
         CALL vtk_mesh%init (points=points, cell_list=morfeus_cells, datatype='double')
                                !! Set up the geometry using a vtk structured grid
 !        CALL vtk_parallel_write (geometry=vtk_mesh, image=mypnum_(), filename=TRIM(out%path_()), multiple_io=.TRUE.) !!
-        CALL vtk_serial_write (geometry=vtk_mesh, image=mypnum_(), filename=TRIM(out%path_()), multiple_io=.TRUE.) !!
+        CALL vtk_serial_write (geometry=vtk_mesh, filename=TRIM(out%path_()), multiple_io=.TRUE.) !!
 
         ASSOCIATE (n_scalars => SIZE(fixed_cell_data) + SIZE(sfield), &
             &      n_vectors => SIZE(vfield))
