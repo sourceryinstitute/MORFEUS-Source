@@ -44,6 +44,19 @@ contains
     end if
   end function
 
+  module procedure get_surface_normal_spacing
+    associate( nearest_plane => singleton%halo_outbox(block_id, coordinate_direction, face_direction)%get_positions() )
+      if (assertions) then
+        call assert(  &
+          assertion = count(shape(nearest_plane)==1)==1, &
+          description = "surfaces%get_surface_normal_spacing: count(shape(nearest_plane)==1)")
+      end if
+      associate( normal_direction => findloc(shape(nearest_plane), value=1, dim=1, back=.false.))
+         dx_normal = nearest_plane(1,1,1,normal_direction)
+      end associate
+    end associate
+  end procedure
+
   module procedure set_halo_outbox
     global_block_partitions = block_partitions
     singleton%halo_outbox = ( my_halo_outbox )

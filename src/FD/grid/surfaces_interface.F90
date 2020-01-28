@@ -36,6 +36,7 @@ module surfaces_interface
     procedure, nopass :: set_halo_outbox
     procedure, nopass :: set_num_scalars
     procedure, nopass :: set_normal_scalar_fluxes
+    procedure, nopass :: get_surface_normal_spacing
     procedure, nopass :: get_halo_outbox
     procedure, nopass :: get_block_image
     procedure, nopass :: get_global_block_partitions
@@ -68,6 +69,14 @@ module surfaces_interface
       real(r8k), intent(in), dimension(:,:) :: s_flux_normal
         !! surface-normal scalar flux components: shape = [Ny, Nz] or [Nx, Nz] or [Nx, Ny]
     end subroutine
+
+    pure module function get_surface_normal_spacing(image, block_id, coordinate_direction, face_direction) result(dx_normal)
+      !! result is the distance to the nearest plane inside the specified block at the specified boundary
+      implicit none
+      integer, intent(in) :: image, block_id, coordinate_direction
+      integer(enumeration), intent(in) :: face_direction
+      real(r8k) dx_normal
+    end function
 
     module function get_halo_outbox() result(singleton_halo_outbox)
       !! output singleton_halo_outbox of shape [number of blocks, space_dimension, size([backward,forward])]

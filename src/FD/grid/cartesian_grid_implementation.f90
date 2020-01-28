@@ -314,41 +314,42 @@ contains
       positions => vertices%vectors(), &
       s => this%get_scalar(), &
       b => this%get_block_identifier() )
+
+      allocate(div_flux_increment, mold=positions, stat=alloc_stat, errmsg=alloc_error )
+      call assert( alloc_stat==success, "cartesian_grid%div_scalar_flux: allocate(div_flux_increment)", alloc_error )
+
+      div_flux_increment = 0._r8k
+
       associate( npoints => shape(positions(:,:,:,1)) )
-
-        allocate(div_flux_increment, mold=positions(:,:,:,:), stat=alloc_stat, errmsg=alloc_error )
-        call assert( alloc_stat==success, "cartesian_grid%div_scalar_flux: allocate(div_flux_increment)", alloc_error )
-
-        div_flux_increment = 0._r8k
 
         x_direction_fluxes: &
         associate( x=>positions(:,:,:,1) )
 
           i=1
-          forward_flux_at_backward_face: &
-          associate(neighbor_id => block_surfaces%get_neighbor_block_id(b, x_dir, backward))
-            associate(neighbor_image => block_surfaces%get_block_image(neighbor_id) )
-              associate( &
-                x_b => block_surfaces%get_surface_positions(neighbor_image, b, x_dir, forward), &
-                surface_fluxes => &
-                block_surfaces%get_normal_scalar_fluxes(neighbor_image, b, x_dir, forward, this%get_scalar_identifier()) )
+          backward_face: &
+          associate(neighbor_image => block_surfaces%get_block_image( block_surfaces%get_neighbor_block_id(b, x_dir, backward) ) )
+            associate( &
+              dx_b => block_surfaces%get_surface_normal_spacing(neighbor_image, b, x_dir, forward), &
+              surface_fluxes => &
+              block_surfaces%get_normal_scalar_fluxes(neighbor_image, b, x_dir, forward, this%get_scalar_identifier()) )
 
-                do concurrent(k=1:npoints(3), j=1:npoints(2))
-                  !associate( &
-                  !  dx_m => half*(x(i+1,j,k) - x_b(1,1,1)), & !! (dx_b + dx_f)/2
-                  !  dx_f =>       x(i+1,j,k) - x(i,j,k), &
-                  !  s_f => half*( s(i+1,j,k) + s(i,j,k)  ) )
-                  !  associate( D_f => this%diffusion_coefficient( s_f ) )
-                  !    div_flux_increment(i,j,k,x_dir) = &
-                  !      ( D_f*(s(i+1,j,k) - s(i,j,k)  )/dx_f - surface_fluxes(j,k) ) / dx_m
-                  !        !! forward flux - backward flux
+              do concurrent(k=1:npoints(z_dir), j=1:npoints(y_dir))
+                associate( dx_f => x(i+1,j,k) - x(i,j,k) )
+                  associate( &
+                    dx_m => half*(dx_f + dx_b), &
+                    s_f => half*( s(i+1,j,k) + s(i,j,k)  ) )
+                    associate( D_f => this%diffusion_coefficient( s_f ) )
 
-                  !  end associate
-                  !end associate
-                end do
-              end associate
+                       div_flux_increment(i,j,k,x_dir) = &
+                         ( D_f*(s(i+1,j,k) - s(i,j,k)  )/dx_f - surface_fluxes(j,k) ) / dx_m
+
+                    end associate
+                  end associate
+                end associate
+              end do
             end associate
-          end associate forward_flux_at_backward_face
+          end associate backward_face
+
         end associate x_direction_fluxes
       end associate
     end associate
