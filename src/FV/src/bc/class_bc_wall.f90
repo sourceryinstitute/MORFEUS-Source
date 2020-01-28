@@ -61,9 +61,9 @@ MODULE class_bc_wall
     IMPLICIT NONE
 
     PRIVATE
-    PUBLIC :: bc_wall                      !! Class
-    PUBLIC :: create_bc_wall, free_bc_wall !! Constructor/Destructor
-    PUBLIC :: update_boundary_wall         !! Updater
+    PUBLIC :: bc_wall
+    PUBLIC :: create_bc_wall, free_bc_wall
+    PUBLIC :: update_boundary_wall
 
     TYPE bc_wall
         PRIVATE
@@ -139,6 +139,7 @@ MODULE class_bc_wall
         END FUNCTION nemo_bc_wall_sizeof
 
         MODULE SUBROUTINE create_bc_wall(bc,input_file,sec,nbf)
+           !! Constructor
             IMPLICIT NONE
             TYPE(bc_wall), POINTER :: bc
             CHARACTER(len=*), INTENT(IN) :: input_file
@@ -147,6 +148,7 @@ MODULE class_bc_wall
         END SUBROUTINE create_bc_wall
 
         MODULE SUBROUTINE free_bc_wall(bc)
+          !! Destructor
             IMPLICIT NONE
 
             TYPE(bc_wall), POINTER :: bc
@@ -155,6 +157,14 @@ MODULE class_bc_wall
     END INTERFACE
 
     INTERFACE update_boundary_wall
+      !! Updater
+      !!
+      !! @warning
+      !! Use intent(inout) for BX(:).
+      !!
+      !! @todo
+      !! Explain why
+      !!
 
         MODULE SUBROUTINE update_boundary_wall_s(ib,bc,dim,msh,mats,im,x,bx)
             IMPLICIT NONE
@@ -169,13 +179,6 @@ MODULE class_bc_wall
         END SUBROUTINE update_boundary_wall_s
 
         MODULE SUBROUTINE update_boundary_wall_v(ib,bc,dim,msh,x,bx)
-            !! @warning
-            !! Use intent(inout) for BX(:).
-            !!
-            !! @todo
-            !! Explain why
-            !!
-            !! Number of boundary faces with flag < IB
             IMPLICIT NONE
             INTEGER, INTENT(IN) :: ib
             TYPE(bc_wall), INTENT(IN) :: bc
