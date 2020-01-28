@@ -52,7 +52,7 @@ contains
   end function
 
   module procedure get_surface_normal_spacing
-    associate( nearest_plane => singleton%halo_outbox(block_id, coordinate_direction, face_direction)%get_positions() )
+    associate( nearest_plane => singleton%halo_outbox(first_index(block_id), coordinate_direction, face_direction)%get_positions() )
       if (assertions) then
         call assert(  &
           assertion = count(shape(nearest_plane)==1)==1, &
