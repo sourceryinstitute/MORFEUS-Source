@@ -57,17 +57,45 @@ A complete list of all FD and FV classes and types can be found on the [types li
 ### [[scalar_source(type)]]
 
 
+#### Methods
+
+@todo
+update Methods section and add description etc.
+
+* `[[scalar_source(type):create_source]]` :
+
 ### [[scalar_field(type)]]
 
+#### Methods
+
+@todo
+Update Methods section and add description etc.
+
+* `[[scalar_field(type):update_field]]`
 
 ### [[vector_field(type)]]
 
 
 ### [[scalar_pde(type)]]
 
+#### Methods
+
+@todo
+Update Methods section and add description etc.
+
+* `[[scalar_pde(type):create_pde]]` :
+* `[[scalar_pde(type):solve_pde]]` :
+
 
 ### [[vector_pde(type)]]
 
+#### Methods
+
+@todo
+Update Methods section and add description etc.
+
+* `[[vector_pde(type):create_pde]]` :
+* `[[vector_pde(type):solve_pde]]` :
 
 ### [[vector(type)]]
 
@@ -105,16 +133,11 @@ operations in FV. These should help you write your own programs and kernels usin
 ### [[create_pde(proc)]]
 
 
-### [[create_source(proc)]]
-
-
 ### [[create_iterating(proc)]]
 
 
 ### [[create_output(proc)]]
 
-
-### [[compute_channel_parameters(proc)]]
 
 
 ### [[pde_ddt(proc)]]
@@ -126,48 +149,42 @@ operations in FV. These should help you write your own programs and kernels usin
 ### [[pde_source(proc)]]
 
 
-### [[solve_pde(proc)]]
+<!-- These are all internal application procedures, a bunch can/should be moved to Morfeus FV
+
+### [ [symmetric_(proc)]]
 
 
-<!-- These are all internal procedures, a bunch can/should be moved to Morfeus FV
-
-### [[symmetric_(proc)]]
+### [ [adjust_strain(proc)]]
 
 
-### [[adjust_strain(proc)]]
-
-
-### [[compute_stress(proc)]]
+### [ [compute_stress(proc)]]
 
 
 
-### [[pde_div(proc)]]
+### [ [pde_div(proc)]]
 
 
-### [[apply_flow_rule(proc)]]
+### [ [apply_flow_rule(proc)]]
 
 
-### [[adjust_displacements(proc)]]
+### [ [adjust_displacements(proc)]]
 
 
 
-### [[coolant_enthalpy_rise(proc)]]
+### [ [coolant_enthalpy_rise(proc)]]
 
 
-### [[corrosion_thickness(proc)]]
+### [ [corrosion_thickness(proc)]]
+
+### [[ compute_channel_parameters(proc)]]
 
 -->
-
-### [[update_field(proc)]]
 
 
 ### [[stop_iterating(proc)]]
 
 
 ### [[write_vtk_morfeus(proc)]]
-
-
-### [[wrfreq(proc)]]
 
 
 ### [[write_scalar_pde(proc)]]
