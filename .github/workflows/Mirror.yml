@@ -1,16 +1,21 @@
-on: push
-name: Mirror
+on: [create, delete, push]
+name: Mirror repo
 jobs:
-  mirrorToRepo:
-    name: Mirror to repo
+  delay:
+    name: Delay
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: Mirror to repo
+    - name: Delay
+      uses: docker://alpine:latest
+      with:
+        entrypoint: sh
+        args: -c "sleep 30"
+    - name: Possible dupe
       uses: docker://buildpack-deps:testing-scm
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         IBB_PWLESS_DEPLOY_KEY: ${{ secrets.IBB_PWLESS_DEPLOY_KEY }}
-        MIRROR_URL: ${{secrets.MIRROR_URL}}.git
+        MIRROR_URL: ${{ secrets.MIRROR_URL }}.git
       with:
         entrypoint: .github/workflows/main.sh

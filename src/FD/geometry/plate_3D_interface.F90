@@ -1,8 +1,8 @@
 !
-!     (c) 2019 Guide Star Engineering, LLC
-!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
-!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+!     (c) 2019-2020 Guide Star Engineering, LLC
+!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract
+!     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
+!     contract # NRC-HQ-60-17-C-0007
 !
 module plate_3D_interface
   !! author: Damian Rouson and Karla Morris
@@ -25,12 +25,12 @@ module plate_3D_interface
     type(block_metadata), dimension(:,:,:), allocatable :: metadata
     character(len=:), allocatable :: units_system
   contains
-    procedure set_grid_specification
-    procedure set_block_metadata
-    procedure get_block_metadata_shape
-    procedure get_block_domain
-    procedure get_block_metadatum
-    procedure get_block_metadata
+    procedure :: set_grid_specification
+    procedure :: set_block_metadata
+    procedure :: get_block_metadata_shape
+    procedure :: get_block_domain
+    procedure :: get_block_metadatum
+    procedure :: get_block_metadata
   end type
 
   interface

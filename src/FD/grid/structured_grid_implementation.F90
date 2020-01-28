@@ -1,8 +1,8 @@
 !
-!     (c) 2019 Guide Star Engineering, LLC
-!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
-!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+!     (c) 2019-2020 Guide Star Engineering, LLC
+!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract
+!     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
+!     contract # NRC-HQ-60-17-C-0007
 !
 submodule(structured_grid_interface) structured_grid_implementation
   use assertions_interface, only : assert,assertions
@@ -162,6 +162,10 @@ contains
       associate(L_infinity_norm => maxval(abs(this%nodal_values - reference%nodal_values)))
         call assert(L_infinity_norm <= tolerance, "structured_grid%compare: L_infinity_norm <= tolerance")
       end associate
+    end procedure
+
+    module procedure set_block_identifier
+      this%block_id = id
     end procedure
 
 end submodule

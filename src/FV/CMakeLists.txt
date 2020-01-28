@@ -156,7 +156,7 @@ set(morfeus_fv_srcs
   src/math/class_iterating_procedures.f90
   src/math/isort_implementation.f90
   src/math/lin_interp_implementation.f90
-  src/math/lu_implementation.f90
+  src/math/lu_implementation.F90
   src/math/psb_build_prec.f90
   src/math/psb_solve_sys_implementation.f90
   src/math/pwl_implementation.f90
