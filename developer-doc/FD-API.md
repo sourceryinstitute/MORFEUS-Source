@@ -41,6 +41,9 @@ High Level Classes and Objects
 
 Below is a list of the important high-level objects and classes, with a brief discussion and
 links to detailed API documentation and their implementations.
+A complete list of all FD and FV classes and types can be found on the [types list page].
+
+[types list page]: ../lists/types.html
 
 @todo
 This needs updating/finishing
@@ -57,134 +60,93 @@ This needs updating/finishing
 
 ### [[grid(type)]]
 
-`[[grid(type)]]`
+`[[grid(type)]]` Is the Morfeus universal base type for all grids, even for FV grids. It extends `[[object(type)]]`.
+
+#### Methods
+
+* `[[grid(type):set_units]]` : Set the physical units used by the grid
+* `[[grid(type):get_units]]` : Get the physical units used by the grid
+
+### [[structured_grid(type)]]
+
+This is the main structured grid class used by Morfeus FD. It extends the `[[grid(type)]]` class.
+Methods defined for this class can get information about the global grid as well as this images particular block.
+
+#### Methods
+
+@todo
+This section needs to be filled in/expanded!
+
+* `[[structured_grid(type):clone]]` :
+* `[[structured_grid(type):space_dimension]]` :
+* `[[structured_grid(type):set_metadata]]` :
+
+### [[cartesian_grid(type)]]
+
+@todo
+add description and how to use, etc.
+
+#### Methods
+
+@todo
+discussion of important methods provided and how to use them, etc.
+
+### [[curvilinear_grid(type)]]
+
+@todo
+add description and how to use, etc.
+
+#### Methods
+
+@todo
+discussion of important methods provided and how to use them, etc.
+
+### [[co_object(type)]]
 
 
-### matptr
+### [[surfaces(type)]]
 
 
-### bc_poly
+### [[material_t(type)]]
 
 
-### scalar_source
+### [[thickness_t(type)]]
 
 
-### scalar_field
+### [[problem_discretization(type)]]
 
 
-### vector_field
+### [[package(type)]]
 
 
-### scalar_pde
+### [[material_t(type)]]
 
 
-### vector_pde
+### [[flux_planes(type)]]
 
 
-### vector
+### [[plate_3D(type)]]
 
 
-### iterating
+### [[geometry(type)]]
 
 
-### output
+### [[subdomain_t(type)]]
+
+
+### etc., etc.
 
 
 High Level Procedures and Methods
 ---------------------------------
 
-### start_psblas
+All Morfeus FV and FD procedures are listed on the [procedures list page], but below is a curated list of those that correspond to high-level
+operations in FD. These should help you write your own programs and kernels using Morfeus FD.
+
+### [[assert(proc)]]
+
+`[[assert(proc)]]` Is an assertion utility used in design by contract (DBC) for enforcing pre-conditions, post-conditions and invariants, as well in testing.
 
 
-### create_bc
-
-
-### create_material
-
-
-### create_scalar_field
-
-
-### create_vector_field
-
-
-### create_pde
-
-
-### create_source
-
-
-### create_iterating
-
-
-### create_output
-
-
-### compute_channel_parameters
-
-
-### pde_ddt
-
-
-### pde_laplacian
-
-
-### pde_source
-
-
-### solve_pde
-
-
-### symmetric_
-
-
-### adjust_strain
-
-
-### compute_stress
-
-
-### pde_div
-
-
-### apply_flow_rule
-
-
-### adjust_displacements
-
-
-
-### coolant_enthalpy_rise
-
-
-### corrosion_thickness
-
-
-### update_field
-
-
-### stop_iterating
-
-
-### write_vtk_morfeus
-
-
-### wrfreq
-
-
-### write_scalar_pde
-
-
-### free_pde
-
-
-### free_field
-
-
-### free_bc
-
-
-### free_mesh
-
-
-### stop_psblas
+@todo
+Add other stand-alone procedures used to instantiate objects of for other purposes where a TBP method is not used.
