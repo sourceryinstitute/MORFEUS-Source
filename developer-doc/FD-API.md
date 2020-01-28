@@ -143,6 +143,8 @@ High Level Procedures and Methods
 All Morfeus FV and FD procedures are listed on the [procedures list page], but below is a curated list of those that correspond to high-level
 operations in FD. These should help you write your own programs and kernels using Morfeus FD.
 
+[procedures list page]: ../lists/procedures.html
+
 ### [[assert(proc)]]
 
 `[[assert(proc)]]` Is an assertion utility used in design by contract (DBC) for enforcing pre-conditions, post-conditions and invariants, as well in testing.

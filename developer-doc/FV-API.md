@@ -41,135 +41,148 @@ High Level Classes and Objects
 
 Below is a list of the important high-level objects and classes, with a brief discussion and
 links to detailed API documentation and their implementations.
+A complete list of all FD and FV classes and types can be found on the [types list page].
 
-### mesh
+[types list page]: ../lists/types.html
 
-
-### matptr
-
-
-### bc_poly
+### [[mesh(type)]]
 
 
-### scalar_source
+### [[matptr(type)]]
 
 
-### scalar_field
+### [[bc_poly(type)]]
 
 
-### vector_field
+### [[scalar_source(type)]]
 
 
-### scalar_pde
+### [[scalar_field(type)]]
 
 
-### vector_pde
+### [[vector_field(type)]]
 
 
-### vector
+### [[scalar_pde(type)]]
 
 
-### iterating
+### [[vector_pde(type)]]
 
 
-### output
+### [[vector(type)]]
+
+
+### [[iterating(type)]]
+
+
+### [[output(type)]]
 
 
 High Level Procedures and Methods
 ---------------------------------
 
-### start_psblas
+
+All Morfeus FV and FD procedures are listed on the [procedures list page], but below is a curated list of those that correspond to high-level
+operations in FV. These should help you write your own programs and kernels using Morfeus FV.
+
+[procedures list page]: ../lists/procedures.html
+
+### [[start_psblas(proc)]]
 
 
-### create_bc
+### [[create_bc(proc)]]
 
 
-### create_material
+### [[create_material(proc)]]
 
 
-### create_scalar_field
+### [[create_scalar_field(proc)]]
 
 
-### create_vector_field
+### [[create_vector_field(proc)]]
 
 
-### create_pde
+### [[create_pde(proc)]]
 
 
-### create_source
+### [[create_source(proc)]]
 
 
-### create_iterating
+### [[create_iterating(proc)]]
 
 
-### create_output
+### [[create_output(proc)]]
 
 
-### compute_channel_parameters
+### [[compute_channel_parameters(proc)]]
 
 
-### pde_ddt
+### [[pde_ddt(proc)]]
 
 
-### pde_laplacian
+### [[pde_laplacian(proc)]]
 
 
-### pde_source
+### [[pde_source(proc)]]
 
 
-### solve_pde
+### [[solve_pde(proc)]]
 
 
-### symmetric_
+<!-- These are all internal procedures, a bunch can/should be moved to Morfeus FV
+
+### [[symmetric_(proc)]]
 
 
-### adjust_strain
+### [[adjust_strain(proc)]]
 
 
-### compute_stress
-
-
-### pde_div
-
-
-### apply_flow_rule
-
-
-### adjust_displacements
+### [[compute_stress(proc)]]
 
 
 
-### coolant_enthalpy_rise
+### [[pde_div(proc)]]
 
 
-### corrosion_thickness
+### [[apply_flow_rule(proc)]]
 
 
-### update_field
+### [[adjust_displacements(proc)]]
 
 
-### stop_iterating
+
+### [[coolant_enthalpy_rise(proc)]]
 
 
-### write_vtk_morfeus
+### [[corrosion_thickness(proc)]]
+
+-->
+
+### [[update_field(proc)]]
 
 
-### wrfreq
+### [[stop_iterating(proc)]]
 
 
-### write_scalar_pde
+### [[write_vtk_morfeus(proc)]]
 
 
-### free_pde
+### [[wrfreq(proc)]]
 
 
-### free_field
+### [[write_scalar_pde(proc)]]
 
 
-### free_bc
+### [[free_pde(proc)]]
 
 
-### free_mesh
+### [[free_field(proc)]]
 
 
-### stop_psblas
+### [[free_bc(proc)]]
+
+
+### [[free_mesh(proc)]]
+
+
+### [[stop_psblas(proc)]]
