@@ -1,0 +1,105 @@
+{
+  "file_validation": {
+    "validator": "https://jsonlint.com/",
+    "validated_by": "Ian Porter",
+    "validation_date": 20200127,
+    "problem description": "Cylinder example of a candle"
+  },
+  "MORFEUS_FD": {
+    "time": {
+	  "end": 60.0,
+	  "units": "seconds",
+	  "end_time description": "Lets take it a minute at a time"
+	},
+    "heat_source" : {
+      "type" : "lhgr",
+      "type_description" : "linear heat generation rate",
+      "time": [ 1.0, 2.0, 3.0, 4.0 ],
+      "power": [ 5.0, 4.0, 3.0, 2.0 ],
+      "power_shape_index": [ 1, 1, 2, 3 ],
+      "shapes": [
+        {
+        "elevations": [ 0.0, 1.0 ],
+        "power_factor": [ 1.0, 1.0 ],
+		"description": "uniform axial heat"
+        },
+        {
+        "elevations": [ 0.0, 0.5, 0.95, 1.0 ],
+        "power_factor": [ 0.1, 0.5, 1.5, 0.8 ],
+		"description": "Getting hot up top"
+        },
+        {
+        "elevations": [ 0.0, 0.5, 1.0 ],
+        "power_factor": [ 1.0, 0.5, 0.25 ],
+		"description": "Getting hot down low"
+        }
+      ]
+	},
+    "geometry": {
+      "type": "2D_cylinder",
+      "units_system": "SI",
+      "max_spacing": 0.99E-01,
+      "layout": {
+        "material_name": ["wick","wax","wrapper"],
+        "thickness": {
+          "r": [1.0E-04, 1.0E+03, 1.0E-05],
+		  "z": [1.0E+00],
+          "dimensions": "length"
+        },
+        "num_grid_blocks": {
+          "r": [5, 10, 2],
+		  "z": [10]
+        },
+        "constraint": {
+          "language": "Fortran",
+          "minimum_version": "2003",
+          "expressions": [
+            "all( [num_grid_blocks%r] > 0 )",
+            "all([num_grid_blocks%r]>0)",
+            "all([thickness%r]>0)",
+            "all( [size(thickness%r)] == [size(num_grid_blocks%r)] )"
+          ]
+        }
+      }
+    },
+    "materials": [
+      {
+        "material_name": ["wick"],
+        "id": 1,
+        "description": "The wick is on fire!"
+      },
+      {
+        "material_name": ["wax"],
+        "id": 2,
+        "porosity": 0.25,
+        "porosity description": "25% porous material",
+        "description": "wax material"
+      },
+      {
+        "material_name": ["wrapper"],
+        "id": 3,
+        "description": "Someone forgot to take off the wrapper"
+      }
+    ],
+    "initial_condition" : {
+      "temperature" : 25.0,
+      "constraint": {
+        "language": "Fortran",
+        "minimum_version": "2003",
+        "expressions": [ "temperature > 0." ]
+      }
+    },
+    "boundary_conditions" : {
+      "surface_temperature": [25.0],
+      "time": [ 0.0 ],
+      "description": "fixed surface temperature of 25.0 degrees",
+      "constraint": {
+        "language": "Fortran",
+        "minimum_version": "2003",
+        "expressions": [
+          "size(bottom_boundary%temperature) == size(time)"
+        ]
+      }
+    }
+  }
+}
