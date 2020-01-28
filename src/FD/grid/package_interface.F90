@@ -31,8 +31,8 @@ module package_interface
     type(flux_planes), allocatable, dimension(:) :: surface_normal_fluxes
       !! size = number of scalars; using a derived type allows for setting the number of scalars without knowing surface
       !! grid resolution and orientation (both of which are determined by shape(positions)).
-    real(r8k), allocatable, dimension(:,:,:) :: positions
-      !! flux planar locations: shape = [Ny, Nz, space_dim] or [Nx, Nz, space_dim] or [Nx, Ny, space_dim]
+    real(r8k), allocatable, dimension(:,:,:,:) :: positions
+      !! surface vertices: shape=[Nx,Ny,Nz,space_dim] where dimension(s) of unit extent designate fixed coordinate(s)
   contains
     procedure set_neighbor_block_id
     procedure set_step
@@ -52,11 +52,10 @@ module package_interface
   interface
 
     pure module subroutine set_surface_positions(this, positions)
-      !! define grid locations at a surface of this structured_grid block (invoke before set_normal_scalar_fluxes)
       implicit none
       class(package), intent(inout) :: this
-      real(r8k), dimension(:,:,:), intent(in) :: positions
-        !! flux planar locations: shape = [Ny, Nz, space_dim] or [Nx, Nz, space_dim] or [Nx, Ny, space_dim]
+      real(r8k), dimension(:,:,:,:), intent(in) :: positions
+        !! surface vertices: shape=[Nx,Ny,Nz,space_dim] where dimension(s) of unit extent designate fixed coordinate(s)
     end subroutine
 
     elemental module subroutine set_num_scalars(this, num_scalars)
@@ -89,7 +88,7 @@ module package_interface
     end subroutine
 
     pure module subroutine set_normal_scalar_fluxes(this, fluxes, scalar_id)
-      !! set datum to be communicated across structured_grid block internal surfaces
+      !! set data to be communicated across structured_grid block internal surfaces
       implicit none
       class(package), intent(inout) :: this
       real(r8k), intent(in), dimension(:,:) :: fluxes
@@ -101,7 +100,7 @@ module package_interface
       !! result contains planar positions for surface fluxes
       implicit none
       class(package), intent(in) :: this
-      real(r8k), allocatable, dimension(:,:,:) :: this_positions
+      real(r8k), allocatable, dimension(:,:,:,:) :: this_positions
     end function
 
     pure module function get_fluxes(this, scalar_id) result(this_fluxes)

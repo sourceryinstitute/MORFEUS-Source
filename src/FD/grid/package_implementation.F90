@@ -33,8 +33,11 @@ contains
   module procedure set_num_scalars
     integer alloc_stat
     character(len=max_errmsg_len) error_message
-    if (assertions) &
+
+    if (assertions) then
       call assert(.not.allocated(this%surface_normal_fluxes), "package%set_num_scalars: .not.allocated(this%surface_normal_fluxes)")
+    end if
+
     allocate( this%surface_normal_fluxes(num_scalars), stat = alloc_stat, errmsg = error_message)
     if (assertions) call assert(alloc_stat==success, "package%set_num_scalars: allocate(this%surface_normal_fluxes)", error_message)
   end procedure

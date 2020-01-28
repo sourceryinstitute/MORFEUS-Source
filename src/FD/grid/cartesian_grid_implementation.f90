@@ -68,15 +68,15 @@ contains
 
           set_surface_vertices: &
           associate(positions => vertices(b)%vectors())
-            associate( npoints => shape(positions(:,:,:,1)) )
-              call bare(b, x_dir, backward)%set_surface_positions(positions(               2,:,:,:))
-              call bare(b, x_dir, forward )%set_surface_positions(positions(npoints(x_dir)-1,:,:,:))
+            associate( nx => size(positions, x_dir), ny => size(positions, y_dir), nz => size(positions, z_dir))
+              call bare(b, x_dir, backward)%set_surface_positions(positions(      2:2,:,:,:))
+              call bare(b, x_dir, forward )%set_surface_positions(positions(nx-1:nx-1,:,:,:))
 
-              call bare(b, y_dir, backward)%set_surface_positions(positions(:,               2,:,:))
-              call bare(b, y_dir, forward )%set_surface_positions(positions(:,npoints(y_dir)-1,:,:))
+              call bare(b, y_dir, backward)%set_surface_positions(positions(:,      2:2,:,:))
+              call bare(b, y_dir, forward )%set_surface_positions(positions(:,ny-1:ny-1,:,:))
 
-              call bare(b, z_dir, backward)%set_surface_positions(positions(:,:,               2,:))
-              call bare(b, z_dir, forward )%set_surface_positions(positions(:,:,npoints(z_dir)-1,:))
+              call bare(b, z_dir, backward)%set_surface_positions(positions(:,:,      2:2,:))
+              call bare(b, z_dir, forward )%set_surface_positions(positions(:,:,nz-1:nz-1,:))
             end associate
           end associate set_surface_vertices
 
@@ -84,8 +84,8 @@ contains
       end associate
     end associate define_bare_package
 
-     call block_faces%set_halo_outbox(bare, block_partitions)
-     call block_faces%set_num_scalars(num_scalars)
+    call block_faces%set_halo_outbox(bare, block_partitions)
+    call block_faces%set_num_scalars(num_scalars)
 
   end procedure
 
@@ -303,7 +303,6 @@ contains
   end procedure set_up_div_scalar_flux
 
   module procedure div_scalar_flux
-    integer, parameter :: first=1, last=2
     real(r8k), parameter :: half=0.5_r8k
     integer alloc_stat, i, j, k
     character(len=max_errmsg_len) :: alloc_error
@@ -335,17 +334,17 @@ contains
                 block_surfaces%get_normal_scalar_fluxes(neighbor_image, b, x_dir, forward, this%get_scalar_identifier()) )
 
                 do concurrent(k=1:npoints(3), j=1:npoints(2))
-                  associate( &
-                    dx_m => half*(x(i+1,j,k) - x_b(1,1,1)), & !! (dx_b + dx_f)/2
-                    dx_f =>       x(i+1,j,k) - x(i,j,k), &
-                    s_f => half*( s(i+1,j,k) + s(i,j,k)  ) )
-                    associate( D_f => this%diffusion_coefficient( s_f ) )
-                      div_flux_increment(i,j,k,x_dir) = &
-                        ( D_f*(s(i+1,j,k) - s(i,j,k)  )/dx_f - surface_fluxes(j,k) ) / dx_m
-                          !! forward flux - backward flux
+                  !associate( &
+                  !  dx_m => half*(x(i+1,j,k) - x_b(1,1,1)), & !! (dx_b + dx_f)/2
+                  !  dx_f =>       x(i+1,j,k) - x(i,j,k), &
+                  !  s_f => half*( s(i+1,j,k) + s(i,j,k)  ) )
+                  !  associate( D_f => this%diffusion_coefficient( s_f ) )
+                  !    div_flux_increment(i,j,k,x_dir) = &
+                  !      ( D_f*(s(i+1,j,k) - s(i,j,k)  )/dx_f - surface_fluxes(j,k) ) / dx_m
+                  !        !! forward flux - backward flux
 
-                    end associate
-                  end associate
+                  !  end associate
+                  !end associate
                 end do
               end associate
             end associate

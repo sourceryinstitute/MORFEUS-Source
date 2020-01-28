@@ -62,8 +62,6 @@ contains
   end procedure
 
   module procedure get_halo_outbox
-    integer alloc_stat
-    character(len=max_errmsg_len) error_message
 
     if (assertions) call assert(allocated(singleton%halo_outbox),"surfaces%get_halo_outbox: allocated(singleton%halo_outbox)")
 

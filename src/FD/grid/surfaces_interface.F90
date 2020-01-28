@@ -100,8 +100,8 @@ module surfaces_interface
       !! result contains the vertices inside the designated grid block surface
       implicit none
       integer, intent(in) :: image, block_id, coordinate_direction, face_direction
-      real(r8k), allocatable, dimension(:,:,:) :: positions
-        !! planar locations: shape = [Ny, Nz, space_dim] or [Nx, Nz, space_dim] or [Nx, Ny, space_dim] depending on orientation
+      real(r8k), allocatable, dimension(:,:,:,:) :: positions
+        !! surface vertices: shape=[Nx,Ny,Nz,space_dim] where findloc(shape(positions, value=1)) designates surface-normal direction
     end function
 
     pure module function get_normal_scalar_fluxes(image, block_id, coordinate_direction, face_direction, scalar_id) &
@@ -120,7 +120,6 @@ module surfaces_interface
       integer(enumeration), intent(in) :: face
       logical is_external
     end function
-
 
   end interface
 
