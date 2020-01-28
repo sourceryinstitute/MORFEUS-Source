@@ -44,27 +44,27 @@ module structured_grid_interface
     procedure(block_id_in_bounds_interface), deferred :: block_identifier_in_bounds
     procedure(block_ijk_in_bounds_interface), deferred :: block_coordinates_in_bounds
     generic :: block_in_bounds => block_identifier_in_bounds, block_coordinates_in_bounds
-    procedure set_global_block_shape
-    procedure get_global_block_shape
-    procedure clone
-    procedure diffusion_coefficient
-    procedure write_formatted
-    procedure space_dimension
-    procedure free_tensor_indices
-    procedure num_cells
-    procedure num_time_stamps
-    procedure vectors
-    procedure get_scalar
-    procedure set_metadata
-    procedure get_tag
-    procedure set_vector_components
-    procedure set_scalar
-    procedure increment_scalar
-    procedure subtract
+    procedure :: set_global_block_shape
+    procedure :: get_global_block_shape
+    procedure :: clone
+    procedure :: diffusion_coefficient
+    procedure :: write_formatted
+    procedure :: space_dimension
+    procedure :: free_tensor_indices
+    procedure :: num_cells
+    procedure :: num_time_stamps
+    procedure :: vectors
+    procedure :: get_scalar
+    procedure :: set_metadata
+    procedure :: get_tag
+    procedure :: set_vector_components
+    procedure :: set_scalar
+    procedure :: increment_scalar
+    procedure :: subtract
 #ifndef FORD
     generic :: operator(-) => subtract
 #endif
-    procedure compare
+    procedure :: compare
 #ifdef HAVE_UDDTIO
     generic :: write(formatted) => write_formatted
 #endif

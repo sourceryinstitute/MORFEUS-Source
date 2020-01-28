@@ -39,20 +39,20 @@ module problem_discretization_interface
     class(geometry), allocatable :: problem_geometry
       !! description of problem domain and material identities; child types: plate_3D, cylinder_2D, sphere_1D
   contains
-    procedure get_surface_packages
-    procedure get_block_surfaces
-    procedure get_global_block_shape
-    procedure partition
-    procedure my_blocks
-    procedure block_indicial_coordinates
-    procedure block_identifier
-    procedure block_load
-    procedure user_defined_vertices
-    procedure set_analytical_scalars
-    procedure num_scalars
-    procedure num_scalar_flux_divergences
-    procedure initialize_from_plate_3D
-    procedure set_scalar_flux_divergence
+    procedure :: get_surface_packages
+    procedure :: get_block_surfaces
+    procedure :: get_global_block_shape
+    procedure :: partition
+    procedure :: my_blocks
+    procedure :: block_indicial_coordinates
+    procedure :: block_identifier
+    procedure :: block_load
+    procedure :: user_defined_vertices
+    procedure :: set_analytical_scalars
+    procedure :: num_scalars
+    procedure :: num_scalar_flux_divergences
+    procedure :: initialize_from_plate_3D
+    procedure :: set_scalar_flux_divergence
 #ifndef FORD
     generic :: set_vertices => user_defined_vertices
     generic :: set_scalars => set_analytical_scalars

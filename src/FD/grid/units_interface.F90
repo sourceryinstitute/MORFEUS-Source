@@ -41,27 +41,27 @@ module units_interface
     integer :: system=dimensionless  !! Default to SI units
     character(len=:), allocatable :: description
   contains
-    procedure set_units
-    procedure get_units
-    procedure get_system
-    procedure is_dimensionless
-    procedure has_length_units
-    procedure has_mass_units
-    procedure has_time_units
-    procedure has_temperature_units
-    procedure has_velocity_units
-    procedure has_energy_units
-    procedure has_density_units
-    procedure has_specific_energy_units
-    procedure has_stress_units
-    procedure has_power_units
-    procedure add
-    procedure multiply
-    procedure divide
-    procedure subtract,negate
-    procedure integer_power
-    procedure real_power
-    procedure assign_units
+    procedure :: set_units
+    procedure :: get_units
+    procedure :: get_system
+    procedure :: is_dimensionless
+    procedure :: has_length_units
+    procedure :: has_mass_units
+    procedure :: has_time_units
+    procedure :: has_temperature_units
+    procedure :: has_velocity_units
+    procedure :: has_energy_units
+    procedure :: has_density_units
+    procedure :: has_specific_energy_units
+    procedure :: has_stress_units
+    procedure :: has_power_units
+    procedure :: add
+    procedure :: multiply
+    procedure :: divide
+    procedure :: subtract,negate
+    procedure :: integer_power
+    procedure :: real_power
+    procedure :: assign_units
 #ifndef FORD
     generic :: operator(+)=>add
     generic :: operator(*)=>multiply
