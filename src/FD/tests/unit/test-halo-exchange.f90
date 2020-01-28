@@ -11,7 +11,7 @@ program main
   !! verify the setting of halo data on structured_grid block surfaces
   use assertions_interface, only : assert
   use problem_discretization_interface, only :  problem_discretization
-  use surfaces_interface, only : forward, backward, face_name, coordinate_name, x_dir, z_dir
+  use surfaces_interface, only : surfaces, forward, backward, face_name, coordinate_name, x_dir, z_dir
   use package_interface, only : package
   use plate_3D_interface, only : plate_3D
   use ellipsoidal_field_interface, only : ellipsoidal_field
@@ -26,6 +26,7 @@ program main
   type(ellipsoidal_field) ellipsoidal_function
   integer b, coord_dir, face_dir
   type(package), allocatable, dimension(:,:,:) ::  surface_packages
+  type(surfaces) block_surfaces
   character(len=2) id_string
 
   call plate_geometry%build(input)
@@ -38,13 +39,12 @@ program main
   surface_packages = global_grid%get_surface_packages()
 
   associate( &
-    block_surfaces => global_grid%block_surfaces, &
     my_blocks => global_grid%my_blocks(), &
     num_blocks => size(surface_packages,1) )
 
     call assert( &
        assertion = size(surface_packages,2) == z_dir .and. size(surface_packages,3)==forward, &
-       description = "test-halo-exchange: surfac_packages shape" )
+       description = "test-halo-exchange: surface_packages shape" )
 
     loop_over_blocks: &
     do b = 1, num_blocks
@@ -58,12 +58,12 @@ program main
               call assert( &
                 assertion = surface_packages(b, coord_dir, face_dir)%neighbor_block_id_null(), &
                 description = "test-halo-exchange: surface_packages(b, coord_dir, face_dir)%neighbor_block_id_null()", &
-                diagnostic_data = face_name(face_dir) // "-" // coordinate_name(coord_dir) // " face on block " // trim(id_string) )
+                diagnostic_data = face_name(face_dir) // "-" // coordinate_name(coord_dir) // " face on block " // id_string )
             else
               call assert( &
                 assertion = .not. surface_packages(b, coord_dir, face_dir)%neighbor_block_id_null(), &
                 description = "test-halo-exchange: .not. surface_packages(b, coord_dir, face_dir)%neighbor_block_id_null()", &
-                diagnostic_data = face_name(face_dir) // "-" // coordinate_name(coord_dir) // " face on block " // trim(id_string) )
+                diagnostic_data = face_name(face_dir) // "-" // coordinate_name(coord_dir) // " face on block " // id_string )
             end if
           end associate
         end do loop_over_face_directions

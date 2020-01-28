@@ -23,7 +23,7 @@ module problem_discretization_interface
   public :: problem_discretization
 
   type, extends(object) :: problem_discretization
-   !private
+    private
     class(structured_grid), allocatable :: block_map
       !! hook for invoking block_indicial_coordinates and block_identifier
     integer, allocatable, dimension(:) :: block_partitions
