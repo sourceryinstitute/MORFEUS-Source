@@ -109,7 +109,7 @@ CONTAINS
         END IF
 
         WRITE(proc_id,'(i10)') mypnum_()
-        out%basepath  = cval! // '_image_' // TRIM(ADJUSTL(proc_id)) // '_'
+        out%basepath  = cval // '_image_' // TRIM(ADJUSTL(proc_id))! // '_'
         ! Sets initial path
         out%path = out%basepath
 

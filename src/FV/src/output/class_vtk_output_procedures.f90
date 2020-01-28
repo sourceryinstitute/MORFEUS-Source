@@ -26,7 +26,7 @@ CONTAINS
         USE vtk_attributes, ONLY : attributes, scalar, vector
         USE vtk_cells,      ONLY : vtkcell, vtkcell_list, set_cell_type
         USE vtk_datasets,   ONLY : unstruct_grid
-        USE vtk,            ONLY : vtk_parallel_write
+        USE vtk,            ONLY : vtk_serial_write
         IMPLICIT NONE
         INTEGER :: i, j, ibegin, itype
         INTEGER, DIMENSION(:), ALLOCATABLE :: cell_ids
@@ -47,8 +47,8 @@ CONTAINS
 
         CALL write_vtk_mesh (msh, points, cell_ids, v2cconn, icverts, iproc)
 
-WRITE(output_unit,*) 'Before allocate field_vals in write_vtk_morfeus on image: ',mypnum_()
-write(output_unit,*) size(points), size(cell_ids), size(v2cconn), size(icverts)
+!WRITE(output_unit,*) 'Before allocate field_vals in write_vtk_morfeus on image: ',mypnum_()
+!write(output_unit,*) size(points), size(cell_ids), size(v2cconn), size(icverts)
 
         ALLOCATE(vector_vals(1:SIZE(vfield),1:SIZE(cell_ids),1:3), source=0.0_psb_dpk_)
         DO i = 1, SIZE(vfield)
@@ -101,8 +101,8 @@ write(output_unit,*) size(points), size(cell_ids), size(v2cconn), size(icverts)
 
         CALL vtk_mesh%init (points=points, cell_list=morfeus_cells, datatype='double')
                                !! Set up the geometry using a vtk structured grid
-  write(output_unit,*) 'before vtk_parallel_write for geometry. file_name: ',out%path_()
-        CALL vtk_parallel_write (geometry=vtk_mesh, image=mypnum_(), filename=TRIM(out%path_()), multiple_io=.TRUE.) !!
+!        CALL vtk_parallel_write (geometry=vtk_mesh, image=mypnum_(), filename=TRIM(out%path_()), multiple_io=.TRUE.) !!
+        CALL vtk_serial_write (geometry=vtk_mesh, image=mypnum_(), filename=TRIM(out%path_()), multiple_io=.TRUE.) !!
 
         ASSOCIATE (n_scalars => SIZE(fixed_cell_data) + SIZE(sfield), &
             &      n_vectors => SIZE(vfield))
@@ -143,14 +143,12 @@ write(output_unit,*) size(points), size(cell_ids), size(v2cconn), size(icverts)
                 END IF
             END DO
         END ASSOCIATE
-write(output_unit,*) 'before vtk_parallel_write for celldatasets'
-        CALL vtk_parallel_write (celldatasets=cell_vals_to_write)  ! pointdatasets=point_vals_to_write
-write(output_unit,*) 'before vtk_parallel_write for finishing'
-        CALL vtk_parallel_write (finished=.TRUE.)                 !! Finish writing the serial file for each image
-write(output_unit,*) 'after vtk_parallel_write for finishing'
-write(output_unit,*) 'before vtk_parallel_write for finalizing'
+
+        CALL vtk_serial_write (celldatasets=cell_vals_to_write)  ! pointdatasets=point_vals_to_write
+
+        CALL vtk_serial_write (finished=.TRUE.)                 !! Finish writing the serial file for each image
+
 !        IF (mypnum_() == 0) CALL vtk_parallel_write(nprocs_())    !! Only do this on image 0
-write(output_unit,*) 'after vtk_parallel_write for finalizing'
 
     END PROCEDURE write_vtk_morfeus
 
