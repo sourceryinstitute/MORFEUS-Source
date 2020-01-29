@@ -5,7 +5,7 @@
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 PROGRAM main
-  USE Kinds, ONLY : r8k
+  USE kind_parameters, ONLY : r8k
   USE assertions_interface, ONLY : assert
   USE array_functions_interface, ONLY : OPERATOR(.catRows.), OPERATOR(.catColumns.), OPERATOR(.columnVectors.)
   IMPLICIT NONE

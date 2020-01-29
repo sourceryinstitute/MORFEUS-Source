@@ -15,7 +15,7 @@ contains
 
     integer, save :: total[*]
     integer, parameter :: root_node=1, default_root_image=1
-    integer even_child_image, odd_child_image, parent_image, my_image, image
+    integer even_child_image, odd_child_image, parent_image, my_image
     integer even_child_node , odd_child_node , parent_node , my_node, default_parent_image
     integer, allocatable :: relatives(:)
 
@@ -93,7 +93,7 @@ contains
 
     integer, save :: message[*]
     integer, parameter :: root_node=1, default_root_image=1
-    integer even_child_image, odd_child_image, parent_image, my_image, image
+    integer even_child_image, odd_child_image, parent_image, my_image
     integer even_child_node , odd_child_node , parent_node , my_node, default_parent_image
     integer, allocatable :: relatives(:)
 
@@ -152,7 +152,7 @@ contains
 #endif
 
 #ifndef HAVE_FINDLOC
-  module procedure findloc_integer_dim1_backtrue
+  module procedure findloc_integer_dim1
     use assertions_interface, only : assert
     integer, parameter :: loop_increment=-1, base_index=1
     integer index_
@@ -161,6 +161,36 @@ contains
 
     associate( lower_bound=>lbound(array,dim) )
       do index_=ubound(array,dim), lower_bound, loop_increment
+        if (array(index_)==value) then
+          location = index_ - lower_bound + base_index
+          return
+        end if
+      end do
+    end associate
+    location=0
+
+  end procedure
+
+  module procedure findloc_character_dim1
+    use assertions_interface, only : assert
+    integer, parameter :: base_index=1
+    integer index_, loop_increment, start, finish
+
+    call assert(dim==1,"findloc_character_dim1: unsupported use case")
+
+    associate( lower_bound=>lbound(array,dim) )
+      select case(back)
+        case(.true.)
+          start = ubound(array,dim)
+          finish = lower_bound
+          loop_increment=-1
+        case(.false.)
+          start = lower_bound
+          finish = ubound(array,dim)
+          loop_increment=1
+      end select
+
+      do index_=start, finish, loop_increment
         if (array(index_)==value) then
           location = index_ - lower_bound + base_index
           return

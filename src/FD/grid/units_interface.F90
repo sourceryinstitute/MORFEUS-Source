@@ -5,6 +5,10 @@
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 module units_interface
+    !! author: Damian Rouson
+    !! date: 9/9/2019
+    !!
+    !! Define SI and British units of measurement and associated arithmetic operators
     use object_interface, only : object
     implicit none
 
@@ -70,6 +74,7 @@ module units_interface
     interface
 
         pure module subroutine set_units(this,exponents,system)
+          !! define units
             implicit none
             class(units), intent(inout) :: this
             integer, intent(in) :: exponents(num_fundamental)
@@ -77,6 +82,7 @@ module units_interface
         end subroutine
 
         pure module subroutine assign_units(lhs,rhs)
+          !! copy units information
             implicit none
             class(units), intent(inout) :: lhs
             class(units), intent(in) :: rhs
@@ -86,6 +92,7 @@ module units_interface
         impure &
 #endif
         elemental module function integer_power(this,exponent_) result(this_raised)
+          !! result has units of the opearand raised to the power "exponent_"
             implicit none
             class(units), intent(in) :: this
             integer, intent(in) :: exponent_
@@ -93,6 +100,7 @@ module units_interface
         end function
 
         module function get_units(this) result(exponents)
+          !! results is the exponents of each unit in the argument's units expression
             implicit none
             class(units), intent(in) :: this
             integer :: exponents(num_fundamental)
@@ -102,6 +110,7 @@ module units_interface
         impure &
 #endif
         elemental module function get_system(this) result(system_of_units)
+          !! result is enumerated value designating units system
             implicit none
             class(units), intent(in) :: this
             integer :: system_of_units
@@ -112,6 +121,7 @@ module units_interface
         impure &
 #endif
         elemental module function real_power(this,exponent_) result(this_raised)
+          !! result is the units of the operand raised to the power "exponent_"; includes check that operand is dimensionless
             implicit none
             class(units), intent(in) :: this
             real, intent(in) :: exponent_
@@ -122,6 +132,7 @@ module units_interface
         impure &
 #endif
         elemental module function add(lhs,rhs) result(total)
+          !! result is the units of the sum of two dimensional quantities; includes operand consistency check
             implicit none
             class(units), intent(in) :: lhs,rhs
             type(units) :: total
@@ -131,24 +142,28 @@ module units_interface
         impure &
 #endif
         elemental module function subtract(lhs,rhs) result(difference)
+          !! result is the units of the difference of two dimensional quantities; includes operand consistency check
             implicit none
             class(units), intent(in) :: lhs,rhs
             type(units) :: difference
         end function
 
         elemental module function negate(this) result(negative_this)
+          !! result is the units of the negative of a dimensional quantities
             implicit none
             class(units), intent(in) :: this
             type(units) :: negative_this
         end function
 
         elemental module function multiply(lhs,rhs) result(product_)
+          !! result is the units of the product of two dimensional quantities; includes units-system consistency check
             implicit none
             class(units), intent(in) :: lhs,rhs
             type(units) :: product_
         end function
 
         elemental module function divide(numerator,denominator) result(ratio)
+          !! result is the units of the ratio of two dimensional quantities; includes units-sysetm consistency check
             implicit none
             class(units), intent(in) :: numerator,denominator
             type(units) :: ratio
