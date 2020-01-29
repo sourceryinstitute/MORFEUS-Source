@@ -54,7 +54,7 @@ module emulated_intrinsics_interface
     pure module function findloc_integer_dim1(array, value, dim, back) result(location)
       implicit none
       integer, intent(in) :: array(:), value, dim
-      logical, intent(in) :: back
+      logical, intent(in), optional :: back
       integer location
     end function
 

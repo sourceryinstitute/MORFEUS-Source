@@ -5,6 +5,7 @@
 !     contract # NRC-HQ-60-17-C-0007
 !
 submodule(emulated_intrinsics_interface) emulated_intrinsics_implementation
+  use assertions_interface, only : assert
   implicit none
 
 contains
@@ -153,26 +154,37 @@ contains
 
 #ifndef HAVE_FINDLOC
   module procedure findloc_integer_dim1
-    use assertions_interface, only : assert
-    integer, parameter :: loop_increment=-1, base_index=1
-    integer index_
 
-    call assert(back .and. dim==1,"findloc_integer_dim1_backtrue: unsupported use case")
+    if ( .not. present(back)) then
 
-    associate( lower_bound=>lbound(array,dim) )
-      do index_=ubound(array,dim), lower_bound, loop_increment
-        if (array(index_)==value) then
-          location = index_ - lower_bound + base_index
-          return
-        end if
-      end do
-    end associate
-    location=0
+      location = minloc(array, dim, array == value)
+
+    else if (back .eqv. .false.) then
+
+      location = minloc(array, dim, array == value)
+
+    else ! back is present and .true. so work around GCC 8 lack of support for the "back" argument
+      block
+        integer, parameter :: loop_increment=-1, base_index=1
+        integer index_
+
+        call assert(dim==1,"findloc_integer_dim1: unsupported use case")
+
+        associate( lower_bound=>lbound(array,dim) )
+          do index_=ubound(array,dim), lower_bound, loop_increment
+            if (array(index_)==value) then
+              location = index_ - lower_bound + base_index
+              return
+            end if
+          end do
+        end associate
+        location=0
+      end block
+    end if
 
   end procedure
 
   module procedure findloc_logical_dim1
-    use assertions_interface, only : assert
     integer, parameter :: loop_increment=-1, base_index=1
     integer index_
 
@@ -191,7 +203,6 @@ contains
   end procedure
 
   module procedure findloc_character_dim1
-    use assertions_interface, only : assert
     integer, parameter :: base_index=1
     integer index_, loop_increment, start, finish
 
