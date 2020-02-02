@@ -122,7 +122,7 @@ MODULE class_vector_field
             INTEGER(kind=nemo_int_long_)    :: nemo_sizeof
         END FUNCTION nemo_sizeof
 
-        MODULE SUBROUTINE create_vector_field(fld,msh,dim,bc,mats,on_faces,x0)
+        MODULE SUBROUTINE create_vector_field(fld,msh,dim,bc,mats,on_faces,x0,name)
             !! Constructor
             IMPLICIT NONE
             !! Mandatory arguments
@@ -134,6 +134,7 @@ MODULE class_vector_field
             TYPE(matptr),     INTENT(IN), OPTIONAL, TARGET :: mats(:)
             LOGICAL,          INTENT(IN), OPTIONAL         :: on_faces
             TYPE(vector),     INTENT(IN), OPTIONAL         :: x0
+            CHARACTER(len=*), INTENT(IN), OPTIONAL :: name
         END SUBROUTINE create_vector_field
 
         ! ----- Destructor -----

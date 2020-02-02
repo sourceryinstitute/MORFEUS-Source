@@ -126,7 +126,7 @@ MODULE class_scalar_field
 
         !! Constructor
 
-        MODULE SUBROUTINE create_scalar_field(fld,msh,dim,bc,mats,on_faces,x0)
+        MODULE SUBROUTINE create_scalar_field(fld,msh,dim,bc,mats,on_faces,x0,name)
             IMPLICIT NONE
             ! Mandatory arguments
             CLASS(scalar_field), INTENT(OUT)        :: fld
@@ -138,6 +138,7 @@ MODULE class_scalar_field
             TYPE(matptr),     INTENT(IN), OPTIONAL, TARGET :: mats(:)
             LOGICAL,          INTENT(IN), OPTIONAL         :: on_faces
             REAL(psb_dpk_),   INTENT(IN), OPTIONAL         :: x0
+            CHARACTER(len=*), INTENT(IN), OPTIONAL :: name
         END SUBROUTINE create_scalar_field
 
         !! ----- Destructor -----
