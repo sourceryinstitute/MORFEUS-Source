@@ -80,29 +80,7 @@ option(FAST_USE_EXODUS "Build with Exodus support (broken)" OFF)
 # Make CGNS optional
 option(FAST_USE_CGNS "Build with CGNS support (broken)" OFF)
 
-
-set(SLATEC_srcs
-  src/math/SLATEC/d1mach.f90
-  src/math/SLATEC/dckder.f
-  src/math/SLATEC/denorm.f
-  src/math/SLATEC/dfdjc3.f
-  src/math/SLATEC/dmpar.f
-  src/math/SLATEC/dnls1e.f
-  src/math/SLATEC/dnls1.f
-  src/math/SLATEC/dqrfac.f
-  src/math/SLATEC/dqrslv.f
-  src/math/SLATEC/dwupdt.f
-  src/math/SLATEC/fdump.f
-  src/math/SLATEC/i1mach.f90
-  src/math/SLATEC/j4save.f
-  src/math/SLATEC/xercnt.f
-  src/math/SLATEC/xerhlt.f
-  src/math/SLATEC/xermsg.f
-  src/math/SLATEC/xerprn.f
-  src/math/SLATEC/xersve.f
-  src/math/SLATEC/xgetua.f
-  src/math/SLATEC/xsetf.f
-  )
+# Set source files
 set(morfeus_fv_srcs
   src/basics/class_connectivity.f90
   src/basics/class_connectivity_procedures.f90
