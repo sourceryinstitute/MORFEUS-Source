@@ -89,7 +89,7 @@ jobs:
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_V} 100 \
         --slave /usr/bin/g++ g++ /usr/bin/g++-${GCC_V} \
         --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
-        --slave /usr/bingcov gcov /usr/bin/gcov-${GCC_V}
+        --slave /usr/bin/gcov gcov /usr/bin/gcov-${GCC_V}
         sudo apt-get install -y mpich libmpich-dev
         echo "::add-path::/usr/lib/ccache"
         export CCACHE_TEMPDIR=/dev/shm/ccache_tmp
