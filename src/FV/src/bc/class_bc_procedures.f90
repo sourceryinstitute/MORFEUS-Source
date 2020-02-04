@@ -120,7 +120,7 @@ CONTAINS
                 CALL create_bc_math(bc(ib)%math,input_file,bc_sec,nbf)
             CASE(bc_wall_)
                 CALL create_bc_wall(bc(ib)%wall,input_file,bc_sec,nbf)
-            CASE default
+            CASE DEFAULT
                 WRITE(*,400)
                 CALL abort_psblas
             END SELECT
@@ -248,7 +248,7 @@ CONTAINS
             CALL bc%math%set_bc_math_map(i,a,b,c)
         CASE(bc_wall_)
             CALL bc%wall%set_bc_wall_map(i,a,b,c)
-        CASE default
+        CASE DEFAULT
             WRITE(*,100)
             CALL abort_psblas
         END SELECT
@@ -266,7 +266,7 @@ CONTAINS
         SELECT CASE(bc%id)
         CASE(bc_wall_)
             CALL bc%wall%set_bc_wall_map(i,a,b,c)
-        CASE default
+        CASE DEFAULT
             WRITE(*,100)
             CALL abort_psblas
         END SELECT
@@ -291,7 +291,7 @@ CONTAINS
             CALL update_boundary_math(ib,bc%math,msh,x,bx)
         CASE(bc_wall_)
             CALL update_boundary_wall(ib,bc%wall,dim,msh,mats,im,x,bx)
-        CASE default
+        CASE DEFAULT
             WRITE(*,100)
             CALL abort_psblas
         END SELECT
@@ -312,7 +312,7 @@ CONTAINS
         SELECT CASE(bc%id)
         CASE(bc_wall_)
             CALL update_boundary_wall(ib,bc%wall,dim,msh,x,bx)
-        CASE default
+        CASE DEFAULT
             WRITE(*,100)
             CALL abort_psblas
         END SELECT

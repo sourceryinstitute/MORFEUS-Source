@@ -339,7 +339,7 @@ SUBMODULE (op_div) scalar_pde_div_implementation
                     sp_bc(i,ib) = fact
                 ENDIF
             END DO
-        CASE default
+        CASE DEFAULT
             WRITE(*,402)
             CALL abort_psblas
         END SELECT

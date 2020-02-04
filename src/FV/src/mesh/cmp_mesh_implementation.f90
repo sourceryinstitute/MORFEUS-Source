@@ -350,7 +350,7 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
                 ! METIS Partitioning
                 CALL bld_part_graph(xadj_glob,adjncy_glob,ipart=1)
                 CALL get_part_graph(part_cells)
-            CASE default
+            CASE DEFAULT
                 WRITE(*,200)
                 CALL abort_psblas
             END SELECT
@@ -416,7 +416,7 @@ SUBMODULE (tools_mesh) cmp_mesh_implementation
                 ! Deallocates private storage of renum module
                 CALL stop_renum
             ENDIF
-        CASE default
+        CASE DEFAULT
             WRITE(*,100)
             CALL abort_psblas
         END SELECT
