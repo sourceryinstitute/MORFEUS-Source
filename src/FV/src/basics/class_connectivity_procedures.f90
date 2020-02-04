@@ -737,7 +737,7 @@ CONTAINS
                 nel_ = nglob
             CASE('l')
                 nel_ = nloc
-            CASE default
+            CASE DEFAULT
                 WRITE(*,100)
                 CALL abort_psblas
             END SELECT
@@ -765,7 +765,7 @@ CONTAINS
                 nconn_ = nglob
             CASE('l')
                 nconn_ = nloc
-            CASE default
+            CASE DEFAULT
                 WRITE(*,100)
                 CALL abort_psblas
             END SELECT

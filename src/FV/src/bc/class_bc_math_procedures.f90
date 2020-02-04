@@ -125,7 +125,7 @@ CONTAINS
             na = 1; nb = 1; nc = nbf
         CASE(  bc_robin_map_)
             na = nbf; nb = nbf; nc = nbf
-        CASE default
+        CASE DEFAULT
             WRITE(*,200)
             CALL abort_psblas
         END SELECT
@@ -239,7 +239,7 @@ CONTAINS
                 b(IF) = bc%b(IF)
                 c(IF) = bc%c(IF)
             END DO
-        CASE default
+        CASE DEFAULT
             WRITE(*,200)
             CALL abort_psblas
         END SELECT
@@ -293,7 +293,7 @@ CONTAINS
                 b(IF) = bc(1)%b(1)
                 c(IF) = vector_(bc(1)%c(IF),bc(2)%c(IF),bc(3)%c(IF))
             END DO
-        CASE default
+        CASE DEFAULT
             WRITE(*,300)
             CALL abort_psblas
         END SELECT
@@ -332,7 +332,7 @@ CONTAINS
             bc%a(i) = a
             bc%b(i) = b
             bc%c(i) = c
-        CASE default
+        CASE DEFAULT
             WRITE(*,100)
             CALL abort_psblas
         END SELECT
@@ -437,7 +437,7 @@ CONTAINS
 
                 bx(ibf) = (b(i) * x(im) + c(i) * d) / r
             END DO
-        CASE default
+        CASE DEFAULT
             WRITE(*,100)
             CALL abort_psblas
         END SELECT
@@ -504,7 +504,7 @@ CONTAINS
                 ibf = ib_offset + i
                 bx(ibf) = x(im) + d * c(1)
             END DO
-        CASE default
+        CASE DEFAULT
             WRITE(*,100)
             CALL abort_psblas
         END SELECT
@@ -539,7 +539,7 @@ CONTAINS
             bc_type = 'Homogeneous Neumann'
         CASE(bc_robin_, bc_robin_convection_)
             bc_type = 'Homogeneous Robin'
-        CASE default
+        CASE DEFAULT
             bc_type = 'Unknown '
             WRITE(0,*) bc_type, ' ',bc%id, 'Bailing out'
             RETURN

@@ -93,7 +93,7 @@ SUBMODULE(tools_bc) rd_inp_bc_math_implementation
                 READ(inp,*) par, abc(3)
             CASE(bc_robin_)
                 READ(inp,*) par, abc(1), abc(2), abc(3)
-            CASE default
+            CASE DEFAULT
                 abc(:) = 0.d0
             END SELECT
 
@@ -117,7 +117,7 @@ SUBMODULE(tools_bc) rd_inp_bc_math_implementation
             na = 1; nb = 1; nc = nbf
         CASE(  bc_robin_map_)
             na = nbf; nb = nbf; nc = nbf
-        CASE default
+        CASE DEFAULT
             WRITE(*,100)
             CALL abort_psblas
         END SELECT
@@ -145,7 +145,7 @@ SUBMODULE(tools_bc) rd_inp_bc_math_implementation
             a(:) = 0.d0 ! To be actually set at the first mapping
             b(:) = 0.d0 ! To be actually set at the first mapping
             c(:) = 0.d0 ! To be actually set at the first mapping
-        CASE default
+        CASE DEFAULT
             WRITE(*,100)
             CALL abort_psblas
         END SELECT

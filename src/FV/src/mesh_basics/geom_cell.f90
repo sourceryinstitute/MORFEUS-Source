@@ -248,7 +248,7 @@ SUBMODULE(tools_mesh_basics) geom_cell_implementation
 
                         r = 1.d0 / vol(ic)
                         cell_cntr(ic) = r * cell_cntr(ic)
-                    CASE default
+                    CASE DEFAULT
                         ! Generic Polyhedron
 
                         ! Evaluation of tetrahedra "4th" point P, set equal to the

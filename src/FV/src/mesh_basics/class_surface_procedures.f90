@@ -235,7 +235,7 @@ CONTAINS
         CASE (icylinder_)
             get_surface_normal = this_surface%my_cylinder%get_cylinder_normal(this_point)
 
-        CASE default
+        CASE DEFAULT
             WRITE(6,100)
             CALL abort_psblas
 
@@ -261,7 +261,7 @@ CONTAINS
         CASE (icylinder_)
             get_surface_r2 = this_surface%my_cylinder%get_cylinder_r2()
 
-        CASE default
+        CASE DEFAULT
             WRITE(6,100)
             CALL abort_psblas
 
@@ -287,7 +287,7 @@ CONTAINS
         CASE (icylinder_)
             CALL this_surface%my_cylinder%translate_cylinder(offset)
 
-        CASE default
+        CASE DEFAULT
             ! do nothing...there are no data describing an irregular surface
         END SELECT
 
@@ -308,7 +308,7 @@ CONTAINS
         CASE (icylinder_)
             get_closest_point = this_surface%my_cylinder%get_pt_cylinder(point)
 
-        CASE default
+        CASE DEFAULT
             WRITE(6,100)
             CALL abort_psblas
 

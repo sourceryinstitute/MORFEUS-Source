@@ -124,7 +124,7 @@ SUBMODULE (tools_output) write_mesh_implementation
                 SELECT CASE(out%fmt_())
                 CASE(vtk_)
                     !        call wr_vtk_mesh(msh%ncd,verts,cells,v2c,iproc,path)
-                CASE default
+                CASE DEFAULT
                     WRITE(*,200)
                 END SELECT
             END IF
