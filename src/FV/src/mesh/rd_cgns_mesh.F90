@@ -49,7 +49,6 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
 
         MODULE PROCEDURE rd_cgns_mesh
     !! @note Compatible only with CGNS v3.3.0 and above. Earlier versions are not supported.
-#ifdef FAST_USE_CGNS
     !! Note: CGNS functionality is not working for FAST. Currently set to pre-process entire module procedure
     !!       so that the implementation exists but is empty. IP - 6/6/2019
     USE cgns, ONLY &
@@ -1151,7 +1150,7 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
     WRITE(*,'()')
 
 100 FORMAT(' ERROR! Memory allocation failure in RD_CGNS_MESH')
-#endif
+
         END PROCEDURE rd_cgns_mesh
 
 END SUBMODULE rd_cgns_mesh_implementation
