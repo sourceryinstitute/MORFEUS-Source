@@ -131,12 +131,12 @@ MODULE class_material
             REAL(psb_dpk_), INTENT(OUT) :: f
         END SUBROUTINE matlaw_s
 
-        MODULE SUBROUTINE matlaw_fast_s(mat, t, property, f)
+        MODULE SUBROUTINE matlaw_matlib_s(mat, t, property, f)
             CLASS(material), INTENT(IN) :: mat
             REAL(psb_dpk_), INTENT(IN) :: t
             REAL(psb_dpk_), INTENT(OUT) :: f
             CHARACTER(LEN=*), INTENT(IN) :: property
-        END SUBROUTINE matlaw_fast_s
+        END SUBROUTINE matlaw_matlib_s
 
     END INTERFACE matlaw
 
