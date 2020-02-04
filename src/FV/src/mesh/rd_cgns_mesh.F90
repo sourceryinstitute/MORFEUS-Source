@@ -49,7 +49,7 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
 
         MODULE PROCEDURE rd_cgns_mesh
         !! @note Compatible only with CGNS v3.3.0 and above. Earlier versions are not supported.
-        !! Note: CGNS functionality is not working for FAST. Currently set to pre-process entire module procedure
+        !! Note: CGNS functionality is not working for Morfeus. Currently set to pre-process entire module procedure
         !!       so that the implementation exists but is empty. IP - 6/6/2019
         USE cgns, ONLY : cg_vertex       => vertex, & ! avoids "vertex" name conflict with class_vertex.f90
             & CG_Unstructured => Unstructured, &
