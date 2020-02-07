@@ -471,10 +471,10 @@ contains
 
         sync all !! the above loop sets normal-flux data just inside each block boundary for communication in the loop below
 
-        ! halo_exchange: &
-        ! do concurrent( b = lbound(this%vertices,1): ubound(this%vertices,1), f = 1: num_fields )
-        !   call this%scalar_fields(b,f)%div_scalar_flux( this%vertices(b), this%block_surfaces, this%scalar_flux_divergence(b,f) )
-        ! end do halo_exchange
+        halo_exchange: &
+        do concurrent( b = lbound(this%vertices,1): ubound(this%vertices,1), f = 1: num_fields )
+          call this%scalar_fields(b,f)%div_scalar_flux( this%vertices(b), this%block_surfaces, this%scalar_flux_divergence(b,f) )
+        end do halo_exchange
 
         verify_result: &
         if (present(exact_result)) then

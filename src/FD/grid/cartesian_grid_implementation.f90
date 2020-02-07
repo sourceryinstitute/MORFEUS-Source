@@ -296,7 +296,10 @@ contains
 
         end associate z_direction_fluxes
 
-        call div_flux_internal_points%set_scalar( div_flux(:,:,:,x_dir) + div_flux(:,:,:,y_dir) + div_flux(:,:,:,z_dir) )
+        block
+          integer, parameter :: component_dim=4
+          call div_flux_internal_points%set_scalar( div_flux(:,:,:,x_dir) + div_flux(:,:,:,y_dir) + div_flux(:,:,:,z_dir) )
+        end block
 
       end associate
     end associate
@@ -326,69 +329,91 @@ contains
         associate( x=>positions(:,:,:,1) )
 
           i=1
-          backward_face: &
-          associate(neighbor_image => block_surfaces%get_block_image( block_surfaces%get_neighbor_block_id(b, x_dir, backward) ) )
-            associate( &
-              dx_b => block_surfaces%get_surface_normal_spacing(neighbor_image, b, x_dir, forward), &
-              surface_fluxes => &
-              block_surfaces%get_normal_scalar_fluxes(neighbor_image, b, x_dir, forward, this%get_scalar_identifier()) )
+          !backward_face: &
+          !associate(neighbor_image => block_surfaces%get_block_image( block_surfaces%get_neighbor_block_id(b, x_dir, backward) ) )
+          !  associate( &
+          !    dx_b => block_surfaces%get_surface_normal_spacing(neighbor_image, b, x_dir, forward), &
+          !    surface_fluxes => &
+          !    block_surfaces%get_normal_scalar_fluxes(neighbor_image, b, x_dir, forward, this%get_scalar_identifier()) )
 
-              do concurrent(k=1:npoints(z_dir), j=1:npoints(y_dir))
-                associate( dx_f => x(i+1,j,k) - x(i,j,k) )
-                  associate( &
-                    dx_m => half*(dx_f + dx_b), &
-                    s_f => half*( s(i+1,j,k) + s(i,j,k)  ) )
-                    associate( D_f => this%diffusion_coefficient( s_f ) )
+          !    do concurrent(k=1:npoints(z_dir), j=1:npoints(y_dir))
+          !      associate( dx_f => x(i+1,j,k) - x(i,j,k) )
+          !        associate( &
+          !          dx_m => half*(dx_f + dx_b), &
+          !          s_f => half*( s(i+1,j,k) + s(i,j,k)  ) )
+          !          associate( D_f => this%diffusion_coefficient( s_f ) )
 
-                       div_flux_increment(i,j,k,x_dir) = &
-                         ( D_f*(s(i+1,j,k) - s(i,j,k)  )/dx_f - surface_fluxes(j,k) ) / dx_m
+          !             div_flux_increment(i,j,k,x_dir) = &
+          !               ( D_f*(s(i+1,j,k) - s(i,j,k)  )/dx_f - surface_fluxes(j,k) ) / dx_m
 
-                    end associate
-                  end associate
-                end associate
-              end do
-            end associate
-          end associate backward_face
+          !          end associate
+          !        end associate
+          !      end associate
+          !    end do
+          !  end associate
+          !end associate backward_face
 
         end associate x_direction_fluxes
       end associate
     end associate
 
-        ! TODO
-        ! 1. Each block gets block_surfaces packages from its halo
-        ! 2. Each block uses its halo data to compute surface fluxes
+    ! TODO
+    ! Write y & z directions for the following & test with Intel compiler on Linux:
+    ! 1. Each block gets block_surfaces packages from its halo
+    ! 2. Each block uses its halo data to compute surface fluxes
 
-        !hardwire_known_boundary_values: &
-        !block
-        !  real(r8k), parameter ::  x_center = 3*(0.25E-01) + 1.E-01/2., x_max = 2*x_center
-        !  real(r8k), parameter ::  y_center = 0.5E-01 + 2*(0.25E-01) + 3.E-01/2., y_max = 2*y_center
-        !  real(r8k), parameter ::  z_center = 20.E-01/2., z_max=2*z_center
+    block
+      call div_flux%increment_scalar( &
+        div_flux_increment(:,:,:,x_dir) + div_flux_increment(:,:,:,y_dir) + div_flux_increment(:,:,:,z_dir))
+    end block
 
-        !  ! r_sq = ((x-x_center)/(x_max-x_center))**2 + ((y-y_center)/(y_max-y_center))**2 + ((z-z_center)/(z_max-z_center))**2)
-        !  ! scalar = 1. - r_sq
+    hardwire_known_boundary_values: &
+    block
+      real(r8k), parameter ::  x_center = 3*(0.25E-01) + 1.E-01/2., x_max = 2*x_center
+      real(r8k), parameter ::  y_center = 0.5E-01 + 2*(0.25E-01) + 3.E-01/2., y_max = 2*y_center
+      real(r8k), parameter ::  z_center = 20.E-01/2., z_max=2*z_center
+      real(r8k), allocatable, dimension(:,:,:) :: div_flux_x, div_flux_y, div_flux_z
 
-        !  real(r8k), parameter ::  div_x_expected = -2./(x_max-x_center)
-        !  real(r8k), parameter ::  div_y_expected = -2./(y_max-y_center)
-        !  real(r8k), parameter ::  div_z_expected = -2./(z_max-z_center)
-        !  real(r8k), parameter ::  tolerance=1.E-06
+      ! r_sq = ((x-x_center)/(x_max-x_center))**2 + ((y-y_center)/(y_max-y_center))**2 + ((z-z_center)/(z_max-z_center))**2)
+      ! scalar = 1. - r_sq
 
-        !  div_flux_x(1,:,:) = div_x_expected
-        !  div_flux_x(npoints(1),:,:) = div_x_expected
+      real(r8k), parameter ::  div_x_expected = -2./(x_max-x_center)**2
+      real(r8k), parameter ::  div_y_expected = -2./(y_max-y_center)**2
+      real(r8k), parameter ::  div_z_expected = -2./(z_max-z_center)**2
+      real(r8k), parameter ::  tolerance=1.E-06
 
-        !  div_flux_y(:,1,:) = div_y_expected
-        !  div_flux_y(:,npoints(2),:) = div_y_expected
+      associate(positions => vertices%vectors())
+        associate( npoints => shape(positions(:,:,:,1)) )
 
-        !  div_flux_z(:,:,1) = div_z_expected
-        !  div_flux_z(:,:,npoints(3)) = div_z_expected
+          allocate(div_flux_x, div_flux_y, div_flux_z, mold=positions(:,:,:,1), stat=alloc_stat, errmsg=alloc_error )
+          call assert( alloc_stat==success, "cartesian_grid%div_scalar_flux: allocate(div_flux_x/y/z)", alloc_error )
 
-        !  associate( div_flux_total => div_flux%get_scalar() + div_flux_x + div_flux_y + div_flux_z )
-        !    associate( div_expected => div_x_expected + div_y_expected + div_z_expected )
-        !      call assert( all( abs((div_flux_total - div_expected)/div_expected) < tolerance ), "div_scalar_flux: div_expected")
-        !    end associate
-        !  end associate
-        !end block hardwire_known_boundary_values
+          div_flux_x = 0._r8k
+          div_flux_y = 0._r8k
+          div_flux_z = 0._r8k
 
-    call div_flux%increment_scalar( sum(div_flux_increment,dim=4) )
+          div_flux_x(1,:,:) = div_x_expected
+          div_flux_x(npoints(1),:,:) = div_x_expected
+
+          div_flux_y(:,1,:) = div_y_expected
+          div_flux_y(:,npoints(2),:) = div_y_expected
+
+          div_flux_z(:,:,1) = div_z_expected
+          div_flux_z(:,:,npoints(3)) = div_z_expected
+
+        end associate
+
+        associate( div_flux_total => div_flux%get_scalar() + div_flux_x + div_flux_y + div_flux_z )
+          associate( div_expected => div_x_expected + div_y_expected + div_z_expected )
+            call assert( all( abs((div_flux_total - div_expected)/div_expected) < tolerance ), "div_scalar_flux: div_expected")
+          end associate
+        end associate
+
+        call div_flux%increment_scalar( div_flux_x + div_flux_y + div_flux_z )
+
+      end associate
+
+    end block hardwire_known_boundary_values
 
   end procedure
 
