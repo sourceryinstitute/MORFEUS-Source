@@ -34,8 +34,6 @@ module structured_grid_interface
     integer :: scalar_id = undefined
     type(block_metadata) metadata
   contains
-    procedure(assignment_interface), deferred :: assign_structured_grid
-    generic :: assignment(=) => assign_structured_grid
     procedure(set_up_div_scalar_flux_interface), deferred :: set_up_div_scalar_flux
     procedure(div_scalar_flux_interface), deferred :: div_scalar_flux
     procedure(block_indices_interface), deferred :: block_indicial_coordinates
@@ -92,13 +90,6 @@ module structured_grid_interface
       class(structured_grid), intent(in) :: vertices
       type(surfaces), intent(in) :: block_surfaces
       class(structured_grid), intent(inout) :: div_flux
-    end subroutine
-
-    subroutine assignment_interface(this, rhs)
-      import structured_grid
-      implicit none
-      class(structured_grid), intent(inout) :: this
-      class(structured_grid), intent(in) :: rhs
     end subroutine
 
     pure function block_indices_interface(this,n) result(ijk)

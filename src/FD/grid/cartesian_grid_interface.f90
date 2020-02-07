@@ -21,7 +21,6 @@ module cartesian_grid_interface
   contains
     procedure :: set_up_div_scalar_flux
     procedure :: div_scalar_flux
-    procedure :: assign_structured_grid
     procedure :: block_indicial_coordinates
     procedure :: block_identifier
     procedure :: build_surfaces
@@ -58,13 +57,6 @@ module cartesian_grid_interface
       type(surfaces), intent(inout) :: block_faces
       integer, intent(in), dimension(:) :: block_partitions
       integer, intent(in) :: num_scalars
-    end subroutine
-
-    module subroutine assign_structured_grid(this, rhs)
-     !! copy the rhs into this structured_grid
-     implicit none
-     class(cartesian_grid), intent(inout) :: this
-     class(structured_grid), intent(in) :: rhs
     end subroutine
 
     pure module function block_indicial_coordinates(this,n) result(ijk)

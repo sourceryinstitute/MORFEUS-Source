@@ -89,11 +89,6 @@ contains
 
   end procedure
 
-  module procedure assign_structured_grid
-    call assert( same_type_as(this, rhs), "cartesian_grid%assign_structured_grid: consistent types" )
-    call this%clone(rhs)
-  end procedure
-
   module procedure set_up_div_scalar_flux
     !! Evaluate 2nd partial derivatives in each coordinate direction according to equations (2.2) & (2.4) in
     !! Sundqvist & Veronis (1969) "A simple finite-difference grid with non-constant intervals", Tellus 22:1
