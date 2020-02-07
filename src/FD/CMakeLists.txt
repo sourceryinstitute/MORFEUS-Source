@@ -45,9 +45,9 @@ endif()
     set(coarray_flags "-fcoarray=single")
   elseif ("${CMAKE_Fortran_COMPILER_ID}" MATCHES "Intel" )
     if ( "${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
-      set(coarray_flags "${prefix}Qcoarray${eq}shared ${prefix}standard-semantics")
+      set(coarray_flags "${prefix}Qcoarray${eq}shared")
     else()
-      set(coarray_flags "${prefix}coarray${eq}shared ${prefix}standard-semantics")
+      set(coarray_flags "${prefix}coarray${eq}shared")
     endif()
     set(CMAKE_Fortran_FLAGS_DEBUG "${coarray_flags} ${CMAKE_Fortran_FLAGS_DEBUG}")
     set(CMAKE_Fortran_FLAGS_RELEASE "${coarray_flags} ${CMAKE_Fortran_FLAGS_RELEASE}")
@@ -167,7 +167,7 @@ function(add_caf_test name num_caf_img test_target)
   endif()
   if(min_test_imgs)
     if(num_caf_img LESS min_test_imgs)
-      message( FATAL_ERROR "Test ${name} requires ${min_test_imgs} but was only given ${num_caf_images}" )
+      message( FATAL_ERROR "Test ${name} requires ${min_test_imgs} but was only given ${num_caf_img}" )
     endif()
   endif()
   # Add a host file for OMPI
@@ -191,6 +191,10 @@ function(add_caf_test name num_caf_img test_target)
   set(test_parameters ${MPIEXEC_NUMPROC_FLAG} ${num_caf_img} ${test_parameters})
   if ("${CMAKE_Fortran_COMPILER_ID}" MATCHES "Intel" )
     add_test(NAME ${name} COMMAND "${test_target}" ${ARGN})
+    set_property(TEST ${name}
+      APPEND
+      PROPERTY ENVIRONMENT FOR_COARRAY_NUM_IMAGES=${num_caf_img})
+    message ( STATUS "Setting FOR_COARRAY_NUM_IMAGES=${num_caf_img} for test ${test}")
   else()
     add_test(NAME ${name} COMMAND ${MPIEXEC_EXECUTABLE} ${test_parameters} "${test_target}" ${ARGN})
   endif()
@@ -201,6 +205,12 @@ function(add_caf_test name num_caf_img test_target)
   set_property(TEST ${name}
     APPEND
     PROPERTY LABELS "MORFEUS_FD" "MORFEUS")
+  set_property(TEST ${name}
+    APPEND
+    PROPERTY PROCESSORS ${num_caf_img})
+  set_property(TEST ${name}
+    APPEND
+    PROPERTY PROCESSOR_AFFINITY ON)
 
 endfunction(add_caf_test)
 
