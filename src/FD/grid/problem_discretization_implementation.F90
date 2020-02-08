@@ -304,6 +304,56 @@ contains
 
   end procedure
 
+  module procedure initialize_from_cylinder_2D
+    use cylindrical_grid_interface, only : cylindrical_grid
+    integer, parameter :: lo_bound=1, up_bound=2 !! array indices corresponding to end points on 1D spatial interval
+    integer, parameter :: nx_min=2, ny_min=2, nz_min=2
+    integer n
+    type(cylindrical_grid) prototype
+      !! used only for dynamic type information about the grid type in the partitioning procedure
+
+    call this%partition( cylinder_2D_geometry%get_block_metadata_shape(), prototype )
+      !! partition a block-structured grids across images
+
+    associate( my_blocks => this%my_blocks() )
+
+      do n = my_blocks(lo_bound) , my_blocks(up_bound) ! TODO: make concurrent after Intel supports co_sum
+
+        call this%vertices(n)%set_block_identifier(n)
+
+        associate( ijk => this%block_map%block_indicial_coordinates(n) )
+
+          associate( metadata => cylinder_2D_geometry%get_block_metadatum(ijk))
+
+            call this%vertices(n)%set_metadata( metadata  )
+
+            associate( &
+              block => cylinder_2D_geometry%get_block_domain(ijk), &
+              max_spacing => metadata%get_max_spacing() &
+            )
+              associate( &
+                nx => max( nx_min, floor( abs(block(1,up_bound) - block(1,lo_bound))/max_spacing ) + 1 ), &
+                ny => max( ny_min, floor( abs(block(2,up_bound) - block(2,lo_bound))/max_spacing ) + 1 ), &
+                nz => max( nz_min, floor( abs(block(3,up_bound) - block(3,lo_bound))/max_spacing ) + 1 ) &
+              )
+                associate( &
+                  x => evenly_spaced_points(  block, [nx,ny,nz], direction=1 ), &
+                  y => evenly_spaced_points(  block, [nx,ny,nz], direction=2 ), &
+                  z => evenly_spaced_points(  block, [nx,ny,nz], direction=3 ) )
+                  call this%set_vertices(x,y,z,block_identifier=n)
+                end associate
+              end associate
+            end associate
+          end associate
+        end associate
+      end do
+
+    end associate
+
+    this%problem_geometry = cylinder_2D_geometry
+
+  end procedure
+
   module procedure partition
 
     integer alloc_status, image

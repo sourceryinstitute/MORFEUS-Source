@@ -17,6 +17,8 @@ set( morfeus_fd_sources
   problem_discretization_interface.F90
   cartesian_grid_interface.f90
   cartesian_grid_implementation.f90
+  cylindrical_grid_interface.f90
+  cylindrical_grid_implementation.f90
   structured_grid_implementation.F90
   structured_grid_interface.F90
   differentiable_field_interface.f90
@@ -24,6 +26,8 @@ set( morfeus_fd_sources
   ellipsoidal_field_implementation.f90
   ../geometry/geometry_interface.f90
   ../geometry/geometry_implementation.f90
+  ../geometry/cylinder_2D_implementation.F90
+  ../geometry/cylinder_2D_interface.F90
   ../geometry/plate_3D_implementation.F90
   ../geometry/plate_3D_interface.F90
   ../geometry/block_metadata_interface.F90
