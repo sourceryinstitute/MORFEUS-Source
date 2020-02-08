@@ -6,6 +6,7 @@
 !
 module cylinder_2D_interface
   !! author: Damian Rouson and Karla Morris
+  !! date: 2/7/2020
   !!
   !! Encapsulate a 2D cylinder geometry and grid-verification method
   use geometry_interface, only : geometry
