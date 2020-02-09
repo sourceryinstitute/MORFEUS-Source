@@ -116,7 +116,7 @@ SUBMODULE(tools_bc) rd_inp_bc_implementation
                     id(ib) = bc_math_
                 CASE('wall')
                     id(ib) = bc_wall_
-                CASE default
+                CASE DEFAULT
                     WRITE(*,200)
                     CALL abort_psblas
                 END SELECT

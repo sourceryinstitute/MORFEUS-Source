@@ -58,7 +58,7 @@ CONTAINS
             dsign = 1.d0
         CASE('-')
             dsign = -1.d0
-        CASE default
+        CASE DEFAULT
             WRITE(*,100)
             CALL abort_psblas
         END SELECT

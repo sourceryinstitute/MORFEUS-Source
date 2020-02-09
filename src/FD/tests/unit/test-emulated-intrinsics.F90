@@ -1,8 +1,8 @@
 !
-!     (c) 2019 Guide Star Engineering, LLC
-!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
-!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+!     (c) 2019-2020 Guide Star Engineering, LLC
+!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract
+!     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
+!     contract # NRC-HQ-60-17-C-0007
 !
 program main
   !! author: Damian Rouson
@@ -25,7 +25,6 @@ program main
   implicit none
 
   associate( me=>this_image(), ni=>num_images() )
-
 
     test_collective_broadcast: block
       integer ::i, messenger, message
@@ -70,10 +69,12 @@ program main
 
         integer, parameter, dimension(*) :: zero_sized = [ integer :: ]
 
+#ifndef FORD
         enum, bind(C)
           enumerator &
-          absent, core, dressing, gap, wrap, ring, foil, skin, fabric
+            absent, core, dressing, gap, wrap, ring, foil, skin, fabric
         end enum
+#endif
 
         associate( unused=>absent) !! eliminate unused variable warning
         end associate
@@ -111,6 +112,10 @@ program main
 
         associate( empty_array => findloc(empty, value="dressing", dim=1, back=.false.) )
           call assert(empty_array==0, "findloc: handles empty character array from front")
+        end associate
+
+        associate( mostly_false => [.true., .false., .false.])
+          call assert( findloc(mostly_false, value=.true., dim=1, back=.true.) == 1, "findloc: logical test")
         end associate
 
       end block test_findloc

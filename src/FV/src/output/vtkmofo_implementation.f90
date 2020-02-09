@@ -324,7 +324,7 @@ CONTAINS
             CASE(vtk_)
                 ! call wr_vtk_field(field,x_glob,msh%ncd,path)
                 ! Only need value for x_glob
-            CASE default
+            CASE DEFAULT
                 WRITE(*,300)
                 CALL abort_psblas
             END SELECT

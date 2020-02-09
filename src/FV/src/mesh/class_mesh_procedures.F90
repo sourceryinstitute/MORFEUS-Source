@@ -1,4 +1,5 @@
-!
+src/mesh/rd_cgns_mesh.F90
+6
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
 !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
@@ -222,7 +223,7 @@ CONTAINS
                     & msh%verts, msh%faces, msh%cells, &
                     & msh%v2f, msh%v2c, msh%f2c, msh%c2g)
 #else
-                error STOP "FAST/MORFEUS built without CNGS support! Unable to continue."
+                ERROR STOP "MORFEUS built without CNGS support! Unable to continue."
 #endif
             CASE('e')
                 CALL rd_exodus_mesh(mesh_file, msh%id, msh%nbc, msh%ncd, &
@@ -236,7 +237,7 @@ CONTAINS
                 CALL rd_gambit_mesh(mesh_file, msh%id, msh%nbc, msh%ncd, &
                     & msh%verts, msh%faces, msh%cells, &
                     & msh%v2f, msh%v2c, msh%f2c, msh%c2g)
-            CASE default
+            CASE DEFAULT
                 WRITE(*,200)
                 CALL abort_psblas
             END SELECT

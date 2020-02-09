@@ -1,8 +1,8 @@
 !
-!     (c) 2019 Guide Star Engineering, LLC
-!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
-!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+!     (c) 2019-2020 Guide Star Engineering, LLC
+!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract
+!     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
+!     contract # NRC-HQ-60-17-C-0007
 !
 submodule(emulated_intrinsics_interface) emulated_intrinsics_implementation
   implicit none
@@ -162,6 +162,25 @@ contains
     associate( lower_bound=>lbound(array,dim) )
       do index_=ubound(array,dim), lower_bound, loop_increment
         if (array(index_)==value) then
+          location = index_ - lower_bound + base_index
+          return
+        end if
+      end do
+    end associate
+    location=0
+
+  end procedure
+
+  module procedure findloc_logical_dim1
+    use assertions_interface, only : assert
+    integer, parameter :: loop_increment=-1, base_index=1
+    integer index_
+
+    call assert(back .and. dim==1,"findloc_logical_dim1_backtrue: unsupported use case")
+
+    associate( lower_bound=>lbound(array,dim) )
+      do index_=ubound(array,dim), lower_bound, loop_increment
+        if (array(index_) .eqv. value) then
           location = index_ - lower_bound + base_index
           return
         end if

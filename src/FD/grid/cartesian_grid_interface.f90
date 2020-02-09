@@ -1,8 +1,8 @@
 !
-!     (c) 2019 Guide Star Engineering, LLC
-!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
-!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+!     (c) 2019-2020 Guide Star Engineering, LLC
+!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract
+!     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
+!     contract # NRC-HQ-60-17-C-0007
 !
 module cartesian_grid_interface
   !! author: Damian Rouson and Karla Morris
@@ -19,42 +19,44 @@ module cartesian_grid_interface
 
   type, extends(structured_grid) :: cartesian_grid
   contains
-    procedure set_up_div_scalar_flux
-    procedure div_scalar_flux
-    procedure assign_structured_grid
-    procedure block_indicial_coordinates
-    procedure block_identifier
-    procedure build_surfaces
-    procedure block_identifier_in_bounds
-    procedure block_coordinates_in_bounds
+    procedure :: set_up_div_scalar_flux
+    procedure :: div_scalar_flux
+    procedure :: assign_structured_grid
+    procedure :: block_indicial_coordinates
+    procedure :: block_identifier
+    procedure :: build_surfaces
+    procedure :: block_identifier_in_bounds
+    procedure :: block_coordinates_in_bounds
   end type
 
   interface
 
-    module subroutine set_up_div_scalar_flux(this, vertices, surface_fluxes, div_flux_internal_points)
+    pure module subroutine set_up_div_scalar_flux(this, vertices, block_surfaces, div_flux_internal_points)
+      !! define the scalar flux divergence at points internal to grid blocks grid; define block-surface data on halo blocks
       implicit none
       class(cartesian_grid), intent(in) :: this
       class(structured_grid), intent(in) :: vertices
-      type(surfaces), intent(inout) :: surface_fluxes
+      type(surfaces), intent(inout) :: block_surfaces
       class(structured_grid), intent(inout) :: div_flux_internal_points
     end subroutine
 
-    module subroutine div_scalar_flux(this, vertices, surface_fluxes, div_flux)
+    pure module subroutine div_scalar_flux(this, vertices, block_surfaces, div_flux)
       implicit none
       class(cartesian_grid), intent(in) :: this
       class(structured_grid), intent(in) :: vertices
-      type(surfaces), intent(in) :: surface_fluxes
+      type(surfaces), intent(in) :: block_surfaces
       class(structured_grid), intent(inout) :: div_flux
     end subroutine
 
-    module subroutine build_surfaces(this, problem_geometry, my_blocks, space_dimension, block_faces)
+    module subroutine build_surfaces(this, problem_geometry, space_dimension, block_faces, block_partitions, num_scalars)
       !! allocate the surfaces array for use in halo exchanges and boundary conditions
       implicit none
       class(cartesian_grid), intent(in) :: this
       class(geometry), intent(in) :: problem_geometry
-      integer, intent(in), dimension(:) :: my_blocks
       integer, intent(in) :: space_dimension
       type(surfaces), intent(inout) :: block_faces
+      integer, intent(in), dimension(:) :: block_partitions
+      integer, intent(in) :: num_scalars
     end subroutine
 
     module subroutine assign_structured_grid(this, rhs)

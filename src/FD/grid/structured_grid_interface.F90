@@ -1,8 +1,8 @@
 !
-!     (c) 2019 Guide Star Engineering, LLC
-!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
-!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+!     (c) 2019-2020 Guide Star Engineering, LLC
+!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract
+!     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
+!     contract # NRC-HQ-60-17-C-0007
 !
 module structured_grid_interface
   !! author: Damian Rouson
@@ -29,7 +29,8 @@ module structured_grid_interface
       !! 3 dims for indexing through 3D space
       !! 2 dims for tensor free indices to handle scalars, vectors, & dyads
       !! 1 dim for instances in time
-    integer :: global_bounds(num_bounds,max_space_dims)=undefined
+    integer :: global_bounds(num_bounds,max_space_dims) = undefined
+    integer :: block_id = undefined
     type(block_metadata) metadata
   contains
     procedure(assignment_interface), deferred :: assign_structured_grid
@@ -42,45 +43,48 @@ module structured_grid_interface
     procedure(block_id_in_bounds_interface), deferred :: block_identifier_in_bounds
     procedure(block_ijk_in_bounds_interface), deferred :: block_coordinates_in_bounds
     generic :: block_in_bounds => block_identifier_in_bounds, block_coordinates_in_bounds
-    procedure set_global_block_shape
-    procedure get_global_block_shape
-    procedure clone
-    procedure diffusion_coefficient
-    procedure write_formatted
-    procedure space_dimension
-    procedure free_tensor_indices
-    procedure num_cells
-    procedure num_time_stamps
-    procedure vectors
-    procedure get_scalar
-    procedure set_metadata
-    procedure get_tag
-    procedure set_vector_components
-    procedure set_scalar
-    procedure increment_scalar
-    procedure subtract
+    procedure :: set_global_block_shape
+    procedure :: get_global_block_shape
+    procedure :: clone
+    procedure :: diffusion_coefficient
+    procedure :: write_formatted
+    procedure :: space_dimension
+    procedure :: free_tensor_indices
+    procedure :: num_cells
+    procedure :: num_time_stamps
+    procedure :: vectors
+    procedure :: get_scalar
+    procedure :: set_metadata
+    procedure :: get_tag
+    procedure :: set_vector_components
+    procedure :: set_scalar
+    procedure :: increment_scalar
+    procedure :: subtract
+#ifndef FORD
     generic :: operator(-) => subtract
-    procedure compare
+#endif
+    procedure :: compare
 #ifdef HAVE_UDDTIO
     generic :: write(formatted) => write_formatted
 #endif
+    procedure :: set_block_identifier
   end type
 
   abstract interface
 
-    subroutine set_up_div_scalar_flux_interface(this, vertices, surface_fluxes, div_flux_internal_points)
+    pure subroutine set_up_div_scalar_flux_interface(this, vertices, block_surfaces, div_flux_internal_points)
       import structured_grid, differentiable_field, surfaces
       implicit none
       class(structured_grid), intent(in) :: this, vertices
-      type(surfaces), intent(inout) :: surface_fluxes
+      type(surfaces), intent(inout) :: block_surfaces
       class(structured_grid), intent(inout) :: div_flux_internal_points
     end subroutine
 
-    subroutine div_scalar_flux_interface(this, vertices, surface_fluxes, div_flux)
+    pure subroutine div_scalar_flux_interface(this, vertices, block_surfaces, div_flux)
       import structured_grid, differentiable_field, surfaces
       implicit none
       class(structured_grid), intent(in) :: this, vertices
-      type(surfaces), intent(in) :: surface_fluxes
+      type(surfaces), intent(in) :: block_surfaces
       class(structured_grid), intent(inout) :: div_flux
     end subroutine
 
@@ -109,14 +113,15 @@ module structured_grid_interface
       integer :: n
     end function
 
-    subroutine build_surfaces_interface(this, problem_geometry, my_blocks, space_dimension, block_faces)
-      !! allocate coarray for communicating across structured_grid subdomains
+    subroutine build_surfaces_interface(this, problem_geometry, space_dimension, block_faces, block_partitions, num_scalars)
+      !! allocate coarray for communicating across structured_grid blocks
       import structured_grid, geometry, surfaces
       class(structured_grid), intent(in) :: this
       class(geometry), intent(in) :: problem_geometry
-      integer, intent(in), dimension(:) :: my_blocks
       integer, intent(in) :: space_dimension
       type(surfaces), intent(inout) :: block_faces
+      integer, intent(in), dimension(:) :: block_partitions
+      integer, intent(in) :: num_scalars
     end subroutine
 
     pure function block_id_in_bounds_interface(this, id) result(in_bounds)
@@ -263,6 +268,13 @@ module structured_grid_interface
       implicit none
       class(structured_grid), intent(in) :: this, reference
       real(r8k), intent(in) :: tolerance
+    end subroutine
+
+    module subroutine set_block_identifier(this, id)
+      !! set block identification tag
+      implicit none
+      class(structured_grid), intent(inout) :: this
+      integer, intent(in) :: id
     end subroutine
 
   end interface

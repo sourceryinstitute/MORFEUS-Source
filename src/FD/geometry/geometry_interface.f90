@@ -1,8 +1,8 @@
 !
-!     (c) 2019 Guide Star Engineering, LLC
-!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
-!     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
-!     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
+!     (c) 2019-2020 Guide Star Engineering, LLC
+!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract
+!     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
+!     contract # NRC-HQ-60-17-C-0007
 !
 module geometry_interface
   !! author: Damian Rouson
@@ -18,7 +18,7 @@ module geometry_interface
     !! defer case-specific steps to child classes
     private
   contains
-    procedure build
+    procedure :: build
     procedure(set_json_file), deferred :: set_grid_specification
     procedure(set_metadata), deferred :: set_block_metadata
   end type

@@ -120,7 +120,7 @@
     !!$    call prec%init('ml',info,nlev=3)
     !!$    call prec%set(coarse_solve_,umf_,info)
     !!$    call prec%set(coarse_sweeps_,4,info)
-        CASE default
+        CASE DEFAULT
             WRITE(*,100)
             CALL abort_psblas
         END SELECT
@@ -132,7 +132,7 @@
             SELECT CASE(psb_toupper(TRIM(cprec)))
             CASE ('NOPREC','DIAG','BJAC','2LI4S','2LU4S','3LI4S','3LU4S')
                 ! Things are OK
-            CASE default
+            CASE DEFAULT
                 WRITE(*,200)
                 CALL abort_psblas
             END SELECT

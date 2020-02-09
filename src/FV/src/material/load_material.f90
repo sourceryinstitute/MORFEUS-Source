@@ -60,7 +60,7 @@ SUBMODULE(tools_material) load_material_implementation
                 CALL load_copper(state,dtemp,tmin,tmax,rho,lambda,sh)
             CASE('water')
                 CALL load_water(state,dtemp,tmin,tmax,rho,mu,lambda,sh)
-            CASE default
+            CASE DEFAULT
                 WRITE(*,100)
             END SELECT
 

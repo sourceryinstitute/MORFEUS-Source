@@ -461,7 +461,7 @@ CONTAINS
             CASE(ihex_)
                 khex = khex + 1
                 ictype(khex) = ic
-            CASE default
+            CASE DEFAULT
                 WRITE(*,200)
                 CALL abort_psblas
             END SELECT
