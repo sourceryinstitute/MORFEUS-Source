@@ -75,13 +75,14 @@ CONTAINS
 
         ! Gets format
         CALL nemo_json%get(TRIM(output_sec)//'.format', cval, found)
-        print *, cval, found
         IF (.NOT.found) THEN
             WRITE(*,100)
             CALL abort_psblas
         END IF
         IF (cval == 'vtk') THEN
             out%fmt  = vtk_
+        ELSE IF (cval == 'exo') THEN
+          out%fmt = exo_
         END IF
 
         ! Gets path basename
@@ -117,7 +118,8 @@ CONTAINS
         SELECT CASE(out%fmt)
         CASE(vtk_)
             path_ = TRIM(out%path) // '.vtk'
-
+        CASE(exo_)
+            path_ = TRIM(out%path) // '.e'
         END SELECT
 
     END PROCEDURE path_

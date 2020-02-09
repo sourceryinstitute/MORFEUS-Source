@@ -266,6 +266,7 @@ set(morfeus_fv_srcs
   src/output/write_mesh.f90
   src/output/write_scalar_field.f90
   src/output/write_vector_field.f90
+  src/output/write_exodus.f90
   src/pde/class_pde.f90
   src/pde/class_pde_procedures.f90
   src/pde/class_scalar_pde.f90
