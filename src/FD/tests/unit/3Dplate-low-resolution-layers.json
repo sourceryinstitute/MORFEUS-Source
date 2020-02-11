@@ -5,6 +5,7 @@
     "validation_date": 20191104
   },
   "MORFEUS_FD": {
+    "units_system": "SI",
     "initial_condition" : {
       "temperature" : 293,
       "constraint": {
@@ -12,6 +13,9 @@
         "minimum_version": "2003",
         "expressions": [ "temperature > 0." ]
       }
+    },
+    "time" : {
+      "end" : 60.0
     },
     "heat_source" : {
       "type" : "lhgr",
@@ -46,7 +50,6 @@
     },
     "layers": {
       "type": "3D_plate",
-      "units_system": "SI",
       "max_spacing": 1.0E+06,
       "core": {
         "material_name": ["burrito"],

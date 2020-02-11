@@ -1,16 +1,36 @@
 {
   "file_validation": {
     "validator": "https://jsonlint.com/",
-    "validated_by": "Ian Porter",
-    "validation_date": 20200127,
+    "validated_by": "",
+    "validation_date": ,
     "problem description": "Example using the Earth composition"
   },
   "MORFEUS_FD": {
+    "units_system" : "SI",
+    "initial_condition" : {
+      "temperature" : 600,
+      "constraint": {
+        "language": "Fortran",
+        "minimum_version": "2003",
+        "expressions": [ "temperature > 0." ]
+      }
+    },
+    "boundary_conditions" : {
+      "surface_temperature": [600.0],
+      "time": [ 0.0 ],
+      "description": "fixed surface temperature of 600 degrees",
+      "constraint": {
+        "language": "Fortran",
+        "minimum_version": "2003",
+        "expressions": [
+          "size(bottom_boundary%temperature) == size(time)"
+        ]
+      }
+    },
     "time": {
-	  "end": 60.0,
-	  "units": "seconds",
-	  "end_time description": "Lets take it a minute at a time"
-	},
+	    "end": 60.0,
+	    "end_time description": "Lets take it a minute at a time"
+	  },
     "heat_source" : {
       "type" : "volumetric",
       "type_description" : "volumetric heat source (W/m^3)",
@@ -29,7 +49,6 @@
     },
     "geometry": {
       "type": "1D_sphere",
-      "units_system": "SI",
       "max_spacing": 0.99E-01,
       "layout": {
         "material_name": ["inner core","outer core","lower mantle","upper mantle","crust"],
@@ -71,26 +90,6 @@
         "water_coverage": 71.0,
         "description": "Earth crust material"
       }
-    ],
-    "initial_condition" : {
-      "temperature" : 600,
-      "constraint": {
-        "language": "Fortran",
-        "minimum_version": "2003",
-        "expressions": [ "temperature > 0." ]
-      }
-    },
-    "boundary_conditions" : {
-      "surface_temperature": [600.0],
-      "time": [ 0.0 ],
-      "description": "fixed surface temperature of 600 degrees",
-      "constraint": {
-        "language": "Fortran",
-        "minimum_version": "2003",
-        "expressions": [
-          "size(bottom_boundary%temperature) == size(time)"
-        ]
-      }
-    }
+    ]
   }
 }
