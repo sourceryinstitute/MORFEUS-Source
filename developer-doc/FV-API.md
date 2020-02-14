@@ -19,7 +19,9 @@ An overview of reading input files, reading grid files,
 initializing the library and data structures and, setting up PDEs, integrating the solution forward in time
 and writing outputs is given.
 
-![Finite volume solver figure](https://github.com/sourceryinstitute/MORFEUS-Source/raw/fv-main-page/developer-doc/media/sphere.png)
+![Sphere geometry and mesh for finite volume solver](https://github.com/sourceryinstitute/MORFEUS-Source/raw/fv-main-page/developer-doc/media/sphere.png)
+
+<!-- 'fv-main-page' should be 'master' -->
 
 
 Solver Description 
