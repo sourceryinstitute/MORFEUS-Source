@@ -19,6 +19,8 @@ An overview of reading input files, reading grid files,
 initializing the library and data structures and, setting up PDEs, integrating the solution forward in time
 and writing outputs is given.
 
+![Finite volume solver figure](https://github.com/sourceryinstitute/MORFEUS-Source/raw/master/developer-doc/media/sphere.png)
+
 
 Solver Description 
 ------------------
@@ -481,78 +483,30 @@ A complete list of all FD and FV classes and types can be found on the [types li
 
 ### [[grid(type)]]
 
-`[[grid(type)]]` Is the Morfeus universal base type for all grids, even for FV grids. It extends `[[object(type)]]`.
+`[[grid(type)]]` ss the Morfeus universal base type for all grids, for FD and FV grids. It extends `[[object(type)]]`.
 
 #### Methods
 
 * `[[grid(type):set_units]]` : Set the physical units used by the grid
 * `[[grid(type):get_units]]` : Get the physical units used by the grid
 
-### [[structured_grid(type)]]
+### [[material(type)]]
 
-This is the main structured grid class used by Morfeus FD. It extends the `[[grid(type)]]` class.
-Methods defined for this class can get information about the global grid as well as this images particular block.
+`[[material(type)]]` is a class to describe material state and specify state equations. 
 
-#### Methods
+### [[mesh(type)]]
 
-@todo
-This section needs to be filled in/expanded!
+`[[mesh(type)]]` is a class to define and manipulate data describing the discretization of space into connected finite-volume cells and surfaces
 
-* `[[structured_grid(type):clone]]` :
-* `[[structured_grid(type):space_dimension]]` :
-* `[[structured_grid(type):set_metadata]]` :
+### [[bc(type)]]
 
-### [[cartesian_grid(type)]]
+`[[bc(type)]]` Emulate runtime polymorphism for boundary condition classes.
 
-@todo
-add description and how to use, etc.
+### [[bc_poly(type)]]
 
-#### Methods
+`[[bc_poly(type)]]` Implement a runtime polymorphism pattern [1] to emulate an abstract parent of the bc_math/bc_wall classes. 
 
-@todo
-discussion of important methods provided and how to use them, etc.
-
-### [[curvilinear_grid(type)]]
-
-@todo
-add description and how to use, etc.
-
-#### Methods
-
-@todo
-discussion of important methods provided and how to use them, etc.
-
-### [[co_object(type)]]
-
-
-### [[surfaces(type)]]
-
-
-### [[material_t(type)]]
-
-
-### [[thickness_t(type)]]
-
-
-### [[problem_discretization(type)]]
-
-
-### [[package(type)]]
-
-
-### [[material_t(type)]]
-
-
-### [[flux_planes(type)]]
-
-
-### [[plate_3D(type)]]
-
-
-### [[geometry(type)]]
-
-
-### [[subdomain_t(type)]]
+[1] Akin, E. (2003) Object-oriented programming via Fortran 90/95. Cambridge University Press.
 
 
 High Level Procedures and Methods
