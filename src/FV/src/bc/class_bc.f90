@@ -43,6 +43,7 @@
 !    Run-time polymorphism for BC_* classes
 !
 MODULE class_bc
+    !! Emulate runtime polymorphism for boundary condition classes.
 
     USE class_psblas
     USE class_bc_math
@@ -58,6 +59,11 @@ MODULE class_bc
     PUBLIC :: update_boundary                   ! Updater
 
     TYPE bc_poly
+      !! Implement a runtime polymorphism pattern [1] to emulate an abstract parent of the bc_math/bc_wall classes.
+      !! TODO: Modernize by 1. Refactoring math/wall so they extend bc_poly, 2. Replace all TYPE(bc_poly) with CLASS(bc_poly), and
+      !! 3. Make bc_poly ABSTRACT.
+      !!
+      !! [1] Akin, E. (2003) Object-oriented programming via Fortran 90/95. Cambridge University Press.
         PRIVATE
         INTEGER :: id
         TYPE(motion) :: mot
