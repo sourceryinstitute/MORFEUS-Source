@@ -63,11 +63,10 @@ MODULE class_scalar_field
       !!
       !! Encapsulate scalar-field state and operations, storing a mesh association in the parent field
       !!
-      !! @todo determine the meaning of xp (previous?), bx (boundary?)
         PRIVATE
-        REAL(psb_dpk_), ALLOCATABLE :: x(:)
-        REAL(psb_dpk_), ALLOCATABLE :: xp(:)
-        REAL(psb_dpk_), ALLOCATABLE :: bx(:)
+        REAL(psb_dpk_), ALLOCATABLE :: x(:)  !! field nodal values
+        REAL(psb_dpk_), ALLOCATABLE :: xp(:) !! previous nodal values
+        REAL(psb_dpk_), ALLOCATABLE :: bx(:) !! face values
         INTEGER, ALLOCATABLE :: mat(:)
         INTEGER, ALLOCATABLE :: bmat(:)
     CONTAINS
