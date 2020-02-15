@@ -433,36 +433,35 @@ The `BCS` object contains a list of child objects for each boundary surface. The
   }
 ]
 ```
+
+
 Table: Temperature boundary conditions
 
-| BC ID | Description       | Value 1          | Value 2          |
-|-------|-------------------|------------------|------------------|
-| 1     | Fixed temperature | Temperature in K |                  |
-| 2     | Adiabatic BC      |                  |                  |
-| 3     | Fixed flux        | flux in W/m2     |                  |
-| 4     | Convection        | Coeff in W/m2K   | Temperature in K |
-
+| BC ID <br>| Description       | Value 1          | Value 2          
+|-------|-------------------|------------------|------------------:
+| 1     | Fixed temperature | Temperature in K |                  
+| 2     | Adiabatic BC      |                  |                  
+| 3     | Fixed flux        | flux in W/m2     |                  
+| 4     | Convection        | Coeff in W/m2K   | Temperature in K 
 
 
 Table: Stress boundary conditions
 
-| BC ID | Description | Value |
-|-------|-------------|-------|
-| 1 | Stress free | |
-| 2 | Presribed Stress | Stress in N/m2 |
-
+| BC ID <br>  | Description   | Value   
+|------------ |-------------------  |----------------:
+| 1   | Stress free   |   
+| 2   | Prescribed Stress   | Stress in N/m2  
 
 
 Table: Velocity boundary conditions
 
-| BC ID | Description | Value |
-|-------|-------------|-------|
-| 1 | No slip | |
-| 2 | Free slip | |
-| 3 | Sliding | |
-| 4 | Moving | Velocity in m/s |
-| 5 | Free sliding | |
-
+| BC ID <br>| Description <br>| Value 
+|-------|-------------|-------:
+| 1 | No slip | 
+| 2 | Free slip | 
+| 3 | Sliding | 
+| 4 | Moving | Velocity in m/s 
+| 5 | Free sliding | 
 
 
 High Level Classes
@@ -492,23 +491,121 @@ A complete list of all FD and FV classes and types can be found on the [types li
 * `[[grid(type):set_units]]` : Set the physical units used by the grid
 * `[[grid(type):get_units]]` : Get the physical units used by the grid
 
+
+### [[field(type)]]
+
+`[[field(type)]]` is the Morfeus base type for all fields. It extends `[[grid(type)]]`.
+
+#### Methods
+
+* `[[field(type):create_field]]` : Class constructor
+* `[[field(type):free_field]]` : Class destructor
+* `[[field(type):on_faces_]]` :
+* `[[field(type):mat_]]` :
+* `[[field(type):bc_]]` :
+* `[[field(type):fld_size]]` :
+* `[[field(type):get_material]]` :
+* `[[field(type):msh_]]` :
+* `[[field(type):dim_]]` :
+* `[[field(type):name_]]` :
+* `[[field(type):set_field_dim]]` :
+* `[[field(type):set_field_on_faces]]` :
+* `[[field(type):check_field_operands]]` :
+* `[[field(type):nemo_sizeof]]` :
+* `[[field(type):get_mesh]]` :
+* `[[field(type):check_mesh_consistency]]` :
+
+
 ### [[material(type)]]
 
 `[[material(type)]]` is a class to describe material state and specify state equations. 
+
+#### Methods
+
+* `[[material(type):name_]]` : 
+* `[[material(type):mat_id]]` :
+* `[[material(type):nemo_sizeof]]` :
+
+### [[matptr(type)]]
+
+`[[matptr(type)]]` is a class with a single `[[material(type)]]` type object
 
 ### [[mesh(type)]]
 
 `[[mesh(type)]]` is a class to define and manipulate data describing the discretization of space into connected finite-volume cells and surfaces
 
-### [[bc(type)]]
+#### Methods
 
-`[[bc(type)]]` Emulate runtime polymorphism for boundary condition classes.
+* `[[mesh(type):create_mesh]]` : 
+* `[[mesh(type):free_mesh]]` : 
+* `[[mesh(type):check_mesh_unused_el]]` : 
+* `[[mesh(type):nemo_sizeof]]` : 
 
 ### [[bc_poly(type)]]
 
-`[[bc_poly(type)]]` Implement a runtime polymorphism pattern [1] to emulate an abstract parent of the bc_math/bc_wall classes. 
+`[[bc_poly(type)]]` Implement a runtime polymorphism pattern [1] to emulate an abstract parent of the `[[bc_math(type)]]`/`[[bc_wall(type)]]` classes. 
 
 [1] Akin, E. (2003) Object-oriented programming via Fortran 90/95. Cambridge University Press.
+
+#### Methods
+
+* `[[bc_poly(type):get_abc]]` : 
+* `[[bc_poly(type):set_bc]]` : 
+* `[[bc_poly(type):surface_motion]]` : 
+* `[[bc_poly(type):vertex_motion]]` : 
+* `[[bc_poly(type):get_displacement]]` : 
+* `[[bc_poly(type):get_velocity]]` : 
+* `[[bc_poly(type):nemo_sizeof]]` : 
+
+### [[scalar_source(type)]]
+
+`[[scalar_source(type)]]`
+
+### [[scalar_field(type)]]
+
+`[[scalar_field(type)]]`
+
+### [[scalar_pde(type)]]
+
+`[[scalar_pde(type)]]`
+
+#### Methods
+
+* `[[scalar_pde(type):create_pde]]` :
+* `[[scalar_pde(type):free_pde]]` :
+* `[[scalar_pde(type):write_scalar_pde]]` :
+* `[[scalar_pde(type):geins_pde]]` :
+* `[[scalar_pde(type):nemo_sizeof]]` :
+* `[[scalar_pde(type):reinit_pde]]` :
+* `[[scalar_pde(type):asb_pde_]]` :
+* `[[scalar_pde(type):solve_pde]]` :
+
+### [[vector(type)]]
+
+`[[vector(type)]]`
+
+### [[vector_field(type)]]
+
+`[[vector_field(type)]]`
+
+### [[vector_pde(type)]]
+
+`[[vector_pde(type)]]`
+
+#### Methods
+
+* `[[vector_pde(type):create_pde]]` :
+* `[[vector_pde(type):free_pde]]` :
+* `[[vector_pde(type):write_vector_pde]]` :
+* `[[vector_pde(type):geins_pde]]` :
+* `[[vector_pde(type):nemo_sizeof]]` :
+* `[[vector_pde(type):reinit_pde]]` :
+* `[[vector_pde(type):asb_pde_]]` :
+* `[[vector_pde(type):solve_pde]]` :
+
+### [[iterating(type)]]
+
+`[[iterating(type)]]`
 
 
 High Level Procedures and Methods
