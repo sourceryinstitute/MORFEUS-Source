@@ -132,16 +132,12 @@ MODULE class_scalar_field
             INTEGER(kind=nemo_int_long_)   :: nemo_sizeof
         END FUNCTION nemo_sizeof
 
-<<<<<<< HEAD
         !! Constructor
 
         MODULE SUBROUTINE create_scalar_field(fld,msh,dim,bc,mats,on_faces,x0,name)
-=======
-        MODULE SUBROUTINE create_scalar_field(fld,msh,dim,bc,mats,on_faces,x0)
           !! label: Morfeus-FV
           !!
           !! Define scalar_field from mesh, dimensions, boundary conditions, materials, face-centeredness, and values
->>>>>>> master
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(OUT)        :: fld
             TYPE(mesh),          INTENT(IN), TARGET :: msh
