@@ -1,3 +1,7 @@
+!! label: Morfeus-FV
+!!
+!! Define and manipulate scalar-field values associated with a field-parent mesh
+
 !
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
@@ -36,14 +40,10 @@
 ! SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 !
 !---------------------------------------------------------------------------------
-!
-! $Id: class_scalar_field.f90 8157 2014-10-09 13:02:44Z sfilippo $
-!
-! Description:
-!    To be added...
-!
 MODULE class_scalar_field
-
+  !! label: Morfeus-FV
+  !!
+  !! Define and manipulate scalar-field values associated with a field-parent mesh
     USE class_psblas, ONLY : psb_dpk_, nemo_int_long_, nemo_sizeof_dp, nemo_sizeof_int,&
         & icontxt_, psb_erractionsave, abort_psblas, psb_check_error, psb_erractionrestore,&
         & psb_halo
@@ -59,10 +59,14 @@ MODULE class_scalar_field
     PUBLIC :: scalar_field           !! Class
 
     TYPE, EXTENDS(field) :: scalar_field
+      !! label: Morfeus-FV
+      !!
+      !! Encapsulate scalar-field state and operations, storing a mesh association in the parent field
+      !!
         PRIVATE
-        REAL(psb_dpk_), ALLOCATABLE :: x(:)
-        REAL(psb_dpk_), ALLOCATABLE :: xp(:)
-        REAL(psb_dpk_), ALLOCATABLE :: bx(:)
+        REAL(psb_dpk_), ALLOCATABLE :: x(:)  !! field nodal values
+        REAL(psb_dpk_), ALLOCATABLE :: xp(:) !! previous nodal values
+        REAL(psb_dpk_), ALLOCATABLE :: bx(:) !! face values
         INTEGER, ALLOCATABLE :: mat(:)
         INTEGER, ALLOCATABLE :: bmat(:)
     CONTAINS
@@ -101,12 +105,12 @@ MODULE class_scalar_field
         GENERIC, PUBLIC :: check_mesh_consistency => check_mesh_consistency_sf
     END TYPE scalar_field
 
-    ! ----- Constructor -----
-
     INTERFACE scalar_field
 
         MODULE FUNCTION scalar_field_(base,x,bx)
-            !! Default public constructor, necessary with ifort
+          !! label: Morfeus-FV
+          !!
+          !! Result is new scalar_field from parent field
             IMPLICIT NONE
             TYPE(scalar_field) :: scalar_field_
             TYPE(field),      INTENT(IN) :: base
@@ -119,20 +123,21 @@ MODULE class_scalar_field
     INTERFACE
 
         MODULE FUNCTION nemo_sizeof(fld)
+          !! label: Morfeus-FV
+          !!
+          !! Result is the scalar_field size
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(IN) :: fld
             INTEGER(kind=nemo_int_long_)   :: nemo_sizeof
         END FUNCTION nemo_sizeof
 
-        !! Constructor
-
         MODULE SUBROUTINE create_scalar_field(fld,msh,dim,bc,mats,on_faces,x0)
+          !! label: Morfeus-FV
+          !!
+          !! Define scalar_field from mesh, dimensions, boundary conditions, materials, face-centeredness, and values
             IMPLICIT NONE
-            ! Mandatory arguments
             CLASS(scalar_field), INTENT(OUT)        :: fld
             TYPE(mesh),          INTENT(IN), TARGET :: msh
-            !
-            ! Optional arguments
             TYPE(dimensions), INTENT(IN), OPTIONAL         :: dim
             TYPE(bc_poly),    INTENT(IN), OPTIONAL, TARGET :: bc(:)
             TYPE(matptr),     INTENT(IN), OPTIONAL, TARGET :: mats(:)
@@ -140,49 +145,45 @@ MODULE class_scalar_field
             REAL(psb_dpk_),   INTENT(IN), OPTIONAL         :: x0
         END SUBROUTINE create_scalar_field
 
-        !! ----- Destructor -----
-
         MODULE SUBROUTINE free_field(fld)
-            !! Destructor
+          !! label: Morfeus-FV
+          !!
+          !! Deallocate scalar_field components: field parent and component arrays
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(INOUT) :: fld
         END SUBROUTINE free_field
 
-        !! ----- Getters for Inherited Members -----
-
-        MODULE FUNCTION get_scalar_field_name(fld)
-            IMPLICIT NONE
-            CHARACTER(len=32) :: get_scalar_field_name
-            CLASS(scalar_field), INTENT(IN) :: fld
-        END FUNCTION get_scalar_field_name
-
-        MODULE FUNCTION get_scalar_field_msh_fun(fld)
-            IMPLICIT NONE
-            TYPE(mesh), POINTER :: get_scalar_field_msh_fun
-            CLASS(scalar_field), INTENT(IN), TARGET :: fld
-        END FUNCTION get_scalar_field_msh_fun
-
         INTEGER MODULE FUNCTION get_scalar_field_mat_id(fld,i)
+          !! label: Morfeus-FV
+          !!
+          !! Result is scalar_field material identifier
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(IN) :: fld
             INTEGER, INTENT(IN) :: i
         END FUNCTION get_scalar_field_mat_id
 
         MODULE SUBROUTINE get_base(fld,base)
+          !! label: Morfeus-FV
+          !!
+          !! Get parent field
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(IN)  :: fld
             TYPE(field),         INTENT(OUT) :: base
         END SUBROUTINE get_base
 
-        ! ----- Getters for Additional Members -----
-
         MODULE SUBROUTINE get_scalar_field_x(fld,x)
+          !! label: Morfeus-FV
+          !!
+          !! get all scalar_field values
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(IN) :: fld
             REAL(psb_dpk_),      INTENT(OUT), ALLOCATABLE :: x(:)
         END SUBROUTINE get_scalar_field_x
 
         MODULE SUBROUTINE get_scalar_field_element(fld,x,i)
+          !! label: Morfeus-FV
+          !!
+          !! get one scalar_field value
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(IN)  :: fld
             REAL(psb_dpk_),      INTENT(OUT) :: x
@@ -190,12 +191,18 @@ MODULE class_scalar_field
         END SUBROUTINE get_scalar_field_element
 
         MODULE SUBROUTINE get_scalar_field_xp(fld,xp)
+          !! label: Morfeus-FV
+          !!
+          !! Get all scalar_field previous values
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(IN) :: fld
             REAL(psb_dpk_),      INTENT(OUT), ALLOCATABLE :: xp(:)
         END SUBROUTINE get_scalar_field_xp
 
         MODULE SUBROUTINE get_scalar_field_element_prev(fld,xp,i)
+          !! label: Morfeus-FV
+          !!
+          !! get one scalar_field previous value
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(IN)  :: fld
             REAL(psb_dpk_),      INTENT(OUT) :: xp
@@ -203,28 +210,38 @@ MODULE class_scalar_field
         END SUBROUTINE get_scalar_field_element_prev
 
         MODULE SUBROUTINE get_scalar_field_bx(fld,bx)
+          !! label: Morfeus-FV
+          !!
+          !! get scalar_field boundary values
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(IN) :: fld
             REAL(psb_dpk_),      INTENT(OUT), ALLOCATABLE :: bx(:)
         END SUBROUTINE get_scalar_field_bx
 
-        !! ----- Setters -----
-
         MODULE SUBROUTINE update_scalar_field(fld,mats,temp)
+          !! label: Morfeus-FV
+          !!
+          !! Set all scalar_field values
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(INOUT) :: fld
-            TYPE(scalar_field),  INTENT(IN), OPTIONAL :: temp
+            TYPE(scalar_field),  INTENT(IN), OPTIONAL :: temp     !! temperature
             TYPE(matptr),        INTENT(IN), POINTER  :: mats(:)
         END SUBROUTINE update_scalar_field
 
         MODULE SUBROUTINE set_scalar_field_element(f,i,x)
+          !! label: Morfeus-FV
+          !!
+          !! Set one scalar_field value
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(INOUT) :: f
-            INTEGER,             INTENT(IN)    :: i
-            REAL(psb_dpk_),      INTENT(IN)    :: x
+            INTEGER,             INTENT(IN)    :: i !! element number to set
+            REAL(psb_dpk_),      INTENT(IN)    :: x !! value
         END SUBROUTINE set_scalar_field_element
 
         MODULE SUBROUTINE set_scalar_field_group(f,ig,x)
+          !! label: Morfeus-FV
+          !!
+          !! Set a group of scalar field values
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(INOUT) :: f
             INTEGER,             INTENT(IN)    :: ig
@@ -234,18 +251,27 @@ MODULE class_scalar_field
         !! ----- Algebra Operations -----
 
         MODULE FUNCTION nemo_scalar_field_normi(fld) RESULT(norm)
+          !! label: Morfeus-FV
+          !!
+          !! Result is infinity-norm of scalar_field
             IMPLICIT NONE
             ClASS(scalar_field), INTENT(IN) :: fld
             REAL(psb_dpk_)                  :: norm
         END FUNCTION nemo_scalar_field_normi
 
         MODULE FUNCTION nemo_scalar_field_norm1(fld) RESULT(norm)
+          !! label: Morfeus-FV
+          !!
+          !! Result is L1 norm of scalar_field
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(IN) :: fld
             REAL(psb_dpk_)                  :: norm
         END FUNCTION nemo_scalar_field_norm1
 
         MODULE FUNCTION scalar_field_sum(f1,f2)RESULT(r)
+          !! label: Morfeus-FV
+          !!
+          !! Result is the arithmetic sum of the two scalar_field operands
             IMPLICIT NONE
             TYPE(scalar_field) :: r
             CLASS(scalar_field), INTENT(IN) :: f1
@@ -253,6 +279,9 @@ MODULE class_scalar_field
         END FUNCTION scalar_field_sum
 
         MODULE FUNCTION scalar_field_dif(f1,f2)RESULT(r)
+          !! label: Morfeus-FV
+          !!
+          !! Result is the arithmetic difference of the two scalar_field operands
             IMPLICIT NONE
             TYPE(scalar_field) :: r
             CLASS(scalar_field), INTENT(IN) :: f1
@@ -260,6 +289,9 @@ MODULE class_scalar_field
         END FUNCTION scalar_field_dif
 
         MODULE FUNCTION scalar_field_dif_s(f1,f2)RESULT(r)
+          !! label: Morfeus-FV
+          !!
+          !! Result is the arithmetic difference of the scalar_field operand and the constant operand
             IMPLICIT NONE
             TYPE(scalar_field) :: r
             CLASS(scalar_field), INTENT(IN) :: f1
@@ -267,6 +299,9 @@ MODULE class_scalar_field
         END FUNCTION scalar_field_dif_s
 
         MODULE FUNCTION scalar_field_div(f1,f2)RESULT(r)
+          !! label: Morfeus-FV
+          !!
+          !! Result is the ratio of the left-hand-side numerator and right-hand-side denominator scalar_field objects
             IMPLICIT NONE
             TYPE(scalar_field) :: r
             CLASS(scalar_field), INTENT(IN) :: f1
@@ -274,14 +309,18 @@ MODULE class_scalar_field
         END FUNCTION scalar_field_div
 
         MODULE FUNCTION interp_on_faces_s(fld)RESULT(r)
+          !! label: Morfeus-FV
+          !!
+          !! Result contains scalar_field cell values interpolated onto cell faces
             IMPLICIT NONE
             TYPE(scalar_field) :: r
             CLASS(scalar_field), INTENT(IN) :: fld
         END FUNCTION interp_on_faces_s
 
-        ! ----- Check Procedures -----
-
         MODULE SUBROUTINE check_mesh_consistency_sf(f1,f2,WHERE)
+          !! label: Morfeus-FV
+          !!
+          !! Abort iff the scalar_field arguments are not associated with the same mesh
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(IN) :: f1
             TYPE(scalar_field),  INTENT(IN) :: f2
@@ -289,6 +328,9 @@ MODULE class_scalar_field
         END SUBROUTINE check_mesh_consistency_sf
 
         MODULE FUNCTION scalar_field_scal(a,f)RESULT(r)
+          !! label: Morfeus-FV
+          !!
+          !! Rescale the scalar_field argument by the provided multiplicative constant
             IMPLICIT NONE
             TYPE(scalar_field) :: r
             REAL(psb_dpk_),      INTENT(IN) :: a
@@ -296,6 +338,9 @@ MODULE class_scalar_field
         END FUNCTION scalar_field_scal
 
         MODULE FUNCTION scalar_field_mul(f1,f2)RESULT(r)
+          !! label: Morfeus-FV
+          !!
+          !! REsult is the arithmetic product of two scalar_field objects
             IMPLICIT NONE
             TYPE(scalar_field) :: r
             CLASS(scalar_field), INTENT(IN) :: f1
@@ -303,12 +348,18 @@ MODULE class_scalar_field
         END FUNCTION scalar_field_mul
 
         MODULE SUBROUTINE assign_scalar_field_s(f,x)
+          !! label: Morfeus-FV
+          !!
+          !! Set the left-hand-side scalar_field values to the provided constant
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(INOUT) :: f
             REAL(psb_dpk_),      INTENT(IN)    :: x
         END SUBROUTINE assign_scalar_field_s
 
         MODULE SUBROUTINE assign_scalar_field_v(f,x)
+          !! label: Morfeus-FV
+          !!
+          !! Set the left-hand-side scalar_field values to the provided values
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(INOUT) :: f
             REAL(psb_dpk_),      INTENT(IN)    :: x(:)

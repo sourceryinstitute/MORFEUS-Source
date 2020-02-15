@@ -36,12 +36,8 @@
 ! SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 !
 !---------------------------------------------------------------------------------
-!
-! $Id$
-!
-! Description:
-!    Converts a positive integer into a string.
-!
+
+!!    Converts a positive integer into a string.
 SUBMODULE(tools_output_basics) itoh_implementation
     IMPLICIT NONE
 

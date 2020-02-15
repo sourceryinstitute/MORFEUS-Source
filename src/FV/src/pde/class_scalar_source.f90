@@ -39,11 +39,10 @@
 !
 ! $Id$
 !
-! Description:
-!    To be added...
+! Description: (below).
 !
 MODULE class_scalar_source
-
+  !! Define, set, and get scalar-valued source term coefficients for partial differential equations
     USE class_psblas
     USE class_dimensions
 
@@ -53,10 +52,11 @@ MODULE class_scalar_source
     PUBLIC :: scalar_source         ! Class
 
     TYPE scalar_source
+      !! Coefficients/dimensions for a PDE source term with linear dependence on a scalar_field (SRC = sc + sp*phi_P)
         PRIVATE
         TYPE(dimensions) :: dim
-        REAL(psb_dpk_) :: sc
-        REAL(psb_dpk_) :: sp
+        REAL(psb_dpk_) :: sc !! source offset (constant term)
+        REAL(psb_dpk_) :: sp !! source scaling coefficient (multiplies scalar_field)
     CONTAINS
         PROCEDURE, PRIVATE :: create_scalar_source
         GENERIC, PUBLIC :: create_source => create_scalar_source
@@ -82,8 +82,8 @@ MODULE class_scalar_source
         END FUNCTION nemo_scalar_source_sizeof
 
 
-        ! Constructor
         MODULE SUBROUTINE create_scalar_source(src,input_file,sec,dim)
+          !! Define scalar source term
             USE tools_input
             IMPLICIT NONE
             CLASS(scalar_source), INTENT(INOUT) :: src
@@ -93,9 +93,8 @@ MODULE class_scalar_source
         END SUBROUTINE create_scalar_source
 
 
-        ! Getters
-
         MODULE FUNCTION get_scalar_source_dim(src)
+          !! result specifieds source dimensions
             IMPLICIT NONE
             TYPE(dimensions) :: get_scalar_source_dim
             CLASS(scalar_source), INTENT(IN) :: src
@@ -103,12 +102,14 @@ MODULE class_scalar_source
 
 
         MODULE FUNCTION get_scalar_source_sc(src)
+          !! result is the source offset (constant term)
             IMPLICIT NONE
             REAL(psb_dpk_) :: get_scalar_source_sc
             CLASS(scalar_source), INTENT(IN) :: src
         END FUNCTION get_scalar_source_sc
 
         MODULE FUNCTION get_scalar_source_sp(src)
+          !! result is the source scaling coefficient
             REAL(psb_dpk_) :: get_scalar_source_sp
             CLASS(scalar_source), INTENT(IN) :: src
         END FUNCTION get_scalar_source_sp
