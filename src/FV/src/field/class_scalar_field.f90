@@ -150,18 +150,6 @@ MODULE class_scalar_field
 
         !! ----- Getters for Inherited Members -----
 
-        MODULE FUNCTION get_scalar_field_name(fld)
-            IMPLICIT NONE
-            CHARACTER(len=32) :: get_scalar_field_name
-            CLASS(scalar_field), INTENT(IN) :: fld
-        END FUNCTION get_scalar_field_name
-
-        MODULE FUNCTION get_scalar_field_msh_fun(fld)
-            IMPLICIT NONE
-            TYPE(mesh), POINTER :: get_scalar_field_msh_fun
-            CLASS(scalar_field), INTENT(IN), TARGET :: fld
-        END FUNCTION get_scalar_field_msh_fun
-
         INTEGER MODULE FUNCTION get_scalar_field_mat_id(fld,i)
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(IN) :: fld
