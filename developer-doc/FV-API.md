@@ -479,8 +479,8 @@ A complete list of all FD and FV classes and types can be found on the [types li
 
 #### Methods
 
-* `[[object(type):mark_as_defined]]` : Set the object as defined
-* `[[object(type):user_defined]]` : Query whether the object is defined
+* `[[object(type):mark_as_defined]]`
+* `[[object(type):user_defined]]`
 
 ### [[grid(type)]]
 
@@ -488,8 +488,8 @@ A complete list of all FD and FV classes and types can be found on the [types li
 
 #### Methods
 
-* `[[grid(type):set_units]]` : Set the physical units used by the grid
-* `[[grid(type):get_units]]` : Get the physical units used by the grid
+* `[[grid(type):set_units]]`
+* `[[grid(type):get_units]]`
 
 
 ### [[field(type)]]
@@ -500,20 +500,20 @@ A complete list of all FD and FV classes and types can be found on the [types li
 
 * `[[field(type):create_field]]` : Class constructor
 * `[[field(type):free_field]]` : Class destructor
-* `[[field(type):on_faces_]]` :
-* `[[field(type):mat_]]` :
-* `[[field(type):bc_]]` :
-* `[[field(type):fld_size]]` :
-* `[[field(type):get_material]]` :
-* `[[field(type):msh_]]` :
-* `[[field(type):dim_]]` :
-* `[[field(type):name_]]` :
-* `[[field(type):set_field_dim]]` :
-* `[[field(type):set_field_on_faces]]` :
-* `[[field(type):check_field_operands]]` :
-* `[[field(type):nemo_sizeof]]` :
-* `[[field(type):get_mesh]]` :
-* `[[field(type):check_mesh_consistency]]` :
+* `[[field(type):on_faces_]]`
+* `[[field(type):mat_]]`
+* `[[field(type):bc_]]`
+* `[[field(type):fld_size]]`
+* `[[field(type):get_material]]`
+* `[[field(type):msh_]]`
+* `[[field(type):dim_]]`
+* `[[field(type):name_]]`
+* `[[field(type):set_field_dim]]`
+* `[[field(type):set_field_on_faces]]`
+* `[[field(type):check_field_operands]]`
+* `[[field(type):nemo_sizeof]]`
+* `[[field(type):get_mesh]]`
+* `[[field(type):check_mesh_consistency]]`
 
 
 ### [[material(type)]]
@@ -522,9 +522,9 @@ A complete list of all FD and FV classes and types can be found on the [types li
 
 #### Methods
 
-* `[[material(type):name_]]` : 
-* `[[material(type):mat_id]]` :
-* `[[material(type):nemo_sizeof]]` :
+* `[[material(type):name_]]` 
+* `[[material(type):mat_id]]`
+* `[[material(type):nemo_sizeof]]`
 
 ### [[matptr(type)]]
 
@@ -536,10 +536,10 @@ A complete list of all FD and FV classes and types can be found on the [types li
 
 #### Methods
 
-* `[[mesh(type):create_mesh]]` : 
-* `[[mesh(type):free_mesh]]` : 
-* `[[mesh(type):check_mesh_unused_el]]` : 
-* `[[mesh(type):nemo_sizeof]]` : 
+* `[[mesh(type):create_mesh]]` : Class constructor
+* `[[mesh(type):free_mesh]]` : Class destructor
+* `[[mesh(type):check_mesh_unused_el]]`
+* `[[mesh(type):nemo_sizeof]]`
 
 ### [[bc_poly(type)]]
 
@@ -549,21 +549,46 @@ A complete list of all FD and FV classes and types can be found on the [types li
 
 #### Methods
 
-* `[[bc_poly(type):get_abc]]` : 
-* `[[bc_poly(type):set_bc]]` : 
-* `[[bc_poly(type):surface_motion]]` : 
-* `[[bc_poly(type):vertex_motion]]` : 
-* `[[bc_poly(type):get_displacement]]` : 
-* `[[bc_poly(type):get_velocity]]` : 
-* `[[bc_poly(type):nemo_sizeof]]` : 
+* `[[bc_poly(type):get_abc]]`
+* `[[bc_poly(type):set_bc]]`
+* `[[bc_poly(type):surface_motion_]]`
+* `[[bc_poly(type):vertex_motion_]]`
+* `[[bc_poly(type):get_displacement]]`
+* `[[bc_poly(type):get_velocity]]`
+* `[[bc_poly(type):nemo_sizeof]]`
 
 ### [[scalar_source(type)]]
 
 `[[scalar_source(type)]]`
 
+#### Methods
+
+* `[[scalar_source(type):create_source]]`
+* `[[scalar_source(type):sc_]]`
+* `[[scalar_source(type):sp_]]`
+* `[[scalar_source(type):dim_]]`
+* `[[scalar_source(type):nemo_sizeof]]`
+
 ### [[scalar_field(type)]]
 
 `[[scalar_field(type)]]`
+
+#### Methods
+
+* `[[scalar_field(type):create_scalar_field]]`: Class constructor
+* `[[scalar_field(type):free_field]]`: Class destructor
+* `[[scalar_field(type):get_base]]`
+* `[[scalar_field(type):get_x]]`
+* `[[scalar_field(type):get_xp]]`
+* `[[scalar_field(type):get_bx]]`
+* `[[scalar_field(type):update_field]]`
+* `[[scalar_field(type):set_field_element]]`
+* `[[scalar_field(type):set_field_group]]`
+* `[[scalar_field(type):interp_on_faces]]`
+* `[[scalar_field(type):field_normi]]`
+* `[[scalar_field(type):field_norm1]]`
+* `[[scalar_field(type):nemo_sizeof]]`
+* `[[scalar_field(type):check_mesh_consistency]]`
 
 ### [[scalar_pde(type)]]
 
@@ -571,22 +596,53 @@ A complete list of all FD and FV classes and types can be found on the [types li
 
 #### Methods
 
-* `[[scalar_pde(type):create_pde]]` :
-* `[[scalar_pde(type):free_pde]]` :
-* `[[scalar_pde(type):write_scalar_pde]]` :
-* `[[scalar_pde(type):geins_pde]]` :
-* `[[scalar_pde(type):nemo_sizeof]]` :
-* `[[scalar_pde(type):reinit_pde]]` :
-* `[[scalar_pde(type):asb_pde_]]` :
-* `[[scalar_pde(type):solve_pde]]` :
+* `[[scalar_pde(type):create_pde]]` : Class constructor
+* `[[scalar_pde(type):free_pde]]` : Class destructor
+* `[[scalar_pde(type):write_scalar_pde]]`
+* `[[scalar_pde(type):geins_pde]]`
+* `[[scalar_pde(type):nemo_sizeof]]`
+* `[[scalar_pde(type):reinit_pde]]`
+* `[[scalar_pde(type):asb_pde_]]`
+* `[[scalar_pde(type):solve_pde]]`
 
 ### [[vector(type)]]
 
 `[[vector(type)]]`
 
+#### Methods
+
+* `[[vector(type):x_]]`
+* `[[vector(type):y_]]`
+* `[[vector(type):z_]]`
+* `[[vector(type):set_x_]]`
+* `[[vector(type):set_y_]]`
+* `[[vector(type):set_z_]]`
+* `[[vector(type):mag]]`
+* `[[vector(type):unit]]`
+* `[[vector(type):nemo_sizeof]]`
+
 ### [[vector_field(type)]]
 
 `[[vector_field(type)]]`
+
+#### Methods
+
+* `[[vector_field(type):create_vector_field]]`: Class constructor
+* `[[vector_field(type):free_field]]`: Class destructor
+* `[[vector_field(type):get_base]]`
+* `[[vector_field(type):get_x]]`
+* `[[vector_field(type):get_xp]]`
+* `[[vector_field(type):get_bx]]`
+* `[[vector_field(type):update_field]]`
+* `[[vector_field(type):set_field_element]]`
+* `[[vector_field(type):set_field_group]]`
+* `[[vector_field(type):set_field_bound_element]]`
+* `[[vector_field(type):set_x]]`
+* `[[vector_field(type):interp_on_faces]]`
+* `[[vector_field(type):field_normi]]`
+* `[[vector_field(type):field_norm1]]`
+* `[[vector_field(type):nemo_sizeof]]`
+* `[[vector_field(type):check_mesh_consistency]]`
 
 ### [[vector_pde(type)]]
 
@@ -594,19 +650,32 @@ A complete list of all FD and FV classes and types can be found on the [types li
 
 #### Methods
 
-* `[[vector_pde(type):create_pde]]` :
-* `[[vector_pde(type):free_pde]]` :
-* `[[vector_pde(type):write_vector_pde]]` :
-* `[[vector_pde(type):geins_pde]]` :
-* `[[vector_pde(type):nemo_sizeof]]` :
-* `[[vector_pde(type):reinit_pde]]` :
-* `[[vector_pde(type):asb_pde_]]` :
-* `[[vector_pde(type):solve_pde]]` :
+* `[[vector_pde(type):create_pde]]` : Class constructor
+* `[[vector_pde(type):free_pde]]` : Class destructor
+* `[[vector_pde(type):write_vector_pde]]`
+* `[[vector_pde(type):geins_pde]]`
+* `[[vector_pde(type):nemo_sizeof]]`
+* `[[vector_pde(type):reinit_pde]]`
+* `[[vector_pde(type):asb_pde_]]`
+* `[[vector_pde(type):solve_pde]]`
 
 ### [[iterating(type)]]
 
 `[[iterating(type)]]`
 
+#### Methods
+
+* `[[iterating(type):create_iterating]]`: Class constructor
+* `[[iterating(type):max_]]`
+* `[[iterating(type):delta_]]`
+* `[[iterating(type):tol_]]`
+* `[[iterating(type):current_iteration]]`
+* `[[iterating(type):next_iteration]]`
+* `[[iterating(type):previous_iteration]]`
+* `[[iterating(type):stop_iterating]]`
+* `[[iterating(type):increment]]`
+* `[[iterating(type):reset]]`
+* `[[iterating(type):nemo_sizeof]]`
 
 High Level Procedures and Methods
 ---------------------------------
