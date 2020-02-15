@@ -108,7 +108,7 @@ contains
     CASE(2)
         CALL lu_fact_2(a,ipiv,info)
 
-    CASE default
+    CASE DEFAULT
 
         info = 0
         DO j = 1, n

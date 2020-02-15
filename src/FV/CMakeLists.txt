@@ -75,34 +75,12 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/src/mesh_optimize/OptMS")
 
 
 # Add option for enabling exodus
-option(FAST_USE_EXODUS "Build with Exodus support (broken)" OFF)
+option(USE_EXODUS "Build with Exodus support (broken)" OFF)
 
 # Make CGNS optional
-option(FAST_USE_CGNS "Build with CGNS support (broken)" OFF)
+option(USE_CGNS "Build with CGNS support (broken)" OFF)
 
-
-set(SLATEC_srcs
-  src/math/SLATEC/d1mach.f90
-  src/math/SLATEC/dckder.f
-  src/math/SLATEC/denorm.f
-  src/math/SLATEC/dfdjc3.f
-  src/math/SLATEC/dmpar.f
-  src/math/SLATEC/dnls1e.f
-  src/math/SLATEC/dnls1.f
-  src/math/SLATEC/dqrfac.f
-  src/math/SLATEC/dqrslv.f
-  src/math/SLATEC/dwupdt.f
-  src/math/SLATEC/fdump.f
-  src/math/SLATEC/i1mach.f90
-  src/math/SLATEC/j4save.f
-  src/math/SLATEC/xercnt.f
-  src/math/SLATEC/xerhlt.f
-  src/math/SLATEC/xermsg.f
-  src/math/SLATEC/xerprn.f
-  src/math/SLATEC/xersve.f
-  src/math/SLATEC/xgetua.f
-  src/math/SLATEC/xsetf.f
-  )
+# Set source files
 set(morfeus_fv_srcs
   src/basics/class_connectivity.f90
   src/basics/class_connectivity_procedures.f90
@@ -210,8 +188,6 @@ set(morfeus_fv_srcs
   src/mesh/part_graph_procedures.f90
   src/mesh/part_random.f90
   src/mesh/part_random_procedures.f90
-  src/mesh/rd_cgns_mesh.F90
-#  src/mesh/rd_exodus_mesh.f90 # Commented out b/c functionality does not yet work
   src/mesh/rd_gambit_implementation.f90
   src/mesh/rd_inp_mesh_implementation.f90
   src/mesh/renum.F90
@@ -311,11 +287,15 @@ set(morfeus_fv_C_srcs
   src/mesh_optimize/right_handed.c
   )
 
-if(FAST_USE_EXODUS)
+if(USE_EXODUS)
   list(APPEND morfeus_fv_srcs
     src/mesh/rd_exodus_mesh.f90)
 endif()
 
+if(USE_CGNS)
+  list(APPEND morfeus_fv_srcs
+  src/mesh/rd_cgns_mesh.F90)
+endif()
 #----------------------
 # Find pre-req packages
 #----------------------
@@ -483,7 +463,7 @@ endforeach()
 include_directories(${PSBLAS_Fortran_INCLUDE_DIR})
 include_directories(${METIS_INCLUDES})
 
-if(${FAST_USE_CGNS})
+if(${USE_CGNS})
   find_morfeus_fv_prereq( METIS REQUIRED )
   include_directories(${CGNS_INCLUDES})
   add_definitions(-DHAVE_CGNS)
@@ -511,7 +491,7 @@ if(${FAST_USE_CGNS})
   endif()
 endif()
 
-if(FAST_USE_EXODUS)
+if(USE_EXODUS)
   # NetCDF will be pulled in through SEACASExodus transitive target properties
   find_morfeus_fv_prereq(SEACASExodus_for
     REQUIRED
@@ -562,7 +542,7 @@ if(TARGET jsonfortran-static)
     PUBLIC jsonfortran-static)
 endif()
 
-if(${FAST_USE_CGNS})
+if(${USE_CGNS})
   target_link_libraries(morfeus_fv
     PUBLIC ${CGNS_LIBRARIES})
 endif()
@@ -573,7 +553,7 @@ target_link_libraries(morfeus_fv
   PUBLIC ${LAPACK_LIBRARIES}
   PUBLIC ${BLAS_LIBRARIES}
   )
-if(FAST_USE_EXODUS)
+if(USE_EXODUS)
   target_link_libraries(morfeus_fv
     PUBLIC ${SEACASExodus_for_LIBRARIES})
 endif()
@@ -752,7 +732,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/applications")
     applications/fast_heat/cases/test_unsteady/fast.json
     ${integ_test_dir}/unsteady_heat_pipe)
 
-  if(${FAST_USE_CGNS})
+  if(${USE_CGNS})
     # Steady piston conduction test
     # Should produce:
     #   a_sparse.mtx b_rhs.mtx out_nemo.vtk time.dat

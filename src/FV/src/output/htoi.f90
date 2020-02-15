@@ -36,12 +36,8 @@
 ! SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 !
 !---------------------------------------------------------------------------------
-!
-! $Id: htoi.f90 3093 2008-04-22 14:51:09Z sfilippo $
-!
-! Description:
-!    Converts a string into an integer.
-!
+
+!!    Converts a string into an integer.
 SUBMODULE(tools_output_basics) htoi_implementation
     IMPLICIT NONE
 
