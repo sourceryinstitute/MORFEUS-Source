@@ -258,8 +258,7 @@ set(morfeus_fv_C_srcs
   src/mesh_optimize/call_smooth2d.c
   src/mesh_optimize/call_smooth.c
   src/mesh_optimize/freeoptms2d.c
-  >>>>>>> materials_json
-  6rc/mesh_optimize/freeoptms.c
+  src/mesh_optimize/freeoptms.c
   src/mesh_optimize/initoptms2d.c
   src/mesh_optimize/initoptms.c
   src/mesh_optimize/OptMS/SMactive.c

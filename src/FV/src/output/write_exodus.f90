@@ -63,6 +63,8 @@ CONTAINS
     TYPE(vertex), ALLOCATABLE :: verts(:)
     TYPE(connectivity) :: v2f, v2c, f2c
     CHARACTER(len=32) :: path
+    REAL(psb_dpk_), ALLOCATABLE :: scalar_local(:)
+    REAL(psb_dpk_), ALLOCATABLE :: scalar_global(:)
 
     ! Sets error handling for PSBLAS-2 routines
     CALL psb_erractionsave(err_act)
@@ -171,15 +173,66 @@ CONTAINS
       call expelc(exodus_file_id, INT(ig,INT64), conn, ierr)
     END DO
 
-    nfields = size(scalars) + 3*size(vectors)
-    IF ALLOCATED(fields) DEALLOCATE(fields)
-    ALLOCATE(fields(nfields))
+    ! Loop over scalar fields and gather them on the root processor
+    DO i = 1, size(scalars)
+      ! Is the field cell-centered?
+      IF(scalars(i)%on_faces_()) THEN
+          WRITE(*,100)
+          CYCLE
+      END IF
+      CALL scalars(i)%get_x(scalar_local)
 
+
+      ALLOCATE(scalar_global(ncells),stat=info)
+      IF(info /= 0) THEN
+          WRITE(*,200)
+          CALL abort_psblas
+      END IF
+
+      ! Gathers cell-centered values
+      CALL psb_gather(scalar_global,scalar_local,msh%desc_c,info,root=0)
+
+      IF(mypnum == 0) THEN
+      END IF
+    END DO
+
+    ! Loop over vector fields and gather them on the root processor
+    DO i = 1, size(vectors)
+      ! Is the field cell-centered?
+      IF(vectors(i)%on_faces_()) THEN
+          WRITE(*,100)
+          CYCLE
+      END IF
+      CALL vectors(i)%get_x(vector_local)
+
+
+      ALLOCATE(vector_global(ncells),stat=info)
+      IF(info /= 0) THEN
+          WRITE(*,200)
+          CALL abort_psblas
+      END IF
+
+      ! Gathers cell-centered values
+      CALL l2g_vector(vector_global,vector_local,msh%desc_c)
+
+      IF(mypnum == 0) THEN
+      END IF
+    END DO
+
+    allocate (f_x(ncells), f_y(ncells), f_z(ncells))
+    DO i = 1, size(scalars) + 3*size(vectors)
+      IF (i <= size(scalars)) THEN
+        !write scalars to exodus file
+      ELSE
+        f_x = vectors(i-size(scalars))%x_()
+        f_y = vectors(i-size(scalars))%y_()
+        f_z = vectors(i-size(scalars))%z_()
     ! Close the exodus file
     CALL exclos(exodus_file_id, ierr)
     STOP
 
-100     FORMAT(' ERROR! Memory allocation failure in WRITE_MESH')
+100 FORMAT(' WARNING! Face-centered field in WRITE_EXODUS. Field will not be output.')
+200 FORMAT(' ERROR! Memory allocation failure in WRITE_EXODUS')
 
   END SUBROUTINE write_exo_morfeus
 
