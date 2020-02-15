@@ -12,16 +12,18 @@ title: High-level FV API documentation
 Overview
 --------
 
-Here an overview of the Morfeus finite volume (FV) framework is given.
-Included is a brief description of how to setup a new solver using the framework.
-Key objects/classes, and procedures are outlined.
-An overview of reading input files, reading grid files,
-initializing the library and data structures and, setting up PDEs, integrating the solution forward in time
-and writing outputs is given.
+This overview of the Morfeus Finite-Volume (Morfeus-FV) framework includes
+a brief description of how to use the framework to set up a new solver
+for a system of coupled partial differential equations.  The overview
+outlines key classes and type-bound procedures.  A sample input file
+is provided and its components described along with instructions for 
 
-![Sphere geometry and mesh for finite volume solver](https://github.com/sourceryinstitute/MORFEUS-Source/raw/fv-main-page/developer-doc/media/sphere.png)
+  - Reading input files and grid files,
+  - Initializing the library and data structures, 
+  - Setting up PDEs and integrating the solution forward in time, and
+  - Writing outputs.
 
-<!-- 'fv-main-page' should be 'master' -->
+![Sphere geometry and mesh for finite volume solver](https://user-images.githubusercontent.com/13108868/74580343-f5095500-4f57-11ea-9c18-5c5aec301642.png)
 
 
 Solver Description 
@@ -29,274 +31,39 @@ Solver Description
 
 The morfeus solver consists of two parts:
 
-  - A common library of routines for reading input files, creating the grid, discretization of the equations, solving the equations using PSBLAS, and plotting of the results. 
+  - A common library of routines for reading input files, creating the grid, discretization of the equations, solving the equations using the Parallel Basic Linear Algebra Subroutines ([PSBLAS]), and plotting of the results. 
   
   - A problem-specific solver built using the routines from the morfeus finite volume library.
 
+[PSBLAS]: https://github.com/sfilippone/psblas3
 
-Timestepping and Integration
-----------------------------
 
-Morfeus is a finite volume solver for transport equations. The solver uses  explicit finite difference scheme in time and cell-based finite volume scheme to solve the transport equations. Morfeus is built on top on PSBLAS using an object-oriented paradigm in Fortran. For a more complete description of the solver implementation, refer to [Toninel thesis].
+Numerical Algorithms 
+--------------------
 
-[Toninel thesis]: http://people.uniroma2.it/salvatore.filippone/nemo/toninel_phd.pdf
+Morfeus-FV solves transport equations using explicit finite-difference time advancement and cell-based finite-volume scheme spatial discretizations.  For a complete description of the alogorithms employed 
+in Morfeus-FV, refer to the dissertation by S. [Toninel (2006)].  More recent work has involved modernization of the code using the modular and object-oriented programming (OOP) features of Fortran 2008, 
+including
+
+  - Type extension, 
+  - Type-bound procedures, 
+  - User-defined, type-bound operators, and
+  - Submodules.
+
+[Toninel (2006)]: http://people.uniroma2.it/salvatore.filippone/nemo/toninel_phd.pdf
 
 Input Files 
 ------------
 
-Morfeus requires two input files. The first is a geometry file in GAMBIT neutral file format or in EXODUS II format; the second is a file called fast.json that contains the problem description, i.e. the description of materials, boundary conditions, solver parameters such as convergence criteria, and output parameters. The `fast.json` file should be present in the same folder as the mesh-file and the solver. 
+Morfeus requires two input files. The first is a geometry file in GAMBIT neutral file format or in EXODUS II format; the second is a file called fast.json that contains the problem description, i.e. the description of materials, boundary conditions, solver parameters such as convergence criteria, and output parameters. The `fast.json` file should be present in the same folder as the mesh-file and the solver.   The next several sections describe different sections of a [sample json input file].
 
+[sample json input file]: https://github.com/sourceryinstitute/OpenCoarrays/files/4207672/fast.json.zip
 
+High-Level Object Descriptions
+------------------------------
+As an illustrative example, the sample input file describes coaxial cable geometry. The input file is written using the JavaScript Object Notation (JSON) format and accessed by Morfeus via the [json-fortran] library. The file contains a top-level `MORFEUS` object, which in turn contains child objects defining various problem parameters. The child objects can occur in any order within the top-level object without affecting the functionality of the solver.
 
-```
-{
-  "MORFEUS_FV": {
-    "MESH": {
-      "mesh-dir": "./",
-      "mesh-file": "coaxial_cable.e",
-      "scale": 1,
-      "gps-renumbering": false,
-      "partitioning-scheme": "Block",
-      "write-matrix-pattern-diagnostics": false
-    },
-    "MATERIALS": {
-      "copper-core": 100,
-      "dielectric-insulator": 4,
-      "copper-sheath": 100,
-      "plastic-sheath": 402,
-      "tape": 100
-    },
-    "PDES": {
-      "Energy": {
-        "convergence-method": "BICGSTAB",
-        "preconditioning-method": "BJAC",
-        "solve-epsilon": 1e-08,
-        "max-solve-iterations": 100,
-        "write-matrix-system-diagnostics": false
-      },
-      "Concentration": {
-        "convergence-method": "BICGSTAB",
-        "preconditioning-method": "BJAC",
-        "solve-epsilon": 1e-08,
-        "max-solve-iterations": 100,
-        "write-matrix-system-diagnostics": false
-      },
-      "Displacement": {
-        "convergence-method": "BICGSTAB",
-        "preconditioning-method": "BJAC",
-        "solve-epsilon": 1e-06,
-        "max-solve-iterations": 100,
-        "write-matrix-system-diagnostics": false
-      }
-    },
-    "iterations": {
-      "time": {
-        "max-steps": 200,
-        "delta-t": 1
-      },
-      "big-solver": {
-        "tolerance": 1e-08,
-        "max-steps": 100
-      },
-      "output" : {
-        "max-steps": 5
-      }
-    },
-    "output": {
-      "format": "vtk",
-      "base-path": "out_nemo"
-    },
-    "Source-terms": {
-      "temperature": {
-        "sc": {
-          "value": 10,
-          "units": "[W/m^3]"
-        },
-        "sp": {
-          "value": 0,
-          "units": "[W/m^3 K]"
-        }
-      },
-      "concentration": {
-        "sc": {
-          "value": 10,
-          "units": "[W/m^3]"
-        },
-        "sp": {
-          "value": 0,
-          "units": "[W/m^3 K]"
-        }
-      }
-    },
-    "BCS": [
-      {
-        "type": "wall",
-        "description": "copper-core 0",
-        "temperature": {
-          "id" : 2
-        },
-        "stress": {
-          "id" : 1
-        },
-        "velocity": {
-          "id" : 1
-        }
-      },
-      {
-        "type": "wall",
-        "description": "dielectric-insulator 0",
-        "temperature": {
-          "id" : 2
-        },
-        "stress": {
-          "id" : 1
-        },
-        "velocity": {
-          "id" : 1
-        }
-      },
-      {
-        "type": "wall",
-        "description": "copper-sheath 0",
-        "temperature": {
-          "id" : 2
-        },
-        "stress": {
-          "id" : 1
-        },
-        "velocity": {
-          "id" : 1
-        }
-      },
-      {
-        "type": "wall",
-        "description": "plastic-sheath 0",
-        "temperature": {
-          "id" : 2
-        },
-        "stress": {
-          "id" : 1
-        },
-        "velocity": {
-          "id" : 1
-        }
-      },
-      {
-        "type": "wall",
-        "description": "tape 0",
-        "temperature": {
-          "id" : 2
-        },
-        "stress": {
-          "id" : 1
-        },
-        "velocity": {
-          "id" : 1
-        }
-      },
-      {
-        "type": "wall",
-        "description": "copper-core 1",
-        "temperature": {
-          "id" : 2
-        },
-        "stress": {
-          "id" : 1
-        },
-        "velocity": {
-          "id" : 1
-        }
-      },
-      {
-        "type": "wall",
-        "description": "dielectric-insulator 1",
-        "temperature": {
-          "id" : 2
-        },
-        "stress": {
-          "id" : 1
-        },
-        "velocity": {
-          "id" : 1
-        }
-      },
-      {
-        "type": "wall",
-        "description": "copper-sheath 1",
-        "temperature": {
-          "id" : 2
-        },
-        "stress": {
-          "id" : 1
-        },
-        "velocity": {
-          "id" : 1
-        }
-      },
-      {
-        "type": "wall",
-        "description": "plastic-sheath 1",
-        "temperature": {
-          "id" : 2
-        },
-        "stress": {
-          "id" : 1
-        },
-        "velocity": {
-          "id" : 1
-        }
-      },
-      {
-        "type": "wall",
-        "description": "tape 1",
-        "temperature": {
-          "id" : 2
-        },
-        "stress": {
-          "id" : 1
-        },
-        "velocity": {
-          "id" : 1
-        }
-      },
-      {
-        "type": "wall",
-        "description": "copper-core surface",
-        "temperature": {
-          "id" : 1,
-          "value" : 550.0
-        },
-        "stress": {
-          "id" : 1
-        },
-        "velocity": {
-          "id" : 1
-        }
-      },
-      {
-        "type": "wall",
-        "description": "tape surface",
-        "temperature": {
-          "id" : 2
-        },
-        "stress": {
-          "id" : 1
-        },
-        "velocity": {
-          "id" : 1
-        }
-      }
-    ]
-  }
-}
-
-```
-
-
-High Level Objects
--------------------
-The example code listing shows the input file for solving the transport equations inside a coaxial cable. The input file is written using the `json` format and is read using the `json-fortran` library. The file contains a top-level object called `MORFEUS` which contains child objects that define various problem parameters. The child objects can occur in any order within the top-level  order without affecting the functionality of the solver.
-
+[json-fortran]: https://github.com/jacobwilliams/json-fortran
 
 ### Mesh object
 The `MESH` object in the input file describes the name and directory of the file containing the mesh geometry. The coaxial cable geometry consists of several concentric materials. All computations in morfeus are done in MKS units. Any scaling of the geometry is also specified in this object. Mesh renumbering, partitioning scheme, and mesh diagnostics output for debugging can also be specified in this object.
@@ -464,7 +231,7 @@ Table: Velocity boundary conditions
 | 5 | Free sliding | 
 
 
-High Level Classes
+High-Level Classes
 ------------------
 
 Below is a list of the important high-level objects and classes, with a brief discussion and
@@ -677,8 +444,8 @@ A complete list of all FD and FV classes and types can be found on the [types li
 * `[[iterating(type):reset]]`
 * `[[iterating(type):nemo_sizeof]]`
 
-High Level Procedures and Methods
----------------------------------
+High-Level Procedures 
+---------------------
 
 All Morfeus FV and FD procedures are listed on the [procedures list page], but below is a curated list of those that correspond to high-level
 operations in FV. These should help you write your own programs and kernels using Morfeus FV.
