@@ -72,7 +72,7 @@ MODULE class_scalar_field
         INTEGER, ALLOCATABLE :: bmat(:)
     CONTAINS
         PROCEDURE, PUBLIC :: create_scalar_field               !! Constructor
-        PROCEDURE, PUBLIC ::  free_field                       !! Destructor
+        PROCEDURE, PUBLIC :: free_field                        !! Destructor
         PROCEDURE, PUBLIC :: get_base
         PROCEDURE, PRIVATE :: get_scalar_field_x, get_scalar_field_element
         GENERIC, PUBLIC :: get_x => get_scalar_field_x, get_scalar_field_element
@@ -114,7 +114,7 @@ MODULE class_scalar_field
           !! Result is new scalar_field from parent field
             IMPLICIT NONE
             TYPE(scalar_field) :: scalar_field_
-            TYPE(field),      INTENT(IN) :: base
+            TYPE(field),    INTENT(IN) :: base
             REAL(psb_dpk_), INTENT(IN) :: x(:)
             REAL(psb_dpk_), INTENT(IN) :: bx(:)
         END FUNCTION scalar_field_
@@ -146,7 +146,7 @@ MODULE class_scalar_field
             TYPE(matptr),     INTENT(IN), OPTIONAL, TARGET :: mats(:)
             LOGICAL,          INTENT(IN), OPTIONAL         :: on_faces
             REAL(psb_dpk_),   INTENT(IN), OPTIONAL         :: x0
-            CHARACTER(len=*), INTENT(IN), OPTIONAL :: name
+            CHARACTER(LEN=*), INTENT(IN), OPTIONAL         :: name
         END SUBROUTINE create_scalar_field
 
         MODULE SUBROUTINE free_field(fld)
@@ -156,6 +156,20 @@ MODULE class_scalar_field
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(INOUT) :: fld
         END SUBROUTINE free_field
+
+        !! ----- Getters for Inherited Members -----
+
+        MODULE FUNCTION get_scalar_field_name(fld)
+            IMPLICIT NONE
+            CHARACTER(len=:), ALLOCATABLE :: get_scalar_field_name
+            CLASS(scalar_field), INTENT(IN) :: fld
+        END FUNCTION get_scalar_field_name
+
+        MODULE FUNCTION get_scalar_field_msh_fun(fld)
+            IMPLICIT NONE
+            TYPE(mesh), POINTER :: get_scalar_field_msh_fun
+            CLASS(scalar_field), INTENT(IN), TARGET :: fld
+        END FUNCTION get_scalar_field_msh_fun
 
         INTEGER MODULE FUNCTION get_scalar_field_mat_id(fld,i)
           !! label: Morfeus-FV

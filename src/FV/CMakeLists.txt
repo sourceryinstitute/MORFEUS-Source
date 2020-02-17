@@ -231,12 +231,12 @@ set(morfeus_fv_srcs
 #  src/operators/vector_pde_source.f90  Not currently used
   src/output/class_output.f90
   src/output/class_output_procedures.f90
+  src/output/class_vtk_output.f90
+  src/output/class_vtk_output_procedures.f90
   src/output/htoi.f90
   src/output/itoh.f90
   src/output/tools_output_basics.f90
   src/output/tools_output.f90
-  src/output/vtkmofo_interface.f90
-  src/output/vtkmofo_implementation.f90
   src/output/wr_mtx_matrix.f90
   src/output/wr_mtx_pattern.f90
   src/output/wr_mtx_vector.f90

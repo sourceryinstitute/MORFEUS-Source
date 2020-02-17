@@ -117,7 +117,7 @@ CONTAINS
 #ifdef DEBUGMSH
         CALL  nemo_mesh_size(msh)
 
-        IF (mypnum ==0 ) CALL pr_mesh_size(msh)
+        IF (mypnum == 0) CALL pr_mesh_size(msh)
 #endif
 
         ! ----- GLOBAL 2 LOCAL REALLCATION ----
@@ -126,7 +126,7 @@ CONTAINS
 #ifdef DEBUGMSH
         CALL  nemo_mesh_size(msh)
 
-        IF (mypnum ==0 ) CALL pr_mesh_size(msh)
+        IF (mypnum == 0) CALL pr_mesh_size(msh)
 #endif
 
         ! ----- From here on data are LOCAL -----

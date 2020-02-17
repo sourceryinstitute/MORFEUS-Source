@@ -134,7 +134,7 @@ MODULE class_vector_field
             TYPE(matptr),     INTENT(IN), OPTIONAL, TARGET :: mats(:)
             LOGICAL,          INTENT(IN), OPTIONAL         :: on_faces
             TYPE(vector),     INTENT(IN), OPTIONAL         :: x0
-            CHARACTER(len=*), INTENT(IN), OPTIONAL :: name
+            CHARACTER(LEN=*), INTENT(IN), OPTIONAL         :: name
         END SUBROUTINE create_vector_field
 
         ! ----- Destructor -----
@@ -259,7 +259,6 @@ MODULE class_vector_field
         END SUBROUTINE check_mesh_consistency_vf
 
         MODULE FUNCTION vector_field_scal(a,f2) RESULT(r)
-            USE class_dimensions
             IMPLICIT NONE
             TYPE(vector_field) :: r
             REAL(psb_dpk_),      INTENT(IN) :: a

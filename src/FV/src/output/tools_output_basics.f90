@@ -49,7 +49,7 @@ MODULE tools_output_basics
 
     PRIVATE
     PUBLIC :: wr_mtx_matrix, wr_mtx_pattern, wr_mtx_vector, itoh, htoi
-    PUBLIC :: vtk_, exo_
+    PUBLIC :: csv_, vtk_, cgns_, exodus_
 
     ! ----- Matrix Market Format -----
 
@@ -97,7 +97,9 @@ MODULE tools_output_basics
     ! ----- Named Constants -----
 
     ! OUTPUT formats
+    INTEGER, PARAMETER :: csv_  = 1
     INTEGER, PARAMETER :: vtk_  = 2
-    INTEGER, PARAMETER :: exo_ = 3
+    INTEGER, PARAMETER :: cgns_ = 3
+    INTEGER, PARAMETER :: exodus_ = 4
 
 END MODULE tools_output_basics

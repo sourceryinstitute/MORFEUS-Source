@@ -189,10 +189,9 @@ MODULE class_vector
         END FUNCTION vec_mag
 
         ELEMENTAL MODULE FUNCTION vec_unit(v)
-        ! Returns a unit vector in the direction of V
-        !
             IMPLICIT NONE
-            TYPE(vector)             :: vec_unit
+            !! Returns a unit vector in the direction of V
+            TYPE(vector)              :: vec_unit
             CLASS(vector), INTENT(IN) :: v
         END FUNCTION vec_unit
     END INTERFACE
@@ -209,7 +208,7 @@ MODULE class_vector
         PURE MODULE SUBROUTINE vector_to_array(a,b)
             IMPLICIT NONE
             REAL(psb_dpk_), INTENT(OUT) :: a(3)
-            TYPE(vector),      INTENT(IN)  :: b
+            TYPE(vector),   INTENT(IN)  :: b
         END SUBROUTINE vector_to_array
     END INTERFACE ASSIGNMENT(=)
 
@@ -251,25 +250,25 @@ MODULE class_vector
         END SUBROUTINE bcast_vector
 
         MODULE SUBROUTINE g2l_vector(verts,desc_v)
-            USE psb_base_mod
+            USE psb_base_mod, ONLY : psb_desc_type
             IMPLICIT NONE
             TYPE(vector), ALLOCATABLE  :: verts(:)
             TYPE(psb_desc_type), INTENT(IN) :: desc_v
         END SUBROUTINE g2l_vector
 
         MODULE SUBROUTINE l2g_vector(verts_loc,verts_glob,desc_v)
-            USE psb_base_mod
+            USE psb_base_mod, ONLY : psb_desc_type
+            IMPLICIT NONE
             ! WARNING! The global results is allocated only on P0. After its usage
             ! it must be deallocated in the calling unit by means of the statement:
             ! "if(associated(glob_res)) deallocate(glob_res)"
-            IMPLICIT NONE
             TYPE(vector)               :: verts_loc(:)
             TYPE(vector), ALLOCATABLE  :: verts_glob(:)
             TYPE(psb_desc_type), INTENT(IN) :: desc_v
         END SUBROUTINE l2g_vector
 
         MODULE SUBROUTINE update_vector_halo(v,desc)
-            USE psb_base_mod
+            USE psb_base_mod, ONLY : psb_desc_type
             IMPLICIT NONE
             TYPE(vector), INTENT(INOUT) :: v(:)
             TYPE(psb_desc_type), INTENT(IN) :: desc
