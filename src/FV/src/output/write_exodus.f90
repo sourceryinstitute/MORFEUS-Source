@@ -17,6 +17,7 @@ MODULE write_exodus
   USE class_iterating
   USE class_scalar_field
   USE class_vector_field
+  USE class_vector
   USE class_output
 
   IMPLICIT NONE
@@ -63,9 +64,9 @@ CONTAINS
     TYPE(vertex), ALLOCATABLE :: verts(:)
     TYPE(connectivity) :: v2f, v2c, f2c
     CHARACTER(len=32) :: path
-    REAL(psb_dpk_), ALLOCATABLE :: scalar_local(:)
-    REAL(psb_dpk_), ALLOCATABLE :: scalar_global(:)
-
+    REAL(psb_dpk_), ALLOCATABLE :: scalar_local(:), scalar_global(:), f_s(:)
+    TYPE(vector), ALLOCATABLE :: vector_local(:), vector_global(:)
+    REAL(psb_dpk_), ALLOCATABLE :: f_x(:), f_y(:), f_z(:)
     ! Sets error handling for PSBLAS-2 routines
     CALL psb_erractionsave(err_act)
     mypnum  = mypnum_()
@@ -193,6 +194,14 @@ CONTAINS
       CALL psb_gather(scalar_global,scalar_local,msh%desc_c,info,root=0)
 
       IF(mypnum == 0) THEN
+        DO ig = 1, num_elem_blks
+          CALL msh%c2g%get_ith_conn(ic2g,ig)
+          nc2g = SIZE(ic2g) !Number of cells in group
+          IF(ALLOCATED(f_s)) DEALLOCATE(f_s)
+          ALLOCATE(f_s(nc2g))
+          f_s(1:nc2g) = scalar_global(ic2g(1:nc2g))
+          CALL expev(exodus_file_id, 0.0, i, INT(ig, INT64), INT(nc2g, INT64), f_s, ierr)
+        END DO
       END IF
     END DO
 
@@ -216,17 +225,27 @@ CONTAINS
       CALL l2g_vector(vector_global,vector_local,msh%desc_c)
 
       IF(mypnum == 0) THEN
+        DO ig = 1, num_elem_blks
+          CALL msh%c2g%get_ith_conn(ic2g,ig)
+          nc2g = SIZE(ic2g) !Number of cells in group
+          IF(ALLOCATED(f_x)) DEALLOCATE(f_x, f_y, f_z)
+          ALLOCATE(f_x(nc2g), f_y(nc2g), f_z(nc2g))
+          f_x(1:nc2g) = vector_global(ic2g(1:nc2g))%x_()
+          f_y(1:nc2g) = vector_global(ic2g(1:nc2g))%y_()
+          f_z(1:nc2g) = vector_global(ic2g(1:nc2g))%z_()
+          CALL expev(exodus_file_id, 0.0, i, INT(ig, INT64), INT(nc2g, INT64), f_s, ierr)
+        END DO
       END IF
     END DO
 
-    allocate (f_x(ncells), f_y(ncells), f_z(ncells))
-    DO i = 1, size(scalars) + 3*size(vectors)
-      IF (i <= size(scalars)) THEN
-        !write scalars to exodus file
-      ELSE
-        f_x = vectors(i-size(scalars))%x_()
-        f_y = vectors(i-size(scalars))%y_()
-        f_z = vectors(i-size(scalars))%z_()
+
+    ! DO i = 1, size(scalars) + 3*size(vectors)
+    !   IF (i <= size(scalars)) THEN
+    !     !write scalars to exodus file
+    !   ELSE
+
+    !   END IF
+    ! END DO
     ! Close the exodus file
     CALL exclos(exodus_file_id, ierr)
     STOP
