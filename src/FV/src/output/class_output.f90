@@ -38,7 +38,7 @@
 !---------------------------------------------------------------------------------
 
 MODULE class_output
-    USE class_psblas, ONLY : psb_dpk_
+    USE class_psblas, ONLY : psb_dpk_, nemo_int_long_
     USE class_mesh,   ONLY : mesh
     !! An Intel 18.0.5 bug precludes putting this in the interface bodies
     USE class_scalar_field, ONLY : scalar_field
@@ -73,8 +73,7 @@ MODULE class_output
     INTERFACE
 
         MODULE FUNCTION nemo_output_sizeof(obj)
-            USE psb_base_mod
-            USE class_psblas
+            !USE psb_base_mod
             CLASS(output), INTENT(IN) :: obj
             INTEGER(kind=nemo_int_long_) :: nemo_output_sizeof
         END FUNCTION nemo_output_sizeof
@@ -133,8 +132,6 @@ MODULE class_output
         END SUBROUTINE write_output
 
         MODULE FUNCTION get_scalar_field(fld) RESULT (x_glob)
-            USE class_psblas,       ONLY : psb_dpk_
-            USE class_scalar_field, ONLY : scalar_field
             IMPLICIT NONE
             !! Returns a scalar field
             TYPE(scalar_field), INTENT(IN) :: fld
@@ -143,8 +140,6 @@ MODULE class_output
         END FUNCTION get_scalar_field
 
         MODULE FUNCTION get_vector_field(fld) RESULT (x_glob)
-            USE class_psblas,       ONLY : psb_dpk_
-            USE class_vector_field, ONLY : vector_field
             IMPLICIT NONE
             !! Returns a vector field
             TYPE(vector_field), INTENT(IN) :: fld
