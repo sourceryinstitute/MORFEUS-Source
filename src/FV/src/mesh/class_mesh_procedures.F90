@@ -224,9 +224,13 @@ CONTAINS
                 ERROR STOP "MORFEUS built without CNGS support! Unable to continue."
 #endif
             CASE('e')
+#ifdef HAVE_EXODUS
                 CALL rd_exodus_mesh(mesh_file, msh%id, msh%nbc, msh%ncd, &
                     & msh%verts, msh%faces, msh%cells, &
                     & msh%v2f, msh%v2c, msh%f2c, msh%c2g)
+#else
+                ERROR STOP "MORFEUS built without exodus support! Unable to continue."
+#endif
             CASE('msh')
                 CALL rd_gmsh_mesh(mesh_file, msh%id, msh%nbc, msh%ncd, &
                     & msh%verts, msh%faces, msh%cells, &

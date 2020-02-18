@@ -63,11 +63,10 @@ MODULE class_scalar_field
       !!
       !! Encapsulate scalar-field state and operations, storing a mesh association in the parent field
       !!
-      !! @todo determine the meaning of xp (previous?), bx (boundary?)
         PRIVATE
-        REAL(psb_dpk_), ALLOCATABLE :: x(:)
-        REAL(psb_dpk_), ALLOCATABLE :: xp(:)
-        REAL(psb_dpk_), ALLOCATABLE :: bx(:)
+        REAL(psb_dpk_), ALLOCATABLE :: x(:)  !! field nodal values
+        REAL(psb_dpk_), ALLOCATABLE :: xp(:) !! previous nodal values
+        REAL(psb_dpk_), ALLOCATABLE :: bx(:) !! face values
         INTEGER, ALLOCATABLE :: mat(:)
         INTEGER, ALLOCATABLE :: bmat(:)
     CONTAINS
@@ -132,8 +131,6 @@ MODULE class_scalar_field
             INTEGER(kind=nemo_int_long_)   :: nemo_sizeof
         END FUNCTION nemo_sizeof
 
-        !! Constructor
-
         MODULE SUBROUTINE create_scalar_field(fld,msh,dim,bc,mats,on_faces,x0,name)
           !! label: Morfeus-FV
           !!
@@ -156,20 +153,6 @@ MODULE class_scalar_field
             IMPLICIT NONE
             CLASS(scalar_field), INTENT(INOUT) :: fld
         END SUBROUTINE free_field
-
-        !! ----- Getters for Inherited Members -----
-
-        MODULE FUNCTION get_scalar_field_name(fld)
-            IMPLICIT NONE
-            CHARACTER(len=:), ALLOCATABLE :: get_scalar_field_name
-            CLASS(scalar_field), INTENT(IN) :: fld
-        END FUNCTION get_scalar_field_name
-
-        MODULE FUNCTION get_scalar_field_msh_fun(fld)
-            IMPLICIT NONE
-            TYPE(mesh), POINTER :: get_scalar_field_msh_fun
-            CLASS(scalar_field), INTENT(IN), TARGET :: fld
-        END FUNCTION get_scalar_field_msh_fun
 
         INTEGER MODULE FUNCTION get_scalar_field_mat_id(fld,i)
           !! label: Morfeus-FV
