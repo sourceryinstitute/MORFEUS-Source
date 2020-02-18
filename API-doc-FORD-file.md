@@ -1,10 +1,10 @@
 ---
 project: Morfeus Framework
 summary: A parallel finite volume and finite difference PDE toolkit
-src_dir: src/FD/utilities
-         src/FD/grid
+src_dir: src/FD
          src/FV/src
 exclude_dir: src/FV/src/unit-tests
+             src/FD/tests
              API-doc
 output_dir: API-doc
 media_dir: developer-doc/media
@@ -19,6 +19,7 @@ display: public
 source: true
 graph: true
 md_extensions: markdown.extensions.toc
+css: API-doc-style.css
 coloured_edges: true
 sort: permission-alpha
 extra_mods: iso_fortran_env:https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html
@@ -116,6 +117,7 @@ In addition to the search box on the right side of the top navbar, the following
 [Modules]: https://sourceryinstitute.github.io/MORFEUS-Source/lists/modules.html
 [Procedures]: https://sourceryinstitute.github.io/MORFEUS-Source/lists/procedures.html
 [Abstract Interfaces]: https://sourceryinstitute.github.io/MORFEUS-Source/lists/absint.html
+[Derived Types]: https://sourceryinstitute.github.io/MORFEUS-Source/lists/types.html
 
 
 ### [Developer Documentation]
@@ -140,6 +142,7 @@ These files are typically rendered to HTML and displayed prominently on version 
 [Github], [Gitlab] or [BitBucket] to name a few.
 
 The [High-level FV API and Usage] page provides:
+
 * an overview and references for the numerical algorithms used
 * input files and entries therein to control the mesh, governing PDEs, boundary conditions and input/output
 * a list of high-level classes used in constructing a solver with links to the detailed [FORD] documentation for each
