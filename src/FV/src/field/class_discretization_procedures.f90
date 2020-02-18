@@ -97,7 +97,7 @@ CONTAINS
                         r%blend = 1.d0
 !!$             case(id_tvd_) ! Any scheme requiring a blending factor too
 !!$                read(inp,*) r%blend
-                    CASE default
+                    CASE DEFAULT
                         WRITE(*,200)
                         CALL abort_psblas
                     END SELECT

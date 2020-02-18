@@ -54,7 +54,7 @@
 !    CHECK_MESH_CONSISTENCY compares two meshes and checks their consistency.
 !
 MODULE class_mesh
-
+    !! Define and manipulate data describing the discretization of space into connected finite-volume cells and surfaces
     USE psb_base_mod
     USE class_psblas, ONLY : nemo_int_long_
     USE class_cell, ONLY : cell
@@ -76,6 +76,7 @@ MODULE class_mesh
     INTEGER, PARAMETER :: nlen = 80
 
     TYPE, EXTENDS(grid) :: mesh
+      !! Encapsulate mesh connectivity, component parts, metrics, surfaces, and linear algebraic descriptors
         LOGICAL :: set = .FALSE.   ! Indicates if the mesh been created yet
         CHARACTER(len=nlen) :: id  ! Mesh ID
         INTEGER :: nbc             ! Number of BCs

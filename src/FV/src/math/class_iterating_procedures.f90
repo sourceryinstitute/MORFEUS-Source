@@ -90,7 +90,7 @@ CONTAINS
         CASE(it_counter_)
             iter%delta = 0.d0
             iter%tol   = 0.d0
-        CASE default
+        CASE DEFAULT
             WRITE(*,100)
             CALL abort_psblas
         END SELECT

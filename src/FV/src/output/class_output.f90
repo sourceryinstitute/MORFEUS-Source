@@ -36,12 +36,7 @@
 ! SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 !
 !---------------------------------------------------------------------------------
-!
-! $Id: class_output.f90 3093 2008-04-22 14:51:09Z sfilippo $
-!
-! Description:
-!    To be added...
-!
+
 MODULE class_output
     USE class_psblas, ONLY : psb_dpk_
     USE class_mesh,   ONLY : mesh

@@ -22,7 +22,7 @@ md_extensions: markdown.extensions.toc
 coloured_edges: true
 sort: alpha
 extra_mods: iso_fortran_env:https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html
-            iso_c_binding:https://gcc.gnu.org/onlinedocs/gcc-4.9.4/gfortran/ISO_005fC_005fBINDING.html
+            iso_c_binding:https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fC_005fBINDING.html#ISO_005fC_005fBINDING
 lower: true
 print_creation_date: true
 creation_date: %Y-%m-%d %H:%M %z
