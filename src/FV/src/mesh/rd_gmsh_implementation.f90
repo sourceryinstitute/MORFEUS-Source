@@ -37,8 +37,6 @@
 !
 !---------------------------------------------------------------------------------
 !
-! $Id: rd_gambit_mesh.f90 3093 2008-04-22 14:51:09Z sfilippo $
-!
 ! Description:
 !    To be added...
 !
@@ -104,7 +102,7 @@ CONTAINS
         CHARACTER(LEN=32) :: pname
         CHARACTER(LEN=80) :: adummy
         REAL(psb_dpk_) :: vers
-        INTEGER :: ftype, dsize, nnames, pdim, pid, itemp, i1, i2, i3, i4, ngroups, &
+        INTEGER :: filetype, dsize, nnames, pdim, pid, itemp, i3, i4, &
                       dim_entt, tag_entt, nv_in_entt, edim, etag, etype, ibc, icell, ielem, &
                       ientt, iface, igroup, inv, ncmax, ncmin, nelems, nentts, npt, nv, nvmax, &
                       nvmin, tag, ibc_temp, vi(4), vj(4), jf
@@ -121,12 +119,12 @@ CONTAINS
             CALL abort_psblas
         ENDIF
 
-        READ (mesh,'()') ! $MeshFormat statement
+        READ (mesh,'()') !! $MeshFormat statement
 
-        READ (mesh, *) vers, ftype, dsize
+        READ (mesh, *) vers, filetype, dsize !! Version, filetype (0=ASCII,1=binary), datasize
 
         ! Abort of mesh file version is less than 4.1 or if filetype is not ASCII
-        IF (vers < 4.0) THEN
+        IF (vers < 4.0 .OR. filetype /= 0) THEN
           WRITE(*, 100)
           CALL abort_psblas
         END IF
