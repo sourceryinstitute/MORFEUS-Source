@@ -57,7 +57,7 @@ CONTAINS
         USE tools_material
 
         ! Reads and bcast_ input parameters
-        CALL rd_inp_material(input_file,sec,mat%name,mat%ilaw,mat%mat_type,mat%mat_id)
+        CALL rd_inp_material(input_file,block_id,mat%name,mat%ilaw,mat%mat_type,mat%mat_id)
 
         ! Load material physical properties
         CALL load_material(mat%name,mat%state,mat%dtemp,mat%tmin,mat%tmax,&
@@ -68,7 +68,6 @@ CONTAINS
         IF(debug) CALL debug_material(mat)
 
     END PROCEDURE create_material
-
 
     ! ----- Destructor -----
 

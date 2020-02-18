@@ -75,7 +75,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/src/mesh_optimize/OptMS")
 
 
 # Add option for enabling exodus
-option(USE_EXODUS "Build with Exodus support (broken)" OFF)
+option(USE_EXODUS "Build with Exodus support (broken)" ON)
 
 # Make CGNS optional
 option(USE_CGNS "Build with CGNS support (broken)" OFF)
@@ -290,7 +290,8 @@ set(morfeus_fv_C_srcs
 
 if(USE_EXODUS)
   list(APPEND morfeus_fv_srcs
-    src/mesh/rd_exodus_mesh.f90)
+    src/mesh/rd_exodus_mesh.f90
+    src/output/write_exodus.f90)
 endif()
 
 if(USE_CGNS)
