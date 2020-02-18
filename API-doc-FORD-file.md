@@ -1,10 +1,10 @@
 ---
 project: Morfeus Framework
 summary: A parallel finite volume and finite difference PDE toolkit
-src_dir: src/FD
+src_dir: src/FD/utilities
+         src/FD/grid
          src/FV/src
-exclude_dir: src/FD/tests
-             src/FV/src/unit-tests
+exclude_dir: src/FV/src/unit-tests
              API-doc
 output_dir: API-doc
 media_dir: developer-doc/media
@@ -15,6 +15,7 @@ macro: FORD
 preprocessor: gfortran-8 -E
 display: public
          protected
+         private
 source: true
 graph: true
 md_extensions: markdown.extensions.toc
