@@ -73,7 +73,7 @@ MODULE class_output
     INTERFACE
 
         MODULE FUNCTION nemo_output_sizeof(obj)
-            !USE psb_base_mod
+            IMPLICIT NONE
             CLASS(output), INTENT(IN) :: obj
             INTEGER(kind=nemo_int_long_) :: nemo_output_sizeof
         END FUNCTION nemo_output_sizeof
