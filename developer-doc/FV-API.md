@@ -29,7 +29,7 @@ is provided and its components described along with instructions for
 Solver Description 
 ------------------
 
-The morfeus solver consists of two parts:
+The Morfeus-FV solver consists of two parts:
 
   - A common library of routines for reading input files, creating the grid, discretization of the equations, solving the equations using the Parallel Basic Linear Algebra Subroutines ([PSBLAS]), and plotting of the results. 
   
@@ -41,7 +41,7 @@ The morfeus solver consists of two parts:
 Numerical Algorithms 
 --------------------
 
-Morfeus-FV solves transport equations using explicit finite-difference time advancement and cell-based finite-volume scheme spatial discretizations.  For a complete description of the alogorithms employed 
+Morfeus-FV solves transport equations using explicit finite-difference time advancement and cell-based finite-volume spatial discretizations.  For a complete description of the alogorithms employed 
 in Morfeus-FV, refer to the dissertation by S. [Toninel (2006)].  More recent work has involved modernization of the code using the modular and object-oriented programming (OOP) features of Fortran 2008, 
 including
 
