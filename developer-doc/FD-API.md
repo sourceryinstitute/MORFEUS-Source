@@ -9,6 +9,8 @@ title: High-level FD API documentation
 
 </details>
 
+@warning The block-structure parallel FD solver is still a work in progress
+
 Overview
 --------
 
