@@ -16,43 +16,43 @@ This overview of the Morfeus Finite-Volume (Morfeus-FV) framework includes
 a brief description of how to use the framework to set up a new solver
 for a system of coupled partial differential equations.  The overview
 outlines key classes and type-bound procedures.  A sample input file
-is provided and its components described along with instructions for 
+is provided and its components described along with instructions for
 
   - Reading input files and grid files,
-  - Initializing the library and data structures, 
+  - Initializing the library and data structures,
   - Setting up PDEs and integrating the solution forward in time, and
   - Writing outputs.
 
 ![Sphere geometry and mesh for finite volume solver](https://user-images.githubusercontent.com/13108868/74580343-f5095500-4f57-11ea-9c18-5c5aec301642.png)
 
 
-Solver Description 
+Solver Description
 ------------------
 
 The morfeus solver consists of two parts:
 
-  - A common library of routines for reading input files, creating the grid, discretization of the equations, solving the equations using the Parallel Basic Linear Algebra Subroutines ([PSBLAS]), and plotting of the results. 
-  
+  - A common library of routines for reading input files, creating the grid, discretization of the equations, solving the equations using the Parallel Basic Linear Algebra Subroutines ([PSBLAS]), and plotting of the results.
+
   - A problem-specific solver built using the routines from the morfeus finite volume library.
 
 [PSBLAS]: https://github.com/sfilippone/psblas3
 
 
-Numerical Algorithms 
+Numerical Algorithms
 --------------------
 
-Morfeus-FV solves transport equations using explicit finite-difference time advancement and cell-based finite-volume scheme spatial discretizations.  For a complete description of the alogorithms employed 
-in Morfeus-FV, refer to the dissertation by S. [Toninel (2006)].  More recent work has involved modernization of the code using the modular and object-oriented programming (OOP) features of Fortran 2008, 
+Morfeus-FV solves transport equations using explicit finite-difference time advancement and cell-based finite-volume scheme spatial discretizations.  For a complete description of the alogorithms employed
+in Morfeus-FV, refer to the dissertation by S. [Toninel (2006)].  More recent work has involved modernization of the code using the modular and object-oriented programming (OOP) features of Fortran 2008,
 including
 
-  - Type extension, 
-  - Type-bound procedures, 
+  - Type extension,
+  - Type-bound procedures,
   - User-defined, type-bound operators, and
   - Submodules.
 
 [Toninel (2006)]: http://people.uniroma2.it/salvatore.filippone/nemo/toninel_phd.pdf
 
-Input Files 
+Input Files
 ------------
 
 Morfeus requires two input files. The first is a geometry file in GAMBIT neutral file format or in EXODUS II format; the second is a file called fast.json that contains the problem description, i.e. the description of materials, boundary conditions, solver parameters such as convergence criteria, and output parameters. The `fast.json` file should be present in the same folder as the mesh-file and the solver.   The next several sections describe different sections of a [sample json input file].
@@ -106,7 +106,7 @@ The `PDES` objects describes the solver parameters for the different PDEs. It co
 The `iterations` object contains three child objects which define the solver iterations and convergence parameters.
 
 * Time object
-The `time` object describes the number of time steps to be executed and the $\delta t$ in seconds.
+The `time` object describes the number of time steps to be executed and the \( \delta t \) in seconds.
 
 * Big-solver object
 The `big-solver` object describes the convergence tolerance for the iterative solver, and the maximum number of steps to be executed before moving to the next time-step.
@@ -202,33 +202,33 @@ The `BCS` object contains a list of child objects for each boundary surface. The
 ```
 
 
-Table: Temperature boundary conditions
+__Table: Temperature boundary conditions__
 
-| BC ID <br>| Description       | Value 1          | Value 2          
-|-------|-------------------|------------------|------------------:
-| 1     | Fixed temperature | Temperature in K |                  
-| 2     | Adiabatic BC      |                  |                  
-| 3     | Fixed flux        | flux in W/m2     |                  
-| 4     | Convection        | Coeff in W/m2K   | Temperature in K 
-
-
-Table: Stress boundary conditions
-
-| BC ID <br>  | Description   | Value   
-|------------ |-------------------  |----------------:
-| 1   | Stress free   |   
-| 2   | Prescribed Stress   | Stress in N/m2  
+| BC ID | Description       | Value 1          | Value 2          |
+| ----: | ----------------- | ---------------- | ---------------- |
+| 1     | Fixed temperature | Temperature in K |                  |
+| 2     | Adiabatic BC      |                  |                  |
+| 3     | Fixed flux        | flux in W/m2     |                  |
+| 4     | Convection        | Coeff in W/m2K   | Temperature in K |
 
 
-Table: Velocity boundary conditions
+__Table: Stress boundary conditions__
 
-| BC ID <br>| Description <br>| Value 
-|-------|-------------|-------:
-| 1 | No slip | 
-| 2 | Free slip | 
-| 3 | Sliding | 
-| 4 | Moving | Velocity in m/s 
-| 5 | Free sliding | 
+| BC ID  | Description   | Value |
+| -----: | ------------- | ----- |
+| 1      | Stress free   |       |
+| 2      | Prescribed Stress | Stress in N/m2 |
+
+
+__Table: Velocity boundary conditions__
+
+| BC ID | Description | Value |
+| ----: | ----------- | ----- |
+| 1 | No slip |      |
+| 2 | Free slip |      |
+| 3 | Sliding |      |
+| 4 | Moving | Velocity in m/s |
+| 5 | Free sliding |        |
 
 
 High-Level Classes
@@ -285,11 +285,11 @@ A complete list of all FD and FV classes and types can be found on the [types li
 
 ### [[material(type)]]
 
-`[[material(type)]]` is a class to describe material state and specify state equations. 
+`[[material(type)]]` is a class to describe material state and specify state equations.
 
 #### Methods
 
-* `[[material(type):name_]]` 
+* `[[material(type):name_]]`
 * `[[material(type):mat_id]]`
 * `[[material(type):nemo_sizeof]]`
 
@@ -310,9 +310,9 @@ A complete list of all FD and FV classes and types can be found on the [types li
 
 ### [[bc_poly(type)]]
 
-`[[bc_poly(type)]]` Implement a runtime polymorphism pattern [1] to emulate an abstract parent of the `[[bc_math(type)]]`/`[[bc_wall(type)]]` classes. 
+`[[bc_poly(type)]]` Implement a runtime polymorphism pattern [^polymorphism] to emulate an abstract parent of the `[[bc_math(type)]]`/`[[bc_wall(type)]]` classes.
 
-[1] Akin, E. (2003) Object-oriented programming via Fortran 90/95. Cambridge University Press.
+[^polymorphism]: Akin, E. (2003) [Object-oriented programming via Fortran 90/95](https://doi.org/10.1017/CBO9780511530111). Cambridge University Press.
 
 #### Methods
 
@@ -444,7 +444,7 @@ A complete list of all FD and FV classes and types can be found on the [types li
 * `[[iterating(type):reset]]`
 * `[[iterating(type):nemo_sizeof]]`
 
-High-Level Procedures 
+High-Level Procedures
 ---------------------
 
 All Morfeus FV and FD procedures are listed on the [procedures list page], but below is a curated list of those that correspond to high-level
