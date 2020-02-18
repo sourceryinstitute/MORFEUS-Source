@@ -242,7 +242,6 @@ set(morfeus_fv_srcs
   src/output/write_mesh.f90
   src/output/write_scalar_field.f90
   src/output/write_vector_field.f90
-  src/output/write_exodus.f90
   src/pde/class_pde.f90
   src/pde/class_pde_procedures.f90
   src/pde/class_scalar_pde.f90
@@ -291,7 +290,8 @@ set(morfeus_fv_C_srcs
 
 if(USE_EXODUS)
   list(APPEND morfeus_fv_srcs
-    src/mesh/rd_exodus_mesh.f90)
+    src/mesh/rd_exodus_mesh.f90
+    src/output/write_exodus.f90)
 endif()
 
 if(USE_CGNS)
