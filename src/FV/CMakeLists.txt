@@ -229,7 +229,7 @@ set(morfeus_fv_srcs
   src/operators/vector_pde_laplacian.f90
 #  src/operators/vector_pde_source.f90  Not currently used
   src/output/class_output.f90
-  src/output/class_output_procedures.f90
+  src/output/class_output_procedures.F90
   src/output/class_vtk_output.f90
   src/output/class_vtk_output_procedures.f90
   src/output/htoi.f90
@@ -291,7 +291,8 @@ set(morfeus_fv_C_srcs
 if(USE_EXODUS)
   list(APPEND morfeus_fv_srcs
     src/mesh/rd_exodus_mesh.f90
-    src/output/write_exodus.f90)
+    src/output/class_exodus.f90
+    src/output/class_exodus_procedures.f90)
 endif()
 
 if(USE_CGNS)

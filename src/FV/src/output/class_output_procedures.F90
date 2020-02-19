@@ -59,6 +59,9 @@ CONTAINS
         USE class_psblas, ONLY : abort_psblas, mypnum_
         USE json_module
         USE class_vtk_output, ONLY : vtk_output_
+#ifdef HAVE_EXODUS
+        USE class_exodus, ONLY : exodus_output_
+#endif
         IMPLICIT NONE
 
         CHARACTER(LEN=10) :: proc_id
@@ -88,8 +91,12 @@ CONTAINS
         CASE ('cgns')
             ALLOCATE(output::out)
             out%fmt = cgns_
-        CASE ('exodus')
-            ALLOCATE(output::out)
+        CASE ('exodus','exo')
+#ifdef HAVE_EXODUS
+            ALLOCATE(exodus_output_::out)
+#else
+            ERROR STOP 'Error: morfeus built without Exodus support.'
+#endif
             out%fmt = exodus_
         CASE DEFAULT
             WRITE(*,105) cval
