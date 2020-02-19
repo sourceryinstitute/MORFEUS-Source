@@ -75,7 +75,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/src/mesh_optimize/OptMS")
 
 
 # Add option for enabling exodus
-option(USE_EXODUS "Build with Exodus support (broken)" ON)
+option(USE_EXODUS "Build with Exodus support (broken)" OFF)
 
 # Make CGNS optional
 option(USE_CGNS "Build with CGNS support (broken)" OFF)
