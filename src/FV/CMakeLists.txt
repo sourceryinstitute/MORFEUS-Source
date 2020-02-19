@@ -189,6 +189,7 @@ set(morfeus_fv_srcs
   src/mesh/part_random.f90
   src/mesh/part_random_procedures.f90
   src/mesh/rd_gambit_implementation.f90
+  src/mesh/rd_gmsh_implementation.f90
   src/mesh/rd_inp_mesh_implementation.f90
   src/mesh/renum.F90
   src/mesh/renum_procedures.F90
@@ -228,13 +229,13 @@ set(morfeus_fv_srcs
   src/operators/vector_pde_laplacian.f90
 #  src/operators/vector_pde_source.f90  Not currently used
   src/output/class_output.f90
-  src/output/class_output_procedures.f90
+  src/output/class_output_procedures.F90
+  src/output/class_vtk_output.f90
+  src/output/class_vtk_output_procedures.f90
   src/output/htoi.f90
   src/output/itoh.f90
   src/output/tools_output_basics.f90
   src/output/tools_output.f90
-  src/output/vtkmofo_interface.f90
-  src/output/vtkmofo_implementation.f90
   src/output/wr_mtx_matrix.f90
   src/output/wr_mtx_pattern.f90
   src/output/wr_mtx_vector.f90
@@ -289,7 +290,9 @@ set(morfeus_fv_C_srcs
 
 if(USE_EXODUS)
   list(APPEND morfeus_fv_srcs
-    src/mesh/rd_exodus_mesh.f90)
+    src/mesh/rd_exodus_mesh.f90
+    src/output/class_exodus.f90
+    src/output/class_exodus_procedures.f90)
 endif()
 
 if(USE_CGNS)
@@ -530,6 +533,14 @@ if(TARGET MatLib)
 else()
   message( FATAL_ERROR
     "Please run CMake from the top level FAST directory; the MatLib library is now required by MORFEUS_FV.")
+endif()
+
+if(TARGET Coolant)
+  target_link_libraries(morfeus_fv
+    PUBLIC Coolant)
+else()
+  message( FATAL_ERROR
+    "Please run CMake from the top level FAST directory; the Coolant library is now required by MORFEUS_FV.")
 endif()
 
 if(TARGET vtkmofo)

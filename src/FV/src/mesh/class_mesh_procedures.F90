@@ -1,4 +1,3 @@
-!
 !     (c) 2019 Guide Star Engineering, LLC
 !     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
 !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
@@ -118,7 +117,7 @@ CONTAINS
 #ifdef DEBUGMSH
         CALL  nemo_mesh_size(msh)
 
-        IF (mypnum ==0 ) CALL pr_mesh_size(msh)
+        IF (mypnum == 0) CALL pr_mesh_size(msh)
 #endif
 
         ! ----- GLOBAL 2 LOCAL REALLCATION ----
@@ -127,7 +126,7 @@ CONTAINS
 #ifdef DEBUGMSH
         CALL  nemo_mesh_size(msh)
 
-        IF (mypnum ==0 ) CALL pr_mesh_size(msh)
+        IF (mypnum == 0) CALL pr_mesh_size(msh)
 #endif
 
         ! ----- From here on data are LOCAL -----
@@ -232,6 +231,10 @@ CONTAINS
 #else
                 ERROR STOP "MORFEUS built without exodus support! Unable to continue."
 #endif
+            CASE('msh')
+                CALL rd_gmsh_mesh(mesh_file, msh%id, msh%nbc, msh%ncd, &
+                    & msh%verts, msh%faces, msh%cells, &
+                    & msh%v2f, msh%v2c, msh%f2c, msh%c2g)
             CASE('neu')
                 CALL rd_gambit_mesh(mesh_file, msh%id, msh%nbc, msh%ncd, &
                     & msh%verts, msh%faces, msh%cells, &

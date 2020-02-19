@@ -166,6 +166,17 @@ CONTAINS
         ! Check for the boundeness of INT_FACT
         m = COUNT(int_fact < 0.d0)
         n = COUNT(int_fact > 1.d0)
+
+
+        !#############################################################################
+        IF(debug) THEN
+            DO IF = 1, nfaces
+            WRITE(*,600) IF, faces(IF)%flag_(), faces(IF)%master_(), faces(IF)%slave_(), int_fact(IF)
+            END DO
+            WRITE(*,*)
+600         FORMAT('Face: ',i6,' | Flag:',i3,' | Master:',i5,' | Slave:',i5,' | Int_fct:',3(1x,d13.6))
+        END IF
+        !#############################################################################
         !
         CALL psb_sum(icontxt,m)
         IF( mypnum == 0 .AND. m /= 0 ) THEN
@@ -178,16 +189,6 @@ CONTAINS
             WRITE(*,400) n
             CALL abort_psblas
         END IF
-
-        !#############################################################################
-        IF(debug) THEN
-            DO IF = 1, nfaces
-            WRITE(*,600) IF, faces(IF)%flag_(), faces(IF)%master_(), faces(IF)%slave_(), int_fact(IF)
-            END DO
-            WRITE(*,*)
-600         FORMAT('Face: ',i6,' | Flag:',i3,' | Master:',i5,' | Slave:',i5,' | Int_fct:',3(1x,d13.6))
-        END IF
-        !#############################################################################
 
         NULLIFY(if2b)
         DEALLOCATE(imaster,islave,isect)
