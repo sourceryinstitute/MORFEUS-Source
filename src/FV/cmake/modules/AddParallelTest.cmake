@@ -22,17 +22,17 @@ function(add_parallel_test)
   set(multiValueArgs SOURCES LIBS)
   cmake_parse_arguments(APT "" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-  if(NOT "${APT_SOURCES}")
+  if(NOT APT_SOURCES)
     message( FATAL_ERROR "`add_parallel_test()` must be called with the SOURCES argument pointing to test sources!")
   endif()
   list(GET APT_SOURCES 0 _first_source)
   if(NOT "${APT_PROCESSES}")
     set(APT_PROCESSES 1)
-  elseif("${APT_PROCESSES}" LESS 1)
+  elseif(APT_PROCESSES LESS 1)
     message( FATAL_ERROR
       "${APT_PROCESSES} processes requested in `add_parallel_test()`! An integer greater than or equal to 1 must be specified.")
   endif()
-  if("${APT_NAME}")
+  if(APT_NAME)
     set(_test_name "${APT_NAME}")
   else()
     get_filename_component(_test_name "${_first_source}" NAME_WE)
@@ -68,7 +68,7 @@ function(add_parallel_test)
   set_property(TEST ${name}
     APPEND
     PROPERTY PROCESSORS ${APT_PROCESSES})
-  if("${APT_TEST_DIR}")
+  if(APT_TEST_DIR)
     set_property(TEST ${name}
       APPEND
       PROPERTY WORKING_DIRECTORY ${APT_TEST_DIR})
