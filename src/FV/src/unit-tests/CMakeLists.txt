@@ -13,7 +13,7 @@ endforeach()
 include(AddParallelTest)
 
 add_parallel_test(NAME fv-unit-test # Name is optional
-  PROCESSES 2                       # Processes is optional, will default to 1
+  PROCESSES 3                       # Processes is optional, will default to 1
   TEST_DIR ./paht/to/subdir         # Optional, path to directory where test should be run
   SOURCES fv-unit-test1.F90         # Specify one or more source files. If NAME is missing
   LIBS morfeus_fv
