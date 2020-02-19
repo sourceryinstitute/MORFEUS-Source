@@ -51,24 +51,22 @@ PROGRAM check_mesh
     CHARACTER(len=30), PARAMETER :: input_file = 'nemo.inp'
     !
     TYPE(mesh) :: msh
-    TYPE(output) :: out
+    CLASS(output), ALLOCATABLE :: out
     TYPE(scalar_field) :: quality
     !
     INTEGER, ALLOCATABLE :: bad_cells(:)
     REAL(psb_dpk_) :: tol
 
-
-
     CALL start_psblas
 
     CALL msh%create_mesh(input_file,'MESH')
-    CALL quality%create_field(msh)
-    CALL out%create_output(input_file,'OUTPUT')
+    CALL quality%create_field(msh,name='qual')
+    out = create_output(input_file,'OUTPUT')
 
     tol = read_par(input_file,'MESH','quality_tol',default = 0.0d0)
     CALL check_mesh_quality(msh,quality,tol,bad_cells)
 
-    CALL write_vtk_morfeus(msh, [ quality ], [ 'qual' ], out=out)
+    CALL out%write(msh, [ quality ])
 
     IF(ALLOCATED(bad_cells)) DEALLOCATE(bad_cells)
     CALL quality%free_field()

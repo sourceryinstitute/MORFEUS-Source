@@ -78,6 +78,5 @@ MODULE tools_nemo
     USE tools_operators
     USE tools_output_basics
     USE tools_output
-    USE vtkmofo_io, ONLY : write_vtk_morfeus
 
 END MODULE tools_nemo

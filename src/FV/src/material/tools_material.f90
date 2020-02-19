@@ -64,10 +64,10 @@ MODULE tools_material
     ! ----- Interfaces -----
 
     INTERFACE
-        MODULE SUBROUTINE rd_inp_material(input_file,sec,name,ilaw,TYPE,id)
+        MODULE SUBROUTINE rd_inp_material(input_file,bid,name,ilaw,TYPE,id)
             IMPLICIT NONE
             CHARACTER(len=*), INTENT(IN) :: input_file
-            CHARACTER(len=*), INTENT(IN) :: sec
+            INTEGER, INTENT(IN) :: bid
             CHARACTER(len=*), INTENT(OUT) :: name,TYPE
             INTEGER, INTENT(OUT) :: ilaw(:),id
         END SUBROUTINE rd_inp_material

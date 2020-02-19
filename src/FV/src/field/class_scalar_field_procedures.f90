@@ -107,7 +107,7 @@ CONTAINS
         TYPE(dimensions) :: fdim
 
         ! Creates the base-class member
-        CALL fld%field%create_field(msh,dim,bc,mats,on_faces)
+        CALL fld%field%create_field(msh,dim,bc,mats,on_faces,name)
 
         ! Gets field dimensions
         fdim = fld%field%dim_()
@@ -214,7 +214,6 @@ CONTAINS
 100     FORMAT(' ERROR! Memory allocation failure in CREATE_SCALAR_FIELD')
 
     END PROCEDURE create_scalar_field
-
 
     ! ----- Destructor -----
 

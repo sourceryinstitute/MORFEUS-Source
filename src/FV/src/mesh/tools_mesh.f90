@@ -46,6 +46,8 @@
 !     interface for rd_inp_mesh             reading mesh-related inputs
 !     interface for rd_gambit_mesh          reads gambit mesh file
 !     interface for rd_cgns_mesh            reads cgns mesh file
+!     interface for rd_gmsh_mesh          reads GMSH mesh file
+!     interface for rd_exodus_mesh            reads EXODUSII mesh file
 !
 MODULE tools_mesh
     USE class_psblas, ONLY : psb_dpk_, psb_desc_type
@@ -89,6 +91,42 @@ MODULE tools_mesh
             TYPE(cell), ALLOCATABLE :: cells(:)
             TYPE(connectivity), INTENT(OUT) :: v2f, v2c, f2c, c2g
         END SUBROUTINE rd_gambit_mesh
+
+    ! ----- Reading: Import mesh EXODUS -----
+
+        MODULE SUBROUTINE rd_exodus_mesh(mesh_file, mesh_id, nbc, ncd, &
+            & verts, faces, cells, v2f, v2c, f2c, c2g)
+            USE class_cell, ONLY : cell
+            USE class_face, ONLY : face
+            USE class_vertex, ONLY : vertex
+            IMPLICIT NONE
+            CHARACTER(len=*), INTENT(IN) :: mesh_file
+            CHARACTER(len=*), INTENT(OUT) :: mesh_id
+            INTEGER, INTENT(OUT) :: nbc
+            INTEGER, INTENT(OUT) :: ncd
+            TYPE(vertex), ALLOCATABLE :: verts(:)
+            TYPE(face),  ALLOCATABLE :: faces(:)
+            TYPE(cell),  ALLOCATABLE :: cells(:)
+            TYPE(connectivity), INTENT(OUT) :: v2f, v2c, f2c, c2g
+        END SUBROUTINE rd_exodus_mesh
+
+    ! ----- Reading: Import mesh GMSH -----
+
+        MODULE SUBROUTINE rd_gmsh_mesh(mesh_file, mesh_id, nbc, ncd, &
+            & verts, faces, cells, v2f, v2c, f2c, c2g)
+            USE class_cell, ONLY : cell
+            USE class_face, ONLY : face
+            USE class_vertex, ONLY : vertex
+            IMPLICIT NONE
+            CHARACTER(len=*), INTENT(IN) :: mesh_file
+            CHARACTER(len=*), INTENT(OUT) :: mesh_id
+            INTEGER, INTENT(OUT) :: nbc
+            INTEGER, INTENT(OUT) :: ncd
+            TYPE(vertex), ALLOCATABLE :: verts(:)
+            TYPE(face),  ALLOCATABLE :: faces(:)
+            TYPE(cell),  ALLOCATABLE :: cells(:)
+            TYPE(connectivity), INTENT(OUT) :: v2f, v2c, f2c, c2g
+        END SUBROUTINE rd_gmsh_mesh
 
     ! ----- Reading: Import mesh CGNS -----
 
