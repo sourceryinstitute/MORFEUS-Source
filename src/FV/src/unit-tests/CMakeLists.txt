@@ -25,3 +25,10 @@ add_parallel_test(NAME fv-test-class_vector # Name is optional
   LIBS morfeus_fv
 )
 #  TEST_DIR ./path/to/subdir         # Optional, path to directory where test should be run
+
+add_parallel_test(NAME fv-test-class_keytable # Name is optional
+  PROCESSES 1                       # Processes is optional, will default to 1
+  SOURCES fv-test-class_keytable.f90         # Specify one or more source files. If NAME is missing
+  LIBS morfeus_fv
+)
+#  TEST_DIR ./path/to/subdir         # Optional, path to directory where test should be run
