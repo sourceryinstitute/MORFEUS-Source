@@ -12,9 +12,16 @@ endforeach()
 # NOTE: The CMAKE_MODULE_PATH was modified in the project's top  level CMakeLists.txt
 include(AddParallelTest)
 
-add_parallel_test(NAME fv-unit-test # Name is optional
-  PROCESSES 3                       # Processes is optional, will default to 1
-  TEST_DIR ./paht/to/subdir         # Optional, path to directory where test should be run
-  SOURCES fv-unit-test1.F90         # Specify one or more source files. If NAME is missing
+add_parallel_test(NAME fv-test-class_dimensions # Name is optional
+  PROCESSES 1                       # Processes is optional, will default to 1
+  SOURCES fv-test-class_dimensions.f90         # Specify one or more source files. If NAME is missing
   LIBS morfeus_fv
 )
+#  TEST_DIR ./path/to/subdir         # Optional, path to directory where test should be run
+
+add_parallel_test(NAME fv-test-class_vector # Name is optional
+  PROCESSES 1                       # Processes is optional, will default to 1
+  SOURCES fv-test-class_vector.f90         # Specify one or more source files. If NAME is missing
+  LIBS morfeus_fv
+)
+#  TEST_DIR ./path/to/subdir         # Optional, path to directory where test should be run
