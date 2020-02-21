@@ -29,9 +29,13 @@ program test_keytable
     call testTable%get_kt_row(1,row1T)
     call testTable%get_kt_row(2,row2T)
     call testTable%get_kt_row(3,row3T)
+
     call assert( row1T == row1, "test_keytable: testTable%row(1) == row1" )
     call assert( row2T == row2, "test_keytable: testTable%row(2) == row2" )
     call assert( row3T == row3, "test_keytable: testTable%row(3) == row3" )
+    call assert( testTable%get_row_size(1) == size(row1), "test_keytable: testTable%get_row_size(1) == size(row1)" )
+    call assert( testTable%get_row_size(2) == size(row2), "test_keytable: testTable%get_row_size(2) == size(row2)" )
+    call assert( testTable%get_row_size(3) == size(row3), "test_keytable: testTable%get_row_size(3) == size(row3)" )
 
     print *, "Test passed."
 
