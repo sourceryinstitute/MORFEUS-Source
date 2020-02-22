@@ -1,6 +1,6 @@
 ---
 project: Morfeus Framework
-summary: A parallel finite volume and finite difference PDE toolkit
+summary: A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.
 src_dir: src/FD
          src/FV/src
 exclude_dir: src/FV/src/unit-tests
@@ -48,9 +48,10 @@ website: https://gsellc.com
 [This document is a FORD project file, formatted with Pythonic Markdown                                      ]:#
 [See https://github.com/Fortran-FOSS-programmers/ford/wiki/Project-File-Options for more info on writing FORD project files]:#
 
+
 [TOC]
 
-@warning While the finite volume (FV) capability of this package is relatively mature, the finite difference (FD) capability is still a work in progress.
+@warning The Morfeus finite volume (FV) capability is mature. The finite difference (FD) capability is a work in progress and uses Fortran 2018 features that are nominally supported by the Intel, GNU, Cray, and NAG compilers. With GNU, however, parallel communication will work only after a reported [gfortran issue] and a related [OpenCoarrays issue] have been fixed.
 
 Morfeus Developer Documentation
 ===============================
@@ -68,9 +69,9 @@ this framework.
 Organization
 ------------
 
-The [FORD] tool is used to document Modern Fortran source code.
-At first browsing the documentation can be overwhelming, but understanding the structure of the documentation and
-consulting the getting started and high-level API documentation should provide an appropriate orientation.
+The [FORD] tool is used to document modern Fortran source code.
+At first, browsing the documentation can be overwhelming, but understanding the structure of the documentation and
+consulting the [Getting started] and high-level API documentation pages provides an initial orientation.
 
 ### Top Navigation Bar
 
@@ -80,19 +81,19 @@ In addition to the search box on the right side of the top navbar, the following
 * [Morfeus Framework]:  
   This link takes the viewer back to this developer documentation homepage.
 * [Developer Documentation]:  
-  Visit the high-level developer documentation which outlines:
-  * how to get started
-  * procedures and classes most relavent to creating or modifying a PDE solver
-  * instructions for building the Morfeus Framework library
-  * a high-level overview of the CMake based build system
+  Visit the high-level developer documentation which outlines
+    - How to get started,
+    - Procedures and classes most relavent to creating or modifying a PDE solver, and
+    - Instructions for building the Morfeus Framework library
+    - A high-level overview of the CMake based build system
 * [Source Files]:  
   This landing page enumerates the source files associated with the project,
   includes a graph depicting their interdependencies and links to their dedicated pages.
-  You probably do not want to start here as much of this information is redundant with
+  You probably do _not_ want to start with [Source Files] because much of the information is redundant with
   the [Modules] landing page.
 * [Modules]:  
   The landing page enumerating and describing all the modules and submodules in the project.
-  More usefull than the files page, as it groups submodules with their parent modules and
+  More usefull than the Source Files page, as it groups submodules with their parent modules and
   provides some description for what each one does.
 * [Procedures]:  
   Enumerates all procedures including generic overloaded interfaces, operators, module procedures, functions and subroutines.
@@ -108,8 +109,8 @@ In addition to the search box on the right side of the top navbar, the following
 * [Derived Types]:  
   A list enumerating the derived types or classes defined within Morfeus.
   The list includes links to the type definitions, a link to any type they extend and a link to the module in which they are defined.
-  This is one of the better places to start when trying to understand a particular object, its methods (type bound procedures),
-  where it is defined, and whether there are any types that extend it or types which it extends.
+  **This is one of the better places to start when trying to understand a particular object, its type bound procedures,
+  where it is defined, and whether there are any types that extend it or types which it extends.**
 
 [Morfeus Framework]: https://sourceryinstitute.github.io/MORFEUS-Source/index.html
 [Developer Documentation]: https://sourceryinstitute.github.io/MORFEUS-Source/page/index.html
@@ -156,6 +157,8 @@ The [High-level FV API and Usage] page provides:
 [Github]: https://github.com
 [Gitlab]: https://gitlab.com
 [BitBucket]: https://bitbucket.org
+[gfortran issue]: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=93671
+[OpenCoarrays issue]: https://github.com/sourceryinstitute/OpenCoarrays/issues/700
 
 
 Getting Help
