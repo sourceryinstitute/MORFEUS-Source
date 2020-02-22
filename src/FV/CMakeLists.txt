@@ -684,6 +684,14 @@ function(add_morfeus_fv_test name partitions test_target mesh_file input_file wo
   get_filename_component( mesh_basename ${mesh_file} NAME )
   set( mesh_path "./")
   get_filename_component( input_basename ${input_file} NAME)
+  # Default output file type
+  if(USE_EXODUS)
+    set( output_format "exo")
+  else()
+    set( output_format "vtk")
+  endif()
+  # Base output filename
+  set (base_path ${name})
   # First copy and configure the input file and the mesh file to the test working directory
   configure_file( "${input_file}" "${workdir}/${input_basename}"
     @ONLY)
@@ -738,11 +746,20 @@ endfunction()
 
 # FAST heat conduction multiple zones
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/applications")
-  add_morfeus_fv_test( unsteady_heat_pipe 1 unsteady_fast
+  add_morfeus_fv_test( unsteady_heat_pipe_Gambit 4 unsteady_fast
     applications/fast_heat/cases/test_unsteady/heat_pipe.neu
     applications/fast_heat/cases/test_unsteady/fast.json
-    ${integ_test_dir}/unsteady_heat_pipe)
-
+    ${integ_test_dir}/unsteady_heat_pipe/Gambit)
+  add_morfeus_fv_test( unsteady_heat_pipe_Gmsh 4 unsteady_fast
+    applications/fast_heat/cases/test_unsteady/heat_pipe.msh
+    applications/fast_heat/cases/test_unsteady/fast.json
+  ${integ_test_dir}/unsteady_heat_pipe/Gmsh)
+  if(USE_EXODUS)
+    add_morfeus_fv_test( unsteady_heat_pipe_exodus 4 unsteady_fast
+      applications/fast_heat/cases/test_unsteady/heat_pipe.e
+      applications/fast_heat/cases/test_unsteady/fast.json
+      ${integ_test_dir}/unsteady_heat_pipe/Exodus)
+  endif()
   if(${USE_CGNS})
     # Steady piston conduction test
     # Should produce:
