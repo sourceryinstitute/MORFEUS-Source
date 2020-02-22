@@ -684,6 +684,14 @@ function(add_morfeus_fv_test name partitions test_target mesh_file input_file wo
   get_filename_component( mesh_basename ${mesh_file} NAME )
   set( mesh_path "./")
   get_filename_component( input_basename ${input_file} NAME)
+  # Default output file type
+  if(USE_EXODUS)
+    set( output_format "exo")
+  else()
+    set( output_format "vtk")
+  endif()
+  # Base output filename
+  set (base_path ${name})
   # First copy and configure the input file and the mesh file to the test working directory
   configure_file( "${input_file}" "${workdir}/${input_basename}"
     @ONLY)
