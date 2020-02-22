@@ -42,13 +42,7 @@ CONTAINS
         TYPE(attributes),   DIMENSION(:), ALLOCATABLE :: point_vals_to_write
         TYPE(vtkcell_list), DIMENSION(:), ALLOCATABLE :: morfeus_cells
 
-        ! Sets output path (bypass b/c vtkmofo handles this)
-        !IF(PRESENT(iter)) CALL out%set_output_path(iter)
-
         CALL write_vtk_mesh (msh, points, cell_ids, v2cconn, icverts, iproc)
-
-!WRITE(output_unit,*) 'Before allocate field_vals in write_vtk_morfeus on image: ',mypnum_()
-!write(output_unit,*) size(points), size(cell_ids), size(v2cconn), size(icverts)
 
         ALLOCATE(vector_vals(1:SIZE(vfield),1:SIZE(cell_ids),1:3), source=0.0_psb_dpk_)
         DO i = 1, SIZE(vfield)
