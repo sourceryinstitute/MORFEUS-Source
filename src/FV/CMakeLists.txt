@@ -747,16 +747,16 @@ endfunction()
 # FAST heat conduction multiple zones
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/applications")
   # Heat pipe geometry
-  add_morfeus_fv_test( unsteady_heat_pipe_Gambit 4 unsteady_fast
+  add_morfeus_fv_test( unsteady_heat_pipe_Gambit 6 unsteady_fast
     applications/fast_heat/cases/test_unsteady/heat_pipe.neu
     applications/fast_heat/cases/test_unsteady/fast.json
     ${integ_test_dir}/unsteady_heat_pipe/Gambit)
-  add_morfeus_fv_test( unsteady_heat_pipe_Gmsh 4 unsteady_fast
+  add_morfeus_fv_test( unsteady_heat_pipe_Gmsh 6 unsteady_fast
     applications/fast_heat/cases/test_unsteady/heat_pipe.msh
     applications/fast_heat/cases/test_unsteady/fast.json
   ${integ_test_dir}/unsteady_heat_pipe/Gmsh)
   if(USE_EXODUS)
-    add_morfeus_fv_test( unsteady_heat_pipe_exodus 4 unsteady_fast
+    add_morfeus_fv_test( unsteady_heat_pipe_exodus 6 unsteady_fast
       applications/fast_heat/cases/test_unsteady/heat_pipe.e
       applications/fast_heat/cases/test_unsteady/fast.json
       ${integ_test_dir}/unsteady_heat_pipe/Exodus)
