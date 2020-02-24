@@ -47,24 +47,42 @@
         ]
       }
     },
-    "geometry": {
+    "layers": {
       "type": "1D_sphere",
       "max_spacing": 0.99E-01,
-      "layout": {
-        "material_name": ["inner core","outer core","lower mantle","upper mantle","crust"],
+      "core": {
+        "material_name": ["inner core"],
         "thickness": {
-          "r": [1.220E+01, 2.250E+01, 2.240E+01, 0.250E+01, 0.410E+01],
+          "r": [1.220E+01],
           "dimensions": "length"
         },
         "num_grid_blocks": {
-          "r": [17,10, 10, 4, 3]
+          "r": [2]
         },
         "constraint": {
           "language": "Fortran",
           "minimum_version": "2003",
           "expressions": [
             "all( [num_grid_blocks%r] > 0 )",
-            "all([num_grid_blocks%r]>0)",
+            "all([thickness%r]>0)",
+            "all( [size(thickness%r)] == [size(num_grid_blocks%r)] )"
+          ]
+        }
+      },
+      "wrappers":{
+        "material_name": ["outer core","lower mantle","upper mantle","crust"],
+        "thickness": {
+          "r": [2.250E+01, 2.240E+01, 0.250E+01, 0.410E+01],
+          "dimensions": "length"
+        },
+        "num_grid_blocks": {
+          "r": [10, 10, 4, 3]
+        },
+        "constraint": {
+          "language": "Fortran",
+          "minimum_version": "2003",
+          "expressions": [
+            "all( [num_grid_blocks%r] > 0 )",
             "all([thickness%r]>0)",
             "all( [size(thickness%r)] == [size(num_grid_blocks%r)] )"
           ]
@@ -78,7 +96,7 @@
         "description": "Earth core material"
       },
       {
-        "material_name": ["inner core","outer core"],
+        "material_name": ["lower mantle","upper mantle"],
         "id": 2,
         "age": 4.543,
         "age description": "Age of the earth, in billions of years",

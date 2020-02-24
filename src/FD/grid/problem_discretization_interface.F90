@@ -15,6 +15,7 @@ module problem_discretization_interface
   use kind_parameters, only : r8k, i4k
   use plate_3D_interface, only : plate_3D
   use cylinder_2D_interface, only : cylinder_2D
+  use sphere_1D_interface, only : sphere_1D
   use differentiable_field_interface, only : differentiable_field
   use surfaces_interface, only : surfaces
   use package_interface, only : package
@@ -54,11 +55,12 @@ module problem_discretization_interface
     procedure :: num_scalar_flux_divergences
     procedure :: initialize_from_plate_3D
     procedure :: initialize_from_cylinder_2D
+    procedure :: initialize_from_sphere_1D
     procedure :: set_scalar_flux_divergence
 #ifndef FORD
     generic :: set_vertices => user_defined_vertices
     generic :: set_scalars => set_analytical_scalars
-    generic :: initialize_from_geometry => initialize_from_plate_3D, initialize_from_cylinder_2D
+    generic :: initialize_from_geometry => initialize_from_plate_3D, initialize_from_cylinder_2D, initialize_from_sphere_1D
 #endif
     procedure :: write_output
   end type
@@ -94,17 +96,24 @@ module problem_discretization_interface
     end subroutine
 
     module subroutine initialize_from_plate_3D(this, plate_3D_geometry)
-      !! Define a grid with points only at the corners of each structured-grid block
+      !! Define a grid with points covering each structured-grid block in a 3D plate
       implicit none
       class(problem_discretization), intent(inout) :: this
       type(plate_3D), intent(in) :: plate_3D_geometry
     end subroutine
 
     module subroutine initialize_from_cylinder_2D(this, cylinder_2D_geometry)
-      !! Define a grid with points only at the corners of each structured-grid block
+      !! Define a grid with points covering each structured-grid block in a 2D cylinder
       implicit none
       class(problem_discretization), intent(inout) :: this
       type(cylinder_2D), intent(in) :: cylinder_2D_geometry
+    end subroutine
+
+    module subroutine initialize_from_sphere_1D(this, sphere_1D_geometry)
+      !! Define a grid with points covering each structured-grid block in a 1D sphere
+      implicit none
+      class(problem_discretization), intent(inout) :: this
+      type(sphere_1D), intent(in) :: sphere_1D_geometry
     end subroutine
 
     module subroutine partition(this,global_block_shape,prototype)
