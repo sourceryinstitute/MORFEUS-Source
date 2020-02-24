@@ -85,7 +85,7 @@ jobs:
         path: ${{ steps.set-outputs.outputs.build_dir }}/TPLs
         key: ${{ matrix.os }}-${{ matrix.gcc }}-TPLcache-${{ github.sha }}
         restore-keys: |
-          ${{ matrix.os }}-${{ matrix.gcc }}-TPLcache
+          ${{ matrix.os }}-${{ matrix.gcc }}-TPLcache-
 
     - name: setup-linux
       if: contains(matrix.os, 'ubuntu')
