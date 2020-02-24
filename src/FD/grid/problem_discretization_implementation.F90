@@ -49,6 +49,8 @@ contains
     select case (extension)
     case ('vtu')
       call vtk_output (this, basename, iostat)
+    case ('csv')
+      call csv_output( this, basename, iostat)
    case default
      error stop "problem_discretization%write_output: unsupported file type" // &
 #ifdef HAVE_NON_CONSTANT_ERROR_STOP
@@ -59,6 +61,29 @@ contains
    end select
 
   end procedure write_output
+
+  subroutine csv_output (this, filename, unit, iostat)
+    class(problem_discretization), intent(in) ::this
+    character(len=*), intent(in) :: filename
+    integer, intent(in), optional :: unit
+    integer, intent(inout), optional :: iostat
+    character(len=132) :: iomsg
+    integer, dimension(0) :: v_list
+    integer ix,iy,iz
+    associate( n=>this%get_global_block_shape() )
+      associate( nx=>n(1), ny=>n(2), nz=>n(3) )
+        write(unit,'(4("      ",a,:,",",5x))') "x","y","z","layer (phony)"
+        write(unit,*) new_line('a')
+        do iz=1,nz
+          do iy=1,ny
+            do ix=1,nx
+              call this%vertices( this%block_identifier([ix,iy,iz]) )%write_formatted(unit,'DT', v_list, iostat, iomsg)
+            end do
+          end do
+        end do
+      end associate
+    end associate
+  end subroutine
 
   subroutine vtk_output (this, filename, iostat)
     use vtk_datasets,   only : unstruct_grid
