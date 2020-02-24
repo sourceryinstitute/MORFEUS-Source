@@ -148,6 +148,7 @@ set(MORFEUS_FD_INPUTS
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-high-resolution-layers.json"
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-low-resolution-halo.json"
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/2Dcylinder.json"
+  "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/1Dsphere.json"
 )
 
 add_test(NAME morfeus-fd-setup-fixture
@@ -287,6 +288,7 @@ endforeach()
 set( base_names
   differentiate-cartesian-grid
   differentiate-cylindrical-grid
+  differentiate-spherical-grid
 )
 foreach(integration_test ${base_names})
   add_caf_test( fd-${integration_test} 3 ${CMAKE_CURRENT_BINARY_DIR}/tests/integration/test-${integration_test}
