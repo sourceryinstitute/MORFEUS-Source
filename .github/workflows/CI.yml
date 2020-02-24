@@ -34,8 +34,6 @@ jobs:
     env:
       FC: gfortran-${{ matrix.gcc }}
       CC: gcc-${{ matrix.gcc }}
-      CCACHE_LOGFILE: "${{ runner.temp}}/ccache/ccache.log"
-      CCACHE_TEMPDIR: "${{ runner.temp }}/ccache/tmp"
       CXX: g++-${{ matrix.gcc }}
       GCC_V: ${{ matrix.gcc }}
       MPICH_FC: gfortran-${{ matrix.gcc }}
@@ -58,8 +56,10 @@ jobs:
       id: set-env
       run: |
         echo "::set-env name=BUILD_DIR::${GITHUB_WORKSPACE}/build"
-        echo "::set-env name=CCACHE_DIR::${HOME}/.ccache"
         echo "::set-env name=CCACHE_BASEDIR::${GITHUB_WORKSPACE}"
+        echo "::set-env name=CCACHE_DIR::${HOME}/.ccache"
+        echo "::set-env name=CCACHE_LOGFILE::${{ runner.temp }}/ccache/ccache.log"
+        echo "::set-env name=CCACHE_TEMPDIR::${{ runner.temp }}/ccache/tmp"
         echo "::set-env name=SOURCE_DATE_EPOCH::$(git log -1 --pretty='%ct' $GITHUB_SHA)"
 
     - name: set outputs
