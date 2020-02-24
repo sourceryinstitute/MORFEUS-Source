@@ -26,7 +26,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-18.04, macos-10.15]
         gcc: [8]
 
     env:
@@ -74,6 +74,14 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-ccache-
 
+    - uses: actions/cache@v1
+      name: Restore TPL cache
+      with:
+        path: ${BUILD_DIR}/TPLs
+        key: ${{ matrix.os }}-${{ matrix.gcc }}-TPLcache-${{ github.sha }}
+        restore-keys: |
+          ${{ matrix.os }}-${{ matrix.gcc }}-TPLcache
+
     - name: setup-linux
       if: contains(matrix.os, 'ubuntu')
       run: |
@@ -108,6 +116,8 @@ jobs:
         curl -s https://raw.githubusercontent.com/zbeekman/codecov-bash/gcov-fix/codecov > "${GITHUB_WORKSPACE}/codecov"
         chmod +x "${GITHUB_WORKSPACE}/codecov"
         echo "::set-env name=NCPU::${CMAKE_BUILD_PARALLEL_LEVEL}"
+        ccache -s
+        ccache -z
 
     - name: configure
       run: |
@@ -154,3 +164,14 @@ jobs:
         #   -g '*/extern/*' \
         #   -n "GHA-GCC${GCC_V}-${{ runner.os }}-unittest-core"
         # find "${BUILD_DIR}" -name '*.*.gc*' -print -exec rm {} \; || true
+
+    - name: Show ccache stats
+      if: always()
+      run: ccache -s
+
+    - name: Cleanup TPL cache
+      if: always()
+      run: |
+         find ${BUILD_DIR}/TPLs/src/ -type d -name '*-stamp' -exec rm -rf {} \; || true
+         find ${BUILD_DIR}/TPLs/src/ -type f -name CMakeCache.txt -exec rm {} \; || true
+         rm ${BUILD_DIR}/MORFEUS/CMakeCache.txt || true
