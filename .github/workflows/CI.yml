@@ -94,7 +94,7 @@ jobs:
 
     - uses: actions/cache@v1
       with:
-        path: ${{ steps.set-outputs.output.ccache_cache_dir }}
+        path: ${{ steps.set-outputs.outputs.ccache_cache_dir }}
         key: ${{ runner.os }}-ccache
 
     - name: configure
