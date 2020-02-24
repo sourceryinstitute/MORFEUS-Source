@@ -14,6 +14,18 @@
         "expressions": [ "temperature > 0." ]
       }
     },
+    "bottom_boundary" : {
+      "temperature" : [400, 450, 500, 600],
+      "pressure" : [400, 450, 500, 600],
+      "flow_rate" : [400, 450, 500, 600]
+    },
+    "constraint": {
+      "language": "Fortran",
+      "minimum_version": "2003",
+      "expressions": [
+        "size(bottom_boundary%temperature) == size(time)"
+      ]
+    },
     "time" : {
       "end" : 60.0
     },
@@ -97,22 +109,9 @@
             "all([num_grid_blocks%x,num_grid_blocks%y,num_grid_blocks%z]>0)",
             "all([thickness%x,thickness%y,thickness%z]>0)",
             "all( [size(thickness%x), size(thickness%y), size(thickness%z)] == [size(num_grid_blocks%x), size(num_grid_blocks%y), size(num_grid_blocks%z)] )",
-            "all( [size(thickness%x), size(thickness%y)] == size(material_name) )",
-            "boundary_condition%temperature > 0."
+            "all( [size(thickness%x), size(thickness%y)] == size(material_name) )"
           ]
         }
-      },
-      "bottom_boundary" : {
-        "temperature" : [400, 450, 500, 600],
-        "pressure" : [400, 450, 500, 600],
-        "flow_rate" : [400, 450, 500, 600]
-      },
-      "constraint": {
-        "language": "Fortran",
-        "minimum_version": "2003",
-        "expressions": [
-          "size(bottom_boundary%temperature) == size(time)"
-        ]
       }
     }
   }
