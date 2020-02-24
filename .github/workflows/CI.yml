@@ -4,10 +4,8 @@ on: [push, pull_request]
 
 env:
   CI: "ON"
-  CMAKE_BUILD_PARALLEL_LEVEL: "2"
   CMAKE_CONFIG_TYPE: "RuntimeDebug"
   CTEST_OUTPUT_ON_FAILURE: "ON"
-  CTEST_PARALLEL_LEVEL: "2"
   HOMEBREW_DISPLAY_INSTALL_TIMES: "ON" # Benchmark Homebrew install times
   HOMEBREW_NO_ANALYTICS: "ON" # These speed up homebrew installs
   HOMEBREW_NO_AUTO_UPDATE: "ON"
@@ -16,7 +14,6 @@ env:
   HOMEBREW_NO_INSTALL_CLEANUP: "ON"
   LANG: "en_US.UTF-8"
   LC_ALL: "en_US.UTF-8"
-  NCPU: "2"
   TZ: "UTC"
   ZERO_AR_DATE: "ON"
 
@@ -58,7 +55,7 @@ jobs:
         echo "::set-output name=homedir::${HOME}"
         echo "::set-output name=ccache_cache_dir::${CCACHE_DIR}"
         echo "::set-output name=workspacedir::${GITHUB_WORKSPACE}"
-        mkdir -p ${BUILD_DIR} || true
+        mkdir -p ${BUILD_DIR} ${CCACHE_DIR} || true
 
     - name: setup-linux
       if: contains(matrix.os, 'ubuntu')
@@ -75,7 +72,8 @@ jobs:
         echo "::set-env name=CCACHE_TEMPDIR::${CCACHE_TEMPDIR}"
         mkdir -p ${CCACHE_TEMPDIR}
         lscpu || true
-        ncpu || true
+        echo "::set-env name=CMAKE_BUILD_PARALLEL_LEVEL::$(nproc --all)"
+        echo "::set-env name=CTEST_PARALLEL_LEVEL::$(nproc --all)"
 
     - name: setup-macos
       if: contains( matrix.os, 'macos')
@@ -85,11 +83,19 @@ jobs:
         brew install -f --force-bottle --keep-tmp --ignore-dependencies mpich || true
         echo "::add-path::$(brew --prefix ccache)/libexec"
         echo "::set-env name=CCACHE_PATH::$(brew --prefix gcc@${GCC_V})/bin:$(brew --prefix)/bin"
+        echo "::set-env name=CMAKE_BUILD_PARALLEL_LEVEL::$(sysctl -n hw.logicalcpu)"
+        echo "::set-env name=CTEST_PARALLEL_LEVEL::$(sysctl -n hw.physicalcpu)"
 
     - name: setup-common
       run: |
         curl -s https://raw.githubusercontent.com/zbeekman/codecov-bash/gcov-fix/codecov > "${GITHUB_WORKSPACE}/codecov"
         chmod +x "${GITHUB_WORKSPACE}/codecov"
+        echo "::set-env name=NCPU::${CMAKE_BUILD_PARALLEL_LEVEL}"
+
+    - uses: actions/cache@v1
+      with:
+        path: ${{ steps.set-outputs.output.ccache_cache_dir }}
+        key: ${{ runner.os }}-ccache
 
     - name: configure
       run: |
