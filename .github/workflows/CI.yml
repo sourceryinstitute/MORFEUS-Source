@@ -3,6 +3,8 @@ name: CI
 on: [push, pull_request]
 
 env:
+  CCACHE_MAXSIZE: "1G"
+  CCACHE_SLOPPINESS: "time_macros"
   CI: "ON"
   CMAKE_CONFIG_TYPE: "RuntimeDebug"
   CTEST_OUTPUT_ON_FAILURE: "ON"
@@ -32,6 +34,8 @@ jobs:
     env:
       FC: gfortran-${{ matrix.gcc }}
       CC: gcc-${{ matrix.gcc }}
+      CCACHE_LOGFILE: "${{ runner.temp}}/ccache/ccache.log"
+      CCACHE_TEMPDIR: "${{ runner.temp }}/ccache/tmp"
       CXX: g++-${{ matrix.gcc }}
       GCC_V: ${{ matrix.gcc }}
       MPICH_FC: gfortran-${{ matrix.gcc }}
@@ -41,7 +45,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        fetch-depth: 20
+        fetch-depth: 0 # Get everything
     - name: Get tags and branches
       shell: bash
       run: |
@@ -68,16 +72,17 @@ jobs:
         mkdir -p ${BUILD_DIR} ${CCACHE_DIR} || true
 
     - uses: actions/cache@v1
+      name: Restore ccache
       with:
         path: ${{ steps.set-outputs.outputs.ccache_cache_dir }}
-        key: ${{ runner.os }}-ccache-${{ github.sha }}
+        key: ${{ matrix.os }}-ccache-${{ github.sha }}
         restore-keys: |
-          ${{ runner.os }}-ccache-
+          ${{ matrix.os }}-ccache-
 
     - uses: actions/cache@v1
       name: Restore TPL cache
       with:
-        path: ${BUILD_DIR}/TPLs
+        path: ${{ steps.set-outputs.outputs.build_dir }}/TPLs
         key: ${{ matrix.os }}-${{ matrix.gcc }}-TPLcache-${{ github.sha }}
         restore-keys: |
           ${{ matrix.os }}-${{ matrix.gcc }}-TPLcache
@@ -95,7 +100,6 @@ jobs:
         echo "::add-path::/usr/lib/ccache"
         export CCACHE_TEMPDIR=/dev/shm/ccache_tmp
         echo "::set-env name=CCACHE_TEMPDIR::${CCACHE_TEMPDIR}"
-        mkdir -p ${CCACHE_TEMPDIR}
         lscpu || true
         echo "::set-env name=CMAKE_BUILD_PARALLEL_LEVEL::$(nproc --all)"
         echo "::set-env name=CTEST_PARALLEL_LEVEL::$(nproc --all)"
@@ -113,6 +117,7 @@ jobs:
 
     - name: setup-common
       run: |
+        mkdir -p ${CCACHE_TEMPDIR}
         curl -s https://raw.githubusercontent.com/zbeekman/codecov-bash/gcov-fix/codecov > "${GITHUB_WORKSPACE}/codecov"
         chmod +x "${GITHUB_WORKSPACE}/codecov"
         echo "::set-env name=NCPU::${CMAKE_BUILD_PARALLEL_LEVEL}"
@@ -172,6 +177,6 @@ jobs:
     - name: Cleanup TPL cache
       if: always()
       run: |
-         find ${BUILD_DIR}/TPLs/src/ -type d -name '*-stamp' -exec rm -rf {} \; || true
-         find ${BUILD_DIR}/TPLs/src/ -type f -name CMakeCache.txt -exec rm {} \; || true
+         find ${BUILD_DIR}/TPLs/src -type d -name '*-stamp' -print -exec rm -rf {} \; || true
+         find ${BUILD_DIR}/TPLs/src -type f -name CMakeCache.txt -print -exec rm {} \; || true
          rm ${BUILD_DIR}/MORFEUS/CMakeCache.txt || true
