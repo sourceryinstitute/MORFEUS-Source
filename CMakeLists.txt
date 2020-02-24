@@ -33,7 +33,7 @@ set(CMAKE_USER_MAKE_RULES_OVERRIDE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/config_defa
 include(CMakeDependentOption)
 option(MORFEUS_USE_FV "Build MORFEUS with finite volume PDE solver support" ON)
 set(MORFEUS_FV_DIR "submodules/morfeus/src/FV")
-option(MORFEUS_USE_FD "Build MORFEUS with finite difference PDE solver support" OFF)
+option(MORFEUS_USE_FD "Build MORFEUS with finite difference PDE solver support" ON)
 set(MORFEUS_FD_DIR "submodules/morfeus/src/FD")
 CMAKE_DEPENDENT_OPTION(MORFEUS_USE_EXODUS "Build with Exodus support (broken)" OFF
   "MORFEUS_USE_FV" OFF) # Switch to on once exodus is sorted out
