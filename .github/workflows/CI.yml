@@ -42,7 +42,7 @@ jobs:
     - name: Get tags and branches
       shell: bash
       run: |
-        git fetch --depth=1 --tags --prune origin +refs/tags/*:refs/tags/*:refs/heads/*:refs/remotes/origin/*
+        git fetch --depth=1 --tags --prune origin +refs/tags/*:refs/tags/* +refs/heads/*:refs/remotes/origin/*
         auth_header="$(git config --local --get http.https://github.com/.extraheader)"
         git submodule sync --recursive
         git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
