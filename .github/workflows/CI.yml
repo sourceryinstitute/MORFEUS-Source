@@ -110,8 +110,8 @@ jobs:
         type -a ${CC} && type -a ${CXX} && type -a ${FC} && type -a cmake
         mpifort --version
         mpicc --version
-        echo "cmake -Wdev -Wdeprecated --warn-unused-vars --warn-uninitialized --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}"
-        cmake -Wdev -Wdeprecated --warn-unused-vars --warn-uninitialized --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}
+        echo "cmake -Wdev -Wdeprecated --warn-uninitialized --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}"
+        cmake -Wdev -Wdeprecated --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}
 
     - name: upload cmake
       uses: actions/upload-artifact@v1
