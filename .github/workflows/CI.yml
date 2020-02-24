@@ -36,9 +36,15 @@ jobs:
       MPICH_CXX: g++-${{ matrix.gcc }}
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+      shell: bash
       with:
-        submodules: false
+        fetch-depth: 20
+      run: |
+        git fetch --depth=1 --tags --prune origin +refs/tags/*:refs/tags/*:refs/heads/*:refs/remotes/origin/*
+        auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+        git submodule sync --recursive
+        git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
 
     - name: set env
       id: set-env
@@ -79,7 +85,7 @@ jobs:
       if: contains( matrix.os, 'macos')
       run: |
         mkdir -p $(brew --cache) || true
-        brew install -f --force-bottle --keep-tmp ccache || true
+        brew install -f --force-bottle --keep-tmp ccache graphviz || true
         brew install -f --force-bottle --keep-tmp --ignore-dependencies mpich || true
         echo "::add-path::$(brew --prefix ccache)/libexec"
         echo "::set-env name=CCACHE_PATH::$(brew --prefix gcc@${GCC_V})/bin:$(brew --prefix)/bin"
@@ -104,6 +110,7 @@ jobs:
         mpifort --version
         mpicc --version
         echo "cmake -Wdev -Wdeprecated --warn-unused-vars --warn-uninitialized --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}"
+        cmake -Wdev -Wdeprecated --warn-unused-vars --warn-uninitialized --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}
 
     - name: upload cmake
       uses: actions/upload-artifact@v1
@@ -111,6 +118,10 @@ jobs:
         name: configure_logs
         path: ./logs
       if: failure()
+
+    - name: Build TPLs
+      run: |
+        cmake --build ${BUILD_DIR} --target EP_MORFEUS-configure -- -k || VERBOSE=1 cmake --build ${BUILD_DIR} --target EP_MORFEUS-configure -j 1
 
     - name: compile
       run: echo compile

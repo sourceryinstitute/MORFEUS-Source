@@ -1,3 +1,15 @@
-[submodule "src/FV/applications"]
-	path = src/FV/applications
-	url = ../../nrc-fuels/MORFEUS-application.git
+[submodule "vtkmofo"]
+	path = vtkmofo
+	url = ../../nrc-fuels/vtkmofo
+	branch = master
+[submodule "json-fortran"]
+	path = json-fortran
+	url = ../../nrc-fuels/json-fortran
+[submodule "metis"]
+	path = metis
+	url = ../../nrc-fuels/metis
+	branch = master
+[submodule "psblas"]
+	path = psblas3
+	url = ../../nrc-fuels/psblas3
+	branch = add-cmake-scripts
