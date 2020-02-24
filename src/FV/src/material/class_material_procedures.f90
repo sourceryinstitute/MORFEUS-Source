@@ -57,7 +57,7 @@ CONTAINS
         USE tools_material
 
         ! Reads and bcast_ input parameters
-        CALL rd_inp_material(input_file,sec,mat%name,mat%ilaw,mat%mat_type,mat%mat_id)
+        CALL rd_inp_material(input_file,block_id,mat%name,mat%ilaw,mat%mat_type,mat%mat_id)
 
         ! Load material physical properties
         CALL load_material(mat%name,mat%state,mat%dtemp,mat%tmin,mat%tmax,&
@@ -68,7 +68,6 @@ CONTAINS
         IF(debug) CALL debug_material(mat)
 
     END PROCEDURE create_material
-
 
     ! ----- Destructor -----
 
@@ -167,33 +166,33 @@ CONTAINS
             IF(dim == density_)       THEN
                 DO i = 1, SIZE(im)
                     IF (mats(im(i))%mat%mat_id_() < 400) THEN
-                        CALL matlaw_fast_s(mats(im(i))%mat,t(i),'ASFABDENSITY',f(i))
+                        CALL matlaw_matlib_s(mats(im(i))%mat,t(i),'ASFABDENSITY',f(i))
                     ELSE
-                        CALL matlaw_fast_s(mats(im(i))%mat,t(i),'DENSITY',f(i))
+                        CALL matlaw_matlib_s(mats(im(i))%mat,t(i),'DENSITY',f(i))
                     END IF
                 END DO
             ELSEIF(dim == conductivity_)  THEN
                 DO i = 1, SIZE(im)
-                    CALL matlaw_fast_s(mats(im(i))%mat,t(i),'THERMCOND',f(i))
+                    CALL matlaw_matlib_s(mats(im(i))%mat,t(i),'THERMCOND',f(i))
                 END DO
             ELSEIF(dim == surface_/time_)  THEN
                 DO i = 1, SIZE(im)
-                    CALL matlaw_fast_s(mats(im(i))%mat,t(i),'THERMCOND',f(i))
+                    CALL matlaw_matlib_s(mats(im(i))%mat,t(i),'THERMCOND',f(i))
                 END DO
             ELSEIF(dim == specific_heat_) THEN
                 DO i = 1, SIZE(im)
-                    CALL matlaw_fast_s(mats(im(i))%mat,t(i),'SPECHEAT',f(i))
+                    CALL matlaw_matlib_s(mats(im(i))%mat,t(i),'SPECHEAT',f(i))
                 END DO
             ELSEIF(dim == youngs_modulus_) THEN
                 DO i = 1, SIZE(im)
-                    CALL matlaw_fast_s(mats(im(i))%mat,t(i),'YOUNG_MOD',f(i))
+                    CALL matlaw_matlib_s(mats(im(i))%mat,t(i),'YOUNG_MOD',f(i))
                 END DO
             ELSEIF(dim == therm_exp_coeff_) THEN
                 DO i = 1, SIZE(im)
                     IF (mats(im(i))%mat%mat_id_() < 400) THEN
-                        CALL matlaw_fast_s(mats(im(i))%mat,t(i),'THEXP_COEF',f(i))
+                        CALL matlaw_matlib_s(mats(im(i))%mat,t(i),'THEXP_COEF',f(i))
                     ELSE
-                        CALL matlaw_fast_s(mats(im(i))%mat,t(i),'THEXP',f(i))
+                        CALL matlaw_matlib_s(mats(im(i))%mat,t(i),'THEXP',f(i))
                     END IF
                 END DO
             ELSE
@@ -228,11 +227,11 @@ CONTAINS
     END PROCEDURE matlaw_s
 
 
-    MODULE PROCEDURE matlaw_fast_s
+    MODULE PROCEDURE matlaw_matlib_s
 
         f = MatProp(Mat_id=mat%mat_id, Property=property, Temperature=t)
 
-    END PROCEDURE matlaw_fast_s
+    END PROCEDURE matlaw_matlib_s
 
     ! ----- Check Procedures -----
 

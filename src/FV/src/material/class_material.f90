@@ -43,7 +43,7 @@
 !    To be added...
 !
 MODULE class_material
-
+    !! Describe material state and specify state equations
     USE class_psblas
     USE MatLib, ONLY : MatProp, Set_Material_ids
     IMPLICIT NONE
@@ -58,6 +58,7 @@ MODULE class_material
     INTEGER, PARAMETER :: name_len = 15
 
     TYPE material
+        !! Encapsulate material properties and equations of state
         PRIVATE
         !
         ! From input file ...
@@ -69,10 +70,10 @@ MODULE class_material
         ! ... and from DB
         CHARACTER(len=1) :: state
         REAL(psb_dpk_) :: dtemp, tmin, tmax
-        REAL(psb_dpk_), ALLOCATABLE :: rho(:)
-        REAL(psb_dpk_), ALLOCATABLE :: mu(:)
-        REAL(psb_dpk_), ALLOCATABLE :: lambda(:)
-        REAL(psb_dpk_), ALLOCATABLE :: sh(:)
+        REAL(psb_dpk_), ALLOCATABLE :: rho(:)    !! density
+        REAL(psb_dpk_), ALLOCATABLE :: mu(:)     !! viscosity
+        REAL(psb_dpk_), ALLOCATABLE :: lambda(:) !! elastic modulus
+        REAL(psb_dpk_), ALLOCATABLE :: sh(:)     !! shear modulus
     CONTAINS
         PROCEDURE :: create_material, free_material ! Constructor/Destructor
         PROCEDURE, PRIVATE :: get_material_name, get_material_id  ! Getter
@@ -83,6 +84,8 @@ MODULE class_material
     END TYPE material
 
     TYPE matptr
+      !! Element type for use in dynamically allocating arrays of material objects
+      !! (TODO: Modernize by replacing matptr arrays with allocatable or assumed-shape arrays of material objects.)
         TYPE(material) :: mat
     END TYPE matptr
 
@@ -131,12 +134,12 @@ MODULE class_material
             REAL(psb_dpk_), INTENT(OUT) :: f
         END SUBROUTINE matlaw_s
 
-        MODULE SUBROUTINE matlaw_fast_s(mat, t, property, f)
+        MODULE SUBROUTINE matlaw_matlib_s(mat, t, property, f)
             CLASS(material), INTENT(IN) :: mat
             REAL(psb_dpk_), INTENT(IN) :: t
             REAL(psb_dpk_), INTENT(OUT) :: f
             CHARACTER(LEN=*), INTENT(IN) :: property
-        END SUBROUTINE matlaw_fast_s
+        END SUBROUTINE matlaw_matlib_s
 
     END INTERFACE matlaw
 
@@ -173,12 +176,12 @@ MODULE class_material
 
         ! ----- Constructors -----
 
-        MODULE SUBROUTINE create_material(mat,input_file,sec)
+        MODULE SUBROUTINE create_material(mat,input_file,block_id)
         !! Global Constructor
             USE tools_material
             CLASS(material), INTENT(OUT) :: mat
             CHARACTER(len=*), INTENT(IN) :: input_file
-            CHARACTER(len=*), INTENT(IN) :: sec
+            INTEGER, INTENT(IN) :: block_id
         END SUBROUTINE create_material
 
 

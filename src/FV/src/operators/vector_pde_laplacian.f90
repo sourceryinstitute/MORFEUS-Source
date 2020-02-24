@@ -440,7 +440,7 @@ SUBMODULE (op_laplacian) vector_pde_laplacian_implementation
                     sc_bc(i,ib) = fact * bc_c(i)
                 END DO
 
-            CASE default
+            CASE DEFAULT
                 WRITE(*,500) TRIM(op_name)
                 CALL abort_psblas
             END SELECT

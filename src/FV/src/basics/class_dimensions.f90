@@ -207,15 +207,19 @@ MODULE class_dimensions
             IMPLICIT NONE
             CLASS(dimensions), INTENT(INOUT) :: dim
         END SUBROUTINE bcast_dim
+
     END INTERFACE
 
     ! ----- Debug & Log -----
+
     INTERFACE
+
         MODULE FUNCTION quantity(dim)
             IMPLICIT NONE
-            CHARACTER(len=32) :: quantity
+            CHARACTER(len=:), ALLOCATABLE :: quantity
             CLASS(Dimensions), INTENT(IN) :: dim
         END FUNCTION quantity
+
     END INTERFACE
 
 END MODULE class_dimensions

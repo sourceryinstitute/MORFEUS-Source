@@ -175,7 +175,7 @@ CONTAINS
         SELECT CASE(bc%id(1))
         CASE(bc_temp_convection_map_)
             CALL bc%temp%set_bc_math_map(i,a,b,c)
-        CASE default
+        CASE DEFAULT
             WRITE(*,100)
             CALL abort_psblas
         END SELECT
@@ -195,7 +195,7 @@ CONTAINS
             CALL bc%vel(1)%set_bc_math_map(i,a,b,c%x_())
             CALL bc%vel(2)%set_bc_math_map(i,a,b,c%y_())
             CALL bc%vel(3)%set_bc_math_map(i,a,b,c%x_())
-        CASE default
+        CASE DEFAULT
             WRITE(*,100)
             CALL abort_psblas
         END SELECT
@@ -377,7 +377,7 @@ SUBROUTINE rd_inp_bc_wall(input_file,sec,nbf,id,bc_temp,bc_conc,bc_vel,bc_stress
             CASE(bc_temp_convection_map_) ! Convection map
                 !READ(inp,'()')         ! To be actually set at the first mapping
 
-            CASE default
+            CASE DEFAULT
                 WRITE(*,210)
                 CALL abort_psblas
             END SELECT
@@ -397,7 +397,7 @@ SUBROUTINE rd_inp_bc_wall(input_file,sec,nbf,id,bc_temp,bc_conc,bc_vel,bc_stress
             CASE(bc_conc_adiabatic_)  ! Adiabatic wall
                 !READ(inp,'()')
 
-            CASE default
+            CASE DEFAULT
                 WRITE(*,210)
                 CALL abort_psblas
             END SELECT
@@ -420,7 +420,7 @@ SUBROUTINE rd_inp_bc_wall(input_file,sec,nbf,id,bc_temp,bc_conc,bc_vel,bc_stress
                 WRITE(0,*) 'rd_inp_bc_wall: Debug: work', work(1:3,bc_vel_)
             CASE(bc_vel_moving_)
                 !READ(inp,'()')
-            CASE default
+            CASE DEFAULT
                 WRITE(*,220)
                 CALL abort_psblas
             END SELECT
@@ -442,7 +442,7 @@ SUBROUTINE rd_inp_bc_wall(input_file,sec,nbf,id,bc_temp,bc_conc,bc_vel,bc_stress
                 CALL nemo_json%get(trim(sec)//'.stress.v2', work(2,bc_stress_), found)
                 CALL nemo_json%get(trim(sec)//'.stress.v3', work(3,bc_stress_), found)
                 WRITE(0,*) 'rd_inp_bc_wall: Debug: work', work(1:3,bc_stress_)
-            CASE default
+            CASE DEFAULT
                 WRITE(*,230)
                 CALL abort_psblas
             END SELECT
@@ -521,7 +521,7 @@ SUBROUTINE rd_inp_bc_wall(input_file,sec,nbf,id,bc_temp,bc_conc,bc_vel,bc_stress
         CALL bc_vel(3)%alloc_bc_math(bc_dirichlet_map_,nbf,&
             & a=(/1.d0/),b=(/0.d0/),c=(/(0.d0, inp=1,nbf)/))
     CASE(-1)
-    CASE default
+    CASE DEFAULT
         WRITE(0,*) 'Fix here unimplemented BC setup !!'
 
     END SELECT
@@ -544,7 +544,7 @@ SUBROUTINE rd_inp_bc_wall(input_file,sec,nbf,id,bc_temp,bc_conc,bc_vel,bc_stress
         CALL bc_stress(3)%alloc_bc_math(bc_dirichlet_,nbf,&
             & a=(/1.d0/),b=(/0.d0/),c=(/work(3,bc_stress_)/))
 
-    CASE default
+    CASE DEFAULT
         WRITE(0,*) 'Fix here unimplemented BC setup !!', id(bc_stress_)
 
     END SELECT

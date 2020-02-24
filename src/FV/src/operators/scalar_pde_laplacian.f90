@@ -423,7 +423,7 @@ SUBMODULE (op_laplacian) scalar_pde_laplacian_implementation
                     sc_bc(i,ib) = fact * bc_c(i)
                     sp_bc(i,ib) = fact * bc_a(i)
                 END DO
-            CASE default
+            CASE DEFAULT
                 WRITE(*,500)
                 CALL abort_psblas
             END SELECT
