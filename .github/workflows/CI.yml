@@ -37,9 +37,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      shell: bash
       with:
         fetch-depth: 20
+    - name: Get tags and branches
+      shell: bash
       run: |
         git fetch --depth=1 --tags --prune origin +refs/tags/*:refs/tags/*:refs/heads/*:refs/remotes/origin/*
         auth_header="$(git config --local --get http.https://github.com/.extraheader)"
