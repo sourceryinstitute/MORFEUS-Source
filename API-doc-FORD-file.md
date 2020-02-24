@@ -19,7 +19,7 @@ display: public
 source: true
 graph: true
 md_extensions: markdown.extensions.toc
-css: API-doc-style.css
+css: developer-doc/API-doc-style.css
 coloured_edges: true
 sort: permission-alpha
 extra_mods: iso_fortran_env:https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html
