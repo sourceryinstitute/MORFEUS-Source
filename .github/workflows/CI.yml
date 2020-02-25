@@ -103,7 +103,6 @@ jobs:
         echo "::set-env name=CMAKE_BUILD_PARALLEL_LEVEL::$(nproc --all)"
         echo "::set-env name=CTEST_PARALLEL_LEVEL::$(nproc --all)"
         echo $LD_LIBRARY_PATH
-        module avail || true
         export LD_LIBRARY_PATH=${BUILD_DIR}/TPLs/lib64:${BUILD_DIR}/TPLs/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
         echo "${LD_LIBRARY_PATH}"
         echo "::set-env name=LD_LIBRARY_PATH::${LD_LIBRARY_PATH}"

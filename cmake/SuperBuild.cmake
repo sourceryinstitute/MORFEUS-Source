@@ -260,7 +260,7 @@ if(NOT MPI_Fortran_FOUND)
 	TLS_VERIFY ON
 	SOURCE_DIR ${TPL_DIR}/src/MPICH
 	UPDATE_COMMAND ""
-	CONFIGURE_COMMAND ${TPL_DIR}/src/MPICH/configure --enable-cache --enable-base-cache --disable-dependency-tracking --disable-cxx --enable-fortran=all --disable-dependency-tracking --prefix=${TPL_DIR}
+	CONFIGURE_COMMAND ${TPL_DIR}/src/MPICH/configure --disable-cxx --enable-fortran=all --prefix=${TPL_DIR}
 	BUILD_IN_SOURCE OFF
 	TEST_BEFORE_INSTALL ON
 	TEST_COMMAND make check
