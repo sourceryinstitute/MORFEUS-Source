@@ -5,7 +5,7 @@
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
 module spherical_1D_solver_interface
-  !! author: Xiaofeng Xu, Damian Rouson, and Karla Morris
+  !! author: Xiaofeng Xu and Damian Rouson
   !! date: 2/24/2020
   !!
   !! Solve the 1D heat equation in spherically symmetric radial coordinates
@@ -19,7 +19,6 @@ module spherical_1D_solver_interface
     !! encapsulate all grid data
     private
     real(r8k), allocatable :: v(:,:)          !! v(:,1) = r, v(:,2) = T, shape = [nr,2]
-    real(r8k), allocatable :: ddr2(:)         !! 2nd derivative of T (size = nr)
     real(r8k), allocatable :: rho(:), cp(:)   !! density and specific heat (size = nr)
     real(r8k), allocatable :: T_analytical(:) !! expected solution (size = nr)
   contains
@@ -225,10 +224,10 @@ contains
 
   function tridiagonal_matrix_algorithm(a,b,c,d) result(x)
     !! Thomas algorithm
-    real(r8k), dimension(:), intent(inout)  :: a,b,c,d
+    real(r8k), dimension(:), intent(inout)  :: a, b, c, d
     real(r8k), dimension(:), allocatable :: x
-    integer(i4k)                         :: i,n
-    real(r8k)                            :: w
+    integer(i4k) i, n
+    real(r8k)  w
     n= size(b)
     allocate(x(n))
     do i=2,n
@@ -242,18 +241,18 @@ contains
     end do
   end function
 
-  pure real(r8k) function kc(x)
+  pure real(r8k) function kc(x) result(thermal_conductivity)
     !! thermal conductivity (constant for comparison to analytical solution)
     real(r8k), intent(in)   :: x
-    kc=46.0
+    thermal_conductivity = 46.0_r8k
   end function
 
   module procedure set_cp
-    this%cp=4600.0
+    this%cp=4600.0_r8k
   end procedure
 
   module procedure set_rho
-    this%rho=1000.0
+    this%rho=1000.0_r8k
   end procedure
 
 end submodule spherical_1D_solver_implementation
@@ -263,7 +262,7 @@ program main
   !! date: 2/24/2020
   !!
   !! Test implicit time advancement of the unsteady, 1D spherical heat equation
-  use  spherical_1D_solver_interface, only : grid_block
+  use spherical_1D_solver_interface, only : grid_block
   use kind_parameters, only : r8k
   implicit none
 
