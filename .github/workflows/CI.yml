@@ -104,7 +104,7 @@ jobs:
         sudo apt-get install kitware-archive-keyring
         sudo apt-key --keyring /etc/apt/trusted.gpg del C1F34CDD40CD72DA
         apt-cache policy cmake
-        sudo apt-get install cmake==3.14.3
+        sudo apt-get install cmake=3.14.3
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_V} 100 \
         --slave /usr/bin/g++ g++ /usr/bin/g++-${GCC_V} \
         --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
@@ -155,12 +155,18 @@ jobs:
         echo "cmake -Wdev -Wdeprecated --log-level=VERBOSE --degub-output --warn-uninitialized --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}"
         cmake -Wdev -Wdeprecated --log-level=VERBOSE --degub-output --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}
 
+    - name: Collect configure logs
+      run: |
+        mkdir CMakeLogs/MORFEUS
+        cp ${BUILD_DIR}/CMakeFiles/*.log CMakeLogs
+        cp ${BUILD_DIR}/MORFEUS/CMakeFiles/*.log CMakeLogs/MORFEUS || true
+
     - name: upload cmake
       uses: actions/upload-artifact@v1
       with:
         name: configure_logs
-        path: ./logs
-      if: failure()
+        path: ./CMakeLogs
+      if: always()
 
     - name: Build TPLs
       run: |
