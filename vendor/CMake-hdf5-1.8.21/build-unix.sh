@@ -1,1 +1,1 @@
-ctest -S HDF5config.cmake,BUILD_GENERATOR=Unix -C Release -V -O hdf5.log
+ctest -S HDF5config.cmake,BUILD_GENERATOR=Unix -C Debug -VV -O hdf5.log
