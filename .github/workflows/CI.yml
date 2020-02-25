@@ -38,7 +38,6 @@ jobs:
       GCC_V: ${{ matrix.gcc }}
       MPICH_FC: gfortran-${{ matrix.gcc }}
       MPICH_F90: gfortran-${{ matrix.gcc }}
-      MPICH_F90: gfortran-${{ matrix.gcc }}
       MPICH_F77: gfortran-${{ matrix.gcc }}
       MPICH_CC: gcc-${{ matrix.gcc }}
       MPICH_CXX: g++-${{ matrix.gcc }}
