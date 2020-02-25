@@ -4,11 +4,19 @@
 #     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 #     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 #
-cmake_minimum_required(VERSION 3.11)
-cmake_policy(VERSION 3.11.1...3.14.1)
+cmake_minimum_required(VERSION 3.13.4)
+# Ensure policies are set as they have been tested
+cmake_policy(VERSION 3.13.4...3.15.2)
 if(POLICY CMP0074)
   cmake_policy(SET CMP0074 NEW)
 endif()
+if(POLICY CMP0042)
+  # Use MACOSX_RPATH
+  cmake_policy(SET CMP0042 NEW)
+endif()
+
+
+list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_LIST_DIR}/cmake/modules")
 
 set_property(GLOBAL PROPERTY USE_FOLDERS_ON)
 
