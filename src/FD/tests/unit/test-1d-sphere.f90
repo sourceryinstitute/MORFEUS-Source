@@ -28,7 +28,7 @@ module spherical_1D_solver_interface
     procedure :: set_expected_solution_size
     procedure :: set_rho
     procedure :: set_cp
-    procedure :: run_test
+    procedure :: time_advance_heat_equation
   end type grid_block
 
   interface
@@ -65,7 +65,7 @@ module spherical_1D_solver_interface
       class(grid_block), intent(inout) :: this
     end subroutine
 
-    module subroutine run_test(this)
+    module subroutine time_advance_heat_equation(this)
       implicit none
       class(grid_block), intent(inout) :: this
     end subroutine
@@ -116,130 +116,130 @@ contains
     end associate
   end procedure
 
-  module procedure run_test
-    real(r8k), parameter :: h=230, Tb=293.15
+  module procedure time_advance_heat_equation
     integer(i4k)  :: i
 
-    call assert( allocated(this%v), "grid_block%run_test: allocated(this%v)")
+    call assert( allocated(this%v), "grid_block%time_advance_heat_equation: allocated(this%v)")
 
     associate( nr => size(this%v,1) )
 
-      time_advancing: block
-        real(r8k)  :: dr_m, dz_m
-        real(r8k)  :: dr_f, dz_f
-        real(r8k)  :: dr_b, dz_b
-        real(r8k), dimension(:), allocatable :: a,b,c,d
-        real(r8k)                            :: dt,t,e, rf, rb
-
-        dt=0.1
-        t=0.0
-
-        do while(t<1000)
-
-          associate(nr=>size(this%v,1))
-
-            allocate(a(nr),b(nr),c(nr),d(nr))
-
-            call this%set_rho()
-            call this%set_cp()
-
-            i=1
-            e=1.0/(this%rho(i)*this%cp(i))
-            dr_f=this%v(i+1,1) - this%v(i,1)
-            rf=0.5*(this%v(i+1,1) + this%v(i,1))
-            b(i)=6.0*e*kc(rf)/(dr_f**2)+1.0/dt
-            c(i)=-6.0*e*kc(rf)/(dr_f**2)
-            d(i)=this%v(i,2)/dt
-
-            do concurrent( i=2:nr-1 )
-                e=1.0/(this%rho(i)*this%cp(i))
-                dr_f=this%v(i+1,1) - this%v(i,1)
-                rf=0.5*(this%v(i+1,1) + this%v(i,1))
-                dr_b=this%v(i,1) - this%v(i-1,1)
-                dr_m = 0.5*(this%v(i+1,1) - this%v(i-1,1))
-                rb=0.5*(this%v(i,1) + this%v(i-1,1))
-                a(i)=-1.0*e*kc(rb)*rb**2/(dr_b*dr_m*this%v(i,1)**2)
-                b(i)=e*kc(rf)*rf**2/(dr_f*dr_m*this%v(i,1)**2)+ &
-                      e*kc(rb)*rb**2/(dr_b*dr_m*this%v(i,1)**2)+1.0/dt
-                c(i)=-1.0*e*kc(rf)*rf**2/(dr_f*dr_m*this%v(i,1)**2)
-                d(i)=this%v(i,2)/dt
-            end do
-
-            i=nr
-            e=1.0/(this%rho(i)*this%cp(i))
-            dr_b=this%v(i,1) - this%v(i-1,1)
-            dr_m = dr_b
-            rb=0.5*(this%v(i,1) + this%v(i-1,1))
-            rf=this%v(i,1)+0.5*dr_b
-            a(i)=-1.0*e*kc(rb)*rb**2/(dr_b*dr_m*this%v(i,1)**2)
-            b(i)=e*h*rf**2/(dr_m*this%v(i,1)**2)+ &
-                  e*kc(rb)*rb**2/(dr_b*dr_m*this%v(i,1)**2)+1.0/dt
-            d(i)=this%v(i,2)/dt+e*h*Tb*rf**2/(dr_m*this%v(i,1)**2)
-
-            associate(U=>tridiagonal_matrix_algorithm(a,b,c,d))
-              call assert(size(U)==nr, "size(U)")
-              do i=1,nr
-                this%v(i,2)=U(i)
-              end do
-            end associate
-            deallocate(a,b,c,d)
-          end associate
-          t=t+dt
-        end do
-      end block time_advancing
-
-      analytical_solution: block
-        real(r8k), dimension(20)             :: mu
-        real(r8k)                            :: t,r_0, R, pi
-        real(r8k)                            :: T0, T_inf
-        integer(i4k)                         :: i,n
-
-        T0=1073.15
-        T_inf=293.15
-        t=1000.0
-        r_0=0.2
-        pi=4.0*atan(1.0)
-        do i=1, 20
-          mu(i)=(2*i-1)*pi/2.0
-        end do
-
-        do i=1,nr
-          R=this%v(i,1)/r_0
-          this%T_analytical(i)=0.0
-          if (i==1) then
-            do n=1, 20
-              this%T_analytical(i)=this%T_analytical(i)+ &
-                    2.0*(sin(mu(n))-mu(n)*cos(mu(n)))/(mu(n)-sin(mu(n))*cos(mu(n)))* &
-                    exp(-1.0e-5*(mu(n)/r_0)**2*t)
-            end do
-            this%T_analytical(i)=(T0-T_inf)*this%T_analytical(i)+T_inf
-          else
-            do n=1, 6
-              this%T_analytical(i)=this%T_analytical(i)+ &
-                    2.0*(sin(mu(n))-mu(n)*cos(mu(n)))/(mu(n)-sin(mu(n))*cos(mu(n)))* &
-                    sin(mu(n)*R)/(mu(n)*R)*exp(-1.0e-5*(mu(n)/r_0)**2*t)
-            end do
-            this%T_analytical(i)=(T0-T_inf)*this%T_analytical(i)+T_inf
-          end if
-        end do
-      end block analytical_solution
-
-    error_calculation: block
-      real(r8k)            :: avg_err_percentage
-      real(r8k), parameter :: err_percentage=0.2
-      avg_err_percentage=0.0
-      do i=1,nr
-        avg_err_percentage=avg_err_percentage+100.0*(abs(this%v(i,2)- &
-                this%T_analytical(i))/this%T_analytical(i))
-      end do
-      avg_err_percentage=avg_err_percentage/nr
-      if (avg_err_percentage <= err_percentage) print *, "Test passed."
-    end block error_calculation
+      call time_advancing(nr)
+      call analytical_solution(nr)
+      call error_calculation(nr)
 
     end associate
 
-  end procedure run_test
+  contains
 
+    subroutine time_advancing(nr)
+      integer, intent(in) :: nr
+
+      real(r8k)  :: dr_m, dz_m
+      real(r8k)  :: dr_f, dz_f
+      real(r8k)  :: dr_b, dz_b
+      real(r8k), dimension(:), allocatable :: a,b,c,d
+      real(r8k)                            :: dt,t,e, rf, rb
+
+      real(r8k), parameter :: h=230, Tb=293.15
+
+      dt=0.1
+      t=0.0
+
+      associate(nr=>size(this%v,1))
+
+        allocate(a(nr),b(nr),c(nr),d(nr))
+
+        do while(t<1000)
+
+          call this%set_rho()
+          call this%set_cp()
+
+          i=1
+          e=1.0/(this%rho(i)*this%cp(i))
+          dr_f=this%v(i+1,1) - this%v(i,1)
+          rf=0.5*(this%v(i+1,1) + this%v(i,1))
+          b(i)=6.0*e*kc(rf)/(dr_f**2)+1.0/dt
+          c(i)=-6.0*e*kc(rf)/(dr_f**2)
+          d(i)=this%v(i,2)/dt
+
+          do concurrent( i=2:nr-1 )
+              e=1.0/(this%rho(i)*this%cp(i))
+              dr_f=this%v(i+1,1) - this%v(i,1)
+              rf=0.5*(this%v(i+1,1) + this%v(i,1))
+              dr_b=this%v(i,1) - this%v(i-1,1)
+              dr_m = 0.5*(this%v(i+1,1) - this%v(i-1,1))
+              rb=0.5*(this%v(i,1) + this%v(i-1,1))
+              a(i)=-1.0*e*kc(rb)*rb**2/(dr_b*dr_m*this%v(i,1)**2)
+              b(i)=e*kc(rf)*rf**2/(dr_f*dr_m*this%v(i,1)**2)+ &
+                    e*kc(rb)*rb**2/(dr_b*dr_m*this%v(i,1)**2)+1.0/dt
+              c(i)=-1.0*e*kc(rf)*rf**2/(dr_f*dr_m*this%v(i,1)**2)
+              d(i)=this%v(i,2)/dt
+          end do
+
+          i=nr
+          e=1.0/(this%rho(i)*this%cp(i))
+          dr_b=this%v(i,1) - this%v(i-1,1)
+          dr_m = dr_b
+          rb=0.5*(this%v(i,1) + this%v(i-1,1))
+          rf=this%v(i,1)+0.5*dr_b
+          a(i)=-1.0*e*kc(rb)*rb**2/(dr_b*dr_m*this%v(i,1)**2)
+          b(i)=e*h*rf**2/(dr_m*this%v(i,1)**2)+ &
+                e*kc(rb)*rb**2/(dr_b*dr_m*this%v(i,1)**2)+1.0/dt
+          d(i)=this%v(i,2)/dt+e*h*Tb*rf**2/(dr_m*this%v(i,1)**2)
+
+          this%v(:,2) = tridiagonal_matrix_algorithm(a,b,c,d)
+          t=t+dt
+        end do
+      end associate
+    end subroutine time_advancing
+
+    subroutine analytical_solution(nr)
+      integer, intent(in) :: nr
+      real(r8k), dimension(20)             :: mu
+      real(r8k)                            :: t,r_0, R, pi
+      real(r8k)                            :: T0, T_inf
+      integer(i4k)                         :: i,n
+
+      T0=1073.15
+      T_inf=293.15
+      t=1000.0
+      r_0=0.2
+      pi=4.0*atan(1.0)
+      do i=1, 20
+        mu(i)=(2*i-1)*pi/2.0
+      end do
+
+      do i=1,nr
+        R=this%v(i,1)/r_0
+        this%T_analytical(i)=0.0
+        if (i==1) then
+          do n=1, 20
+            this%T_analytical(i)=this%T_analytical(i)+ &
+                  2.0*(sin(mu(n))-mu(n)*cos(mu(n)))/(mu(n)-sin(mu(n))*cos(mu(n)))* &
+                  exp(-1.0e-5*(mu(n)/r_0)**2*t)
+          end do
+          this%T_analytical(i)=(T0-T_inf)*this%T_analytical(i)+T_inf
+        else
+          do n=1, 6
+            this%T_analytical(i)=this%T_analytical(i)+ &
+                  2.0*(sin(mu(n))-mu(n)*cos(mu(n)))/(mu(n)-sin(mu(n))*cos(mu(n)))* &
+                  sin(mu(n)*R)/(mu(n)*R)*exp(-1.0e-5*(mu(n)/r_0)**2*t)
+          end do
+          this%T_analytical(i)=(T0-T_inf)*this%T_analytical(i)+T_inf
+        end if
+      end do
+    end subroutine analytical_solution
+
+    subroutine error_calculation(nr)
+      integer, intent(in) :: nr
+      real(r8k), parameter :: tolerance = 0.2
+
+      associate(avg_err_percentage => sum( [( 100.0*(abs(this%v(i,2)- this%T_analytical(i))/this%T_analytical(i)), i=1,nr)] )/ nr)
+        if (avg_err_percentage <= tolerance) print *, "Test passed."
+      end associate
+    end subroutine error_calculation
+
+  end procedure time_advance_heat_equation
 
   function tridiagonal_matrix_algorithm(a,b,c,d) result(x)
     real(r8k), dimension(:), intent(inout)  :: a,b,c,d
@@ -273,6 +273,7 @@ contains
   end procedure
 
   subroutine set_ddr2(this)
+    ! not called
     class(grid_block), intent(inout)     :: this
     integer(i4k)                      :: i
     real(r8k)                         :: dr_f, dr_b, dr_m
@@ -293,6 +294,10 @@ contains
 end submodule spherical_1D_solver_implementation
 
 program main
+  !! author: Damian Rouson and Xiaofeng Xu
+  !! date: 2/24/2020
+  !!
+  !! Test implicit time advancement of the unsteady, 1D spherical heat equation
   use  spherical_1D_solver_interface, only : grid_block
   use kind_parameters, only : r8k
   implicit none
@@ -303,6 +308,6 @@ program main
   call global_grid_block%set_ddr2_size()
   call global_grid_block%set_expected_solution_size()
   call global_grid_block%set_material_properties_size()
-  call global_grid_block%run_test()
+  call global_grid_block%time_advance_heat_equation()
 
 end program
