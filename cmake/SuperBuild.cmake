@@ -74,6 +74,18 @@ endif()
 
 file(TO_NATIVE_PATH "${TPL_DIR}" NATIVE_TPL_DIR)
 
+if( (CMAKE_SYSTEM_NAME MATCHES "[Ll]inux|[Dd]arwin") )
+  ExternalProject_Add( hdf5
+    SOURCE_DIR ${CMAKE_SOURCE_DIR}/vendor/CMake-hdf5-1.8.21
+    UPDATE_COMMAND ""
+    CONFIGURE_COMMAND ""
+    BUILD_IN_SOURCE ON
+    BUILD_COMMAND HDF5_INSTALLDIR=${TPL_DIR} CMAKE_POSITION_INDEPENDENT_CODE=ON FFLAGS=-fPIC CFLAGS=-fPIC ./build-unix.sh
+    TEST_COMMAND ""
+    INSTALL_COMMAND ${CMAKE_COMMAND} --build ${CMAKE_SOURCE_DIR}/vendor/CMake-hdf5-1.8.21/build --target install
+    )
+endif()
+
 # ----
 # hdf5
 # ----
