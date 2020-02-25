@@ -9,31 +9,36 @@ module spherical_1D_solver_interface
   !! date: 2/24/2020
   !!
   !! Solve the 1D heat equation in spherically symmetric radial coordinates
+  use kind_parameters, only : r8k, i4k
   implicit none
 
   private
   public :: grid_block
 
-  integer ,parameter :: digits=8  ! num. digits of kind
-  integer ,parameter :: decades=9 ! num. representable decades
-  integer ,parameter :: rkind = selected_real_kind(digits)
-  integer ,parameter :: ikind = selected_int_kind(decades)
-
   type grid_block
     private
-    real(rkind), allocatable :: v(:,:)
-    real(rkind), allocatable :: ddr2(:)
-    real(rkind), allocatable :: rho(:), cp(:)
-    real(rkind), allocatable :: T_analytical(:)
+    real(r8k), allocatable :: v(:,:)
+    real(r8k), allocatable :: ddr2(:)
+    real(r8k), allocatable :: rho(:), cp(:)
+    real(r8k), allocatable :: T_analytical(:)
   contains
+    procedure :: set_v
     procedure :: run_test
   end type grid_block
 
   interface
 
-    module subroutine run_test( this )
+    module subroutine set_v( this, nr, constants )
       implicit none
       class(grid_block), intent(inout) :: this
+      integer, intent(in) :: nr
+      real(r8k), intent(in) :: constants(:)
+    end subroutine
+
+    module subroutine run_test( this, nr )
+      implicit none
+      class(grid_block), intent(inout) :: this
+      integer, intent(in) :: nr
     end subroutine
 
   end interface
@@ -45,26 +50,35 @@ submodule(spherical_1D_solver_interface) spherical_1D_solver_implementation
 
 contains
 
-  module procedure run_test
-    real(rkind), parameter :: h=230, Tb=293.15
-    integer(ikind)  :: i
-    integer(ikind) ,parameter :: nr=101
-    allocate(this%v(nr,2), this%ddr2(nr))
-    allocate(this%rho(nr), this%cp(nr), this%T_analytical(nr))
-    this%v(:,:)=0.0
-    this%ddr2(:)=0.0
+  module procedure set_v
 
-    associate( p => position_vectors(nr) )
-      this%v(:,1) = p(:,1)
+    integer i
+
+    allocate(this%v(nr,2), source = constants(1))
+
+    associate( dr => 1._r8k/(nr-1) )
+      associate( radial_nodes => [( sqrt((i-1)*dr)*0.2, i = 1, nr )] )
+        this%v(:,1) = radial_nodes
+      end associate
     end associate
-    this%v(:,2) = 1073.15
+    this%v(:,2) = constants(2)
+
+  end procedure
+
+  module procedure run_test
+    real(r8k), parameter :: h=230, Tb=293.15
+    integer(i4k)  :: i
+
+    allocate(this%ddr2(nr), source = 0._r8k)
+
+    allocate(this%rho(nr), this%cp(nr), this%T_analytical(nr))
 
     time_advancing: block
-      real(rkind)  :: dr_m, dz_m
-      real(rkind)  :: dr_f, dz_f
-      real(rkind)  :: dr_b, dz_b
-      real(rkind), dimension(:), allocatable :: a,b,c,d
-      real(rkind)                            :: dt,t,e, rf, rb
+      real(r8k)  :: dr_m, dz_m
+      real(r8k)  :: dr_f, dz_f
+      real(r8k)  :: dr_b, dz_b
+      real(r8k), dimension(:), allocatable :: a,b,c,d
+      real(r8k)                            :: dt,t,e, rf, rb
 
       dt=0.1
       t=0.0
@@ -116,10 +130,10 @@ contains
     end block time_advancing
 
     analytical_solution: block
-      real(rkind), dimension(20)             :: mu
-      real(rkind)                            :: t,r_0, R, pi
-      real(rkind)                            :: T0, T_inf
-      integer(ikind)                         :: i,n
+      real(r8k), dimension(20)             :: mu
+      real(r8k)                            :: t,r_0, R, pi
+      real(r8k)                            :: T0, T_inf
+      integer(i4k)                         :: i,n
 
       T0=1073.15
       T_inf=293.15
@@ -152,8 +166,8 @@ contains
     end block analytical_solution
 
     error_calculation: block
-      real(rkind)            :: avg_err_percentage
-      real(rkind), parameter :: err_percentage=0.2
+      real(r8k)            :: avg_err_percentage
+      real(r8k), parameter :: err_percentage=0.2
       avg_err_percentage=0.0
       do i=1,nr
         avg_err_percentage=avg_err_percentage+100.0*(abs(this%v(i,2)- &
@@ -165,26 +179,12 @@ contains
 
   end procedure run_test
 
-  pure function position_vectors(nr) result(vector_field)
-    integer(ikind), intent(in) :: nr
-    integer(ikind), parameter :: components=1
-    real(rkind)               :: dx
-    real(rkind), dimension(:,:) ,allocatable  :: vector_field
-    integer(ikind)            :: i
-
-    dx=1.0/(nr-1)
-    allocate( vector_field(nr,components) )
-    do i=1,nr
-      vector_field(i,1) = sqrt((i-1)*dx)*0.2
-      !vector_field(i,1) = (i-1)*dx
-    end do
-  end function
 
   function tridiagonal_matrix_algorithm(a,b,c,d) result(x)
-    real(rkind), dimension(:), intent(inout)  :: a,b,c,d
-    real(rkind), dimension(:), allocatable :: x
-    integer(ikind)                         :: i,n
-    real(rkind)                            :: w
+    real(r8k), dimension(:), intent(inout)  :: a,b,c,d
+    real(r8k), dimension(:), allocatable :: x
+    integer(i4k)                         :: i,n
+    real(r8k)                            :: w
     n= size(b)
     allocate(x(n))
     do i=2,n
@@ -198,15 +198,15 @@ contains
     end do
   end function
 
-  pure real(rkind) function kc(x)
-    real(rkind), intent(in)   :: x
+  pure real(r8k) function kc(x)
+    real(r8k), intent(in)   :: x
     !kc=5.0*exp(3.0*x)
     kc=46.0
   end function
 
   subroutine get_cp(this)
     type(grid_block), intent(inout)     :: this
-    integer(ikind)                      :: i
+    integer(i4k)                      :: i
     associate( n=>shape(this%v) )
       do i=1, n(1)
         !this%cp(i)=exp(3.0*this%v(i,1))
@@ -217,7 +217,7 @@ contains
 
   subroutine get_rho(this)
     type(grid_block), intent(inout)     :: this
-    integer(ikind)                      :: i
+    integer(i4k)                      :: i
     associate( n=>shape(this%v) )
       do i=1,n(1)
         this%rho(i)=1000.0
@@ -227,9 +227,9 @@ contains
 
   subroutine get_ddr2(this)
     type(grid_block), intent(inout)     :: this
-    integer(ikind)                      :: i
-    real(rkind)                         :: dr_f, dr_b, dr_m
-    real(rkind)                         :: rf, rb
+    integer(i4k)                      :: i
+    real(r8k)                         :: dr_f, dr_b, dr_m
+    real(r8k)                         :: rf, rb
     associate( n=>shape(this%v) )
       do i=2,n(1)-1
         dr_m=0.5*(this%v(i+1,1)-this%v(i-1,1))
@@ -247,10 +247,12 @@ end submodule spherical_1D_solver_implementation
 
 program main
   use  spherical_1D_solver_interface, only : grid_block
+  use kind_parameters, only : r8k
   implicit none
 
   type(grid_block) global_grid_block
 
-  call global_grid_block%run_test
+  call global_grid_block%set_v( nr = 101, constants = [0._r8k, 1073.15_r8k] )
+  call global_grid_block%run_test( nr = 101 )
 
 end program
