@@ -9,7 +9,6 @@ module spherical_grid_interface
   !! date: 9/9/2019
   !! subject: perform coordinate-specific tasks on spherical structured_grid objects
   use structured_grid_interface, only : structured_grid
-  use differentiable_field_interface, only : differentiable_field
   use geometry_interface, only : geometry
   use surfaces_interface, only : surfaces
   implicit none
