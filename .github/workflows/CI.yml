@@ -131,6 +131,7 @@ jobs:
         ${CC} --version && ${FC} --version && cmake --version
         type -a ${CC} && type -a ${CXX} && type -a ${FC} && type -a cmake
         mkdir CMakeLogs
+        rm ${BUILD_DIR}/TPLs/rmp/EP_MORFEUS* || true
         cmake --system-information CMakeLogs/systeminfo.txt
         cmake -Wdev -Wdeprecated --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}
 
@@ -140,6 +141,7 @@ jobs:
         cmake --build ${BUILD_DIR} --target EP_MORFEUS-configure || VERBOSE=1 cmake --build ${BUILD_DIR} --target EP_MORFEUS-configure -j 1
         ls -l ${BUILD_DIR}
         ls -l ${BUILD_DIR}/TPLs
+        ls -l ${BUILD_DIR}/TPLs/src
         ls -l ${BUILD_DIR}/MORFEUS
 
 
@@ -200,3 +202,4 @@ jobs:
            rm -rf ${BUILD_DIR}/TPLs/src/*-stamp/*-${stamp} || true
          done
          rm ${BUILD_DIR}/MORFEUS/CMakeCache.txt || true
+         rm ${BUILD_DIR}/TPLs/rmp/EP_MORFEUS* || true
