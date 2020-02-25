@@ -132,33 +132,15 @@ jobs:
         type -a ${CC} && type -a ${CXX} && type -a ${FC} && type -a cmake
         mkdir CMakeLogs
         cmake --system-information CMakeLogs/systeminfo.txt
-        cmake -Wdev -Wdeprecated --debug-trycompile --log-level=VERBOSE --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}
+        cmake -Wdev -Wdeprecated --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}
 
     - name: Build TPLs
       shell: bash
       run: |
-        cmake --build ${BUILD_DIR} --target EP_MORFEUS-configure -- -k || VERBOSE=1 cmake --build ${BUILD_DIR} --target EP_MORFEUS-configure -j 1
+        cmake --build ${BUILD_DIR} --target EP_MORFEUS-configure || VERBOSE=1 cmake --build ${BUILD_DIR} --target EP_MORFEUS-configure -j 1
         ls -l ${BUILD_DIR}
         ls -l ${BUILD_DIR}/TPLs
         ls -l ${BUILD_DIR}/MORFEUS
-
-    - name: Collect configure logs
-      if: always()
-      run: |
-        mkdir CMakeLogs/MORFEUS
-        ls -la ${BUILD_DIR}/CMakeFiles || true
-        cp ${BUILD_DIR}/CMakeFiles/*.log CMakeLogs || true
-        ls -la ${BUILD_DIR}/MORFEUS/CMakeFiles || true
-        cp ${BUILD_DIR}/MORFEUS/CMakeFiles/*.log CMakeLogs/MORFEUS || true
-        cp ${BUILD_DIR}/*.dot ${BUILD_DIR}/CMakeCache.txt CMakeLogs || true
-        cp ${BUILD_DIR}/MORFEUS/*.dot ${BUILD_DIR}/MORFEUS/CMakeCache.txt CMakeLogs/MORFEUS || true
-
-    - name: upload cmake
-      if: always()
-      uses: actions/upload-artifact@v1
-      with:
-        name: configure_logs-${{ matrix.os }}
-        path: ./CMakeLogs
 
 
     - name: compile
@@ -186,6 +168,25 @@ jobs:
         #   -g '*/extern/*' \
         #   -n "GHA-GCC${GCC_V}-${{ runner.os }}-unittest-core"
         # find "${BUILD_DIR}" -name '*.*.gc*' -print -exec rm {} \; || true
+
+    - name: Collect configure logs
+      if: always()
+      run: |
+        mkdir CMakeLogs/MORFEUS
+        ls -la ${BUILD_DIR}/CMakeFiles || true
+        cp ${BUILD_DIR}/CMakeFiles/*.log CMakeLogs || true
+        ls -la ${BUILD_DIR}/MORFEUS/CMakeFiles || true
+        cp ${BUILD_DIR}/MORFEUS/CMakeFiles/*.log CMakeLogs/MORFEUS || true
+        cp ${BUILD_DIR}/*.dot ${BUILD_DIR}/CMakeCache.txt CMakeLogs || true
+        cp ${BUILD_DIR}/MORFEUS/*.dot ${BUILD_DIR}/MORFEUS/CMakeCache.txt CMakeLogs/MORFEUS || true
+        cp ./*.dot CMakeLogs || true
+
+    - name: upload cmake
+      if: always()
+      uses: actions/upload-artifact@v1
+      with:
+        name: configure_logs-${{ matrix.os }}
+        path: ./CMakeLogs
 
     - name: Show ccache stats
       if: always()
