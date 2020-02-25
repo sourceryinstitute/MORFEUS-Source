@@ -24,7 +24,6 @@ module spherical_1D_solver_interface
     real(r8k), allocatable :: T_analytical(:) !! expected solution (size = nr)
   contains
     procedure :: set_v
-    procedure :: set_ddr2_size
     procedure :: set_material_properties_size
     procedure :: set_expected_solution_size
     procedure :: set_rho
@@ -39,11 +38,6 @@ module spherical_1D_solver_interface
       class(grid_block), intent(inout) :: this
       integer, intent(in) :: nr
       real(r8k), intent(in) :: constants(:)
-    end subroutine
-
-    module subroutine set_ddr2_size(this)
-      implicit none
-      class(grid_block), intent(inout) :: this
     end subroutine
 
     module subroutine set_material_properties_size(this)
@@ -96,13 +90,6 @@ contains
     end associate
     this%v(:,2) = constants(2)
 
-  end procedure
-
-  module procedure set_ddr2_size
-    call assert( allocated(this%v), "grid_block%set_ddr2_size: allocated(this%v)")
-    associate( nr => size(this%v,1) )
-      allocate(this%ddr2(nr))
-    end associate
   end procedure
 
   module procedure set_material_properties_size
@@ -218,13 +205,10 @@ contains
 
       do i=2,nr
         R=this%v(i,1)/r_0
-        this%T_analytical(i)=0.0
-        do n=1, 6
-          this%T_analytical(i)=this%T_analytical(i)+ &
-                2.0*(sin(mu(n))-mu(n)*cos(mu(n)))/(mu(n)-sin(mu(n))*cos(mu(n)))* &
-                sin(mu(n)*R)/(mu(n)*R)*exp(-1.0e-5*(mu(n)/r_0)**2*t)
-        end do
-        this%T_analytical(i)=(T0-T_inf)*this%T_analytical(i)+T_inf
+        this%T_analytical(i) = &
+          sum( [( 2.0*(sin(mu(n))-mu(n)*cos(mu(n)))/(mu(n)-sin(mu(n))*cos(mu(n)))* &
+          sin(mu(n)*R)/(mu(n)*R)*exp(-1.0e-5*(mu(n)/r_0)**2*t), n = 1, 6 )] )
+        this%T_analytical(i) = (T0-T_inf)*this%T_analytical(i) + T_inf
       end do
     end subroutine analytical_solution
 
@@ -272,25 +256,6 @@ contains
     this%rho=1000.0
   end procedure
 
-  subroutine set_ddr2(this)
-    ! used for alternating direction implicit schemes (not called for a 1D solver)
-    class(grid_block), intent(inout)  :: this
-    integer(i4k)                      :: i
-    real(r8k)                         :: dr_f, dr_b, dr_m
-    real(r8k)                         :: rf, rb
-    associate( nr=>size(this%v,1) )
-      do i=2,nr-1
-        dr_m=0.5*(this%v(i+1,1)-this%v(i-1,1))
-        dr_f=this%v(i+1,1)-this%v(i,1)
-        dr_b=this%v(i,1)-this%v(i-1,1)
-        rf=0.5*(this%v(i+1,1)+this%v(i,1))
-        rb=0.5*(this%v(i,1)+this%v(i-1,1))
-        this%ddr2(i)=kc(rf)*rf**2*(this%v(i+1,2) - this%v(i,2))/(dr_f*dr_m) - &
-                      kc(rb)*rb**2*(this%v(i,2) - this%v(i-1,2))/(dr_b*dr_m)
-      end do
-    end associate
-  end subroutine
-
 end submodule spherical_1D_solver_implementation
 
 program main
@@ -305,7 +270,6 @@ program main
   type(grid_block) global_grid_block
 
   call global_grid_block%set_v( nr = 101, constants = [0._r8k, 1073.15_r8k] )
-  call global_grid_block%set_ddr2_size()
   call global_grid_block%set_expected_solution_size()
   call global_grid_block%set_material_properties_size()
   call global_grid_block%time_advance_heat_equation(dt=0.1_r8k)
