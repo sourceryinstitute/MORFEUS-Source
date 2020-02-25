@@ -36,9 +36,6 @@ jobs:
       CC: gcc-${{ matrix.gcc }}
       CXX: g++-${{ matrix.gcc }}
       GCC_V: ${{ matrix.gcc }}
-      MPICH_FC: gfortran-${{ matrix.gcc }}
-      MPICH_CC: gcc-${{ matrix.gcc }}
-      MPICH_CXX: g++-${{ matrix.gcc }}
 
     steps:
     - uses: actions/checkout@v2
@@ -91,11 +88,8 @@ jobs:
       if: contains(matrix.os, 'ubuntu')
       run: |
         sudo apt-get update -qq || true
+        apt-cache policy cmake
         sudo apt-get install -y --no-install-recommends ${COMMON_PKG} lib${BLAS_LAPACK}-dev
-        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_V} 100 \
-        --slave /usr/bin/g++ g++ /usr/bin/g++-${GCC_V} \
-        --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
-        --slave /usr/bin/gcov gcov /usr/bin/gcov-${GCC_V}
         sudo apt-get install -y ${MPI_LIB} lib${MPI_LIB}-dev
         echo "::add-path::/usr/lib/ccache"
         export CCACHE_TEMPDIR=/dev/shm/ccache_tmp
@@ -143,6 +137,9 @@ jobs:
     - name: Build TPLs
       run: |
         cmake --build ${BUILD_DIR} --target EP_MORFEUS-configure -- -k || VERBOSE=1 cmake --build ${BUILD_DIR} --target EP_MORFEUS-configure -j 1
+        ls -l ${BUILD_DIR}
+        ls -l ${BUILD_DIR}/TPLs
+        ls -l ${BUILD_DIR}/TPLs/src/
 
     - name: compile
       run: echo compile
