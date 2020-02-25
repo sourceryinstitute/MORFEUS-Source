@@ -225,6 +225,7 @@ set( base_names
   spatial-derivatives
   spatial-derivatives-new
   adi-time-advancing
+  1d-sphere
   units
 )
 foreach(unit_test ${base_names})
