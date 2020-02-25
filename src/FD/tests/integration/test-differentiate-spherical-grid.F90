@@ -12,7 +12,6 @@ program main
 
   use sphere_1D_interface, only : sphere_1D
   use problem_discretization_interface, only : problem_discretization
-  use ellipsoidal_field_interface, only : ellipsoidal_field
   implicit none
 
   integer, parameter :: max_digits=9
@@ -22,7 +21,6 @@ program main
   character(len=:), allocatable :: output_file
   type(problem_discretization) global_grid
   type(sphere_1D) sphere_geometry
-  type(ellipsoidal_field) ellipsoidal_function
 
   associate( me => this_image() )
     write(image_number,'(i4)') me
