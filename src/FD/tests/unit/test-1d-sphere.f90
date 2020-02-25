@@ -106,7 +106,7 @@ contains
   end procedure
 
   module procedure time_advance_heat_equation
-    integer(i4k)  :: i
+    integer(i4k) i
 
     call assert( allocated(this%v), "grid_block%time_advance_heat_equation: allocated(this%v)")
 
@@ -202,7 +202,7 @@ contains
         sum( [( 2.0*(sin(mu(n))-mu(n)*cos(mu(n)))/(mu(n)-sin(mu(n))*cos(mu(n)))*exp(-1.0e-5*(mu(n)/r_0)**2*t), n = 1, size(mu))] )
       this%T_analytical(i) = (T0-T_inf)*this%T_analytical(i) + T_inf
 
-      do i=2,nr
+      do concurrent(i=2:nr)
         R=this%v(i,1)/r_0
         this%T_analytical(i) = &
           sum( [( 2.0*(sin(mu(n))-mu(n)*cos(mu(n)))/(mu(n)-sin(mu(n))*cos(mu(n)))* &
