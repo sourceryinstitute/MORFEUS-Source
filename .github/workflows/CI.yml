@@ -36,6 +36,9 @@ jobs:
       CC: gcc-${{ matrix.gcc }}
       CXX: g++-${{ matrix.gcc }}
       GCC_V: ${{ matrix.gcc }}
+      MPICH_FC: gfortran-${{ matrix.gcc }}
+      MPICH_CC: gcc-${{ matrix.gcc }}
+      MPICH_CXX: g++-${{ matrix.gcc }}
 
     steps:
     - uses: actions/checkout@v2
