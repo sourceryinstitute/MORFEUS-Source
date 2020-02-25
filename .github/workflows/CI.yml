@@ -146,7 +146,11 @@ jobs:
         ccache -z
 
     - name: configure
+      shell: bash
       run: |
+        if [[ $OSTYPE =~ [Ll]inux ]] ; then
+          alias cmake=/usr/bin/cmake
+        fi
         ${CC} --version && ${FC} --version && cmake --version
         type -a ${CC} && type -a ${CXX} && type -a ${FC} && type -a cmake
         mpifort --version
