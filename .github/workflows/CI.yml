@@ -129,8 +129,8 @@ jobs:
       run: |
         ${CC} --version && ${FC} --version && cmake --version
         type -a ${CC} && type -a ${CXX} && type -a ${FC} && type -a cmake
-        mpifort --version
-        mpicc --version
+        mpifort --version || true
+        mpicc --version || true
         mkdir CMakeLogs
         cmake --system-information CMakeLogs/systeminfo.txt
         cmake -Wdev -Wdeprecated --debug-trycompile --log-level=VERBOSE --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}
