@@ -249,8 +249,6 @@ contains
 
     subroutine set_metadata
 
-      character(len=max_name_length), parameter :: cavity="cavity"
-
       associate( &
         nr_wrappers => layers%wrappers%num_grid_blocks%r, &
         ntheta_wrappers => layers%wrappers%num_grid_blocks%theta, &
@@ -303,8 +301,8 @@ contains
                     r_domain =>  [ sum( block_thickness_r(1:ir-1) ), sum( block_thickness_r(1:ir) ) ], &
                     theta_domain =>  [0.0, 0.0] , &
                     phi_domain =>  [0.0, 0.0], &
-                    tag => [wrappers_material, core_material, cavity], &
-                    block_material => material(ir,itheta,iphi,layers%core,layers%wrappers) )
+                    tag => [wrappers_material, core_material], &
+                    block_material => material(ir,layers%core,layers%wrappers) )
 
                     call this%metadata(ir,itheta,iphi)%set_label( block_material )
                     call this%metadata(ir,itheta,iphi)%set_tag( findloc(tag, block_material, 1, back=.true.) )
@@ -326,48 +324,23 @@ contains
   end procedure ! compilers never see this line; when generating documentation, run "ford -m FORD ..." to circumvent a ford bug
 #endif
 
-  function material(ir, itheta, iphi, core_, wrapper_) result(material_ir_itheta)
-    integer, intent(in) :: ir, itheta, iphi
+  function material(ir, core_, wrapper_) result(material_ir)
+    integer, intent(in) :: ir
     type(material_t), intent(in) :: core_, wrapper_
     integer i, j
-    character(len=max_name_length), allocatable :: material_ir_itheta
-    character(len=max_name_length), parameter :: void_name="cavity"
+    character(len=max_name_length), allocatable :: material_ir
 
-    associate( core_material_name => merge( core_%material_name, void_name, iphi <= core_%num_grid_blocks%phi ) )
+    associate( core_material_name => core_%material_name )
       associate( &
         nr_layers => [wrapper_%num_grid_blocks%r, core_%num_grid_blocks%r, &
           wrapper_%num_grid_blocks%r(size(wrapper_%num_grid_blocks%r):1:-1) ], &
-        ntheta_layers => [wrapper_%num_grid_blocks%theta, core_%num_grid_blocks%theta, &
-          wrapper_%num_grid_blocks%theta(size(wrapper_%num_grid_blocks%theta):1:-1) ], &
         material => [wrapper_%material_name, core_material_name, wrapper_%material_name(size(wrapper_%material_name):1:-1)] )
 
         associate( &
-          block_material_r => [( [(material(i), j=1,nr_layers(i))], i=1,size(nr_layers) )], &
-          block_material_theta => [( [(material(i), j=1,ntheta_layers(i))], i=1,size(ntheta_layers) )] )
-
-          associate( wrapper_material_r => replace_layers(block_material_r, block_material_theta, itheta) )
-            material_ir_itheta = wrapper_material_r(ir)
-          end associate
+          block_material_r => [( [(material(i), j=1,nr_layers(i))], i=1,size(nr_layers) )])
+          material_ir = block_material_r(ir)
         end associate
       end associate
     end associate
-  end function
-
-  function replace_layers(full_delineation_r, full_delineation_theta, itheta) result(wrapper_layer_r)
-    character(len=*), intent(in) :: full_delineation_r(:), full_delineation_theta(:)
-    character(len=len(full_delineation_r)) :: wrapper_layer_r( size(full_delineation_r) )
-    integer itheta
-
-    associate( layer=>full_delineation_theta(itheta) )
-      associate( &
-        first => findloc(full_delineation_r, layer, dim=1, back=.false.), &
-        last => findloc(full_delineation_r, layer, dim=1, back=.true.) )
-
-        wrapper_layer_r(1:first-1) = full_delineation_r(1:first-1)
-        wrapper_layer_r(first:last) = layer
-        wrapper_layer_r(last+1:) = full_delineation_r(last+1:)
-      end associate
-    end associate
-
   end function
 end submodule sphere_1D_implementation
