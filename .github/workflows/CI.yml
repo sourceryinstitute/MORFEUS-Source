@@ -123,6 +123,7 @@ jobs:
         lscpu || true
         echo "::set-env name=CMAKE_BUILD_PARALLEL_LEVEL::$(nproc --all)"
         echo "::set-env name=CTEST_PARALLEL_LEVEL::$(nproc --all)"
+        type -a cmake
 
     - name: setup-macos
       if: contains( matrix.os, 'macos')
@@ -164,7 +165,7 @@ jobs:
     - name: upload cmake
       uses: actions/upload-artifact@v1
       with:
-        name: configure_logs
+        name: configure_logs-${{ matrix.os }}
         path: ./CMakeLogs
       if: always()
 
