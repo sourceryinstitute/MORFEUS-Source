@@ -197,8 +197,8 @@ jobs:
     - name: Cleanup TPL cache
       if: always()
       run: |
-         rm -rf ${BUILD_DIR}/TPLs/src/EP_MORFEUS-stamp/*
-         for stamp in build done install test ; do
-           rm -rf ${BUILD_DIR}/TPLs/src/*-stamp/*-${stamp}
+         rm -rf ${BUILD_DIR}/TPLs/src/EP_MORFEUS-stamp/* || true
+         for stamp in done install test ; do
+           rm -rf ${BUILD_DIR}/TPLs/src/*-stamp/*-${stamp} || true
          done
          rm ${BUILD_DIR}/MORFEUS/CMakeCache.txt || true
