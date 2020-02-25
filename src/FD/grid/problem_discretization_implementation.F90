@@ -50,7 +50,7 @@ contains
     case ('vtu')
       call vtk_output (this, basename, iostat)
     case ('csv')
-      call csv_output( this, basename, iostat)
+      call csv_output( this, filename, iostat)
    case default
      error stop "problem_discretization%write_output: unsupported file type" // &
 #ifdef HAVE_NON_CONSTANT_ERROR_STOP
@@ -62,27 +62,20 @@ contains
 
   end procedure write_output
 
-  subroutine csv_output (this, filename, unit, iostat)
+  subroutine csv_output (this, filename, iostat)
     class(problem_discretization), intent(in) ::this
     character(len=*), intent(in) :: filename
-    integer, intent(in), optional :: unit
     integer, intent(inout), optional :: iostat
     character(len=132) :: iomsg
     integer, dimension(0) :: v_list
-    integer ix,iy,iz
-    associate( n=>this%get_global_block_shape() )
-      associate( nx=>n(1), ny=>n(2), nz=>n(3) )
-        write(unit,'(4("      ",a,:,",",5x))') "x","y","z","layer (phony)"
-        write(unit,*) new_line('a')
-        do iz=1,nz
-          do iy=1,ny
-            do ix=1,nx
-              call this%vertices( this%block_identifier([ix,iy,iz]) )%write_formatted(unit,'DT', v_list, iostat, iomsg)
-            end do
-          end do
-        end do
-      end associate
-    end associate
+    integer  :: file_unit
+    integer ib
+
+    open(newunit=file_unit, file=filename)
+    write(file_unit,'(4("      ",a,:,",",5x))') "x","y","z","layer (phony)"
+    do ib=lbound(this%vertices,1), ubound(this%vertices,1)
+      call this%vertices(ib)%write_formatted(file_unit,'DT', v_list, iostat, iomsg)
+    end do
   end subroutine
 
   subroutine vtk_output (this, filename, iostat)
@@ -380,11 +373,11 @@ contains
   end procedure
 
   module procedure initialize_from_sphere_1D
-    use cylindrical_grid_interface, only : cylindrical_grid
+    use spherical_grid_interface, only : spherical_grid
     integer, parameter :: lo_bound=1, up_bound=2 !! array indices corresponding to end points on 1D spatial interval
-    integer, parameter :: nx_min=2, ny_min=2, nz_min=2
+    integer, parameter :: nr_min=2, ntheta_min=2, nphi_min=2
     integer n
-    type(cylindrical_grid) prototype
+    type(spherical_grid) prototype
       !! used only for dynamic type information about the grid type in the partitioning procedure
 
     call this%partition( sphere_1D_geometry%get_block_metadata_shape(), prototype )
@@ -407,15 +400,15 @@ contains
               max_spacing => metadata%get_max_spacing() &
             )
               associate( &
-                nx => max( nx_min, floor( abs(block(1,up_bound) - block(1,lo_bound))/max_spacing ) + 1 ), &
-                ny => max( ny_min, floor( abs(block(2,up_bound) - block(2,lo_bound))/max_spacing ) + 1 ), &
-                nz => max( nz_min, floor( abs(block(3,up_bound) - block(3,lo_bound))/max_spacing ) + 1 ) &
+                nr =>     max( nr_min, floor( abs(block(1,up_bound) - block(1,lo_bound))/max_spacing ) + 1 ), &
+                ntheta => 1, &
+                nphi =>   1 &
               )
                 associate( &
-                  x => evenly_spaced_points(  block, [nx,ny,nz], direction=1 ), &
-                  y => evenly_spaced_points(  block, [nx,ny,nz], direction=2 ), &
-                  z => evenly_spaced_points(  block, [nx,ny,nz], direction=3 ) )
-                  call this%set_vertices(x,y,z,block_identifier=n)
+                  r =>     evenly_spaced_points(  block, [nr,ntheta,nphi], direction=1 ), &
+                  theta => evenly_spaced_points(  block, [nr,ntheta,nphi], direction=2 ), &
+                  phi =>   evenly_spaced_points(  block, [nr,ntheta,nphi], direction=3 ) )
+                  call this%set_vertices(r,theta,phi,block_identifier=n)
                 end associate
               end associate
             end associate
@@ -431,7 +424,7 @@ contains
 
   module procedure partition
 
-    integer alloc_status, image
+    integer alloc_status, image, num_blocks
     character(len=max_errmsg_len) alloc_error
 
     allocate( this%block_map, stat=alloc_status, errmsg=alloc_error, mold=prototype )

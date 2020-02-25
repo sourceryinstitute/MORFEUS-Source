@@ -2,7 +2,7 @@
   "file_validation": {
     "validator": "https://jsonlint.com/",
     "validated_by": "",
-    "validation_date": ,
+    "validation_date": "",
     "problem description": "Example using the Earth composition"
   },
   "MORFEUS_FD": {
@@ -49,15 +49,15 @@
     },
     "layers": {
       "type": "1D_sphere",
-      "max_spacing": 0.99E-01,
+      "max_spacing": 0.3E-01,
       "core": {
         "material_name": ["inner core"],
         "thickness": {
-          "r": [1.220E+01],
+          "r": [1.0E-01],
           "dimensions": "length"
         },
         "num_grid_blocks": {
-          "r": [2]
+          "r": [1]
         },
         "constraint": {
           "language": "Fortran",
@@ -72,11 +72,11 @@
       "wrappers":{
         "material_name": ["outer core","lower mantle","upper mantle","crust"],
         "thickness": {
-          "r": [2.250E+01, 2.240E+01, 0.250E+01, 0.410E+01],
+          "r": [1.0E-01, 1.0E-01, 1.0E-01, 1.0E-01],
           "dimensions": "length"
         },
         "num_grid_blocks": {
-          "r": [10, 10, 4, 3]
+          "r": [1, 1, 1, 1]
         },
         "constraint": {
           "language": "Fortran",

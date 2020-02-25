@@ -17,8 +17,7 @@ program main
 
   integer, parameter :: max_digits=9
   character(len=max_digits) image_number
-  ! character(len=*), parameter:: input_file = "1Dsphere.json"
-  character(len=*), parameter:: input_file = "3Dplate-high-resolution-layers.json"
+  character(len=*), parameter:: input_file = "1Dsphere.json"
   character(len=*), parameter:: base_name = "1Dsphere-derivatives"
   character(len=:), allocatable :: output_file
   type(problem_discretization) global_grid
@@ -27,13 +26,10 @@ program main
 
   associate( me => this_image() )
     write(image_number,'(i4)') me
-    ! output_file = base_name //"-image-"// trim(adjustl(image_number)) // ".csv"
-    output_file = base_name //"-image-"// trim(adjustl(image_number)) // ".vtu"
+    output_file = base_name //"-image-"// trim(adjustl(image_number)) // ".csv"
 
     call sphere_geometry%build( input_file ) !! read geometrical information
     call global_grid%initialize_from_geometry( sphere_geometry ) !! partition block-structured grid & define grid vertex locations
-    ! call global_grid%set_scalars( [ellipsoidal_function] )
-    ! call global_grid%set_scalar_flux_divergence( exact_result=[ellipsoidal_function] )
     call global_grid%write_output (output_file)
 
     sync all
