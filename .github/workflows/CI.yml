@@ -85,9 +85,9 @@ jobs:
       name: Restore TPL cache
       with:
         path: ${{ steps.set-outputs.outputs.build_dir }}/TPLs
-        key: ${{ matrix.os }}-gcc${{ matrix.gcc }}-TPLcache-${{ github.sha }}
+        key: ${{ matrix.os }}-gcc${{ matrix.gcc }}-TPLs-${{ github.sha }}
         restore-keys: |
-          ${{ matrix.os }}-gcc${{ matrix.gcc }}-TPLcache-
+          ${{ matrix.os }}-gcc${{ matrix.gcc }}-TPLs-
 
     - name: setup-linux
       if: contains(matrix.os, 'ubuntu')
@@ -149,7 +149,8 @@ jobs:
       shell: bash
       run: |
         if [[ $OSTYPE =~ [Ll]inux ]] ; then
-          alias cmake=/usr/bin/cmake
+          echo "On linux"
+          sudo rm /usr/local/bin/cmake
         fi
         ${CC} --version && ${FC} --version && cmake --version
         type -a ${CC} && type -a ${CXX} && type -a ${FC} && type -a cmake
@@ -157,8 +158,7 @@ jobs:
         mpicc --version
         mkdir CMakeLogs
         cmake --system-information CMakeLogs/systeminfo.txt
-        echo "cmake -Wdev -Wdeprecated --log-level=VERBOSE --degub-output --warn-uninitialized --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}"
-        cmake -Wdev -Wdeprecated --log-level=VERBOSE --degub-output --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}
+        cmake -Wdev -Wdeprecated --debug-trycompile --log-level=VERBOSE --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}
 
     - name: Collect configure logs
       run: |
@@ -214,7 +214,7 @@ jobs:
       if: always()
       run: |
          rm -rf ${BUILD_DIR}/TPLs/src/EP_MORFEUS-stamp/*
-         for stamp in build configure done install test ; do
+         for stamp in done install test ; do
            rm -rf ${BUILD_DIR}/TPLs/src/*-stamp/*-${stamp}
          done
          rm ${BUILD_DIR}/MORFEUS/CMakeCache.txt || true

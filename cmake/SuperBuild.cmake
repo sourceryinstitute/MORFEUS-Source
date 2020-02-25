@@ -258,10 +258,9 @@ if(NOT MPI_Fortran_FOUND)
 	URL "https://www.mpich.org/static/downloads/3.3/mpich-3.3.tar.gz"
 	URL_HASH SHA256=329ee02fe6c3d101b6b30a7b6fb97ddf6e82b28844306771fa9dd8845108fa0b
 	TLS_VERIFY ON
-	SOURCE_DIR "${TPL_DIR}/src/MPICH-src"
+	SOURCE_DIR ${TPL_DIR}/src/MPICH
 	UPDATE_COMMAND ""
-	CONFIGURE_COMMAND "${TPL_DIR}/src/MPICH-src/configure" --enable-cache --enable-base-cache --disable-dependency-tracking --disable-cxx --enable-fortran=all
-        --disable-dependency-tracking --prefix=${TPL_DIR}
+	CONFIGURE_COMMAND ${TPL_DIR}/src/MPICH/configure --enable-cache --enable-base-cache --disable-dependency-tracking --disable-cxx --enable-fortran=all --disable-dependency-tracking --prefix=${TPL_DIR}
 	BUILD_IN_SOURCE OFF
 	TEST_BEFORE_INSTALL ON
 	TEST_COMMAND make check
