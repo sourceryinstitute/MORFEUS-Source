@@ -16,7 +16,7 @@ env:
   HOMEBREW_NO_INSTALL_CLEANUP: "ON"
   LANG: "en_US.UTF-8"
   LC_ALL: "en_US.UTF-8"
-  COMMON_PKG: "ccache graphviz"
+  COMMON_PKG: "ccache"
   MPI_LIB: "mpich"
   BLAS_LAPACK: "openblas"
   TZ: "UTC"
@@ -93,37 +93,15 @@ jobs:
       if: contains(matrix.os, 'ubuntu')
       run: |
         sudo apt-get update -qq || true
-        sudo apt-get install -y --no-install-recommends ${COMMON_PKG} ${MPI_LIB} lib${MPI_LIB}-dev lib${BLAS_LAPACK}-dev \
-          apt-transport-https ca-certificates gnupg software-properties-common wget
-        mpif90 -show
-        mpif90 -compile_info
-        mpif90 -link_info
-        wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | sudo apt-key add -
-        sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
-        sudo apt-get update
-        sudo apt-get install kitware-archive-keyring
-        sudo apt-key --keyring /etc/apt/trusted.gpg del C1F34CDD40CD72DA
-        apt-cache policy cmake
-        sudo apt-get install cmake-data=3.15.5-0kitware1 cmake=3.15.5-0kitware1
-        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_V} 100 \
-        --slave /usr/bin/g++ g++ /usr/bin/g++-${GCC_V} \
-        --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
-        --slave /usr/bin/gcov gcov /usr/bin/gcov-${GCC_V}
-        sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc-${GCC_V} 300
-        sudo update-alternatives --set cc /usr/bin/gcc-${GCC_V}
-        sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-${GCC_V} 300
-        sudo update-alternatives --set c++ /usr/bin/g++-${GCC_V}
-        sudo update-alternatives --install /usr/bin/f95 f95 /usr/bin/gfortran-${GCC_V} 300
-        sudo update-alternatives --set f95 /usr/bin/gfortran-${GCC_V}
-        sudo update-alternatives --install /usr/bin/f77 f77 /usr/bin/gfortran-${GCC_V} 300
-        sudo update-alternatives --set f77 /usr/bin/gfortran-${GCC_V}
+        sudo apt-get install -y --no-install-recommends ${COMMON_PKG} lib${BLAS_LAPACK}-dev
         echo "::add-path::/usr/lib/ccache"
         export CCACHE_TEMPDIR=/dev/shm/ccache_tmp
         echo "::set-env name=CCACHE_TEMPDIR::${CCACHE_TEMPDIR}"
         lscpu || true
+        nproc || true
+        nproc --all || true
         echo "::set-env name=CMAKE_BUILD_PARALLEL_LEVEL::$(nproc --all)"
         echo "::set-env name=CTEST_PARALLEL_LEVEL::$(nproc --all)"
-        type -a cmake
 
     - name: setup-macos
       if: contains( matrix.os, 'macos')
@@ -135,6 +113,7 @@ jobs:
         echo "::set-env name=CCACHE_PATH::$(brew --prefix gcc@${GCC_V})/bin:$(brew --prefix)/bin"
         echo "::set-env name=CMAKE_BUILD_PARALLEL_LEVEL::$(sysctl -n hw.logicalcpu)"
         echo "::set-env name=CTEST_PARALLEL_LEVEL::$(sysctl -n hw.physicalcpu)"
+        system_profiler SPHardwareDataType
 
     - name: setup-common
       run: |
@@ -148,10 +127,6 @@ jobs:
     - name: configure
       shell: bash
       run: |
-        if [[ $OSTYPE =~ [Ll]inux ]] ; then
-          echo "On linux"
-          sudo rm /usr/local/bin/cmake
-        fi
         ${CC} --version && ${FC} --version && cmake --version
         type -a ${CC} && type -a ${CXX} && type -a ${FC} && type -a cmake
         mpifort --version
@@ -160,25 +135,31 @@ jobs:
         cmake --system-information CMakeLogs/systeminfo.txt
         cmake -Wdev -Wdeprecated --debug-trycompile --log-level=VERBOSE --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}
 
-    - name: Collect configure logs
-      run: |
-        mkdir CMakeLogs/MORFEUS
-        cp ${BUILD_DIR}/CMakeFiles/*.log CMakeLogs
-        cp ${BUILD_DIR}/MORFEUS/CMakeFiles/*.log CMakeLogs/MORFEUS || true
-
-    - name: upload cmake
-      uses: actions/upload-artifact@v1
-      with:
-        name: configure_logs-${{ matrix.os }}
-        path: ./CMakeLogs
-      if: always()
-
     - name: Build TPLs
       run: |
         cmake --build ${BUILD_DIR} --target EP_MORFEUS-configure -- -k || VERBOSE=1 cmake --build ${BUILD_DIR} --target EP_MORFEUS-configure -j 1
         ls -l ${BUILD_DIR}
         ls -l ${BUILD_DIR}/TPLs
-        ls -l ${BUILD_DIR}/TPLs/src/
+        ls -l ${BUILD_DIR}/MORFEUS
+
+    - name: Collect configure logs
+      if: always()
+      run: |
+        mkdir CMakeLogs/MORFEUS
+        ls -la ${BUILD_DIR}/CMakeFiles || true
+        cp ${BUILD_DIR}/CMakeFiles/*.log CMakeLogs || true
+        ls -la ${BUILD_DIR}/MORFEUS/CMakeFiles || true
+        cp ${BUILD_DIR}/MORFEUS/CMakeFiles/*.log CMakeLogs/MORFEUS || true
+        cp ${BUILD_DIR}/*.dot CMakeLogs || true
+        cp ${BUILD_DIR}/MORFEUS/*.dot CMakeLogs/MORFEUS || true
+
+    - name: upload cmake
+      if: always()
+      uses: actions/upload-artifact@v1
+      with:
+        name: configure_logs-${{ matrix.os }}
+        path: ./CMakeLogs
+
 
     - name: compile
       run: echo compile
