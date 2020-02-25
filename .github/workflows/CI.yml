@@ -46,13 +46,13 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0 # Get everything
-    - name: Get tags and branches
+    - name: Get tags and submodules
       shell: bash
       run: |
-        git fetch --depth=1 --tags --prune origin +refs/tags/*:refs/tags/* +refs/heads/*:refs/remotes/origin/*
+        git fetch --depth=1 origin +refs/tags/*:refs/tags/*
         auth_header="$(git config --local --get http.https://github.com/.extraheader)"
         git submodule sync --recursive
-        git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+        git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=50
 
     - name: set env
       id: set-env
@@ -97,27 +97,23 @@ jobs:
         echo "::add-path::/usr/lib/ccache"
         export CCACHE_TEMPDIR=/dev/shm/ccache_tmp
         echo "::set-env name=CCACHE_TEMPDIR::${CCACHE_TEMPDIR}"
-        lscpu || true
-        nproc || true
-        nproc --all || true
+        time lscpu || true
         echo "::set-env name=CMAKE_BUILD_PARALLEL_LEVEL::$(nproc --all)"
         echo "::set-env name=CTEST_PARALLEL_LEVEL::$(nproc --all)"
-        echo $LD_LIBRARY_PATH
         export LD_LIBRARY_PATH=${BUILD_DIR}/TPLs/lib64:${BUILD_DIR}/TPLs/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
-        echo "${LD_LIBRARY_PATH}"
+        echo "LD_LIBRARY_PATH: ${LD_LIBRARY_PATH}"
         echo "::set-env name=LD_LIBRARY_PATH::${LD_LIBRARY_PATH}"
 
     - name: setup-macos
       if: contains( matrix.os, 'macos')
       run: |
         mkdir -p $(brew --cache) || true
-        brew install -f --force-bottle --keep-tmp ${COMMON_PKG} ${BLAS_LAPACK} || true
-        brew install -f --force-bottle --keep-tmp --ignore-dependencies ${MPI_LIB} || true
+        brew install -f --force-bottle --keep-tmp --ignore-dependencies ${COMMON_PKG} ${BLAS_LAPACK} ${MPI_LIB} || true
         echo "::add-path::$(brew --prefix ccache)/libexec"
         echo "::set-env name=CCACHE_PATH::$(brew --prefix gcc@${GCC_V})/bin:$(brew --prefix)/bin"
         echo "::set-env name=CMAKE_BUILD_PARALLEL_LEVEL::$(sysctl -n hw.logicalcpu)"
         echo "::set-env name=CTEST_PARALLEL_LEVEL::$(sysctl -n hw.physicalcpu)"
-        system_profiler SPHardwareDataType
+        time system_profiler SPHardwareDataType
 
     - name: setup-common
       run: |
@@ -153,8 +149,8 @@ jobs:
         cp ${BUILD_DIR}/CMakeFiles/*.log CMakeLogs || true
         ls -la ${BUILD_DIR}/MORFEUS/CMakeFiles || true
         cp ${BUILD_DIR}/MORFEUS/CMakeFiles/*.log CMakeLogs/MORFEUS || true
-        cp ${BUILD_DIR}/*.dot CMakeLogs || true
-        cp ${BUILD_DIR}/MORFEUS/*.dot CMakeLogs/MORFEUS || true
+        cp ${BUILD_DIR}/*.dot ${BUILD_DIR}/CMakeCache.txt CMakeLogs || true
+        cp ${BUILD_DIR}/MORFEUS/*.dot ${BUILD_DIR}/MORFEUS/CMakeCache.txt CMakeLogs/MORFEUS || true
 
     - name: upload cmake
       if: always()
