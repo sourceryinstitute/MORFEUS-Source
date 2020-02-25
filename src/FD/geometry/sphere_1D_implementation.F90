@@ -21,12 +21,12 @@ submodule(sphere_1D_interface) sphere_1D_implementation
   !! Encapsulate json key/value pair hierarchy to be read from a 3Dplate*.json file
 
   type thickness_t
-    real, allocatable, dimension(:) :: x, y, z
+    real, allocatable, dimension(:) :: r, theta, phi
     character(len=:), allocatable :: dimensions
   end type
 
   type num_grid_blocks_t
-    integer, allocatable, dimension(:) :: x, y, z
+    integer, allocatable, dimension(:) :: r, theta, phi
   end type
 
   type material_t
@@ -49,7 +49,7 @@ contains
   module procedure set_grid_specification
     use string_functions_interface, only : file_extension
     use units_interface, only : units_system_names
-    character(len=*), parameter :: expected_geometry_type="3D_plate"
+    character(len=*), parameter :: expected_geometry_type="1D_sphere"
     logical found
 
     call assert( file_extension(grid_description_file)=="json", 'file_extension(grid_description_file)=="json"' )
@@ -75,18 +75,20 @@ contains
   end procedure
 
   module procedure get_block_domain
-    associate( ix=>indicial_coordinates(1), iy=>indicial_coordinates(2), iz=>indicial_coordinates(3))
-      call assert( all( [ [ix,iy,iz] >= lbound(this%metadata), [ix,iy,iz] <= ubound(this%metadata) ] ), &
-      "get_block_domain: indicial_coordinates in bounds" )
-      this_domain = this%metadata(ix,iy,iz)%get_subdomain()
+    associate( ir=>indicial_coordinates(1), itheta=>indicial_coordinates(2), iphi=>indicial_coordinates(3))
+      associate(lower => lbound(this%metadata), upper => ubound(this%metadata))
+        call assert( all( [ [ir] >= lower(1), [ir] <= upper(1) ] ), "get_block_domain: indicial_coordinates in bounds" )
+      end associate
+      this_domain = this%metadata(ir,itheta,iphi)%get_subdomain()
     end associate
   end procedure
 
   module procedure get_block_metadatum
-    associate( ix=>indicial_coordinates(1), iy=>indicial_coordinates(2), iz=>indicial_coordinates(3))
-      call assert( all( [ [ix,iy,iz] >= lbound(this%metadata), [ix,iy,iz] <= ubound(this%metadata) ] ), &
-      "get_block_metadatum: indicial_coordinates in bounds" )
-      this_metadata_xyz = this%metadata(ix, iy, iz)
+    associate( ir=>indicial_coordinates(1), itheta=>indicial_coordinates(2), iphi=>indicial_coordinates(3))
+      associate(lower => lbound(this%metadata), upper => ubound(this%metadata))
+        call assert( all( [ [ir] >= lower(1), [ir] <= upper(1) ] ), "get_block_metadatum: indicial_coordinates in bounds" )
+      end associate
+      this_metadata_xyz = this%metadata(ir, itheta, iphi)
     end associate
   end procedure
 
@@ -99,7 +101,7 @@ contains
     use emulated_intrinsics_interface, only : findloc
 #endif
 
-    integer i, j, ix, iy, iz, alloc_stat, supremum
+    integer i, j, ir, itheta, iphi, alloc_stat, supremum
     logical found
     integer, parameter :: num_end_points=2, symmetry=2
     character(len=max_name_length), allocatable, dimension(:) :: names
@@ -122,14 +124,16 @@ contains
 
     subroutine read_core_components
 
-      call this%grid_specification%get( layers_object // ".core.num_grid_blocks.x", layers%core%num_grid_blocks%x, found)
-      call assert( found, "set_block_metadata: core_%num_grid_blocks_%x found" )
+      call this%grid_specification%get( layers_object // ".core.num_grid_blocks.r", layers%core%num_grid_blocks%r, found)
+      call assert( found, "set_block_metadata: core_%num_grid_blocks_%r found" )
 
-      call this%grid_specification%get( layers_object // ".core.num_grid_blocks.y", layers%core%num_grid_blocks%y, found)
-      call assert( found, "set_block_metadata: core_%num_grid_blocks_%y found" )
+      call this%grid_specification%get( layers_object // ".core.num_grid_blocks.theta", layers%core%num_grid_blocks%theta, found)
+      call assert( .not. found, "set_block_metadata: core_%num_grid_blocks_%theta found" )
+      layers%core%num_grid_blocks%theta = [0]
 
-      call this%grid_specification%get( layers_object // ".core.num_grid_blocks.z", layers%core%num_grid_blocks%z, found)
-      call assert( found, "set_block_metadata: core_%num_grid_blocks_%z found" )
+      call this%grid_specification%get( layers_object // ".core.num_grid_blocks.phi", layers%core%num_grid_blocks%phi, found)
+      call assert( .not. found, "set_block_metadata: core_%num_grid_blocks_%phi found" )
+      layers%core%num_grid_blocks%phi = [0]
 
       call this%grid_specification%get( layers_object//".core.material_name", names, found )
       call assert( found , layers_object//".core.material_name found" )
@@ -141,14 +145,16 @@ contains
       layers%core%material_name = names
       call assert(size(layers%core%material_name)==1, "size(layers%core%material_name)==1" )
 
-      call this%grid_specification%get( layers_object//".core.thickness.x", layers%core%thickness%x, found )
-      call assert( found , layers_object//".core.thickness.x found" )
+      call this%grid_specification%get( layers_object//".core.thickness.r", layers%core%thickness%r, found )
+      call assert( found , layers_object//".core.thickness.r found" )
 
-      call this%grid_specification%get( layers_object//".core.thickness.y", layers%core%thickness%y, found )
-      call assert( found , layers_object//".core.thickness.y found" )
+      call this%grid_specification%get( layers_object//".core.thickness.theta", layers%core%thickness%theta, found )
+      call assert( .not. found , layers_object//".core.thickness.theta found" )
+      layers%core%thickness%theta = [0.0]
 
-      call this%grid_specification%get( layers_object//".core.thickness.z", layers%core%thickness%z, found )
-      call assert( found , layers_object//".core.thickness.z found" )
+      call this%grid_specification%get( layers_object//".core.thickness.phi", layers%core%thickness%phi, found )
+      call assert( .not. found , layers_object//".core.thickness.phi found" )
+      layers%core%thickness%phi = [0.0]
     end subroutine
 
     subroutine verify_core_components
@@ -157,28 +163,32 @@ contains
       associate( &
         num_grid_blocks=>layers%core%num_grid_blocks, thickness=>layers%core%thickness, material_name=>layers%core%material_name )
 
-        call assert( all( [num_grid_blocks%x,num_grid_blocks%y,num_grid_blocks%z] > 0 ), &
-                    "all( [num_grid_blocks%x,num_grid_blocks%y,num_grid_blocks%z] > 0" )
-        call assert( all( [thickness%x,thickness%y,thickness%z] > 0. ), &
-                    "all( [thickness%x,thickness%y,thickness%z] > 0." )
+        call assert( all( [num_grid_blocks%r] > 0 ), "all( [num_grid_blocks%r] > 0" )
+        call assert( all( [num_grid_blocks%theta,num_grid_blocks%phi] == 0 ), &
+                   " all( [num_grid_blocks%theta,num_grid_blocks%phi] == 0")
+        call assert( all( [thickness%r] > 0. ), "all( [thickness%r] > 0." )
+        call assert( all( [thickness%theta,thickness%phi] == 0. ), "all( [thickness%theta,thickness%phi] == 0." )
         call assert( size(material_name)==1, "size(material_name)==1" )
-        call assert( all( [size(thickness%x), size(thickness%y), size(thickness%z)] ==1 ), &
-                    "all( [size(thickness%x), size(thickness%y), size(thickness%z)] ==1 )" )
-        call assert( all( [size(num_grid_blocks%x), size(num_grid_blocks%y), size(num_grid_blocks%z)]==1 ), &
-                    "all( [size(num_grid_blocks%x), size(num_grid_blocks%y), size(num_grid_blocks%z)]==1 )" )
+        call assert( all( [size(thickness%r), size(thickness%theta), size(thickness%phi)] ==1 ), &
+                    "all( [size(thickness%r), size(thickness%theta), size(thickness%phi)] ==1 )" )
+        call assert( all( [size(num_grid_blocks%r), size(num_grid_blocks%theta), size(num_grid_blocks%phi)]==1 ), &
+                    "all( [size(num_grid_blocks%r), size(num_grid_blocks%theta), size(num_grid_blocks%phi)]==1 )" )
 
       end associate
     end subroutine
 
     subroutine read_wrappers_components
-      call this%grid_specification%get( layers_object // ".wrappers.num_grid_blocks.x", layers%wrappers%num_grid_blocks%x, found)
-      call assert( found, "set_block_metadata: wrappers_%num_grid_blocks_%x found" )
+      call this%grid_specification%get( layers_object // ".wrappers.num_grid_blocks.r", layers%wrappers%num_grid_blocks%r, found)
+      call assert( found, "set_block_metadata: wrappers_%num_grid_blocks_%r found" )
 
-      call this%grid_specification%get( layers_object // ".wrappers.num_grid_blocks.y", layers%wrappers%num_grid_blocks%y, found)
-      call assert( found, "set_block_metadata: wrappers_%num_grid_blocks_%y found" )
+      call this%grid_specification%get( layers_object // ".wrappers.num_grid_blocks.theta", &
+        layers%wrappers%num_grid_blocks%theta, found)
+      call assert( .not. found, "set_block_metadata: wrappers_%num_grid_blocks_%theta found" )
+      layers%wrappers%num_grid_blocks%theta = [0]
 
-      call this%grid_specification%get( layers_object // ".wrappers.num_grid_blocks.z", layers%wrappers%num_grid_blocks%z, found)
-      call assert( found, "set_block_metadata: wrappers_%num_grid_blocks_%z found" )
+      call this%grid_specification%get( layers_object // ".wrappers.num_grid_blocks.phi", layers%wrappers%num_grid_blocks%phi,found)
+      call assert( .not. found, "set_block_metadata: wrappers_%num_grid_blocks_%phi found" )
+      layers%wrappers%num_grid_blocks%phi = [0]
 
       call this%grid_specification%get( layers_object//".wrappers.material_name", names, found )
       call assert( found , layers_object//".wrappers.material_name found" )
@@ -189,14 +199,16 @@ contains
       allocate(  layers%wrappers%material_name(size(names)) )
       layers%wrappers%material_name = names
 
-      call this%grid_specification%get( layers_object//".wrappers.thickness.x", layers%wrappers%thickness%x, found )
-      call assert( found , layers_object//".wrappers.thickness.x found" )
+      call this%grid_specification%get( layers_object//".wrappers.thickness.r", layers%wrappers%thickness%r, found )
+      call assert( found , layers_object//".wrappers.thickness.r found" )
 
-      call this%grid_specification%get( layers_object//".wrappers.thickness.y", layers%wrappers%thickness%y, found )
-      call assert( found , layers_object//".wrappers.thickness.y found" )
+      call this%grid_specification%get( layers_object//".wrappers.thickness.theta", layers%wrappers%thickness%theta, found )
+      call assert( .not. found , layers_object//".wrappers.thickness.theta found" )
+      layers%wrappers%thickness%theta = [0.0]
 
-      call this%grid_specification%get( layers_object//".wrappers.thickness.z", layers%wrappers%thickness%z, found )
-      call assert( found , layers_object//".wrappers.thickness.z found" )
+      call this%grid_specification%get( layers_object//".wrappers.thickness.phi", layers%wrappers%thickness%phi, found )
+      call assert( .not. found , layers_object//".wrappers.thickness.phi found" )
+      layers%wrappers%thickness%phi = [0.0]
     end subroutine
 
     subroutine verify_wrappers_components
@@ -207,18 +219,19 @@ contains
         material_name=>layers%wrappers%material_name, max_spacing=>layers%max_spacing )
 
         call assert( max_spacing > 0., "max_spacing > 0." )
-        call assert( all([num_grid_blocks%x,num_grid_blocks%y,num_grid_blocks%z]>0), &
-                    "all([num_grid_blocks%x,num_grid_blocks%y,num_grid_blocks%z]>0)" )
-        call assert( all([thickness%x,thickness%y,thickness%z]>0), &
-                    "all([thickness%x,thickness%y,thickness%z]>0)" )
+        call assert( all([num_grid_blocks%r]>0), "all([num_grid_blocks%r]>0)" )
+        call assert( all([num_grid_blocks%theta,num_grid_blocks%phi]==0), &
+                    "all([num_grid_blocks%theta,num_grid_blocks%phi]==0)" )
+        call assert( all([thickness%r]>0), "all([thickness%r]>0)" )
+        call assert( all([thickness%theta,thickness%phi]==0), "all([thickness%theta,thickness%phi]==0)" )
 
-        call assert( all( [size(thickness%x), size(thickness%y), size(thickness%z)] &
-          == [size(num_grid_blocks%x), size(num_grid_blocks%y), size(num_grid_blocks%z)] ), &
-          "all( [size(thickness%x), size(thickness%y), size(thickness%z)] " // &
-          "== [size(num_grid_blocks%x), size(num_grid_blocks%y), size(num_grid_blocks%z)] )" )
+        call assert( all( [size(thickness%r), size(thickness%theta), size(thickness%phi)] &
+          == [size(num_grid_blocks%r), size(num_grid_blocks%theta), size(num_grid_blocks%phi)] ), &
+          "all( [size(thickness%r), size(thickness%theta), size(thickness%phi)] " // &
+          "== [size(num_grid_blocks%r), size(num_grid_blocks%theta), size(num_grid_blocks%phi)] )" )
 
-        call assert( all( [size(thickness%x), size(thickness%y)] == size(material_name) ), &
-                    "all( [size(thickness%x), size(thickness%y)] == size(material_name) )" )
+        call assert( all( [size(thickness%r)] == size(material_name) ), &
+                    "all( [size(thickness%r)] == size(material_name) )" )
 
       end associate
     end subroutine
@@ -226,10 +239,10 @@ contains
     subroutine verify_layers
 
       associate( wrappers => layers%wrappers, core=> layers%core )
-        call assert( all( wrappers%thickness%z >= core%thickness%z ), "all( wrappers%thickness%z >= core%thickness%z )" )
+        call assert( all( wrappers%thickness%phi >= core%thickness%phi ), "all( wrappers%thickness%phi >= core%thickness%phi )" )
         call assert( &
-          all( wrappers%num_grid_blocks%z >= core%num_grid_blocks%z ), &
-          "all( wrappers%num_grid_blocks%z >= core%num_grid_blocks%z )")
+          all( wrappers%num_grid_blocks%phi >= core%num_grid_blocks%phi ), &
+          "all( wrappers%num_grid_blocks%phi >= core%num_grid_blocks%phi )")
       end associate
 
     end subroutine
@@ -239,64 +252,65 @@ contains
       character(len=max_name_length), parameter :: cavity="cavity"
 
       associate( &
-        nx_wrappers => layers%wrappers%num_grid_blocks%x, &
-        ny_wrappers => layers%wrappers%num_grid_blocks%y, &
-        nz_wrappers => layers%wrappers%num_grid_blocks%z, &
-        nx_core => layers%core%num_grid_blocks%x(1), &
-        ny_core => layers%core%num_grid_blocks%y(1), &
-        nz_core => layers%core%num_grid_blocks%z(1), &
-        wrappers_thickness_x => layers%wrappers%thickness%x, &
-        wrappers_thickness_y => layers%wrappers%thickness%y, &
-        wrappers_thickness_z => layers%wrappers%thickness%z, &
-        core_thickness_x => layers%core%thickness%x, &
-        core_thickness_y => layers%core%thickness%y, &
-        core_thickness_z => layers%core%thickness%z )
+        nr_wrappers => layers%wrappers%num_grid_blocks%r, &
+        ntheta_wrappers => layers%wrappers%num_grid_blocks%theta, &
+        nphi_wrappers => layers%wrappers%num_grid_blocks%phi, &
+        nr_core => layers%core%num_grid_blocks%r(1), &
+        ntheta_core => layers%core%num_grid_blocks%theta(1), &
+        nphi_core => layers%core%num_grid_blocks%phi(1), &
+        wrappers_thickness_r => layers%wrappers%thickness%r, &
+        wrappers_thickness_theta => layers%wrappers%thickness%theta, &
+        wrappers_thickness_phi => layers%wrappers%thickness%phi, &
+        core_thickness_r => layers%core%thickness%r, &
+        core_thickness_theta => layers%core%thickness%theta, &
+        core_thickness_phi => layers%core%thickness%phi )
 
         associate(  &
-          nx => nx_core + symmetry*sum(nx_wrappers), &
-          ny => ny_core + symmetry*sum(ny_wrappers), &
-          nz => sum(nz_wrappers) )
+          nr => nr_core + symmetry*sum(nr_wrappers), &
+          ntheta => 1, &
+          nphi => 1 )
 
-          allocate(this%metadata(nx, ny, nz), stat=alloc_stat )
-          call assert( alloc_stat==success, "set_block_metadata: allocate(this%metadata(nx,ny,nz),...)" )
+          allocate(this%metadata(nr, ntheta, nphi), stat=alloc_stat )
+          call assert( alloc_stat==success, "set_block_metadata: allocate(this%metadata(nr,ntheta,nphi),...)" )
 
           associate( &
-            nx_layers => [nx_wrappers, nx_core, nx_wrappers(size(nx_wrappers):1:-1) ], &
-            ny_layers => [ny_wrappers, ny_core, ny_wrappers(size(ny_wrappers):1:-1) ], &
-            nz_layers => [nz_core, nz_wrappers - nz_core], &
+            nr_layers => [nr_wrappers, nr_core, nr_wrappers(size(nr_wrappers):1:-1) ], &
+            ntheta_layers => [ntheta_wrappers, ntheta_core, ntheta_wrappers(size(ntheta_wrappers):1:-1) ], &
+            nphi_layers => [nphi_core, nphi_wrappers - nphi_core], &
             wrappers_material => layers%wrappers%material_name, &
             core_material => layers%core%material_name(1) )
 
             associate( &
-              thickness_x => [wrappers_thickness_x, core_thickness_x, wrappers_thickness_x(size(wrappers_thickness_x):1:-1)], &
-              thickness_y => [wrappers_thickness_y, core_thickness_y, wrappers_thickness_y(size(wrappers_thickness_y):1:-1)], &
-              thickness_z => [ core_thickness_z, wrappers_thickness_z - core_thickness_z ] )
+              thickness_r => [wrappers_thickness_r, core_thickness_r, wrappers_thickness_r(size(wrappers_thickness_r):1:-1)], &
+              thickness_theta => [wrappers_thickness_theta, core_thickness_theta, &
+                wrappers_thickness_theta(size(wrappers_thickness_theta):1:-1)], &
+              thickness_phi => [ core_thickness_phi, wrappers_thickness_phi - core_thickness_phi ] )
 
               associate( &
-                block_thickness_x => [( [( thickness_x(i)/nx_layers(i), j=1,nx_layers(i))], i=1,size(nx_layers) )], &
-                block_thickness_y => [( [( thickness_y(i)/ny_layers(i), j=1,ny_layers(i))], i=1,size(ny_layers) )], &
-                block_thickness_z => [( [( thickness_z(i)/nz_layers(i), j=1,nz_layers(i))], i=1,size(nz_layers) )] )
+                block_thickness_r => [( [( thickness_r(i)/nr_layers(i), j=1,nr_layers(i))], i=1,size(nr_layers) )], &
+                block_thickness_theta => [0.0], &
+                block_thickness_phi => [0.0] )
 
-                call assert( all( lbound(this%metadata)==[1,1,1] .and. ubound(this%metadata)==[nx,ny,nz]), &
-                "all( lbound(this%metadata)==[1,1,1] .and. ubound(this%metadata)==[nx,ny,nz] ) ")
+                call assert( all( lbound(this%metadata)==[1,1,1] .and. ubound(this%metadata)==[nr,ntheta,nphi]), &
+                "all( lbound(this%metadata)==[1,1,1] .and. ubound(this%metadata)==[nr,ntheta,nphi] ) ")
 
-                do iz=1,nz
-                do iy=1,ny
-                do ix=1,nx
+                do iphi=1,nphi
+                do itheta=1,ntheta
+                do ir=1,nr
 
-                  call this%metadata(ix,iy,iz)%set_max_spacing(real(layers%max_spacing, r8k))
+                  call this%metadata(ir,itheta,iphi)%set_max_spacing(real(layers%max_spacing, r8k))
                   associate( &
-                    x_domain =>  [ sum( block_thickness_x(1:ix-1) ), sum( block_thickness_x(1:ix) ) ], &
-                    y_domain =>  [ sum( block_thickness_y(1:iy-1) ), sum( block_thickness_y(1:iy) ) ], &
-                    z_domain =>  [ sum( block_thickness_z(1:iz-1) ), sum( block_thickness_z(1:iz) ) ], &
+                    r_domain =>  [ sum( block_thickness_r(1:ir-1) ), sum( block_thickness_r(1:ir) ) ], &
+                    theta_domain =>  [0.0, 0.0] , &
+                    phi_domain =>  [0.0, 0.0], &
                     tag => [wrappers_material, core_material, cavity], &
-                    block_material => material(ix,iy,iz,layers%core,layers%wrappers) )
+                    block_material => material(ir,itheta,iphi,layers%core,layers%wrappers) )
 
-                    call this%metadata(ix,iy,iz)%set_label( block_material )
-                    call this%metadata(ix,iy,iz)%set_tag( findloc(tag, block_material, 1, back=.true.) )
-                    call this%metadata(ix,iy,iz)%set_subdomain( &
-                      subdomain_t( reshape([x_domain(1), y_domain(1), z_domain(1), x_domain(2), y_domain(2), z_domain(2)], &
-                      [space_dimension,num_end_points]) ) )
+                    call this%metadata(ir,itheta,iphi)%set_label( block_material )
+                    call this%metadata(ir,itheta,iphi)%set_tag( findloc(tag, block_material, 1, back=.true.) )
+                    call this%metadata(ir,itheta,iphi)%set_subdomain( &
+                      subdomain_t( reshape([r_domain(1), theta_domain(1), phi_domain(1), &
+                        r_domain(2), theta_domain(2), phi_domain(2)], [space_dimension,num_end_points]) ) )
 
                   end associate
                 end do; end do; end do
@@ -312,46 +326,46 @@ contains
   end procedure ! compilers never see this line; when generating documentation, run "ford -m FORD ..." to circumvent a ford bug
 #endif
 
-  function material(ix, iy, iz, core_, wrapper_) result(material_ix_iy)
-    integer, intent(in) :: ix, iy, iz
+  function material(ir, itheta, iphi, core_, wrapper_) result(material_ir_itheta)
+    integer, intent(in) :: ir, itheta, iphi
     type(material_t), intent(in) :: core_, wrapper_
     integer i, j
-    character(len=max_name_length), allocatable :: material_ix_iy
+    character(len=max_name_length), allocatable :: material_ir_itheta
     character(len=max_name_length), parameter :: void_name="cavity"
 
-    associate( core_material_name => merge( core_%material_name, void_name, iz <= core_%num_grid_blocks%z ) )
+    associate( core_material_name => merge( core_%material_name, void_name, iphi <= core_%num_grid_blocks%phi ) )
       associate( &
-        nx_layers => [wrapper_%num_grid_blocks%x, core_%num_grid_blocks%x, &
-          wrapper_%num_grid_blocks%x(size(wrapper_%num_grid_blocks%x):1:-1) ], &
-        ny_layers => [wrapper_%num_grid_blocks%y, core_%num_grid_blocks%y, &
-          wrapper_%num_grid_blocks%y(size(wrapper_%num_grid_blocks%y):1:-1) ], &
+        nr_layers => [wrapper_%num_grid_blocks%r, core_%num_grid_blocks%r, &
+          wrapper_%num_grid_blocks%r(size(wrapper_%num_grid_blocks%r):1:-1) ], &
+        ntheta_layers => [wrapper_%num_grid_blocks%theta, core_%num_grid_blocks%theta, &
+          wrapper_%num_grid_blocks%theta(size(wrapper_%num_grid_blocks%theta):1:-1) ], &
         material => [wrapper_%material_name, core_material_name, wrapper_%material_name(size(wrapper_%material_name):1:-1)] )
 
         associate( &
-          block_material_x => [( [(material(i), j=1,nx_layers(i))], i=1,size(nx_layers) )], &
-          block_material_y => [( [(material(i), j=1,ny_layers(i))], i=1,size(ny_layers) )] )
+          block_material_r => [( [(material(i), j=1,nr_layers(i))], i=1,size(nr_layers) )], &
+          block_material_theta => [( [(material(i), j=1,ntheta_layers(i))], i=1,size(ntheta_layers) )] )
 
-          associate( wrapper_material_x => replace_layers(block_material_x, block_material_y, iy) )
-            material_ix_iy = wrapper_material_x(ix)
+          associate( wrapper_material_r => replace_layers(block_material_r, block_material_theta, itheta) )
+            material_ir_itheta = wrapper_material_r(ir)
           end associate
         end associate
       end associate
     end associate
   end function
 
-  function replace_layers(full_delineation_x, full_delineation_y, iy) result(wrapper_layer_x)
-    character(len=*), intent(in) :: full_delineation_x(:), full_delineation_y(:)
-    character(len=len(full_delineation_x)) :: wrapper_layer_x( size(full_delineation_x) )
-    integer iy
+  function replace_layers(full_delineation_r, full_delineation_theta, itheta) result(wrapper_layer_r)
+    character(len=*), intent(in) :: full_delineation_r(:), full_delineation_theta(:)
+    character(len=len(full_delineation_r)) :: wrapper_layer_r( size(full_delineation_r) )
+    integer itheta
 
-    associate( layer=>full_delineation_y(iy) )
+    associate( layer=>full_delineation_theta(itheta) )
       associate( &
-        first => findloc(full_delineation_x, layer, dim=1, back=.false.), &
-        last => findloc(full_delineation_x, layer, dim=1, back=.true.) )
+        first => findloc(full_delineation_r, layer, dim=1, back=.false.), &
+        last => findloc(full_delineation_r, layer, dim=1, back=.true.) )
 
-        wrapper_layer_x(1:first-1) = full_delineation_x(1:first-1)
-        wrapper_layer_x(first:last) = layer
-        wrapper_layer_x(last+1:) = full_delineation_x(last+1:)
+        wrapper_layer_r(1:first-1) = full_delineation_r(1:first-1)
+        wrapper_layer_r(first:last) = layer
+        wrapper_layer_r(last+1:) = full_delineation_r(last+1:)
       end associate
     end associate
 
