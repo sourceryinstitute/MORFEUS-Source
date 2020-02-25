@@ -85,9 +85,9 @@ jobs:
       name: Restore TPL cache
       with:
         path: ${{ steps.set-outputs.outputs.build_dir }}/TPLs
-        key: ${{ matrix.os }}-${{ matrix.gcc }}-TPLcache-${{ github.sha }}
+        key: ${{ matrix.os }}-gcc${{ matrix.gcc }}-TPLcache-${{ github.sha }}
         restore-keys: |
-          ${{ matrix.os }}-${{ matrix.gcc }}-TPLcache-
+          ${{ matrix.os }}-gcc${{ matrix.gcc }}-TPLcache-
 
     - name: setup-linux
       if: contains(matrix.os, 'ubuntu')
@@ -186,6 +186,8 @@ jobs:
     - name: Cleanup TPL cache
       if: always()
       run: |
-         find ${BUILD_DIR}/TPLs/src -type d -name '*-stamp' -print -exec rm -rf {} \; || true
-         find ${BUILD_DIR}/TPLs/src -type f -name CMakeCache.txt -print -exec rm {} \; || true
+         rm -rf ${BUILD_DIR}/TPLs/src/EP_MORFEUS-stamp/*
+         for stamp in build configure done install test ; do
+           rm -rf ${BUILD_DIR}/TPLs/src/*-stamp/*-${stamp}
+         done
          rm ${BUILD_DIR}/MORFEUS/CMakeCache.txt || true
