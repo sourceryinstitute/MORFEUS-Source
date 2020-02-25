@@ -93,16 +93,19 @@ jobs:
       if: contains(matrix.os, 'ubuntu')
       run: |
         sudo apt-get update -qq || true
-        apt-cache policy cmake
         sudo apt-get install -y --no-install-recommends ${COMMON_PKG} ${MPI_LIB} lib${MPI_LIB}-dev lib${BLAS_LAPACK}-dev
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_V} 100 \
-        --slave /usr/bin/cc cc /usr/bin/gcc-${GCC_V} \
         --slave /usr/bin/g++ g++ /usr/bin/g++-${GCC_V} \
-        --slave /usr/bin/c++ c++ /usr/bin/g++-${GCC_V} \
         --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
-        --slave /usr/bin/f95 f95 /usr/bin/gfortran-${GCC_V} \
-        --slave /usr/bin/f77 f77 /usr/bin/gfortran-${GCC_V} \
         --slave /usr/bin/gcov gcov /usr/bin/gcov-${GCC_V}
+        sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc-${GCC_V} 300
+        sudo update-alternatives --set cc /usr/bin/gcc-${GCC_V}
+        sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-${GCC_V} 300
+        sudo update-alternatives --set c++ /usr/bin/g++-${GCC_V}
+        sudo update-alternatives --install /usr/bin/f95 f95 /usr/bin/gfortran-${GCC_V} 300
+        sudo update-alternatives --set f95 /usr/bin/gfortran-${GCC_V}
+        sudo update-alternatives --install /usr/bin/f77 f77 /usr/bin/gfortran-${GCC_V} 300
+        sudo update-alternatives --set f77 /usr/bin/gfortran-${GCC_V}
         echo "::add-path::/usr/lib/ccache"
         export CCACHE_TEMPDIR=/dev/shm/ccache_tmp
         echo "::set-env name=CCACHE_TEMPDIR::${CCACHE_TEMPDIR}"
