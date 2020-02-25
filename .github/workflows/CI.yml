@@ -102,6 +102,8 @@ jobs:
         nproc --all || true
         echo "::set-env name=CMAKE_BUILD_PARALLEL_LEVEL::$(nproc --all)"
         echo "::set-env name=CTEST_PARALLEL_LEVEL::$(nproc --all)"
+        echo $LD_LIBRARY_PATH
+        module avail || true
 
     - name: setup-macos
       if: contains( matrix.os, 'macos')
@@ -193,7 +195,7 @@ jobs:
       if: always()
       run: |
          rm -rf ${BUILD_DIR}/TPLs/src/EP_MORFEUS-stamp/*
-         for stamp in done install test ; do
+         for stamp in build done install test ; do
            rm -rf ${BUILD_DIR}/TPLs/src/*-stamp/*-${stamp}
          done
          rm ${BUILD_DIR}/MORFEUS/CMakeCache.txt || true
