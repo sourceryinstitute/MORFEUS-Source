@@ -59,10 +59,10 @@ module spherical_1D_solver_interface
       class(grid_block), intent(inout) :: this
     end subroutine
 
-    module subroutine time_advance_heat_equation(this, dt)
+    module subroutine time_advance_heat_equation(this, duration)
       implicit none
       class(grid_block), intent(inout) :: this
-      real(r8k), intent(in) :: dt
+      real(r8k), intent(in) :: duration
     end subroutine
 
   end interface
@@ -107,10 +107,11 @@ contains
 
   module procedure time_advance_heat_equation
     integer(i4k) i
+    integer, parameter :: time_steps = 1000
 
     call assert( allocated(this%v), "grid_block%time_advance_heat_equation: allocated(this%v)")
 
-    associate( nr => size(this%v,1) )
+    associate( nr => size(this%v,1), dt => duration/real(time_steps, r8k) )
 
       call time_advancing(nr, dt)
       call analytical_solution(nr)
@@ -271,5 +272,6 @@ program main
   call global_grid_block%set_v( nr = 101, constants = [0._r8k, 1073.15_r8k] )
   call global_grid_block%set_expected_solution_size()
   call global_grid_block%set_material_properties_size()
+  call global_grid_block%time_advance_heat_equation( duration = 100._r8k )
 
 end program
