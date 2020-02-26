@@ -77,6 +77,8 @@ file(TO_NATIVE_PATH "${TPL_DIR}" NATIVE_TPL_DIR)
 if( CMAKE_SYSTEM_NAME MATCHES "[Ll]inux|[Dd]arwin" )
   list(APPEND DEPENDENCIES hdf5)
   list(APPEND EXTRA_CMAKE_ARGS -DHDF5_ROOT:PATH=${TPL_DIR})
+  set(HDF5_ROOT ${TPL_DIR})
+  set(ENV{HDF5_ROOT} ${TPL_DIR})
   ExternalProject_Add( hdf5
     URL "https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.6/src/hdf5-1.10.6.tar.gz"
     URL_HASH SHA256=5f9a3ee85db4ea1d3b1fa9159352aebc2af72732fc2f58c96a3f0768dba0e9aa

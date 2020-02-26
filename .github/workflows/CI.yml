@@ -161,9 +161,6 @@ jobs:
         cmake --build ${BUILD_DIR} --target hdf5 || VERBOSE=1 cmake --build ${BUILD_DIR} --target hdf5 -j 1
         cmake --build ${BUILD_DIR} --target EP_MORFEUS-configure || VERBOSE=1 cmake --build ${BUILD_DIR} --target EP_MORFEUS-configure -j 1
 
-    - name: Test HDF5
-      run: cmake --build ${BUILD_DIR} --target hdf5-test || VERBOSE=1 cmake --build ${BUILD_DIR} --target hdf5-test -j 1
-
     - name: Show build artifacts
       if: always()
       shell: bash
