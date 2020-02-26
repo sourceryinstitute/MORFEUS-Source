@@ -220,12 +220,12 @@ jobs:
         name: configure_logs-${{ matrix.os }}
         path: ./CMakeLogs
 
-    - name: upload TPL dir
-      if: always()
-      uses: actions/upload-artifact@v1
-      with:
-        name: TPL_dir-${{ matrix.os }}
-        path: ${{ steps.set-outputs.outputs.build_dir }}/TPLs
+    # - name: upload TPL dir
+    #   if: always()
+    #   uses: actions/upload-artifact@v1
+    #   with:
+    #     name: TPL_dir-${{ matrix.os }}
+    #     path: ${{ steps.set-outputs.outputs.build_dir }}/TPLs
 
     - name: Show ccache stats
       if: always()
