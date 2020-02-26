@@ -92,6 +92,7 @@ if( CMAKE_SYSTEM_NAME MATCHES "[Ll]inux|[Dd]arwin" )
     TEST_EXCLUDE_FROM_MAIN ON
     )
 endif()
+ExternalProject_Add_StepTargets(hdf5 test)
 
 # ----
 # hdf5
