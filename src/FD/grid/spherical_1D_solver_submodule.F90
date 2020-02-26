@@ -4,8 +4,9 @@
 !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
-submodule(spherical_1D_conductor_interface) spherical_1D_conductor_implementation
+submodule(spherical_1D_solver_module) solver_submodule
   use assertions_interface, only : assert
+  use kind_parameters, only : r8k, i4k
   implicit none
 
 contains
@@ -27,14 +28,14 @@ contains
   end procedure
 
   module procedure set_material_properties_size
-    call assert( allocated(this%v), "spherical_1D_conductor%set_material_properties_size: allocated(this%v)")
+    call assert( allocated(this%v), "spherical_1D_solver%set_material_properties_size: allocated(this%v)")
     associate( nr => size(this%v,1) )
       allocate(this%rho(nr), this%cp(nr))
     end associate
   end procedure
 
   module procedure set_expected_solution_size
-    call assert( allocated(this%v), "spherical_1D_conductor%set_expected_solution_size: allocated(this%v)")
+    call assert( allocated(this%v), "spherical_1D_solver%set_expected_solution_size: allocated(this%v)")
     associate( nr => size(this%v,1) )
       allocate( this%T_analytical(nr) )
     end associate
@@ -44,7 +45,7 @@ contains
     integer(i4k) i
     integer, parameter :: time_steps = 1000
 
-    call assert( allocated(this%v), "spherical_1D_conductor%time_advance_heat_equation: allocated(this%v)")
+    call assert( allocated(this%v), "spherical_1D_solver%time_advance_heat_equation: allocated(this%v)")
 
     associate( nr => size(this%v,1), dt => duration/real(time_steps, r8k) )
 
@@ -194,4 +195,4 @@ contains
     this%rho=1000.0_r8k
   end procedure
 
-end submodule spherical_1D_conductor_implementation
+end submodule solver_submodule
