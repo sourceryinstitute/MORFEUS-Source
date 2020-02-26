@@ -54,7 +54,11 @@ contains
 
     end associate
 
+#ifdef FORD
+  end procedure
+#else
   contains
+#endif
 
     subroutine time_advancing(nr, dt)
       integer, intent(in) :: nr
@@ -156,7 +160,9 @@ contains
       end associate
     end subroutine error_calculation
 
+#ifndef FORD
   end procedure time_advance_heat_equation
+#endif
 
   function tridiagonal_matrix_algorithm(a,b,c,d) result(x)
     !! Thomas algorithm
