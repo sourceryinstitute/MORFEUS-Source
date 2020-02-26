@@ -84,7 +84,7 @@ if( CMAKE_SYSTEM_NAME MATCHES "[Ll]inux|[Dd]arwin" )
     SOURCE_DIR ${TPL_DIR}/src/hdf5
     UPDATE_COMMAND ""
     CONFIGURE_COMMAND cd ${TPL_DIR}/src/hdf5 && autoreconf -fiv
-    COMMAND ${TPL_DIR}/src/hdf5/configure --enable-build-mode=production --enable-optimization=debug --enable-dependency-tracking --enable-fortran --enable-hl --enable-static --enable-static-exec --disable-parallel --disable-preadwrite --without-java --with-pic --with-default-api-version=v18 --prefix=${TPL_DIR}
+    COMMAND ${TPL_DIR}/src/hdf5/configure --enable-build-mode=production --enable-optimization=debug --enable-dependency-tracking --enable-fortran --enable-hl --enable-static --enable-static-exec --disable-parallel --disable-preadwrite --disable-java --with-pic --with-default-api-version=v18 --prefix=${TPL_DIR}
     BUILD_IN_SOURCE ON
     TEST_BEFORE_INSTALL ON
     TEST_COMMAND make check
