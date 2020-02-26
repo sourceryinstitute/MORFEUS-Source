@@ -819,7 +819,7 @@ CONTAINS
     360     FORMAT(' Bcset: ',i2,' List of faces: ', 5i8:/(40x,5i8:))
     370     FORMAT(' faces: ',i7,' Flag: ',i2,' Master: ',i7,' Slave: ',i7)
     380     FORMAT(' Total amount of faces with flag',i3,':',i8)
-    400     FORMAT(' Fatal Error in RD_GAMBIT_MESH:  inconsistent face, boundary lists.')
+    400     FORMAT(' Fatal Error in RD_GMSH_MESH:  inconsistent face, boundary lists.')
         END IF
         ! ###########################################################################
 
@@ -903,7 +903,7 @@ CONTAINS
         WRITE(*,'()')
 
         !     FORMAT Instructions
-050     FORMAT(' ERROR! Failure to open Gambit mesh file.',/,&
+050     FORMAT(' ERROR! Failure to open Gmsh mesh file.',/,&
         &    ' File expected: ', a)
 100     FORMAT(' ERROR! Memory allocation failure in RD_GMSH_MESH')
 
