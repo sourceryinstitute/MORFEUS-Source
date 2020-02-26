@@ -93,8 +93,9 @@ if( CMAKE_SYSTEM_NAME MATCHES "[Ll]inux|[Dd]arwin" )
     INSTALL_COMMAND make install
     TEST_EXCLUDE_FROM_MAIN ON
     )
+  ExternalProject_Add_StepTargets(hdf5 test)
 endif()
-ExternalProject_Add_StepTargets(hdf5 test)
+
 
 list(APPEND DEPENDENCIES netcdf4)
 ExternalProject_Add( netcdf4
@@ -106,6 +107,22 @@ ExternalProject_Add( netcdf4
   BUILD_IN_SOURCE OFF
   TEST_BEFORE_INSTALL ON)
 
+if( CMAKE_SYSTEM_NAME MATCHES "[Ll]inux|[Dd]arwin" )
+  list(APPEND DEPENDENCIES exodus)
+  ExternalProject_Add( exodus
+    DEPENDS netcdf4 hdf5
+    URL https://github.com/gsjaardema/seacas/archive/v2020-01-16.tar.gz
+    DOWNLOAD_NAME seacas-2020-01-16.tar.gz
+    URL_HASH SHA256=5ae84f61e410a4f3f19153737e0ac0493b144f20feb1bbfe2024f76613d8bff5
+    TLS_VERIFY ON
+    UPDATE_COMMAND ""
+    BUILD_IN_SOURCE OFF
+    CONFIGURE_COMMAND INSTALL_PATH=${TPL_DIR} ACCESS=${TPL_DIR}/src/exodus SHARED=OFF COMPILER=EXTERNAL FORTRAN=ON STATIC=ON sh ${TPL_DIR}/src/exodus/cmake-exodus
+    TEST_BEFORE_INSTALL ON
+    TEST_COMMAND ${CMAKE_COMMAND} --build . --target test
+    INSTALL_COMMAND ${CMAKE_COMMAND} --build . --target install
+    )
+endif()
 
 # ----
 # hdf5
