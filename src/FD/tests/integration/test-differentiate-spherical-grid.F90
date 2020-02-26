@@ -8,10 +8,11 @@ program main
   !! author: Damian Rouson and Karla Morris
   !! date: 2/24/2020
   !!
-  !! Test the computation of spatial derivatives on a 1D spherical structured_grid
+  !! Test solution of the governing equationsn in a 1D spherical geometry
 
   use sphere_1D_interface, only : sphere_1D
   use problem_discretization_interface, only : problem_discretization
+  use kind_parameters, only : r8k
   implicit none
 
   integer, parameter :: max_digits=9
@@ -28,6 +29,7 @@ program main
 
     call sphere_geometry%build( input_file ) !! read geometrical information
     call global_grid%initialize_from_geometry( sphere_geometry ) !! partition block-structured grid & define grid vertex locations
+    call global_grid%solve_governing_equations( duration = sphere_geometry%get_end_time() )
     call global_grid%write_output (output_file)
 
     sync all

@@ -40,6 +40,7 @@ module problem_discretization_interface
       !! div( D grad(s)): same dimensions as scalar_fields
     class(geometry), allocatable :: problem_geometry
       !! description of problem domain and material identities; child types: plate_3D, cylinder_2D, sphere_1D
+    real(r8k) :: end_time
   contains
     procedure :: get_surface_packages
     procedure :: get_block_surfaces
@@ -57,6 +58,7 @@ module problem_discretization_interface
     procedure :: initialize_from_cylinder_2D
     procedure :: initialize_from_sphere_1D
     procedure :: set_scalar_flux_divergence
+    procedure :: solve_governing_equations
 #ifndef FORD
     generic :: set_vertices => user_defined_vertices
     generic :: set_scalars => set_analytical_scalars
@@ -191,6 +193,13 @@ module problem_discretization_interface
       class(problem_discretization), intent(in) :: this
       integer num_blocks
     end function
+
+    module subroutine solve_governing_equations(this, duration)
+      !! advance the governing equations for the specified time duration
+      implicit none
+      class(problem_discretization), intent(in) :: this
+      real(r8k), intent(in) :: duration
+    end subroutine
 
   end interface
 

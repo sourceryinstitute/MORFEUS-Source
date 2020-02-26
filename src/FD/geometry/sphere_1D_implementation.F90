@@ -68,6 +68,13 @@ contains
     call this%grid_specification%get( layers_object//".max_spacing",  layers%max_spacing, found )
     call assert( found , layers_object//".max_spacing found" )
 
+    call this%grid_specification%get( base_object//".time.end",  this%end_time, found )
+    call assert( found , base_object//".time.end found" )
+
+  end procedure
+
+  module procedure get_end_time
+    end_time = this%end_time
   end procedure
 
   module procedure get_block_metadata_shape

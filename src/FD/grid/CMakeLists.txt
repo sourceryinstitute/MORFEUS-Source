@@ -21,8 +21,8 @@ set( morfeus_fd_sources
   cylindrical_grid_implementation.f90
   spherical_grid_interface.f90
   spherical_grid_implementation.f90
-  spherical_1D_solver_implementation.F90
-  spherical_1D_solver_interface.F90
+  spherical_1D_conductor_implementation.F90
+  spherical_1D_conductor_interface.F90
   structured_grid_implementation.F90
   structured_grid_interface.F90
   differentiable_field_interface.f90

@@ -418,6 +418,7 @@ contains
 
     end associate
 
+    this%end_time = sphere_1D_geometry%get_end_time()
     this%problem_geometry = sphere_1D_geometry
 
   end procedure
@@ -672,6 +673,19 @@ contains
     else
       num_divergences = 0
     end if
+  end procedure
+
+  module procedure solve_governing_equations
+    use spherical_1D_conductor_interface, only : spherical_1D_conductor
+    use kind_parameters, only : r8k
+
+    type(spherical_1D_conductor) conducting_sphere
+
+    call conducting_sphere%set_v( nr = 101, constants = [0._r8k, 1073.15_r8k] )
+    call conducting_sphere%set_expected_solution_size()
+    call conducting_sphere%set_material_properties_size()
+    call conducting_sphere%time_advance_heat_equation( duration = this%end_time )
+
   end procedure
 
 end submodule define_problem_discretization

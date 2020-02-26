@@ -24,6 +24,7 @@ module sphere_1D_interface
     private
     type(json_file) :: grid_specification
     type(block_metadata), dimension(:,:,:), allocatable :: metadata
+    real(r8k) :: end_time
     character(len=:), allocatable :: units_system
   contains
     procedure :: set_grid_specification
@@ -32,6 +33,7 @@ module sphere_1D_interface
     procedure :: get_block_domain
     procedure :: get_block_metadatum
     procedure :: get_block_metadata
+    procedure :: get_end_time
   end type
 
   interface
@@ -48,6 +50,13 @@ module sphere_1D_interface
       implicit none
       class(sphere_1D), intent(inout) :: this
     end subroutine
+
+    module function get_end_time(this) result(end_time)
+      !! define the shape of the array of grid blocks
+      implicit none
+      class(sphere_1D), intent(in) :: this
+      real(r8k) :: end_time
+    end function
 
     module function get_block_metadata_shape(this) result(shape_)
       !! define the shape of the array of grid blocks

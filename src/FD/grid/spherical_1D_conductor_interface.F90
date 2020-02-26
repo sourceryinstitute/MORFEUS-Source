@@ -4,7 +4,7 @@
 !     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 !     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 !
-module spherical_1D_solver_interface
+module spherical_1D_conductor_interface
   !! author: Xiaofeng Xu and Damian Rouson
   !! date: 2/24/2020
   !!
@@ -13,9 +13,9 @@ module spherical_1D_solver_interface
   implicit none
 
   private
-  public :: grid_block
+  public :: spherical_1D_conductor
 
-  type grid_block
+  type spherical_1D_conductor
     !! encapsulate all grid data
     private
     real(r8k), allocatable :: v(:,:)          !! v(:,1) = r, v(:,2) = T, shape = [nr,2]
@@ -28,43 +28,43 @@ module spherical_1D_solver_interface
     procedure :: set_rho
     procedure :: set_cp
     procedure :: time_advance_heat_equation
-  end type grid_block
+  end type spherical_1D_conductor
 
   interface
 
     module subroutine set_v( this, nr, constants )
       implicit none
-      class(grid_block), intent(inout) :: this
+      class(spherical_1D_conductor), intent(inout) :: this
       integer, intent(in) :: nr
       real(r8k), intent(in) :: constants(:)
     end subroutine
 
     module subroutine set_material_properties_size(this)
       implicit none
-      class(grid_block), intent(inout) :: this
+      class(spherical_1D_conductor), intent(inout) :: this
     end subroutine
 
     module subroutine set_expected_solution_size(this)
       implicit none
-      class(grid_block), intent(inout) :: this
+      class(spherical_1D_conductor), intent(inout) :: this
     end subroutine
 
     module subroutine set_rho(this)
       implicit none
-      class(grid_block), intent(inout) :: this
+      class(spherical_1D_conductor), intent(inout) :: this
     end subroutine
 
     module subroutine set_cp(this)
       implicit none
-      class(grid_block), intent(inout) :: this
+      class(spherical_1D_conductor), intent(inout) :: this
     end subroutine
 
     module subroutine time_advance_heat_equation(this, duration)
       implicit none
-      class(grid_block), intent(inout) :: this
+      class(spherical_1D_conductor), intent(inout) :: this
       real(r8k), intent(in) :: duration
     end subroutine
 
   end interface
 
-end module spherical_1D_solver_interface
+end module spherical_1D_conductor_interface
