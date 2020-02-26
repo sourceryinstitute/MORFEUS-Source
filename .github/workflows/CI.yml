@@ -225,7 +225,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: TPL_dir-${{ matrix.os }}
-        path: ${{ steps.setoutputs.outputs.build_dir }}/TPLs
+        path: ${{ steps.set-outputs.outputs.build_dir }}/TPLs
 
     - name: Show ccache stats
       if: always()
