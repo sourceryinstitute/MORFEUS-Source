@@ -222,7 +222,7 @@ jobs:
 
     - name: upload TPL dir
       if: always()
-      uses: actions/upload@v1
+      uses: actions/upload-artifact@v1
       with:
         name: TPL_dir-${{ matrix.os }}
         path: ${{ steps.setoutputs.outputs.build_dir }}/TPLs
