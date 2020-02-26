@@ -169,8 +169,7 @@ jobs:
         ls -l ${BUILD_DIR}/TPLs || true
         ls -l ${BUILD_DIR}/TPLs/src || true
         ls -l ${BUILD_DIR}/MORFEUS || true
-        ls -l vendor/CMake-hdf5-1.8.21/build || true
-
+        ls -l ${BUILD_DIR}/TPLs/{bin,lib,lib64} || true
 
     - name: compile
       run: echo compile
