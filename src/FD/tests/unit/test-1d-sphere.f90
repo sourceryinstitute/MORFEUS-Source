@@ -271,6 +271,5 @@ program main
   call global_grid_block%set_v( nr = 101, constants = [0._r8k, 1073.15_r8k] )
   call global_grid_block%set_expected_solution_size()
   call global_grid_block%set_material_properties_size()
-  call global_grid_block%time_advance_heat_equation(dt=0.1_r8k)
 
 end program
