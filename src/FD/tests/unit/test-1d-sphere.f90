@@ -9,11 +9,11 @@ program main
   !! date: 2/24/2020
   !!
   !! Test implicit time advancement of the unsteady, 1D spherical heat equation
-  use spherical_1D_conductor_interface, only : spherical_1D_conductor
+  use spherical_1D_solver_interface, only : spherical_1D_solver
   use kind_parameters, only : r8k
   implicit none
 
-  type(spherical_1D_conductor) conducting_sphere
+  type(spherical_1D_solver) conducting_sphere
 
   call conducting_sphere%set_v( nr = 101, constants = [0._r8k, 1073.15_r8k] )
   call conducting_sphere%set_expected_solution_size()
