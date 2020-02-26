@@ -754,20 +754,36 @@ endfunction()
 
 # FAST heat conduction multiple zones
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/applications")
-  add_morfeus_fv_test( unsteady_heat_pipe_Gambit 4 unsteady_fast
-    applications/fast_heat/cases/test_unsteady/heat_pipe.neu
-    applications/fast_heat/cases/test_unsteady/fast.json
+  # Heat pipe geometry
+  add_morfeus_fv_test( unsteady_heat_pipe_Gambit 6 unsteady_fast
+    applications/fast_heat/cases/test_unsteady/Gambit/heat_pipe.neu
+    applications/fast_heat/cases/test_unsteady/Gambit/fast.json
     ${integ_test_dir}/unsteady_heat_pipe/Gambit)
-  add_morfeus_fv_test( unsteady_heat_pipe_Gmsh 4 unsteady_fast
-    applications/fast_heat/cases/test_unsteady/heat_pipe.msh
-    applications/fast_heat/cases/test_unsteady/fast.json
+  add_morfeus_fv_test( unsteady_heat_pipe_Gmsh 6 unsteady_fast
+    applications/fast_heat/cases/test_unsteady/Gmsh/heat_pipe.msh
+    applications/fast_heat/cases/test_unsteady/Gmsh/fast.json
   ${integ_test_dir}/unsteady_heat_pipe/Gmsh)
   if(USE_EXODUS)
-    add_morfeus_fv_test( unsteady_heat_pipe_exodus 4 unsteady_fast
-      applications/fast_heat/cases/test_unsteady/heat_pipe.e
-      applications/fast_heat/cases/test_unsteady/fast.json
+    add_morfeus_fv_test( unsteady_heat_pipe_exodus 6 unsteady_fast
+      applications/fast_heat/cases/test_unsteady/Exodus/heat_pipe.e
+      applications/fast_heat/cases/test_unsteady/Exodus/fast.json
       ${integ_test_dir}/unsteady_heat_pipe/Exodus)
   endif()
+  # 3D plate geometry
+  #add_morfeus_fv_test( plate-3d 4 unsteady_fast
+  #  applications/fast_heat/cases/plate-3d/plate-3D.msh
+  #  applications/fast_heat/cases/plate-3d/fast.json
+  #  ${integ_test_dir}/plate-3d)
+  # 3D cylinder geometry
+  #add_morfeus_fv_test( cylinder-3d 4 unsteady_fast
+  #  applications/fast_heat/cases/cylinder-3d/cylinder-3D.msh
+  #  applications/fast_heat/cases/cylinder-3d/fast.json
+  #  ${integ_test_dir}/cylinder-3d)
+  # 3D sphere geometry
+  #add_morfeus_fv_test( sphere-3d 4 unsteady_fast
+  #  applications/fast_heat/cases/sphere-3d/sphere-3D.msh
+  #  applications/fast_heat/cases/sphere-3d/fast.json
+  #  ${integ_test_dir}/sphere-3d)
   if(${USE_CGNS})
     # Steady piston conduction test
     # Should produce:

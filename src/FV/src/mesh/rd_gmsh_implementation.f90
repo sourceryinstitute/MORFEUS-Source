@@ -93,7 +93,8 @@ CONTAINS
         INTEGER :: ib, ic, ig
         INTEGER :: IF, if1, if2
         INTEGER :: iv, iv1, iv2, iv3, iv4, iv5, iv6, iv7, iv8, cellid
-        INTEGER, ALLOCATABLE :: perm(:), pinv(:), nvs(:), nbcf(:), faceid(:), ftype(:), facev(:,:), cellv(:,:), gcells(:)
+        INTEGER, ALLOCATABLE :: perm(:), pinv(:), nvs(:), nbcf(:), bcfp_(:), &
+                                      faceid_(:,:), faceid(:), ftype(:), facev(:,:), cellv(:,:), gcells(:)
         INTEGER, ALLOCATABLE :: aux(:,:), buf(:), work(:), pftags(:,:), pctags(:,:), facebc(:)
         TYPE(table) :: f2v, dmy
         INTEGER :: status
@@ -102,7 +103,7 @@ CONTAINS
         CHARACTER(LEN=32) :: pname
         CHARACTER(LEN=80) :: adummy
         REAL(psb_dpk_) :: vers
-        INTEGER :: filetype, dsize, nnames, pdim, pid, itemp, i3, i4, &
+        INTEGER :: filetype, dsize, nnames, pdim, pid, itemp, i1, i2, i3, i4, ngroups, &
                       dim_entt, tag_entt, nv_in_entt, edim, etag, etype, ibc, icell, ielem, &
                       ientt, iface, igroup, inv, ncmax, ncmin, nelems, nentts, npt, nv, nvmax, &
                       nvmin, tag, ibc_temp, vi(4), vj(4), jf
@@ -231,8 +232,10 @@ CONTAINS
           write (*, *) "Cell and face numbering is not continuous"
           CALL abort_psblas
         END IF
-        ALLOCATE (nbcf(nbc), faceid(ncells), facev(ncells,4), facebc(ncells), ftype(ncells), cellgroup(ncells), &
-                      cellnv(ncells), cellnf(ncells), cellgeo(ncells), cellv(ncells, 8), gcells(ngroups), stat=info)
+        ALLOCATE (nbcf(nbc), bcfp_(nbc), faceid_(nbc, ncells), faceid(ncells), &
+                    facev(ncells,4), facebc(ncells), ftype(ncells), cellgroup(ncells), &
+                    cellnv(ncells), cellnf(ncells), cellgeo(ncells), cellv(ncells, 8), &
+                    gcells(ngroups), stat=info)
         IF(info /= 0) THEN
             WRITE (*,100)
             CALL abort_psblas
@@ -241,6 +244,7 @@ CONTAINS
         iface = 0
         nbcf = 0
         gcells = 0
+        bcfp_(:) = 0
         DO ientt = 1, nentts
           READ(mesh, *) edim, etag, etype, nelems
           IF (edim == 2) THEN
@@ -249,8 +253,10 @@ CONTAINS
             ibc = pftags(ibc_temp, 2)
             nbcf(ibc) = nbcf(ibc) + nelems
             DO ielem = 1, nelems
-              iface = iface + 1
-              READ (mesh, *) faceid(iface), facev(iface, :)
+              bcfp_(ibc) = bcfp_(ibc) + 1
+              READ (mesh, *) faceid_(ibc, bcfp_(ibc)), vi
+              iface = faceid_(ibc, bcfp_(ibc))
+              facev(iface,:) = vi
               facebc(iface) = ibc
               ftype(iface) = etype
             END DO
@@ -277,6 +283,14 @@ CONTAINS
         END DO
 
         CLOSE(mesh)
+
+        i = 1
+        DO ibc = 1, nbc
+          DO if = 1, bcfp_(ibc)
+            faceid(i) = faceid_(ibc, if)
+            i = i + 1
+          END DO
+        END DO
 
         nfaces = iface
         ncells = icell
@@ -674,10 +688,10 @@ CONTAINS
             f2b%lookup(ib) = i1
             i2 = i1 + nbcf(ib) - 1
             DO j = 1, nbcf(ib)
-              if = i1 + j - 1
+              if = faceid(i1 + j - 1)
               vi = facev(if, :)
               jf_loop: DO jf = 1, nfaces
-                IF (faceslave(jf) /= 0) CYCLE
+                IF (faceslave(jf) /= 0) CYCLE jf_loop
                 j1 = v2f_%lookup(jf)
                 j2 = v2f_%lookup(jf+1) - 1
                 vj = v2f_%tab(j1:j2)
@@ -805,7 +819,7 @@ CONTAINS
     360     FORMAT(' Bcset: ',i2,' List of faces: ', 5i8:/(40x,5i8:))
     370     FORMAT(' faces: ',i7,' Flag: ',i2,' Master: ',i7,' Slave: ',i7)
     380     FORMAT(' Total amount of faces with flag',i3,':',i8)
-    400     FORMAT(' Fatal Error in RD_GAMBIT_MESH:  inconsistent face, boundary lists.')
+    400     FORMAT(' Fatal Error in RD_GMSH_MESH:  inconsistent face, boundary lists.')
         END IF
         ! ###########################################################################
 
@@ -889,7 +903,7 @@ CONTAINS
         WRITE(*,'()')
 
         !     FORMAT Instructions
-050     FORMAT(' ERROR! Failure to open Gambit mesh file.',/,&
+050     FORMAT(' ERROR! Failure to open Gmsh mesh file.',/,&
         &    ' File expected: ', a)
 100     FORMAT(' ERROR! Memory allocation failure in RD_GMSH_MESH')
 
