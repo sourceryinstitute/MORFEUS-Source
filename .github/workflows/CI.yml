@@ -209,12 +209,19 @@ jobs:
         cp ${BUILD_DIR}/MORFEUS/*.dot ${BUILD_DIR}/MORFEUS/CMakeCache.txt CMakeLogs/MORFEUS || true
         cp ./*.dot CMakeLogs || true
 
-    - name: upload cmake
+    - name: upload cmake logs
       if: always()
       uses: actions/upload-artifact@v1
       with:
         name: configure_logs-${{ matrix.os }}
         path: ./CMakeLogs
+
+    - name: upload TPL dir
+      if: always()
+      uses: actions/upload@v1
+      with:
+        name: TPL_dir-${{ matrix.os }}
+        path: ${{ steps.setoutputs.outputs.build_dir }}/TPLs
 
     - name: Show ccache stats
       if: always()
