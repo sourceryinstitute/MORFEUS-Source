@@ -9,7 +9,7 @@ program main
   !! date: 2/24/2020
   !!
   !! Test implicit time advancement of the unsteady, 1D spherical heat equation
-  use spherical_1D_solver_interface, only : spherical_1D_solver
+  use spherical_1D_solver_module, only : spherical_1D_solver
   use kind_parameters, only : r8k
   implicit none
 
