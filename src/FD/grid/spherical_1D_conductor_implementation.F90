@@ -65,14 +65,12 @@ contains
       real(r8k), intent(in)  :: dt
 
       real(r8k), dimension(:), allocatable :: a, b, c, d
-      real(r8k) t
+      real(r8k) t, dr_m,  rf
 
       real(r8k), parameter :: h=230      !! heat transfer coefficient
       real(r8k), parameter :: Tb=293.15  !! ambient temperature
 
       t=0.0
-
-      associate(nr=>size(this%v,1))
 
         allocate(a(nr),b(nr),c(nr),d(nr))
 
@@ -110,18 +108,17 @@ contains
           end do
 
           i=nr
-          associate( e => 1.0/(this%rho(i)*this%cp(i)), dr_b => this%v(i,1) - this%v(i-1,1) )
-            associate( dr_m => dr_b, rb => 0.5*(this%v(i,1) + this%v(i-1,1)), rf => this%v(i,1) + 0.5*dr_b )
+          associate( e => 1.0/(this%rho(i)*this%cp(i)), dr_b => this%v(i,1) - this%v(i-1,1), rb => 0.5*(this%v(i,1) + this%v(i-1,1)))
+            dr_m = dr_b                  !! ifort 18 bug precludes associate( dr_m => dr_b)
+            rf = this%v(i,1) + 0.5*dr_b  !! ifort 18 bug precludes associate( rf => this%v(i,1) + 0.5*dr_b)
               a(i)= -1.0*e*kc(rb)*rb**2/(dr_b*dr_m*this%v(i,1)**2)
               b(i)= e*h*rf**2/(dr_m*this%v(i,1)**2) + e*kc(rb)*rb**2/(dr_b*dr_m*this%v(i,1)**2) + 1.0/dt
               d(i)= this%v(i,2)/dt+e*h*Tb*rf**2/(dr_m*this%v(i,1)**2)
-            end associate
           end associate
 
           this%v(:,2) = tridiagonal_matrix_algorithm(a,b,c,d)
           t=t+dt
         end do
-      end associate
     end subroutine time_advancing
 
     subroutine analytical_solution(nr)
