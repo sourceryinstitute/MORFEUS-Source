@@ -74,24 +74,7 @@ endif()
 
 file(TO_NATIVE_PATH "${TPL_DIR}" NATIVE_TPL_DIR)
 
-if( CMAKE_SYSTEM_NAME MATCHES "[Dd]arwin" )
-  list(APPEND DEPENDENCIES hdf5)
-  list(APPEND EXTRA_CMAKE_ARGS -DHDF5_ROOT:PATH=${TPL_DIR})
-  ExternalProject_Add( hdf5
-    URL "https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.6/src/hdf5-1.10.6.tar.gz"
-    URL_HASH SHA256=5f9a3ee85db4ea1d3b1fa9159352aebc2af72732fc2f58c96a3f0768dba0e9aa
-    TLS_VERIFY ON
-    SOURCE_DIR ${TPL_DIR}/src/hdf5
-    UPDATE_COMMAND ""
-    CONFIGURE_COMMAND cd ${TPL_DIR}/src/hdf5 && CC=clang CXX=clang++ autoreconf -fiv
-    COMMAND CC=clang CXX=clang++ ${TPL_DIR}/src/hdf5/configure --enable-build-mode=production --enable-optimization=debug --enable-dependency-tracking --enable-fortran --enable-hl --enable-static --enable-static-exec --disable-parallel --disable-preadwrite --without-java --with-pic --with-default-api-version=v18 --prefix=${TPL_DIR}
-    BUILD_IN_SOURCE ON
-    TEST_BEFORE_INSTALL ON
-    TEST_COMMAND make check
-    INSTALL_COMMAND make install
-    TEST_EXCLUDE_FROM_MAIN ON
-    )
-elseif( CMAKE_SYSTEM_NAME MATCHES "[Ll]inux" )
+if( CMAKE_SYSTEM_NAME MATCHES "[Ll]inux|[Dd]arwin" )
   list(APPEND DEPENDENCIES hdf5)
   list(APPEND EXTRA_CMAKE_ARGS -DHDF5_ROOT:PATH=${TPL_DIR})
   ExternalProject_Add( hdf5
