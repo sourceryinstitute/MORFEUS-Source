@@ -103,7 +103,7 @@ CONTAINS
         CHARACTER(LEN=32) :: pname
         CHARACTER(LEN=80) :: adummy
         REAL(psb_dpk_) :: vers
-        INTEGER :: filetype, dsize, nnames, pdim, pid, itemp, i1, i2, i3, i4, ngroups, &
+        INTEGER :: filetype, dsize, nnames, pdim, pid, itemp, i3, i4, &
                       dim_entt, tag_entt, nv_in_entt, edim, etag, etype, ibc, icell, ielem, &
                       ientt, iface, igroup, inv, ncmax, ncmin, nelems, nentts, npt, nv, nvmax, &
                       nvmin, tag, ibc_temp, vi(4), vj(4), jf
