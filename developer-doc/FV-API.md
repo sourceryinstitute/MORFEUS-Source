@@ -23,7 +23,7 @@ is provided and its components described along with instructions for
   - Setting up PDEs and integrating the solution forward in time, and
   - Writing outputs.
 
-![Sphere geometry and mesh for finite volume solver](media/sphere.png)
+![Sphere geometry and mesh for finite volume solver](../media/sphere.png)
 
 
 Solver Description
