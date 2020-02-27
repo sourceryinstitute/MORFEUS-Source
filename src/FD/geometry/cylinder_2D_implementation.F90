@@ -4,9 +4,9 @@
 !     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
 !     contract # NRC-HQ-60-17-C-0007
 !
-submodule(plate_3D_interface) plate_3D_implementation
+submodule(cylinder_2D_interface) cylinder_2D_implementation
   !! author: Damian Rouson and Karla Morris
-  !! date: 8/16/2019
+  !! date: 2/7/2020
   use assertions_interface, only : assert
   use string_functions_interface, only : csv_format
 #ifndef HAVE_FINDLOC
@@ -15,7 +15,7 @@ submodule(plate_3D_interface) plate_3D_implementation
   implicit none
 
   character(len=*), parameter :: base_object = "MORFEUS_FD"
-  character(len=*), parameter :: layers_object = "MORFEUS_FD.layers"
+  character(len=*), parameter :: base_layers = "MORFEUS_FD.layers"
   integer, parameter :: success=0
 
   !! Encapsulate json key/value pair hierarchy to be read from a 3Dplate*.json file
@@ -57,16 +57,16 @@ contains
     call this%grid_specification%load_file( grid_description_file )
     call assert( .not. this%grid_specification%failed(), "set_grid_specification: .not. this%grid_specification%failed()" )
 
-    call this%grid_specification%get( layers_object//".type",  layers%type_, found )
-    call assert( found , layers_object//".type found" )
+    call this%grid_specification%get( base_layers//".type",  layers%type_, found )
+    call assert( found , base_layers//".type found" )
     call assert(layers%type_==expected_geometry_type, "layers%type_==expected_geometry_type" )
 
     call this%grid_specification%get( base_object//".units_system",  layers%units_system, found )
     call assert( found , base_object//".units_system found" )
     call assert(any(layers%units_system==units_system_names), "any(layers%units_system==units_system_names)" )
 
-    call this%grid_specification%get( layers_object//".max_spacing",  layers%max_spacing, found )
-    call assert( found , layers_object//".max_spacing found" )
+    call this%grid_specification%get( base_layers//".max_spacing",  layers%max_spacing, found )
+    call assert( found , base_layers//".max_spacing found" )
 
   end procedure
 
@@ -122,17 +122,17 @@ contains
 
     subroutine read_core_components
 
-      call this%grid_specification%get( layers_object // ".core.num_grid_blocks.x", layers%core%num_grid_blocks%x, found)
+      call this%grid_specification%get( base_layers // ".core.num_grid_blocks.x", layers%core%num_grid_blocks%x, found)
       call assert( found, "set_block_metadata: core_%num_grid_blocks_%x found" )
 
-      call this%grid_specification%get( layers_object // ".core.num_grid_blocks.y", layers%core%num_grid_blocks%y, found)
+      call this%grid_specification%get( base_layers // ".core.num_grid_blocks.y", layers%core%num_grid_blocks%y, found)
       call assert( found, "set_block_metadata: core_%num_grid_blocks_%y found" )
 
-      call this%grid_specification%get( layers_object // ".core.num_grid_blocks.z", layers%core%num_grid_blocks%z, found)
+      call this%grid_specification%get( base_layers // ".core.num_grid_blocks.z", layers%core%num_grid_blocks%z, found)
       call assert( found, "set_block_metadata: core_%num_grid_blocks_%z found" )
 
-      call this%grid_specification%get( layers_object//".core.material_name", names, found )
-      call assert( found , layers_object//".core.material_name found" )
+      call this%grid_specification%get( base_layers//".core.material_name", names, found )
+      call assert( found , base_layers//".core.material_name found" )
 
       supremum = maxval( [( len( trim(names(i)) ), i=1,size(names) )] )
       !allocate( character(len=supremum) :: layers%core%material_name(size(names)) ) !! precluded by gfortran 8.3 bug
@@ -141,14 +141,14 @@ contains
       layers%core%material_name = names
       call assert(size(layers%core%material_name)==1, "size(layers%core%material_name)==1" )
 
-      call this%grid_specification%get( layers_object//".core.thickness.x", layers%core%thickness%x, found )
-      call assert( found , layers_object//".core.thickness.x found" )
+      call this%grid_specification%get( base_layers//".core.thickness.x", layers%core%thickness%x, found )
+      call assert( found , base_layers//".core.thickness.x found" )
 
-      call this%grid_specification%get( layers_object//".core.thickness.y", layers%core%thickness%y, found )
-      call assert( found , layers_object//".core.thickness.y found" )
+      call this%grid_specification%get( base_layers//".core.thickness.y", layers%core%thickness%y, found )
+      call assert( found , base_layers//".core.thickness.y found" )
 
-      call this%grid_specification%get( layers_object//".core.thickness.z", layers%core%thickness%z, found )
-      call assert( found , layers_object//".core.thickness.z found" )
+      call this%grid_specification%get( base_layers//".core.thickness.z", layers%core%thickness%z, found )
+      call assert( found , base_layers//".core.thickness.z found" )
     end subroutine
 
     subroutine verify_core_components
@@ -171,17 +171,17 @@ contains
     end subroutine
 
     subroutine read_wrappers_components
-      call this%grid_specification%get( layers_object // ".wrappers.num_grid_blocks.x", layers%wrappers%num_grid_blocks%x, found)
+      call this%grid_specification%get( base_layers // ".wrappers.num_grid_blocks.x", layers%wrappers%num_grid_blocks%x, found)
       call assert( found, "set_block_metadata: wrappers_%num_grid_blocks_%x found" )
 
-      call this%grid_specification%get( layers_object // ".wrappers.num_grid_blocks.y", layers%wrappers%num_grid_blocks%y, found)
+      call this%grid_specification%get( base_layers // ".wrappers.num_grid_blocks.y", layers%wrappers%num_grid_blocks%y, found)
       call assert( found, "set_block_metadata: wrappers_%num_grid_blocks_%y found" )
 
-      call this%grid_specification%get( layers_object // ".wrappers.num_grid_blocks.z", layers%wrappers%num_grid_blocks%z, found)
+      call this%grid_specification%get( base_layers // ".wrappers.num_grid_blocks.z", layers%wrappers%num_grid_blocks%z, found)
       call assert( found, "set_block_metadata: wrappers_%num_grid_blocks_%z found" )
 
-      call this%grid_specification%get( layers_object//".wrappers.material_name", names, found )
-      call assert( found , layers_object//".wrappers.material_name found" )
+      call this%grid_specification%get( base_layers//".wrappers.material_name", names, found )
+      call assert( found , base_layers//".wrappers.material_name found" )
 
       supremum = maxval( [( len( trim(names(i)) ), i=1,size(names) )] )
       !allocate( character(len=supremum) :: layers%wrappers%material_name(size(names)) ) !! precluded by gfortran 8.3 bug
@@ -189,14 +189,14 @@ contains
       allocate(  layers%wrappers%material_name(size(names)) )
       layers%wrappers%material_name = names
 
-      call this%grid_specification%get( layers_object//".wrappers.thickness.x", layers%wrappers%thickness%x, found )
-      call assert( found , layers_object//".wrappers.thickness.x found" )
+      call this%grid_specification%get( base_layers//".wrappers.thickness.x", layers%wrappers%thickness%x, found )
+      call assert( found , base_layers//".wrappers.thickness.x found" )
 
-      call this%grid_specification%get( layers_object//".wrappers.thickness.y", layers%wrappers%thickness%y, found )
-      call assert( found , layers_object//".wrappers.thickness.y found" )
+      call this%grid_specification%get( base_layers//".wrappers.thickness.y", layers%wrappers%thickness%y, found )
+      call assert( found , base_layers//".wrappers.thickness.y found" )
 
-      call this%grid_specification%get( layers_object//".wrappers.thickness.z", layers%wrappers%thickness%z, found )
-      call assert( found , layers_object//".wrappers.thickness.z found" )
+      call this%grid_specification%get( base_layers//".wrappers.thickness.z", layers%wrappers%thickness%z, found )
+      call assert( found , base_layers//".wrappers.thickness.z found" )
     end subroutine
 
     subroutine verify_wrappers_components
@@ -356,4 +356,4 @@ contains
     end associate
 
   end function
-end submodule plate_3D_implementation
+end submodule cylinder_2D_implementation

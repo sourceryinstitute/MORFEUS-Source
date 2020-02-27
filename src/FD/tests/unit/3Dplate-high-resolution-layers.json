@@ -1,10 +1,11 @@
-{
+    {
   "file_validation": {
     "validator": "https://jsonlint.com/",
     "validated_by": "Damian Rouson",
     "validation_date": 20191104
   },
   "MORFEUS_FD": {
+    "units_system" : "SI",
     "initial_condition" : {
       "temperature" : 293,
       "constraint": {
@@ -12,6 +13,21 @@
         "minimum_version": "2003",
         "expressions": [ "temperature > 0." ]
       }
+    },
+    "bottom_boundary" : {
+      "temperature" : [400, 450, 500, 600],
+      "pressure" : [400, 450, 500, 600],
+      "flow_rate" : [400, 450, 500, 600]
+    },
+    "constraint": {
+      "language": "Fortran",
+      "minimum_version": "2003",
+      "expressions": [
+        "size(bottom_boundary%temperature) == size(time)"
+      ]
+    },
+    "time" : {
+      "end" : 60.0
     },
     "heat_source" : {
       "type" : "lhgr",
@@ -46,7 +62,6 @@
     },
     "layers": {
       "type": "3D_plate",
-      "units_system": "SI",
       "max_spacing": 0.99E-01,
       "core": {
         "material_name": ["burrito"],
@@ -94,22 +109,9 @@
             "all([num_grid_blocks%x,num_grid_blocks%y,num_grid_blocks%z]>0)",
             "all([thickness%x,thickness%y,thickness%z]>0)",
             "all( [size(thickness%x), size(thickness%y), size(thickness%z)] == [size(num_grid_blocks%x), size(num_grid_blocks%y), size(num_grid_blocks%z)] )",
-            "all( [size(thickness%x), size(thickness%y)] == size(material_name) )",
-            "boundary_condition%temperature > 0."
+            "all( [size(thickness%x), size(thickness%y)] == size(material_name) )"
           ]
         }
-      },
-      "bottom_boundary" : {
-        "temperature" : [400, 450, 500, 600],
-        "pressure" : [400, 450, 500, 600],
-        "flow_rate" : [400, 450, 500, 600]
-      },
-      "constraint": {
-        "language": "Fortran",
-        "minimum_version": "2003",
-        "expressions": [
-          "size(bottom_boundary%temperature) == size(time)"
-        ]
       }
     }
   }

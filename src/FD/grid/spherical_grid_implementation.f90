@@ -4,7 +4,7 @@
 !     "Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)",
 !     contract # NRC-HQ-60-17-C-0007
 !
-submodule(cartesian_grid_interface) cartesian_grid_implementation
+submodule(spherical_grid_interface) spherical_grid_implementation
   !! author: Damian Rouson and Karla Morris
   use kind_parameters, only : i4k, r8k
   use assertions_interface,only : assert, max_errmsg_len, assertions
@@ -37,7 +37,7 @@ contains
       type is(plate_3D)
         !! this verifies correct geometry for the assumptions in building the surfaces below
       class default
-        error stop "cartesian_grid%build_surfaces: unsupported problem_geometry type"
+        error stop "spherical_grid%build_surfaces: unsupported problem_geometry type"
     end select
 
     define_bare_package: & !! initialize packages with only the time step & neighbor block_id (no halo-exchange data yet)
@@ -46,7 +46,7 @@ contains
 
         allocate( bare(my_blocks(first):my_blocks(last), vertices(my_blocks(1))%space_dimension(), backward:forward), &
           stat=alloc_stat, errmsg=error_message)
-        call assert(alloc_stat==success, "cartesian_grid%build_surfaces: allocate(bare)", error_message)
+        call assert(alloc_stat==success, "spherical_grid%build_surfaces: allocate(bare)", error_message)
 
         call bare%set_neighbor_block_id(null_neighbor_id)
         call bare%set_step(0)
@@ -99,13 +99,13 @@ contains
     real(r8k), allocatable, dimension(:,:,:,:) :: div_flux
     real(r8k), allocatable, dimension(:,:,:) :: surface_fluxes
 
-    call assert( same_type_as(this, vertices), "cartesian_grid%set_up_div_scalar_flux: same_type_as(this, vertices)" )
+    call assert( same_type_as(this, vertices), "spherical_grid%set_up_div_scalar_flux: same_type_as(this, vertices)" )
 
     associate( positions => vertices%vectors(), s=>this%get_scalar() )
       associate( npoints => shape(positions(:,:,:,1)) )
 
         allocate(div_flux, mold=positions(:,:,:,:), stat=alloc_stat, errmsg=alloc_error )
-        call assert( alloc_stat==success, "cartesian_grid%set_up_div_scalar_flux: allocate(div_flux)", alloc_error )
+        call assert( alloc_stat==success, "spherical_grid%set_up_div_scalar_flux: allocate(div_flux)", alloc_error )
 
         div_flux = 0._r8k
 
@@ -135,7 +135,7 @@ contains
           end do all_but_x_dir_boundaries
 
           allocate( surface_fluxes(npoints(y_dir), npoints(z_dir), backward:forward), stat = alloc_stat, errmsg = alloc_error)
-          call assert(alloc_stat==success, "cartesian_grid%set_up_div_scalar_flux: allocate(surface_fluxes) x_dir", alloc_error)
+          call assert(alloc_stat==success, "spherical_grid%set_up_div_scalar_flux: allocate(surface_fluxes) x_dir", alloc_error)
 
           x_normal_surface_fluxes: &
           do k=1, npoints(z_dir)
@@ -195,7 +195,7 @@ contains
           if ( any(shape(surface_fluxes) /= [npoints(x_dir), npoints(z_dir), forward]) ) then
             deallocate(surface_fluxes)
             allocate( surface_fluxes(npoints(x_dir), npoints(z_dir), backward:forward), stat = alloc_stat, errmsg = alloc_error)
-            call assert( alloc_stat==success, "cartesian_grid%set_up_div_scalar_flux: allocate(surface_fluxes) y_dir", alloc_error )
+            call assert( alloc_stat==success, "spherical_grid%set_up_div_scalar_flux: allocate(surface_fluxes) y_dir", alloc_error )
           end if
 
           y_normal_surface_fluxes: &
@@ -255,7 +255,7 @@ contains
           if ( any(shape(surface_fluxes) /= [npoints(x_dir), npoints(y_dir), forward]) ) then
             deallocate(surface_fluxes)
             allocate( surface_fluxes(npoints(x_dir), npoints(y_dir), backward:forward), stat = alloc_stat, errmsg = alloc_error)
-            call assert( alloc_stat==success, "cartesian_grid%set_up_div_scalar_flux: allocate(surface_fluxes) z_dir", alloc_error )
+            call assert( alloc_stat==success, "spherical_grid%set_up_div_scalar_flux: allocate(surface_fluxes) z_dir", alloc_error )
           end if
 
           z_normal_surface_fluxes: &
@@ -303,7 +303,7 @@ contains
     character(len=max_errmsg_len) :: alloc_error
     real(r8k), allocatable, dimension(:,:,:,:) :: div_flux_increment
 
-    call assert( same_type_as(this, vertices), "cartesian_grid%div_scalar_flux: same_type_as(this, vertices)" )
+    call assert( same_type_as(this, vertices), "spherical_grid%div_scalar_flux: same_type_as(this, vertices)" )
 
     associate( &
       positions => vertices%vectors(), &
@@ -311,7 +311,7 @@ contains
       b => this%get_block_identifier() )
 
       allocate(div_flux_increment, mold=positions, stat=alloc_stat, errmsg=alloc_error )
-      call assert( alloc_stat==success, "cartesian_grid%div_scalar_flux: allocate(div_flux_increment)", alloc_error )
+      call assert( alloc_stat==success, "spherical_grid%div_scalar_flux: allocate(div_flux_increment)", alloc_error )
 
       div_flux_increment = 0._r8k
 
@@ -376,7 +376,7 @@ contains
         associate( npoints => shape(positions(:,:,:,1)) )
 
           allocate(div_flux_x, div_flux_y, div_flux_z, mold=positions(:,:,:,1), stat=alloc_stat, errmsg=alloc_error )
-          call assert( alloc_stat==success, "cartesian_grid%div_scalar_flux: allocate(div_flux_x/y/z)", alloc_error )
+          call assert( alloc_stat==success, "spherical_grid%div_scalar_flux: allocate(div_flux_x/y/z)", alloc_error )
 
           div_flux_x = 0._r8k
           div_flux_y = 0._r8k
@@ -409,7 +409,7 @@ contains
 
   module procedure block_indicial_coordinates
 
-    call assert(n>0 .and. n<=product(this%get_global_block_shape()), "cartesian_grid%block_indicial_coordinates: identifier bounds")
+    call assert(n>0 .and. n<=product(this%get_global_block_shape()), "spherical_grid%block_indicial_coordinates: identifier bounds")
 
     associate( extents=>this%get_global_block_shape() )
       associate( nx=>extents(1), ny=>extents(2), nz=>extents(3) )
