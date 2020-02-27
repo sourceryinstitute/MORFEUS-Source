@@ -165,7 +165,7 @@ CONTAINS
         ELSE
             IF(dim == density_)       THEN
                 DO i = 1, SIZE(im)
-                    IF (mats(im(i))%mat%mat_id_() < 400) THEN
+                    IF (mats(im(i))%mat%mat_id_() < 300) THEN
                         CALL matlaw_matlib_s(mats(im(i))%mat,t(i),'ASFABDENSITY',f(i))
                     ELSE
                         CALL matlaw_matlib_s(mats(im(i))%mat,t(i),'DENSITY',f(i))
@@ -189,7 +189,7 @@ CONTAINS
                 END DO
             ELSEIF(dim == therm_exp_coeff_) THEN
                 DO i = 1, SIZE(im)
-                    IF (mats(im(i))%mat%mat_id_() < 400) THEN
+                    IF (mats(im(i))%mat%mat_id_() < 300) THEN
                         CALL matlaw_matlib_s(mats(im(i))%mat,t(i),'THEXP_COEF',f(i))
                     ELSE
                         CALL matlaw_matlib_s(mats(im(i))%mat,t(i),'THEXP',f(i))

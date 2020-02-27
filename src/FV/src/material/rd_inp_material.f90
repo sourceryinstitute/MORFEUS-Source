@@ -67,6 +67,7 @@ SUBMODULE(tools_material) rd_inp_material_implementation
             INTEGER :: i, n
             INTEGER, ALLOCATABLE :: block_ids(:)
             INTEGER :: matlib_id
+            CHARACTER(KIND=json_CK,LEN=:),ALLOCATABLE :: json_str
 
 
             icontxt = icontxt_()
@@ -89,13 +90,13 @@ SUBMODULE(tools_material) rd_inp_material_implementation
                   ALLOCATE(path, source=str//'['//trim(index)//']')
                   CALL nemo_json%get(path//'.block-ids', block_ids)
                   IF (ANY(block_ids == bid)) THEN
-                    CALL nemo_json%get(path//'.MatLib-id', id)
+                    CALL nemo_json%get(path//'.MatLib-id', id)      ! Get the MatLib ID
+                    CALL nemo_json%get(path//'.description', json_str)  ! Gets material name from input file
+                    name = json_str
                     EXIT
                   END IF
                 END DO
 
-                ! Gets material name from input file
-                name = 'copper'
                 type = 'default'
 
                 ! material%ilaw(irho) -> density
