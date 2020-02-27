@@ -33,7 +33,7 @@ The Morfeus-FV solver consists of two parts:
 
   - A common library of routines for reading input files, creating the grid, discretization of the equations, solving the equations using the Parallel Basic Linear Algebra Subroutines ([PSBLAS]), and plotting of the results.
 
-  - A problem-specific solver built using the routines from the morfeus finite volume library.
+  - A problem-specific solver built using the routines from the Morfeus finite volume library.
 
 [PSBLAS]: https://github.com/sfilippone/psblas3
 
@@ -41,7 +41,7 @@ The Morfeus-FV solver consists of two parts:
 Numerical Algorithms
 --------------------
 
-Morfeus-FV solves transport equations using explicit finite-difference time advancement and cell-based finite-volume spatial discretizations.  For a complete description of the alogorithms employed 
+Morfeus-FV solves transport equations using explicit finite-difference time advancement and cell-based finite-volume spatial discretizations.  For a complete description of the algorithms employed 
 in Morfeus-FV, refer to the dissertation by S. [Toninel (2006)].  More recent work has involved modernization of the code using the modular and object-oriented programming (OOP) features of Fortran 2008, including
 
   - Type extension,
@@ -65,7 +65,7 @@ As an illustrative example, the sample input file describes coaxial cable geomet
 [json-fortran]: https://github.com/jacobwilliams/json-fortran
 
 ### Mesh object
-The `MESH` object in the input file describes the name and directory of the file containing the mesh geometry. The coaxial cable geometry consists of several concentric materials. All computations in morfeus are done in MKS units. Any scaling of the geometry is also specified in this object. Mesh renumbering, partitioning scheme, and mesh diagnostics output for debugging can also be specified in this object.
+The `MESH` object in the input file describes the name and directory of the file containing the mesh geometry. The coaxial cable geometry consists of several concentric materials. All computations in Morfeus are done in MKS units. Any scaling of the geometry is also specified in this object. Mesh renumbering, partitioning scheme, and mesh diagnostics output for debugging can also be specified in this object.
 ```
 "MESH": {
   "mesh-dir": "./",
