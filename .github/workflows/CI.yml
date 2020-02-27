@@ -34,7 +34,6 @@ jobs:
 
     env:
       FC: gfortran-${{ matrix.gcc }}
-      F90: gfortran-${{ matrix.gcc }}
       CC: gcc-${{ matrix.gcc }}
       CXX: g++-${{ matrix.gcc }}
       GCC_V: ${{ matrix.gcc }}
