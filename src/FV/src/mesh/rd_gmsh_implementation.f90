@@ -171,6 +171,8 @@ CONTAINS
           ! We ignore the nodes and the lines.
         END DO
         ALLOCATE(pftags(i3, 2), pctags(i4, 2), stat=info)
+        pftags = 0
+        pctags = 0
         IF(info /= 0) THEN
           WRITE (*,100)
           CALL abort_psblas
@@ -320,6 +322,7 @@ CONTAINS
             c2g_%tab(ic) = ic
           END DO
           i1 = i2 + 1
+          c2g_%lookup(ig+1) = i1
         END DO
 
         ! Creates face-cell connectivity
@@ -906,7 +909,6 @@ CONTAINS
 050     FORMAT(' ERROR! Failure to open Gmsh mesh file.',/,&
         &    ' File expected: ', a)
 100     FORMAT(' ERROR! Memory allocation failure in RD_GMSH_MESH')
-
 
     END PROCEDURE rd_gmsh_mesh
 
