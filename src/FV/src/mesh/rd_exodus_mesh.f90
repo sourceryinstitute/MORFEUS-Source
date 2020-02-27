@@ -185,6 +185,7 @@ CONTAINS
                 c2g_%tab(ic) = ic
             END DO
             i1 = i2 + 1
+            c2g_%lookup(ig+1) = i1
         END DO
 
         ! Creates face-cell connectivity

@@ -770,15 +770,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/applications")
       ${integ_test_dir}/unsteady_heat_pipe/Exodus)
   endif()
   # 3D plate geometry
-  #add_morfeus_fv_test( plate-3d 4 unsteady_fast
-  #  applications/fast_heat/cases/plate-3d/plate-3D.msh
-  #  applications/fast_heat/cases/plate-3d/fast.json
-  #  ${integ_test_dir}/plate-3d)
+  add_morfeus_fv_test( plate-3d 4 unsteady_fast
+    applications/fast_heat/cases/plate-3d/plate-3D.msh
+    applications/fast_heat/cases/plate-3d/fast.json
+    ${integ_test_dir}/plate-3d)
   # 3D cylinder geometry
-  #add_morfeus_fv_test( cylinder-3d 4 unsteady_fast
-  #  applications/fast_heat/cases/cylinder-3d/cylinder-3D.msh
-  #  applications/fast_heat/cases/cylinder-3d/fast.json
-  #  ${integ_test_dir}/cylinder-3d)
+  add_morfeus_fv_test( cylinder-3d 4 unsteady_fast
+    applications/fast_heat/cases/cylinder-3d/cylinder-3D.msh
+    applications/fast_heat/cases/cylinder-3d/fast.json
+    ${integ_test_dir}/cylinder-3d)
   # 3D sphere geometry
   #add_morfeus_fv_test( sphere-3d 4 unsteady_fast
   #  applications/fast_heat/cases/sphere-3d/sphere-3D.msh
