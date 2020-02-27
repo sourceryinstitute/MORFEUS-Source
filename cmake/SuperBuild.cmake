@@ -109,16 +109,10 @@ if( CMAKE_SYSTEM_NAME MATCHES "[Ll]inux|[Dd]arwin" )
   list(APPEND DEPENDENCIES exodus)
   ExternalProject_Add( exodus
     DEPENDS netcdf4 hdf5
-    SOURCE_DIR ${TPL_DIR}/src/exodus-build
+    SOURCE_DIR ${CMAKE_SOURCE_DIR}/exodus
     BUILD_IN_SOURCE OFF
-    BUILD_DIR ${TPL_DIR}/src/exodus-build/build
-    DOWNLOAD_COMMAND ${CMAKE_COMMAND} -E remove_directory ${TPL_DIR}/src/exodus-build
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/exodus ${TPL_DIR}/src/exodus-build
-    CONFIGURE_COMMAND pwd && INSTALL_PATH=${TPL_DIR} PYTHON_VER=2.7 COMPILER=EXTERNAL STATIC=ON ../cmake-exodus
-    BUILD_COMMAND ${CMAKE_COMMAND} --build ${TPL_DIR}/src/exodus-build/build
+    CONFIGURE_COMMAND pwd && ACCESS=${CMAKE_SOURCE_DIR}/exodus INSTALL_PATH=${TPL_DIR} PYTHON_VER=2.7 COMPILER=EXTERNAL STATIC=ON ${CMAKE_SOURCE_DIR}/exodus/cmake-exodus
     TEST_BEFORE_INSTALL ON
-    TEST_COMMAND ${CMAKE_COMMAND} --build ${TPL_DIR}/src/exodus-build/build --target test
-    INSTALL_COMMAND ${CMAKE_COMMAND} --build ${TPL_DIR}/src/exodus-build/build --target install
     )
 endif()
 

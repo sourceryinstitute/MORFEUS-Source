@@ -95,7 +95,7 @@ jobs:
       if: contains(matrix.os, 'ubuntu')
       run: |
         sudo apt-get update -qq || true
-        sudo apt-get install -y --no-install-recommends ${COMMON_PKG} lib${BLAS_LAPACK}-dev build-essential
+        sudo apt-get install -y --no-install-recommends ${COMMON_PKG} lib${BLAS_LAPACK}-dev python
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_V} 100 \
         --slave /usr/bin/g++ g++ /usr/bin/g++-${GCC_V} \
         --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
@@ -156,10 +156,16 @@ jobs:
         cmake --system-information CMakeLogs/systeminfo.txt
         cmake -Wdev -Wdeprecated --graphviz=Morfeus.dot -S . -B ${BUILD_DIR}
 
-    - name: Build TPLs
-      shell: bash
+    - name: Build HDF5 and NetCDF4
+      run: |
+        cmake --build ${BUILD_DIR} --target netcdf4 || VERBOSE=1 cmake --build ${BUILD_DIR} --target netcdf4 -j 1
+
+    - name: Build Exodus
       run: |
         cmake --build ${BUILD_DIR} --target exodus || VERBOSE=1 cmake --build ${BUILD_DIR} --target exodus -j 1
+
+    - name: Build other TPLs
+      run: |
         cmake --build ${BUILD_DIR} --target EP_MORFEUS-configure || VERBOSE=1 cmake --build ${BUILD_DIR} --target EP_MORFEUS-configure -j 1
 
     - name: Show build artifacts
