@@ -56,7 +56,7 @@ SUBMODULE (tools_mesh_check) tools_mesh_check_tet
         USE class_vector
         USE class_vertex
         USE tools_math
-        USE tools_mesh_basics, ONLY : geom_tet_quality
+        USE tools_mesh_basics, ONLY : geom_tet_quality, geom_tet_dihedral_angle
         USE tools_output_basics
 
         IMPLICIT NONE
