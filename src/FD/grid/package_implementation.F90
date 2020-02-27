@@ -9,6 +9,9 @@ submodule(package_interface) package_implementation
   !! date: 1/2/2019
   !! Encapsulate information and procedures for structured_grid block halo exchanges
   use assertions_interface, only: assert, assertions, max_errmsg_len
+#ifndef HAVE_FINDLOC
+  use emulated_intrinsics_interface, only : findloc
+#endif
   implicit none
 
   integer, parameter :: success = 0
@@ -23,27 +26,39 @@ contains
     this%step = step
   end procedure
 
-  module procedure set_surface_flux_positions
-    if (assertions) call assert( count(shape(positions)==1) == 1 , "package%set_positions: count(shape(positions)==1) == 1")
+  module procedure set_surface_positions
     this%positions = positions
   end procedure
 
   module procedure set_num_scalars
     integer alloc_stat
     character(len=max_errmsg_len) error_message
-    if (assertions) &
+
+    if (assertions) then
       call assert(.not.allocated(this%surface_normal_fluxes), "package%set_num_scalars: .not.allocated(this%surface_normal_fluxes)")
+    end if
+
     allocate( this%surface_normal_fluxes(num_scalars), stat = alloc_stat, errmsg = error_message)
     if (assertions) call assert(alloc_stat==success, "package%set_num_scalars: allocate(this%surface_normal_fluxes)", error_message)
   end procedure
 
   module procedure set_normal_scalar_fluxes
     if (assertions) then
-      call assert( allocated(this%positions), "package%normal_scalar_fluxes: allocated(positions)" )
+      call assert( allocated(this%positions), "package%set_normal_scalar_fluxes: allocated(positions)" )
       call assert( lbound(this%surface_normal_fluxes,1) <= scalar_id .and. scalar_id <= ubound(this%surface_normal_fluxes,1), &
         "package%set_normal_scalar_fluxes: lbound(surface_normal_fluxes) <= scalar_id <= ubound(surface_normal_fluxes)" )
     end if
     this%surface_normal_fluxes(scalar_id)%fluxes = fluxes
+  end procedure
+
+  module procedure get_positions
+    call assert(allocated(this%positions), "package%get_positions: allocated(this%positions)", this%neighbor_block_id)
+    this_positions = this%positions
+  end procedure
+
+  module procedure get_fluxes
+    call assert( allocated(this%surface_normal_fluxes), "package%get_fluxes: allocated(this%surface_normal_fluxes)" )
+    this_fluxes = this%surface_normal_fluxes(scalar_id)%fluxes
   end procedure
 
   module procedure get_neighbor_block_id

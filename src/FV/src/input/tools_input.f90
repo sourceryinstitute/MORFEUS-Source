@@ -53,41 +53,42 @@ MODULE tools_input
     PRIVATE :: vector, psb_dpk_
 
     INTERFACE get_par
+
         MODULE FUNCTION get_par_l(inp,sec,par,default)
             IMPLICIT NONE
             LOGICAL :: get_par_l
-            INTEGER, INTENT(IN) :: inp
+            INTEGER,          INTENT(IN) :: inp
             CHARACTER(len=*), INTENT(IN) :: sec
             CHARACTER(len=*), INTENT(IN) :: par
-            LOGICAL, INTENT(IN) :: default
+            LOGICAL,          INTENT(IN) :: default
         END FUNCTION get_par_l
 
         MODULE FUNCTION get_par_i(inp,sec,par,default)
             IMPLICIT NONE
             INTEGER :: get_par_i
-            INTEGER, INTENT(IN) :: inp
+            INTEGER,          INTENT(IN) :: inp
             CHARACTER(len=*), INTENT(IN) :: sec
             CHARACTER(len=*), INTENT(IN) :: par
-            INTEGER, INTENT(IN) :: default
+            INTEGER,          INTENT(IN) :: default
         END FUNCTION get_par_i
 
         MODULE FUNCTION get_par_d(inp,sec,par,default)
             USE class_psblas, ONLY : psb_dpk_
             IMPLICIT NONE
             REAL(psb_dpk_) :: get_par_d
-            INTEGER, INTENT(IN) :: inp
+            INTEGER,          INTENT(IN) :: inp
             CHARACTER(len=*), INTENT(IN) :: sec
             CHARACTER(len=*), INTENT(IN) :: par
-            REAL(psb_dpk_), INTENT(IN) :: default
+            REAL(psb_dpk_),   INTENT(IN) :: default
         END FUNCTION get_par_d
 
         MODULE FUNCTION get_par_h(inp,sec,par,default)
             IMPLICIT NONE
-            CHARACTER(len=32) :: get_par_h
-            INTEGER, INTENT(IN) :: inp
-            CHARACTER(len=*), INTENT(IN) :: sec
-            CHARACTER(len=*), INTENT(IN) :: par
-            CHARACTER(len=*), INTENT(IN) :: default
+            CHARACTER(len=:), ALLOCATABLE :: get_par_h
+            INTEGER,          INTENT(IN)  :: inp
+            CHARACTER(len=*), INTENT(IN)  :: sec
+            CHARACTER(len=*), INTENT(IN)  :: par
+            CHARACTER(len=*), INTENT(IN)  :: default
         END FUNCTION get_par_h
 
         MODULE FUNCTION get_par_v(inp,sec,par,default)
@@ -99,17 +100,18 @@ MODULE tools_input
             CHARACTER(len=*), INTENT(IN) :: par
             TYPE(vector),     INTENT(IN) :: default
         END FUNCTION get_par_v
+
     END INTERFACE get_par
 
-
     INTERFACE read_par
+
         MODULE FUNCTION read_par_l(input_file,sec,par,default)
             IMPLICIT NONE
             LOGICAL :: read_par_l
             CHARACTER(len=*), INTENT(IN) :: input_file
             CHARACTER(len=*), INTENT(IN) :: sec
             CHARACTER(len=*), INTENT(IN) :: par
-            LOGICAL, INTENT(IN) :: default
+            LOGICAL,          INTENT(IN) :: default
         END FUNCTION read_par_l
 
         MODULE FUNCTION read_par_i(input_file,sec,par,default)
@@ -118,7 +120,7 @@ MODULE tools_input
             CHARACTER(len=*), INTENT(IN) :: input_file
             CHARACTER(len=*), INTENT(IN) :: sec
             CHARACTER(len=*), INTENT(IN) :: par
-            INTEGER, INTENT(IN) :: default
+            INTEGER,          INTENT(IN) :: default
         END FUNCTION read_par_i
 
         MODULE FUNCTION read_par_d(input_file,sec,par,default)
@@ -128,12 +130,12 @@ MODULE tools_input
             CHARACTER(len=*), INTENT(IN) :: input_file
             CHARACTER(len=*), INTENT(IN) :: sec
             CHARACTER(len=*), INTENT(IN) :: par
-            REAL(psb_dpk_), INTENT(IN) :: default
+            REAL(psb_dpk_),   INTENT(IN) :: default
         END FUNCTION read_par_d
 
         MODULE FUNCTION read_par_h(input_file,sec,par,default)
             IMPLICIT NONE
-            CHARACTER(len=32) :: read_par_h
+            CHARACTER(len=:), ALLOCATABLE :: read_par_h
             CHARACTER(len=*), INTENT(IN) :: input_file
             CHARACTER(len=*), INTENT(IN) :: sec
             CHARACTER(len=*), INTENT(IN) :: par
@@ -151,31 +153,34 @@ MODULE tools_input
         END FUNCTION read_par_v
     END INTERFACE read_par
 
-
     INTERFACE
+
         MODULE SUBROUTINE find_section(sec,nemo_json)
             IMPLICIT NONE
-            CHARACTER(len=*), INTENT(IN) :: sec
-            TYPE(json_file), INTENT(INOUT) :: nemo_json
+            CHARACTER(len=*), INTENT(IN)    :: sec
+            TYPE(json_file),  INTENT(INOUT) :: nemo_json
         END SUBROUTINE find_section
+
     END INTERFACE
 
 
     INTERFACE
+
         MODULE SUBROUTINE open_file(input_file,nemo_json)
             IMPLICIT NONE
-            CHARACTER(len=*), INTENT(IN) :: input_file
-            TYPE(json_file), INTENT(OUT) :: nemo_json
+            CHARACTER(len=*), INTENT(IN)  :: input_file
+            TYPE(json_file),  INTENT(OUT) :: nemo_json
         END SUBROUTINE open_file
+
     END INTERFACE
 
 
     ! ----- Named Constants -----
 
-    LOGICAL,           PARAMETER :: mandatory_l_ = .FALSE.
-    INTEGER,           PARAMETER :: mandatory_i_ = -999
-    REAL(psb_dpk_),    PARAMETER :: mandatory_d_ = -9999.d0
-    CHARACTER(len=10), PARAMETER :: mandatory_h_ = 'mandatory'
+    LOGICAL,          PARAMETER :: mandatory_l_ = .FALSE.
+    INTEGER,          PARAMETER :: mandatory_i_ = -999
+    REAL(psb_dpk_),   PARAMETER :: mandatory_d_ = -9999.d0
+    CHARACTER(len=*), PARAMETER :: mandatory_h_ = 'mandatory'
 
     ! MANDATORY_V_ is defined inside the VECTOR class
 

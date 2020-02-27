@@ -58,10 +58,15 @@ SUBMODULE(tools_material) rd_inp_material_implementation
             LOGICAL, PARAMETER :: debug = .FALSE.
             !
             TYPE(json_file) :: nemo_json
-            CHARACTER(LEN=100) :: str
+            TYPE(json_core) :: nemo_core
+            TYPE(json_value), pointer :: materials
+            CHARACTER(LEN=:), ALLOCATABLE :: str, path
+            CHARACTER(LEN=3) :: index
             LOGICAL :: found
             INTEGER :: mypnum, icontxt
-            INTEGER :: inp
+            INTEGER :: i, n
+            INTEGER, ALLOCATABLE :: block_ids(:)
+            INTEGER :: matlib_id
 
 
             icontxt = icontxt_()
@@ -71,11 +76,24 @@ SUBMODULE(tools_material) rd_inp_material_implementation
             ! Reads parameters on P0 and performs consistency checks
             IF(mypnum == 0) THEN
 
-                WRITE(*,*) 'Reading MATERIAL section from ',TRIM(input_file)," ", sec
+                WRITE(*,*) 'Reading MATERIALS section from ',TRIM(input_file)
 
                 CALL open_file(input_file,nemo_json)
-                str = TRIM('MORFEUS_FV.MATERIALS.'//TRIM(sec))
-                CALL nemo_json%get(str, id, found)
+                IF (ALLOCATED(str)) DEALLOCATE(str)
+                ALLOCATE(str, source='MORFEUS_FV.MATERIALS')
+                CALL nemo_json%get(str, materials, found)
+                CALL nemo_json%info(str, n_children=n)
+                DO i = 1,n
+                  WRITE(index, '(I0)') i
+                  IF (ALLOCATED(path)) DEALLOCATE(path)
+                  ALLOCATE(path, source=str//'['//trim(index)//']')
+                  CALL nemo_json%get(path//'.block-ids', block_ids)
+                  IF (ANY(block_ids == bid)) THEN
+                    CALL nemo_json%get(path//'.MatLib-id', id)
+                    EXIT
+                  END IF
+                END DO
+
                 ! Gets material name from input file
                 name = 'copper'
                 type = 'default'
@@ -91,8 +109,6 @@ SUBMODULE(tools_material) rd_inp_material_implementation
 
                 ! material%ilaw(ish) -> specific heat
                 ilaw(ish) = 1
-
-                WRITE(*,*)
             END IF
 
 

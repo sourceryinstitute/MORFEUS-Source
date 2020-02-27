@@ -5,6 +5,7 @@
     "validation_date": 20190920
   },
   "MORFEUS_FD": {
+    "units_system" : "SI",
     "initial_condition" : {
       "temperature" : 293,
       "constraint": {
@@ -12,6 +13,17 @@
         "minimum_version": "2003",
         "expressions": [ "temperature > 0." ]
       }
+    },
+    "boundary_condition" : {
+      "temperature" : 500,
+      "constraint": {
+        "language": "Fortran",
+        "minimum_version": "2003",
+        "expressions": ["boundary_condition%temperature > 0."]
+      }
+    },
+    "time" : {
+      "end" : 60.0
     },
     "heat_source" : {
       "power_density" : 10000,
@@ -23,7 +35,6 @@
     },
     "layers": {
       "type": "3D_plate",
-      "units_system": "SI",
       "max_spacing": 1.0E+06,
       "core": {
         "material_name": ["burrito"],
@@ -63,9 +74,6 @@
           "y": [1],
           "z": [1]
         },
-        "boundary_condition" : {
-          "temperature" : 500
-        },
         "constraint": {
           "language": "Fortran",
           "minimum_version": "2003",
@@ -74,8 +82,7 @@
             "all([num_grid_blocks%x,num_grid_blocks%y,num_grid_blocks%z]>0)",
             "all([thickness%x,thickness%y,thickness%z]>0)",
             "all( [size(thickness%x), size(thickness%y), size(thickness%z)] == [size(num_grid_blocks%x), size(num_grid_blocks%y), size(num_grid_blocks%z)] )",
-            "all( [size(thickness%x), size(thickness%y)] == size(material_name) )",
-            "boundary_condition%temperature > 0."
+            "all( [size(thickness%x), size(thickness%y)] == size(material_name) )"
           ]
         }
       },

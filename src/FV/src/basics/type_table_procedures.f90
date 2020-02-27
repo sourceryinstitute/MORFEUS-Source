@@ -120,10 +120,19 @@ CONTAINS
         !
         INTEGER :: info
 
-        DEALLOCATE(a2b%lookup,a2b%tab,stat=info)
-        IF(info /= 0) THEN
-            WRITE(*,100)
-            CALL abort_psblas
+        IF (ALLOCATED(a2b%lookup)) THEN
+            DEALLOCATE(a2b%lookup,stat=info)
+            IF(info /= 0) THEN
+                WRITE(*,100)
+                CALL abort_psblas
+            END IF
+        END IF
+        IF (ALLOCATED(a2b%tab)) THEN
+            DEALLOCATE(a2b%tab,stat=info)
+            IF(info /= 0) THEN
+                WRITE(*,100)
+                CALL abort_psblas
+            END IF
         END IF
 
 100     FORMAT(' ERROR! Memory deallocation failure in FREE_TABLE')

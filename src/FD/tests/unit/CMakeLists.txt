@@ -15,6 +15,7 @@ set( base_names
   spatial-derivatives
   adi-time-advancing
   spatial-derivatives-new
+  1d-sphere
   halo-exchange
 )
 foreach(unit_test ${base_names})

@@ -87,6 +87,14 @@ program main
           call assert(non_existent_value==0, "findloc: handles non-existent value")
         end associate
 
+        associate( back_not_present => findloc( [1,2,3,4], value=3, dim=1 ) )
+          call assert(back_not_present==3, "findloc: handles non-present 'back' argument")
+        end associate
+
+        associate( back_false => findloc( [1,2,3,4], value=2, dim=1, back=.false.) )
+          call assert(back_false==2, "findloc: handles 'back' argument present and .false.")
+        end associate
+
         associate( x_blocks => [5,0,1,2,1,0,1,2] )
         associate( all_layers => [core,dressing,gap,wrap,ring,foil,skin,fabric])
         associate( full_delineation => [( [(all_layers(i),j=1,x_blocks(i))],i=1,size(x_blocks) )] )

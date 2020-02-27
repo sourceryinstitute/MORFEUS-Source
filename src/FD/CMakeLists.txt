@@ -45,11 +45,12 @@ endif()
     set(coarray_flags "-fcoarray=single")
   elseif ("${CMAKE_Fortran_COMPILER_ID}" MATCHES "Intel" )
     if ( "${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
-      set(coarray_flags "${prefix}Qcoarray${eq}shared ${prefix}standard-semantics")
+      set(coarray_flags "${prefix}Qcoarray${eq}shared")
     else()
-      set(coarray_flags "${prefix}coarray${eq}shared ${prefix}standard-semantics")
+      set(coarray_flags "${prefix}coarray${eq}shared")
     endif()
     set(CMAKE_Fortran_FLAGS_DEBUG "${coarray_flags} ${CMAKE_Fortran_FLAGS_DEBUG}")
+    set(CMAKE_Fortran_FLAGS_RUNTIMEDEBUG "${coarray_flags} ${CMAKE_Fortran_FLAGS_RUNTIMEDEBUG}")
     set(CMAKE_Fortran_FLAGS_RELEASE "${coarray_flags} ${CMAKE_Fortran_FLAGS_RELEASE}")
     set(CMAKE_Fortran_FLAGS_MINSIZEREL "${coarray_flags} ${CMAKE_Fortran_FLAGS_MINSIZEREL}")
     set(CMAKE_Fortran_FLAGS_RELWITHDEBINFO "${coarray_flags} ${CMAKE_Fortran_FLAGS_RELWITHDEBINFO}")
@@ -146,9 +147,10 @@ set(MORFEUS_FD_INPUTS
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-low-resolution-layers-material-map.json"
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-high-resolution-layers.json"
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-low-resolution-halo.json"
+  "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/2Dcylinder.json"
+  "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/1Dsphere.json"
 )
 
-#  "${CMAKE_CURRENT_SOURCE_DIR}/tests/integration/3Dplate-high-resolution.json"
 add_test(NAME morfeus-fd-setup-fixture
   WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
   COMMAND ${CMAKE_COMMAND} -E copy ${MORFEUS_FD_INPUTS} "${CMAKE_CURRENT_BINARY_DIR}")
@@ -167,7 +169,7 @@ function(add_caf_test name num_caf_img test_target)
   endif()
   if(min_test_imgs)
     if(num_caf_img LESS min_test_imgs)
-      message( FATAL_ERROR "Test ${name} requires ${min_test_imgs} but was only given ${num_caf_images}" )
+      message( FATAL_ERROR "Test ${name} requires ${min_test_imgs} but was only given ${num_caf_img}" )
     endif()
   endif()
   # Add a host file for OMPI
@@ -191,6 +193,10 @@ function(add_caf_test name num_caf_img test_target)
   set(test_parameters ${MPIEXEC_NUMPROC_FLAG} ${num_caf_img} ${test_parameters})
   if ("${CMAKE_Fortran_COMPILER_ID}" MATCHES "Intel" )
     add_test(NAME ${name} COMMAND "${test_target}" ${ARGN})
+    set_property(TEST ${name}
+      APPEND
+      PROPERTY ENVIRONMENT FOR_COARRAY_NUM_IMAGES=${num_caf_img})
+    message ( STATUS "Setting FOR_COARRAY_NUM_IMAGES=${num_caf_img} for test ${test}")
   else()
     add_test(NAME ${name} COMMAND ${MPIEXEC_EXECUTABLE} ${test_parameters} "${test_target}" ${ARGN})
   endif()
@@ -201,6 +207,12 @@ function(add_caf_test name num_caf_img test_target)
   set_property(TEST ${name}
     APPEND
     PROPERTY LABELS "MORFEUS_FD" "MORFEUS")
+  set_property(TEST ${name}
+    APPEND
+    PROPERTY PROCESSORS ${num_caf_img})
+  set_property(TEST ${name}
+    APPEND
+    PROPERTY PROCESSOR_AFFINITY ON)
 
 endfunction(add_caf_test)
 
@@ -213,6 +225,7 @@ set( base_names
   spatial-derivatives
   spatial-derivatives-new
   adi-time-advancing
+  1d-sphere
   units
 )
 foreach(unit_test ${base_names})
@@ -263,6 +276,7 @@ endforeach()
 set( base_names
   plate-material-mapping
   discretize-3D-plate
+  discretize-2D-cylinder
   write-slab-vtk
   write-voxels-vtk
 )
@@ -273,7 +287,9 @@ endforeach()
 
 # Tri-image integration tests
 set( base_names
-  differentiate-grid
+  differentiate-cartesian-grid
+  differentiate-cylindrical-grid
+  differentiate-spherical-grid
 )
 foreach(integration_test ${base_names})
   add_caf_test( fd-${integration_test} 3 ${CMAKE_CURRENT_BINARY_DIR}/tests/integration/test-${integration_test}

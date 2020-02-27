@@ -176,12 +176,12 @@ MODULE class_material
 
         ! ----- Constructors -----
 
-        MODULE SUBROUTINE create_material(mat,input_file,sec)
+        MODULE SUBROUTINE create_material(mat,input_file,block_id)
         !! Global Constructor
             USE tools_material
             CLASS(material), INTENT(OUT) :: mat
             CHARACTER(len=*), INTENT(IN) :: input_file
-            CHARACTER(len=*), INTENT(IN) :: sec
+            INTEGER, INTENT(IN) :: block_id
         END SUBROUTINE create_material
 
 
