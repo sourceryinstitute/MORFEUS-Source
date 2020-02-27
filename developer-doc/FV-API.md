@@ -49,7 +49,7 @@ in Morfeus-FV, refer to the dissertation by S. [Toninel (2006)].  More recent wo
   - User-defined, type-bound operators, and
   - Submodules.
 
-[Toninel (2006)]: media/toninel_phd.pdf.zip
+[Toninel (2006)]: ../media/toninel_phd.pdf.zip
 
 Input Files
 ------------
