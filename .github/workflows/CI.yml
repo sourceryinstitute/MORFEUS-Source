@@ -10,7 +10,7 @@ env:
   CCACHE_MAXSIZE: "1G"
   CCACHE_SLOPPINESS: "time_macros"
   CI: "ON"
-  CMAKE_CONFIG_TYPE: "RuntimeDebug"
+  CMAKE_CONFIG_TYPE: "Debug"
   CTEST_OUTPUT_ON_FAILURE: "ON"
   HOMEBREW_DISPLAY_INSTALL_TIMES: "ON" # Benchmark Homebrew install times
   HOMEBREW_NO_ANALYTICS: "ON" # These speed up homebrew installs
@@ -18,13 +18,10 @@ env:
   HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK: "ON"
   HOMEBREW_NO_GITHUB_API: "ON"
   HOMEBREW_NO_INSTALL_CLEANUP: "ON"
-  LANG: "en_US.UTF-8"
-  LC_ALL: "en_US.UTF-8"
   COMMON_PKG: "ccache"
   MPI_LIB: "mpich"
   BLAS_LAPACK: "openblas"
   TZ: "UTC"
-  ZERO_AR_DATE: "ON"
 
 jobs:
   build:
@@ -58,10 +55,6 @@ jobs:
         auth_header="$(git config --local --get http.https://github.com/.extraheader)"
         git submodule sync --recursive
         git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=50
-
-    - uses: actions/setup-python@v1
-      with:
-        python-version: '3.x'
 
     - name: set env
       id: set-env
