@@ -23,7 +23,7 @@ is provided and its components described along with instructions for
   - Setting up PDEs and integrating the solution forward in time, and
   - Writing outputs.
 
-![Sphere geometry and mesh for finite volume solver](./media/sphere.png)
+![Sphere geometry and mesh for finite volume solver](media/sphere.png)
 
 
 Solver Description
@@ -49,7 +49,7 @@ in Morfeus-FV, refer to the dissertation by S. [Toninel (2006)].  More recent wo
   - User-defined, type-bound operators, and
   - Submodules.
 
-[Toninel (2006)]: ./media/toninel_phd.pdf.zip
+[Toninel (2006)]: media/toninel_phd.pdf.zip
 
 Input Files
 ------------
