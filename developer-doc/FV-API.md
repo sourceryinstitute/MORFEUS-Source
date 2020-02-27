@@ -49,14 +49,14 @@ in Morfeus-FV, refer to the dissertation by S. [Toninel (2006)].  More recent wo
   - User-defined, type-bound operators, and
   - Submodules.
 
-[Toninel (2006)]: ../media/toninel_phd.pdf.zip
+[Toninel (2006)]: ../media/toninel_phd.pdf
 
 Input Files
 ------------
 
 Morfeus requires two input files. The first is a geometry file in GAMBIT neutral file format or in EXODUS II format; the second is a file called fast.json that contains the problem description, i.e. the description of materials, boundary conditions, solver parameters such as convergence criteria, and output parameters. The `fast.json` file should be present in the same folder as the mesh-file and the solver.   The next several sections describe different sections of a [sample json input file].
 
-[sample json input file]: https://github.com/sourceryinstitute/OpenCoarrays/files/4207672/fast.json.zip
+[sample json input file]: ../media/fast.json
 
 High-Level Object Descriptions
 ------------------------------
