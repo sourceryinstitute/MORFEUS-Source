@@ -50,7 +50,7 @@ including
   - User-defined, type-bound operators, and
   - Submodules.
 
-[Toninel (2006)]: http://people.uniroma2.it/salvatore.filippone/nemo/toninel_phd.pdf
+[Toninel (2006)]: ../media/toninel_phd.pdf
 
 Input Files
 ------------
