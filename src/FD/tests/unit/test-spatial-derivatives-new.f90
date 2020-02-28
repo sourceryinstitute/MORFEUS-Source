@@ -43,7 +43,7 @@ contains
 
   ! Below is a dummy conductivity function which assumed to a constant value, 1.0.
   ! User will need change this function if the conductivity is vary with Temetrature or space.
-  ! kc in the deriveative calculation is assumed to be varing wih x for ddx2, varing with y for ddy2 and varing with z
+  ! kc in the deriveative calculation is assumed to be varying with x for ddx2, varying with y for ddy2 and varying with z
   ! for ddz2;
   ! User need change kc term based on kc function in the derivative calculation.
   pure real(rkind) function kc(x)

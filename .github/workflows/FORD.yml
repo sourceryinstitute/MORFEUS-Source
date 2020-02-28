@@ -72,7 +72,9 @@ jobs:
           name: FORD-API-docs
           path: ./
       - name: Extract source zip
-        run: unzip API-docs.zip
+        run: |
+          unzip API-docs.zip
+          ls -la
       - name: set git vars
         id: sgv
         run: |

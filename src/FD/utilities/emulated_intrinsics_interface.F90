@@ -13,7 +13,7 @@ module emulated_intrinsics_interface
 
 #ifndef HAVE_FINDLOC
   interface findloc
-    !! result is the last occurence of a value in an array or zero if not found
+    !! result is the last occurrence of a value in an array or zero if not found
     module procedure findloc_integer_dim1, findloc_logical_dim1, findloc_character_dim1
   end interface
 #endif

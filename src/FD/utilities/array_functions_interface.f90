@@ -8,7 +8,7 @@ MODULE array_functions_interface
   !! author: Damian Rouson
   !! date: 04/25/2019
   !!
-  !! Functionally pure array utilties
+  !! Functionally pure array utilities
   USE kind_parameters, ONLY : r8k
   IMPLICIT NONE
 
