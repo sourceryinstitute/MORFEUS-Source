@@ -52,11 +52,12 @@ jobs:
           mkdir -p $(brew --cache) || true
           ford -r $(git describe --always) --debug API-doc-FORD-file.md
           touch API-doc/.nojekyll
+          zip -vr API-docs.zip API-doc/ -x "*.DS_Store"
       - name: Upload Documentation
         uses: actions/upload-artifact@v1
         with:
           name: FORD-API-docs
-          path: ./API-doc
+          path: ./API-docs.zip
 
   Check-Links:
     runs-on: ubuntu-latest
