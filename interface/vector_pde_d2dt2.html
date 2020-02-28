@@ -1,0 +1,824 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>vector_pde_d2dt2 &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>vector_pde_d2dt2
+   <small>Interface</small>
+    
+    </h1>
+    
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.1% of total for procedures.">54 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/op_d2dt2.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/op_d2dt2.f90.html'>op_d2dt2.f90</a></li>
+    
+     <li><a href='../module/op_d2dt2.html'>op_d2dt2</a></li>
+    
+  
+     <li class="active">vector_pde_d2dt2</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+    
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<em>None</em>
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    
+    
+      <h2>interface</h2>
+      
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Calls</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: interface~~vector_pde_d2dt2~~CallsGraph Pages: 1 -->
+<svg id="interfacevector_pde_d2dt2CallsGraph" width="641pt" height="186pt"
+ viewBox="0.00 0.00 641.00 185.74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="interface~~vector_pde_d2dt2~~CallsGraph" class="graph" transform="scale(1.25 1.25) rotate(0) translate(4 227.5)">
+<title>interface~~vector_pde_d2dt2~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-227.5 794.92,-227.5 794.92,4 -4,4"/>
+<!-- interface~vector_pde_d2dt2 -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_node1" class="node">
+<title>interface~vector_pde_d2dt2</title>
+<polygon fill="none" stroke="black" points="96.1,-120.26 -0.03,-120.26 -0.03,-98.24 96.1,-98.24 96.1,-120.26"/>
+<text text-anchor="middle" x="48.03" y="-106.1" font-family="Helvetica,sans-Serif" font-size="10.50">vector_pde_d2dt2</text>
+</g>
+<!-- proc~vector_pde_d2dt2 -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_node2" class="node">
+<title>proc~vector_pde_d2dt2</title>
+<g id="a_interface~~vector_pde_d2dt2~~CallsGraph_node2"><a xlink:href=".././proc/vector_pde_d2dt2.html" xlink:title="vector_pde_d2dt2">
+<polygon fill="#d9534f" stroke="#d9534f" points="228.17,-120.26 132.03,-120.26 132.03,-98.24 228.17,-98.24 228.17,-120.26"/>
+<text text-anchor="middle" x="180.1" y="-106.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_pde_d2dt2</text>
+</a>
+</g>
+</g>
+<!-- interface~vector_pde_d2dt2&#45;&gt;proc~vector_pde_d2dt2 -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_edge1" class="edge">
+<title>interface~vector_pde_d2dt2&#45;&gt;proc~vector_pde_d2dt2</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M96.36,-109.25C104.62,-109.25 113.3,-109.25 121.79,-109.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="122.03,-112.75 132.03,-109.25 122.03,-105.75 122.03,-112.75"/>
+</g>
+<!-- psb_cd_get_local_rows -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_node3" class="node">
+<title>psb_cd_get_local_rows</title>
+<polygon fill="#777777" stroke="#777777" points="385.74,-223.26 264.26,-223.26 264.26,-201.24 385.74,-201.24 385.74,-223.26"/>
+<text text-anchor="middle" x="325" y="-209.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_cd_get_local_rows</text>
+</g>
+<!-- proc~vector_pde_d2dt2&#45;&gt;psb_cd_get_local_rows -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_edge2" class="edge">
+<title>proc~vector_pde_d2dt2&#45;&gt;psb_cd_get_local_rows</title>
+<path fill="none" stroke="#ff0000" d="M189.61,-120.37C203.45,-137.78 232.51,-171.5 264.13,-191.25 267.65,-193.45 271.44,-195.46 275.33,-197.28"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="273.95,-200.5 284.52,-201.2 276.7,-194.06 273.95,-200.5"/>
+</g>
+<!-- interface~mypnum_ -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_node4" class="node">
+<title>interface~mypnum_</title>
+<g id="a_interface~~vector_pde_d2dt2~~CallsGraph_node4"><a xlink:href=".././interface/mypnum_.html" xlink:title="mypnum_">
+<polygon fill="#a7506f" stroke="#a7506f" points="354.1,-182.26 295.9,-182.26 295.9,-160.24 354.1,-160.24 354.1,-182.26"/>
+<text text-anchor="middle" x="325" y="-168.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mypnum_</text>
+</a>
+</g>
+</g>
+<!-- proc~vector_pde_d2dt2&#45;&gt;interface~mypnum_ -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_edge3" class="edge">
+<title>proc~vector_pde_d2dt2&#45;&gt;interface~mypnum_</title>
+<path fill="none" stroke="#ff0000" d="M201.93,-120.42C218.53,-129.1 242.5,-141.15 264.13,-150.25 271.11,-153.19 278.66,-156.06 285.97,-158.69"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="285.12,-162.1 295.71,-162.12 287.44,-155.5 285.12,-162.1"/>
+</g>
+<!-- psb_get_loc_to_glob -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_node5" class="node">
+<title>psb_get_loc_to_glob</title>
+<polygon fill="#777777" stroke="#777777" points="379.42,-141.26 270.59,-141.26 270.59,-119.24 379.42,-119.24 379.42,-141.26"/>
+<text text-anchor="middle" x="325" y="-127.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_get_loc_to_glob</text>
+</g>
+<!-- proc~vector_pde_d2dt2&#45;&gt;psb_get_loc_to_glob -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_edge4" class="edge">
+<title>proc~vector_pde_d2dt2&#45;&gt;psb_get_loc_to_glob</title>
+<path fill="none" stroke="#ff0000" d="M228.29,-116.18C238.51,-117.69 249.49,-119.3 260.24,-120.88"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="260.03,-124.39 270.44,-122.38 261.05,-117.46 260.03,-124.39"/>
+</g>
+<!-- interface~pde_sign -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_node6" class="node">
+<title>interface~pde_sign</title>
+<g id="a_interface~~vector_pde_d2dt2~~CallsGraph_node6"><a xlink:href=".././interface/pde_sign.html" xlink:title="pde_sign">
+<polygon fill="#a7506f" stroke="#a7506f" points="352.12,-100.26 297.88,-100.26 297.88,-78.24 352.12,-78.24 352.12,-100.26"/>
+<text text-anchor="middle" x="325" y="-86.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pde_sign</text>
+</a>
+</g>
+</g>
+<!-- proc~vector_pde_d2dt2&#45;&gt;interface~pde_sign -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_edge5" class="edge">
+<title>proc~vector_pde_d2dt2&#45;&gt;interface~pde_sign</title>
+<path fill="none" stroke="#ff0000" d="M228.29,-102.65C247.59,-99.94 269.57,-96.87 287.59,-94.35"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="288.28,-97.78 297.7,-92.93 287.31,-90.85 288.28,-97.78"/>
+</g>
+<!-- interface~abort_psblas -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_node7" class="node">
+<title>interface~abort_psblas</title>
+<g id="a_interface~~vector_pde_d2dt2~~CallsGraph_node7"><a xlink:href=".././interface/abort_psblas.html" xlink:title="abort_psblas">
+<polygon fill="#a7506f" stroke="#a7506f" points="588.16,-80.26 515.91,-80.26 515.91,-58.24 588.16,-58.24 588.16,-80.26"/>
+<text text-anchor="middle" x="552.03" y="-66.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abort_psblas</text>
+</a>
+</g>
+</g>
+<!-- proc~vector_pde_d2dt2&#45;&gt;interface~abort_psblas -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_edge6" class="edge">
+<title>proc~vector_pde_d2dt2&#45;&gt;interface~abort_psblas</title>
+<path fill="none" stroke="#ff0000" d="M198.38,-98.06C214.61,-88.27 239.95,-74.77 264.13,-69.25 347.56,-50.2 448.23,-56.72 505.42,-63.07"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="505.24,-66.57 515.58,-64.25 506.05,-59.62 505.24,-66.57"/>
+</g>
+<!-- interface~size_blk -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_node8" class="node">
+<title>interface~size_blk</title>
+<g id="a_interface~~vector_pde_d2dt2~~CallsGraph_node8"><a xlink:href=".././interface/size_blk.html" xlink:title="size_blk">
+<polygon fill="#a7506f" stroke="#a7506f" points="352,-22.26 298,-22.26 298,-0.24 352,-0.24 352,-22.26"/>
+<text text-anchor="middle" x="325" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">size_blk</text>
+</a>
+</g>
+</g>
+<!-- proc~vector_pde_d2dt2&#45;&gt;interface~size_blk -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_edge7" class="edge">
+<title>proc~vector_pde_d2dt2&#45;&gt;interface~size_blk</title>
+<path fill="none" stroke="#ff0000" d="M191.46,-98.09C206.33,-82.57 235.16,-54.35 264.13,-36.25 271.62,-31.57 280.13,-27.42 288.34,-23.9"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="289.8,-27.09 297.75,-20.08 287.17,-20.6 289.8,-27.09"/>
+</g>
+<!-- proc~mypnum_ -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_node9" class="node">
+<title>proc~mypnum_</title>
+<g id="a_interface~~vector_pde_d2dt2~~CallsGraph_node9"><a xlink:href=".././proc/mypnum_.html" xlink:title="mypnum_">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="480.02,-182.26 421.82,-182.26 421.82,-160.24 480.02,-160.24 480.02,-182.26"/>
+<text text-anchor="middle" x="450.92" y="-168.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mypnum_</text>
+</a>
+</g>
+</g>
+<!-- interface~mypnum_&#45;&gt;proc~mypnum_ -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_edge8" class="edge">
+<title>interface~mypnum_&#45;&gt;proc~mypnum_</title>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M354.12,-171.25C371.03,-171.25 392.8,-171.25 411.31,-171.25"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="411.48,-174.75 421.48,-171.25 411.48,-167.75 411.48,-174.75"/>
+</g>
+<!-- proc~pde_sign -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_node11" class="node">
+<title>proc~pde_sign</title>
+<g id="a_interface~~vector_pde_d2dt2~~CallsGraph_node11"><a xlink:href=".././proc/pde_sign.html" xlink:title="pde_sign">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="478.04,-100.26 423.8,-100.26 423.8,-78.24 478.04,-78.24 478.04,-100.26"/>
+<text text-anchor="middle" x="450.92" y="-86.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pde_sign</text>
+</a>
+</g>
+</g>
+<!-- interface~pde_sign&#45;&gt;proc~pde_sign -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_edge9" class="edge">
+<title>interface~pde_sign&#45;&gt;proc~pde_sign</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M352.28,-89.25C370.11,-89.25 393.91,-89.25 413.55,-89.25"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="413.68,-92.75 423.68,-89.25 413.68,-85.75 413.68,-92.75"/>
+</g>
+<!-- proc~abort_psblas -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_node12" class="node">
+<title>proc~abort_psblas</title>
+<g id="a_interface~~vector_pde_d2dt2~~CallsGraph_node12"><a xlink:href=".././proc/abort_psblas.html" xlink:title="abort_psblas">
+<polygon fill="#d9534f" stroke="#d9534f" points="696.28,-80.26 624.03,-80.26 624.03,-58.24 696.28,-58.24 696.28,-80.26"/>
+<text text-anchor="middle" x="660.16" y="-66.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abort_psblas</text>
+</a>
+</g>
+</g>
+<!-- interface~abort_psblas&#45;&gt;proc~abort_psblas -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_edge10" class="edge">
+<title>interface~abort_psblas&#45;&gt;proc~abort_psblas</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M588.37,-69.25C596.52,-69.25 605.29,-69.25 613.79,-69.25"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="613.97,-72.75 623.97,-69.25 613.97,-65.75 613.97,-72.75"/>
+</g>
+<!-- proc~size_blk -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_node10" class="node">
+<title>proc~size_blk</title>
+<g id="a_interface~~vector_pde_d2dt2~~CallsGraph_node10"><a xlink:href=".././proc/size_blk.html" xlink:title="size_blk">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="477.92,-22.26 423.92,-22.26 423.92,-0.24 477.92,-0.24 477.92,-22.26"/>
+<text text-anchor="middle" x="450.92" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">size_blk</text>
+</a>
+</g>
+</g>
+<!-- interface~size_blk&#45;&gt;proc~size_blk -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_edge11" class="edge">
+<title>interface~size_blk&#45;&gt;proc~size_blk</title>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M352.28,-11.25C370.11,-11.25 393.91,-11.25 413.55,-11.25"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="413.68,-14.75 423.68,-11.25 413.68,-7.75 413.68,-14.75"/>
+</g>
+<!-- proc~pde_sign&#45;&gt;interface~abort_psblas -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_edge12" class="edge">
+<title>proc~pde_sign&#45;&gt;interface~abort_psblas</title>
+<path fill="none" stroke="#00ffff" d="M478.22,-83.94C486.64,-82.24 496.23,-80.31 505.61,-78.42"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="506.54,-81.8 515.65,-76.39 505.16,-74.94 506.54,-81.8"/>
+</g>
+<!-- psb_abort -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_node13" class="node">
+<title>psb_abort</title>
+<polygon fill="#777777" stroke="#777777" points="790.77,-80.26 732.37,-80.26 732.37,-58.24 790.77,-58.24 790.77,-80.26"/>
+<text text-anchor="middle" x="761.57" y="-66.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_abort</text>
+</g>
+<!-- proc~abort_psblas&#45;&gt;psb_abort -->
+<g id="interface~~vector_pde_d2dt2~~CallsGraph_edge13" class="edge">
+<title>proc~abort_psblas&#45;&gt;psb_abort</title>
+<path fill="none" stroke="#7f00ff" d="M696.49,-69.25C704.82,-69.25 713.74,-69.25 722.2,-69.25"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="722.22,-72.75 732.22,-69.25 722.22,-65.75 722.22,-72.75"/>
+</g>
+</g>
+</svg>
+</div><script>var paninterfacevector_pde_d2dt2CallsGraph = svgPanZoom('#interfacevector_pde_d2dt2CallsGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="550pt" height="31pt"
+ viewBox="0.00 0.00 550.25 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 546.25,-26.5 546.25,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="62.68,-22.26 0.11,-22.26 0.11,-0.24 62.68,-0.24 62.68,-22.26"/>
+<text text-anchor="middle" x="31.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="134.39,-22.26 80.39,-22.26 80.39,-0.24 134.39,-0.24 134.39,-22.26"/>
+<text text-anchor="middle" x="107.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="206.39,-22.26 152.39,-22.26 152.39,-0.24 206.39,-0.24 206.39,-22.26"/>
+<text text-anchor="middle" x="179.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="356.53,-22.26 224.26,-22.26 224.26,-0.24 356.53,-0.24 356.53,-22.26"/>
+<text text-anchor="middle" x="290.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="428.39,-22.26 374.39,-22.26 374.39,-0.24 428.39,-0.24 428.39,-22.26"/>
+<text text-anchor="middle" x="401.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="542.1,-22.26 446.69,-22.26 446.69,-0.24 542.1,-0.24 542.1,-22.26"/>
+<text text-anchor="middle" x="494.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a procedure to one which it calls. Dashed 
+    arrows point from an interface to procedures which implement that interface.
+    This could include the module procedures in a generic interface or the
+    implementation in a submodule of an interface in a parent module. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+     
+     
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Called by</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: interface~~vector_pde_d2dt2~~CalledByGraph Pages: 1 -->
+<svg id="interfacevector_pde_d2dt2CalledByGraph" width="539pt" height="72pt"
+ viewBox="0.00 0.00 539.40 71.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="interface~~vector_pde_d2dt2~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 67.5)">
+<title>interface~~vector_pde_d2dt2~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-67.5 535.4,-67.5 535.4,4 -4,4"/>
+<!-- interface~vector_pde_d2dt2 -->
+<g id="interface~~vector_pde_d2dt2~~CalledByGraph_node1" class="node">
+<title>interface~vector_pde_d2dt2</title>
+<polygon fill="none" stroke="black" points="531.43,-42.26 435.3,-42.26 435.3,-20.24 531.43,-20.24 531.43,-42.26"/>
+<text text-anchor="middle" x="483.36" y="-28.1" font-family="Helvetica,sans-Serif" font-size="10.50">vector_pde_d2dt2</text>
+</g>
+<!-- proc~vector_pde_d2dt2_fld_phi -->
+<g id="interface~~vector_pde_d2dt2~~CalledByGraph_node2" class="node">
+<title>proc~vector_pde_d2dt2_fld_phi</title>
+<g id="a_interface~~vector_pde_d2dt2~~CalledByGraph_node2"><a xlink:href=".././proc/vector_pde_d2dt2_fld_phi.html" xlink:title="vector_pde_d2dt2_fld_phi">
+<polygon fill="#d9534f" stroke="#d9534f" points="399.25,-63.26 266.56,-63.26 266.56,-41.24 399.25,-41.24 399.25,-63.26"/>
+<text text-anchor="middle" x="332.91" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_pde_d2dt2_fld_phi</text>
+</a>
+</g>
+</g>
+<!-- proc~vector_pde_d2dt2_fld_phi&#45;&gt;interface~vector_pde_d2dt2 -->
+<g id="interface~~vector_pde_d2dt2~~CalledByGraph_edge1" class="edge">
+<title>proc~vector_pde_d2dt2_fld_phi&#45;&gt;interface~vector_pde_d2dt2</title>
+<path fill="none" stroke="#ff0000" d="M399.45,-42.98C407.96,-41.78 416.62,-40.55 424.97,-39.37"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="425.58,-42.82 434.99,-37.95 424.6,-35.89 425.58,-42.82"/>
+</g>
+<!-- proc~vector_pde_d2dt2_phi -->
+<g id="interface~~vector_pde_d2dt2~~CalledByGraph_node3" class="node">
+<title>proc~vector_pde_d2dt2_phi</title>
+<g id="a_interface~~vector_pde_d2dt2~~CalledByGraph_node3"><a xlink:href=".././proc/vector_pde_d2dt2_phi.html" xlink:title="vector_pde_d2dt2_phi">
+<polygon fill="#d9534f" stroke="#d9534f" points="390.82,-22.26 274.99,-22.26 274.99,-0.24 390.82,-0.24 390.82,-22.26"/>
+<text text-anchor="middle" x="332.91" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_pde_d2dt2_phi</text>
+</a>
+</g>
+</g>
+<!-- proc~vector_pde_d2dt2_phi&#45;&gt;interface~vector_pde_d2dt2 -->
+<g id="interface~~vector_pde_d2dt2~~CalledByGraph_edge2" class="edge">
+<title>proc~vector_pde_d2dt2_phi&#45;&gt;interface~vector_pde_d2dt2</title>
+<path fill="none" stroke="#ff0000" d="M390.88,-18.93C402.02,-20.43 413.71,-22 424.87,-23.51"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="424.57,-27 434.94,-24.86 425.5,-20.06 424.57,-27"/>
+</g>
+<!-- interface~vector_pde_d2dt2_fld_phi -->
+<g id="interface~~vector_pde_d2dt2~~CalledByGraph_node4" class="node">
+<title>interface~vector_pde_d2dt2_fld_phi</title>
+<g id="a_interface~~vector_pde_d2dt2~~CalledByGraph_node4"><a xlink:href=".././interface/vector_pde_d2dt2_fld_phi.html" xlink:title="vector_pde_d2dt2_fld_phi">
+<polygon fill="#a7506f" stroke="#a7506f" points="230.41,-63.26 97.71,-63.26 97.71,-41.24 230.41,-41.24 230.41,-63.26"/>
+<text text-anchor="middle" x="164.06" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_pde_d2dt2_fld_phi</text>
+</a>
+</g>
+</g>
+<!-- interface~vector_pde_d2dt2_fld_phi&#45;&gt;proc~vector_pde_d2dt2_fld_phi -->
+<g id="interface~~vector_pde_d2dt2~~CalledByGraph_edge3" class="edge">
+<title>interface~vector_pde_d2dt2_fld_phi&#45;&gt;proc~vector_pde_d2dt2_fld_phi</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M230.52,-52.25C238.99,-52.25 247.71,-52.25 256.32,-52.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="256.36,-55.75 266.36,-52.25 256.36,-48.75 256.36,-55.75"/>
+</g>
+<!-- interface~vector_pde_d2dt2_phi -->
+<g id="interface~~vector_pde_d2dt2~~CalledByGraph_node5" class="node">
+<title>interface~vector_pde_d2dt2_phi</title>
+<g id="a_interface~~vector_pde_d2dt2~~CalledByGraph_node5"><a xlink:href=".././interface/vector_pde_d2dt2_phi.html" xlink:title="vector_pde_d2dt2_phi">
+<polygon fill="#a7506f" stroke="#a7506f" points="221.98,-22.26 106.14,-22.26 106.14,-0.24 221.98,-0.24 221.98,-22.26"/>
+<text text-anchor="middle" x="164.06" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_pde_d2dt2_phi</text>
+</a>
+</g>
+</g>
+<!-- interface~vector_pde_d2dt2_phi&#45;&gt;proc~vector_pde_d2dt2_phi -->
+<g id="interface~~vector_pde_d2dt2~~CalledByGraph_edge4" class="edge">
+<title>interface~vector_pde_d2dt2_phi&#45;&gt;proc~vector_pde_d2dt2_phi</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M222.01,-11.25C235.76,-11.25 250.58,-11.25 264.75,-11.25"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="264.93,-14.75 274.93,-11.25 264.93,-7.75 264.93,-14.75"/>
+</g>
+<!-- interface~pde_d2dt2 -->
+<g id="interface~~vector_pde_d2dt2~~CalledByGraph_node6" class="node">
+<title>interface~pde_d2dt2</title>
+<g id="a_interface~~vector_pde_d2dt2~~CalledByGraph_node6"><a xlink:href=".././interface/pde_d2dt2.html" xlink:title="pde_d2dt2">
+<polygon fill="#a7506f" stroke="#a7506f" points="61.45,-42.26 0.18,-42.26 0.18,-20.24 61.45,-20.24 61.45,-42.26"/>
+<text text-anchor="middle" x="30.82" y="-28.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pde_d2dt2</text>
+</a>
+</g>
+</g>
+<!-- interface~pde_d2dt2&#45;&gt;interface~vector_pde_d2dt2_fld_phi -->
+<g id="interface~~vector_pde_d2dt2~~CalledByGraph_edge5" class="edge">
+<title>interface~pde_d2dt2&#45;&gt;interface~vector_pde_d2dt2_fld_phi</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M61.6,-36.02C69.48,-37.28 78.37,-38.7 87.51,-40.16"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="87.08,-43.64 97.51,-41.76 88.19,-36.72 87.08,-43.64"/>
+</g>
+<!-- interface~pde_d2dt2&#45;&gt;interface~vector_pde_d2dt2_phi -->
+<g id="interface~~vector_pde_d2dt2~~CalledByGraph_edge6" class="edge">
+<title>interface~pde_d2dt2&#45;&gt;interface~vector_pde_d2dt2_phi</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M61.6,-26.71C71.88,-25.15 83.85,-23.32 95.89,-21.49"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="96.63,-24.91 105.99,-19.95 95.58,-17.99 96.63,-24.91"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="550pt" height="31pt"
+ viewBox="0.00 0.00 550.25 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 546.25,-26.5 546.25,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="62.68,-22.26 0.11,-22.26 0.11,-0.24 62.68,-0.24 62.68,-22.26"/>
+<text text-anchor="middle" x="31.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="134.39,-22.26 80.39,-22.26 80.39,-0.24 134.39,-0.24 134.39,-22.26"/>
+<text text-anchor="middle" x="107.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="206.39,-22.26 152.39,-22.26 152.39,-0.24 206.39,-0.24 206.39,-22.26"/>
+<text text-anchor="middle" x="179.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="356.53,-22.26 224.26,-22.26 224.26,-0.24 356.53,-0.24 356.53,-22.26"/>
+<text text-anchor="middle" x="290.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="428.39,-22.26 374.39,-22.26 374.39,-0.24 428.39,-0.24 428.39,-22.26"/>
+<text text-anchor="middle" x="401.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="542.1,-22.26 446.69,-22.26 446.69,-0.24 542.1,-0.24 542.1,-22.26"/>
+<text text-anchor="middle" x="494.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a procedure to one which it calls. Dashed 
+    arrows point from an interface to procedures which implement that interface.
+    This could include the module procedures in a generic interface or the
+    implementation in a submodule of an interface in a parent module. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+     
+    
+    <br>
+    
+      <h2>
+private module subroutine vector_pde_d2dt2(sign, pde, phi, dt, fld, side)
+    
+    
+   
+   <a href='../proc/vector_pde_d2dt2.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h2>
+    
+
+    
+  
+
+
+    <h3>Arguments</h3>
+    
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-sign~5"></span>character(len=1),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>sign</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-pde~5"></span>type(<a href='../type/vector_pde.html'>vector_pde</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>pde</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-phi~7"></span>type(<a href='../type/vector_field.html'>vector_field</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>phi</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dt~5"></span>real(kind=psb_dpk_),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dt</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-fld~3"></span>type(<a href='../type/scalar_field.html'>scalar_field</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>fld</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-side~5"></span>real(kind=psb_dpk_),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>side</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    
+    
+    
+    <br>
+
+ </div>
+</div>
+
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

@@ -1,0 +1,1124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>laplacian_smooth &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>laplacian_smooth
+   <small>Interface</small>
+    
+    </h1>
+    
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.3% of total for procedures.">119 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/tools_mesh_optimize.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/tools_mesh_optimize.f90.html'>tools_mesh_optimize.f90</a></li>
+    
+     <li><a href='../module/tools_mesh_optimize.html'>tools_mesh_optimize</a></li>
+    
+  
+     <li class="active">laplacian_smooth</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+    
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<em>None</em>
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    
+    
+      <h2>interface</h2>
+      
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Calls</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: interface~~laplacian_smooth~~CallsGraph Pages: 1 -->
+<svg id="interfacelaplacian_smoothCallsGraph" width="641pt" height="598pt"
+ viewBox="0.00 0.00 641.00 598.28" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="interface~~laplacian_smooth~~CallsGraph" class="graph" transform="scale(1.4 1.4) rotate(0) translate(4 831.5)">
+<title>interface~~laplacian_smooth~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-831.5 891.15,-831.5 891.15,4 -4,4"/>
+<!-- interface~laplacian_smooth -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node1" class="node">
+<title>interface~laplacian_smooth</title>
+<polygon fill="none" stroke="black" points="93.58,-407.26 0.14,-407.26 0.14,-385.24 93.58,-385.24 93.58,-407.26"/>
+<text text-anchor="middle" x="46.86" y="-393.1" font-family="Helvetica,sans-Serif" font-size="10.50">laplacian_smooth</text>
+</g>
+<!-- proc~laplacian_smooth -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node2" class="node">
+<title>proc~laplacian_smooth</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node2"><a xlink:href=".././proc/laplacian_smooth.html" xlink:title="laplacian_smooth">
+<polygon fill="#d9534f" stroke="#d9534f" points="223.3,-407.26 129.86,-407.26 129.86,-385.24 223.3,-385.24 223.3,-407.26"/>
+<text text-anchor="middle" x="176.58" y="-393.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">laplacian_smooth</text>
+</a>
+</g>
+</g>
+<!-- interface~laplacian_smooth&#45;&gt;proc~laplacian_smooth -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge1" class="edge">
+<title>interface~laplacian_smooth&#45;&gt;proc~laplacian_smooth</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M93.61,-396.25C102.04,-396.25 110.94,-396.25 119.64,-396.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="119.72,-399.75 129.72,-396.25 119.72,-392.75 119.72,-399.75"/>
+</g>
+<!-- psb_cd_get_local_rows -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node3" class="node">
+<title>psb_cd_get_local_rows</title>
+<polygon fill="#777777" stroke="#777777" points="381.04,-827.26 259.57,-827.26 259.57,-805.24 381.04,-805.24 381.04,-827.26"/>
+<text text-anchor="middle" x="320.31" y="-813.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_cd_get_local_rows</text>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;psb_cd_get_local_rows -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge2" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;psb_cd_get_local_rows</title>
+<path fill="none" stroke="#ff0000" d="M178.4,-407.35C182.91,-465.48 206.41,-734.53 259.44,-795.25 260.77,-796.77 262.22,-798.19 263.76,-799.5"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="261.91,-802.48 272.14,-805.24 265.87,-796.7 261.91,-802.48"/>
+</g>
+<!-- interface~abort_psblas -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node4" class="node">
+<title>interface~abort_psblas</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node4"><a xlink:href=".././interface/abort_psblas.html" xlink:title="abort_psblas">
+<polygon fill="#a7506f" stroke="#a7506f" points="356.43,-786.26 284.18,-786.26 284.18,-764.24 356.43,-764.24 356.43,-786.26"/>
+<text text-anchor="middle" x="320.31" y="-772.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abort_psblas</text>
+</a>
+</g>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;interface~abort_psblas -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge3" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;interface~abort_psblas</title>
+<path fill="none" stroke="#ff0000" d="M178.79,-407.45C184.86,-461.59 213.45,-695.79 259.44,-750.25 263.63,-755.22 268.98,-759.22 274.75,-762.43"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="273.53,-765.73 284.06,-766.87 276.53,-759.41 273.53,-765.73"/>
+</g>
+<!-- interface~icontxt_ -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node5" class="node">
+<title>interface~icontxt_</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node5"><a xlink:href=".././interface/icontxt_.html" xlink:title="icontxt_">
+<polygon fill="#a7506f" stroke="#a7506f" points="765.9,-727.26 711.9,-727.26 711.9,-705.24 765.9,-705.24 765.9,-727.26"/>
+<text text-anchor="middle" x="738.9" y="-713.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">icontxt_</text>
+</a>
+</g>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;interface~icontxt_ -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge4" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;interface~icontxt_</title>
+<path fill="none" stroke="#ff0000" d="M177.25,-407.5C176.67,-449.44 180.47,-598.25 259.44,-675.25 381.3,-794.09 613.11,-749.45 701.99,-726.5"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="703.09,-729.83 711.86,-723.89 701.29,-723.07 703.09,-729.83"/>
+</g>
+<!-- interface~solve_sys -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node6" class="node">
+<title>interface~solve_sys</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node6"><a xlink:href=".././interface/solve_sys.html" xlink:title="solve_sys">
+<polygon fill="#a7506f" stroke="#a7506f" points="349.41,-666.26 291.2,-666.26 291.2,-644.24 349.41,-644.24 349.41,-666.26"/>
+<text text-anchor="middle" x="320.31" y="-652.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">solve_sys</text>
+</a>
+</g>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;interface~solve_sys -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge5" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;interface~solve_sys</title>
+<path fill="none" stroke="#ff0000" d="M178.11,-407.48C180.49,-445.04 193.21,-567.62 259.44,-634.25 265.45,-640.3 273.31,-644.62 281.35,-647.69"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="280.54,-651.1 291.13,-650.85 282.69,-644.44 280.54,-651.1"/>
+</g>
+<!-- psb_geasb -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node7" class="node">
+<title>psb_geasb</title>
+<polygon fill="#777777" stroke="#777777" points="352.18,-625.26 288.43,-625.26 288.43,-603.24 352.18,-603.24 352.18,-625.26"/>
+<text text-anchor="middle" x="320.31" y="-611.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_geasb</text>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;psb_geasb -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge6" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;psb_geasb</title>
+<path fill="none" stroke="#ff0000" d="M179.31,-407.48C184.88,-440.01 205.24,-535.36 259.44,-589.25 265.05,-594.83 272.1,-599.24 279.37,-602.69"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="278.03,-605.92 288.6,-606.56 280.74,-599.46 278.03,-605.92"/>
+</g>
+<!-- psb_erractionsave -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node8" class="node">
+<title>psb_erractionsave</title>
+<polygon fill="#777777" stroke="#777777" points="787.7,-571.26 690.1,-571.26 690.1,-549.24 787.7,-549.24 787.7,-571.26"/>
+<text text-anchor="middle" x="738.9" y="-557.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_erractionsave</text>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;psb_erractionsave -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge7" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;psb_erractionsave</title>
+<path fill="none" stroke="#ff0000" d="M179.29,-407.44C184.64,-437.93 204.07,-522.39 259.44,-556.25 305.59,-584.48 327.09,-557.75 381.17,-556.25 397.19,-555.81 401.16,-554.69 417.17,-554.25 520.06,-551.39 545.89,-550.79 648.75,-554.25 658.75,-554.59 669.37,-555.13 679.67,-555.76"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="679.61,-559.27 689.81,-556.42 680.06,-552.28 679.61,-559.27"/>
+</g>
+<!-- psb_ovrl -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node9" class="node">
+<title>psb_ovrl</title>
+<polygon fill="#777777" stroke="#777777" points="347.31,-547.26 293.31,-547.26 293.31,-525.24 347.31,-525.24 347.31,-547.26"/>
+<text text-anchor="middle" x="320.31" y="-533.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_ovrl</text>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;psb_ovrl -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge8" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;psb_ovrl</title>
+<path fill="none" stroke="#ff0000" d="M182.77,-407.3C193.86,-429.79 221.9,-481.28 259.44,-511.25 266.6,-516.97 275.26,-521.58 283.74,-525.21"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="282.56,-528.5 293.15,-528.89 285.11,-521.99 282.56,-528.5"/>
+</g>
+<!-- psb_erractionrestore -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node10" class="node">
+<title>psb_erractionrestore</title>
+<polygon fill="#777777" stroke="#777777" points="793.2,-512.26 684.6,-512.26 684.6,-490.24 793.2,-490.24 793.2,-512.26"/>
+<text text-anchor="middle" x="738.9" y="-498.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_erractionrestore</text>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;psb_erractionrestore -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge9" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;psb_erractionrestore</title>
+<path fill="none" stroke="#ff0000" d="M184.52,-407.29C196.92,-425.89 224.86,-462.93 259.44,-478.25 331.88,-510.35 561.57,-507.41 674.28,-503.8"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="674.6,-507.29 684.48,-503.46 674.37,-500.3 674.6,-507.29"/>
+</g>
+<!-- psb_precfree -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node11" class="node">
+<title>psb_precfree</title>
+<polygon fill="#777777" stroke="#777777" points="357.09,-469.26 283.52,-469.26 283.52,-447.24 357.09,-447.24 357.09,-469.26"/>
+<text text-anchor="middle" x="320.31" y="-455.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_precfree</text>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;psb_precfree -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge10" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;psb_precfree</title>
+<path fill="none" stroke="#ff0000" d="M197.76,-407.26C214.13,-415.97 237.92,-428.13 259.44,-437.25 264.63,-439.45 270.15,-441.62 275.65,-443.67"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="274.86,-447.1 285.46,-447.22 277.25,-440.52 274.86,-447.1"/>
+</g>
+<!-- psb_geall -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node12" class="node">
+<title>psb_geall</title>
+<polygon fill="#777777" stroke="#777777" points="348.76,-428.26 291.85,-428.26 291.85,-406.24 348.76,-406.24 348.76,-428.26"/>
+<text text-anchor="middle" x="320.31" y="-414.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_geall</text>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;psb_geall -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge11" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;psb_geall</title>
+<path fill="none" stroke="#ff0000" d="M223.59,-403.07C242.38,-405.85 263.83,-409.03 281.65,-411.67"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="281.28,-415.15 291.68,-413.16 282.3,-408.23 281.28,-415.15"/>
+</g>
+<!-- psb_spall -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node13" class="node">
+<title>psb_spall</title>
+<polygon fill="#777777" stroke="#777777" points="348.67,-387.26 291.94,-387.26 291.94,-365.24 348.67,-365.24 348.67,-387.26"/>
+<text text-anchor="middle" x="320.31" y="-373.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_spall</text>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;psb_spall -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge12" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;psb_spall</title>
+<path fill="none" stroke="#ff0000" d="M223.59,-389.76C242.51,-387.09 264.14,-384.04 282.04,-381.51"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="282.69,-384.95 292.1,-380.09 281.71,-378.02 282.69,-384.95"/>
+</g>
+<!-- psb_geins -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node14" class="node">
+<title>psb_geins</title>
+<polygon fill="#777777" stroke="#777777" points="350.18,-346.26 290.44,-346.26 290.44,-324.24 350.18,-324.24 350.18,-346.26"/>
+<text text-anchor="middle" x="320.31" y="-332.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_geins</text>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;psb_geins -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge13" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;psb_geins</title>
+<path fill="none" stroke="#ff0000" d="M198.47,-385.2C214.82,-376.75 238.28,-365.1 259.44,-356.25 266.28,-353.39 273.67,-350.58 280.85,-347.99"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="282.15,-351.24 290.42,-344.62 279.83,-344.64 282.15,-351.24"/>
+</g>
+<!-- interface~vector_ -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node15" class="node">
+<title>interface~vector_</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node15"><a xlink:href=".././interface/vector_.html" xlink:title="vector_">
+<polygon fill="#a7506f" stroke="#a7506f" points="347.31,-305.26 293.31,-305.26 293.31,-283.24 347.31,-283.24 347.31,-305.26"/>
+<text text-anchor="middle" x="320.31" y="-291.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_</text>
+</a>
+</g>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;interface~vector_ -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge14" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;interface~vector_</title>
+<path fill="none" stroke="#ff0000" d="M186.18,-384.98C199.91,-367.7 228.41,-334.65 259.44,-315.25 266.82,-310.63 275.35,-306.87 283.62,-303.86"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="284.75,-307.18 293.12,-300.68 282.53,-300.54 284.75,-307.18"/>
+</g>
+<!-- psb_spasb -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node16" class="node">
+<title>psb_spasb</title>
+<polygon fill="#777777" stroke="#777777" points="351.59,-264.26 289.02,-264.26 289.02,-242.24 351.59,-242.24 351.59,-264.26"/>
+<text text-anchor="middle" x="320.31" y="-250.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_spasb</text>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;psb_spasb -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge15" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;psb_spasb</title>
+<path fill="none" stroke="#ff0000" d="M182.13,-385.06C192.37,-361.24 219.5,-305.16 259.44,-274.25 265.31,-269.71 272.23,-266.1 279.25,-263.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="280.57,-266.5 288.8,-259.82 278.2,-259.91 280.57,-266.5"/>
+</g>
+<!-- psb_spfree -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node17" class="node">
+<title>psb_spfree</title>
+<polygon fill="#777777" stroke="#777777" points="352.26,-223.26 288.35,-223.26 288.35,-201.24 352.26,-201.24 352.26,-223.26"/>
+<text text-anchor="middle" x="320.31" y="-209.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_spfree</text>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;psb_spfree -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge16" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;psb_spfree</title>
+<path fill="none" stroke="#ff0000" d="M180.12,-384.96C187.3,-355.62 210.45,-276.33 259.44,-233.25 265.01,-228.35 271.8,-224.57 278.77,-221.67"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="280.09,-224.92 288.3,-218.23 277.71,-218.33 280.09,-224.92"/>
+</g>
+<!-- psb_gefree -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node18" class="node">
+<title>psb_gefree</title>
+<polygon fill="#777777" stroke="#777777" points="352.35,-182.26 288.26,-182.26 288.26,-160.24 352.35,-160.24 352.35,-182.26"/>
+<text text-anchor="middle" x="320.31" y="-168.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_gefree</text>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;psb_gefree -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge17" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;psb_gefree</title>
+<path fill="none" stroke="#ff0000" d="M178.82,-385.2C183.2,-351.38 200.98,-248.18 259.44,-192.25 264.8,-187.12 271.49,-183.24 278.43,-180.3"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="279.74,-183.54 287.95,-176.85 277.36,-176.96 279.74,-183.54"/>
+</g>
+<!-- psb_check_error -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node19" class="node">
+<title>psb_check_error</title>
+<polygon fill="#777777" stroke="#777777" points="784.11,-309.26 693.7,-309.26 693.7,-287.24 784.11,-287.24 784.11,-309.26"/>
+<text text-anchor="middle" x="738.9" y="-295.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_check_error</text>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;psb_check_error -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge18" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;psb_check_error</title>
+<path fill="none" stroke="#ff0000" d="M177.2,-385.16C176.54,-345.25 180.29,-208.25 259.44,-151.25 411.56,-41.69 647.07,-221.17 717.4,-280.35"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="715.26,-283.12 725.14,-286.94 719.8,-277.79 715.26,-283.12"/>
+</g>
+<!-- psb_spins -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node20" class="node">
+<title>psb_spins</title>
+<polygon fill="#777777" stroke="#777777" points="350.09,-104.26 290.52,-104.26 290.52,-82.24 350.09,-82.24 350.09,-104.26"/>
+<text text-anchor="middle" x="320.31" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_spins</text>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;psb_spins -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge19" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;psb_spins</title>
+<path fill="none" stroke="#ff0000" d="M177.61,-385.09C178.34,-344.09 186.23,-199.92 259.44,-118.25 265.27,-111.74 273.07,-106.88 281.11,-103.27"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="282.52,-106.47 290.55,-99.57 279.97,-99.96 282.52,-106.47"/>
+</g>
+<!-- loc_to_glob_ -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node21" class="node">
+<title>loc_to_glob_</title>
+<polygon fill="#777777" stroke="#777777" points="355.86,-63.26 284.75,-63.26 284.75,-41.24 355.86,-41.24 355.86,-63.26"/>
+<text text-anchor="middle" x="320.31" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">loc_to_glob_</text>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;loc_to_glob_ -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge20" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;loc_to_glob_</title>
+<path fill="none" stroke="#ff0000" d="M179,-384.96C185.7,-333.44 215.61,-121.17 259.44,-73.25 263.78,-68.5 269.26,-64.83 275.12,-61.98"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="276.6,-65.16 284.56,-58.17 273.98,-58.67 276.6,-65.16"/>
+</g>
+<!-- interface~build_prec -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node22" class="node">
+<title>interface~build_prec</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node22"><a xlink:href=".././interface/build_prec.html" xlink:title="build_prec">
+<polygon fill="#a7506f" stroke="#a7506f" points="350.76,-22.26 289.85,-22.26 289.85,-0.24 350.76,-0.24 350.76,-22.26"/>
+<text text-anchor="middle" x="320.31" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">build_prec</text>
+</a>
+</g>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;interface~build_prec -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge21" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;interface~build_prec</title>
+<path fill="none" stroke="#ff0000" d="M178.65,-385.05C184.12,-329.82 210.67,-87.04 259.44,-32.25 265.01,-25.99 272.55,-21.6 280.41,-18.51"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="281.62,-21.8 290.03,-15.36 279.44,-15.15 281.62,-21.8"/>
+</g>
+<!-- proc~abort_psblas -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node30" class="node">
+<title>proc~abort_psblas</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node30"><a xlink:href=".././proc/abort_psblas.html" xlink:title="abort_psblas">
+<polygon fill="#d9534f" stroke="#d9534f" points="502.19,-786.26 429.95,-786.26 429.95,-764.24 502.19,-764.24 502.19,-786.26"/>
+<text text-anchor="middle" x="466.07" y="-772.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abort_psblas</text>
+</a>
+</g>
+</g>
+<!-- interface~abort_psblas&#45;&gt;proc~abort_psblas -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge22" class="edge">
+<title>interface~abort_psblas&#45;&gt;proc~abort_psblas</title>
+<path fill="none" stroke="#ff4c00" stroke-dasharray="5,2" d="M356.47,-775.25C375.53,-775.25 399.3,-775.25 419.73,-775.25"/>
+<polygon fill="#ff4c00" stroke="#ff4c00" points="419.77,-778.75 429.77,-775.25 419.77,-771.75 419.77,-778.75"/>
+</g>
+<!-- proc~icontxt_ -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node29" class="node">
+<title>proc~icontxt_</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node29"><a xlink:href=".././proc/icontxt_.html" xlink:title="icontxt_">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="885.1,-727.26 831.1,-727.26 831.1,-705.24 885.1,-705.24 885.1,-727.26"/>
+<text text-anchor="middle" x="858.1" y="-713.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">icontxt_</text>
+</a>
+</g>
+</g>
+<!-- interface~icontxt_&#45;&gt;proc~icontxt_ -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge23" class="edge">
+<title>interface~icontxt_&#45;&gt;proc~icontxt_</title>
+<path fill="none" stroke="#ff9900" stroke-dasharray="5,2" d="M765.91,-716.25C782.04,-716.25 802.99,-716.25 820.74,-716.25"/>
+<polygon fill="#ff9900" stroke="#ff9900" points="820.76,-719.75 830.76,-716.25 820.76,-712.75 820.76,-719.75"/>
+</g>
+<!-- interface~cholesky_solve_m -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node23" class="node">
+<title>interface~cholesky_solve_m</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node23"><a xlink:href=".././interface/cholesky_solve_m.html" xlink:title="cholesky_solve_m">
+<polygon fill="#a7506f" stroke="#a7506f" points="514.86,-667.26 417.28,-667.26 417.28,-645.24 514.86,-645.24 514.86,-667.26"/>
+<text text-anchor="middle" x="466.07" y="-653.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cholesky_solve_m</text>
+</a>
+</g>
+</g>
+<!-- interface~solve_sys&#45;&gt;interface~cholesky_solve_m -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge24" class="edge">
+<title>interface~solve_sys&#45;&gt;interface~cholesky_solve_m</title>
+<path fill="none" stroke="#ffe500" stroke-dasharray="5,2" d="M349.37,-655.45C365.79,-655.56 387.14,-655.71 407.03,-655.85"/>
+<polygon fill="#ffe500" stroke="#ffe500" points="407.24,-659.35 417.26,-655.92 407.29,-652.35 407.24,-659.35"/>
+</g>
+<!-- interface~psb_solve_sys -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node25" class="node">
+<title>interface~psb_solve_sys</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node25"><a xlink:href=".././interface/psb_solve_sys.html" xlink:title="psb_solve_sys">
+<polygon fill="#a7506f" stroke="#a7506f" points="506.44,-626.26 425.7,-626.26 425.7,-604.24 506.44,-604.24 506.44,-626.26"/>
+<text text-anchor="middle" x="466.07" y="-612.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_solve_sys</text>
+</a>
+</g>
+</g>
+<!-- interface~solve_sys&#45;&gt;interface~psb_solve_sys -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge26" class="edge">
+<title>interface~solve_sys&#45;&gt;interface~psb_solve_sys</title>
+<path fill="none" stroke="#ffe500" stroke-dasharray="5,2" d="M349.37,-647.44C368.22,-642.2 393.57,-635.14 415.73,-628.98"/>
+<polygon fill="#ffe500" stroke="#ffe500" points="416.96,-632.27 425.66,-626.22 415.09,-625.52 416.96,-632.27"/>
+</g>
+<!-- interface~lu_solve -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node26" class="node">
+<title>interface~lu_solve</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node26"><a xlink:href=".././interface/lu_solve.html" xlink:title="lu_solve">
+<polygon fill="#a7506f" stroke="#a7506f" points="493.07,-585.26 439.07,-585.26 439.07,-563.24 493.07,-563.24 493.07,-585.26"/>
+<text text-anchor="middle" x="466.07" y="-571.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lu_solve</text>
+</a>
+</g>
+</g>
+<!-- interface~solve_sys&#45;&gt;interface~lu_solve -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge27" class="edge">
+<title>interface~solve_sys&#45;&gt;interface~lu_solve</title>
+<path fill="none" stroke="#ffe500" stroke-dasharray="5,2" d="M349.44,-648.48C359.93,-645.19 371.6,-640.54 381.17,-634.25 400.89,-621.3 397.97,-608.94 417.17,-595.25 420.94,-592.57 425.09,-590.12 429.34,-587.93"/>
+<polygon fill="#ffe500" stroke="#ffe500" points="431.12,-590.96 438.67,-583.52 428.13,-584.63 431.12,-590.96"/>
+</g>
+<!-- interface~cholesky_solve_v -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node27" class="node">
+<title>interface~cholesky_solve_v</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node27"><a xlink:href=".././interface/cholesky_solve_v.html" xlink:title="cholesky_solve_v">
+<polygon fill="#a7506f" stroke="#a7506f" points="513.36,-708.26 418.78,-708.26 418.78,-686.24 513.36,-686.24 513.36,-708.26"/>
+<text text-anchor="middle" x="466.07" y="-694.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cholesky_solve_v</text>
+</a>
+</g>
+</g>
+<!-- interface~solve_sys&#45;&gt;interface~cholesky_solve_v -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge25" class="edge">
+<title>interface~solve_sys&#45;&gt;interface~cholesky_solve_v</title>
+<path fill="none" stroke="#ffe500" stroke-dasharray="5,2" d="M349.37,-663.45C368.73,-669.1 394.95,-676.76 417.53,-683.36"/>
+<polygon fill="#ffe500" stroke="#ffe500" points="416.7,-686.77 427.29,-686.21 418.67,-680.05 416.7,-686.77"/>
+</g>
+<!-- proc~vector_ -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node24" class="node">
+<title>proc~vector_</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node24"><a xlink:href=".././proc/vector_.html" xlink:title="vector_">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="493.07,-305.26 439.07,-305.26 439.07,-283.24 493.07,-283.24 493.07,-305.26"/>
+<text text-anchor="middle" x="466.07" y="-291.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_</text>
+</a>
+</g>
+</g>
+<!-- interface~vector_&#45;&gt;proc~vector_ -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge28" class="edge">
+<title>interface~vector_&#45;&gt;proc~vector_</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M347.34,-294.25C370,-294.25 403.08,-294.25 428.41,-294.25"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="428.74,-297.75 438.74,-294.25 428.74,-290.75 428.74,-297.75"/>
+</g>
+<!-- interface~psb_build_prec -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node28" class="node">
+<title>interface~psb_build_prec</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node28"><a xlink:href=".././interface/psb_build_prec.html" xlink:title="psb_build_prec">
+<polygon fill="#a7506f" stroke="#a7506f" points="507.79,-22.26 424.35,-22.26 424.35,-0.24 507.79,-0.24 507.79,-22.26"/>
+<text text-anchor="middle" x="466.07" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_build_prec</text>
+</a>
+</g>
+</g>
+<!-- interface~build_prec&#45;&gt;interface~psb_build_prec -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge29" class="edge">
+<title>interface~build_prec&#45;&gt;interface~psb_build_prec</title>
+<path fill="none" stroke="#ff004c" stroke-dasharray="5,2" d="M350.75,-11.25C368.96,-11.25 392.84,-11.25 414.06,-11.25"/>
+<polygon fill="#ff004c" stroke="#ff004c" points="414.23,-14.75 424.23,-11.25 414.23,-7.75 414.23,-14.75"/>
+</g>
+<!-- proc~cholesky_solve_m -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node34" class="node">
+<title>proc~cholesky_solve_m</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node34"><a xlink:href=".././proc/cholesky_solve_m.html" xlink:title="cholesky_solve_m">
+<polygon fill="#d9534f" stroke="#d9534f" points="648.65,-667.26 551.07,-667.26 551.07,-645.24 648.65,-645.24 648.65,-667.26"/>
+<text text-anchor="middle" x="599.86" y="-653.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cholesky_solve_m</text>
+</a>
+</g>
+</g>
+<!-- interface~cholesky_solve_m&#45;&gt;proc~cholesky_solve_m -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge30" class="edge">
+<title>interface~cholesky_solve_m&#45;&gt;proc~cholesky_solve_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M515.02,-656.25C523.29,-656.25 531.96,-656.25 540.47,-656.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="540.72,-659.75 550.72,-656.25 540.72,-652.75 540.72,-659.75"/>
+</g>
+<!-- proc~psb_solve_sys -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node32" class="node">
+<title>proc~psb_solve_sys</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node32"><a xlink:href=".././proc/psb_solve_sys.html" xlink:title="psb_solve_sys">
+<polygon fill="#d9534f" stroke="#d9534f" points="640.23,-626.26 559.49,-626.26 559.49,-604.24 640.23,-604.24 640.23,-626.26"/>
+<text text-anchor="middle" x="599.86" y="-612.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_solve_sys</text>
+</a>
+</g>
+</g>
+<!-- interface~psb_solve_sys&#45;&gt;proc~psb_solve_sys -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge31" class="edge">
+<title>interface~psb_solve_sys&#45;&gt;proc~psb_solve_sys</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M506.61,-615.25C520.03,-615.25 535.2,-615.25 549.3,-615.25"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="549.35,-618.75 559.35,-615.25 549.35,-611.75 549.35,-618.75"/>
+</g>
+<!-- proc~lu_solve -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node35" class="node">
+<title>proc~lu_solve</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node35"><a xlink:href=".././proc/lu_solve.html" xlink:title="lu_solve">
+<polygon fill="#d9534f" stroke="#d9534f" points="626.86,-585.26 572.86,-585.26 572.86,-563.24 626.86,-563.24 626.86,-585.26"/>
+<text text-anchor="middle" x="599.86" y="-571.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lu_solve</text>
+</a>
+</g>
+</g>
+<!-- interface~lu_solve&#45;&gt;proc~lu_solve -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge32" class="edge">
+<title>interface~lu_solve&#45;&gt;proc~lu_solve</title>
+<path fill="none" stroke="#00ff3f" stroke-dasharray="5,2" d="M493.11,-574.25C512.83,-574.25 540.19,-574.25 562.14,-574.25"/>
+<polygon fill="#00ff3f" stroke="#00ff3f" points="562.42,-577.75 572.42,-574.25 562.42,-570.75 562.42,-577.75"/>
+</g>
+<!-- proc~cholesky_solve_v -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node33" class="node">
+<title>proc~cholesky_solve_v</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node33"><a xlink:href=".././proc/cholesky_solve_v.html" xlink:title="cholesky_solve_v">
+<polygon fill="#d9534f" stroke="#d9534f" points="647.15,-708.26 552.57,-708.26 552.57,-686.24 647.15,-686.24 647.15,-708.26"/>
+<text text-anchor="middle" x="599.86" y="-694.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cholesky_solve_v</text>
+</a>
+</g>
+</g>
+<!-- interface~cholesky_solve_v&#45;&gt;proc~cholesky_solve_v -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge33" class="edge">
+<title>interface~cholesky_solve_v&#45;&gt;proc~cholesky_solve_v</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M513.53,-697.25C522.78,-697.25 532.6,-697.25 542.15,-697.25"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="542.37,-700.75 552.37,-697.25 542.37,-693.75 542.37,-700.75"/>
+</g>
+<!-- psb_abort -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node31" class="node">
+<title>psb_abort</title>
+<polygon fill="#777777" stroke="#777777" points="629.06,-786.26 570.66,-786.26 570.66,-764.24 629.06,-764.24 629.06,-786.26"/>
+<text text-anchor="middle" x="599.86" y="-772.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_abort</text>
+</g>
+<!-- proc~abort_psblas&#45;&gt;psb_abort -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge34" class="edge">
+<title>proc~abort_psblas&#45;&gt;psb_abort</title>
+<path fill="none" stroke="#ff00bf" d="M502.39,-775.25C520.32,-775.25 542.13,-775.25 560.47,-775.25"/>
+<polygon fill="#ff00bf" stroke="#ff00bf" points="560.54,-778.75 570.54,-775.25 560.54,-771.75 560.54,-778.75"/>
+</g>
+<!-- proc~psb_solve_sys&#45;&gt;interface~icontxt_ -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge35" class="edge">
+<title>proc~psb_solve_sys&#45;&gt;interface~icontxt_</title>
+<path fill="none" stroke="#cbff00" d="M630.61,-626.31C636.83,-629.16 643.18,-632.5 648.75,-636.25 667.27,-648.71 668.23,-656.25 684.75,-671.25 694.97,-680.52 706.63,-690.46 716.42,-698.64"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="714.21,-701.34 724.14,-705.04 718.67,-695.96 714.21,-701.34"/>
+</g>
+<!-- proc~psb_solve_sys&#45;&gt;psb_erractionsave -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge38" class="edge">
+<title>proc~psb_solve_sys&#45;&gt;psb_erractionsave</title>
+<path fill="none" stroke="#cbff00" d="M628.59,-604.12C649.4,-595.77 678.09,-584.26 700.86,-575.12"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="702.23,-578.34 710.21,-571.36 699.63,-571.84 702.23,-578.34"/>
+</g>
+<!-- proc~psb_solve_sys&#45;&gt;psb_erractionrestore -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge39" class="edge">
+<title>proc~psb_solve_sys&#45;&gt;psb_erractionrestore</title>
+<path fill="none" stroke="#cbff00" d="M633.26,-604.08C638.75,-601.36 644.16,-598.1 648.75,-594.25 670.85,-575.71 664.82,-561.1 684.75,-540.25 692.54,-532.1 702.21,-524.45 711.15,-518.12"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="713.13,-521 719.42,-512.48 709.19,-515.22 713.13,-521"/>
+</g>
+<!-- proc~psb_solve_sys&#45;&gt;psb_check_error -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge36" class="edge">
+<title>proc~psb_solve_sys&#45;&gt;psb_check_error</title>
+<path fill="none" stroke="#cbff00" d="M636.22,-604.07C640.89,-601.42 645.26,-598.19 648.75,-594.25 653.52,-588.88 712.66,-385.49 731.9,-319.03"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="735.31,-319.84 734.72,-309.26 728.58,-317.89 735.31,-319.84"/>
+</g>
+<!-- interface~mypnum_ -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node36" class="node">
+<title>interface~mypnum_</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node36"><a xlink:href=".././interface/mypnum_.html" xlink:title="mypnum_">
+<polygon fill="#a7506f" stroke="#a7506f" points="768,-662.26 709.8,-662.26 709.8,-640.24 768,-640.24 768,-662.26"/>
+<text text-anchor="middle" x="738.9" y="-648.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mypnum_</text>
+</a>
+</g>
+</g>
+<!-- proc~psb_solve_sys&#45;&gt;interface~mypnum_ -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge37" class="edge">
+<title>proc~psb_solve_sys&#45;&gt;interface~mypnum_</title>
+<path fill="none" stroke="#cbff00" d="M640.5,-625.66C659.17,-630.57 681.35,-636.4 699.83,-641.25"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="699.1,-644.68 709.66,-643.83 700.88,-637.91 699.1,-644.68"/>
+</g>
+<!-- psb_krylov -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node37" class="node">
+<title>psb_krylov</title>
+<polygon fill="#777777" stroke="#777777" points="770.09,-621.26 707.71,-621.26 707.71,-599.24 770.09,-599.24 770.09,-621.26"/>
+<text text-anchor="middle" x="738.9" y="-607.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_krylov</text>
+</g>
+<!-- proc~psb_solve_sys&#45;&gt;psb_krylov -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge40" class="edge">
+<title>proc~psb_solve_sys&#45;&gt;psb_krylov</title>
+<path fill="none" stroke="#cbff00" d="M640.5,-613.8C658.34,-613.15 679.38,-612.39 697.33,-611.73"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="697.63,-615.22 707.5,-611.36 697.38,-608.23 697.63,-615.22"/>
+</g>
+<!-- proc~mypnum_ -->
+<g id="interface~~laplacian_smooth~~CallsGraph_node38" class="node">
+<title>proc~mypnum_</title>
+<g id="a_interface~~laplacian_smooth~~CallsGraph_node38"><a xlink:href=".././proc/mypnum_.html" xlink:title="mypnum_">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="887.2,-662.26 829,-662.26 829,-640.24 887.2,-640.24 887.2,-662.26"/>
+<text text-anchor="middle" x="858.1" y="-648.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mypnum_</text>
+</a>
+</g>
+</g>
+<!-- interface~mypnum_&#45;&gt;proc~mypnum_ -->
+<g id="interface~~laplacian_smooth~~CallsGraph_edge41" class="edge">
+<title>interface~mypnum_&#45;&gt;proc~mypnum_</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M767.98,-651.25C783.09,-651.25 801.95,-651.25 818.43,-651.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="818.85,-654.75 828.85,-651.25 818.85,-647.75 818.85,-654.75"/>
+</g>
+</g>
+</svg>
+</div><script>var paninterfacelaplacian_smoothCallsGraph = svgPanZoom('#interfacelaplacian_smoothCallsGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="550pt" height="31pt"
+ viewBox="0.00 0.00 550.25 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 546.25,-26.5 546.25,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="62.68,-22.26 0.11,-22.26 0.11,-0.24 62.68,-0.24 62.68,-22.26"/>
+<text text-anchor="middle" x="31.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="134.39,-22.26 80.39,-22.26 80.39,-0.24 134.39,-0.24 134.39,-22.26"/>
+<text text-anchor="middle" x="107.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="206.39,-22.26 152.39,-22.26 152.39,-0.24 206.39,-0.24 206.39,-22.26"/>
+<text text-anchor="middle" x="179.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="356.53,-22.26 224.26,-22.26 224.26,-0.24 356.53,-0.24 356.53,-22.26"/>
+<text text-anchor="middle" x="290.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="428.39,-22.26 374.39,-22.26 374.39,-0.24 428.39,-0.24 428.39,-22.26"/>
+<text text-anchor="middle" x="401.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="542.1,-22.26 446.69,-22.26 446.69,-0.24 542.1,-0.24 542.1,-22.26"/>
+<text text-anchor="middle" x="494.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a procedure to one which it calls. Dashed 
+    arrows point from an interface to procedures which implement that interface.
+    This could include the module procedures in a generic interface or the
+    implementation in a submodule of an interface in a parent module. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+     
+     
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Called by</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: interface~~laplacian_smooth~~CalledByGraph Pages: 1 -->
+<svg id="interfacelaplacian_smoothCalledByGraph" width="330pt" height="31pt"
+ viewBox="0.00 0.00 329.61 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="interface~~laplacian_smooth~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>interface~~laplacian_smooth~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 325.61,-26.5 325.61,4 -4,4"/>
+<!-- interface~laplacian_smooth -->
+<g id="interface~~laplacian_smooth~~CalledByGraph_node1" class="node">
+<title>interface~laplacian_smooth</title>
+<polygon fill="none" stroke="black" points="321.47,-22.26 228.04,-22.26 228.04,-0.24 321.47,-0.24 321.47,-22.26"/>
+<text text-anchor="middle" x="274.76" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">laplacian_smooth</text>
+</g>
+<!-- proc~smooth_mesh -->
+<g id="interface~~laplacian_smooth~~CalledByGraph_node2" class="node">
+<title>proc~smooth_mesh</title>
+<g id="a_interface~~laplacian_smooth~~CalledByGraph_node2"><a xlink:href=".././proc/smooth_mesh.html" xlink:title="smooth_mesh">
+<polygon fill="#d9534f" stroke="#d9534f" points="191.87,-22.26 113.97,-22.26 113.97,-0.24 191.87,-0.24 191.87,-22.26"/>
+<text text-anchor="middle" x="152.92" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">smooth_mesh</text>
+</a>
+</g>
+</g>
+<!-- proc~smooth_mesh&#45;&gt;interface~laplacian_smooth -->
+<g id="interface~~laplacian_smooth~~CalledByGraph_edge1" class="edge">
+<title>proc~smooth_mesh&#45;&gt;interface~laplacian_smooth</title>
+<path fill="none" stroke="#ff0000" d="M192.17,-11.25C200.34,-11.25 209.13,-11.25 217.82,-11.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="217.91,-14.75 227.91,-11.25 217.91,-7.75 217.91,-14.75"/>
+</g>
+<!-- interface~smooth_mesh -->
+<g id="interface~~laplacian_smooth~~CalledByGraph_node3" class="node">
+<title>interface~smooth_mesh</title>
+<g id="a_interface~~laplacian_smooth~~CalledByGraph_node3"><a xlink:href=".././interface/smooth_mesh.html" xlink:title="smooth_mesh">
+<polygon fill="#a7506f" stroke="#a7506f" points="77.92,-22.26 0.03,-22.26 0.03,-0.24 77.92,-0.24 77.92,-22.26"/>
+<text text-anchor="middle" x="38.97" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">smooth_mesh</text>
+</a>
+</g>
+</g>
+<!-- interface~smooth_mesh&#45;&gt;proc~smooth_mesh -->
+<g id="interface~~laplacian_smooth~~CalledByGraph_edge2" class="edge">
+<title>interface~smooth_mesh&#45;&gt;proc~smooth_mesh</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M78.19,-11.25C86.38,-11.25 95.15,-11.25 103.66,-11.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="103.88,-14.75 113.88,-11.25 103.88,-7.75 103.88,-14.75"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="550pt" height="31pt"
+ viewBox="0.00 0.00 550.25 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 546.25,-26.5 546.25,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="62.68,-22.26 0.11,-22.26 0.11,-0.24 62.68,-0.24 62.68,-22.26"/>
+<text text-anchor="middle" x="31.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="134.39,-22.26 80.39,-22.26 80.39,-0.24 134.39,-0.24 134.39,-22.26"/>
+<text text-anchor="middle" x="107.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="206.39,-22.26 152.39,-22.26 152.39,-0.24 206.39,-0.24 206.39,-22.26"/>
+<text text-anchor="middle" x="179.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="356.53,-22.26 224.26,-22.26 224.26,-0.24 356.53,-0.24 356.53,-22.26"/>
+<text text-anchor="middle" x="290.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="428.39,-22.26 374.39,-22.26 374.39,-0.24 428.39,-0.24 428.39,-22.26"/>
+<text text-anchor="middle" x="401.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="542.1,-22.26 446.69,-22.26 446.69,-0.24 542.1,-0.24 542.1,-22.26"/>
+<text text-anchor="middle" x="494.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a procedure to one which it calls. Dashed 
+    arrows point from an interface to procedures which implement that interface.
+    This could include the module procedures in a generic interface or the
+    implementation in a submodule of an interface in a parent module. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+     
+    
+    <br>
+    
+      <h2>
+public module subroutine laplacian_smooth(desc_v, v2v, n_unconstrained, unconstrained, verts, mixed)
+    
+    
+   
+   <a href='../proc/laplacian_smooth.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h2>
+    
+
+    
+  
+
+
+    <h3>Arguments</h3>
+    
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-desc_v~7"></span>type(psb_desc_type),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>desc_v</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-v2v~5"></span>type(<a href='../type/connectivity.html'>connectivity</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>v2v</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-n_unconstrained"></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n_unconstrained</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-unconstrained"></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>unconstrained</strong>(:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-verts~9"></span>type(<a href='../type/vertex.html'>vertex</a>),</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>allocatable</td><td>::</td>
+  <td><strong>verts</strong>(:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-mixed"></span>logical,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mixed</strong>(:)</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    
+    
+    
+    <br>
+
+ </div>
+</div>
+
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

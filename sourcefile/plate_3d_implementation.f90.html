@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>plate_3D_implementation.F90 &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>plate_3D_implementation.F90
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.8% of total for source files.">197 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/plate_3D_implementation.F90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">plate_3D_implementation.F90</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-0">Submodules</a></h3></div>
+  <div id="submods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/plate_3d_implementation.html">plate_3d_implementation</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/plate_3d_implementation.f90.html#src">plate_3D_implementation.F90</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">This file depends on</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~plate_3d_implementation.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefileplate_3d_implementationf90EfferentGraph" width="641pt" height="179pt"
+ viewBox="0.00 0.00 641.00 178.60" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph" class="graph" transform="scale(1.09 1.09) rotate(0) translate(4 190.5)">
+<title>sourcefile~~plate_3d_implementation.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-190.5 694.05,-190.5 694.05,4 -4,4"/>
+<!-- sourcefile~plate_3d_implementation.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~plate_3d_implementation.f90</title>
+<polygon fill="none" stroke="black" points="690.1,-104.26 537.93,-104.26 537.93,-82.24 690.1,-82.24 690.1,-104.26"/>
+<text text-anchor="middle" x="614.01" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50">plate_3D_implementation.F90</text>
+</g>
+<!-- sourcefile~emulated_intrinsics_interface.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~emulated_intrinsics_interface.f90</title>
+<g id="a_sourcefile~~plate_3d_implementation.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/emulated_intrinsics_interface.f90.html" xlink:title="emulated_intrinsics_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="501.97,-186.26 332.97,-186.26 332.97,-164.24 501.97,-164.24 501.97,-186.26"/>
+<text text-anchor="middle" x="417.47" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">emulated_intrinsics_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~plate_3d_implementation.f90&#45;&gt;sourcefile~emulated_intrinsics_interface.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~plate_3d_implementation.f90&#45;&gt;sourcefile~emulated_intrinsics_interface.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M595.99,-104.41C574.76,-117.9 536.98,-140.5 501.97,-154.25 495.28,-156.88 488.15,-159.26 480.98,-161.4"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="479.9,-158.07 471.23,-164.16 481.81,-164.8 479.9,-158.07"/>
+</g>
+<!-- sourcefile~plate_3d_interface.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~plate_3d_interface.f90</title>
+<g id="a_sourcefile~~plate_3d_implementation.f90~~EfferentGraph_node3"><a xlink:href=".././sourcefile/plate_3d_interface.f90.html" xlink:title="plate_3D_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="478.12,-145.26 356.82,-145.26 356.82,-123.24 478.12,-123.24 478.12,-145.26"/>
+<text text-anchor="middle" x="417.47" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">plate_3D_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~plate_3d_implementation.f90&#45;&gt;sourcefile~plate_3d_interface.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~plate_3d_implementation.f90&#45;&gt;sourcefile~plate_3d_interface.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M560.62,-104.29C536.08,-109.46 506.66,-115.66 480.97,-121.08"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="480.02,-117.7 470.95,-123.19 481.46,-124.55 480.02,-117.7"/>
+</g>
+<!-- sourcefile~string_functions_interface.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_node4" class="node">
+<title>sourcefile~string_functions_interface.f90</title>
+<g id="a_sourcefile~~plate_3d_implementation.f90~~EfferentGraph_node4"><a xlink:href=".././sourcefile/string_functions_interface.f90.html" xlink:title="string_functions_interface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="492.14,-104.26 342.81,-104.26 342.81,-82.24 492.14,-82.24 492.14,-104.26"/>
+<text text-anchor="middle" x="417.47" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_functions_interface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~plate_3d_implementation.f90&#45;&gt;sourcefile~string_functions_interface.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_edge3" class="edge">
+<title>sourcefile~plate_3d_implementation.f90&#45;&gt;sourcefile~string_functions_interface.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M537.8,-93.25C526.22,-93.25 514.2,-93.25 502.45,-93.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="502.21,-89.75 492.21,-93.25 502.21,-96.75 502.21,-89.75"/>
+</g>
+<!-- sourcefile~assertions_interface.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_node5" class="node">
+<title>sourcefile~assertions_interface.f90</title>
+<g id="a_sourcefile~~plate_3d_implementation.f90~~EfferentGraph_node5"><a xlink:href=".././sourcefile/assertions_interface.f90.html" xlink:title="assertions_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="480.95,-63.26 353.99,-63.26 353.99,-41.24 480.95,-41.24 480.95,-63.26"/>
+<text text-anchor="middle" x="417.47" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assertions_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~plate_3d_implementation.f90&#45;&gt;sourcefile~assertions_interface.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_edge4" class="edge">
+<title>sourcefile~plate_3d_implementation.f90&#45;&gt;sourcefile~assertions_interface.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M560.62,-82.21C536.08,-77.04 506.66,-70.84 480.97,-65.42"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="481.46,-61.95 470.95,-63.31 480.02,-68.8 481.46,-61.95"/>
+</g>
+<!-- sourcefile~units_interface.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_node6" class="node">
+<title>sourcefile~units_interface.f90</title>
+<g id="a_sourcefile~~plate_3d_implementation.f90~~EfferentGraph_node6"><a xlink:href=".././sourcefile/units_interface.f90.html" xlink:title="units_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="468.27,-22.26 366.67,-22.26 366.67,-0.24 468.27,-0.24 468.27,-22.26"/>
+<text text-anchor="middle" x="417.47" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">units_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~plate_3d_implementation.f90&#45;&gt;sourcefile~units_interface.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_edge5" class="edge">
+<title>sourcefile~plate_3d_implementation.f90&#45;&gt;sourcefile~units_interface.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M595.99,-82.09C574.76,-68.6 536.98,-46 501.97,-32.25 494.35,-29.26 486.18,-26.58 478.03,-24.23"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="478.71,-20.79 468.14,-21.52 476.86,-27.54 478.71,-20.79"/>
+</g>
+<!-- sourcefile~geometry_interface.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_node8" class="node">
+<title>sourcefile~geometry_interface.f90</title>
+<g id="a_sourcefile~~plate_3d_implementation.f90~~EfferentGraph_node8"><a xlink:href=".././sourcefile/geometry_interface.f90.html" xlink:title="geometry_interface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="280.24,-186.26 160.45,-186.26 160.45,-164.24 280.24,-164.24 280.24,-186.26"/>
+<text text-anchor="middle" x="220.35" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geometry_interface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~plate_3d_interface.f90&#45;&gt;sourcefile~geometry_interface.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_edge6" class="edge">
+<title>sourcefile~plate_3d_interface.f90&#45;&gt;sourcefile~geometry_interface.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M363.93,-145.29C339.31,-150.46 309.8,-156.66 284.03,-162.08"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="283.05,-158.71 273.99,-164.19 284.49,-165.56 283.05,-158.71"/>
+</g>
+<!-- sourcefile~block_metadata_interface.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_node9" class="node">
+<title>sourcefile~block_metadata_interface.f90</title>
+<g id="a_sourcefile~~plate_3d_implementation.f90~~EfferentGraph_node9"><a xlink:href=".././sourcefile/block_metadata_interface.f90.html" xlink:title="block_metadata_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="297.1,-145.26 143.59,-145.26 143.59,-123.24 297.1,-123.24 297.1,-145.26"/>
+<text text-anchor="middle" x="220.35" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">block_metadata_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~plate_3d_interface.f90&#45;&gt;sourcefile~block_metadata_interface.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_edge7" class="edge">
+<title>sourcefile~plate_3d_interface.f90&#45;&gt;sourcefile~block_metadata_interface.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M356.87,-134.25C341.27,-134.25 324.15,-134.25 307.48,-134.25"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="307.17,-130.75 297.17,-134.25 307.17,-137.75 307.17,-130.75"/>
+</g>
+<!-- sourcefile~kind_parameters.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_node10" class="node">
+<title>sourcefile~kind_parameters.f90</title>
+<g id="a_sourcefile~~plate_3d_implementation.f90~~EfferentGraph_node10"><a xlink:href=".././sourcefile/kind_parameters.f90.html" xlink:title="kind_parameters.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="107.58,-125.26 0.14,-125.26 0.14,-103.24 107.58,-103.24 107.58,-125.26"/>
+<text text-anchor="middle" x="53.86" y="-111.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~plate_3d_interface.f90&#45;&gt;sourcefile~kind_parameters.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_edge8" class="edge">
+<title>sourcefile~plate_3d_interface.f90&#45;&gt;sourcefile~kind_parameters.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M362.28,-123.23C341.9,-119.6 318.46,-116.04 296.97,-114.25 236.36,-109.21 166.91,-109.87 117.98,-111.39"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="117.74,-107.9 107.86,-111.73 117.97,-114.9 117.74,-107.9"/>
+</g>
+<!-- sourcefile~object_interface.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_node7" class="node">
+<title>sourcefile~object_interface.f90</title>
+<g id="a_sourcefile~~plate_3d_implementation.f90~~EfferentGraph_node7"><a xlink:href=".././sourcefile/object_interface.f90.html" xlink:title="object_interface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="271.99,-22.26 168.7,-22.26 168.7,-0.24 271.99,-0.24 271.99,-22.26"/>
+<text text-anchor="middle" x="220.35" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">object_interface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~units_interface.f90&#45;&gt;sourcefile~object_interface.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_edge9" class="edge">
+<title>sourcefile~units_interface.f90&#45;&gt;sourcefile~object_interface.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M366.73,-11.25C341,-11.25 309.37,-11.25 282.19,-11.25"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="282.02,-7.75 272.02,-11.25 282.02,-14.75 282.02,-7.75"/>
+</g>
+<!-- sourcefile~block_metadata_interface.f90&#45;&gt;sourcefile~kind_parameters.f90 -->
+<g id="sourcefile~~plate_3d_implementation.f90~~EfferentGraph_edge10" class="edge">
+<title>sourcefile~block_metadata_interface.f90&#45;&gt;sourcefile~kind_parameters.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M143.36,-125.01C134.86,-123.98 126.28,-122.93 117.97,-121.92"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="118.34,-118.44 107.99,-120.71 117.49,-125.39 118.34,-118.44"/>
+</g>
+</g>
+</svg>
+</div><script>var pansourcefileplate_3d_implementationf90EfferentGraph = svgPanZoom('#sourcefileplate_3d_implementationf90EfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="31pt"
+ viewBox="0.00 0.00 186.41 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 182.41,-26.5 182.41,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="65.16,-22.26 -0.05,-22.26 -0.05,-0.24 65.16,-0.24 65.16,-22.26"/>
+<text text-anchor="middle" x="32.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="178.26,-22.26 82.84,-22.26 82.84,-0.24 178.26,-0.24 178.26,-22.26"/>
+<text text-anchor="middle" x="130.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+      
+      <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-1">Submodules</a></h3></div>
+  <div id="submods-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/plate_3d_implementation.html">plate_3d_implementation</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/plate_3d_implementation.f90.html#src">plate_3D_implementation.F90</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="c">!</span>
+<a name="ln-2"></a><span class="c">!     (c) 2019-2020 Guide Star Engineering, LLC</span>
+<a name="ln-3"></a><span class="c">!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract</span>
+<a name="ln-4"></a><span class="c">!     &quot;Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)&quot;,</span>
+<a name="ln-5"></a><span class="c">!     contract # NRC-HQ-60-17-C-0007</span>
+<a name="ln-6"></a><span class="c">!</span>
+<a name="ln-7"></a><span class="k">submodule</span><span class="p">(</span><span class="n">plate_3D_interface</span><span class="p">)</span> <span class="n">plate_3D_implementation</span>
+<a name="ln-8"></a>  <span class="c">!! author: Damian Rouson and Karla Morris</span>
+<a name="ln-9"></a>  <span class="c">!! date: 8/16/2019</span>
+<a name="ln-10"></a>  <span class="k">use </span><span class="n">assertions_interface</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="n">assert</span>
+<a name="ln-11"></a>  <span class="k">use </span><span class="n">string_functions_interface</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="n">csv_format</span>
+<a name="ln-12"></a><span class="cp">#ifndef HAVE_FINDLOC</span>
+<a name="ln-13"></a>    <span class="k">use </span><span class="n">emulated_intrinsics_interface</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="nb">findloc</span>
+<a name="ln-14"></a><span class="cp">#endif</span>
+<a name="ln-15"></a>  <span class="k">implicit none</span>
+<a name="ln-16"></a>
+<a name="ln-17"></a><span class="k">  </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">base_object</span> <span class="o">=</span> <span class="s2">&quot;MORFEUS_FD&quot;</span>
+<a name="ln-18"></a>  <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">layers_object</span> <span class="o">=</span> <span class="s2">&quot;MORFEUS_FD.layers&quot;</span>
+<a name="ln-19"></a>  <span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">success</span><span class="o">=</span><span class="mi">0</span>
+<a name="ln-20"></a>
+<a name="ln-21"></a>  <span class="c">!! Encapsulate json key/value pair hierarchy to be read from a 3Dplate*.json file</span>
+<a name="ln-22"></a>
+<a name="ln-23"></a>  <span class="k">type </span><span class="n">thickness_t</span>
+<a name="ln-24"></a>    <span class="kt">real</span><span class="p">,</span> <span class="k">allocatable</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(:)</span> <span class="kd">::</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
+<a name="ln-25"></a>    <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">dimensions</span>
+<a name="ln-26"></a>  <span class="k">end type</span>
+<a name="ln-27"></a>
+<a name="ln-28"></a><span class="k">  type </span><span class="n">num_grid_blocks_t</span>
+<a name="ln-29"></a>    <span class="kt">integer</span><span class="p">,</span> <span class="k">allocatable</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(:)</span> <span class="kd">::</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
+<a name="ln-30"></a>  <span class="k">end type</span>
+<a name="ln-31"></a>
+<a name="ln-32"></a><span class="k">  type </span><span class="n">material_t</span>
+<a name="ln-33"></a>    <span class="c">!character(len=:), allocatable, dimension(:) :: material_name ! gfortran 8.3 bug causes subsequent memory corruption</span>
+<a name="ln-34"></a>    <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">max_name_length</span><span class="p">),</span> <span class="k">allocatable</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(:)</span> <span class="kd">::</span> <span class="n">material_name</span>
+<a name="ln-35"></a>    <span class="k">type</span><span class="p">(</span><span class="n">thickness_t</span><span class="p">)</span> <span class="n">thickness</span>
+<a name="ln-36"></a>    <span class="k">type</span><span class="p">(</span><span class="n">num_grid_blocks_t</span><span class="p">)</span> <span class="n">num_grid_blocks</span>
+<a name="ln-37"></a>  <span class="k">end type</span>
+<a name="ln-38"></a>
+<a name="ln-39"></a><span class="k">  type </span><span class="n">layers_t</span>
+<a name="ln-40"></a>    <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">type_</span><span class="p">,</span> <span class="n">units_system</span>
+<a name="ln-41"></a>    <span class="kt">real </span><span class="n">max_spacing</span>
+<a name="ln-42"></a>    <span class="k">type</span><span class="p">(</span><span class="n">material_t</span><span class="p">)</span> <span class="n">core</span><span class="p">,</span> <span class="n">wrappers</span>
+<a name="ln-43"></a>  <span class="k">end type</span>
+<a name="ln-44"></a>
+<a name="ln-45"></a><span class="k">  type</span><span class="p">(</span><span class="n">layers_t</span><span class="p">)</span> <span class="n">layers</span>
+<a name="ln-46"></a>
+<a name="ln-47"></a><span class="k">contains</span>
+<a name="ln-48"></a>
+<a name="ln-49"></a><span class="k">  module procedure </span><span class="n">set_grid_specification</span>
+<a name="ln-50"></a>    <span class="k">use </span><span class="n">string_functions_interface</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="n">file_extension</span>
+<a name="ln-51"></a>    <span class="k">use </span><span class="n">units_interface</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="n">units_system_names</span>
+<a name="ln-52"></a>    <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">expected_geometry_type</span><span class="o">=</span><span class="s2">&quot;3D_plate&quot;</span>
+<a name="ln-53"></a>    <span class="kt">logical </span><span class="n">found</span>
+<a name="ln-54"></a>
+<a name="ln-55"></a>    <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">file_extension</span><span class="p">(</span><span class="n">grid_description_file</span><span class="p">)</span><span class="o">==</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="s1">&#39;file_extension(grid_description_file)==&quot;json&quot;&#39;</span> <span class="p">)</span>
+<a name="ln-56"></a>
+<a name="ln-57"></a>    <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">grid_specification</span><span class="p">%</span><span class="n">load_file</span><span class="p">(</span> <span class="n">grid_description_file</span> <span class="p">)</span>
+<a name="ln-58"></a>    <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">this</span><span class="p">%</span><span class="n">grid_specification</span><span class="p">%</span><span class="n">failed</span><span class="p">(),</span> <span class="s2">&quot;set_grid_specification: .not. this%grid_specification%failed()&quot;</span> <span class="p">)</span>
+<a name="ln-59"></a>
+<a name="ln-60"></a>    <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">grid_specification</span><span class="p">%</span><span class="n">get</span><span class="p">(</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.type&quot;</span><span class="p">,</span>  <span class="n">layers</span><span class="p">%</span><span class="n">type_</span><span class="p">,</span> <span class="n">found</span> <span class="p">)</span>
+<a name="ln-61"></a>    <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">found</span> <span class="p">,</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.type found&quot;</span> <span class="p">)</span>
+<a name="ln-62"></a>    <span class="k">call </span><span class="n">assert</span><span class="p">(</span><span class="n">layers</span><span class="p">%</span><span class="n">type_</span><span class="o">==</span><span class="n">expected_geometry_type</span><span class="p">,</span> <span class="s2">&quot;layers%type_==expected_geometry_type&quot;</span> <span class="p">)</span>
+<a name="ln-63"></a>
+<a name="ln-64"></a>    <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">grid_specification</span><span class="p">%</span><span class="n">get</span><span class="p">(</span> <span class="n">base_object</span><span class="o">//</span><span class="s2">&quot;.units_system&quot;</span><span class="p">,</span>  <span class="n">layers</span><span class="p">%</span><span class="n">units_system</span><span class="p">,</span> <span class="n">found</span> <span class="p">)</span>
+<a name="ln-65"></a>    <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">found</span> <span class="p">,</span> <span class="n">base_object</span><span class="o">//</span><span class="s2">&quot;.units_system found&quot;</span> <span class="p">)</span>
+<a name="ln-66"></a>    <span class="k">call </span><span class="n">assert</span><span class="p">(</span><span class="nb">any</span><span class="p">(</span><span class="n">layers</span><span class="p">%</span><span class="n">units_system</span><span class="o">==</span><span class="n">units_system_names</span><span class="p">),</span> <span class="s2">&quot;any(layers%units_system==units_system_names)&quot;</span> <span class="p">)</span>
+<a name="ln-67"></a>
+<a name="ln-68"></a>    <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">grid_specification</span><span class="p">%</span><span class="n">get</span><span class="p">(</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.max_spacing&quot;</span><span class="p">,</span>  <span class="n">layers</span><span class="p">%</span><span class="n">max_spacing</span><span class="p">,</span> <span class="n">found</span> <span class="p">)</span>
+<a name="ln-69"></a>    <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">found</span> <span class="p">,</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.max_spacing found&quot;</span> <span class="p">)</span>
+<a name="ln-70"></a>
+<a name="ln-71"></a>  <span class="k">end procedure</span>
+<a name="ln-72"></a>
+<a name="ln-73"></a><span class="k">  module procedure </span><span class="n">get_block_metadata_shape</span>
+<a name="ln-74"></a>    <span class="n">shape_</span> <span class="o">=</span> <span class="nb">shape</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">metadata</span><span class="p">)</span>
+<a name="ln-75"></a>  <span class="k">end procedure</span>
+<a name="ln-76"></a>
+<a name="ln-77"></a><span class="k">  module procedure </span><span class="n">get_block_domain</span>
+<a name="ln-78"></a>    <span class="k">associate</span><span class="p">(</span> <span class="n">ix</span><span class="o">=&gt;</span><span class="n">indicial_coordinates</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">iy</span><span class="o">=&gt;</span><span class="n">indicial_coordinates</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">iz</span><span class="o">=&gt;</span><span class="n">indicial_coordinates</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<a name="ln-79"></a>      <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="k">all</span><span class="p">(</span> <span class="p">[</span> <span class="p">[</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="nb">lbound</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">metadata</span><span class="p">),</span> <span class="p">[</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="nb">ubound</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">metadata</span><span class="p">)</span> <span class="p">]</span> <span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-80"></a>      <span class="s2">&quot;get_block_domain: indicial_coordinates in bounds&quot;</span> <span class="p">)</span>
+<a name="ln-81"></a>      <span class="n">this_domain</span> <span class="o">=</span> <span class="n">this</span><span class="p">%</span><span class="n">metadata</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">)%</span><span class="n">get_subdomain</span><span class="p">()</span>
+<a name="ln-82"></a>    <span class="k">end associate</span>
+<a name="ln-83"></a><span class="k">  end procedure</span>
+<a name="ln-84"></a>
+<a name="ln-85"></a><span class="k">  module procedure </span><span class="n">get_block_metadatum</span>
+<a name="ln-86"></a>    <span class="k">associate</span><span class="p">(</span> <span class="n">ix</span><span class="o">=&gt;</span><span class="n">indicial_coordinates</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">iy</span><span class="o">=&gt;</span><span class="n">indicial_coordinates</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">iz</span><span class="o">=&gt;</span><span class="n">indicial_coordinates</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<a name="ln-87"></a>      <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="k">all</span><span class="p">(</span> <span class="p">[</span> <span class="p">[</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="nb">lbound</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">metadata</span><span class="p">),</span> <span class="p">[</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="nb">ubound</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">metadata</span><span class="p">)</span> <span class="p">]</span> <span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-88"></a>      <span class="s2">&quot;get_block_metadatum: indicial_coordinates in bounds&quot;</span> <span class="p">)</span>
+<a name="ln-89"></a>      <span class="n">this_metadata_xyz</span> <span class="o">=</span> <span class="n">this</span><span class="p">%</span><span class="n">metadata</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span><span class="p">)</span>
+<a name="ln-90"></a>    <span class="k">end associate</span>
+<a name="ln-91"></a><span class="k">  end procedure</span>
+<a name="ln-92"></a>
+<a name="ln-93"></a><span class="k">  module procedure </span><span class="n">get_block_metadata</span>
+<a name="ln-94"></a>    <span class="n">this_metadata</span> <span class="o">=</span> <span class="n">this</span><span class="p">%</span><span class="n">metadata</span>
+<a name="ln-95"></a>  <span class="k">end procedure</span>
+<a name="ln-96"></a>
+<a name="ln-97"></a><span class="k">  module procedure </span><span class="n">set_block_metadata</span>
+<a name="ln-98"></a><span class="cp">#ifndef HAVE_FINDLOC</span>
+<a name="ln-99"></a>    <span class="k">use </span><span class="n">emulated_intrinsics_interface</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="nb">findloc</span>
+<a name="ln-100"></a><span class="cp">#endif</span>
+<a name="ln-101"></a>
+<a name="ln-102"></a>    <span class="kt">integer </span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span><span class="p">,</span> <span class="n">alloc_stat</span><span class="p">,</span> <span class="n">supremum</span>
+<a name="ln-103"></a>    <span class="kt">logical </span><span class="n">found</span>
+<a name="ln-104"></a>    <span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">num_end_points</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">symmetry</span><span class="o">=</span><span class="mi">2</span>
+<a name="ln-105"></a>    <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">max_name_length</span><span class="p">),</span> <span class="k">allocatable</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(:)</span> <span class="kd">::</span> <span class="n">names</span>
+<a name="ln-106"></a>
+<a name="ln-107"></a>    <span class="k">call </span><span class="n">read_core_components</span>
+<a name="ln-108"></a>    <span class="k">call </span><span class="n">verify_core_components</span>
+<a name="ln-109"></a>
+<a name="ln-110"></a>    <span class="k">call </span><span class="n">read_wrappers_components</span>
+<a name="ln-111"></a>    <span class="k">call </span><span class="n">verify_wrappers_components</span>
+<a name="ln-112"></a>
+<a name="ln-113"></a>    <span class="k">call </span><span class="n">verify_layers</span>
+<a name="ln-114"></a>
+<a name="ln-115"></a>    <span class="k">call </span><span class="n">set_metadata</span>
+<a name="ln-116"></a>
+<a name="ln-117"></a><span class="cp">#ifdef FORD</span>
+<a name="ln-118"></a>  <span class="k">end procedure</span> <span class="c">! compilers never see this line; when generating documentation, run &quot;ford -m FORD...&quot;  to circumvent a ford bug</span>
+<a name="ln-119"></a><span class="cp">#else</span>
+<a name="ln-120"></a>  <span class="k">contains</span> <span class="c">! compilers see this line</span>
+<a name="ln-121"></a><span class="cp">#endif</span>
+<a name="ln-122"></a>
+<a name="ln-123"></a>    <span class="k">subroutine </span><span class="n">read_core_components</span>
+<a name="ln-124"></a>
+<a name="ln-125"></a>      <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">grid_specification</span><span class="p">%</span><span class="n">get</span><span class="p">(</span> <span class="n">layers_object</span> <span class="o">//</span> <span class="s2">&quot;.core.num_grid_blocks.x&quot;</span><span class="p">,</span> <span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">x</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-126"></a>      <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">found</span><span class="p">,</span> <span class="s2">&quot;set_block_metadata: core_%num_grid_blocks_%x found&quot;</span> <span class="p">)</span>
+<a name="ln-127"></a>
+<a name="ln-128"></a>      <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">grid_specification</span><span class="p">%</span><span class="n">get</span><span class="p">(</span> <span class="n">layers_object</span> <span class="o">//</span> <span class="s2">&quot;.core.num_grid_blocks.y&quot;</span><span class="p">,</span> <span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">y</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-129"></a>      <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">found</span><span class="p">,</span> <span class="s2">&quot;set_block_metadata: core_%num_grid_blocks_%y found&quot;</span> <span class="p">)</span>
+<a name="ln-130"></a>
+<a name="ln-131"></a>      <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">grid_specification</span><span class="p">%</span><span class="n">get</span><span class="p">(</span> <span class="n">layers_object</span> <span class="o">//</span> <span class="s2">&quot;.core.num_grid_blocks.z&quot;</span><span class="p">,</span> <span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">z</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-132"></a>      <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">found</span><span class="p">,</span> <span class="s2">&quot;set_block_metadata: core_%num_grid_blocks_%z found&quot;</span> <span class="p">)</span>
+<a name="ln-133"></a>
+<a name="ln-134"></a>      <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">grid_specification</span><span class="p">%</span><span class="n">get</span><span class="p">(</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.core.material_name&quot;</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">found</span> <span class="p">)</span>
+<a name="ln-135"></a>      <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">found</span> <span class="p">,</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.core.material_name found&quot;</span> <span class="p">)</span>
+<a name="ln-136"></a>
+<a name="ln-137"></a>      <span class="n">supremum</span> <span class="o">=</span> <span class="nb">maxval</span><span class="p">(</span> <span class="p">[(</span> <span class="nb">len</span><span class="p">(</span> <span class="nb">trim</span><span class="p">(</span><span class="n">names</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="p">),</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="p">)]</span> <span class="p">)</span>
+<a name="ln-138"></a>      <span class="c">!allocate( character(len=supremum) :: layers%core%material_name(size(names)) ) !! precluded by gfortran 8.3 bug</span>
+<a name="ln-139"></a>      <span class="k">if</span> <span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">material_name</span><span class="p">))</span> <span class="k">deallocate</span><span class="p">(</span><span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">material_name</span><span class="p">)</span>
+<a name="ln-140"></a>      <span class="k">allocate</span><span class="p">(</span>  <span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">material_name</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">names</span><span class="p">))</span> <span class="p">)</span>
+<a name="ln-141"></a>      <span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">material_name</span> <span class="o">=</span> <span class="n">names</span>
+<a name="ln-142"></a>      <span class="k">call </span><span class="n">assert</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">material_name</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;size(layers%core%material_name)==1&quot;</span> <span class="p">)</span>
+<a name="ln-143"></a>
+<a name="ln-144"></a>      <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">grid_specification</span><span class="p">%</span><span class="n">get</span><span class="p">(</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.core.thickness.x&quot;</span><span class="p">,</span> <span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">thickness</span><span class="p">%</span><span class="n">x</span><span class="p">,</span> <span class="n">found</span> <span class="p">)</span>
+<a name="ln-145"></a>      <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">found</span> <span class="p">,</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.core.thickness.x found&quot;</span> <span class="p">)</span>
+<a name="ln-146"></a>
+<a name="ln-147"></a>      <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">grid_specification</span><span class="p">%</span><span class="n">get</span><span class="p">(</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.core.thickness.y&quot;</span><span class="p">,</span> <span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">thickness</span><span class="p">%</span><span class="n">y</span><span class="p">,</span> <span class="n">found</span> <span class="p">)</span>
+<a name="ln-148"></a>      <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">found</span> <span class="p">,</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.core.thickness.y found&quot;</span> <span class="p">)</span>
+<a name="ln-149"></a>
+<a name="ln-150"></a>      <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">grid_specification</span><span class="p">%</span><span class="n">get</span><span class="p">(</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.core.thickness.z&quot;</span><span class="p">,</span> <span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">thickness</span><span class="p">%</span><span class="n">z</span><span class="p">,</span> <span class="n">found</span> <span class="p">)</span>
+<a name="ln-151"></a>      <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">found</span> <span class="p">,</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.core.thickness.z found&quot;</span> <span class="p">)</span>
+<a name="ln-152"></a>    <span class="k">end subroutine</span>
+<a name="ln-153"></a>
+<a name="ln-154"></a><span class="k">    subroutine </span><span class="n">verify_core_components</span>
+<a name="ln-155"></a>      <span class="c">!! apply constraints specified in the json file</span>
+<a name="ln-156"></a>
+<a name="ln-157"></a>      <span class="k">associate</span><span class="p">(</span> <span class="p">&amp;</span>
+<a name="ln-158"></a>        <span class="n">num_grid_blocks</span><span class="o">=&gt;</span><span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">,</span> <span class="n">thickness</span><span class="o">=&gt;</span><span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">thickness</span><span class="p">,</span> <span class="n">material_name</span><span class="o">=&gt;</span><span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">material_name</span> <span class="p">)</span>
+<a name="ln-159"></a>
+<a name="ln-160"></a>        <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="k">all</span><span class="p">(</span> <span class="p">[</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">x</span><span class="p">,</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">y</span><span class="p">,</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">z</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-161"></a>                    <span class="s2">&quot;all( [num_grid_blocks%x,num_grid_blocks%y,num_grid_blocks%z] &gt; 0&quot;</span> <span class="p">)</span>
+<a name="ln-162"></a>        <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="k">all</span><span class="p">(</span> <span class="p">[</span><span class="n">thickness</span><span class="p">%</span><span class="n">x</span><span class="p">,</span><span class="n">thickness</span><span class="p">%</span><span class="n">y</span><span class="p">,</span><span class="n">thickness</span><span class="p">%</span><span class="n">z</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.</span> <span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-163"></a>                    <span class="s2">&quot;all( [thickness%x,thickness%y,thickness%z] &gt; 0.&quot;</span> <span class="p">)</span>
+<a name="ln-164"></a>        <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">size</span><span class="p">(</span><span class="n">material_name</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;size(material_name)==1&quot;</span> <span class="p">)</span>
+<a name="ln-165"></a>        <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="k">all</span><span class="p">(</span> <span class="p">[</span><span class="n">size</span><span class="p">(</span><span class="n">thickness</span><span class="p">%</span><span class="n">x</span><span class="p">),</span> <span class="n">size</span><span class="p">(</span><span class="n">thickness</span><span class="p">%</span><span class="n">y</span><span class="p">),</span> <span class="n">size</span><span class="p">(</span><span class="n">thickness</span><span class="p">%</span><span class="n">z</span><span class="p">)]</span> <span class="o">==</span><span class="mi">1</span> <span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-166"></a>                    <span class="s2">&quot;all( [size(thickness%x), size(thickness%y), size(thickness%z)] ==1 )&quot;</span> <span class="p">)</span>
+<a name="ln-167"></a>        <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="k">all</span><span class="p">(</span> <span class="p">[</span><span class="n">size</span><span class="p">(</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">x</span><span class="p">),</span> <span class="n">size</span><span class="p">(</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">y</span><span class="p">),</span> <span class="n">size</span><span class="p">(</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">z</span><span class="p">)]</span><span class="o">==</span><span class="mi">1</span> <span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-168"></a>                    <span class="s2">&quot;all( [size(num_grid_blocks%x), size(num_grid_blocks%y), size(num_grid_blocks%z)]==1 )&quot;</span> <span class="p">)</span>
+<a name="ln-169"></a>
+<a name="ln-170"></a>      <span class="k">end associate</span>
+<a name="ln-171"></a><span class="k">    end subroutine</span>
+<a name="ln-172"></a>
+<a name="ln-173"></a><span class="k">    subroutine </span><span class="n">read_wrappers_components</span>
+<a name="ln-174"></a>      <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">grid_specification</span><span class="p">%</span><span class="n">get</span><span class="p">(</span> <span class="n">layers_object</span> <span class="o">//</span> <span class="s2">&quot;.wrappers.num_grid_blocks.x&quot;</span><span class="p">,</span> <span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">x</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-175"></a>      <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">found</span><span class="p">,</span> <span class="s2">&quot;set_block_metadata: wrappers_%num_grid_blocks_%x found&quot;</span> <span class="p">)</span>
+<a name="ln-176"></a>
+<a name="ln-177"></a>      <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">grid_specification</span><span class="p">%</span><span class="n">get</span><span class="p">(</span> <span class="n">layers_object</span> <span class="o">//</span> <span class="s2">&quot;.wrappers.num_grid_blocks.y&quot;</span><span class="p">,</span> <span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">y</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-178"></a>      <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">found</span><span class="p">,</span> <span class="s2">&quot;set_block_metadata: wrappers_%num_grid_blocks_%y found&quot;</span> <span class="p">)</span>
+<a name="ln-179"></a>
+<a name="ln-180"></a>      <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">grid_specification</span><span class="p">%</span><span class="n">get</span><span class="p">(</span> <span class="n">layers_object</span> <span class="o">//</span> <span class="s2">&quot;.wrappers.num_grid_blocks.z&quot;</span><span class="p">,</span> <span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">z</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-181"></a>      <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">found</span><span class="p">,</span> <span class="s2">&quot;set_block_metadata: wrappers_%num_grid_blocks_%z found&quot;</span> <span class="p">)</span>
+<a name="ln-182"></a>
+<a name="ln-183"></a>      <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">grid_specification</span><span class="p">%</span><span class="n">get</span><span class="p">(</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.wrappers.material_name&quot;</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">found</span> <span class="p">)</span>
+<a name="ln-184"></a>      <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">found</span> <span class="p">,</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.wrappers.material_name found&quot;</span> <span class="p">)</span>
+<a name="ln-185"></a>
+<a name="ln-186"></a>      <span class="n">supremum</span> <span class="o">=</span> <span class="nb">maxval</span><span class="p">(</span> <span class="p">[(</span> <span class="nb">len</span><span class="p">(</span> <span class="nb">trim</span><span class="p">(</span><span class="n">names</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="p">),</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="p">)]</span> <span class="p">)</span>
+<a name="ln-187"></a>      <span class="c">!allocate( character(len=supremum) :: layers%wrappers%material_name(size(names)) ) !! precluded by gfortran 8.3 bug</span>
+<a name="ln-188"></a>      <span class="k">if</span> <span class="p">(</span><span class="nb">allocated</span><span class="p">(</span><span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">material_name</span><span class="p">))</span> <span class="k">deallocate</span><span class="p">(</span><span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">material_name</span><span class="p">)</span>
+<a name="ln-189"></a>      <span class="k">allocate</span><span class="p">(</span>  <span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">material_name</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">names</span><span class="p">))</span> <span class="p">)</span>
+<a name="ln-190"></a>      <span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">material_name</span> <span class="o">=</span> <span class="n">names</span>
+<a name="ln-191"></a>
+<a name="ln-192"></a>      <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">grid_specification</span><span class="p">%</span><span class="n">get</span><span class="p">(</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.wrappers.thickness.x&quot;</span><span class="p">,</span> <span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">thickness</span><span class="p">%</span><span class="n">x</span><span class="p">,</span> <span class="n">found</span> <span class="p">)</span>
+<a name="ln-193"></a>      <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">found</span> <span class="p">,</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.wrappers.thickness.x found&quot;</span> <span class="p">)</span>
+<a name="ln-194"></a>
+<a name="ln-195"></a>      <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">grid_specification</span><span class="p">%</span><span class="n">get</span><span class="p">(</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.wrappers.thickness.y&quot;</span><span class="p">,</span> <span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">thickness</span><span class="p">%</span><span class="n">y</span><span class="p">,</span> <span class="n">found</span> <span class="p">)</span>
+<a name="ln-196"></a>      <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">found</span> <span class="p">,</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.wrappers.thickness.y found&quot;</span> <span class="p">)</span>
+<a name="ln-197"></a>
+<a name="ln-198"></a>      <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">grid_specification</span><span class="p">%</span><span class="n">get</span><span class="p">(</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.wrappers.thickness.z&quot;</span><span class="p">,</span> <span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">thickness</span><span class="p">%</span><span class="n">z</span><span class="p">,</span> <span class="n">found</span> <span class="p">)</span>
+<a name="ln-199"></a>      <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">found</span> <span class="p">,</span> <span class="n">layers_object</span><span class="o">//</span><span class="s2">&quot;.wrappers.thickness.z found&quot;</span> <span class="p">)</span>
+<a name="ln-200"></a>    <span class="k">end subroutine</span>
+<a name="ln-201"></a>
+<a name="ln-202"></a><span class="k">    subroutine </span><span class="n">verify_wrappers_components</span>
+<a name="ln-203"></a>      <span class="c">!! apply constraints specified in the json file</span>
+<a name="ln-204"></a>
+<a name="ln-205"></a>      <span class="k">associate</span><span class="p">(</span> <span class="p">&amp;</span>
+<a name="ln-206"></a>        <span class="n">num_grid_blocks</span><span class="o">=&gt;</span><span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">,</span> <span class="n">thickness</span><span class="o">=&gt;</span><span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">thickness</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-207"></a>        <span class="n">material_name</span><span class="o">=&gt;</span><span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">material_name</span><span class="p">,</span> <span class="n">max_spacing</span><span class="o">=&gt;</span><span class="n">layers</span><span class="p">%</span><span class="n">max_spacing</span> <span class="p">)</span>
+<a name="ln-208"></a>
+<a name="ln-209"></a>        <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">max_spacing</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">,</span> <span class="s2">&quot;max_spacing &gt; 0.&quot;</span> <span class="p">)</span>
+<a name="ln-210"></a>        <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="k">all</span><span class="p">([</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">x</span><span class="p">,</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">y</span><span class="p">,</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">z</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-211"></a>                    <span class="s2">&quot;all([num_grid_blocks%x,num_grid_blocks%y,num_grid_blocks%z]&gt;0)&quot;</span> <span class="p">)</span>
+<a name="ln-212"></a>        <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="k">all</span><span class="p">([</span><span class="n">thickness</span><span class="p">%</span><span class="n">x</span><span class="p">,</span><span class="n">thickness</span><span class="p">%</span><span class="n">y</span><span class="p">,</span><span class="n">thickness</span><span class="p">%</span><span class="n">z</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-213"></a>                    <span class="s2">&quot;all([thickness%x,thickness%y,thickness%z]&gt;0)&quot;</span> <span class="p">)</span>
+<a name="ln-214"></a>
+<a name="ln-215"></a>        <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="k">all</span><span class="p">(</span> <span class="p">[</span><span class="n">size</span><span class="p">(</span><span class="n">thickness</span><span class="p">%</span><span class="n">x</span><span class="p">),</span> <span class="n">size</span><span class="p">(</span><span class="n">thickness</span><span class="p">%</span><span class="n">y</span><span class="p">),</span> <span class="n">size</span><span class="p">(</span><span class="n">thickness</span><span class="p">%</span><span class="n">z</span><span class="p">)]</span> <span class="p">&amp;</span>
+<a name="ln-216"></a>          <span class="o">==</span> <span class="p">[</span><span class="n">size</span><span class="p">(</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">x</span><span class="p">),</span> <span class="n">size</span><span class="p">(</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">y</span><span class="p">),</span> <span class="n">size</span><span class="p">(</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">z</span><span class="p">)]</span> <span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-217"></a>          <span class="s2">&quot;all( [size(thickness%x), size(thickness%y), size(thickness%z)] &quot;</span> <span class="o">//</span> <span class="p">&amp;</span>
+<a name="ln-218"></a>          <span class="s2">&quot;== [size(num_grid_blocks%x), size(num_grid_blocks%y), size(num_grid_blocks%z)] )&quot;</span> <span class="p">)</span>
+<a name="ln-219"></a>
+<a name="ln-220"></a>        <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="k">all</span><span class="p">(</span> <span class="p">[</span><span class="n">size</span><span class="p">(</span><span class="n">thickness</span><span class="p">%</span><span class="n">x</span><span class="p">),</span> <span class="n">size</span><span class="p">(</span><span class="n">thickness</span><span class="p">%</span><span class="n">y</span><span class="p">)]</span> <span class="o">==</span> <span class="n">size</span><span class="p">(</span><span class="n">material_name</span><span class="p">)</span> <span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-221"></a>                    <span class="s2">&quot;all( [size(thickness%x), size(thickness%y)] == size(material_name) )&quot;</span> <span class="p">)</span>
+<a name="ln-222"></a>
+<a name="ln-223"></a>      <span class="k">end associate</span>
+<a name="ln-224"></a><span class="k">    end subroutine</span>
+<a name="ln-225"></a>
+<a name="ln-226"></a><span class="k">    subroutine </span><span class="n">verify_layers</span>
+<a name="ln-227"></a>
+<a name="ln-228"></a>      <span class="k">associate</span><span class="p">(</span> <span class="n">wrappers</span> <span class="o">=&gt;</span> <span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">,</span> <span class="n">core</span><span class="o">=&gt;</span> <span class="n">layers</span><span class="p">%</span><span class="n">core</span> <span class="p">)</span>
+<a name="ln-229"></a>        <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="k">all</span><span class="p">(</span> <span class="n">wrappers</span><span class="p">%</span><span class="n">thickness</span><span class="p">%</span><span class="n">z</span> <span class="o">&gt;=</span> <span class="n">core</span><span class="p">%</span><span class="n">thickness</span><span class="p">%</span><span class="n">z</span> <span class="p">),</span> <span class="s2">&quot;all( wrappers%thickness%z &gt;= core%thickness%z )&quot;</span> <span class="p">)</span>
+<a name="ln-230"></a>        <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="p">&amp;</span>
+<a name="ln-231"></a>          <span class="k">all</span><span class="p">(</span> <span class="n">wrappers</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">z</span> <span class="o">&gt;=</span> <span class="n">core</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">z</span> <span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-232"></a>          <span class="s2">&quot;all( wrappers%num_grid_blocks%z &gt;= core%num_grid_blocks%z )&quot;</span><span class="p">)</span>
+<a name="ln-233"></a>      <span class="k">end associate</span>
+<a name="ln-234"></a>
+<a name="ln-235"></a><span class="k">    end subroutine</span>
+<a name="ln-236"></a>
+<a name="ln-237"></a><span class="k">    subroutine </span><span class="n">set_metadata</span>
+<a name="ln-238"></a>
+<a name="ln-239"></a>      <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">max_name_length</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">cavity</span><span class="o">=</span><span class="s2">&quot;cavity&quot;</span>
+<a name="ln-240"></a>
+<a name="ln-241"></a>      <span class="k">associate</span><span class="p">(</span> <span class="p">&amp;</span>
+<a name="ln-242"></a>        <span class="n">nx_wrappers</span> <span class="o">=&gt;</span> <span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">x</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-243"></a>        <span class="n">ny_wrappers</span> <span class="o">=&gt;</span> <span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">y</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-244"></a>        <span class="n">nz_wrappers</span> <span class="o">=&gt;</span> <span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">z</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-245"></a>        <span class="n">nx_core</span> <span class="o">=&gt;</span> <span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-246"></a>        <span class="n">ny_core</span> <span class="o">=&gt;</span> <span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-247"></a>        <span class="n">nz_core</span> <span class="o">=&gt;</span> <span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">z</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-248"></a>        <span class="n">wrappers_thickness_x</span> <span class="o">=&gt;</span> <span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">thickness</span><span class="p">%</span><span class="n">x</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-249"></a>        <span class="n">wrappers_thickness_y</span> <span class="o">=&gt;</span> <span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">thickness</span><span class="p">%</span><span class="n">y</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-250"></a>        <span class="n">wrappers_thickness_z</span> <span class="o">=&gt;</span> <span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">thickness</span><span class="p">%</span><span class="n">z</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-251"></a>        <span class="n">core_thickness_x</span> <span class="o">=&gt;</span> <span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">thickness</span><span class="p">%</span><span class="n">x</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-252"></a>        <span class="n">core_thickness_y</span> <span class="o">=&gt;</span> <span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">thickness</span><span class="p">%</span><span class="n">y</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-253"></a>        <span class="n">core_thickness_z</span> <span class="o">=&gt;</span> <span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">thickness</span><span class="p">%</span><span class="n">z</span> <span class="p">)</span>
+<a name="ln-254"></a>
+<a name="ln-255"></a>        <span class="k">associate</span><span class="p">(</span>  <span class="p">&amp;</span>
+<a name="ln-256"></a>          <span class="n">nx</span> <span class="o">=&gt;</span> <span class="n">nx_core</span> <span class="o">+</span> <span class="n">symmetry</span><span class="o">*</span><span class="nb">sum</span><span class="p">(</span><span class="n">nx_wrappers</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-257"></a>          <span class="n">ny</span> <span class="o">=&gt;</span> <span class="n">ny_core</span> <span class="o">+</span> <span class="n">symmetry</span><span class="o">*</span><span class="nb">sum</span><span class="p">(</span><span class="n">ny_wrappers</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-258"></a>          <span class="n">nz</span> <span class="o">=&gt;</span> <span class="nb">sum</span><span class="p">(</span><span class="n">nz_wrappers</span><span class="p">)</span> <span class="p">)</span>
+<a name="ln-259"></a>
+<a name="ln-260"></a>          <span class="k">allocate</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">metadata</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span><span class="p">),</span> <span class="nb">stat</span><span class="o">=</span><span class="n">alloc_stat</span> <span class="p">)</span>
+<a name="ln-261"></a>          <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">alloc_stat</span><span class="o">==</span><span class="n">success</span><span class="p">,</span> <span class="s2">&quot;set_block_metadata: allocate(this%metadata(nx,ny,nz),...)&quot;</span> <span class="p">)</span>
+<a name="ln-262"></a>
+<a name="ln-263"></a>          <span class="k">associate</span><span class="p">(</span> <span class="p">&amp;</span>
+<a name="ln-264"></a>            <span class="n">nx_layers</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">nx_wrappers</span><span class="p">,</span> <span class="n">nx_core</span><span class="p">,</span> <span class="n">nx_wrappers</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">nx_wrappers</span><span class="p">):</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">],</span> <span class="p">&amp;</span>
+<a name="ln-265"></a>            <span class="n">ny_layers</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">ny_wrappers</span><span class="p">,</span> <span class="n">ny_core</span><span class="p">,</span> <span class="n">ny_wrappers</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">ny_wrappers</span><span class="p">):</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">],</span> <span class="p">&amp;</span>
+<a name="ln-266"></a>            <span class="n">nz_layers</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">nz_core</span><span class="p">,</span> <span class="n">nz_wrappers</span> <span class="o">-</span> <span class="n">nz_core</span><span class="p">],</span> <span class="p">&amp;</span>
+<a name="ln-267"></a>            <span class="n">wrappers_material</span> <span class="o">=&gt;</span> <span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">%</span><span class="n">material_name</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-268"></a>            <span class="n">core_material</span> <span class="o">=&gt;</span> <span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">%</span><span class="n">material_name</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
+<a name="ln-269"></a>
+<a name="ln-270"></a>            <span class="k">associate</span><span class="p">(</span> <span class="p">&amp;</span>
+<a name="ln-271"></a>              <span class="n">thickness_x</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">wrappers_thickness_x</span><span class="p">,</span> <span class="n">core_thickness_x</span><span class="p">,</span> <span class="n">wrappers_thickness_x</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">wrappers_thickness_x</span><span class="p">):</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">)],</span> <span class="p">&amp;</span>
+<a name="ln-272"></a>              <span class="n">thickness_y</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">wrappers_thickness_y</span><span class="p">,</span> <span class="n">core_thickness_y</span><span class="p">,</span> <span class="n">wrappers_thickness_y</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">wrappers_thickness_y</span><span class="p">):</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">)],</span> <span class="p">&amp;</span>
+<a name="ln-273"></a>              <span class="n">thickness_z</span> <span class="o">=&gt;</span> <span class="p">[</span> <span class="n">core_thickness_z</span><span class="p">,</span> <span class="n">wrappers_thickness_z</span> <span class="o">-</span> <span class="n">core_thickness_z</span> <span class="p">]</span> <span class="p">)</span>
+<a name="ln-274"></a>
+<a name="ln-275"></a>              <span class="k">associate</span><span class="p">(</span> <span class="p">&amp;</span>
+<a name="ln-276"></a>                <span class="n">block_thickness_x</span> <span class="o">=&gt;</span> <span class="p">[(</span> <span class="p">[(</span> <span class="n">thickness_x</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="n">nx_layers</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">nx_layers</span><span class="p">(</span><span class="n">i</span><span class="p">))],</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">nx_layers</span><span class="p">)</span> <span class="p">)],</span> <span class="p">&amp;</span>
+<a name="ln-277"></a>                <span class="n">block_thickness_y</span> <span class="o">=&gt;</span> <span class="p">[(</span> <span class="p">[(</span> <span class="n">thickness_y</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="n">ny_layers</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">ny_layers</span><span class="p">(</span><span class="n">i</span><span class="p">))],</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">ny_layers</span><span class="p">)</span> <span class="p">)],</span> <span class="p">&amp;</span>
+<a name="ln-278"></a>                <span class="n">block_thickness_z</span> <span class="o">=&gt;</span> <span class="p">[(</span> <span class="p">[(</span> <span class="n">thickness_z</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="n">nz_layers</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">nz_layers</span><span class="p">(</span><span class="n">i</span><span class="p">))],</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">nz_layers</span><span class="p">)</span> <span class="p">)]</span> <span class="p">)</span>
+<a name="ln-279"></a>
+<a name="ln-280"></a>                <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="k">all</span><span class="p">(</span> <span class="nb">lbound</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">metadata</span><span class="p">)</span><span class="o">==</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="p">.</span><span class="nb">and</span><span class="p">.</span> <span class="nb">ubound</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">metadata</span><span class="p">)</span><span class="o">==</span><span class="p">[</span><span class="n">nx</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">nz</span><span class="p">]),</span> <span class="p">&amp;</span>
+<a name="ln-281"></a>                <span class="s2">&quot;all( lbound(this%metadata)==[1,1,1] .and. ubound(this%metadata)==[nx,ny,nz] ) &quot;</span><span class="p">)</span>
+<a name="ln-282"></a>
+<a name="ln-283"></a>                <span class="k">do </span><span class="n">iz</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">nz</span>
+<a name="ln-284"></a>                <span class="k">do </span><span class="n">iy</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">ny</span>
+<a name="ln-285"></a>                <span class="k">do </span><span class="n">ix</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">nx</span>
+<a name="ln-286"></a>
+<a name="ln-287"></a>                  <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">metadata</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">)%</span><span class="n">set_max_spacing</span><span class="p">(</span><span class="kt">real</span><span class="p">(</span><span class="n">layers</span><span class="p">%</span><span class="n">max_spacing</span><span class="p">,</span> <span class="n">r8k</span><span class="p">))</span>
+<a name="ln-288"></a>                  <span class="k">associate</span><span class="p">(</span> <span class="p">&amp;</span>
+<a name="ln-289"></a>                    <span class="n">x_domain</span> <span class="o">=&gt;</span>  <span class="p">[</span> <span class="nb">sum</span><span class="p">(</span> <span class="n">block_thickness_x</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">ix</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">),</span> <span class="nb">sum</span><span class="p">(</span> <span class="n">block_thickness_x</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">ix</span><span class="p">)</span> <span class="p">)</span> <span class="p">],</span> <span class="p">&amp;</span>
+<a name="ln-290"></a>                    <span class="n">y_domain</span> <span class="o">=&gt;</span>  <span class="p">[</span> <span class="nb">sum</span><span class="p">(</span> <span class="n">block_thickness_y</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">),</span> <span class="nb">sum</span><span class="p">(</span> <span class="n">block_thickness_y</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">iy</span><span class="p">)</span> <span class="p">)</span> <span class="p">],</span> <span class="p">&amp;</span>
+<a name="ln-291"></a>                    <span class="n">z_domain</span> <span class="o">=&gt;</span>  <span class="p">[</span> <span class="nb">sum</span><span class="p">(</span> <span class="n">block_thickness_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">iz</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">),</span> <span class="nb">sum</span><span class="p">(</span> <span class="n">block_thickness_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">iz</span><span class="p">)</span> <span class="p">)</span> <span class="p">],</span> <span class="p">&amp;</span>
+<a name="ln-292"></a>                    <span class="n">tag</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">wrappers_material</span><span class="p">,</span> <span class="n">core_material</span><span class="p">,</span> <span class="n">cavity</span><span class="p">],</span> <span class="p">&amp;</span>
+<a name="ln-293"></a>                    <span class="n">block_material</span> <span class="o">=&gt;</span> <span class="n">material</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">,</span><span class="n">layers</span><span class="p">%</span><span class="n">core</span><span class="p">,</span><span class="n">layers</span><span class="p">%</span><span class="n">wrappers</span><span class="p">)</span> <span class="p">)</span>
+<a name="ln-294"></a>
+<a name="ln-295"></a>                    <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">metadata</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">)%</span><span class="n">set_label</span><span class="p">(</span> <span class="n">block_material</span> <span class="p">)</span>
+<a name="ln-296"></a>                    <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">metadata</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">)%</span><span class="n">set_tag</span><span class="p">(</span> <span class="nb">findloc</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">block_material</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span> <span class="p">)</span>
+<a name="ln-297"></a>                    <span class="k">call </span><span class="n">this</span><span class="p">%</span><span class="n">metadata</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">iz</span><span class="p">)%</span><span class="n">set_subdomain</span><span class="p">(</span> <span class="p">&amp;</span>
+<a name="ln-298"></a>                      <span class="n">subdomain_t</span><span class="p">(</span> <span class="nb">reshape</span><span class="p">([</span><span class="n">x_domain</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">y_domain</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">z_domain</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">x_domain</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">y_domain</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">z_domain</span><span class="p">(</span><span class="mi">2</span><span class="p">)],</span> <span class="p">&amp;</span>
+<a name="ln-299"></a>                      <span class="p">[</span><span class="n">space_dimension</span><span class="p">,</span><span class="n">num_end_points</span><span class="p">])</span> <span class="p">)</span> <span class="p">)</span>
+<a name="ln-300"></a>
+<a name="ln-301"></a>                  <span class="k">end associate</span>
+<a name="ln-302"></a><span class="k">                end do</span><span class="p">;</span> <span class="k">end do</span><span class="p">;</span> <span class="k">end do</span>
+<a name="ln-303"></a>
+<a name="ln-304"></a><span class="k">              end associate</span>
+<a name="ln-305"></a><span class="k">            end associate</span>
+<a name="ln-306"></a><span class="k">          end associate</span>
+<a name="ln-307"></a><span class="k">        end associate</span>
+<a name="ln-308"></a><span class="k">      end associate</span>
+<a name="ln-309"></a><span class="k">    end subroutine</span>
+<a name="ln-310"></a>
+<a name="ln-311"></a><span class="cp">#ifndef FORD</span>
+<a name="ln-312"></a>  <span class="k">end procedure</span> <span class="c">! compilers never see this line; when generating documentation, run &quot;ford -m FORD ...&quot; to circumvent a ford bug</span>
+<a name="ln-313"></a><span class="cp">#endif</span>
+<a name="ln-314"></a>
+<a name="ln-315"></a>  <span class="k">function </span><span class="n">material</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span><span class="p">,</span> <span class="n">core_</span><span class="p">,</span> <span class="n">wrapper_</span><span class="p">)</span> <span class="k">result</span><span class="p">(</span><span class="n">material_ix_iy</span><span class="p">)</span>
+<a name="ln-316"></a>    <span class="kt">integer</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span>
+<a name="ln-317"></a>    <span class="k">type</span><span class="p">(</span><span class="n">material_t</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">core_</span><span class="p">,</span> <span class="n">wrapper_</span>
+<a name="ln-318"></a>    <span class="kt">integer </span><span class="n">i</span><span class="p">,</span> <span class="n">j</span>
+<a name="ln-319"></a>    <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">max_name_length</span><span class="p">),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">material_ix_iy</span>
+<a name="ln-320"></a>    <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">max_name_length</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">void_name</span><span class="o">=</span><span class="s2">&quot;cavity&quot;</span>
+<a name="ln-321"></a>
+<a name="ln-322"></a>    <span class="k">associate</span><span class="p">(</span> <span class="n">core_material_name</span> <span class="o">=&gt;</span> <span class="nb">merge</span><span class="p">(</span> <span class="n">core_</span><span class="p">%</span><span class="n">material_name</span><span class="p">,</span> <span class="n">void_name</span><span class="p">,</span> <span class="n">iz</span> <span class="o">&lt;=</span> <span class="n">core_</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">z</span> <span class="p">)</span> <span class="p">)</span>
+<a name="ln-323"></a>      <span class="k">associate</span><span class="p">(</span> <span class="p">&amp;</span>
+<a name="ln-324"></a>        <span class="n">nx_layers</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">wrapper_</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">x</span><span class="p">,</span> <span class="n">core_</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">x</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-325"></a>          <span class="n">wrapper_</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">x</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">wrapper_</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">x</span><span class="p">):</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">],</span> <span class="p">&amp;</span>
+<a name="ln-326"></a>        <span class="n">ny_layers</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">wrapper_</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">y</span><span class="p">,</span> <span class="n">core_</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">y</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-327"></a>          <span class="n">wrapper_</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">y</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">wrapper_</span><span class="p">%</span><span class="n">num_grid_blocks</span><span class="p">%</span><span class="n">y</span><span class="p">):</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">],</span> <span class="p">&amp;</span>
+<a name="ln-328"></a>        <span class="n">material</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">wrapper_</span><span class="p">%</span><span class="n">material_name</span><span class="p">,</span> <span class="n">core_material_name</span><span class="p">,</span> <span class="n">wrapper_</span><span class="p">%</span><span class="n">material_name</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">wrapper_</span><span class="p">%</span><span class="n">material_name</span><span class="p">):</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span> <span class="p">)</span>
+<a name="ln-329"></a>
+<a name="ln-330"></a>        <span class="k">associate</span><span class="p">(</span> <span class="p">&amp;</span>
+<a name="ln-331"></a>          <span class="n">block_material_x</span> <span class="o">=&gt;</span> <span class="p">[(</span> <span class="p">[(</span><span class="n">material</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">nx_layers</span><span class="p">(</span><span class="n">i</span><span class="p">))],</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">nx_layers</span><span class="p">)</span> <span class="p">)],</span> <span class="p">&amp;</span>
+<a name="ln-332"></a>          <span class="n">block_material_y</span> <span class="o">=&gt;</span> <span class="p">[(</span> <span class="p">[(</span><span class="n">material</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">ny_layers</span><span class="p">(</span><span class="n">i</span><span class="p">))],</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">ny_layers</span><span class="p">)</span> <span class="p">)]</span> <span class="p">)</span>
+<a name="ln-333"></a>
+<a name="ln-334"></a>          <span class="k">associate</span><span class="p">(</span> <span class="n">wrapper_material_x</span> <span class="o">=&gt;</span> <span class="n">replace_layers</span><span class="p">(</span><span class="n">block_material_x</span><span class="p">,</span> <span class="n">block_material_y</span><span class="p">,</span> <span class="n">iy</span><span class="p">)</span> <span class="p">)</span>
+<a name="ln-335"></a>            <span class="n">material_ix_iy</span> <span class="o">=</span> <span class="n">wrapper_material_x</span><span class="p">(</span><span class="n">ix</span><span class="p">)</span>
+<a name="ln-336"></a>          <span class="k">end associate</span>
+<a name="ln-337"></a><span class="k">        end associate</span>
+<a name="ln-338"></a><span class="k">      end associate</span>
+<a name="ln-339"></a><span class="k">    end associate</span>
+<a name="ln-340"></a><span class="k">  end function</span>
+<a name="ln-341"></a>
+<a name="ln-342"></a><span class="k">  function </span><span class="n">replace_layers</span><span class="p">(</span><span class="n">full_delineation_x</span><span class="p">,</span> <span class="n">full_delineation_y</span><span class="p">,</span> <span class="n">iy</span><span class="p">)</span> <span class="k">result</span><span class="p">(</span><span class="n">wrapper_layer_x</span><span class="p">)</span>
+<a name="ln-343"></a>    <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">full_delineation_x</span><span class="p">(:),</span> <span class="n">full_delineation_y</span><span class="p">(:)</span>
+<a name="ln-344"></a>    <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">full_delineation_x</span><span class="p">))</span> <span class="kd">::</span> <span class="n">wrapper_layer_x</span><span class="p">(</span> <span class="n">size</span><span class="p">(</span><span class="n">full_delineation_x</span><span class="p">)</span> <span class="p">)</span>
+<a name="ln-345"></a>    <span class="kt">integer </span><span class="n">iy</span>
+<a name="ln-346"></a>
+<a name="ln-347"></a>    <span class="k">associate</span><span class="p">(</span> <span class="n">layer</span><span class="o">=&gt;</span><span class="n">full_delineation_y</span><span class="p">(</span><span class="n">iy</span><span class="p">)</span> <span class="p">)</span>
+<a name="ln-348"></a>      <span class="k">associate</span><span class="p">(</span> <span class="p">&amp;</span>
+<a name="ln-349"></a>        <span class="n">first</span> <span class="o">=&gt;</span> <span class="nb">findloc</span><span class="p">(</span><span class="n">full_delineation_x</span><span class="p">,</span> <span class="n">layer</span><span class="p">,</span> <span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.),</span> <span class="p">&amp;</span>
+<a name="ln-350"></a>        <span class="n">last</span> <span class="o">=&gt;</span> <span class="nb">findloc</span><span class="p">(</span><span class="n">full_delineation_x</span><span class="p">,</span> <span class="n">layer</span><span class="p">,</span> <span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">back</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)</span> <span class="p">)</span>
+<a name="ln-351"></a>
+<a name="ln-352"></a>        <span class="n">wrapper_layer_x</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">first</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">full_delineation_x</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">first</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-353"></a>        <span class="n">wrapper_layer_x</span><span class="p">(</span><span class="n">first</span><span class="p">:</span><span class="n">last</span><span class="p">)</span> <span class="o">=</span> <span class="n">layer</span>
+<a name="ln-354"></a>        <span class="n">wrapper_layer_x</span><span class="p">(</span><span class="n">last</span><span class="o">+</span><span class="mi">1</span><span class="p">:)</span> <span class="o">=</span> <span class="n">full_delineation_x</span><span class="p">(</span><span class="n">last</span><span class="o">+</span><span class="mi">1</span><span class="p">:)</span>
+<a name="ln-355"></a>      <span class="k">end associate</span>
+<a name="ln-356"></a><span class="k">    end associate</span>
+<a name="ln-357"></a>
+<a name="ln-358"></a><span class="k">  end function</span>
+<a name="ln-359"></a><span class="k">end submodule </span><span class="n">plate_3D_implementation</span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

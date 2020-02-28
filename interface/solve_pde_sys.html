@@ -1,0 +1,741 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>solve_pde_sys &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>solve_pde_sys
+   <small>Interface</small>
+    
+    </h1>
+    
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.2% of total for procedures.">104 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/class_pde.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/class_pde.f90.html'>class_pde.f90</a></li>
+    
+     <li><a href='../module/class_pde.html'>class_pde</a></li>
+    
+  
+     <li class="active">solve_pde_sys</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+    
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<em>None</em>
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    
+    
+      <h2>interface</h2>
+      <p>Constructor</p>
+<p>----- Destructor -----</p>
+<p>----- Getters -----</p>
+<p>----- Temporary up to Gfortran patch -----
+ ----- Output -----</p>
+<p>----- Status Inquirer -----</p>
+<p>----- Linear System Solving -----</p>
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Calls</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: interface~~solve_pde_sys~~CallsGraph Pages: 1 -->
+<svg id="interfacesolve_pde_sysCallsGraph" width="641pt" height="187pt"
+ viewBox="0.00 0.00 641.00 187.06" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="interface~~solve_pde_sys~~CallsGraph" class="graph" transform="scale(1.26 1.26) rotate(0) translate(4 231.5)">
+<title>interface~~solve_pde_sys~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-231.5 803,-231.5 803,4 -4,4"/>
+<!-- interface~solve_pde_sys -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node1" class="node">
+<title>interface~solve_pde_sys</title>
+<polygon fill="none" stroke="black" points="81.69,-123.26 -0.23,-123.26 -0.23,-101.24 81.69,-101.24 81.69,-123.26"/>
+<text text-anchor="middle" x="40.73" y="-109.1" font-family="Helvetica,sans-Serif" font-size="10.50">solve_pde_sys</text>
+</g>
+<!-- proc~solve_pde_sys -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node2" class="node">
+<title>proc~solve_pde_sys</title>
+<g id="a_interface~~solve_pde_sys~~CallsGraph_node2"><a xlink:href=".././proc/solve_pde_sys.html" xlink:title="solve_pde_sys">
+<polygon fill="#d9534f" stroke="#d9534f" points="199.15,-123.26 117.23,-123.26 117.23,-101.24 199.15,-101.24 199.15,-123.26"/>
+<text text-anchor="middle" x="158.19" y="-109.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">solve_pde_sys</text>
+</a>
+</g>
+</g>
+<!-- interface~solve_pde_sys&#45;&gt;proc~solve_pde_sys -->
+<g id="interface~~solve_pde_sys~~CallsGraph_edge1" class="edge">
+<title>interface~solve_pde_sys&#45;&gt;proc~solve_pde_sys</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M81.46,-112.25C89.81,-112.25 98.71,-112.25 107.37,-112.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="107.38,-115.75 117.38,-112.25 107.38,-108.75 107.38,-115.75"/>
+</g>
+<!-- interface~solve_sys -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node3" class="node">
+<title>interface~solve_sys</title>
+<g id="a_interface~~solve_pde_sys~~CallsGraph_node3"><a xlink:href=".././interface/solve_sys.html" xlink:title="solve_sys">
+<polygon fill="#a7506f" stroke="#a7506f" points="293.07,-144.26 234.87,-144.26 234.87,-122.24 293.07,-122.24 293.07,-144.26"/>
+<text text-anchor="middle" x="263.97" y="-130.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">solve_sys</text>
+</a>
+</g>
+</g>
+<!-- proc~solve_pde_sys&#45;&gt;interface~solve_sys -->
+<g id="interface~~solve_pde_sys~~CallsGraph_edge2" class="edge">
+<title>proc~solve_pde_sys&#45;&gt;interface~solve_sys</title>
+<path fill="none" stroke="#ff0000" d="M199.02,-120.31C207.47,-122.02 216.38,-123.82 224.77,-125.52"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="224.19,-128.97 234.68,-127.53 225.57,-122.11 224.19,-128.97"/>
+</g>
+<!-- psb_csprt -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node4" class="node">
+<title>psb_csprt</title>
+<polygon fill="#777777" stroke="#777777" points="292.49,-103.26 235.45,-103.26 235.45,-81.24 292.49,-81.24 292.49,-103.26"/>
+<text text-anchor="middle" x="263.97" y="-89.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_csprt</text>
+</g>
+<!-- proc~solve_pde_sys&#45;&gt;psb_csprt -->
+<g id="interface~~solve_pde_sys~~CallsGraph_edge3" class="edge">
+<title>proc~solve_pde_sys&#45;&gt;psb_csprt</title>
+<path fill="none" stroke="#ff0000" d="M199.02,-104.57C207.63,-102.91 216.72,-101.16 225.25,-99.52"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="226.16,-102.91 235.31,-97.58 224.83,-96.04 226.16,-102.91"/>
+</g>
+<!-- interface~cholesky_solve_m -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node5" class="node">
+<title>interface~cholesky_solve_m</title>
+<g id="a_interface~~solve_pde_sys~~CallsGraph_node5"><a xlink:href=".././interface/cholesky_solve_m.html" xlink:title="cholesky_solve_m">
+<polygon fill="#a7506f" stroke="#a7506f" points="426.71,-206.26 329.13,-206.26 329.13,-184.24 426.71,-184.24 426.71,-206.26"/>
+<text text-anchor="middle" x="377.92" y="-192.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cholesky_solve_m</text>
+</a>
+</g>
+</g>
+<!-- interface~solve_sys&#45;&gt;interface~cholesky_solve_m -->
+<g id="interface~~solve_pde_sys~~CallsGraph_edge4" class="edge">
+<title>interface~solve_sys&#45;&gt;interface~cholesky_solve_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M280.87,-144.42C293.58,-153.1 312.03,-165.16 329.02,-174.25 332.71,-176.23 336.63,-178.17 340.57,-180.03"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="339.16,-183.24 349.71,-184.2 342.07,-176.87 339.16,-183.24"/>
+</g>
+<!-- interface~cholesky_solve_v -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node6" class="node">
+<title>interface~cholesky_solve_v</title>
+<g id="a_interface~~solve_pde_sys~~CallsGraph_node6"><a xlink:href=".././interface/cholesky_solve_v.html" xlink:title="cholesky_solve_v">
+<polygon fill="#a7506f" stroke="#a7506f" points="425.21,-165.26 330.62,-165.26 330.62,-143.24 425.21,-143.24 425.21,-165.26"/>
+<text text-anchor="middle" x="377.92" y="-151.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cholesky_solve_v</text>
+</a>
+</g>
+</g>
+<!-- interface~solve_sys&#45;&gt;interface~cholesky_solve_v -->
+<g id="interface~~solve_pde_sys~~CallsGraph_edge5" class="edge">
+<title>interface~solve_sys&#45;&gt;interface~cholesky_solve_v</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M293.22,-138.55C301.58,-140.12 311.05,-141.89 320.54,-143.67"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="319.91,-147.12 330.38,-145.52 321.2,-140.24 319.91,-147.12"/>
+</g>
+<!-- interface~psb_solve_sys -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node7" class="node">
+<title>interface~psb_solve_sys</title>
+<g id="a_interface~~solve_pde_sys~~CallsGraph_node7"><a xlink:href=".././interface/psb_solve_sys.html" xlink:title="psb_solve_sys">
+<polygon fill="#a7506f" stroke="#a7506f" points="418.29,-124.26 337.55,-124.26 337.55,-102.24 418.29,-102.24 418.29,-124.26"/>
+<text text-anchor="middle" x="377.92" y="-110.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_solve_sys</text>
+</a>
+</g>
+</g>
+<!-- interface~solve_sys&#45;&gt;interface~psb_solve_sys -->
+<g id="interface~~solve_pde_sys~~CallsGraph_edge6" class="edge">
+<title>interface~solve_sys&#45;&gt;interface~psb_solve_sys</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M293.22,-128.2C303.54,-126.36 315.54,-124.22 327.18,-122.14"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="328.03,-125.54 337.26,-120.33 326.8,-118.65 328.03,-125.54"/>
+</g>
+<!-- interface~lu_solve -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node8" class="node">
+<title>interface~lu_solve</title>
+<g id="a_interface~~solve_pde_sys~~CallsGraph_node8"><a xlink:href=".././interface/lu_solve.html" xlink:title="lu_solve">
+<polygon fill="#a7506f" stroke="#a7506f" points="404.92,-83.26 350.92,-83.26 350.92,-61.24 404.92,-61.24 404.92,-83.26"/>
+<text text-anchor="middle" x="377.92" y="-69.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lu_solve</text>
+</a>
+</g>
+</g>
+<!-- interface~solve_sys&#45;&gt;interface~lu_solve -->
+<g id="interface~~solve_pde_sys~~CallsGraph_edge7" class="edge">
+<title>interface~solve_sys&#45;&gt;interface~lu_solve</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M281.17,-122.22C293.89,-113.78 312.21,-102.12 329.02,-93.25 333.01,-91.14 337.26,-89.06 341.52,-87.08"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="343.07,-90.22 350.74,-82.91 340.19,-83.84 343.07,-90.22"/>
+</g>
+<!-- proc~cholesky_solve_m -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node12" class="node">
+<title>proc~cholesky_solve_m</title>
+<g id="a_interface~~solve_pde_sys~~CallsGraph_node12"><a xlink:href=".././proc/cholesky_solve_m.html" xlink:title="cholesky_solve_m">
+<polygon fill="#d9534f" stroke="#d9534f" points="560.49,-206.26 462.92,-206.26 462.92,-184.24 560.49,-184.24 560.49,-206.26"/>
+<text text-anchor="middle" x="511.71" y="-192.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cholesky_solve_m</text>
+</a>
+</g>
+</g>
+<!-- interface~cholesky_solve_m&#45;&gt;proc~cholesky_solve_m -->
+<g id="interface~~solve_pde_sys~~CallsGraph_edge8" class="edge">
+<title>interface~cholesky_solve_m&#45;&gt;proc~cholesky_solve_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M426.87,-195.25C435.13,-195.25 443.81,-195.25 452.32,-195.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="452.57,-198.75 462.57,-195.25 452.57,-191.75 452.57,-198.75"/>
+</g>
+<!-- proc~cholesky_solve_v -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node11" class="node">
+<title>proc~cholesky_solve_v</title>
+<g id="a_interface~~solve_pde_sys~~CallsGraph_node11"><a xlink:href=".././proc/cholesky_solve_v.html" xlink:title="cholesky_solve_v">
+<polygon fill="#d9534f" stroke="#d9534f" points="559,-165.26 464.41,-165.26 464.41,-143.24 559,-143.24 559,-165.26"/>
+<text text-anchor="middle" x="511.71" y="-151.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cholesky_solve_v</text>
+</a>
+</g>
+</g>
+<!-- interface~cholesky_solve_v&#45;&gt;proc~cholesky_solve_v -->
+<g id="interface~~solve_pde_sys~~CallsGraph_edge9" class="edge">
+<title>interface~cholesky_solve_v&#45;&gt;proc~cholesky_solve_v</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M425.38,-154.25C434.63,-154.25 444.45,-154.25 454,-154.25"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="454.22,-157.75 464.22,-154.25 454.22,-150.75 454.22,-157.75"/>
+</g>
+<!-- proc~psb_solve_sys -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node10" class="node">
+<title>proc~psb_solve_sys</title>
+<g id="a_interface~~solve_pde_sys~~CallsGraph_node10"><a xlink:href=".././proc/psb_solve_sys.html" xlink:title="psb_solve_sys">
+<polygon fill="#d9534f" stroke="#d9534f" points="552.08,-124.26 471.33,-124.26 471.33,-102.24 552.08,-102.24 552.08,-124.26"/>
+<text text-anchor="middle" x="511.71" y="-110.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_solve_sys</text>
+</a>
+</g>
+</g>
+<!-- interface~psb_solve_sys&#45;&gt;proc~psb_solve_sys -->
+<g id="interface~~solve_pde_sys~~CallsGraph_edge10" class="edge">
+<title>interface~psb_solve_sys&#45;&gt;proc~psb_solve_sys</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M418.46,-113.25C431.88,-113.25 447.05,-113.25 461.15,-113.25"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="461.19,-116.75 471.19,-113.25 461.19,-109.75 461.19,-116.75"/>
+</g>
+<!-- proc~lu_solve -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node9" class="node">
+<title>proc~lu_solve</title>
+<g id="a_interface~~solve_pde_sys~~CallsGraph_node9"><a xlink:href=".././proc/lu_solve.html" xlink:title="lu_solve">
+<polygon fill="#d9534f" stroke="#d9534f" points="538.71,-83.26 484.71,-83.26 484.71,-61.24 538.71,-61.24 538.71,-83.26"/>
+<text text-anchor="middle" x="511.71" y="-69.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lu_solve</text>
+</a>
+</g>
+</g>
+<!-- interface~lu_solve&#45;&gt;proc~lu_solve -->
+<g id="interface~~solve_pde_sys~~CallsGraph_edge11" class="edge">
+<title>interface~lu_solve&#45;&gt;proc~lu_solve</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M404.95,-72.25C424.68,-72.25 452.04,-72.25 473.99,-72.25"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="474.27,-75.75 484.27,-72.25 474.27,-68.75 474.27,-75.75"/>
+</g>
+<!-- interface~icontxt_ -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node13" class="node">
+<title>interface~icontxt_</title>
+<g id="a_interface~~solve_pde_sys~~CallsGraph_node13"><a xlink:href=".././interface/icontxt_.html" xlink:title="icontxt_">
+<polygon fill="#a7506f" stroke="#a7506f" points="677.75,-227.26 623.75,-227.26 623.75,-205.24 677.75,-205.24 677.75,-227.26"/>
+<text text-anchor="middle" x="650.75" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">icontxt_</text>
+</a>
+</g>
+</g>
+<!-- proc~psb_solve_sys&#45;&gt;interface~icontxt_ -->
+<g id="interface~~solve_pde_sys~~CallsGraph_edge12" class="edge">
+<title>proc~psb_solve_sys&#45;&gt;interface~icontxt_</title>
+<path fill="none" stroke="#7fff00" d="M545.78,-124.46C551.09,-127.15 556.25,-130.39 560.6,-134.25 584.15,-155.14 572.66,-174.8 596.6,-195.25 601.65,-199.56 607.69,-203.06 613.86,-205.86"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="612.96,-209.27 623.54,-209.73 615.55,-202.77 612.96,-209.27"/>
+</g>
+<!-- psb_check_error -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node14" class="node">
+<title>psb_check_error</title>
+<polygon fill="#777777" stroke="#777777" points="695.96,-186.26 605.54,-186.26 605.54,-164.24 695.96,-164.24 695.96,-186.26"/>
+<text text-anchor="middle" x="650.75" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_check_error</text>
+</g>
+<!-- proc~psb_solve_sys&#45;&gt;psb_check_error -->
+<g id="interface~~solve_pde_sys~~CallsGraph_edge13" class="edge">
+<title>proc~psb_solve_sys&#45;&gt;psb_check_error</title>
+<path fill="none" stroke="#7fff00" d="M539.26,-124.36C546.26,-127.44 553.77,-130.86 560.6,-134.25 577,-142.38 580.05,-146.43 596.6,-154.25 600.97,-156.31 605.6,-158.35 610.23,-160.3"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="609.08,-163.61 619.66,-164.15 611.72,-157.13 609.08,-163.61"/>
+</g>
+<!-- interface~mypnum_ -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node15" class="node">
+<title>interface~mypnum_</title>
+<g id="a_interface~~solve_pde_sys~~CallsGraph_node15"><a xlink:href=".././interface/mypnum_.html" xlink:title="mypnum_">
+<polygon fill="#a7506f" stroke="#a7506f" points="679.85,-145.26 621.65,-145.26 621.65,-123.24 679.85,-123.24 679.85,-145.26"/>
+<text text-anchor="middle" x="650.75" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mypnum_</text>
+</a>
+</g>
+</g>
+<!-- proc~psb_solve_sys&#45;&gt;interface~mypnum_ -->
+<g id="interface~~solve_pde_sys~~CallsGraph_edge14" class="edge">
+<title>proc~psb_solve_sys&#45;&gt;interface~mypnum_</title>
+<path fill="none" stroke="#7fff00" d="M552.34,-119.32C570.93,-122.17 592.99,-125.55 611.42,-128.38"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="611.1,-131.87 621.51,-129.92 612.16,-124.95 611.1,-131.87"/>
+</g>
+<!-- psb_erractionsave -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node16" class="node">
+<title>psb_erractionsave</title>
+<polygon fill="#777777" stroke="#777777" points="699.55,-104.26 601.95,-104.26 601.95,-82.24 699.55,-82.24 699.55,-104.26"/>
+<text text-anchor="middle" x="650.75" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_erractionsave</text>
+</g>
+<!-- proc~psb_solve_sys&#45;&gt;psb_erractionsave -->
+<g id="interface~~solve_pde_sys~~CallsGraph_edge15" class="edge">
+<title>proc~psb_solve_sys&#45;&gt;psb_erractionsave</title>
+<path fill="none" stroke="#7fff00" d="M552.34,-107.47C564.69,-105.66 578.57,-103.64 591.9,-101.69"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="592.55,-105.13 601.94,-100.23 591.54,-98.21 592.55,-105.13"/>
+</g>
+<!-- psb_erractionrestore -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node17" class="node">
+<title>psb_erractionrestore</title>
+<polygon fill="#777777" stroke="#777777" points="705.05,-63.26 596.45,-63.26 596.45,-41.24 705.05,-41.24 705.05,-63.26"/>
+<text text-anchor="middle" x="650.75" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_erractionrestore</text>
+</g>
+<!-- proc~psb_solve_sys&#45;&gt;psb_erractionrestore -->
+<g id="interface~~solve_pde_sys~~CallsGraph_edge16" class="edge">
+<title>proc~psb_solve_sys&#45;&gt;psb_erractionrestore</title>
+<path fill="none" stroke="#7fff00" d="M539.21,-102.04C546.21,-98.96 553.73,-95.56 560.6,-92.25 576.9,-84.39 580.16,-80.81 596.6,-73.25 601.04,-71.21 605.74,-69.17 610.44,-67.22"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="612.04,-70.35 619.99,-63.35 609.41,-63.86 612.04,-70.35"/>
+</g>
+<!-- psb_krylov -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node18" class="node">
+<title>psb_krylov</title>
+<polygon fill="#777777" stroke="#777777" points="681.94,-22.26 619.56,-22.26 619.56,-0.24 681.94,-0.24 681.94,-22.26"/>
+<text text-anchor="middle" x="650.75" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_krylov</text>
+</g>
+<!-- proc~psb_solve_sys&#45;&gt;psb_krylov -->
+<g id="interface~~solve_pde_sys~~CallsGraph_edge17" class="edge">
+<title>proc~psb_solve_sys&#45;&gt;psb_krylov</title>
+<path fill="none" stroke="#7fff00" d="M545.76,-102.01C551.06,-99.32 556.24,-96.09 560.6,-92.25 583.94,-71.7 572.88,-52.36 596.6,-32.25 600.61,-28.85 605.24,-25.95 610.06,-23.5"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="611.74,-26.59 619.45,-19.32 608.89,-20.19 611.74,-26.59"/>
+</g>
+<!-- proc~icontxt_ -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node20" class="node">
+<title>proc~icontxt_</title>
+<g id="a_interface~~solve_pde_sys~~CallsGraph_node20"><a xlink:href=".././proc/icontxt_.html" xlink:title="icontxt_">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="796.95,-227.26 742.95,-227.26 742.95,-205.24 796.95,-205.24 796.95,-227.26"/>
+<text text-anchor="middle" x="769.95" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">icontxt_</text>
+</a>
+</g>
+</g>
+<!-- interface~icontxt_&#45;&gt;proc~icontxt_ -->
+<g id="interface~~solve_pde_sys~~CallsGraph_edge18" class="edge">
+<title>interface~icontxt_&#45;&gt;proc~icontxt_</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M677.76,-216.25C693.88,-216.25 714.83,-216.25 732.58,-216.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="732.61,-219.75 742.61,-216.25 732.61,-212.75 732.61,-219.75"/>
+</g>
+<!-- proc~mypnum_ -->
+<g id="interface~~solve_pde_sys~~CallsGraph_node19" class="node">
+<title>proc~mypnum_</title>
+<g id="a_interface~~solve_pde_sys~~CallsGraph_node19"><a xlink:href=".././proc/mypnum_.html" xlink:title="mypnum_">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="799.05,-145.26 740.85,-145.26 740.85,-123.24 799.05,-123.24 799.05,-145.26"/>
+<text text-anchor="middle" x="769.95" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mypnum_</text>
+</a>
+</g>
+</g>
+<!-- interface~mypnum_&#45;&gt;proc~mypnum_ -->
+<g id="interface~~solve_pde_sys~~CallsGraph_edge19" class="edge">
+<title>interface~mypnum_&#45;&gt;proc~mypnum_</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M679.82,-134.25C694.93,-134.25 713.8,-134.25 730.28,-134.25"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="730.7,-137.75 740.7,-134.25 730.7,-130.75 730.7,-137.75"/>
+</g>
+</g>
+</svg>
+</div><script>var paninterfacesolve_pde_sysCallsGraph = svgPanZoom('#interfacesolve_pde_sysCallsGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="550pt" height="31pt"
+ viewBox="0.00 0.00 550.25 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 546.25,-26.5 546.25,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="62.68,-22.26 0.11,-22.26 0.11,-0.24 62.68,-0.24 62.68,-22.26"/>
+<text text-anchor="middle" x="31.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="134.39,-22.26 80.39,-22.26 80.39,-0.24 134.39,-0.24 134.39,-22.26"/>
+<text text-anchor="middle" x="107.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="206.39,-22.26 152.39,-22.26 152.39,-0.24 206.39,-0.24 206.39,-22.26"/>
+<text text-anchor="middle" x="179.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="356.53,-22.26 224.26,-22.26 224.26,-0.24 356.53,-0.24 356.53,-22.26"/>
+<text text-anchor="middle" x="290.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="428.39,-22.26 374.39,-22.26 374.39,-0.24 428.39,-0.24 428.39,-22.26"/>
+<text text-anchor="middle" x="401.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="542.1,-22.26 446.69,-22.26 446.69,-0.24 542.1,-0.24 542.1,-22.26"/>
+<text text-anchor="middle" x="494.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a procedure to one which it calls. Dashed 
+    arrows point from an interface to procedures which implement that interface.
+    This could include the module procedures in a generic interface or the
+    implementation in a submodule of an interface in a parent module. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+     
+     
+    
+    <br>
+    
+      <h2>
+private module subroutine solve_pde_sys(eqn, b, x, iter, err)
+    
+    
+   
+   <a href='../proc/solve_pde_sys.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h2>
+    
+
+    
+  
+
+
+    <h3>Arguments</h3>
+    
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-eqn~16"></span>class(<a href='../type/pde.html'>pde</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>eqn</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-b~24"></span>real(kind=psb_dpk_),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>b</strong>(:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-x~39"></span>real(kind=psb_dpk_),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>x</strong>(:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-iter~20"></span>integer,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>iter</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-err~3"></span>real(kind=psb_dpk_),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>err</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    
+    
+    
+    <br>
+
+ </div>
+</div>
+
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>class_motion_procedures &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>class_motion_procedures 
+    <small>Submodule</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.5% of total for modules and submodules.">126 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/class_motion_procedures.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/class_motion_procedures.f90.html'>class_motion_procedures.f90</a></li>
+    
+  
+     <li class="active">class_motion_procedures</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-0">Module Procedures</a></h3></div>
+  <div id="modprocs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/class_motion_procedures.html#proc-create_motion">create_motion</a>
+      
+      <a class="list-group-item" href="../module/class_motion_procedures.html#proc-free_motion">free_motion</a>
+      
+      <a class="list-group-item" href="../module/class_motion_procedures.html#proc-get_motion_displacement">get_motion_displacement</a>
+      
+      <a class="list-group-item" href="../module/class_motion_procedures.html#proc-get_motion_velocity">get_motion_velocity</a>
+      
+      <a class="list-group-item" href="../module/class_motion_procedures.html#proc-move_boundary">move_boundary</a>
+      
+      <a class="list-group-item" href="../module/class_motion_procedures.html#proc-nemo_motion_sizeof">nemo_motion_sizeof</a>
+      
+      <a class="list-group-item" href="../module/class_motion_procedures.html#proc-surface_motion_">surface_motion_</a>
+      
+      <a class="list-group-item" href="../module/class_motion_procedures.html#proc-vertex_motion_">vertex_motion_</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    
+      <br>
+    
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      
+      <li class="list-group-item">
+  <ul class="list-inline">
+    
+    <li><a href='../module/class_vector.html'>class_vector</a></li>
+    
+    <li><a href='../module/class_psblas.html'>class_psblas</a></li>
+    
+    <li><a href='../module/class_surface.html'>class_surface</a></li>
+    
+  </ul>
+      </li>
+      
+      
+      <li class="list-group-item">
+  <ul class="list-inline">
+    <li><h5>Ancestors:</h5></li>
+    
+    <li><a href='../module/class_motion.html'>class_motion</a></li>
+    
+    
+  </ul>
+      </li>
+      
+      
+      <li class="list-group-item">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~class_motion_procedures~~UsesGraph Pages: 1 -->
+<svg id="moduleclass_motion_proceduresUsesGraph" width="641pt" height="169pt"
+ viewBox="0.00 0.00 641.00 168.85" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~class_motion_procedures~~UsesGraph" class="graph" transform="scale(1.67 1.67) rotate(0) translate(4 278.29)">
+<title>module~~class_motion_procedures~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-278.29 1067.66,-278.29 1067.66,4 -4,4"/>
+<!-- module~class_motion_procedures -->
+<g id="module~~class_motion_procedures~~UsesGraph_node1" class="node">
+<title>module~class_motion_procedures</title>
+<polygon fill="none" stroke="black" points="1063.48,-139.26 932.19,-139.26 932.19,-117.24 1063.48,-117.24 1063.48,-139.26"/>
+<text text-anchor="middle" x="997.83" y="-125.1" font-family="Helvetica,sans-Serif" font-size="10.50">class_motion_procedures</text>
+</g>
+<!-- module~class_psblas -->
+<g id="module~~class_motion_procedures~~UsesGraph_node2" class="node">
+<title>module~class_psblas</title>
+<g id="a_module~~class_motion_procedures~~UsesGraph_node2"><a xlink:href=".././module/class_psblas.html" xlink:title="class_psblas">
+<polygon fill="#337ab7" stroke="#337ab7" points="428.03,-119.26 355.8,-119.26 355.8,-97.24 428.03,-97.24 428.03,-119.26"/>
+<text text-anchor="middle" x="391.92" y="-105.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_psblas</text>
+</a>
+</g>
+</g>
+<!-- module~class_motion_procedures&#45;&gt;module~class_psblas -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge1" class="edge">
+<title>module~class_motion_procedures&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M743.84,-225.25C709.98,-228.85 703.3,-238.74 669.87,-245.25 601.06,-258.66 578.47,-290.05 513.28,-264.25"/>
+</g>
+<!-- module~class_vector -->
+<g id="module~~class_motion_procedures~~UsesGraph_node3" class="node">
+<title>module~class_vector</title>
+<g id="a_module~~class_motion_procedures~~UsesGraph_node3"><a xlink:href=".././module/class_vector.html" xlink:title="class_vector">
+<polygon fill="#337ab7" stroke="#337ab7" points="547.64,-139.26 476.93,-139.26 476.93,-117.24 547.64,-117.24 547.64,-139.26"/>
+<text text-anchor="middle" x="512.28" y="-125.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vector</text>
+</a>
+</g>
+</g>
+<!-- module~class_motion_procedures&#45;&gt;module~class_vector -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge2" class="edge">
+<title>module~class_motion_procedures&#45;&gt;module~class_vector</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M980.64,-139.38C941.93,-164.86 840.21,-225.25 745.84,-225.25"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M743.84,-225.25C723.09,-227.52 603.43,-171.65 545.16,-143.7"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="546.55,-140.49 536.02,-139.31 543.52,-146.8 546.55,-140.49"/>
+</g>
+<!-- module~class_surface -->
+<g id="module~~class_motion_procedures~~UsesGraph_node4" class="node">
+<title>module~class_surface</title>
+<g id="a_module~~class_motion_procedures~~UsesGraph_node4"><a xlink:href=".././module/class_surface.html" xlink:title="class_surface">
+<polygon fill="#337ab7" stroke="#337ab7" points="896.11,-100.26 819.72,-100.26 819.72,-78.24 896.11,-78.24 896.11,-100.26"/>
+<text text-anchor="middle" x="857.91" y="-86.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_surface</text>
+</a>
+</g>
+</g>
+<!-- module~class_motion_procedures&#45;&gt;module~class_surface -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge3" class="edge">
+<title>module~class_motion_procedures&#45;&gt;module~class_surface</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M957.68,-117.18C941.57,-112.62 922.77,-107.31 905.92,-102.54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="906.84,-99.17 896.26,-99.81 904.93,-105.9 906.84,-99.17"/>
+</g>
+<!-- module~class_motion -->
+<g id="module~~class_motion_procedures~~UsesGraph_node5" class="node">
+<title>module~class_motion</title>
+<g id="a_module~~class_motion_procedures~~UsesGraph_node5"><a xlink:href=".././module/class_motion.html" xlink:title="class_motion">
+<polygon fill="#337ab7" stroke="#337ab7" points="670.01,-236.26 596.46,-236.26 596.46,-214.24 670.01,-214.24 670.01,-236.26"/>
+<text text-anchor="middle" x="633.23" y="-222.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_motion</text>
+</a>
+</g>
+</g>
+<!-- module~class_motion_procedures&#45;&gt;module~class_motion -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge4" class="edge">
+<title>module~class_motion_procedures&#45;&gt;module~class_motion</title>
+<path fill="none" stroke="#ff0000" d="M743.84,-225.25C723.04,-225.25 700.01,-225.25 680.45,-225.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="680.27,-221.75 670.27,-225.25 680.27,-228.75 680.27,-221.75"/>
+</g>
+<!-- module~class_stopwatch -->
+<g id="module~~class_motion_procedures~~UsesGraph_node6" class="node">
+<title>module~class_stopwatch</title>
+<g id="a_module~~class_motion_procedures~~UsesGraph_node6"><a xlink:href=".././module/class_stopwatch.html" xlink:title="class_stopwatch">
+<polygon fill="#337ab7" stroke="#337ab7" points="319.88,-100.26 230.8,-100.26 230.8,-78.24 319.88,-78.24 319.88,-100.26"/>
+<text text-anchor="middle" x="275.34" y="-86.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_stopwatch</text>
+</a>
+</g>
+</g>
+<!-- module~class_psblas&#45;&gt;module~class_stopwatch -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge5" class="edge">
+<title>module~class_psblas&#45;&gt;module~class_stopwatch</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M355.61,-102.39C347.57,-101.06 338.86,-99.62 330.25,-98.19"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="330.67,-94.71 320.23,-96.53 329.52,-101.62 330.67,-94.71"/>
+</g>
+<!-- module~tools_psblas -->
+<g id="module~~class_motion_procedures~~UsesGraph_node8" class="node">
+<title>module~tools_psblas</title>
+<g id="a_module~~class_motion_procedures~~UsesGraph_node8"><a xlink:href=".././module/tools_psblas.html" xlink:title="tools_psblas">
+<polygon fill="#337ab7" stroke="#337ab7" points="195.01,-139.26 124.27,-139.26 124.27,-117.24 195.01,-117.24 195.01,-139.26"/>
+<text text-anchor="middle" x="159.64" y="-125.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_psblas</text>
+</a>
+</g>
+</g>
+<!-- module~class_psblas&#45;&gt;module~tools_psblas -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge6" class="edge">
+<title>module~class_psblas&#45;&gt;module~tools_psblas</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M355.69,-111.31C315.33,-114.81 249.13,-120.56 205.21,-124.38"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="204.77,-120.9 195.11,-125.26 205.37,-127.88 204.77,-120.9"/>
+</g>
+<!-- module~class_vector&#45;&gt;module~class_psblas -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge7" class="edge">
+<title>module~class_vector&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M477.05,-122.47C464.98,-120.43 451.22,-118.1 438.37,-115.93"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="438.75,-112.45 428.31,-114.23 437.59,-119.35 438.75,-112.45"/>
+</g>
+<!-- module~class_connectivity -->
+<g id="module~~class_motion_procedures~~UsesGraph_node7" class="node">
+<title>module~class_connectivity</title>
+<g id="a_module~~class_motion_procedures~~UsesGraph_node7"><a xlink:href=".././module/class_connectivity.html" xlink:title="class_connectivity">
+<polygon fill="#337ab7" stroke="#337ab7" points="560.41,-22.26 464.16,-22.26 464.16,-0.24 560.41,-0.24 560.41,-22.26"/>
+<text text-anchor="middle" x="512.28" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_connectivity</text>
+</a>
+</g>
+</g>
+<!-- module~class_surface&#45;&gt;module~class_connectivity -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge8" class="edge">
+<title>module~class_surface&#45;&gt;module~class_connectivity</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M833.67,-78.21C819.52,-71.88 800.94,-64.22 783.82,-59.25 711.58,-38.28 625.69,-24.93 570.38,-17.77"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="570.78,-14.3 560.41,-16.51 569.89,-21.24 570.78,-14.3"/>
+</g>
+<!-- module~class_plane -->
+<g id="module~~class_motion_procedures~~UsesGraph_node9" class="node">
+<title>module~class_plane</title>
+<g id="a_module~~class_motion_procedures~~UsesGraph_node9"><a xlink:href=".././module/class_plane.html" xlink:title="class_plane">
+<polygon fill="#337ab7" stroke="#337ab7" points="667.19,-158.26 599.28,-158.26 599.28,-136.24 667.19,-136.24 667.19,-158.26"/>
+<text text-anchor="middle" x="633.23" y="-144.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_plane</text>
+</a>
+</g>
+</g>
+<!-- module~class_surface&#45;&gt;module~class_plane -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge9" class="edge">
+<title>module~class_surface&#45;&gt;module~class_plane</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M819.64,-98.96C780.29,-109.21 718.36,-125.34 677.04,-136.1"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="676.06,-132.74 667.26,-138.65 677.82,-139.51 676.06,-132.74"/>
+</g>
+<!-- module~class_cylinder -->
+<g id="module~~class_motion_procedures~~UsesGraph_node10" class="node">
+<title>module~class_cylinder</title>
+<g id="a_module~~class_motion_procedures~~UsesGraph_node10"><a xlink:href=".././module/class_cylinder.html" xlink:title="class_cylinder">
+<polygon fill="#337ab7" stroke="#337ab7" points="783.79,-90.26 705.9,-90.26 705.9,-68.24 783.79,-68.24 783.79,-90.26"/>
+<text text-anchor="middle" x="744.84" y="-76.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cylinder</text>
+</a>
+</g>
+</g>
+<!-- module~class_surface&#45;&gt;module~class_cylinder -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge10" class="edge">
+<title>module~class_surface&#45;&gt;module~class_cylinder</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M819.62,-85.89C811.46,-85.16 802.72,-84.37 794.2,-83.6"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="794.26,-80.1 783.99,-82.68 793.63,-87.07 794.26,-80.1"/>
+</g>
+<!-- module~class_motion&#45;&gt;module~class_psblas -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge11" class="edge">
+<title>module~class_motion&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M511.28,-264.25C451.15,-240.45 415.03,-165.89 400.44,-129.14"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="403.57,-127.55 396.74,-119.45 397.03,-130.04 403.57,-127.55"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M618.12,-236.26C595.65,-252.38 550.47,-278.97 513.28,-264.25"/>
+</g>
+<!-- module~class_motion&#45;&gt;module~class_vector -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge12" class="edge">
+<title>module~class_motion&#45;&gt;module~class_vector</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M615.66,-214.14C609.57,-209.92 602.67,-204.99 596.59,-200.25 574.05,-182.67 549.42,-161.07 532.83,-146.13"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="535.14,-143.5 525.38,-139.38 530.44,-148.69 535.14,-143.5"/>
+</g>
+<!-- module~class_stopwatch&#45;&gt;module~tools_psblas -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge13" class="edge">
+<title>module~class_stopwatch&#45;&gt;module~tools_psblas</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M242.06,-100.32C229.82,-104.52 215.7,-109.37 202.68,-113.83"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="201.32,-110.6 193,-117.15 203.59,-117.22 201.32,-110.6"/>
+</g>
+<!-- psb_base_mod -->
+<g id="module~~class_motion_procedures~~UsesGraph_node13" class="node">
+<title>psb_base_mod</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="86.03,-99.26 2.42,-99.26 2.42,-77.24 86.03,-77.24 86.03,-99.26"/>
+<text text-anchor="middle" x="44.23" y="-85.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_base_mod</text>
+</g>
+<!-- module~class_stopwatch&#45;&gt;psb_base_mod -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge14" class="edge">
+<title>module~class_stopwatch&#45;&gt;psb_base_mod</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M230.71,-89.06C192.49,-88.89 136.9,-88.65 96.56,-88.47"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="96.4,-84.97 86.39,-88.43 96.37,-91.97 96.4,-84.97"/>
+</g>
+<!-- module~class_connectivity&#45;&gt;module~class_psblas -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge15" class="edge">
+<title>module~class_connectivity&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M497.71,-22.38C477.39,-39.03 438.88,-70.58 414.63,-90.46"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="412.22,-87.91 406.7,-96.95 416.66,-93.32 412.22,-87.91"/>
+</g>
+<!-- psb_prec_mod -->
+<g id="module~~class_motion_procedures~~UsesGraph_node11" class="node">
+<title>psb_prec_mod</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="85.19,-140.26 3.27,-140.26 3.27,-118.24 85.19,-118.24 85.19,-140.26"/>
+<text text-anchor="middle" x="44.23" y="-126.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_prec_mod</text>
+</g>
+<!-- module~tools_psblas&#45;&gt;psb_prec_mod -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge16" class="edge">
+<title>module~tools_psblas&#45;&gt;psb_prec_mod</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M124.3,-128.55C115.11,-128.63 104.98,-128.72 95.13,-128.81"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="94.99,-125.31 85.02,-128.9 95.05,-132.31 94.99,-125.31"/>
+</g>
+<!-- module~tools_psblas&#45;&gt;psb_base_mod -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge17" class="edge">
+<title>module~tools_psblas&#45;&gt;psb_base_mod</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M127.35,-117.21C114.69,-112.75 99.89,-107.53 86.38,-102.76"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="87.4,-99.41 76.81,-99.39 85.08,-106.02 87.4,-99.41"/>
+</g>
+<!-- psb_krylov_mod -->
+<g id="module~~class_motion_procedures~~UsesGraph_node14" class="node">
+<title>psb_krylov_mod</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="88.68,-181.26 -0.23,-181.26 -0.23,-159.24 88.68,-159.24 88.68,-181.26"/>
+<text text-anchor="middle" x="44.23" y="-167.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_krylov_mod</text>
+</g>
+<!-- module~tools_psblas&#45;&gt;psb_krylov_mod -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge18" class="edge">
+<title>module~tools_psblas&#45;&gt;psb_krylov_mod</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M128.84,-139.29C115.4,-144.26 99.34,-150.21 84.9,-155.56"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="83.38,-152.39 75.22,-159.14 85.81,-158.95 83.38,-152.39"/>
+</g>
+<!-- module~class_plane&#45;&gt;module~class_psblas -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge19" class="edge">
+<title>module~class_plane&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M623.9,-135.93C606.03,-113.13 561.68,-64.24 513.28,-69.25"/>
+</g>
+<!-- module~class_plane&#45;&gt;module~class_vector -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge20" class="edge">
+<title>module~class_plane&#45;&gt;module~class_vector</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M599.42,-142.01C586.59,-139.96 571.69,-137.58 557.91,-135.38"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="558.08,-131.86 547.66,-133.74 556.98,-138.77 558.08,-131.86"/>
+</g>
+<!-- module~class_cylinder&#45;&gt;module~class_psblas -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge21" class="edge">
+<title>module~class_cylinder&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M511.28,-69.25C481.34,-72.35 448.99,-83.6 425.68,-93.22"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="424.12,-90.09 416.28,-97.22 426.86,-96.53 424.12,-90.09"/>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M722.83,-68.19C708.38,-61.22 688.51,-52.88 669.87,-49.25 637.91,-43.01 628.94,-45.42 596.59,-49.25 558.78,-53.73 551.16,-65.33 513.28,-69.25"/>
+</g>
+<!-- module~class_cylinder&#45;&gt;module~class_vector -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge22" class="edge">
+<title>module~class_cylinder&#45;&gt;module~class_vector</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M705.77,-87.34C665.04,-96 600.51,-109.71 557.54,-118.84"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="556.7,-115.44 547.65,-120.95 558.16,-122.29 556.7,-115.44"/>
+</g>
+<!-- module~class_vertex -->
+<g id="module~~class_motion_procedures~~UsesGraph_node12" class="node">
+<title>module~class_vertex</title>
+<g id="a_module~~class_motion_procedures~~UsesGraph_node12"><a xlink:href=".././module/class_vertex.html" xlink:title="class_vertex">
+<polygon fill="#337ab7" stroke="#337ab7" points="668.59,-80.26 597.88,-80.26 597.88,-58.24 668.59,-58.24 668.59,-80.26"/>
+<text text-anchor="middle" x="633.23" y="-66.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vertex</text>
+</a>
+</g>
+</g>
+<!-- module~class_cylinder&#45;&gt;module~class_vertex -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge23" class="edge">
+<title>module~class_cylinder&#45;&gt;module~class_vertex</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M705.82,-75.78C697.01,-74.98 687.57,-74.12 678.52,-73.29"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="678.8,-69.8 668.53,-72.38 678.17,-76.77 678.8,-69.8"/>
+</g>
+<!-- module~class_vertex&#45;&gt;module~class_psblas -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge24" class="edge">
+<title>module~class_vertex&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M598.04,-67.39C574.22,-66.55 541.73,-66.31 513.28,-69.25"/>
+</g>
+<!-- module~class_vertex&#45;&gt;module~class_vector -->
+<g id="module~~class_motion_procedures~~UsesGraph_edge25" class="edge">
+<title>module~class_vertex&#45;&gt;module~class_vector</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M609.86,-80.35C591.42,-89.49 565.05,-102.57 544.53,-112.75"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="542.96,-109.62 535.56,-117.2 546.07,-115.89 542.96,-109.62"/>
+</g>
+</g>
+</svg>
+</div><script>var panmoduleclass_motion_proceduresUsesGraph = svgPanZoom('#moduleclass_motion_proceduresUsesGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="484pt" height="31pt"
+ viewBox="0.00 0.00 483.85 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 479.85,-26.5 479.85,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-22.26 0,-22.26 0,-0.24 54,-0.24 54,-22.26"/>
+<text text-anchor="middle" x="27" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="137.62,-22.26 72.38,-22.26 72.38,-0.24 137.62,-0.24 137.62,-22.26"/>
+<text text-anchor="middle" x="105" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="218.29,-22.26 155.71,-22.26 155.71,-0.24 218.29,-0.24 218.29,-22.26"/>
+<text text-anchor="middle" x="187" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="290,-22.26 236,-22.26 236,-0.24 290,-0.24 290,-22.26"/>
+<text text-anchor="middle" x="263" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="362,-22.26 308,-22.26 308,-0.24 362,-0.24 362,-22.26"/>
+<text text-anchor="middle" x="335" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="475.71,-22.26 380.29,-22.26 380.29,-0.24 475.71,-0.24 475.71,-22.26"/>
+<text text-anchor="middle" x="428" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a submodule to the (sub)module which it is
+    descended from. Dashed arrows point from a module or program unit to 
+    modules which it uses. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </li>
+      
+      </ul>
+    </div>
+    
+
+    
+    
+
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-1">Module Procedures</a></h3></div>
+  <div id="modprocs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/class_motion_procedures.html#proc-create_motion">create_motion</a>
+      
+      <a class="list-group-item" href="../module/class_motion_procedures.html#proc-free_motion">free_motion</a>
+      
+      <a class="list-group-item" href="../module/class_motion_procedures.html#proc-get_motion_displacement">get_motion_displacement</a>
+      
+      <a class="list-group-item" href="../module/class_motion_procedures.html#proc-get_motion_velocity">get_motion_velocity</a>
+      
+      <a class="list-group-item" href="../module/class_motion_procedures.html#proc-move_boundary">move_boundary</a>
+      
+      <a class="list-group-item" href="../module/class_motion_procedures.html#proc-nemo_motion_sizeof">nemo_motion_sizeof</a>
+      
+      <a class="list-group-item" href="../module/class_motion_procedures.html#proc-surface_motion_">surface_motion_</a>
+      
+      <a class="list-group-item" href="../module/class_motion_procedures.html#proc-vertex_motion_">vertex_motion_</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+        
+
+        
+
+        
+        <section>
+        <h2>Module Procedures</h2>
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-create_motion"></span><h3>
+module procedure <a href='../proc/create_motion.html'>create_motion</a> <small>module subroutine create_motion(mot, surface_motion, vertex_motion, ml_file)</small>
+    
+    
+   <a href='../interface/create_motion.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/motion.html'>motion</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mot</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>surface_motion</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>vertex_motion</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ml_file</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-free_motion"></span><h3>
+module procedure <a href='../proc/free_motion.html'>free_motion</a> <small>module subroutine free_motion(mot)</small>
+    
+    
+   <a href='../interface/free_motion.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/motion.html'>motion</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mot</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-get_motion_displacement"></span><h3>
+module procedure <a href='../proc/get_motion_displacement.html'>get_motion_displacement</a> <small>module function get_motion_displacement(mot, x1, x2)</small>
+    
+    
+   <a href='../interface/get_motion_displacement.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/motion.html'>motion</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mot</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=psb_dpk_),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>x1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=psb_dpk_),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>x2</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/vector.html'>vector</a>)
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-get_motion_velocity"></span><h3>
+module procedure <a href='../proc/get_motion_velocity.html'>get_motion_velocity</a> <small>module function get_motion_velocity(mot, x)</small>
+    
+    
+   <a href='../interface/get_motion_velocity.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/motion.html'>motion</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mot</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=psb_dpk_),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>x</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/vector.html'>vector</a>)
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-move_boundary"></span><h3>
+module procedure <a href='../proc/move_boundary.html'>move_boundary</a> <small>module subroutine move_boundary(ib, this_motion, displacement, msh)</small>
+    
+    
+   <a href='../interface/move_boundary.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ib</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/motion.html'>motion</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this_motion</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/vector.html'>vector</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>displacement</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(mesh),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>msh</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-nemo_motion_sizeof"></span><h3>
+module procedure <a href='../proc/nemo_motion_sizeof.html'>nemo_motion_sizeof</a> <small>elemental module function nemo_motion_sizeof(mot)</small>
+    
+    
+   <a href='../interface/nemo_motion_sizeof.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/motion.html'>motion</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mot</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer(kind=nemo_int_long_)
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-surface_motion_"></span><h3>
+module procedure <a href='../proc/surface_motion_.html'>surface_motion_</a> <small>module function surface_motion_(mot)</small>
+    
+    
+   <a href='../interface/surface_motion_.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/motion.html'>motion</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mot</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-vertex_motion_"></span><h3>
+module procedure <a href='../proc/vertex_motion_.html'>vertex_motion_</a> <small>module function vertex_motion_(mot)</small>
+    
+    
+   <a href='../interface/vertex_motion_.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/motion.html'>motion</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mot</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+        
+        </section>    
+        
+    
+    
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

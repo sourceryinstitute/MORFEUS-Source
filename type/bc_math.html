@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>bc_math &ndash; Morfeus Framework </title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>bc_math
+    <small>Derived Type</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title="<p> 1.8% of total for derived types.</p>Including implementation: 16 statements,  1.8% of total for derived types.">16 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/class_bc_math.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/class_bc_math.f90.html'>class_bc_math.f90</a></li>
+    
+     <li><a href='../module/class_bc_math.html'>class_bc_math</a></li>
+    
+  
+     <li class="active">bc_math</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../type/bc_math.html#variable-a">a</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#variable-b">b</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#variable-c">c</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#variable-id~4">id</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#variable-nbf">nbf</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#boundprocs-0">Type-Bound Procedures</a></h3></div>
+  <div id="boundprocs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../type/bc_math.html#boundprocedure-alloc_bc_math">alloc_bc_math</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#boundprocedure-dealloc_bc_math">dealloc_bc_math</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#boundprocedure-debug_bc_math">debug_bc_math</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#boundprocedure-is_allocated">is_allocated</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#boundprocedure-nemo_sizeof~9">nemo_sizeof</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#boundprocedure-set_bc_math_map">set_bc_math_map</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#boundprocedure-nemo_bc_math_sizeof">nemo_bc_math_sizeof</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/bc_math.html#src">bc_math</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+      <h2>type, public :: bc_math</h2>
+    
+    <br>
+    
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Inherited by</h3>
+      </div>
+      <div class="panel-body">
+     <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: type~~bc_math~~InheritedByGraph Pages: 1 -->
+<svg id="typebc_mathInheritedByGraph" width="618pt" height="81pt"
+ viewBox="0.00 0.00 618.43 80.75" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="type~~bc_math~~InheritedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 76.75)">
+<title>type~~bc_math~~InheritedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-76.75 614.43,-76.75 614.43,4 -4,4"/>
+<!-- type~bc_math -->
+<g id="type~~bc_math~~InheritedByGraph_node1" class="node">
+<title>type~bc_math</title>
+<polygon fill="none" stroke="black" points="54,-63.26 0,-63.26 0,-41.24 54,-41.24 54,-63.26"/>
+<text text-anchor="middle" x="27" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50">bc_math</text>
+</g>
+<!-- type~bc_wall -->
+<g id="type~~bc_math~~InheritedByGraph_node2" class="node">
+<title>type~bc_wall</title>
+<g id="a_type~~bc_math~~InheritedByGraph_node2"><a xlink:href=".././type/bc_wall.html" xlink:title="bc_wall">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="301.34,-40.26 247.34,-40.26 247.34,-18.24 301.34,-18.24 301.34,-40.26"/>
+<text text-anchor="middle" x="274.34" y="-26.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">bc_wall</text>
+</a>
+</g>
+</g>
+<!-- type~bc_wall&#45;&gt;type~bc_math -->
+<g id="type~~bc_math~~InheritedByGraph_edge2" class="edge">
+<title>type~bc_wall&#45;&gt;type~bc_math</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M247.08,-31.71C203,-35.84 114.03,-44.18 64.1,-48.87"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="63.7,-45.39 54.07,-49.81 64.35,-52.36 63.7,-45.39"/>
+<text text-anchor="middle" x="150.67" y="-49.15" font-family="Helvetica,sans-Serif" font-size="9.50">temp, pressure, conc, vel, pos, stress</text>
+</g>
+<!-- type~bc_poly -->
+<g id="type~~bc_math~~InheritedByGraph_node3" class="node">
+<title>type~bc_poly</title>
+<g id="a_type~~bc_math~~InheritedByGraph_node3"><a xlink:href=".././type/bc_poly.html" xlink:title="bc_poly">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="407.7,-63.26 353.7,-63.26 353.7,-41.24 407.7,-41.24 407.7,-63.26"/>
+<text text-anchor="middle" x="380.7" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">bc_poly</text>
+</a>
+</g>
+</g>
+<!-- type~bc_poly&#45;&gt;type~bc_math -->
+<g id="type~~bc_math~~InheritedByGraph_edge1" class="edge">
+<title>type~bc_poly&#45;&gt;type~bc_math</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M353.69,-55.28C300.58,-60.97 175.95,-71.77 72,-61.25 69.49,-61 66.91,-60.66 64.32,-60.27"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="64.84,-56.81 54.39,-58.55 63.64,-63.71 64.84,-56.81"/>
+<text text-anchor="middle" x="274.34" y="-65.15" font-family="Helvetica,sans-Serif" font-size="9.50">math</text>
+</g>
+<!-- type~bc_poly&#45;&gt;type~bc_wall -->
+<g id="type~~bc_math~~InheritedByGraph_edge3" class="edge">
+<title>type~bc_poly&#45;&gt;type~bc_wall</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M353.64,-46.51C340.81,-43.68 325.15,-40.23 311.21,-37.16"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="311.95,-33.74 301.44,-35 310.45,-40.57 311.95,-33.74"/>
+<text text-anchor="middle" x="327.52" y="-43.15" font-family="Helvetica,sans-Serif" font-size="9.50">wall</text>
+</g>
+<!-- type~field -->
+<g id="type~~bc_math~~InheritedByGraph_node4" class="node">
+<title>type~field</title>
+<g id="a_type~~bc_math~~InheritedByGraph_node4"><a xlink:href=".././type/field.html" xlink:title="field">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="507.74,-63.26 453.74,-63.26 453.74,-41.24 507.74,-41.24 507.74,-63.26"/>
+<text text-anchor="middle" x="480.74" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">field</text>
+</a>
+</g>
+</g>
+<!-- type~field&#45;&gt;type~bc_poly -->
+<g id="type~~bc_math~~InheritedByGraph_edge4" class="edge">
+<title>type~field&#45;&gt;type~bc_poly</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M453.72,-52.25C442.76,-52.25 429.8,-52.25 417.92,-52.25"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="417.84,-48.75 407.84,-52.25 417.84,-55.75 417.84,-48.75"/>
+<text text-anchor="middle" x="430.72" y="-54.15" font-family="Helvetica,sans-Serif" font-size="9.50">bc</text>
+</g>
+<!-- type~vector_field -->
+<g id="type~~bc_math~~InheritedByGraph_node5" class="node">
+<title>type~vector_field</title>
+<g id="a_type~~bc_math~~InheritedByGraph_node5"><a xlink:href=".././type/vector_field.html" xlink:title="vector_field">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="610.28,-63.26 544.89,-63.26 544.89,-41.24 610.28,-41.24 610.28,-63.26"/>
+<text text-anchor="middle" x="577.59" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_field</text>
+</a>
+</g>
+</g>
+<!-- type~vector_field&#45;&gt;type~field -->
+<g id="type~~bc_math~~InheritedByGraph_edge5" class="edge">
+<title>type~vector_field&#45;&gt;type~field</title>
+<path fill="none" stroke="#ff0000" d="M544.77,-50.45C538.74,-50.62 532.52,-51.14 526.74,-52.25"/>
+</g>
+<!-- type~scalar_field -->
+<g id="type~~bc_math~~InheritedByGraph_node6" class="node">
+<title>type~scalar_field</title>
+<g id="a_type~~bc_math~~InheritedByGraph_node6"><a xlink:href=".././type/scalar_field.html" xlink:title="scalar_field">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="610.2,-22.26 544.97,-22.26 544.97,-0.24 610.2,-0.24 610.2,-22.26"/>
+<text text-anchor="middle" x="577.59" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">scalar_field</text>
+</a>
+</g>
+</g>
+<!-- type~scalar_field&#45;&gt;type~field -->
+<g id="type~~bc_math~~InheritedByGraph_edge6" class="edge">
+<title>type~scalar_field&#45;&gt;type~field</title>
+<path fill="none" stroke="#ff0000" d="M558.15,-22.26C553.6,-25.28 548.85,-28.71 544.74,-32.25 535.67,-40.05 538.48,-49.99 526.74,-52.25"/>
+<path fill="none" stroke="#ff0000" d="M525.74,-52.25C523.24,-52.73 520.65,-53.08 518.04,-53.34"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="517.75,-49.85 507.95,-53.88 518.12,-56.84 517.75,-49.85"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="176pt" height="31pt"
+ viewBox="0.00 0.00 175.85 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 171.85,-26.5 171.85,4 -4,4"/>
+<!-- Type -->
+<g id="node1" class="node">
+<title>Type</title>
+<polygon fill="#5cb85c" stroke="#5cb85c" points="54,-22.26 0,-22.26 0,-0.24 54,-0.24 54,-22.26"/>
+<text text-anchor="middle" x="27" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="167.71,-22.26 72.29,-22.26 72.29,-0.24 167.71,-0.24 167.71,-22.26"/>
+<text text-anchor="middle" x="120" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a derived type to the parent type which it
+    extends. Dashed arrows point from a derived type to the other
+    types it contains as a components, with a label listing the name(s) of
+    said component(s). Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../type/bc_math.html#variable-a">a</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#variable-b">b</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#variable-c">c</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#variable-id~4">id</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#variable-nbf">nbf</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#boundprocs-1">Type-Bound Procedures</a></h3></div>
+  <div id="boundprocs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../type/bc_math.html#boundprocedure-alloc_bc_math">alloc_bc_math</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#boundprocedure-dealloc_bc_math">dealloc_bc_math</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#boundprocedure-debug_bc_math">debug_bc_math</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#boundprocedure-is_allocated">is_allocated</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#boundprocedure-nemo_sizeof~9">nemo_sizeof</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#boundprocedure-set_bc_math_map">set_bc_math_map</a>
+      
+      <a class="list-group-item" href="../type/bc_math.html#boundprocedure-nemo_bc_math_sizeof">nemo_bc_math_sizeof</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/bc_math.html#src">bc_math</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+    <section>
+    <h2>Components</h2>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-a"></span>real(kind=psb_dpk_),</td>
+  
+  <td>private,</td>
+  <td>allocatable</td><td>::</td>
+  <td><strong>a</strong>(:)</td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-b"></span>real(kind=psb_dpk_),</td>
+  
+  <td>private,</td>
+  <td>allocatable</td><td>::</td>
+  <td><strong>b</strong>(:)</td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-c"></span>real(kind=psb_dpk_),</td>
+  
+  <td>private,</td>
+  <td>allocatable</td><td>::</td>
+  <td><strong>c</strong>(:)</td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-id~4"></span>integer,</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>id</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nbf"></span>integer,</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>nbf</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    </section>
+    <br>
+    
+    
+    
+    
+    
+    
+     
+    <section>
+    <h2>Type-Bound Procedures</h2>
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-alloc_bc_math"></span><h3>procedure, public :: <strong>alloc_bc_math</strong>  
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          <h3>interface
+          
+          </h3>
+  
+          
+          
+    
+    <h3>
+private module subroutine alloc_bc_math(bc, id, nbf, a, b, c)
+    
+    
+   
+   <a href='../proc/alloc_bc_math.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/bc_math.html'>bc_math</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>bc</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>id</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nbf</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=psb_dpk_),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>a</strong>(:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=psb_dpk_),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>b</strong>(:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=psb_dpk_),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>c</strong>(:)</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-dealloc_bc_math"></span><h3>procedure, public :: <strong>dealloc_bc_math</strong>  
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          <h3>interface
+          
+          </h3>
+  
+          
+          
+    
+    <h3>
+private module subroutine dealloc_bc_math(bc)
+    
+    
+   
+   <a href='../proc/dealloc_bc_math.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h3>
+    
+
+
+
+<p>To be invoked when BC_MATH is a member of another BC class.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/bc_math.html'>bc_math</a>)</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>bc</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-debug_bc_math"></span><h3>procedure, public :: <strong>debug_bc_math</strong>  
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          <h3>interface
+          
+          </h3>
+  
+          
+          
+    
+    <h3>
+private module subroutine debug_bc_math(bc)
+    
+    
+   
+   <a href='../proc/debug_bc_math.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/bc_math.html'>bc_math</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>bc</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-is_allocated"></span><h3>procedure, public :: <strong>is_allocated</strong>  
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          <h3>interface
+          
+          </h3>
+  
+          
+          
+    
+    <h3>
+private elemental module function is_allocated(bc)
+    
+    
+   
+   <a href='../proc/is_allocated.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/bc_math.html'>bc_math</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>bc</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>logical
+  </small></h4>
+  
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-nemo_sizeof~9"></span><h3>generic, public :: <strong>nemo_sizeof</strong>  => <a href='../type/bc_math.html#boundprocedure-nemo_bc_math_sizeof'>nemo_bc_math_sizeof</a> 
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+         
+            
+    
+    <h3>
+private interface <a href='../interface/nemo_bc_math_sizeof.html'>nemo_bc_math_sizeof</a>()
+    
+    
+   
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      <em>None</em>
+    
+    
+
+         
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_bc_math_map"></span><h3>procedure, public :: <strong>set_bc_math_map</strong>  
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          <h3>interface
+          
+          </h3>
+  
+          
+          
+    
+    <h3>
+private module subroutine set_bc_math_map(bc, i, a, b, c)
+    
+    
+   
+   <a href='../proc/set_bc_math_map.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/bc_math.html'>bc_math</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>bc</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>i</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=psb_dpk_),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>a</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=psb_dpk_),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>b</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=psb_dpk_),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>c</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-nemo_bc_math_sizeof"></span><h3>procedure, private :: <strong>nemo_bc_math_sizeof</strong>  
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          <h3>interface
+          
+          </h3>
+  
+          
+          
+    
+    <h3>
+private elemental module function nemo_bc_math_sizeof(bc)
+    
+    
+   
+   <a href='../proc/nemo_bc_math_sizeof.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/bc_math.html'>bc_math</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>bc</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer(kind=nemo_int_long_)
+  </small></h4>
+  
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+    </section>
+    
+    
+    
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="highlight"><pre><span></span>    <span class="k">TYPE </span><span class="n">bc_math</span>
+        <span class="k">PRIVATE</span>
+<span class="k">        </span><span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">id</span>
+        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">nbf</span>
+        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">a</span><span class="p">(:)</span>
+        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">b</span><span class="p">(:)</span>
+        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">c</span><span class="p">(:)</span>
+    <span class="k">CONTAINS</span>
+<span class="k">        PROCEDURE</span> <span class="kd">::</span> <span class="n">alloc_bc_math</span>   <span class="c">! Constructor</span>
+        <span class="k">PROCEDURE</span> <span class="kd">::</span> <span class="n">dealloc_bc_math</span> <span class="c">! Destructor</span>
+        <span class="k">PROCEDURE</span> <span class="kd">::</span> <span class="n">is_allocated</span>
+        <span class="k">PROCEDURE</span> <span class="kd">::</span> <span class="n">set_bc_math_map</span>
+        <span class="k">PROCEDURE</span> <span class="kd">::</span> <span class="n">debug_bc_math</span>
+        <span class="k">PROCEDURE</span><span class="p">,</span> <span class="k">PRIVATE</span> <span class="kd">::</span> <span class="n">nemo_bc_math_sizeof</span>
+        <span class="k">GENERIC</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">nemo_sizeof</span> <span class="o">=&gt;</span> <span class="n">nemo_bc_math_sizeof</span>
+    <span class="k">END TYPE </span><span class="n">bc_math</span>
+</pre></div>
+
+    </section>
+    
+    
+    </div>
+  </div>
+
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

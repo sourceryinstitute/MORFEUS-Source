@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>valid_tet.f90 &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>valid_tet.f90
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.1% of total for source files.">31 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/valid_tet.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">valid_tet.f90</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
+  <div id="funcs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../proc/tet_valid.html">tet_valid</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/valid_tet.f90.html#src">valid_tet.f90</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">This file depends on</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~valid_tet.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefilevalid_tetf90EfferentGraph" width="641pt" height="304pt"
+ viewBox="0.00 0.00 641.00 303.55" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph" class="graph" transform="scale(2.5 2.5) rotate(0) translate(4 756.25)">
+<title>sourcefile~~valid_tet.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-756.25 1601.41,-756.25 1601.41,4 -4,4"/>
+<!-- sourcefile~valid_tet.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~valid_tet.f90</title>
+<polygon fill="none" stroke="black" points="1597.23,-338.26 1528.98,-338.26 1528.98,-316.24 1597.23,-316.24 1597.23,-338.26"/>
+<text text-anchor="middle" x="1563.1" y="-324.1" font-family="Helvetica,sans-Serif" font-size="10.50">valid_tet.f90</text>
+</g>
+<!-- sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~class_psblas.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/class_psblas.f90.html" xlink:title="class_psblas.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="355.88,-238.26 266.62,-238.26 266.62,-216.24 355.88,-216.24 355.88,-238.26"/>
+<text text-anchor="middle" x="311.25" y="-224.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_psblas.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~valid_tet.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~valid_tet.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M890.78,-752.25C796.86,-747.96 772.94,-748.06 680.09,-733.25 640.99,-727.01 632.04,-721.33 593.27,-713.25"/>
+</g>
+<!-- sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~class_connectivity.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node3"><a xlink:href=".././sourcefile/class_connectivity.f90.html" xlink:title="class_connectivity.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="793.63,-724.26 679.91,-724.26 679.91,-702.24 793.63,-702.24 793.63,-724.26"/>
+<text text-anchor="middle" x="736.77" y="-710.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_connectivity.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~valid_tet.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~valid_tet.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1292.46,-715.25C1116.22,-742.87 1071.17,-752.03 892.78,-752.25"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M890.78,-752.25C850.92,-750.43 806.93,-738.07 776.38,-727.75"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="777.16,-724.31 766.57,-724.34 774.87,-730.93 777.16,-724.31"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node4" class="node">
+<title>sourcefile~tools_mesh_optimize.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node4"><a xlink:href=".././sourcefile/tools_mesh_optimize.f90.html" xlink:title="tools_mesh_optimize.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1492.86,-338.26 1364.57,-338.26 1364.57,-316.24 1492.86,-316.24 1492.86,-338.26"/>
+<text text-anchor="middle" x="1428.72" y="-324.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_mesh_optimize.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~valid_tet.f90&#45;&gt;sourcefile~tools_mesh_optimize.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge3" class="edge">
+<title>sourcefile~valid_tet.f90&#45;&gt;sourcefile~tools_mesh_optimize.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1528.7,-327.25C1520.79,-327.25 1512.06,-327.25 1503.14,-327.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1503.04,-323.75 1493.04,-327.25 1503.04,-330.75 1503.04,-323.75"/>
+</g>
+<!-- sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node5" class="node">
+<title>sourcefile~class_vertex.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node5"><a xlink:href=".././sourcefile/class_vertex.f90.html" xlink:title="class_vertex.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="636.14,-337.26 548.4,-337.26 548.4,-315.24 636.14,-315.24 636.14,-337.26"/>
+<text text-anchor="middle" x="592.27" y="-323.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vertex.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~valid_tet.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge4" class="edge">
+<title>sourcefile~valid_tet.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M735.77,-288.25C697.98,-287.99 656.4,-300.66 627.96,-311.44"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="626.51,-308.25 618.47,-315.15 629.06,-314.77 626.51,-308.25"/>
+</g>
+<!-- sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node6" class="node">
+<title>sourcefile~class_mesh.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node6"><a xlink:href=".././sourcefile/class_mesh.f90.html" xlink:title="class_mesh.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1084.32,-532.26 995.43,-532.26 995.43,-510.24 1084.32,-510.24 1084.32,-532.26"/>
+<text text-anchor="middle" x="1039.88" y="-518.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_mesh.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~valid_tet.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge5" class="edge">
+<title>sourcefile~valid_tet.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1292.46,-715.25C1181.84,-698.08 1088.48,-586.19 1054.55,-540.57"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1057.29,-538.39 1048.57,-532.37 1051.64,-542.51 1057.29,-538.39"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1560.32,-338.26C1549.05,-403.64 1482.2,-737.33 1294.46,-715.25"/>
+</g>
+<!-- sourcefile~class_vector.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node7" class="node">
+<title>sourcefile~class_vector.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node7"><a xlink:href=".././sourcefile/class_vector.f90.html" xlink:title="class_vector.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="492.05,-258.26 404.46,-258.26 404.46,-236.24 492.05,-236.24 492.05,-258.26"/>
+<text text-anchor="middle" x="448.26" y="-244.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vector.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~valid_tet.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge6" class="edge">
+<title>sourcefile~valid_tet.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M735.77,-288.25C669.75,-287.79 658.14,-258.55 593.27,-246.25"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M591.27,-246.25C562.16,-240.73 529.1,-240.61 502.2,-242.04"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="501.98,-238.55 492.21,-242.66 502.41,-245.54 501.98,-238.55"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1528.91,-316.32C1517.57,-312.94 1504.73,-309.52 1492.79,-307.25 1405.81,-290.68 1383.01,-288.25 1294.46,-288.25 1294.46,-288.25 1294.46,-288.25 1038.88,-288.25 905.05,-288.25 871.59,-289.18 737.77,-288.25"/>
+</g>
+<!-- sourcefile~class_stopwatch.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node9" class="node">
+<title>sourcefile~class_stopwatch.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node9"><a xlink:href=".././sourcefile/class_stopwatch.f90.html" xlink:title="class_stopwatch.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="230.21,-258.26 124.11,-258.26 124.11,-236.24 230.21,-236.24 230.21,-258.26"/>
+<text text-anchor="middle" x="177.16" y="-244.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_stopwatch.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_psblas.f90&#45;&gt;sourcefile~class_stopwatch.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge7" class="edge">
+<title>sourcefile~class_psblas.f90&#45;&gt;sourcefile~class_stopwatch.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M266.27,-233.91C258.07,-235.15 249.35,-236.47 240.72,-237.78"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="240.02,-234.34 230.66,-239.3 241.07,-241.26 240.02,-234.34"/>
+</g>
+<!-- sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node16" class="node">
+<title>sourcefile~tools_psblas.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node16"><a xlink:href=".././sourcefile/tools_psblas.f90.html" xlink:title="tools_psblas.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="87.83,-238.26 0.06,-238.26 0.06,-216.24 87.83,-216.24 87.83,-238.26"/>
+<text text-anchor="middle" x="43.94" y="-224.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_psblas.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_psblas.f90&#45;&gt;sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge8" class="edge">
+<title>sourcefile~class_psblas.f90&#45;&gt;sourcefile~tools_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M266.44,-227.25C220.27,-227.25 147.53,-227.25 98.11,-227.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="97.94,-223.75 87.94,-227.25 97.94,-230.75 97.94,-223.75"/>
+</g>
+<!-- sourcefile~class_connectivity.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge9" class="edge">
+<title>sourcefile~class_connectivity.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M679.76,-718.42C653.28,-719.55 621.38,-719.01 593.27,-713.25"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge11" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M1292.46,-599.25C1138.61,-694.57 1062.39,-614.09 892.78,-677.25"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge12" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M1292.46,-599.25C1236.86,-628.19 1231.01,-549.32 1174.96,-521.25"/>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M1172.96,-521.25C1071.4,-470.38 1060.5,-429.03 954.1,-389.25 849.36,-350.09 718.25,-335 646.43,-329.39"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="646.5,-325.89 636.27,-328.63 645.98,-332.87 646.5,-325.89"/>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M1426.68,-338.4C1421.85,-382.61 1397.31,-545.72 1294.46,-599.25"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge14" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M1172.96,-521.25C1149,-509.25 1119.38,-508.2 1094.26,-510.62"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="1093.69,-507.16 1084.17,-511.79 1094.5,-514.11 1093.69,-507.16"/>
+</g>
+<!-- sourcefile~class_bc.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node10" class="node">
+<title>sourcefile~class_bc.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node10"><a xlink:href=".././sourcefile/class_bc.f90.html" xlink:title="class_bc.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1328.83,-219.26 1258.1,-219.26 1258.1,-197.24 1328.83,-197.24 1328.83,-219.26"/>
+<text text-anchor="middle" x="1293.46" y="-205.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_bc.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge10" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_bc.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M1414.94,-315.84C1391.7,-295.08 1342.35,-251.01 1314.56,-226.2"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="1316.8,-223.5 1307.01,-219.45 1312.13,-228.72 1316.8,-223.5"/>
+</g>
+<!-- sourcefile~class_iterating.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node13" class="node">
+<title>sourcefile~class_iterating.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node13"><a xlink:href=".././sourcefile/class_iterating.f90.html" xlink:title="class_iterating.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1222.1,-22.26 1125.83,-22.26 1125.83,-0.24 1222.1,-0.24 1222.1,-22.26"/>
+<text text-anchor="middle" x="1173.96" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_iterating.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_iterating.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge13" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_iterating.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M1422.32,-316.09C1401.67,-274.38 1323.77,-125.46 1222.28,-36.25 1218.63,-33.05 1214.51,-30.11 1210.24,-27.46"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="1211.84,-24.34 1201.42,-22.45 1208.38,-30.43 1211.84,-24.34"/>
+</g>
+<!-- sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge15" class="edge">
+<title>sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M564.87,-337.29C530.04,-351.19 470.63,-372.47 449.26,-365.25"/>
+</g>
+<!-- sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge16" class="edge">
+<title>sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M562.11,-315.22C554.92,-312.23 547.31,-308.82 540.45,-305.25 516.91,-293.02 491.56,-276.61 473.58,-264.37"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="475.12,-261.18 464.9,-258.39 471.15,-266.94 475.12,-261.18"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge18" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M995.43,-528.6C925.24,-538.35 784.26,-549.03 680.09,-499.25 628.48,-474.59 645.93,-426.59 593.27,-404.25"/>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M591.27,-404.25C530.8,-379.21 511.27,-386.18 449.26,-365.25"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge19" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M1035.12,-532.35C1025.73,-558.36 998.79,-623.67 954.1,-658.25 931.54,-675.71 919.52,-667.29 892.78,-677.25"/>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M890.78,-677.25C862.88,-687.64 830.97,-695.71 803.53,-701.56"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="802.73,-698.15 793.64,-703.61 804.15,-705 802.73,-698.15"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge23" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M1032.96,-509.97C1021.14,-488.67 992.4,-442.76 954.1,-421.25 846.62,-360.9 793.65,-426.21 680.09,-378.25 661.67,-370.47 661.14,-361.71 644.09,-351.25 638.83,-348.02 633.09,-344.87 627.43,-341.96"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="628.58,-338.62 618.07,-337.31 625.46,-344.89 628.58,-338.62"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge26" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M1034.84,-510.2C1025.04,-484.93 997.56,-422.54 954.1,-389.25 852.67,-311.55 788.8,-369.39 680.09,-302.25 660.57,-290.19 663.3,-277.79 644.09,-265.25 623.9,-252.07 616.92,-250.95 593.27,-246.25"/>
+</g>
+<!-- sourcefile~class_keytable.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node8" class="node">
+<title>sourcefile~class_keytable.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node8"><a xlink:href=".././sourcefile/class_keytable.f90.html" xlink:title="class_keytable.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="941.16,-452.26 842.39,-452.26 842.39,-430.24 941.16,-430.24 941.16,-452.26"/>
+<text text-anchor="middle" x="891.78" y="-438.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_keytable.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_keytable.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge17" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_keytable.f90</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M1025.52,-510.18C1009.42,-497.27 981.13,-475.95 954.1,-462.25 949.58,-459.96 944.74,-457.82 939.85,-455.85"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="941.02,-452.56 930.43,-452.29 938.54,-459.1 941.02,-452.56"/>
+</g>
+<!-- sourcefile~class_surface.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node11" class="node">
+<title>sourcefile~class_surface.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node11"><a xlink:href=".././sourcefile/class_surface.f90.html" xlink:title="class_surface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="938.49,-493.26 845.07,-493.26 845.07,-471.24 938.49,-471.24 938.49,-493.26"/>
+<text text-anchor="middle" x="891.78" y="-479.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_surface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_surface.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge20" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_surface.f90</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M997.4,-510.18C980.83,-505.75 961.57,-500.61 944.13,-495.96"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="944.67,-492.48 934.1,-493.28 942.86,-499.24 944.67,-492.48"/>
+</g>
+<!-- sourcefile~class_least_squares.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node12" class="node">
+<title>sourcefile~class_least_squares.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node12"><a xlink:href=".././sourcefile/class_least_squares.f90.html" xlink:title="class_least_squares.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="953.93,-649.26 829.63,-649.26 829.63,-627.24 953.93,-627.24 953.93,-649.26"/>
+<text text-anchor="middle" x="891.78" y="-635.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_least_squares.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_least_squares.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge21" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_least_squares.f90</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M1031.21,-532.35C1017.64,-551.27 987.65,-589.97 954.1,-613.25 948.83,-616.91 942.95,-620.16 936.97,-623"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="935.3,-619.91 927.56,-627.15 938.12,-626.32 935.3,-619.91"/>
+</g>
+<!-- sourcefile~class_cell.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node14" class="node">
+<title>sourcefile~class_cell.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node14"><a xlink:href=".././sourcefile/class_cell.f90.html" xlink:title="class_cell.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="775.8,-646.26 697.74,-646.26 697.74,-624.24 775.8,-624.24 775.8,-646.26"/>
+<text text-anchor="middle" x="736.77" y="-632.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cell.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_cell.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge22" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_cell.f90</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M1025.99,-532.46C1010.11,-545.72 981.83,-567.58 954.1,-580.25 924.46,-593.79 840.42,-613.27 786.23,-625.05"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="785.19,-621.69 776.15,-627.23 786.66,-628.54 785.19,-621.69"/>
+</g>
+<!-- sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node15" class="node">
+<title>sourcefile~grid_interface.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node15"><a xlink:href=".././sourcefile/grid_interface.f90.html" xlink:title="grid_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="939.91,-571.26 843.65,-571.26 843.65,-549.24 939.91,-549.24 939.91,-571.26"/>
+<text text-anchor="middle" x="891.78" y="-557.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">grid_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge24" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~grid_interface.f90</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M997.4,-532.32C980.83,-536.75 961.57,-541.89 944.13,-546.54"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="942.86,-543.26 934.1,-549.22 944.67,-550.02 942.86,-543.26"/>
+</g>
+<!-- sourcefile~class_face.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node17" class="node">
+<title>sourcefile~class_face.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node17"><a xlink:href=".././sourcefile/class_face.f90.html" xlink:title="class_face.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="489.37,-415.26 407.14,-415.26 407.14,-393.24 489.37,-393.24 489.37,-415.26"/>
+<text text-anchor="middle" x="448.26" y="-401.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_face.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_face.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge25" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_face.f90</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M591.27,-404.25C562.57,-392.07 527.56,-391.93 499.49,-394.9"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="498.99,-391.43 489.49,-396.11 499.84,-398.38 498.99,-391.43"/>
+</g>
+<!-- sourcefile~class_vector.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge27" class="edge">
+<title>sourcefile~class_vector.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M404.54,-240.92C392.35,-239.12 378.9,-237.12 366.14,-235.23"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="366.49,-231.75 356.08,-233.74 365.46,-238.67 366.49,-231.75"/>
+</g>
+<!-- sourcefile~class_stopwatch.f90&#45;&gt;sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge28" class="edge">
+<title>sourcefile~class_stopwatch.f90&#45;&gt;sourcefile~tools_psblas.f90</title>
+<path fill="none" stroke="#ff9900" stroke-dasharray="5,2" d="M123.92,-239.29C115.49,-238 106.75,-236.67 98.28,-235.38"/>
+<polygon fill="#ff9900" stroke="#ff9900" points="98.56,-231.88 88.14,-233.83 97.5,-238.8 98.56,-231.88"/>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge29" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M1172.96,-50.25C1117.39,-31.33 1098.4,-38.53 1040.88,-50.25"/>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M1286.28,-196.89C1267.34,-162.62 1209.27,-61.93 1174.96,-50.25"/>
+</g>
+<!-- sourcefile~class_motion.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node19" class="node">
+<title>sourcefile~class_motion.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node19"><a xlink:href=".././sourcefile/class_motion.f90.html" xlink:title="class_motion.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="637.56,-139.26 546.98,-139.26 546.98,-117.24 637.56,-117.24 637.56,-139.26"/>
+<text text-anchor="middle" x="592.27" y="-125.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_motion.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_motion.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge31" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_motion.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M1172.96,-50.25C1129.9,-35.97 1132.62,-94.67 1089.65,-109.25 936.36,-161.28 740.98,-147.22 647.66,-136.02"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="647.96,-132.53 637.61,-134.78 647.1,-139.48 647.96,-132.53"/>
+</g>
+<!-- sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node21" class="node">
+<title>sourcefile~class_bc_math.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node21"><a xlink:href=".././sourcefile/class_bc_math.f90.html" xlink:title="class_bc_math.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1089.42,-100.26 990.33,-100.26 990.33,-78.24 1089.42,-78.24 1089.42,-100.26"/>
+<text text-anchor="middle" x="1039.88" y="-86.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc_math.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge30" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_math.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M1172.96,-50.25C1154.84,-44.24 1107.91,-60.91 1075.17,-74.3"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="1073.82,-71.07 1065.94,-78.15 1076.51,-77.54 1073.82,-71.07"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node22" class="node">
+<title>sourcefile~class_bc_wall.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node22"><a xlink:href=".././sourcefile/class_bc_wall.f90.html" xlink:title="class_bc_wall.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1221.26,-219.26 1126.67,-219.26 1126.67,-197.24 1221.26,-197.24 1221.26,-219.26"/>
+<text text-anchor="middle" x="1173.96" y="-205.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc_wall.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_wall.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge32" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_wall.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M1258.16,-208.25C1249.8,-208.25 1240.62,-208.25 1231.52,-208.25"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="1231.32,-204.75 1221.32,-208.25 1231.32,-211.75 1231.32,-204.75"/>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge35" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#33ff00" stroke-dasharray="5,2" d="M875.02,-493.42C861.17,-504.01 841.41,-521.11 829.45,-540.25 801.08,-585.67 820.72,-609.15 793.45,-655.25 784.44,-670.48 770.71,-684.84 759.13,-695.47"/>
+<polygon fill="#33ff00" stroke="#33ff00" points="756.71,-692.94 751.55,-702.19 761.35,-698.18 756.71,-692.94"/>
+</g>
+<!-- sourcefile~class_plane.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node20" class="node">
+<title>sourcefile~class_plane.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node20"><a xlink:href=".././sourcefile/class_plane.f90.html" xlink:title="class_plane.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="634.74,-296.26 549.8,-296.26 549.8,-274.24 634.74,-274.24 634.74,-296.26"/>
+<text text-anchor="middle" x="592.27" y="-282.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_plane.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_plane.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge34" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_plane.f90</title>
+<path fill="none" stroke="#33ff00" stroke-dasharray="5,2" d="M851.62,-471.14C844.05,-468.36 836.35,-465.06 829.45,-461.25 754.7,-419.89 744.39,-396.51 680.09,-340.25 663.53,-325.76 662.57,-318.21 644.09,-306.25 640.98,-304.24 637.65,-302.35 634.23,-300.61"/>
+<polygon fill="#33ff00" stroke="#33ff00" points="635.62,-297.39 625.08,-296.3 632.64,-303.72 635.62,-297.39"/>
+</g>
+<!-- sourcefile~class_cylinder.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node23" class="node">
+<title>sourcefile~class_cylinder.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node23"><a xlink:href=".././sourcefile/class_cylinder.f90.html" xlink:title="class_cylinder.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="784.15,-490.26 689.39,-490.26 689.39,-468.24 784.15,-468.24 784.15,-490.26"/>
+<text text-anchor="middle" x="736.77" y="-476.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cylinder.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_cylinder.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge33" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_cylinder.f90</title>
+<path fill="none" stroke="#33ff00" stroke-dasharray="5,2" d="M844.87,-481.35C828.98,-481.04 810.98,-480.69 794.33,-480.36"/>
+<polygon fill="#33ff00" stroke="#33ff00" points="794.24,-476.86 784.18,-480.16 794.1,-483.86 794.24,-476.86"/>
+</g>
+<!-- sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge36" class="edge">
+<title>sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M848.93,-649.3C768.49,-670.47 599.62,-714.55 593.27,-713.25"/>
+</g>
+<!-- sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge37" class="edge">
+<title>sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M859.91,-649.3C849.97,-653.26 839.05,-658.04 829.45,-663.25 812.33,-672.54 810.41,-678.66 793.45,-688.25 787.44,-691.65 780.88,-694.94 774.44,-697.95"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="772.84,-694.84 765.17,-702.15 775.73,-701.21 772.84,-694.84"/>
+</g>
+<!-- sourcefile~class_iterating.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge38" class="edge">
+<title>sourcefile~class_iterating.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M890.78,-89.25C694.97,-102.09 635.08,-26.18 449.26,-89.25"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M1038.88,-50.25C973.02,-63.66 959.93,-86.58 892.78,-89.25"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M447.26,-89.25C423.04,-98.55 412.62,-92.43 392.06,-108.25 357.77,-134.63 333.24,-180.09 321.03,-206.53"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="317.7,-205.4 316.82,-215.96 324.09,-208.25 317.7,-205.4"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M1141.32,-22.27C1114.81,-31.09 1075.79,-43.14 1040.88,-50.25"/>
+</g>
+<!-- sourcefile~class_cell.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge39" class="edge">
+<title>sourcefile~class_cell.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M591.27,-713.25C373.7,-727.86 323.23,-344.38 314.03,-248.66"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="317.51,-248.32 313.12,-238.68 310.54,-248.96 317.51,-248.32"/>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M709.39,-646.28C700.01,-650.41 689.47,-655.31 680.09,-660.25 640.1,-681.33 637.56,-722.32 593.27,-713.25"/>
+</g>
+<!-- sourcefile~object_interface.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node18" class="node">
+<title>sourcefile~object_interface.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node18"><a xlink:href=".././sourcefile/object_interface.f90.html" xlink:title="object_interface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="643.92,-588.26 540.63,-588.26 540.63,-566.24 643.92,-566.24 643.92,-588.26"/>
+<text text-anchor="middle" x="592.27" y="-574.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">object_interface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~grid_interface.f90&#45;&gt;sourcefile~object_interface.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge40" class="edge">
+<title>sourcefile~grid_interface.f90&#45;&gt;sourcefile~object_interface.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M843.47,-570.2C827.64,-573.08 809.86,-575.83 793.45,-577.25 746.79,-581.29 693.78,-581.08 654.04,-579.97"/>
+<polygon fill="#3200ff" stroke="#3200ff" points="654.07,-576.47 643.97,-579.66 653.86,-583.47 654.07,-576.47"/>
+</g>
+<!-- sourcefile~units_interface.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node24" class="node">
+<title>sourcefile~units_interface.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node24"><a xlink:href=".././sourcefile/units_interface.f90.html" xlink:title="units_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="787.57,-568.26 685.97,-568.26 685.97,-546.24 787.57,-546.24 787.57,-568.26"/>
+<text text-anchor="middle" x="736.77" y="-554.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">units_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~grid_interface.f90&#45;&gt;sourcefile~units_interface.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge41" class="edge">
+<title>sourcefile~grid_interface.f90&#45;&gt;sourcefile~units_interface.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M843.62,-559.33C829.21,-559.04 813.16,-558.73 798.01,-558.43"/>
+<polygon fill="#3200ff" stroke="#3200ff" points="797.76,-554.93 787.69,-558.23 797.62,-561.92 797.76,-554.93"/>
+</g>
+<!-- sourcefile~class_face.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge42" class="edge">
+<title>sourcefile~class_face.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0098" stroke-dasharray="5,2" d="M413.54,-393.24C405.87,-389.63 398.18,-385.02 392.06,-379.25 352.33,-341.76 328.58,-280.04 318.29,-248"/>
+<polygon fill="#ff0098" stroke="#ff0098" points="321.61,-246.88 315.32,-238.35 314.92,-248.94 321.61,-246.88"/>
+</g>
+<!-- sourcefile~class_motion.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge43" class="edge">
+<title>sourcefile~class_motion.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M564.87,-117.2C530.03,-103.28 470.62,-82 449.26,-89.25"/>
+</g>
+<!-- sourcefile~class_motion.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge44" class="edge">
+<title>sourcefile~class_motion.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M577.91,-139.45C553.17,-160.18 500.05,-204.69 470.38,-229.54"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="468.1,-226.89 462.68,-236 472.6,-232.26 468.1,-226.89"/>
+</g>
+<!-- sourcefile~class_plane.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge45" class="edge">
+<title>sourcefile~class_plane.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M561.83,-296.35C554.71,-299.32 547.21,-302.7 540.45,-306.25 497.7,-328.67 494.99,-380.69 449.26,-365.25"/>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M447.26,-365.25C387.71,-345.15 342.97,-280.47 323.29,-247.29"/>
+<polygon fill="#48ff00" stroke="#48ff00" points="326.22,-245.38 318.2,-238.46 320.16,-248.87 326.22,-245.38"/>
+</g>
+<!-- sourcefile~class_plane.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge46" class="edge">
+<title>sourcefile~class_plane.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M549.81,-274.16C534.35,-270.02 516.62,-265.28 500.39,-260.93"/>
+<polygon fill="#48ff00" stroke="#48ff00" points="501.08,-257.5 490.52,-258.29 499.28,-264.26 501.08,-257.5"/>
+</g>
+<!-- sourcefile~class_bc_math.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge47" class="edge">
+<title>sourcefile~class_bc_math.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ff91" stroke-dasharray="5,2" d="M990.12,-87.66C961.7,-87.13 925.17,-87.13 892.78,-89.25"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge49" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M591.27,-208.25C513.2,-201.22 422.62,-210.62 366.37,-218.51"/>
+<polygon fill="#0091ff" stroke="#0091ff" points="365.67,-215.08 356.27,-219.97 366.67,-222.01 365.67,-215.08"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge52" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M1168.26,-219.39C1148.88,-265.31 1075.02,-440.35 1049.56,-500.67"/>
+<polygon fill="#0091ff" stroke="#0091ff" points="1046.18,-499.67 1045.52,-510.24 1052.63,-502.39 1046.18,-499.67"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge53" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M591.27,-208.25C552.25,-205.55 509.16,-220 480.79,-232.07"/>
+<polygon fill="#0091ff" stroke="#0091ff" points="479.14,-228.97 471.4,-236.21 481.96,-235.38 479.14,-228.97"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge51" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_bc_math.f90</title>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M1160.3,-196.84C1137.26,-176.08 1088.34,-132.01 1060.8,-107.2"/>
+<polygon fill="#0091ff" stroke="#0091ff" points="1063.08,-104.54 1053.31,-100.45 1058.4,-109.75 1063.08,-104.54"/>
+</g>
+<!-- sourcefile~class_material.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node25" class="node">
+<title>sourcefile~class_material.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node25"><a xlink:href=".././sourcefile/class_material.f90.html" xlink:title="class_material.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="496.38,-180.26 400.13,-180.26 400.13,-158.24 496.38,-158.24 496.38,-180.26"/>
+<text text-anchor="middle" x="448.26" y="-166.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_material.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_material.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge50" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_material.f90</title>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M591.27,-208.25C554.65,-205.72 514.44,-193.76 486.18,-183.74"/>
+<polygon fill="#0091ff" stroke="#0091ff" points="487.3,-180.43 476.71,-180.3 484.91,-187.01 487.3,-180.43"/>
+</g>
+<!-- sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_node26" class="node">
+<title>sourcefile~class_dimensions.f90</title>
+<g id="a_sourcefile~~valid_tet.f90~~EfferentGraph_node26"><a xlink:href=".././sourcefile/class_dimensions.f90.html" xlink:title="class_dimensions.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="504.64,-139.26 391.87,-139.26 391.87,-117.24 504.64,-117.24 504.64,-139.26"/>
+<text text-anchor="middle" x="448.26" y="-125.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_dimensions.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge48" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_dimensions.f90</title>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M1126.68,-210.41C1028.32,-214.53 791.31,-221.94 593.27,-208.25"/>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M591.27,-208.25C544.8,-204.07 545.83,-170.8 504.45,-149.25 500.4,-147.14 496.09,-145.13 491.73,-143.25"/>
+<polygon fill="#0091ff" stroke="#0091ff" points="492.78,-139.9 482.2,-139.34 490.13,-146.37 492.78,-139.9"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge55" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M591.27,-365.25C536.76,-333.43 509.06,-385.43 449.26,-365.25"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge54" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M699.69,-468.21C692.47,-464.68 685.47,-460.11 680.09,-454.25 647.3,-418.52 676.25,-387.55 644.09,-351.25 641.23,-348.02 637.86,-345.16 634.23,-342.65"/>
+<polygon fill="#4800ff" stroke="#4800ff" points="635.81,-339.51 625.44,-337.37 632.22,-345.52 635.81,-339.51"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge56" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M701.88,-468.16C694.14,-464.55 686.35,-459.97 680.09,-454.25 656,-432.24 667.8,-412.68 644.09,-390.25 625.81,-372.95 615.01,-377.94 593.27,-365.25"/>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M591.27,-365.25C570.44,-353.09 560.46,-359.71 540.45,-346.25 507.9,-324.36 478.82,-288.61 462.66,-266.59"/>
+<polygon fill="#4800ff" stroke="#4800ff" points="465.42,-264.42 456.74,-258.34 459.73,-268.5 465.42,-264.42"/>
+</g>
+<!-- sourcefile~units_interface.f90&#45;&gt;sourcefile~object_interface.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge57" class="edge">
+<title>sourcefile~units_interface.f90&#45;&gt;sourcefile~object_interface.f90</title>
+<path fill="none" stroke="#ff00da" stroke-dasharray="5,2" d="M685.93,-564.25C675.71,-565.68 664.85,-567.2 654.29,-568.69"/>
+<polygon fill="#ff00da" stroke="#ff00da" points="653.71,-565.23 644.29,-570.09 654.68,-572.17 653.71,-565.23"/>
+</g>
+<!-- sourcefile~class_material.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge58" class="edge">
+<title>sourcefile~class_material.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M421.54,-180.3C400.66,-189.27 370.97,-202.02 347.81,-211.97"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="346.13,-208.88 338.32,-216.05 348.89,-215.32 346.13,-208.88"/>
+</g>
+<!-- sourcefile~class_dimensions.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~valid_tet.f90~~EfferentGraph_edge59" class="edge">
+<title>sourcefile~class_dimensions.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M411.76,-139.28C404.98,-142.06 398.11,-145.38 392.06,-149.25 366.53,-165.57 342.4,-191.06 327.5,-208.43"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="324.7,-206.32 320.95,-216.23 330.06,-210.82 324.7,-206.32"/>
+</g>
+</g>
+</svg>
+</div><script>var pansourcefilevalid_tetf90EfferentGraph = svgPanZoom('#sourcefilevalid_tetf90EfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="31pt"
+ viewBox="0.00 0.00 186.41 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 182.41,-26.5 182.41,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="65.16,-22.26 -0.05,-22.26 -0.05,-0.24 65.16,-0.24 65.16,-22.26"/>
+<text text-anchor="middle" x="32.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="178.26,-22.26 82.84,-22.26 82.84,-0.24 178.26,-0.24 178.26,-22.26"/>
+<text text-anchor="middle" x="130.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+      
+      <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
+  <div id="funcs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../proc/tet_valid.html">tet_valid</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/valid_tet.f90.html#src">valid_tet.f90</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="c">!</span>
+<a name="ln-2"></a><span class="c">!     (c) 2019 Guide Star Engineering, LLC</span>
+<a name="ln-3"></a><span class="c">!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)</span>
+<a name="ln-4"></a><span class="c">!     under contract &quot;Multi-Dimensional Physics Implementation into Fuel Analysis under</span>
+<a name="ln-5"></a><span class="c">!     Steady-state and Transients (FAST)&quot;, contract # NRC-HQ-60-17-C-0007</span>
+<a name="ln-6"></a><span class="c">!</span>
+<a name="ln-7"></a><span class="c">!    NEMO - Numerical Engine (for) Multiphysics Operators</span>
+<a name="ln-8"></a><span class="c">! Copyright (c) 2007, Stefano Toninel</span>
+<a name="ln-9"></a><span class="c">!                     Gian Marco Bianchi  University of Bologna</span>
+<a name="ln-10"></a><span class="c">!              David P. Schmidt    University of Massachusetts - Amherst</span>
+<a name="ln-11"></a><span class="c">!              Salvatore Filippone University of Rome Tor Vergata</span>
+<a name="ln-12"></a><span class="c">! All rights reserved.</span>
+<a name="ln-13"></a><span class="c">!</span>
+<a name="ln-14"></a><span class="c">! Redistribution and use in source and binary forms, with or without modification,</span>
+<a name="ln-15"></a><span class="c">! are permitted provided that the following conditions are met:</span>
+<a name="ln-16"></a><span class="c">!</span>
+<a name="ln-17"></a><span class="c">!     1. Redistributions of source code must retain the above copyright notice,</span>
+<a name="ln-18"></a><span class="c">!        this list of conditions and the following disclaimer.</span>
+<a name="ln-19"></a><span class="c">!     2. Redistributions in binary form must reproduce the above copyright notice,</span>
+<a name="ln-20"></a><span class="c">!        this list of conditions and the following disclaimer in the documentation</span>
+<a name="ln-21"></a><span class="c">!        and/or other materials provided with the distribution.</span>
+<a name="ln-22"></a><span class="c">!     3. Neither the name of the NEMO project nor the names of its contributors</span>
+<a name="ln-23"></a><span class="c">!        may be used to endorse or promote products derived from this software</span>
+<a name="ln-24"></a><span class="c">!        without specific prior written permission.</span>
+<a name="ln-25"></a><span class="c">!</span>
+<a name="ln-26"></a><span class="c">! THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND</span>
+<a name="ln-27"></a><span class="c">! ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
+<a name="ln-28"></a><span class="c">! WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<a name="ln-29"></a><span class="c">! DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR</span>
+<a name="ln-30"></a><span class="c">! ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span>
+<a name="ln-31"></a><span class="c">! (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;</span>
+<a name="ln-32"></a><span class="c">! LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON</span>
+<a name="ln-33"></a><span class="c">! ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span>
+<a name="ln-34"></a><span class="c">! (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS</span>
+<a name="ln-35"></a><span class="c">! SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+<a name="ln-36"></a><span class="c">!</span>
+<a name="ln-37"></a><span class="c">!---------------------------------------------------------------------------------</span>
+<a name="ln-38"></a><span class="c">!</span>
+<a name="ln-39"></a><span class="c">! $Id$</span>
+<a name="ln-40"></a><span class="c">!</span>
+<a name="ln-41"></a><span class="c">! Description:</span>
+<a name="ln-42"></a><span class="c">!    Checks that a tet is valid using a scheme that is consistent with how OptMS does it.</span>
+<a name="ln-43"></a><span class="c">!    Can only be used for strictly local tetrahedral cells</span>
+<a name="ln-44"></a><span class="c">!</span>
+<a name="ln-45"></a><span class="k">FUNCTION </span><span class="n">tet_valid</span><span class="p">(</span><span class="n">msh</span><span class="p">,</span><span class="n">ic</span><span class="p">)</span>
+<a name="ln-46"></a>
+<a name="ln-47"></a>    <span class="k">USE </span><span class="n">class_psblas</span>
+<a name="ln-48"></a>    <span class="k">USE </span><span class="n">class_connectivity</span>
+<a name="ln-49"></a>    <span class="k">USE </span><span class="n">class_mesh</span>
+<a name="ln-50"></a>    <span class="k">USE </span><span class="n">class_vector</span>
+<a name="ln-51"></a>    <span class="k">USE </span><span class="n">class_vertex</span>
+<a name="ln-52"></a>    <span class="k">USE </span><span class="n">tools_mesh_optimize</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">right_handed</span>
+<a name="ln-53"></a>
+<a name="ln-54"></a>
+<a name="ln-55"></a>    <span class="k">IMPLICIT NONE</span>
+<a name="ln-56"></a>    <span class="c">!</span>
+<a name="ln-57"></a>    <span class="kt">LOGICAL</span>                <span class="kd">::</span> <span class="n">tet_valid</span>
+<a name="ln-58"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">mesh</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">msh</span>            <span class="c">! the mesh structure</span>
+<a name="ln-59"></a>    <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">ic</span>             <span class="c">! the cell ID number</span>
+<a name="ln-60"></a>    <span class="c">!</span>
+<a name="ln-61"></a>    <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">vtx1</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">vtx2</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">vtx3</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">vtx4</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<a name="ln-62"></a>    <span class="kt">INTEGER</span> <span class="kd">::</span>  <span class="n">iv1</span><span class="p">,</span> <span class="n">iv2</span><span class="p">,</span> <span class="n">iv3</span><span class="p">,</span> <span class="n">iv4</span>
+<a name="ln-63"></a>    <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">iv2c</span><span class="p">(:)</span> <span class="o">=&gt;</span> <span class="nb">NULL</span><span class="p">()</span>
+<a name="ln-64"></a>    <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">valid_flag</span><span class="p">,</span><span class="n">ierr</span>
+<a name="ln-65"></a>
+<a name="ln-66"></a>    <span class="c">! Get vertex indices</span>
+<a name="ln-67"></a>    <span class="k">CALL </span><span class="n">msh</span><span class="p">%</span><span class="n">v2c</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">iv2c</span><span class="p">,</span><span class="n">ic</span><span class="p">)</span>
+<a name="ln-68"></a>    <span class="n">iv1</span> <span class="o">=</span> <span class="n">iv2c</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-69"></a>    <span class="n">iv2</span> <span class="o">=</span> <span class="n">iv2c</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-70"></a>    <span class="n">iv3</span> <span class="o">=</span> <span class="n">iv2c</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<a name="ln-71"></a>    <span class="n">iv4</span> <span class="o">=</span> <span class="n">iv2c</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<a name="ln-72"></a>
+<a name="ln-73"></a>    <span class="n">vtx1</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv1</span><span class="p">)%</span><span class="n">position_</span><span class="p">()</span>
+<a name="ln-74"></a>    <span class="n">vtx2</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv2</span><span class="p">)%</span><span class="n">position_</span><span class="p">()</span>
+<a name="ln-75"></a>    <span class="n">vtx3</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv3</span><span class="p">)%</span><span class="n">position_</span><span class="p">()</span>
+<a name="ln-76"></a>    <span class="n">vtx4</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv4</span><span class="p">)%</span><span class="n">position_</span><span class="p">()</span>
+<a name="ln-77"></a>
+<a name="ln-78"></a>    <span class="n">valid_flag</span> <span class="o">=</span> <span class="n">right_handed</span><span class="p">(</span><span class="n">vtx1</span><span class="p">,</span> <span class="n">vtx2</span><span class="p">,</span> <span class="n">vtx3</span><span class="p">,</span> <span class="n">vtx4</span><span class="p">)</span>
+<a name="ln-79"></a>
+<a name="ln-80"></a>    <span class="k">IF</span> <span class="p">(</span> <span class="n">valid_flag</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-81"></a><span class="k">        </span><span class="n">tet_valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-82"></a>    <span class="k">ELSE</span>
+<a name="ln-83"></a><span class="k">        </span><span class="n">tet_valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-84"></a>    <span class="n">ENDIF</span>
+<a name="ln-85"></a>
+<a name="ln-86"></a><span class="k">END FUNCTION </span><span class="n">tet_valid</span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

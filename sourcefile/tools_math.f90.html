@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>tools_math.f90 &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>tools_math.f90
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.8% of total for source files.">198 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/tools_math.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">tools_math.f90</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-0">Modules</a></h3></div>
+  <div id="mods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/tools_math.html">tools_math</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/tools_math.f90.html#src">tools_math.f90</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">This file depends on</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~tools_math.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefiletools_mathf90EfferentGraph" width="604pt" height="70pt"
+ viewBox="0.00 0.00 604.23 69.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~tools_math.f90~~EfferentGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 65.5)">
+<title>sourcefile~~tools_math.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-65.5 600.23,-65.5 600.23,4 -4,4"/>
+<!-- sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~tools_math.f90</title>
+<polygon fill="none" stroke="black" points="596.17,-41.26 515.42,-41.26 515.42,-19.24 596.17,-19.24 596.17,-41.26"/>
+<text text-anchor="middle" x="555.79" y="-27.1" font-family="Helvetica,sans-Serif" font-size="10.50">tools_math.f90</text>
+</g>
+<!-- sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~tools_math.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~class_psblas.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/class_psblas.f90.html" xlink:title="class_psblas.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="355.88,-41.26 266.62,-41.26 266.62,-19.24 355.88,-19.24 355.88,-41.26"/>
+<text text-anchor="middle" x="311.25" y="-27.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_psblas.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tools_math.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~tools_math.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~tools_math.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M515.25,-30.87C503.68,-31.03 491.01,-31.17 479.36,-31.25 440.56,-31.51 430.86,-31.49 392.06,-31.25 383.7,-31.2 374.84,-31.11 366.18,-31.02"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="366.2,-27.52 356.16,-30.9 366.12,-34.52 366.2,-27.52"/>
+</g>
+<!-- sourcefile~class_vector.f90 -->
+<g id="sourcefile~~tools_math.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~class_vector.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~EfferentGraph_node3"><a xlink:href=".././sourcefile/class_vector.f90.html" xlink:title="class_vector.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="479.5,-22.26 391.91,-22.26 391.91,-0.24 479.5,-0.24 479.5,-22.26"/>
+<text text-anchor="middle" x="435.71" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vector.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tools_math.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~tools_math.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~tools_math.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M515.15,-23.87C506.96,-22.55 498.21,-21.15 489.64,-19.77"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="490.13,-16.3 479.7,-18.17 489.02,-23.21 490.13,-16.3"/>
+</g>
+<!-- sourcefile~class_stopwatch.f90 -->
+<g id="sourcefile~~tools_math.f90~~EfferentGraph_node4" class="node">
+<title>sourcefile~class_stopwatch.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~EfferentGraph_node4"><a xlink:href=".././sourcefile/class_stopwatch.f90.html" xlink:title="class_stopwatch.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="230.21,-61.26 124.11,-61.26 124.11,-39.24 230.21,-39.24 230.21,-61.26"/>
+<text text-anchor="middle" x="177.16" y="-47.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_stopwatch.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_psblas.f90&#45;&gt;sourcefile~class_stopwatch.f90 -->
+<g id="sourcefile~~tools_math.f90~~EfferentGraph_edge3" class="edge">
+<title>sourcefile~class_psblas.f90&#45;&gt;sourcefile~class_stopwatch.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M266.27,-36.91C258.07,-38.15 249.35,-39.47 240.72,-40.78"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="240.02,-37.34 230.66,-42.3 241.07,-44.26 240.02,-37.34"/>
+</g>
+<!-- sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~tools_math.f90~~EfferentGraph_node5" class="node">
+<title>sourcefile~tools_psblas.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~EfferentGraph_node5"><a xlink:href=".././sourcefile/tools_psblas.f90.html" xlink:title="tools_psblas.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="87.83,-41.26 0.06,-41.26 0.06,-19.24 87.83,-19.24 87.83,-41.26"/>
+<text text-anchor="middle" x="43.94" y="-27.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_psblas.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_psblas.f90&#45;&gt;sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~tools_math.f90~~EfferentGraph_edge4" class="edge">
+<title>sourcefile~class_psblas.f90&#45;&gt;sourcefile~tools_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M266.44,-30.25C220.27,-30.25 147.53,-30.25 98.11,-30.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="97.94,-26.75 87.94,-30.25 97.94,-33.75 97.94,-26.75"/>
+</g>
+<!-- sourcefile~class_vector.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~tools_math.f90~~EfferentGraph_edge5" class="edge">
+<title>sourcefile~class_vector.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M391.88,-17.9C383.55,-19.19 374.72,-20.56 366.09,-21.9"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="365.44,-18.46 356.09,-23.45 366.51,-25.37 365.44,-18.46"/>
+</g>
+<!-- sourcefile~class_stopwatch.f90&#45;&gt;sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~tools_math.f90~~EfferentGraph_edge6" class="edge">
+<title>sourcefile~class_stopwatch.f90&#45;&gt;sourcefile~tools_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M123.92,-42.29C115.49,-41 106.75,-39.67 98.28,-38.38"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="98.56,-34.88 88.14,-36.83 97.5,-41.8 98.56,-34.88"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="31pt"
+ viewBox="0.00 0.00 186.41 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 182.41,-26.5 182.41,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="65.16,-22.26 -0.05,-22.26 -0.05,-0.24 65.16,-0.24 65.16,-22.26"/>
+<text text-anchor="middle" x="32.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="178.26,-22.26 82.84,-22.26 82.84,-0.24 178.26,-0.24 178.26,-22.26"/>
+<text text-anchor="middle" x="130.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+      
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Files dependent on this one</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~tools_math.f90~~AfferentGraph Pages: 1 -->
+<svg id="sourcefiletools_mathf90AfferentGraph" width="308pt" height="1015pt"
+ viewBox="0.00 0.00 307.90 1014.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~tools_math.f90~~AfferentGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 1010.5)">
+<title>sourcefile~~tools_math.f90~~AfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-1010.5 303.9,-1010.5 303.9,4 -4,4"/>
+<!-- sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node1" class="node">
+<title>sourcefile~tools_math.f90</title>
+<polygon fill="none" stroke="black" points="80.81,-514.26 0.06,-514.26 0.06,-492.24 80.81,-492.24 80.81,-514.26"/>
+<text text-anchor="middle" x="40.44" y="-500.1" font-family="Helvetica,sans-Serif" font-size="10.50">tools_math.f90</text>
+</g>
+<!-- sourcefile~lin_interp_implementation.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node2" class="node">
+<title>sourcefile~lin_interp_implementation.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node2"><a xlink:href=".././sourcefile/lin_interp_implementation.f90.html" xlink:title="lin_interp_implementation.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="283.05,-1006.26 133.72,-1006.26 133.72,-984.24 283.05,-984.24 283.05,-1006.26"/>
+<text text-anchor="middle" x="208.39" y="-992.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lin_interp_implementation.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~lin_interp_implementation.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge1" class="edge">
+<title>sourcefile~lin_interp_implementation.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M133.51,-986.36C127.3,-983.28 121.61,-979.32 116.88,-974.25 54.69,-907.6 43.67,-607.28 41.8,-524.46"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="45.3,-524.19 41.6,-514.26 38.3,-524.33 45.3,-524.19"/>
+</g>
+<!-- sourcefile~class_plane_procedures.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node3" class="node">
+<title>sourcefile~class_plane_procedures.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node3"><a xlink:href=".././sourcefile/class_plane_procedures.f90.html" xlink:title="class_plane_procedures.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="280.22,-965.26 136.55,-965.26 136.55,-943.24 280.22,-943.24 280.22,-965.26"/>
+<text text-anchor="middle" x="208.39" y="-951.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_plane_procedures.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_plane_procedures.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge2" class="edge">
+<title>sourcefile~class_plane_procedures.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M136.66,-946.72C129.25,-943.48 122.42,-939.11 116.88,-933.25 60,-873.2 45.27,-602.97 42.16,-524.61"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="45.66,-524.35 41.79,-514.49 38.66,-524.61 45.66,-524.35"/>
+</g>
+<!-- sourcefile~class_material_procedures.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node4" class="node">
+<title>sourcefile~class_material_procedures.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node4"><a xlink:href=".././sourcefile/class_material_procedures.f90.html" xlink:title="class_material_procedures.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="285.88,-924.26 130.89,-924.26 130.89,-902.24 285.88,-902.24 285.88,-924.26"/>
+<text text-anchor="middle" x="208.39" y="-910.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_material_procedures.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_material_procedures.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge3" class="edge">
+<title>sourcefile~class_material_procedures.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M130.67,-902.64C125.59,-899.85 120.91,-896.43 116.88,-892.25 65.32,-838.78 47.06,-598.72 42.61,-524.91"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="46.09,-524.33 42.01,-514.55 39.1,-524.73 46.09,-524.33"/>
+</g>
+<!-- sourcefile~class_pde_procedures.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node5" class="node">
+<title>sourcefile~class_pde_procedures.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node5"><a xlink:href=".././sourcefile/class_pde_procedures.f90.html" xlink:title="class_pde_procedures.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="276.05,-883.26 140.72,-883.26 140.72,-861.24 276.05,-861.24 276.05,-883.26"/>
+<text text-anchor="middle" x="208.39" y="-869.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_pde_procedures.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_pde_procedures.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge5" class="edge">
+<title>sourcefile~class_pde_procedures.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M140.49,-865.95C131.68,-862.64 123.44,-857.91 116.88,-851.25 70.43,-804.12 48.91,-592.45 43.11,-524.39"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="46.59,-524.1 42.28,-514.42 39.62,-524.67 46.59,-524.1"/>
+</g>
+<!-- sourcefile~lu_implementation.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node6" class="node">
+<title>sourcefile~lu_implementation.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node6"><a xlink:href=".././sourcefile/lu_implementation.f90.html" xlink:title="lu_implementation.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="267.61,-842.26 149.16,-842.26 149.16,-820.24 267.61,-820.24 267.61,-842.26"/>
+<text text-anchor="middle" x="208.39" y="-828.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lu_implementation.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~lu_implementation.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge4" class="edge">
+<title>sourcefile~lu_implementation.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M149.01,-827.48C137.12,-824.21 125.6,-818.86 116.88,-810.25 75.69,-769.6 51.17,-587.61 43.8,-524.71"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="47.24,-523.96 42.63,-514.42 40.29,-524.75 47.24,-523.96"/>
+</g>
+<!-- sourcefile~cholesky_implementation.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node7" class="node">
+<title>sourcefile~cholesky_implementation.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node7"><a xlink:href=".././sourcefile/cholesky_implementation.f90.html" xlink:title="cholesky_implementation.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="282.29,-801.26 134.48,-801.26 134.48,-779.24 282.29,-779.24 282.29,-801.26"/>
+<text text-anchor="middle" x="208.39" y="-787.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cholesky_implementation.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~cholesky_implementation.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge6" class="edge">
+<title>sourcefile~cholesky_implementation.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M134.55,-780.97C128.06,-777.98 122.01,-774.15 116.88,-769.25 46.44,-702.14 40.25,-574.57 40.73,-524.33"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="44.22,-524.39 40.92,-514.32 37.23,-524.25 44.22,-524.39"/>
+</g>
+<!-- sourcefile~class_scalar_field_procedures.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node8" class="node">
+<title>sourcefile~class_scalar_field_procedures.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node8"><a xlink:href=".././sourcefile/class_scalar_field_procedures.f90.html" xlink:title="class_scalar_field_procedures.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="293.64,-760.26 123.13,-760.26 123.13,-738.24 293.64,-738.24 293.64,-760.26"/>
+<text text-anchor="middle" x="208.39" y="-746.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_scalar_field_procedures.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_scalar_field_procedures.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge7" class="edge">
+<title>sourcefile~class_scalar_field_procedures.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M131.26,-738.03C126.05,-735.38 121.17,-732.16 116.88,-728.25 56.58,-673.46 44.42,-569.07 42.01,-524.39"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="45.51,-524.23 41.59,-514.39 38.52,-524.53 45.51,-524.23"/>
+</g>
+<!-- sourcefile~check_mesh_quality.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node9" class="node">
+<title>sourcefile~check_mesh_quality.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node9"><a xlink:href=".././sourcefile/check_mesh_quality.f90.html" xlink:title="check_mesh_quality.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="270.26,-719.26 146.51,-719.26 146.51,-697.24 270.26,-697.24 270.26,-719.26"/>
+<text text-anchor="middle" x="208.39" y="-705.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">check_mesh_quality.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~check_mesh_quality.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge8" class="edge">
+<title>sourcefile~check_mesh_quality.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M146.16,-702.41C135.53,-699.17 125.23,-694.36 116.88,-687.25 66.61,-644.49 49.35,-563.02 43.83,-524.47"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="47.28,-523.85 42.52,-514.39 40.34,-524.76 47.28,-523.85"/>
+</g>
+<!-- sourcefile~class_motion_procedures.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node10" class="node">
+<title>sourcefile~class_motion_procedures.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node10"><a xlink:href=".././sourcefile/class_motion_procedures.f90.html" xlink:title="class_motion_procedures.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="283.05,-678.26 133.72,-678.26 133.72,-656.24 283.05,-656.24 283.05,-678.26"/>
+<text text-anchor="middle" x="208.39" y="-664.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_motion_procedures.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_motion_procedures.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge9" class="edge">
+<title>sourcefile~class_motion_procedures.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M134.18,-656.24C128,-653.57 122.11,-650.29 116.88,-646.25 76.51,-615.13 55.45,-556.21 46.62,-524.58"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="49.93,-523.4 44,-514.63 43.16,-525.19 49.93,-523.4"/>
+</g>
+<!-- sourcefile~geom_tet_dihedral_angle.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node11" class="node">
+<title>sourcefile~geom_tet_dihedral_angle.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node11"><a xlink:href=".././sourcefile/geom_tet_dihedral_angle.f90.html" xlink:title="geom_tet_dihedral_angle.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="282.41,-637.26 134.36,-637.26 134.36,-615.24 282.41,-615.24 282.41,-637.26"/>
+<text text-anchor="middle" x="208.39" y="-623.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geom_tet_dihedral_angle.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~geom_tet_dihedral_angle.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge10" class="edge">
+<title>sourcefile~geom_tet_dihedral_angle.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M136.65,-615.09C129.67,-612.47 122.94,-609.23 116.88,-605.25 85.78,-584.84 62.88,-546.97 50.9,-523.56"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="54,-521.93 46.44,-514.5 47.72,-525.02 54,-521.93"/>
+</g>
+<!-- sourcefile~class_least_squares_procedures.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node12" class="node">
+<title>sourcefile~class_least_squares_procedures.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node12"><a xlink:href=".././sourcefile/class_least_squares_procedures.f90.html" xlink:title="class_least_squares_procedures.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="299.91,-596.26 116.87,-596.26 116.87,-574.24 299.91,-574.24 299.91,-596.26"/>
+<text text-anchor="middle" x="208.39" y="-582.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_least_squares_procedures.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_least_squares_procedures.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge11" class="edge">
+<title>sourcefile~class_least_squares_procedures.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M143.32,-574.22C134.21,-571.56 125.14,-568.28 116.88,-564.25 94.91,-553.53 73.6,-535.36 59.27,-521.63"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="61.65,-519.06 52.06,-514.54 56.74,-524.05 61.65,-519.06"/>
+</g>
+<!-- sourcefile~psb_solve_sys_implementation.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node13" class="node">
+<title>sourcefile~psb_solve_sys_implementation.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node13"><a xlink:href=".././sourcefile/psb_solve_sys_implementation.f90.html" xlink:title="psb_solve_sys_implementation.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="296.31,-555.26 120.46,-555.26 120.46,-533.24 296.31,-533.24 296.31,-555.26"/>
+<text text-anchor="middle" x="208.39" y="-541.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_solve_sys_implementation.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~psb_solve_sys_implementation.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge12" class="edge">
+<title>sourcefile~psb_solve_sys_implementation.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M158.47,-533.19C144.97,-530.06 130.34,-526.6 116.88,-523.25 108.37,-521.14 99.35,-518.82 90.62,-516.53"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="91.48,-513.13 80.92,-513.97 89.7,-519.9 91.48,-513.13"/>
+</g>
+<!-- sourcefile~class_cylinder_procedures.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node14" class="node">
+<title>sourcefile~class_cylinder_procedures.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node14"><a xlink:href=".././sourcefile/class_cylinder_procedures.f90.html" xlink:title="class_cylinder_procedures.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="285.21,-514.26 131.56,-514.26 131.56,-492.24 285.21,-492.24 285.21,-514.26"/>
+<text text-anchor="middle" x="208.39" y="-500.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cylinder_procedures.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_cylinder_procedures.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge13" class="edge">
+<title>sourcefile~class_cylinder_procedures.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M131.21,-503.25C117.63,-503.25 103.81,-503.25 91.21,-503.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="90.94,-499.75 80.94,-503.25 90.94,-506.75 90.94,-499.75"/>
+</g>
+<!-- sourcefile~tools_nemo.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node15" class="node">
+<title>sourcefile~tools_nemo.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node15"><a xlink:href=".././sourcefile/tools_nemo.f90.html" xlink:title="tools_nemo.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="250.18,-473.26 166.59,-473.26 166.59,-451.24 250.18,-451.24 250.18,-473.26"/>
+<text text-anchor="middle" x="208.39" y="-459.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_nemo.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tools_nemo.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge14" class="edge">
+<title>sourcefile~tools_nemo.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M166.32,-471.49C150.8,-475.06 133,-479.24 116.88,-483.25 108.37,-485.36 99.35,-487.68 90.62,-489.97"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="89.7,-486.6 80.92,-492.53 91.48,-493.37 89.7,-486.6"/>
+</g>
+<!-- sourcefile~laplacian_smooth.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node16" class="node">
+<title>sourcefile~laplacian_smooth.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node16"><a xlink:href=".././sourcefile/laplacian_smooth.f90.html" xlink:title="laplacian_smooth.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="264.12,-432.26 152.65,-432.26 152.65,-410.24 264.12,-410.24 264.12,-432.26"/>
+<text text-anchor="middle" x="208.39" y="-418.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">laplacian_smooth.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~laplacian_smooth.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge15" class="edge">
+<title>sourcefile~laplacian_smooth.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M152.41,-429.82C140.35,-432.84 127.89,-436.87 116.88,-442.25 94.91,-452.97 73.6,-471.14 59.27,-484.87"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="56.74,-482.45 52.06,-491.96 61.65,-487.44 56.74,-482.45"/>
+</g>
+<!-- sourcefile~geom_hex_dihedral_angle.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node17" class="node">
+<title>sourcefile~geom_hex_dihedral_angle.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node17"><a xlink:href=".././sourcefile/geom_hex_dihedral_angle.f90.html" xlink:title="geom_hex_dihedral_angle.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="285.16,-391.26 131.61,-391.26 131.61,-369.24 285.16,-369.24 285.16,-391.26"/>
+<text text-anchor="middle" x="208.39" y="-377.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geom_hex_dihedral_angle.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~geom_hex_dihedral_angle.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge16" class="edge">
+<title>sourcefile~geom_hex_dihedral_angle.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M136.65,-391.41C129.67,-394.03 122.94,-397.27 116.88,-401.25 85.78,-421.66 62.88,-459.53 50.9,-482.94"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="47.72,-481.48 46.44,-492 54,-484.57 47.72,-481.48"/>
+</g>
+<!-- sourcefile~isort_implementation.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node18" class="node">
+<title>sourcefile~isort_implementation.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node18"><a xlink:href=".././sourcefile/isort_implementation.f90.html" xlink:title="isort_implementation.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="271.78,-350.26 144.99,-350.26 144.99,-328.24 271.78,-328.24 271.78,-350.26"/>
+<text text-anchor="middle" x="208.39" y="-336.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">isort_implementation.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~isort_implementation.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge17" class="edge">
+<title>sourcefile~isort_implementation.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M144.82,-346.33C134.8,-349.48 125.05,-353.95 116.88,-360.25 76.51,-391.37 55.45,-450.29 46.62,-481.92"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="43.16,-481.31 44,-491.87 49.93,-483.1 43.16,-481.31"/>
+</g>
+<!-- sourcefile~vector_pde_grad.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node19" class="node">
+<title>sourcefile~vector_pde_grad.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node19"><a xlink:href=".././sourcefile/vector_pde_grad.f90.html" xlink:title="vector_pde_grad.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="262.71,-309.26 154.06,-309.26 154.06,-287.24 262.71,-287.24 262.71,-309.26"/>
+<text text-anchor="middle" x="208.39" y="-295.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_pde_grad.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~vector_pde_grad.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge18" class="edge">
+<title>sourcefile~vector_pde_grad.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M154.16,-301.95C140.81,-305.07 127.32,-310.37 116.88,-319.25 66.61,-362.01 49.35,-443.48 43.83,-482.03"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="40.34,-481.74 42.52,-492.11 47.28,-482.65 40.34,-481.74"/>
+</g>
+<!-- sourcefile~cart_to_polar_implementation.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node20" class="node">
+<title>sourcefile~cart_to_polar_implementation.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node20"><a xlink:href=".././sourcefile/cart_to_polar_implementation.f90.html" xlink:title="cart_to_polar_implementation.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="292.23,-268.26 124.54,-268.26 124.54,-246.24 292.23,-246.24 292.23,-268.26"/>
+<text text-anchor="middle" x="208.39" y="-254.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cart_to_polar_implementation.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~cart_to_polar_implementation.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge19" class="edge">
+<title>sourcefile~cart_to_polar_implementation.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M131.26,-268.47C126.05,-271.12 121.17,-274.34 116.88,-278.25 56.58,-333.04 44.42,-437.43 42.01,-482.11"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="38.52,-481.97 41.59,-492.11 45.51,-482.27 38.52,-481.97"/>
+</g>
+<!-- sourcefile~check_tet_quality.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node21" class="node">
+<title>sourcefile~check_tet_quality.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node21"><a xlink:href=".././sourcefile/check_tet_quality.f90.html" xlink:title="check_tet_quality.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="263.26,-227.26 153.51,-227.26 153.51,-205.24 263.26,-205.24 263.26,-227.26"/>
+<text text-anchor="middle" x="208.39" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">check_tet_quality.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~check_tet_quality.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge20" class="edge">
+<title>sourcefile~check_tet_quality.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M153.47,-219.18C140.12,-222.3 126.8,-227.79 116.88,-237.25 46.44,-304.36 40.25,-431.93 40.73,-482.17"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="37.23,-482.25 40.92,-492.18 44.22,-482.11 37.23,-482.25"/>
+</g>
+<!-- sourcefile~pwl_implementation.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node22" class="node">
+<title>sourcefile~pwl_implementation.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node22"><a xlink:href=".././sourcefile/pwl_implementation.f90.html" xlink:title="pwl_implementation.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="269.7,-186.26 147.07,-186.26 147.07,-164.24 269.7,-164.24 269.7,-186.26"/>
+<text text-anchor="middle" x="208.39" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pwl_implementation.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~pwl_implementation.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge21" class="edge">
+<title>sourcefile~pwl_implementation.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M147.14,-179.56C135.92,-182.86 125.14,-188.09 116.88,-196.25 75.69,-236.9 51.17,-418.89 43.8,-481.79"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="40.29,-481.75 42.63,-492.08 47.24,-482.54 40.29,-481.75"/>
+</g>
+<!-- sourcefile~rd_exodus_mesh.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node23" class="node">
+<title>sourcefile~rd_exodus_mesh.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node23"><a xlink:href=".././sourcefile/rd_exodus_mesh.f90.html" xlink:title="rd_exodus_mesh.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="263.45,-145.26 153.32,-145.26 153.32,-123.24 263.45,-123.24 263.45,-145.26"/>
+<text text-anchor="middle" x="208.39" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rd_exodus_mesh.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~rd_exodus_mesh.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge22" class="edge">
+<title>sourcefile~rd_exodus_mesh.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M153.07,-136.77C139.71,-139.89 126.5,-145.48 116.88,-155.25 70.43,-202.38 48.91,-414.05 43.11,-482.11"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="39.62,-481.83 42.28,-492.08 46.59,-482.4 39.62,-481.83"/>
+</g>
+<!-- sourcefile~rd_cgns_mesh.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node24" class="node">
+<title>sourcefile~rd_cgns_mesh.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node24"><a xlink:href=".././sourcefile/rd_cgns_mesh.f90.html" xlink:title="rd_cgns_mesh.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="259.27,-104.26 157.5,-104.26 157.5,-82.24 259.27,-82.24 259.27,-104.26"/>
+<text text-anchor="middle" x="208.39" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rd_cgns_mesh.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~rd_cgns_mesh.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge23" class="edge">
+<title>sourcefile~rd_cgns_mesh.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M157.17,-94.72C142.4,-97.6 127.4,-103.33 116.88,-114.25 65.32,-167.72 47.06,-407.78 42.61,-481.59"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="39.1,-481.77 42.01,-491.95 46.09,-482.17 39.1,-481.77"/>
+</g>
+<!-- sourcefile~class_vector_field_procedures.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node25" class="node">
+<title>sourcefile~class_vector_field_procedures.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node25"><a xlink:href=".././sourcefile/class_vector_field_procedures.f90.html" xlink:title="class_vector_field_procedures.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="294.23,-63.26 122.54,-63.26 122.54,-41.24 294.23,-41.24 294.23,-63.26"/>
+<text text-anchor="middle" x="208.39" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vector_field_procedures.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_vector_field_procedures.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge24" class="edge">
+<title>sourcefile~class_vector_field_procedures.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M129.33,-63.49C124.76,-66.17 120.54,-69.39 116.88,-73.25 60,-133.3 45.27,-403.53 42.16,-481.89"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="38.66,-481.89 41.79,-492.01 45.66,-482.15 38.66,-481.89"/>
+</g>
+<!-- sourcefile~class_iterating_procedures.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_node26" class="node">
+<title>sourcefile~class_iterating_procedures.f90</title>
+<g id="a_sourcefile~~tools_math.f90~~AfferentGraph_node26"><a xlink:href=".././sourcefile/class_iterating_procedures.f90.html" xlink:title="class_iterating_procedures.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="285.89,-22.26 130.88,-22.26 130.88,-0.24 285.89,-0.24 285.89,-22.26"/>
+<text text-anchor="middle" x="208.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_iterating_procedures.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_iterating_procedures.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~tools_math.f90~~AfferentGraph_edge25" class="edge">
+<title>sourcefile~class_iterating_procedures.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M130.52,-21.71C125.47,-24.54 120.84,-28 116.88,-32.25 54.69,-98.9 43.67,-399.22 41.8,-482.04"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="38.3,-482.17 41.6,-492.24 45.3,-482.31 38.3,-482.17"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="31pt"
+ viewBox="0.00 0.00 186.41 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 182.41,-26.5 182.41,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="65.16,-22.26 -0.05,-22.26 -0.05,-0.24 65.16,-0.24 65.16,-22.26"/>
+<text text-anchor="middle" x="32.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="178.26,-22.26 82.84,-22.26 82.84,-0.24 178.26,-0.24 178.26,-22.26"/>
+<text text-anchor="middle" x="130.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+      
+      <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-1">Modules</a></h3></div>
+  <div id="mods-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/tools_math.html">tools_math</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/tools_math.f90.html#src">tools_math.f90</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="c">!</span>
+<a name="ln-2"></a><span class="c">!     (c) 2019 Guide Star Engineering, LLC</span>
+<a name="ln-3"></a><span class="c">!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)</span>
+<a name="ln-4"></a><span class="c">!     under contract &quot;Multi-Dimensional Physics Implementation into Fuel Analysis under</span>
+<a name="ln-5"></a><span class="c">!     Steady-state and Transients (FAST)&quot;, contract # NRC-HQ-60-17-C-0007</span>
+<a name="ln-6"></a><span class="c">!</span>
+<a name="ln-7"></a><span class="c">!</span>
+<a name="ln-8"></a><span class="c">!    NEMO - Numerical Engine (for) Multiphysics Operators</span>
+<a name="ln-9"></a><span class="c">! Copyright (c) 2007, Stefano Toninel</span>
+<a name="ln-10"></a><span class="c">!                     Gian Marco Bianchi  University of Bologna</span>
+<a name="ln-11"></a><span class="c">!              David P. Schmidt    University of Massachusetts - Amherst</span>
+<a name="ln-12"></a><span class="c">!              Salvatore Filippone University of Rome Tor Vergata</span>
+<a name="ln-13"></a><span class="c">! All rights reserved.</span>
+<a name="ln-14"></a><span class="c">!</span>
+<a name="ln-15"></a><span class="c">! Redistribution and use in source and binary forms, with or without modification,</span>
+<a name="ln-16"></a><span class="c">! are permitted provided that the following conditions are met:</span>
+<a name="ln-17"></a><span class="c">!</span>
+<a name="ln-18"></a><span class="c">!     1. Redistributions of source code must retain the above copyright notice,</span>
+<a name="ln-19"></a><span class="c">!        this list of conditions and the following disclaimer.</span>
+<a name="ln-20"></a><span class="c">!     2. Redistributions in binary form must reproduce the above copyright notice,</span>
+<a name="ln-21"></a><span class="c">!        this list of conditions and the following disclaimer in the documentation</span>
+<a name="ln-22"></a><span class="c">!        and/or other materials provided with the distribution.</span>
+<a name="ln-23"></a><span class="c">!     3. Neither the name of the NEMO project nor the names of its contributors</span>
+<a name="ln-24"></a><span class="c">!        may be used to endorse or promote products derived from this software</span>
+<a name="ln-25"></a><span class="c">!        without specific prior written permission.</span>
+<a name="ln-26"></a><span class="c">!</span>
+<a name="ln-27"></a><span class="c">! THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND</span>
+<a name="ln-28"></a><span class="c">! ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
+<a name="ln-29"></a><span class="c">! WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<a name="ln-30"></a><span class="c">! DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR</span>
+<a name="ln-31"></a><span class="c">! ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span>
+<a name="ln-32"></a><span class="c">! (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;</span>
+<a name="ln-33"></a><span class="c">! LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON</span>
+<a name="ln-34"></a><span class="c">! ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span>
+<a name="ln-35"></a><span class="c">! (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS</span>
+<a name="ln-36"></a><span class="c">! SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+<a name="ln-37"></a><span class="c">!</span>
+<a name="ln-38"></a><span class="c">!---------------------------------------------------------------------------------</span>
+<a name="ln-39"></a><span class="c">!</span>
+<a name="ln-40"></a><span class="c">! $Id: tools_math.f90 2469 2007-10-08 10:34:43Z sfilippo $</span>
+<a name="ln-41"></a><span class="c">!</span>
+<a name="ln-42"></a><span class="c">! Description:</span>
+<a name="ln-43"></a><span class="c">!    To be added...</span>
+<a name="ln-44"></a><span class="c">!</span>
+<a name="ln-45"></a><span class="k">MODULE </span><span class="n">tools_math</span>
+<a name="ln-46"></a>    <span class="k">USE </span><span class="n">class_psblas</span><span class="p">,</span> <span class="n">ONLY</span> <span class="p">:</span> <span class="n">psb_dpk_</span>
+<a name="ln-47"></a>    <span class="k">USE </span><span class="n">class_vector</span><span class="p">,</span> <span class="n">ONLY</span> <span class="p">:</span> <span class="n">vector</span>
+<a name="ln-48"></a>    <span class="k">IMPLICIT NONE</span>
+<a name="ln-49"></a>
+<a name="ln-50"></a><span class="k">    PRIVATE</span>
+<a name="ln-51"></a><span class="k">    PUBLIC</span> <span class="kd">::</span> <span class="n">cart_to_polar</span>
+<a name="ln-52"></a>    <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">factorize</span>
+<a name="ln-53"></a>    <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">solve_sys</span>
+<a name="ln-54"></a>    <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">build_prec</span>
+<a name="ln-55"></a>    <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">lin_interp</span>
+<a name="ln-56"></a>    <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">pwl_nearest</span>
+<a name="ln-57"></a>    <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">pwl_deriv</span>
+<a name="ln-58"></a>    <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">pwl_interp</span>
+<a name="ln-59"></a>    <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">sort</span>
+<a name="ln-60"></a>    <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">pi</span><span class="p">,</span> <span class="n">it_time_</span><span class="p">,</span> <span class="n">it_convergence_</span><span class="p">,</span> <span class="n">it_counter_</span>
+<a name="ln-61"></a>
+<a name="ln-62"></a>    <span class="k">INTERFACE </span><span class="n">factorize</span>
+<a name="ln-63"></a>        <span class="k">MODULE PROCEDURE</span> <span class="kd">::</span> <span class="n">lu_fact</span>
+<a name="ln-64"></a>        <span class="k">MODULE PROCEDURE</span> <span class="kd">::</span> <span class="n">cholesky_fact_m</span>
+<a name="ln-65"></a>        <span class="k">MODULE PROCEDURE</span> <span class="kd">::</span> <span class="n">choloesky_fact_v</span>
+<a name="ln-66"></a>    <span class="k">END INTERFACE </span><span class="n">factorize</span>
+<a name="ln-67"></a>
+<a name="ln-68"></a>    <span class="k">INTERFACE </span><span class="n">solve_sys</span>
+<a name="ln-69"></a>        <span class="k">MODULE PROCEDURE</span> <span class="kd">::</span> <span class="n">lu_solve</span>
+<a name="ln-70"></a>        <span class="k">MODULE PROCEDURE</span> <span class="kd">::</span> <span class="n">cholesky_solve_m</span>
+<a name="ln-71"></a>        <span class="k">MODULE PROCEDURE</span> <span class="kd">::</span> <span class="n">cholesky_solve_v</span>
+<a name="ln-72"></a>        <span class="k">MODULE PROCEDURE</span> <span class="kd">::</span> <span class="n">psb_solve_sys</span>
+<a name="ln-73"></a>    <span class="k">END INTERFACE </span><span class="n">solve_sys</span>
+<a name="ln-74"></a>
+<a name="ln-75"></a>    <span class="k">INTERFACE </span><span class="n">build_prec</span>
+<a name="ln-76"></a>        <span class="k">PROCEDURE</span> <span class="kd">::</span> <span class="n">psb_build_prec</span>
+<a name="ln-77"></a>    <span class="k">END INTERFACE </span><span class="n">build_prec</span>
+<a name="ln-78"></a>
+<a name="ln-79"></a>    <span class="k">INTERFACE </span><span class="n">lin_interp</span>
+<a name="ln-80"></a>        <span class="k">MODULE PROCEDURE</span> <span class="kd">::</span> <span class="n">lin_interp_s</span>
+<a name="ln-81"></a>        <span class="k">MODULE PROCEDURE</span> <span class="kd">::</span> <span class="n">lin_interp_v</span>
+<a name="ln-82"></a>    <span class="k">END INTERFACE </span><span class="n">lin_interp</span>
+<a name="ln-83"></a>
+<a name="ln-84"></a>    <span class="k">INTERFACE </span><span class="n">pwl_deriv</span>
+<a name="ln-85"></a>        <span class="k">MODULE PROCEDURE</span> <span class="kd">::</span> <span class="n">pwl_deriv_x_s</span>
+<a name="ln-86"></a>        <span class="k">MODULE PROCEDURE</span> <span class="kd">::</span> <span class="n">pwl_deriv_x_v</span>
+<a name="ln-87"></a>        <span class="k">MODULE PROCEDURE</span> <span class="kd">::</span> <span class="n">pwl_deriv_x_vec</span>
+<a name="ln-88"></a>    <span class="k">END INTERFACE </span><span class="n">pwl_deriv</span>
+<a name="ln-89"></a>
+<a name="ln-90"></a>    <span class="k">INTERFACE </span><span class="n">pwl_interp</span>
+<a name="ln-91"></a>        <span class="k">MODULE PROCEDURE</span> <span class="kd">::</span> <span class="n">pwl_interp_dx_s</span>
+<a name="ln-92"></a>        <span class="k">MODULE PROCEDURE</span> <span class="kd">::</span> <span class="n">pwl_interp_dx_v</span>
+<a name="ln-93"></a>        <span class="k">MODULE PROCEDURE</span> <span class="kd">::</span> <span class="n">pwl_interp_x_s</span>
+<a name="ln-94"></a>        <span class="k">MODULE PROCEDURE</span> <span class="kd">::</span> <span class="n">pwl_interp_x_v</span>
+<a name="ln-95"></a>        <span class="k">MODULE PROCEDURE</span> <span class="kd">::</span> <span class="n">pwl_interp_x_vec</span>
+<a name="ln-96"></a>    <span class="k">END INTERFACE </span><span class="n">pwl_interp</span>
+<a name="ln-97"></a>
+<a name="ln-98"></a>    <span class="k">INTERFACE </span><span class="n">sort</span>
+<a name="ln-99"></a>        <span class="k">MODULE PROCEDURE</span> <span class="kd">::</span> <span class="n">isort</span>
+<a name="ln-100"></a>    <span class="k">END INTERFACE </span><span class="n">sort</span>
+<a name="ln-101"></a>
+<a name="ln-102"></a>    <span class="k">INTERFACE</span>
+<a name="ln-103"></a>
+<a name="ln-104"></a><span class="k">        MODULE SUBROUTINE </span><span class="n">cart_to_polar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">rho</span><span class="p">,</span><span class="n">theta</span><span class="p">,</span><span class="n">square</span><span class="p">)</span>
+<a name="ln-105"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-106"></a><span class="k">            </span><span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+<a name="ln-107"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">rho</span><span class="p">,</span> <span class="n">theta</span>
+<a name="ln-108"></a>            <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">square</span>
+<a name="ln-109"></a>        <span class="k">END SUBROUTINE </span><span class="n">cart_to_polar</span>
+<a name="ln-110"></a>
+<a name="ln-111"></a>        <span class="k">MODULE SUBROUTINE </span><span class="n">lu_fact</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">A</span><span class="p">,</span><span class="n">ipiv</span><span class="p">,</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-112"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-113"></a><span class="k">            </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">n</span>
+<a name="ln-114"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">A</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+<a name="ln-115"></a>            <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ipiv</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a name="ln-116"></a>            <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">info</span>
+<a name="ln-117"></a>        <span class="k">END SUBROUTINE </span><span class="n">lu_fact</span>
+<a name="ln-118"></a>
+<a name="ln-119"></a>        <span class="k">MODULE SUBROUTINE </span><span class="n">cholesky_fact_m</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<a name="ln-120"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-121"></a><span class="k">            </span><span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">A</span><span class="p">(:,:)</span>
+<a name="ln-122"></a>        <span class="k">END SUBROUTINE </span><span class="n">cholesky_fact_m</span>
+<a name="ln-123"></a>
+<a name="ln-124"></a>        <span class="k">MODULE SUBROUTINE </span><span class="n">choloesky_fact_v</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<a name="ln-125"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-126"></a><span class="k">            </span><span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">A</span><span class="p">(:)</span>
+<a name="ln-127"></a>        <span class="k">END SUBROUTINE </span><span class="n">choloesky_fact_v</span>
+<a name="ln-128"></a>
+<a name="ln-129"></a>        <span class="k">MODULE SUBROUTINE </span><span class="n">lu_solve</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">A</span><span class="p">,</span><span class="n">ipiv</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-130"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-131"></a><span class="k">            </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">n</span>
+<a name="ln-132"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">A</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+<a name="ln-133"></a>            <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ipiv</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a name="ln-134"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">b</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a name="ln-135"></a>            <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">info</span>
+<a name="ln-136"></a>        <span class="k">END SUBROUTINE </span><span class="n">lu_solve</span>
+<a name="ln-137"></a>
+<a name="ln-138"></a>        <span class="k">MODULE SUBROUTINE </span><span class="n">cholesky_solve_m</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+<a name="ln-139"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-140"></a><span class="k">            </span><span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">A</span><span class="p">(:,:)</span>
+<a name="ln-141"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">b</span><span class="p">(:)</span>
+<a name="ln-142"></a>        <span class="k">END SUBROUTINE </span><span class="n">cholesky_solve_m</span>
+<a name="ln-143"></a>
+<a name="ln-144"></a>        <span class="k">MODULE SUBROUTINE </span><span class="n">cholesky_solve_v</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+<a name="ln-145"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-146"></a><span class="k">            </span><span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">A</span><span class="p">(:)</span>
+<a name="ln-147"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">b</span><span class="p">(:)</span>
+<a name="ln-148"></a>        <span class="k">END SUBROUTINE </span><span class="n">cholesky_solve_v</span>
+<a name="ln-149"></a>
+<a name="ln-150"></a>        <span class="k">MODULE SUBROUTINE </span><span class="n">psb_solve_sys</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">prec</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">desc</span><span class="p">,</span><span class="n">cmethod</span><span class="p">,</span><span class="n">eps</span><span class="p">,</span><span class="n">itmax</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">err</span><span class="p">)</span>
+<a name="ln-151"></a>            <span class="k">USE </span><span class="n">psb_base_mod</span><span class="p">,</span> <span class="n">ONLY</span> <span class="p">:</span> <span class="n">psb_dspmat_type</span><span class="p">,</span> <span class="n">psb_desc_type</span>
+<a name="ln-152"></a>            <span class="k">USE </span><span class="n">psb_prec_mod</span><span class="p">,</span> <span class="n">ONLY</span> <span class="p">:</span> <span class="n">psb_dprec_type</span>
+<a name="ln-153"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-154"></a><span class="k">            TYPE</span><span class="p">(</span><span class="n">psb_dspmat_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">A</span>
+<a name="ln-155"></a>            <span class="k">TYPE</span><span class="p">(</span><span class="n">psb_dprec_type</span><span class="p">),</span>  <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">prec</span>
+<a name="ln-156"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span>      <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">b</span><span class="p">(:)</span>
+<a name="ln-157"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span>      <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(:)</span>
+<a name="ln-158"></a>            <span class="k">TYPE</span><span class="p">(</span><span class="n">psb_desc_type</span><span class="p">),</span>   <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">desc</span>
+<a name="ln-159"></a>            <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span>      <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">cmethod</span>
+<a name="ln-160"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span>      <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">eps</span>
+<a name="ln-161"></a>            <span class="kt">INTEGER</span><span class="p">,</span>               <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">itmax</span>
+<a name="ln-162"></a>            <span class="kt">INTEGER</span><span class="p">,</span>               <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>   <span class="kd">::</span> <span class="n">iter</span>
+<a name="ln-163"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span>      <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>   <span class="kd">::</span> <span class="n">err</span>
+<a name="ln-164"></a>        <span class="k">END SUBROUTINE </span><span class="n">psb_solve_sys</span>
+<a name="ln-165"></a>
+<a name="ln-166"></a>        <span class="k">SUBROUTINE </span><span class="n">psb_build_prec</span><span class="p">(</span><span class="n">cprec</span><span class="p">,</span><span class="n">nlev</span><span class="p">,</span><span class="n">cmethod</span><span class="p">,</span><span class="n">A</span><span class="p">,</span><span class="n">desc_a</span><span class="p">,</span><span class="n">prec</span><span class="p">)</span>
+<a name="ln-167"></a>        <span class="c">!! Note: This can&#39;t be a MODULE SUBROUTINE b/c of a compiler bug with</span>
+<a name="ln-168"></a>        <span class="c">!!       gfortran-8.3. IP 6/6/2019</span>
+<a name="ln-169"></a>            <span class="k">USE </span><span class="n">psb_base_mod</span><span class="p">,</span> <span class="n">ONLY</span> <span class="p">:</span> <span class="n">psb_dspmat_type</span><span class="p">,</span> <span class="n">psb_desc_type</span>
+<a name="ln-170"></a>            <span class="k">USE </span><span class="n">psb_prec_mod</span><span class="p">,</span> <span class="n">ONLY</span> <span class="p">:</span> <span class="n">psb_dprec_type</span>
+<a name="ln-171"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-172"></a><span class="k">            </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span>      <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">cprec</span>
+<a name="ln-173"></a>            <span class="kt">INTEGER</span><span class="p">,</span>               <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">nlev</span>
+<a name="ln-174"></a>            <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span>      <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">cmethod</span>
+<a name="ln-175"></a>            <span class="k">TYPE</span><span class="p">(</span><span class="n">psb_dspmat_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">A</span>
+<a name="ln-176"></a>            <span class="k">TYPE</span><span class="p">(</span><span class="n">psb_desc_type</span><span class="p">),</span>   <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">desc_a</span>
+<a name="ln-177"></a>            <span class="k">TYPE</span><span class="p">(</span><span class="n">psb_dprec_type</span><span class="p">),</span>  <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">prec</span>
+<a name="ln-178"></a>        <span class="k">END SUBROUTINE </span><span class="n">psb_build_prec</span>
+<a name="ln-179"></a>
+<a name="ln-180"></a>        <span class="k">MODULE FUNCTION </span><span class="n">lin_interp_s</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">,</span><span class="n">fac</span><span class="p">)</span>
+<a name="ln-181"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-182"></a><span class="k">            </span><span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">)</span> <span class="kd">::</span> <span class="n">lin_interp_s</span>
+<a name="ln-183"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span>
+<a name="ln-184"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">fac</span>
+<a name="ln-185"></a>        <span class="k">END FUNCTION </span><span class="n">lin_interp_s</span>
+<a name="ln-186"></a>
+<a name="ln-187"></a>        <span class="k">MODULE FUNCTION </span><span class="n">lin_interp_v</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">,</span><span class="n">fac</span><span class="p">)</span>
+<a name="ln-188"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-189"></a><span class="k">            TYPE</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span> <span class="kd">::</span> <span class="n">lin_interp_v</span>
+<a name="ln-190"></a>            <span class="k">TYPE</span><span class="p">(</span><span class="n">vector</span><span class="p">),</span>   <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span>
+<a name="ln-191"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">fac</span>
+<a name="ln-192"></a>        <span class="k">END FUNCTION </span><span class="n">lin_interp_v</span>
+<a name="ln-193"></a>
+<a name="ln-194"></a>        <span class="k">MODULE SUBROUTINE </span><span class="n">pwl_nearest</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">x_data</span><span class="p">,</span><span class="n">i1</span><span class="p">,</span><span class="n">i2</span><span class="p">)</span>
+<a name="ln-195"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-196"></a><span class="k">            </span><span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x</span>
+<a name="ln-197"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x_data</span><span class="p">(:)</span>
+<a name="ln-198"></a>            <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">i1</span><span class="p">,</span> <span class="n">i2</span>
+<a name="ln-199"></a>        <span class="k">END SUBROUTINE </span><span class="n">pwl_nearest</span>
+<a name="ln-200"></a>
+<a name="ln-201"></a>        <span class="k">MODULE SUBROUTINE </span><span class="n">pwl_deriv_x_s</span><span class="p">(</span><span class="n">dydx</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y_data</span><span class="p">,</span><span class="n">x_data</span><span class="p">)</span>
+<a name="ln-202"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-203"></a><span class="k">            </span><span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dydx</span>
+<a name="ln-204"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x</span>
+<a name="ln-205"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">y_data</span><span class="p">(:)</span>
+<a name="ln-206"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x_data</span><span class="p">(:)</span>
+<a name="ln-207"></a>        <span class="k">END SUBROUTINE </span><span class="n">pwl_deriv_x_s</span>
+<a name="ln-208"></a>
+<a name="ln-209"></a>        <span class="k">MODULE SUBROUTINE </span><span class="n">pwl_deriv_x_v</span><span class="p">(</span><span class="n">dydx</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y_data</span><span class="p">,</span><span class="n">x_data</span><span class="p">)</span>
+<a name="ln-210"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-211"></a><span class="k">            </span><span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dydx</span><span class="p">(:)</span>
+<a name="ln-212"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x</span>
+<a name="ln-213"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">y_data</span><span class="p">(:,:)</span>
+<a name="ln-214"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x_data</span><span class="p">(:)</span>
+<a name="ln-215"></a>        <span class="k">END SUBROUTINE </span><span class="n">pwl_deriv_x_v</span>
+<a name="ln-216"></a>
+<a name="ln-217"></a>        <span class="k">MODULE SUBROUTINE </span><span class="n">pwl_deriv_x_vec</span><span class="p">(</span><span class="n">dydx</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y_data</span><span class="p">,</span><span class="n">x_data</span><span class="p">)</span>
+<a name="ln-218"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-219"></a><span class="k">            TYPE</span><span class="p">(</span><span class="n">vector</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dydx</span>
+<a name="ln-220"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x</span>
+<a name="ln-221"></a>            <span class="k">TYPE</span><span class="p">(</span><span class="n">vector</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">y_data</span><span class="p">(:)</span>
+<a name="ln-222"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x_data</span><span class="p">(:)</span>
+<a name="ln-223"></a>        <span class="k">END SUBROUTINE </span><span class="n">pwl_deriv_x_vec</span>
+<a name="ln-224"></a>
+<a name="ln-225"></a>        <span class="k">MODULE SUBROUTINE </span><span class="n">pwl_interp_dx_s</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y_data</span><span class="p">,</span><span class="n">xmin</span><span class="p">,</span><span class="n">dx</span><span class="p">)</span>
+<a name="ln-226"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-227"></a><span class="k">            </span><span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">y</span>
+<a name="ln-228"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x</span>
+<a name="ln-229"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">y_data</span><span class="p">(:)</span>
+<a name="ln-230"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">dx</span>
+<a name="ln-231"></a>        <span class="k">END SUBROUTINE </span><span class="n">pwl_interp_dx_s</span>
+<a name="ln-232"></a>
+<a name="ln-233"></a>        <span class="k">MODULE SUBROUTINE </span><span class="n">pwl_interp_dx_v</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y_data</span><span class="p">,</span><span class="n">xmin</span><span class="p">,</span><span class="n">dx</span><span class="p">)</span>
+<a name="ln-234"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-235"></a><span class="k">            </span><span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">y</span><span class="p">(:)</span>
+<a name="ln-236"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(:)</span>
+<a name="ln-237"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">y_data</span><span class="p">(:)</span>
+<a name="ln-238"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">dx</span>
+<a name="ln-239"></a>        <span class="k">END SUBROUTINE </span><span class="n">pwl_interp_dx_v</span>
+<a name="ln-240"></a>
+<a name="ln-241"></a>        <span class="k">MODULE SUBROUTINE </span><span class="n">pwl_interp_x_s</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y_data</span><span class="p">,</span><span class="n">x_data</span><span class="p">)</span>
+<a name="ln-242"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-243"></a><span class="k">            </span><span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">y</span>
+<a name="ln-244"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x</span>
+<a name="ln-245"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">y_data</span><span class="p">(:)</span>
+<a name="ln-246"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x_data</span><span class="p">(:)</span>
+<a name="ln-247"></a>        <span class="k">END SUBROUTINE </span><span class="n">pwl_interp_x_s</span>
+<a name="ln-248"></a>
+<a name="ln-249"></a>        <span class="k">MODULE SUBROUTINE </span><span class="n">pwl_interp_x_v</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y_data</span><span class="p">,</span><span class="n">x_data</span><span class="p">)</span>
+<a name="ln-250"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-251"></a><span class="k">            </span><span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">y</span><span class="p">(:)</span>
+<a name="ln-252"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x</span>
+<a name="ln-253"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">y_data</span><span class="p">(:,:)</span>
+<a name="ln-254"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x_data</span><span class="p">(:)</span>
+<a name="ln-255"></a>        <span class="k">END SUBROUTINE </span><span class="n">pwl_interp_x_v</span>
+<a name="ln-256"></a>
+<a name="ln-257"></a>        <span class="k">MODULE SUBROUTINE </span><span class="n">pwl_interp_x_vec</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y_data</span><span class="p">,</span><span class="n">x_data</span><span class="p">)</span>
+<a name="ln-258"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-259"></a><span class="k">            TYPE</span><span class="p">(</span><span class="n">vector</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">y</span>
+<a name="ln-260"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x</span>
+<a name="ln-261"></a>            <span class="k">TYPE</span><span class="p">(</span><span class="n">vector</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">y_data</span><span class="p">(:)</span>
+<a name="ln-262"></a>            <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">x_data</span><span class="p">(:)</span>
+<a name="ln-263"></a>        <span class="k">END SUBROUTINE </span><span class="n">pwl_interp_x_vec</span>
+<a name="ln-264"></a>
+<a name="ln-265"></a>    <span class="c">! WARNING! One cannot use an ELEMENTAL function instead of a</span>
+<a name="ln-266"></a>    <span class="c">! subroutine, because the DATA argument is not scalar.</span>
+<a name="ln-267"></a>    <span class="c">! If rank(X) = 1 -&gt; a subroutine is mandatory</span>
+<a name="ln-268"></a>    <span class="c">! If rank(X) = 0 -&gt; a function could be used</span>
+<a name="ln-269"></a>    <span class="c">! We use in both cases a subroutine + generic interface</span>
+<a name="ln-270"></a>
+<a name="ln-271"></a>        <span class="k">MODULE SUBROUTINE </span><span class="n">isort</span><span class="p">(</span><span class="n">ivet</span><span class="p">)</span>
+<a name="ln-272"></a>            <span class="k">IMPLICIT NONE</span>
+<a name="ln-273"></a><span class="k">            </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ivet</span><span class="p">(:)</span>
+<a name="ln-274"></a>        <span class="k">END SUBROUTINE </span><span class="n">isort</span>
+<a name="ln-275"></a>
+<a name="ln-276"></a>    <span class="k">END INTERFACE</span>
+<a name="ln-277"></a>
+<a name="ln-278"></a>    <span class="c">! ----- SLATEC routines -----</span>
+<a name="ln-279"></a>
+<a name="ln-280"></a>    <span class="c">! INTERFACE</span>
+<a name="ln-281"></a>    <span class="c">!     MODULE SUBROUTINE dnls1e(fcn,iopt,m,n,x,fvec,tol,nprint, &amp;</span>
+<a name="ln-282"></a>    <span class="c">!         &amp;            info,iw,wa,lwa)</span>
+<a name="ln-283"></a>    <span class="c">!         USE class_psblas, ONLY : psb_dpk_</span>
+<a name="ln-284"></a>    <span class="c">!         INTEGER :: iopt, m, n, nprint, info, lwa, iw(n)</span>
+<a name="ln-285"></a>    <span class="c">!         REAL(psb_dpk_) :: tol, x(n), fvec(m), wa(lwa)</span>
+<a name="ln-286"></a>    <span class="c">!         EXTERNAL fcn</span>
+<a name="ln-287"></a>    <span class="c">!     END SUBROUTINE dnls1e</span>
+<a name="ln-288"></a>
+<a name="ln-289"></a>    <span class="c">!     MODULE SUBROUTINE xsetf(kontrol)</span>
+<a name="ln-290"></a>    <span class="c">!         INTEGER :: kontrol</span>
+<a name="ln-291"></a>    <span class="c">!     END SUBROUTINE xsetf</span>
+<a name="ln-292"></a>    <span class="c">! END INTERFACE</span>
+<a name="ln-293"></a>
+<a name="ln-294"></a>
+<a name="ln-295"></a>    <span class="c">! ----- Named Constants -----</span>
+<a name="ln-296"></a>
+<a name="ln-297"></a>    <span class="c">! Greek PI</span>
+<a name="ln-298"></a>    <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">pi</span> <span class="o">=</span> <span class="mf">3.14159265358979323846264338327950288d0</span>
+<a name="ln-299"></a>
+<a name="ln-300"></a>    <span class="c">! ITERATING class</span>
+<a name="ln-301"></a>    <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">it_time_</span>        <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-302"></a>    <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">it_convergence_</span> <span class="o">=</span> <span class="mi">2</span>
+<a name="ln-303"></a>    <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">it_counter_</span>     <span class="o">=</span> <span class="mi">3</span>
+<a name="ln-304"></a>
+<a name="ln-305"></a><span class="k">END MODULE </span><span class="n">tools_math</span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

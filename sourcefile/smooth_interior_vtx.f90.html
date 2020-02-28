@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>smooth_interior_vtx.f90 &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>smooth_interior_vtx.f90
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.6% of total for source files.">155 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/smooth_interior_vtx.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">smooth_interior_vtx.f90</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-0">Submodules</a></h3></div>
+  <div id="submods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/smooth_interior_vtx_implementation.html">smooth_interior_vtx_implementation</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/smooth_interior_vtx.f90.html#src">smooth_interior_vtx.f90</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">This file depends on</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~smooth_interior_vtx.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefilesmooth_interior_vtxf90EfferentGraph" width="641pt" height="277pt"
+ viewBox="0.00 0.00 641.00 277.01" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph" class="graph" transform="scale(3.05 3.05) rotate(0) translate(4 839.96)">
+<title>sourcefile~~smooth_interior_vtx.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-839.96 1948.96,-839.96 1948.96,4 -4,4"/>
+<!-- sourcefile~smooth_interior_vtx.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~smooth_interior_vtx.f90</title>
+<polygon fill="none" stroke="black" points="1945.03,-449.16 1823.76,-449.16 1823.76,-427.15 1945.03,-427.15 1945.03,-449.16"/>
+<text text-anchor="middle" x="1884.39" y="-435" font-family="Helvetica,sans-Serif" font-size="10.50">smooth_interior_vtx.f90</text>
+</g>
+<!-- sourcefile~class_keytable.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~class_keytable.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/class_keytable.f90.html" xlink:title="class_keytable.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="916.07,-643.16 817.3,-643.16 817.3,-621.15 916.07,-621.15 916.07,-643.16"/>
+<text text-anchor="middle" x="866.69" y="-629" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_keytable.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~class_keytable.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~class_keytable.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1020.2,-632.15C989.58,-626.55 954.92,-626.09 926.39,-627.24"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="925.99,-623.75 916.17,-627.73 926.33,-630.74 925.99,-623.75"/>
+</g>
+<!-- sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~class_psblas.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node3"><a xlink:href=".././sourcefile/class_psblas.f90.html" xlink:title="class_psblas.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="355.88,-389.16 266.62,-389.16 266.62,-367.15 355.88,-367.15 355.88,-389.16"/>
+<text text-anchor="middle" x="311.25" y="-375" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_psblas.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge3" class="edge">
+<title>sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1020.2,-825.15C882.92,-813.58 835.82,-847.95 712.68,-786.15"/>
+</g>
+<!-- sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node4" class="node">
+<title>sourcefile~class_connectivity.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node4"><a xlink:href=".././sourcefile/class_connectivity.f90.html" xlink:title="class_connectivity.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="768.54,-643.16 654.82,-643.16 654.82,-621.15 768.54,-621.15 768.54,-643.16"/>
+<text text-anchor="middle" x="711.68" y="-629" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_connectivity.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge4" class="edge">
+<title>sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1728.59,-709.15C1688.42,-734.15 1563.36,-721.35 1516.54,-728.15 1472.08,-734.61 1462.3,-745.42 1417.47,-748.15"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1415.47,-748.15C1141.88,-757.58 1066.38,-750.44 804.36,-671.15 783.69,-664.9 761.37,-655.46 743.93,-647.44"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="745.32,-644.23 734.78,-643.16 742.35,-650.57 745.32,-644.23"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node5" class="node">
+<title>sourcefile~tools_mesh_optimize.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node5"><a xlink:href=".././sourcefile/tools_mesh_optimize.f90.html" xlink:title="tools_mesh_optimize.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1480.61,-604.16 1352.32,-604.16 1352.32,-582.15 1480.61,-582.15 1480.61,-604.16"/>
+<text text-anchor="middle" x="1416.47" y="-590" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_mesh_optimize.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~tools_mesh_optimize.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge5" class="edge">
+<title>sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~tools_mesh_optimize.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1728.59,-709.15C1664.48,-749.2 1649.31,-653.99 1576.94,-632.15"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1574.94,-632.15C1542.96,-622.5 1506.82,-613.42 1477.23,-606.46"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1478,-603.04 1467.46,-604.18 1476.41,-609.86 1478,-603.04"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1881.09,-449.28C1871.6,-492.01 1831.14,-646.34 1730.59,-709.15"/>
+</g>
+<!-- sourcefile~class_cell.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node6" class="node">
+<title>sourcefile~class_cell.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node6"><a xlink:href=".././sourcefile/class_cell.f90.html" xlink:title="class_cell.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="905.71,-797.16 827.66,-797.16 827.66,-775.15 905.71,-775.15 905.71,-797.16"/>
+<text text-anchor="middle" x="866.69" y="-783" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cell.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~class_cell.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge6" class="edge">
+<title>sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~class_cell.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1020.2,-825.15C980.34,-823.36 936.34,-810.93 905.89,-800.57"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="906.7,-797.15 896.1,-797.16 904.39,-803.76 906.7,-797.15"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1728.59,-709.15C1687,-735.13 1681.77,-752.33 1635.35,-768.15 1376.29,-856.43 1295.61,-837.46 1022.2,-825.15"/>
+</g>
+<!-- sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node7" class="node">
+<title>sourcefile~class_vertex.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node7"><a xlink:href=".././sourcefile/class_vertex.f90.html" xlink:title="class_vertex.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="611.05,-565.16 523.31,-565.16 523.31,-543.15 611.05,-543.15 611.05,-565.16"/>
+<text text-anchor="middle" x="567.18" y="-551" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vertex.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge7" class="edge">
+<title>sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1574.94,-632.15C1457.35,-596.66 1143.03,-654.26 1022.2,-632.15"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1020.2,-632.15C993.96,-626.96 984.32,-626.66 965.01,-608.15 938.6,-582.85 956.77,-557.97 929.01,-534.15 907.36,-515.57 895.6,-521.07 867.69,-515.15"/>
+</g>
+<!-- sourcefile~tools_mesh_basics.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node8" class="node">
+<title>sourcefile~tools_mesh_basics.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node8"><a xlink:href=".././sourcefile/tools_mesh_basics.f90.html" xlink:title="tools_mesh_basics.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1635.25,-759.16 1516.63,-759.16 1516.63,-737.15 1635.25,-737.15 1635.25,-759.16"/>
+<text text-anchor="middle" x="1575.94" y="-745" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_mesh_basics.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~tools_mesh_basics.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge10" class="edge">
+<title>sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~tools_mesh_basics.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1728.59,-709.15C1703.64,-724.74 1672.69,-734.12 1645.26,-739.75"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1644.5,-736.33 1635.34,-741.66 1645.82,-743.21 1644.5,-736.33"/>
+</g>
+<!-- sourcefile~tools_mesh_check.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node9" class="node">
+<title>sourcefile~tools_mesh_check.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node9"><a xlink:href=".././sourcefile/tools_mesh_check.f90.html" xlink:title="tools_mesh_check.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1788.06,-449.16 1671.11,-449.16 1671.11,-427.15 1788.06,-427.15 1788.06,-449.16"/>
+<text text-anchor="middle" x="1729.59" y="-435" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_mesh_check.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~tools_mesh_check.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~tools_mesh_check.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1823.44,-438.15C1815.12,-438.15 1806.52,-438.15 1798.07,-438.15"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1797.87,-434.65 1787.87,-438.15 1797.87,-441.65 1797.87,-434.65"/>
+</g>
+<!-- sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node10" class="node">
+<title>sourcefile~class_vector.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node10"><a xlink:href=".././sourcefile/class_vector.f90.html" xlink:title="class_vector.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="479.5,-369.16 391.91,-369.16 391.91,-347.15 479.5,-347.15 479.5,-369.16"/>
+<text text-anchor="middle" x="435.71" y="-355" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vector.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge9" class="edge">
+<title>sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1835.95,-427.09C1820.66,-423.82 1803.58,-420.5 1787.82,-418.15 1694.75,-404.27 1670.88,-404.73 1576.94,-399.15"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1574.94,-399.15C1532.74,-394.86 1522.58,-390.81 1480.54,-385.15 1392.54,-373.31 1371,-361.15 1282.21,-361.15 1282.21,-361.15 1282.21,-361.15 710.68,-361.15 633.82,-361.15 544.83,-359.96 489.65,-359.08"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="489.47,-355.57 479.42,-358.91 489.36,-362.57 489.47,-355.57"/>
+</g>
+<!-- sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node11" class="node">
+<title>sourcefile~class_mesh.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node11"><a xlink:href=".././sourcefile/class_mesh.f90.html" xlink:title="class_mesh.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1065.65,-411.16 976.75,-411.16 976.75,-389.15 1065.65,-389.15 1065.65,-411.16"/>
+<text text-anchor="middle" x="1021.2" y="-397" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_mesh.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge8" class="edge">
+<title>sourcefile~smooth_interior_vtx.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1574.94,-399.15C1505.08,-395.01 1486.91,-390.44 1417.47,-399.15"/>
+</g>
+<!-- sourcefile~class_stopwatch.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node12" class="node">
+<title>sourcefile~class_stopwatch.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node12"><a xlink:href=".././sourcefile/class_stopwatch.f90.html" xlink:title="class_stopwatch.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="230.21,-370.16 124.11,-370.16 124.11,-348.15 230.21,-348.15 230.21,-370.16"/>
+<text text-anchor="middle" x="177.16" y="-356" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_stopwatch.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_psblas.f90&#45;&gt;sourcefile~class_stopwatch.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge11" class="edge">
+<title>sourcefile~class_psblas.f90&#45;&gt;sourcefile~class_stopwatch.f90</title>
+<path fill="none" stroke="#ff9900" stroke-dasharray="5,2" d="M266.27,-371.83C258.07,-370.65 249.35,-369.39 240.72,-368.15"/>
+<polygon fill="#ff9900" stroke="#ff9900" points="241.06,-364.66 230.66,-366.7 240.06,-371.59 241.06,-364.66"/>
+</g>
+<!-- sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node18" class="node">
+<title>sourcefile~tools_psblas.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node18"><a xlink:href=".././sourcefile/tools_psblas.f90.html" xlink:title="tools_psblas.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="87.83,-389.16 0.06,-389.16 0.06,-367.15 87.83,-367.15 87.83,-389.16"/>
+<text text-anchor="middle" x="43.94" y="-375" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_psblas.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_psblas.f90&#45;&gt;sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge12" class="edge">
+<title>sourcefile~class_psblas.f90&#45;&gt;sourcefile~tools_psblas.f90</title>
+<path fill="none" stroke="#ff9900" stroke-dasharray="5,2" d="M266.34,-378.8C254.67,-378.95 242.08,-379.08 230.44,-379.15 183.08,-379.45 171.24,-379.45 123.88,-379.15 115.51,-379.1 106.64,-379.02 97.98,-378.92"/>
+<polygon fill="#ff9900" stroke="#ff9900" points="98,-375.42 87.96,-378.8 97.92,-382.42 98,-375.42"/>
+</g>
+<!-- sourcefile~class_connectivity.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge13" class="edge">
+<title>sourcefile~class_connectivity.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M663.27,-621.09C635.28,-614.09 599.34,-604.27 568.18,-593.15"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge15" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#33ff00" stroke-dasharray="5,2" d="M1020.2,-594.15C993.45,-594.07 987.33,-603.42 965.01,-618.15 946.64,-630.28 949.46,-644.02 929.01,-652.15 870.68,-675.34 796.77,-659.93 752.19,-646.31"/>
+<polygon fill="#33ff00" stroke="#33ff00" points="753.18,-642.95 742.59,-643.26 751.07,-649.62 753.18,-642.95"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge16" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#33ff00" stroke-dasharray="5,2" d="M1160.71,-594.15C1103.2,-572.21 1083.74,-595.74 1022.2,-594.15"/>
+<path fill="none" stroke="#33ff00" stroke-dasharray="5,2" d="M865.69,-515.15C822.38,-508.33 811.78,-525.09 768.36,-531.15 718.64,-538.09 661.76,-544.48 621.37,-548.75"/>
+<polygon fill="#33ff00" stroke="#33ff00" points="620.79,-545.29 611.21,-549.82 621.52,-552.26 620.79,-545.29"/>
+<path fill="none" stroke="#33ff00" stroke-dasharray="5,2" d="M1020.2,-594.15C971.7,-592.9 972.88,-554.87 929.01,-534.15 903.21,-521.97 895.6,-521.07 867.69,-515.15"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge18" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#33ff00" stroke-dasharray="5,2" d="M1352.36,-603.76C1300.26,-610.09 1225.03,-613.57 1162.71,-594.15"/>
+<path fill="none" stroke="#33ff00" stroke-dasharray="5,2" d="M1160.71,-594.15C1084.09,-564.92 1043.1,-464.7 1028.49,-420.91"/>
+<polygon fill="#33ff00" stroke="#33ff00" points="1031.79,-419.75 1025.4,-411.3 1025.13,-421.89 1031.79,-419.75"/>
+</g>
+<!-- sourcefile~class_bc.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node13" class="node">
+<title>sourcefile~class_bc.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node13"><a xlink:href=".././sourcefile/class_bc.f90.html" xlink:title="class_bc.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1316.58,-253.16 1245.84,-253.16 1245.84,-231.15 1316.58,-231.15 1316.58,-253.16"/>
+<text text-anchor="middle" x="1281.21" y="-239" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_bc.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge14" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_bc.f90</title>
+<path fill="none" stroke="#33ff00" stroke-dasharray="5,2" d="M1411.18,-581.87C1392.15,-531.74 1315.08,-328.74 1290.08,-262.89"/>
+<polygon fill="#33ff00" stroke="#33ff00" points="1293.23,-261.32 1286.41,-253.22 1286.69,-263.81 1293.23,-261.32"/>
+</g>
+<!-- sourcefile~class_iterating.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node16" class="node">
+<title>sourcefile~class_iterating.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node16"><a xlink:href=".././sourcefile/class_iterating.f90.html" xlink:title="class_iterating.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1209.84,-720.16 1113.58,-720.16 1113.58,-698.15 1209.84,-698.15 1209.84,-720.16"/>
+<text text-anchor="middle" x="1161.71" y="-706" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_iterating.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_iterating.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge17" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_iterating.f90</title>
+<path fill="none" stroke="#33ff00" stroke-dasharray="5,2" d="M1391.23,-604.28C1345.84,-625.11 1247.96,-670.03 1196.27,-693.75"/>
+<polygon fill="#33ff00" stroke="#33ff00" points="1194.5,-690.71 1186.87,-698.06 1197.42,-697.07 1194.5,-690.71"/>
+</g>
+<!-- sourcefile~class_cell.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge19" class="edge">
+<title>sourcefile~class_cell.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M827.4,-794.57C795.3,-799.71 749.01,-802.52 712.68,-786.15"/>
+</g>
+<!-- sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge20" class="edge">
+<title>sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M523.2,-553.8C497.06,-552.1 463.63,-547.18 436.71,-534.15"/>
+</g>
+<!-- sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge21" class="edge">
+<title>sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M553.63,-542.87C542.18,-531.94 525.53,-514.39 515.36,-496.15 488.84,-448.64 514.65,-420.56 479.36,-379.15 478.22,-377.81 476.97,-376.55 475.64,-375.37"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="477.49,-372.39 467.35,-369.35 473.38,-378.05 477.49,-372.39"/>
+</g>
+<!-- sourcefile~tools_mesh_basics.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge22" class="edge">
+<title>sourcefile~tools_mesh_basics.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M1516.56,-746.46C1486.86,-746.03 1450.21,-746.16 1417.47,-748.15"/>
+</g>
+<!-- sourcefile~tools_mesh_check.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge23" class="edge">
+<title>sourcefile~tools_mesh_check.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M710.68,-786.15C613.47,-742.36 668.81,-628.42 568.18,-593.15"/>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M1020.2,-709.15C1011.42,-709.76 720.71,-789.77 712.68,-786.15"/>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M1727.38,-449.33C1722.87,-484.97 1703.64,-596.41 1635.35,-646.15 1556.6,-703.51 1514.89,-670.15 1417.47,-670.15 1417.47,-670.15 1417.47,-670.15 1280.21,-670.15 1205.59,-670.15 1187.01,-676.92 1113.4,-689.15 1072.46,-695.95 1062.93,-701.21 1022.2,-709.15"/>
+</g>
+<!-- sourcefile~tools_mesh_check.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge24" class="edge">
+<title>sourcefile~tools_mesh_check.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M1670.94,-431.72C1628.27,-426.87 1568.74,-419.92 1516.54,-413.15 1472.44,-407.44 1461.67,-394.33 1417.47,-399.15"/>
+</g>
+<!-- sourcefile~class_scalar_field.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node20" class="node">
+<title>sourcefile~class_scalar_field.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node20"><a xlink:href=".././sourcefile/class_scalar_field.f90.html" xlink:title="class_scalar_field.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1632.33,-292.16 1519.56,-292.16 1519.56,-270.15 1632.33,-270.15 1632.33,-292.16"/>
+<text text-anchor="middle" x="1575.94" y="-278" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_scalar_field.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tools_mesh_check.f90&#45;&gt;sourcefile~class_scalar_field.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge25" class="edge">
+<title>sourcefile~tools_mesh_check.f90&#45;&gt;sourcefile~class_scalar_field.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M1717.68,-426.86C1691.89,-400.16 1626.91,-332.89 1595.08,-299.94"/>
+<polygon fill="#3200ff" stroke="#3200ff" points="1597.21,-297.1 1587.75,-292.34 1592.18,-301.97 1597.21,-297.1"/>
+</g>
+<!-- sourcefile~class_vector.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge26" class="edge">
+<title>sourcefile~class_vector.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M391.88,-365.15C383.55,-366.51 374.72,-367.95 366.09,-369.36"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="365.4,-365.93 356.09,-370.99 366.53,-372.83 365.4,-365.93"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_keytable.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge27" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_keytable.f90</title>
+<path fill="none" stroke="#ff0098" stroke-dasharray="5,2" d="M1018.34,-411.25C1012.07,-445.24 988.69,-549.11 929.01,-607.15 925.34,-610.72 921.1,-613.8 916.59,-616.46"/>
+<polygon fill="#ff0098" stroke="#ff0098" points="914.95,-613.37 907.67,-621.06 918.16,-619.59 914.95,-613.37"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge28" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0098" stroke-dasharray="5,2" d="M566.18,-593.15C543.42,-585.18 537.43,-583.86 515.36,-574.15 479.46,-558.37 472.01,-551.23 436.71,-534.15"/>
+<path fill="none" stroke="#ff0098" stroke-dasharray="5,2" d="M710.68,-517.15C642.45,-539.44 635.92,-616.89 568.18,-593.15"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge29" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#ff0098" stroke-dasharray="5,2" d="M1017.63,-411.54C1009.98,-442.66 984.39,-529.82 929.01,-574.15 916.6,-584.09 831.76,-605 772.1,-618.81"/>
+<polygon fill="#ff0098" stroke="#ff0098" points="770.98,-615.48 762.02,-621.13 772.55,-622.3 770.98,-615.48"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_cell.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge32" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_cell.f90</title>
+<path fill="none" stroke="#ff0098" stroke-dasharray="5,2" d="M1016.52,-411.33C1004.74,-446.88 966.52,-560.43 929.01,-652.15 912.34,-692.92 890.36,-739.45 877.75,-765.56"/>
+<polygon fill="#ff0098" stroke="#ff0098" points="874.47,-764.29 873.26,-774.82 880.77,-767.35 874.47,-764.29"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge33" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#ff0098" stroke-dasharray="5,2" d="M710.68,-517.15C681.46,-526.6 648.28,-535.33 621.29,-541.93"/>
+<polygon fill="#ff0098" stroke="#ff0098" points="620.17,-538.6 611.27,-544.36 621.81,-545.41 620.17,-538.6"/>
+<path fill="none" stroke="#ff0098" stroke-dasharray="5,2" d="M1005.81,-411.25C988.46,-424.16 958.01,-445.33 929.01,-458.15 837.87,-498.46 807.51,-486.5 712.68,-517.15"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge36" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#ff0098" stroke-dasharray="5,2" d="M566.18,-399.15C532.2,-396.52 495.32,-383.79 469.65,-373.21"/>
+<polygon fill="#ff0098" stroke="#ff0098" points="470.96,-369.96 460.38,-369.28 468.23,-376.4 470.96,-369.96"/>
+<path fill="none" stroke="#ff0098" stroke-dasharray="5,2" d="M976.8,-402.22C896.16,-405.58 717.82,-410.75 568.18,-399.15"/>
+</g>
+<!-- sourcefile~class_surface.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node14" class="node">
+<title>sourcefile~class_surface.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node14"><a xlink:href=".././sourcefile/class_surface.f90.html" xlink:title="class_surface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="913.39,-449.16 819.98,-449.16 819.98,-427.15 913.39,-427.15 913.39,-449.16"/>
+<text text-anchor="middle" x="866.69" y="-435" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_surface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_surface.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge30" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_surface.f90</title>
+<path fill="none" stroke="#ff0098" stroke-dasharray="5,2" d="M976.91,-410.94C959.74,-415.22 939.82,-420.18 921.72,-424.69"/>
+<polygon fill="#ff0098" stroke="#ff0098" points="920.74,-421.33 911.89,-427.14 922.44,-428.12 920.74,-421.33"/>
+</g>
+<!-- sourcefile~class_least_squares.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node15" class="node">
+<title>sourcefile~class_least_squares.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node15"><a xlink:href=".././sourcefile/class_least_squares.f90.html" xlink:title="class_least_squares.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="928.84,-565.16 804.54,-565.16 804.54,-543.15 928.84,-543.15 928.84,-565.16"/>
+<text text-anchor="middle" x="866.69" y="-551" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_least_squares.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_least_squares.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge31" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_least_squares.f90</title>
+<path fill="none" stroke="#ff0098" stroke-dasharray="5,2" d="M1015.01,-411.44C1003.15,-436.09 971.75,-495.21 929.01,-529.15 924.4,-532.82 919.17,-536.02 913.77,-538.79"/>
+<polygon fill="#ff0098" stroke="#ff0098" points="912.17,-535.67 904.57,-543.06 915.12,-542.02 912.17,-535.67"/>
+</g>
+<!-- sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node17" class="node">
+<title>sourcefile~grid_interface.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node17"><a xlink:href=".././sourcefile/grid_interface.f90.html" xlink:title="grid_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="914.82,-333.16 818.55,-333.16 818.55,-311.15 914.82,-311.15 914.82,-333.16"/>
+<text text-anchor="middle" x="866.69" y="-319" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">grid_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge34" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~grid_interface.f90</title>
+<path fill="none" stroke="#ff0098" stroke-dasharray="5,2" d="M998.67,-389.14C972.59,-375.8 928.46,-353.23 898.71,-338.02"/>
+<polygon fill="#ff0098" stroke="#ff0098" points="900.1,-334.8 889.6,-333.36 896.91,-341.03 900.1,-334.8"/>
+</g>
+<!-- sourcefile~class_face.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node19" class="node">
+<title>sourcefile~class_face.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node19"><a xlink:href=".././sourcefile/class_face.f90.html" xlink:title="class_face.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="476.83,-410.16 394.59,-410.16 394.59,-388.15 476.83,-388.15 476.83,-410.16"/>
+<text text-anchor="middle" x="435.71" y="-396" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_face.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_face.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge35" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_face.f90</title>
+<path fill="none" stroke="#ff0098" stroke-dasharray="5,2" d="M566.18,-399.15C540.22,-397.14 511.24,-396.95 487.29,-397.34"/>
+<polygon fill="#ff0098" stroke="#ff0098" points="486.94,-393.85 477.01,-397.55 487.08,-400.85 486.94,-393.85"/>
+</g>
+<!-- sourcefile~class_stopwatch.f90&#45;&gt;sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge37" class="edge">
+<title>sourcefile~class_stopwatch.f90&#45;&gt;sourcefile~tools_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M123.92,-366.72C115.49,-367.94 106.75,-369.2 98.28,-370.43"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="97.54,-367 88.14,-371.9 98.54,-373.93 97.54,-367"/>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge38" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M1273.85,-230.87C1258.67,-205.36 1217.47,-144.08 1162.71,-126.15"/>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M1160.71,-126.15C1098.83,-105.9 932.64,-121.62 867.69,-126.15"/>
+</g>
+<!-- sourcefile~class_motion.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node23" class="node">
+<title>sourcefile~class_motion.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node23"><a xlink:href=".././sourcefile/class_motion.f90.html" xlink:title="class_motion.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="612.47,-194.16 521.89,-194.16 521.89,-172.15 612.47,-172.15 612.47,-194.16"/>
+<text text-anchor="middle" x="567.18" y="-180" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_motion.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_motion.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge40" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_motion.f90</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M1245.68,-239.66C1187.68,-235.44 1067.02,-226.53 965.01,-218.15 842.73,-208.11 699.35,-195.18 622.84,-188.18"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="622.78,-184.66 612.5,-187.24 622.14,-191.63 622.78,-184.66"/>
+</g>
+<!-- sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node26" class="node">
+<title>sourcefile~class_bc_math.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node26"><a xlink:href=".././sourcefile/class_bc_math.f90.html" xlink:title="class_bc_math.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1070.75,-176.16 971.65,-176.16 971.65,-154.15 1070.75,-154.15 1070.75,-176.16"/>
+<text text-anchor="middle" x="1021.2" y="-162" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc_math.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge39" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_math.f90</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M1160.71,-126.15C1141.7,-119.93 1092.25,-136.76 1057.89,-150.24"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="1056.2,-147.15 1048.21,-154.1 1058.79,-153.65 1056.2,-147.15"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node27" class="node">
+<title>sourcefile~class_bc_wall.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node27"><a xlink:href=".././sourcefile/class_bc_wall.f90.html" xlink:title="class_bc_wall.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1209,-214.16 1114.42,-214.16 1114.42,-192.15 1209,-192.15 1209,-214.16"/>
+<text text-anchor="middle" x="1161.71" y="-200" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc_wall.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_wall.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge41" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_wall.f90</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M1246.85,-231.08C1234.08,-226.84 1219.32,-221.94 1205.76,-217.44"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="1206.74,-214.08 1196.15,-214.25 1204.54,-220.72 1206.74,-214.08"/>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge44" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M856.8,-449.42C831.6,-481.37 759.5,-572.79 727.87,-612.9"/>
+<polygon fill="#aaff00" stroke="#aaff00" points="725.04,-610.83 721.59,-620.85 730.53,-615.17 725.04,-610.83"/>
+</g>
+<!-- sourcefile~class_plane.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node24" class="node">
+<title>sourcefile~class_plane.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node24"><a xlink:href=".././sourcefile/class_plane.f90.html" xlink:title="class_plane.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="609.65,-487.16 524.71,-487.16 524.71,-465.15 609.65,-465.15 609.65,-487.16"/>
+<text text-anchor="middle" x="567.18" y="-473" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_plane.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_plane.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge43" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_plane.f90</title>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M819.89,-441.04C777.09,-444.09 711.5,-449.64 655,-458.15 643.58,-459.87 631.4,-462.13 619.88,-464.46"/>
+<polygon fill="#aaff00" stroke="#aaff00" points="619.04,-461.06 609.96,-466.52 620.47,-467.92 619.04,-461.06"/>
+</g>
+<!-- sourcefile~class_cylinder.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node28" class="node">
+<title>sourcefile~class_cylinder.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node28"><a xlink:href=".././sourcefile/class_cylinder.f90.html" xlink:title="class_cylinder.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="759.06,-489.16 664.3,-489.16 664.3,-467.15 759.06,-467.15 759.06,-489.16"/>
+<text text-anchor="middle" x="711.68" y="-475" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cylinder.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_cylinder.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge42" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_cylinder.f90</title>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M823.47,-449.19C805.32,-453.93 783.92,-459.53 764.79,-464.53"/>
+<polygon fill="#aaff00" stroke="#aaff00" points="763.81,-461.17 755.02,-467.08 765.58,-467.94 763.81,-461.17"/>
+</g>
+<!-- sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge45" class="edge">
+<title>sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M820.2,-565.23C748.72,-581.77 613.56,-609.35 568.18,-593.15"/>
+</g>
+<!-- sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge46" class="edge">
+<title>sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M833.7,-565.27C824.01,-569.14 813.52,-573.86 804.36,-579.15 786.81,-589.3 785.73,-596.7 768.36,-607.15 762.7,-610.56 756.49,-613.79 750.34,-616.72"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="748.45,-613.74 740.81,-621.08 751.36,-620.11 748.45,-613.74"/>
+</g>
+<!-- sourcefile~class_iterating.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge47" class="edge">
+<title>sourcefile~class_iterating.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M1113.54,-707.54C1086.73,-707.03 1052.55,-707.06 1022.2,-709.15"/>
+</g>
+<!-- sourcefile~object_interface.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node22" class="node">
+<title>sourcefile~object_interface.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node22"><a xlink:href=".././sourcefile/object_interface.f90.html" xlink:title="object_interface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="618.82,-314.16 515.53,-314.16 515.53,-292.15 618.82,-292.15 618.82,-314.16"/>
+<text text-anchor="middle" x="567.18" y="-300" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">object_interface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~grid_interface.f90&#45;&gt;sourcefile~object_interface.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge48" class="edge">
+<title>sourcefile~grid_interface.f90&#45;&gt;sourcefile~object_interface.f90</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M821.4,-311.08C804.87,-307.47 785.87,-303.93 768.36,-302.15 718.24,-297.06 705.38,-301.86 655,-302.15 646.66,-302.2 637.87,-302.28 629.21,-302.36"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="629.1,-298.86 619.14,-302.47 629.17,-305.86 629.1,-298.86"/>
+</g>
+<!-- sourcefile~units_interface.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node30" class="node">
+<title>sourcefile~units_interface.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node30"><a xlink:href=".././sourcefile/units_interface.f90.html" xlink:title="units_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="762.48,-333.16 660.88,-333.16 660.88,-311.15 762.48,-311.15 762.48,-333.16"/>
+<text text-anchor="middle" x="711.68" y="-319" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">units_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~grid_interface.f90&#45;&gt;sourcefile~units_interface.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge49" class="edge">
+<title>sourcefile~grid_interface.f90&#45;&gt;sourcefile~units_interface.f90</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M818.53,-322.15C804.12,-322.15 788.07,-322.15 772.92,-322.15"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="772.6,-318.65 762.6,-322.15 772.6,-325.65 772.6,-318.65"/>
+</g>
+<!-- sourcefile~class_face.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge50" class="edge">
+<title>sourcefile~class_face.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M394.27,-392.22C385.27,-390.67 375.58,-389.01 366.13,-387.39"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="366.46,-383.9 356.02,-385.66 365.28,-390.8 366.46,-383.9"/>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge53" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1280.21,-8.15C1228.61,-16.16 1214.76,-12.45 1162.71,-8.15"/>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1160.71,-8.15C1073.66,-0.96 1043.84,11.47 965.01,-26.15 909.04,-52.87 929.54,-121.58 867.69,-126.15"/>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M865.69,-126.15C675.5,-139.52 608.44,-43.35 436.71,-126.15"/>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M434.71,-126.15C347.94,-174.32 321.69,-305.78 314.61,-357.17"/>
+<polygon fill="#ff00aa" stroke="#ff00aa" points="311.14,-356.76 313.35,-367.12 318.08,-357.64 311.14,-356.76"/>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1570.22,-269.79C1546.73,-215.27 1437.41,15.93 1282.21,-8.15"/>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge55" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1415.47,-399.15C1294.43,-409.2 1151.72,-405.77 1075.9,-402.74"/>
+<polygon fill="#ff00aa" stroke="#ff00aa" points="1075.79,-399.23 1065.65,-402.31 1075.5,-406.22 1075.79,-399.23"/>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1566.97,-292.43C1546.19,-320.46 1487.09,-391.56 1417.47,-399.15"/>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_bc.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge52" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_bc.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1519.68,-279.39C1474.4,-277.24 1408.84,-272.51 1352.39,-262.15 1343.7,-260.56 1334.53,-258.35 1325.8,-255.98"/>
+<polygon fill="#ff00aa" stroke="#ff00aa" points="1326.74,-252.61 1316.17,-253.25 1324.84,-259.34 1326.74,-252.61"/>
+</g>
+<!-- sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node21" class="node">
+<title>sourcefile~class_dimensions.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node21"><a xlink:href=".././sourcefile/class_dimensions.f90.html" xlink:title="class_dimensions.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1077.59,-57.16 964.82,-57.16 964.82,-35.15 1077.59,-35.15 1077.59,-57.16"/>
+<text text-anchor="middle" x="1021.2" y="-43" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_dimensions.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge51" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_dimensions.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1160.71,-46.15C1136.91,-48.03 1110.73,-48.46 1087.6,-48.27"/>
+<polygon fill="#ff00aa" stroke="#ff00aa" points="1087.59,-44.77 1077.55,-48.15 1087.51,-51.77 1087.59,-44.77"/>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1280.21,-8.15C1225.97,-16.57 1217.43,-41.83 1162.71,-46.15"/>
+</g>
+<!-- sourcefile~class_material.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node25" class="node">
+<title>sourcefile~class_material.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node25"><a xlink:href=".././sourcefile/class_material.f90.html" xlink:title="class_material.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1069.32,-98.16 973.08,-98.16 973.08,-76.15 1069.32,-76.15 1069.32,-98.16"/>
+<text text-anchor="middle" x="1021.2" y="-84" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_material.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_material.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge54" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_material.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1160.71,-84.15C1134.59,-90.36 1104.92,-91.72 1079.75,-91.29"/>
+<polygon fill="#ff00aa" stroke="#ff00aa" points="1079.72,-87.79 1069.63,-91.01 1079.53,-94.78 1079.72,-87.79"/>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1280.21,-8.15C1261.87,-11 1260.95,-21.12 1246.03,-32.15 1210.93,-58.1 1205.18,-74.07 1162.71,-84.15"/>
+</g>
+<!-- sourcefile~class_field.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node29" class="node">
+<title>sourcefile~class_field.f90</title>
+<g id="a_sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_node29"><a xlink:href=".././sourcefile/class_field.f90.html" xlink:title="class_field.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1455.5,-253.16 1377.43,-253.16 1377.43,-231.15 1455.5,-231.15 1455.5,-253.16"/>
+<text text-anchor="middle" x="1416.47" y="-239" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_field.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_field.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge56" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_field.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1530.24,-270.08C1510,-265.07 1486.04,-259.14 1465.43,-254.03"/>
+<polygon fill="#ff00aa" stroke="#ff00aa" points="1466.16,-250.61 1455.61,-251.6 1464.47,-257.4 1466.16,-250.61"/>
+</g>
+<!-- sourcefile~class_dimensions.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge57" class="edge">
+<title>sourcefile~class_dimensions.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M988.26,-57.18C980.53,-60.15 972.38,-63.55 965.01,-67.15 919.56,-89.35 918.16,-122.87 867.69,-126.15"/>
+</g>
+<!-- sourcefile~class_motion.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge58" class="edge">
+<title>sourcefile~class_motion.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M549.46,-172.02C519.51,-152.71 457.84,-115.97 436.71,-126.15"/>
+</g>
+<!-- sourcefile~class_motion.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge59" class="edge">
+<title>sourcefile~class_motion.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M552.3,-194.52C541.51,-203.74 526.56,-217.42 515.36,-231.15 486.87,-266.08 460.81,-312.12 447.02,-338.08"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="443.89,-336.5 442.35,-346.99 450.09,-339.75 443.89,-336.5"/>
+</g>
+<!-- sourcefile~class_plane.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge60" class="edge">
+<title>sourcefile~class_plane.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#33ff00" stroke-dasharray="5,2" d="M543.88,-487.21C508.23,-504.73 441.88,-536.65 436.71,-534.15"/>
+<path fill="none" stroke="#33ff00" stroke-dasharray="5,2" d="M434.71,-534.15C376.03,-505.77 337.17,-434.05 320.9,-398.62"/>
+<polygon fill="#33ff00" stroke="#33ff00" points="324.01,-396.98 316.75,-389.26 317.61,-399.82 324.01,-396.98"/>
+</g>
+<!-- sourcefile~class_plane.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge61" class="edge">
+<title>sourcefile~class_plane.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#33ff00" stroke-dasharray="5,2" d="M535.59,-465.08C528.35,-461.44 521.08,-456.84 515.36,-451.15 489.98,-425.94 504.73,-404.37 479.36,-379.15 477.91,-377.71 476.34,-376.36 474.69,-375.08"/>
+<polygon fill="#33ff00" stroke="#33ff00" points="476.21,-371.89 465.93,-369.34 472.38,-377.75 476.21,-371.89"/>
+</g>
+<!-- sourcefile~class_material.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge62" class="edge">
+<title>sourcefile~class_material.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M990.64,-98.2C960.3,-108.7 911.46,-123.31 867.69,-126.15"/>
+</g>
+<!-- sourcefile~class_bc_math.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge63" class="edge">
+<title>sourcefile~class_bc_math.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M996.35,-154.11C966.71,-141.54 914.32,-123.12 867.69,-126.15"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge65" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M1114.45,-204.69C1074.02,-204.69 1014.27,-201.39 965.01,-185.15 916.97,-169.32 918.16,-122.87 867.69,-126.15"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge69" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M1114.52,-212C1102.46,-214.17 1089.46,-216.37 1077.4,-218.15 828.63,-254.89 743.04,-176.41 515.36,-283.15 488.49,-295.75 464.95,-321.17 450.79,-338.91"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="447.96,-336.86 444.62,-346.91 453.5,-341.13 447.96,-336.86"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge68" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M1152.87,-214.31C1130.2,-246.55 1064.42,-340.11 1035.79,-380.84"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="1032.85,-378.93 1029.96,-389.12 1038.58,-382.95 1032.85,-378.93"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge64" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_dimensions.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M1151.32,-192C1141.26,-179.74 1125.14,-159.26 1113.4,-140.15 1094.45,-109.33 1104.16,-91.49 1077.4,-67.15 1075.47,-65.4 1073.39,-63.79 1071.19,-62.31"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="1072.71,-59.15 1062.29,-57.23 1069.23,-65.23 1072.71,-59.15"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_material.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge66" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_material.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M1147.43,-192.03C1123.4,-171.9 1072.5,-129.27 1043.54,-105.02"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="1045.56,-102.15 1035.65,-98.41 1041.07,-107.52 1045.56,-102.15"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge67" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_bc_math.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M1120.28,-192.06C1105.34,-187.96 1088.23,-183.27 1072.53,-178.96"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="1073.02,-175.46 1062.45,-176.19 1071.17,-182.22 1073.02,-175.46"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge71" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M670.42,-489.18C599.44,-508.2 457.55,-544.24 436.71,-534.15"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge70" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M682.94,-489.28C673.84,-493.28 663.81,-498.07 655,-503.15 637.91,-513.02 635.92,-518.98 619,-529.15 613.53,-532.44 607.56,-535.68 601.7,-538.67"/>
+<polygon fill="#3200ff" stroke="#3200ff" points="600.07,-535.56 592.66,-543.14 603.18,-541.84 600.07,-535.56"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge72" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M670.77,-467.09C621.76,-453.13 541.89,-429.02 515.36,-413.15 496.47,-401.86 497.43,-391.71 479.36,-379.15 476.8,-377.37 474.06,-375.66 471.26,-374.04"/>
+<polygon fill="#3200ff" stroke="#3200ff" points="472.69,-370.83 462.22,-369.17 469.37,-376.99 472.69,-370.83"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge75" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1280.21,-46.15C1231.61,-20.64 1217.41,-12.67 1162.71,-8.15"/>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1412.02,-230.87C1400.53,-195.52 1359.81,-86.89 1282.21,-46.15"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge78" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1160.71,-323.15C1113.92,-329.45 1067.62,-361.9 1042.18,-382.62"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="1039.81,-380.04 1034.38,-389.14 1044.3,-385.41 1039.81,-380.04"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_bc.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge74" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_bc.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1377.28,-242.15C1361.63,-242.15 1343.41,-242.15 1327.13,-242.15"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="1326.76,-238.65 1316.76,-242.15 1326.76,-245.65 1326.76,-238.65"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge77" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~grid_interface.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1160.71,-323.15C1079.5,-334.08 984.47,-330.86 925.17,-326.97"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="925.1,-323.46 914.89,-326.26 924.62,-330.44 925.1,-323.46"/>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1390.3,-253.3C1345.58,-272.41 1248.88,-310.55 1162.71,-323.15"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge73" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_dimensions.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1280.21,-46.15C1233.97,-21.88 1214.77,-42.04 1162.71,-46.15"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_material.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge76" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_material.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1280.21,-46.15C1231.61,-20.64 1216.11,-71.47 1162.71,-84.15"/>
+</g>
+<!-- sourcefile~units_interface.f90&#45;&gt;sourcefile~object_interface.f90 -->
+<g id="sourcefile~~smooth_interior_vtx.f90~~EfferentGraph_edge79" class="edge">
+<title>sourcefile~units_interface.f90&#45;&gt;sourcefile~object_interface.f90</title>
+<path fill="none" stroke="#ff0098" stroke-dasharray="5,2" d="M660.84,-315.51C650.62,-314.15 639.76,-312.7 629.2,-311.29"/>
+<polygon fill="#ff0098" stroke="#ff0098" points="629.57,-307.81 619.2,-309.96 628.65,-314.75 629.57,-307.81"/>
+</g>
+</g>
+</svg>
+</div><script>var pansourcefilesmooth_interior_vtxf90EfferentGraph = svgPanZoom('#sourcefilesmooth_interior_vtxf90EfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="31pt"
+ viewBox="0.00 0.00 186.41 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 182.41,-26.5 182.41,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="65.16,-22.26 -0.05,-22.26 -0.05,-0.24 65.16,-0.24 65.16,-22.26"/>
+<text text-anchor="middle" x="32.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="178.26,-22.26 82.84,-22.26 82.84,-0.24 178.26,-0.24 178.26,-22.26"/>
+<text text-anchor="middle" x="130.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+      
+      <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-1">Submodules</a></h3></div>
+  <div id="submods-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/smooth_interior_vtx_implementation.html">smooth_interior_vtx_implementation</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/smooth_interior_vtx.f90.html#src">smooth_interior_vtx.f90</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="c">!</span>
+<a name="ln-2"></a><span class="c">!     (c) 2019 Guide Star Engineering, LLC</span>
+<a name="ln-3"></a><span class="c">!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)</span>
+<a name="ln-4"></a><span class="c">!     under contract &quot;Multi-Dimensional Physics Implementation into Fuel Analysis under</span>
+<a name="ln-5"></a><span class="c">!     Steady-state and Transients (FAST)&quot;, contract # NRC-HQ-60-17-C-0007</span>
+<a name="ln-6"></a><span class="c">!</span>
+<a name="ln-7"></a><span class="c">!    NEMO - Numerical Engine (for) Multiphysics Operators</span>
+<a name="ln-8"></a><span class="c">! Copyright (c) 2007, Stefano Toninel</span>
+<a name="ln-9"></a><span class="c">!                     Gian Marco Bianchi  University of Bologna</span>
+<a name="ln-10"></a><span class="c">!              David P. Schmidt    University of Massachusetts - Amherst</span>
+<a name="ln-11"></a><span class="c">!              Salvatore Filippone University of Rome Tor Vergata</span>
+<a name="ln-12"></a><span class="c">! All rights reserved.</span>
+<a name="ln-13"></a><span class="c">!</span>
+<a name="ln-14"></a><span class="c">! Redistribution and use in source and binary forms, with or without modification,</span>
+<a name="ln-15"></a><span class="c">! are permitted provided that the following conditions are met:</span>
+<a name="ln-16"></a><span class="c">!</span>
+<a name="ln-17"></a><span class="c">!     1. Redistributions of source code must retain the above copyright notice,</span>
+<a name="ln-18"></a><span class="c">!        this list of conditions and the following disclaimer.</span>
+<a name="ln-19"></a><span class="c">!     2. Redistributions in binary form must reproduce the above copyright notice,</span>
+<a name="ln-20"></a><span class="c">!        this list of conditions and the following disclaimer in the documentation</span>
+<a name="ln-21"></a><span class="c">!        and/or other materials provided with the distribution.</span>
+<a name="ln-22"></a><span class="c">!     3. Neither the name of the NEMO project nor the names of its contributors</span>
+<a name="ln-23"></a><span class="c">!        may be used to endorse or promote products derived from this software</span>
+<a name="ln-24"></a><span class="c">!        without specific prior written permission.</span>
+<a name="ln-25"></a><span class="c">!</span>
+<a name="ln-26"></a><span class="c">! THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND</span>
+<a name="ln-27"></a><span class="c">! ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
+<a name="ln-28"></a><span class="c">! WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<a name="ln-29"></a><span class="c">! DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR</span>
+<a name="ln-30"></a><span class="c">! ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span>
+<a name="ln-31"></a><span class="c">! (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;</span>
+<a name="ln-32"></a><span class="c">! LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON</span>
+<a name="ln-33"></a><span class="c">! ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span>
+<a name="ln-34"></a><span class="c">! (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS</span>
+<a name="ln-35"></a><span class="c">! SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+<a name="ln-36"></a><span class="c">!</span>
+<a name="ln-37"></a><span class="c">!---------------------------------------------------------------------------------</span>
+<a name="ln-38"></a><span class="c">!</span>
+<a name="ln-39"></a><span class="c">! $Id: smooth_interior_vtx.f90 3093 2008-04-22 14:51:09Z sfilippo $</span>
+<a name="ln-40"></a><span class="c">!</span>
+<a name="ln-41"></a><span class="c">! Description: moves an interior point in the mesh to optimize adjoining cell quality</span>
+<a name="ln-42"></a><span class="c">!</span>
+<a name="ln-43"></a><span class="k">SUBMODULE</span> <span class="p">(</span><span class="n">tools_mesh_optimize</span><span class="p">)</span> <span class="n">smooth_interior_vtx_implementation</span>
+<a name="ln-44"></a>    <span class="k">IMPLICIT NONE</span>
+<a name="ln-45"></a>
+<a name="ln-46"></a><span class="k">    CONTAINS</span>
+<a name="ln-47"></a>
+<a name="ln-48"></a><span class="k">        MODULE PROCEDURE </span><span class="n">smooth_interior_vtx</span>
+<a name="ln-49"></a>        <span class="k">USE </span><span class="n">class_psblas</span>
+<a name="ln-50"></a>        <span class="k">USE </span><span class="n">class_cell</span>
+<a name="ln-51"></a>        <span class="k">USE </span><span class="n">class_connectivity</span>
+<a name="ln-52"></a>        <span class="k">USE </span><span class="n">class_keytable</span>
+<a name="ln-53"></a>        <span class="k">USE </span><span class="n">class_mesh</span>
+<a name="ln-54"></a>        <span class="k">USE </span><span class="n">class_vector</span>
+<a name="ln-55"></a>        <span class="k">USE </span><span class="n">class_vertex</span>
+<a name="ln-56"></a>        <span class="k">USE </span><span class="n">tools_mesh_basics</span>
+<a name="ln-57"></a>        <span class="k">USE </span><span class="n">tools_mesh_check</span>
+<a name="ln-58"></a>        <span class="k">USE </span><span class="n">tools_mesh_optimize</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">call_smooth</span><span class="p">,</span> <span class="n">right_handed</span> <span class="c">!, optimize_vertex_rand</span>
+<a name="ln-59"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-60"></a>
+<a name="ln-61"></a>        <span class="c">! Local Variables</span>
+<a name="ln-62"></a>        <span class="kt">INTEGER</span><span class="p">,</span><span class="k">POINTER</span> <span class="kd">::</span> <span class="n">iv2c</span><span class="p">(:)</span> <span class="c">! given a cell, finds connected vertices</span>
+<a name="ln-63"></a>        <span class="kt">INTEGER</span><span class="p">,</span><span class="k">POINTER</span> <span class="kd">::</span> <span class="n">iv2v</span><span class="p">(:)</span> <span class="c">! given a vert, finds connected vertices</span>
+<a name="ln-64"></a>        <span class="kt">INTEGER</span><span class="p">,</span><span class="k">POINTER</span> <span class="kd">::</span> <span class="n">ic2v</span><span class="p">(:)</span> <span class="c">! given a vert, finds connected cells</span>
+<a name="ln-65"></a>        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">)</span> <span class="kd">::</span> <span class="n">free_pos</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>   <span class="c">! position of free vertex</span>
+<a name="ln-66"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">num_incident_vtx</span><span class="p">,</span><span class="n">num_incident_tet</span>
+<a name="ln-67"></a>        <span class="kt">INTEGER</span><span class="p">,</span><span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">max_incident_vtx</span><span class="o">=</span><span class="mi">50</span>   <span class="c">! sanity check on connectivity</span>
+<a name="ln-68"></a>        <span class="kt">INTEGER</span><span class="p">,</span><span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">max_incident_tet</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">max_incident_vtx</span><span class="o">-</span><span class="mi">4</span> <span class="c">!for interior tets, this should hold</span>
+<a name="ln-69"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">ic</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">jv</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">itet</span>             <span class="c">! vertex number, cell id, and loop index</span>
+<a name="ln-70"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">itmp</span><span class="p">,</span><span class="n">ifree_vtx</span> <span class="c">! used for creating a right-handed list of cell vertices</span>
+<a name="ln-71"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">info</span>
+<a name="ln-72"></a>        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span><span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">tet_pos</span><span class="p">(:,:)</span>
+<a name="ln-73"></a>        <span class="kt">INTEGER</span><span class="p">,</span><span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">tet_verts</span><span class="p">(:,:)</span>
+<a name="ln-74"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">index_copy</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<a name="ln-75"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">iv1</span><span class="p">,</span> <span class="n">iv2</span><span class="p">,</span> <span class="n">iv3</span><span class="p">,</span> <span class="n">iv4</span>  <span class="c">!numbering of four tet cells</span>
+<a name="ln-76"></a>        <span class="kt">INTEGER</span><span class="p">,</span><span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">relative_numbering</span><span class="p">(:)</span>
+<a name="ln-77"></a>        <span class="kt">INTEGER</span><span class="p">,</span><span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">idloc</span><span class="p">(:),</span><span class="n">idglob</span><span class="p">(:)</span>
+<a name="ln-78"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span> <span class="kd">::</span> <span class="n">new_pos</span>  <span class="c">! the new vertex position, after smoothing</span>
+<a name="ln-79"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">local_tangled</span><span class="p">,</span> <span class="n">valid_flag</span>
+<a name="ln-80"></a>        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">)</span> <span class="kd">::</span> <span class="n">vtx1</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">vtx2</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">vtx3</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">vtx4</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<a name="ln-81"></a>
+<a name="ln-82"></a>        <span class="k">IF</span> <span class="p">(</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="p">(</span><span class="n">all_tets</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span> <span class="p">)</span> <span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-83"></a>
+<a name="ln-84"></a>            <span class="c">! simply average with neighbor vertex positions</span>
+<a name="ln-85"></a>
+<a name="ln-86"></a>            <span class="k">CALL </span><span class="n">msh</span><span class="p">%</span><span class="n">v2v</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">iv2v</span><span class="p">,</span><span class="n">iv</span><span class="p">)</span> <span class="c">! get neighbors</span>
+<a name="ln-87"></a>
+<a name="ln-88"></a>            <span class="n">new_pos</span> <span class="o">=</span> <span class="n">vector_</span><span class="p">(</span><span class="mf">0.0d0</span><span class="p">,</span><span class="mf">0.0d0</span><span class="p">,</span><span class="mf">0.0d0</span><span class="p">)</span>
+<a name="ln-89"></a>
+<a name="ln-90"></a>            <span class="k">DO </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="n">SIZE</span><span class="p">(</span><span class="n">iv2v</span><span class="p">)</span>
+<a name="ln-91"></a>                <span class="n">jv</span> <span class="o">=</span> <span class="n">iv2v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<a name="ln-92"></a>                <span class="n">new_pos</span> <span class="o">=</span> <span class="n">new_pos</span> <span class="o">+</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">jv</span><span class="p">)%</span><span class="n">position_</span><span class="p">()</span>
+<a name="ln-93"></a>            <span class="n">ENDDO</span>
+<a name="ln-94"></a>
+<a name="ln-95"></a>            <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0d0</span><span class="o">/</span><span class="n">SIZE</span><span class="p">(</span><span class="n">iv2v</span><span class="p">))</span> <span class="o">*</span> <span class="n">new_pos</span>
+<a name="ln-96"></a>
+<a name="ln-97"></a>            <span class="k">RETURN</span>
+<a name="ln-98"></a>
+<a name="ln-99"></a><span class="k">        </span><span class="n">ENDIF</span>
+<a name="ln-100"></a>
+<a name="ln-101"></a>        <span class="c">!else do optimization</span>
+<a name="ln-102"></a>
+<a name="ln-103"></a>        <span class="c">! allocate storage for point-wise connectivity (should probably use regular array here)</span>
+<a name="ln-104"></a>        <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">relative_numbering</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">)),</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-105"></a>
+<a name="ln-106"></a>        <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">tet_pos</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">max_incident_vtx</span><span class="p">),</span><span class="n">tet_verts</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">max_incident_tet</span><span class="p">),</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-107"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-108"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">600</span><span class="p">)</span>
+<a name="ln-109"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-110"></a>        <span class="k">END IF</span>
+<a name="ln-111"></a>
+<a name="ln-112"></a>        <span class="c">! prepare info for calling OptMS</span>
+<a name="ln-113"></a>        <span class="k">CALL </span><span class="n">msh</span><span class="p">%</span><span class="n">v2v</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">iv2v</span><span class="p">,</span><span class="n">iv</span><span class="p">)</span>  <span class="c">!list of verts connected to ith vert</span>
+<a name="ln-114"></a>
+<a name="ln-115"></a>        <span class="n">num_incident_vtx</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">iv2v</span><span class="p">)</span>
+<a name="ln-116"></a>
+<a name="ln-117"></a>        <span class="k">IF</span> <span class="p">(</span><span class="n">num_incident_vtx</span> <span class="o">&gt;</span> <span class="n">max_incident_vtx</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-118"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">400</span><span class="p">)</span> <span class="c">! too many tets connected to this vertex--something must be wrong</span>
+<a name="ln-119"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-120"></a>        <span class="n">ENDIF</span>
+<a name="ln-121"></a>
+<a name="ln-122"></a>        <span class="k">IF</span> <span class="p">(</span> <span class="n">shared_flag</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span> <span class="p">)</span> <span class="k">THEN</span> <span class="c">! we have to use supplemental connectivity</span>
+<a name="ln-123"></a>
+<a name="ln-124"></a>            <span class="n">jv</span> <span class="o">=</span> <span class="n">loc_to_glob_</span><span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_v</span><span class="p">,</span><span class="n">iv</span><span class="p">)</span> <span class="c">! j is now global index number</span>
+<a name="ln-125"></a>
+<a name="ln-126"></a>            <span class="k">CALL </span><span class="n">msh</span><span class="p">%</span><span class="n">c2ov_sup</span><span class="p">%</span><span class="n">get_kt_row</span><span class="p">(</span><span class="n">jv</span><span class="p">,</span> <span class="n">ic2v</span><span class="p">)</span> <span class="c">! get global cell numbers</span>
+<a name="ln-127"></a>
+<a name="ln-128"></a>        <span class="k">ELSE</span>
+<a name="ln-129"></a>
+<a name="ln-130"></a><span class="k">            CALL </span><span class="n">c2v</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">ic2v</span><span class="p">,</span><span class="n">iv</span><span class="p">)</span>  <span class="c">!list of tets connected to ith vert</span>
+<a name="ln-131"></a>
+<a name="ln-132"></a>        <span class="n">ENDIF</span>
+<a name="ln-133"></a>
+<a name="ln-134"></a>        <span class="n">num_incident_tet</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">ic2v</span><span class="p">)</span>
+<a name="ln-135"></a>
+<a name="ln-136"></a>        <span class="k">IF</span> <span class="p">(</span><span class="n">num_incident_tet</span> <span class="o">&gt;</span> <span class="n">max_incident_tet</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-137"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">300</span><span class="p">)</span>  <span class="c">! too many tets use this vertex--something must be wrong</span>
+<a name="ln-138"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-139"></a>        <span class="n">ENDIF</span>
+<a name="ln-140"></a>
+<a name="ln-141"></a>        <span class="c">! note location of the free vertex, whose position will be optimized</span>
+<a name="ln-142"></a>        <span class="n">free_pos</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)%</span><span class="n">x_</span><span class="p">()</span>
+<a name="ln-143"></a>        <span class="n">free_pos</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)%</span><span class="n">y_</span><span class="p">()</span>
+<a name="ln-144"></a>        <span class="n">free_pos</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)%</span><span class="n">z_</span><span class="p">()</span>
+<a name="ln-145"></a>
+<a name="ln-146"></a>        <span class="c">! load up an array with the positions of the other vertices</span>
+<a name="ln-147"></a>        <span class="k">DO </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">num_incident_vtx</span>
+<a name="ln-148"></a>
+<a name="ln-149"></a>            <span class="n">jv</span><span class="o">=</span><span class="n">iv2v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>  <span class="c">! look up vertex id number from ith conn</span>
+<a name="ln-150"></a>            <span class="n">relative_numbering</span><span class="p">(</span><span class="n">jv</span><span class="p">)</span><span class="o">=</span><span class="n">j</span> <span class="c">! store array position so that we can go backward</span>
+<a name="ln-151"></a>
+<a name="ln-152"></a>            <span class="n">tet_pos</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">jv</span><span class="p">)%</span><span class="n">x_</span><span class="p">()</span>
+<a name="ln-153"></a>            <span class="n">tet_pos</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">jv</span><span class="p">)%</span><span class="n">y_</span><span class="p">()</span>
+<a name="ln-154"></a>            <span class="n">tet_pos</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">jv</span><span class="p">)%</span><span class="n">z_</span><span class="p">()</span>
+<a name="ln-155"></a>        <span class="n">ENDDO</span>
+<a name="ln-156"></a>
+<a name="ln-157"></a>        <span class="c">! set up connectivity array and check if any cells are tangled</span>
+<a name="ln-158"></a>        <span class="n">local_tangled</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-159"></a>
+<a name="ln-160"></a>        <span class="k">DO </span><span class="n">itet</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="n">num_incident_tet</span>
+<a name="ln-161"></a>
+<a name="ln-162"></a>            <span class="k">IF</span> <span class="p">(</span> <span class="n">shared_flag</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span> <span class="p">)</span> <span class="k">THEN</span> <span class="c">! use global id&#39;s set above</span>
+<a name="ln-163"></a>                <span class="n">ic</span> <span class="o">=</span> <span class="n">ic2v</span><span class="p">(</span><span class="n">itet</span><span class="p">)</span>
+<a name="ln-164"></a>
+<a name="ln-165"></a>                <span class="c">!lookup vertex numbers, global cell and vertex id&#39;s</span>
+<a name="ln-166"></a>                <span class="k">CALL </span><span class="n">msh</span><span class="p">%</span><span class="n">ov2c_sup</span><span class="p">%</span><span class="n">get_kt_row</span> <span class="p">(</span><span class="n">ic</span><span class="p">,</span> <span class="n">iv2c</span><span class="p">)</span>
+<a name="ln-167"></a>
+<a name="ln-168"></a>                <span class="c">! make a copy to dereference iv2c</span>
+<a name="ln-169"></a>                <span class="n">index_copy</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">)</span> <span class="o">=</span> <span class="n">iv2c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">)</span>
+<a name="ln-170"></a>
+<a name="ln-171"></a>                <span class="c">! convert to local vertex id&#39;s</span>
+<a name="ln-172"></a>                <span class="k">CALL </span><span class="n">psb_glob_to_loc</span><span class="p">(</span><span class="n">index_copy</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_v</span><span class="p">,</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-173"></a>
+<a name="ln-174"></a>            <span class="k">ELSE</span>
+<a name="ln-175"></a><span class="k">                </span><span class="n">ic</span> <span class="o">=</span> <span class="n">ic2v</span><span class="p">(</span><span class="n">itet</span><span class="p">)</span>  <span class="c">! look up cell id number from ith conn</span>
+<a name="ln-176"></a>
+<a name="ln-177"></a>                <span class="c">!get the vertices for this cell</span>
+<a name="ln-178"></a>                <span class="k">CALL </span><span class="n">msh</span><span class="p">%</span><span class="n">v2c</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">iv2c</span><span class="p">,</span><span class="n">ic</span><span class="p">)</span>
+<a name="ln-179"></a>
+<a name="ln-180"></a>                <span class="c">! make a copy to dereference iv2c</span>
+<a name="ln-181"></a>                <span class="n">index_copy</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">)</span> <span class="o">=</span> <span class="n">iv2c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">)</span>
+<a name="ln-182"></a>            <span class="n">ENDIF</span>
+<a name="ln-183"></a>
+<a name="ln-184"></a>            <span class="c">! check to see if the cell is inverted</span>
+<a name="ln-185"></a>            <span class="n">iv1</span> <span class="o">=</span> <span class="n">index_copy</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-186"></a>            <span class="n">iv2</span> <span class="o">=</span> <span class="n">index_copy</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-187"></a>            <span class="n">iv3</span> <span class="o">=</span> <span class="n">index_copy</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<a name="ln-188"></a>            <span class="n">iv4</span> <span class="o">=</span> <span class="n">index_copy</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<a name="ln-189"></a>
+<a name="ln-190"></a>            <span class="n">vtx1</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv1</span><span class="p">)%</span><span class="n">position_</span><span class="p">()</span>
+<a name="ln-191"></a>            <span class="n">vtx2</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv2</span><span class="p">)%</span><span class="n">position_</span><span class="p">()</span>
+<a name="ln-192"></a>            <span class="n">vtx3</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv3</span><span class="p">)%</span><span class="n">position_</span><span class="p">()</span>
+<a name="ln-193"></a>            <span class="n">vtx4</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv4</span><span class="p">)%</span><span class="n">position_</span><span class="p">()</span>
+<a name="ln-194"></a>
+<a name="ln-195"></a>            <span class="c">! if any cells are invalid, the local mesh is tangled</span>
+<a name="ln-196"></a>            <span class="n">valid_flag</span> <span class="o">=</span>  <span class="n">right_handed</span><span class="p">(</span><span class="n">vtx1</span><span class="p">,</span> <span class="n">vtx2</span><span class="p">,</span> <span class="n">vtx3</span><span class="p">,</span> <span class="n">vtx4</span><span class="p">)</span>
+<a name="ln-197"></a>            <span class="k">IF</span> <span class="p">(</span> <span class="n">valid_flag</span> <span class="o">/=</span> <span class="mi">1</span> <span class="p">)</span> <span class="n">local_tangled</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-198"></a>
+<a name="ln-199"></a>            <span class="c">! begin process of shifting vertices so that the free vertex is first in the array</span>
+<a name="ln-200"></a>            <span class="c">! this is required by OptMS</span>
+<a name="ln-201"></a>            <span class="k">DO </span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span>  <span class="c">!find where the free vertex is located...we want it listed first</span>
+<a name="ln-202"></a>                <span class="k">IF</span> <span class="p">(</span><span class="n">index_copy</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">==</span> <span class="n">iv</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-203"></a>
+<a name="ln-204"></a><span class="k">                    </span><span class="n">ifree_vtx</span> <span class="o">=</span> <span class="n">k</span>
+<a name="ln-205"></a>                <span class="n">ENDIF</span>
+<a name="ln-206"></a>            <span class="n">ENDDO</span>
+<a name="ln-207"></a>
+<a name="ln-208"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">ifree_vtx</span> <span class="o">/=</span> <span class="mi">1</span> <span class="p">)</span> <span class="k">THEN</span> <span class="c">! if it is 1, we are fine</span>
+<a name="ln-209"></a>                <span class="n">itmp</span> <span class="o">=</span> <span class="n">index_copy</span><span class="p">(</span><span class="n">ifree_vtx</span><span class="p">)</span>  <span class="c">! else, swap with first of the 4 vertices</span>
+<a name="ln-210"></a>                <span class="n">index_copy</span><span class="p">(</span><span class="n">ifree_vtx</span><span class="p">)</span> <span class="o">=</span> <span class="n">index_copy</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-211"></a>                <span class="n">index_copy</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">itmp</span>
+<a name="ln-212"></a>
+<a name="ln-213"></a>                <span class="c">! the listing of vertices is now left-handed.  Switch elements 2 &amp; 3</span>
+<a name="ln-214"></a>                <span class="c">! to make this a right-handed listing</span>
+<a name="ln-215"></a>                <span class="n">itmp</span> <span class="o">=</span> <span class="n">index_copy</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<a name="ln-216"></a>                <span class="n">index_copy</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="n">index_copy</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-217"></a>                <span class="n">index_copy</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">itmp</span>
+<a name="ln-218"></a>            <span class="n">ENDIF</span>
+<a name="ln-219"></a>
+<a name="ln-220"></a>            <span class="c">!store the connected vertices for each tet (except the vertex of interest)</span>
+<a name="ln-221"></a>            <span class="c">!in the 2d array</span>
+<a name="ln-222"></a>
+<a name="ln-223"></a>            <span class="k">DO </span><span class="n">k</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span><span class="mi">4</span> <span class="c">! loop over verts in this tet skipping the free vertex</span>
+<a name="ln-224"></a>
+<a name="ln-225"></a>                <span class="c">!get relative numbering (in the tet_pos array above)</span>
+<a name="ln-226"></a>                <span class="n">j</span> <span class="o">=</span> <span class="n">relative_numbering</span><span class="p">(</span><span class="n">index_copy</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>  <span class="c">! index copy is the vertex number</span>
+<a name="ln-227"></a>
+<a name="ln-228"></a>                <span class="n">tet_verts</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">itet</span><span class="p">)</span> <span class="o">=</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span> <span class="c">!shift numbering by 1 to start with 0</span>
+<a name="ln-229"></a>            <span class="n">ENDDO</span> <span class="c">! end of k loop</span>
+<a name="ln-230"></a>
+<a name="ln-231"></a>        <span class="n">ENDDO</span> <span class="c">! end of loop over connected tets</span>
+<a name="ln-232"></a>
+<a name="ln-233"></a>        <span class="c">!         --------- call smoother ------</span>
+<a name="ln-234"></a>        <span class="k">IF</span> <span class="p">(</span><span class="n">num_incident_tet</span> <span class="o">==</span> <span class="n">num_incident_vtx</span><span class="o">*</span><span class="mi">2</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-235"></a>
+<a name="ln-236"></a><span class="k">            </span><span class="n">info</span> <span class="o">=</span> <span class="n">call_smooth</span> <span class="p">(</span><span class="n">num_incident_vtx</span><span class="p">,</span><span class="n">num_incident_tet</span><span class="p">,</span> <span class="n">free_pos</span><span class="p">,</span>  <span class="p">&amp;</span>
+<a name="ln-237"></a>                <span class="p">&amp;</span> <span class="n">tet_pos</span><span class="p">,</span> <span class="n">tet_verts</span><span class="p">,</span> <span class="n">local_tangled</span><span class="p">)</span>
+<a name="ln-238"></a>            <span class="c">!returns the optimal vertex location, free_pos</span>
+<a name="ln-239"></a>
+<a name="ln-240"></a>            <span class="n">new_pos</span> <span class="o">=</span> <span class="n">vector_</span><span class="p">(</span><span class="n">free_pos</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">free_pos</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">free_pos</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<a name="ln-241"></a>            <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span> <span class="o">=</span> <span class="n">new_pos</span>
+<a name="ln-242"></a>
+<a name="ln-243"></a>        <span class="k">ELSE</span> <span class="c">! something is wrong, but not fatal, so produce helpful information</span>
+<a name="ln-244"></a>
+<a name="ln-245"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;(a,i2,a,i2,a,i2)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-246"></a>                <span class="p">&amp;</span> <span class="s2">&quot;Abnormal vertex with: &quot;</span><span class="p">,</span><span class="n">num_incident_vtx</span><span class="p">,</span><span class="s2">&quot; incident vertices and &quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-247"></a>                <span class="p">&amp;</span> <span class="n">num_incident_tet</span><span class="p">,</span><span class="s2">&quot; incident tets on processor &quot;</span><span class="p">,</span><span class="n">mypnum_</span><span class="p">()</span>
+<a name="ln-248"></a>            <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">idloc</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">idglob</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<a name="ln-249"></a>            <span class="n">idloc</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">iv</span>
+<a name="ln-250"></a>            <span class="k">CALL </span><span class="n">psb_loc_to_glob</span><span class="p">(</span><span class="n">idloc</span><span class="p">,</span><span class="n">idglob</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_v</span><span class="p">,</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-251"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;(a,i5,a,i5)&#39;</span><span class="p">)</span><span class="s2">&quot;Local vertex number: &quot;</span><span class="p">,</span><span class="n">idloc</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-252"></a>                <span class="p">&amp;</span>                <span class="s2">&quot; and global number &quot;</span><span class="p">,</span><span class="n">idglob</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-253"></a>
+<a name="ln-254"></a>            <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">idloc</span><span class="p">,</span><span class="n">idglob</span><span class="p">)</span>
+<a name="ln-255"></a>
+<a name="ln-256"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-257"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s2">&quot; Index   Vertex&quot;</span>
+<a name="ln-258"></a>            <span class="k">DO </span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">num_incident_vtx</span>
+<a name="ln-259"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;(i5,3x,i5)&#39;</span><span class="p">)</span><span class="n">k</span><span class="p">,</span><span class="n">iv2v</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<a name="ln-260"></a>            <span class="n">ENDDO</span>
+<a name="ln-261"></a>
+<a name="ln-262"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-263"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s2">&quot; Index    Tet Id   &quot;</span>
+<a name="ln-264"></a>            <span class="k">DO </span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">num_incident_tet</span>
+<a name="ln-265"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;(i5,3x,i5,3x,i5)&#39;</span><span class="p">)</span><span class="n">k</span><span class="p">,</span><span class="n">ic2v</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<a name="ln-266"></a>            <span class="n">ENDDO</span>
+<a name="ln-267"></a>
+<a name="ln-268"></a>        <span class="n">ENDIF</span>
+<a name="ln-269"></a>
+<a name="ln-270"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>  <span class="c">!OptMS failed</span>
+<a name="ln-271"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">500</span><span class="p">)</span>
+<a name="ln-272"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-273"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s2">&quot;The problem vertex is:&quot;</span>
+<a name="ln-274"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s2">&quot;ID #&quot;</span><span class="p">,</span><span class="n">iv</span>
+<a name="ln-275"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s2">&quot;Located at: (&quot;</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)%</span><span class="n">x_</span><span class="p">(),</span><span class="s2">&quot;,&quot;</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)%</span><span class="n">y_</span><span class="p">(),</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-276"></a>                <span class="p">&amp;</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)%</span><span class="n">z_</span><span class="p">(),</span><span class="s2">&quot;)&quot;</span>
+<a name="ln-277"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s2">&quot;With &quot;</span><span class="p">,</span><span class="n">num_incident_vtx</span><span class="p">,</span><span class="s2">&quot; incident vertices and &quot;</span><span class="p">,</span><span class="n">num_incident_tet</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-278"></a>                <span class="p">&amp;</span><span class="s2">&quot; incident tets.&quot;</span>
+<a name="ln-279"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-280"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-281"></a>        <span class="k">END IF</span>
+<a name="ln-282"></a>
+<a name="ln-283"></a>
+<a name="ln-284"></a><span class="c">!!$  j = 0</span>
+<a name="ln-285"></a><span class="c">!!$  random_iteration: do</span>
+<a name="ln-286"></a><span class="c">!!$     j = j + 1</span>
+<a name="ln-287"></a><span class="c">!!$</span>
+<a name="ln-288"></a><span class="c">!!$     ! set up connectivity array and check if any cells are tangled</span>
+<a name="ln-289"></a><span class="c">!!$     local_tangled = 0</span>
+<a name="ln-290"></a><span class="c">!!$</span>
+<a name="ln-291"></a><span class="c">!!$     update_volume: do itet = 1,num_incident_tet</span>
+<a name="ln-292"></a><span class="c">!!$</span>
+<a name="ln-293"></a><span class="c">!!$        if ( shared_flag(iv) ) then ! use global id&#39;s set above</span>
+<a name="ln-294"></a><span class="c">!!$           ic = ic2v(itet)</span>
+<a name="ln-295"></a><span class="c">!!$</span>
+<a name="ln-296"></a><span class="c">!!$           !lookup vertex numbers, global cell and vertex id&#39;s</span>
+<a name="ln-297"></a><span class="c">!!$           call get_kt_row (msh%ov2c_sup, ic, iv2c)</span>
+<a name="ln-298"></a><span class="c">!!$</span>
+<a name="ln-299"></a><span class="c">!!$           ! make a copy to dereference iv2c</span>
+<a name="ln-300"></a><span class="c">!!$           index_copy(1:4) = iv2c(1:4)</span>
+<a name="ln-301"></a><span class="c">!!$</span>
+<a name="ln-302"></a>    <span class="c">! convert to local vertex id&#39;s</span>
+<a name="ln-303"></a><span class="c">!!$           call psb_glob_to_loc(index_copy,msh%desc_v,info)</span>
+<a name="ln-304"></a><span class="c">!!$</span>
+<a name="ln-305"></a><span class="c">!!$        else</span>
+<a name="ln-306"></a><span class="c">!!$           ic = ic2v(itet)  ! look up cell id number from ith conn</span>
+<a name="ln-307"></a><span class="c">!!$</span>
+<a name="ln-308"></a><span class="c">!!$           !get the vertices for this cell</span>
+<a name="ln-309"></a><span class="c">!!$           call get_ith_conn(iv2c,msh%v2c,ic)</span>
+<a name="ln-310"></a><span class="c">!!$</span>
+<a name="ln-311"></a><span class="c">!!$           ! make a copy to dereference iv2c</span>
+<a name="ln-312"></a><span class="c">!!$           index_copy(1:4) = iv2c(1:4)</span>
+<a name="ln-313"></a><span class="c">!!$        endif</span>
+<a name="ln-314"></a><span class="c">!!$</span>
+<a name="ln-315"></a><span class="c">!!$        ! check to see if the cell is inverted</span>
+<a name="ln-316"></a><span class="c">!!$        iv1 = index_copy(1)</span>
+<a name="ln-317"></a><span class="c">!!$        iv2 = index_copy(2)</span>
+<a name="ln-318"></a><span class="c">!!$        iv3 = index_copy(3)</span>
+<a name="ln-319"></a><span class="c">!!$        iv4 = index_copy(4)</span>
+<a name="ln-320"></a><span class="c">!!$</span>
+<a name="ln-321"></a><span class="c">!!$        valid_flag =  right_handed(vtx1, vtx2, vtx3, vtx4)</span>
+<a name="ln-322"></a><span class="c">!!$</span>
+<a name="ln-323"></a><span class="c">!!$        if ( valid_flag /= 1 ) local_tangled = 1</span>
+<a name="ln-324"></a><span class="c">!!$     end do update_volume</span>
+<a name="ln-325"></a><span class="c">!!$</span>
+<a name="ln-326"></a><span class="c">!!$     if ( ( local_tangled == 0 ) .or. (j &gt;=50 ) ) exit</span>
+<a name="ln-327"></a><span class="c">!!$</span>
+<a name="ln-328"></a><span class="c">!!$     if ( local_tangled == 1 )  call optimize_vertex_rand(msh,c2v,iv)</span>
+<a name="ln-329"></a><span class="c">!!$</span>
+<a name="ln-330"></a>
+<a name="ln-331"></a><span class="c">!!$  end do random_iteration</span>
+<a name="ln-332"></a><span class="c">!!$</span>
+<a name="ln-333"></a><span class="c">!!$  deallocate(relative_numbering)</span>
+<a name="ln-334"></a><span class="c">!!$</span>
+<a name="ln-335"></a><span class="c">!!$  deallocate( tet_pos,tet_verts)</span>
+<a name="ln-336"></a><span class="c">!!$</span>
+<a name="ln-337"></a><span class="c">!!$  if ( allocated(idloc) )  deallocate(idloc)</span>
+<a name="ln-338"></a><span class="c">!!$</span>
+<a name="ln-339"></a><span class="c">!!$  if ( allocated(idglob) ) deallocate(idglob)</span>
+<a name="ln-340"></a><span class="c">!!$</span>
+<a name="ln-341"></a>
+<a name="ln-342"></a><span class="mi">300</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Too many tets connected to a single vertex in SMOOTH_INTERIOR_VTX&#39;</span><span class="p">)</span>
+<a name="ln-343"></a><span class="mi">400</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Too many verts connected to a single vertex in SMOOTH_INTERIOR_VTX&#39;</span><span class="p">)</span>
+<a name="ln-344"></a><span class="mi">500</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Call to smoother from SMOOTH_INTERIOR_VTX returned error.&#39;</span><span class="p">)</span>
+<a name="ln-345"></a><span class="mi">600</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory allocation failure in SMOOTH_INTERIOR_VTX&#39;</span><span class="p">)</span>
+<a name="ln-346"></a>
+<a name="ln-347"></a>        <span class="k">END PROCEDURE </span><span class="n">smooth_interior_vtx</span>
+<a name="ln-348"></a>
+<a name="ln-349"></a><span class="k">END SUBMODULE </span><span class="n">smooth_interior_vtx_implementation</span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

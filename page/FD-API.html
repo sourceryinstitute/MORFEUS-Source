@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>High-level FD API documentation &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  <div class="row">
+    <h1>High-level FD API documentation</h1>
+    <div class="row">
+    <div class="col-lg-12">
+    <div class="well well-sm" style="min-height: 40px;">
+      <ul class="list-inline" style="margin-bottom:0px; display:inline">
+         
+         
+<!--
+        
+-->
+      </ul>
+        <ol class="breadcrumb in-well">
+      
+         <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+         <li class="active">High-level FD API documentation</li>
+      </ol>
+    </div>
+    </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-9 col-md-push-3" id='text'>
+      <p><details><summary><b>Table of Contents</b></summary></p>
+<div class="toc">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#solver-and-problem-setup">Solver and Problem Setup</a></li>
+<li><a href="#time-stepping-and-integration">Time-stepping and Integration</a></li>
+<li><a href="#high-level-classes-and-objects">High Level Classes and Objects</a><ul>
+<li><a href="#objecttype"><a href="../type/object.html">object</a></a><ul>
+<li><a href="#methods">Methods</a></li>
+</ul>
+</li>
+<li><a href="#gridtype"><a href="../type/grid.html">grid</a></a><ul>
+<li><a href="#methods_1">Methods</a></li>
+</ul>
+</li>
+<li><a href="#structured_gridtype"><a href="../type/structured_grid.html">structured_grid</a></a><ul>
+<li><a href="#methods_2">Methods</a></li>
+</ul>
+</li>
+<li><a href="#cartesian_gridtype"><a href="../type/cartesian_grid.html">cartesian_grid</a></a><ul>
+<li><a href="#methods_3">Methods</a></li>
+</ul>
+</li>
+<li><a href="#curvilinear_gridtype"><a href="../type/curvilinear_grid.html">curvilinear_grid</a></a><ul>
+<li><a href="#methods_4">Methods</a></li>
+</ul>
+</li>
+<li><a href="#co_objecttype"><a href="../type/co_object.html">co_object</a></a></li>
+<li><a href="#surfacestype"><a href="../type/surfaces.html">surfaces</a></a></li>
+<li><a href="#material_ttype"><a href="../type/material_t~2.html">material_t</a></a></li>
+<li><a href="#thickness_ttype"><a href="../type/thickness_t~2.html">thickness_t</a></a></li>
+<li><a href="#problem_discretizationtype"><a href="../type/problem_discretization.html">problem_discretization</a></a></li>
+<li><a href="#packagetype"><a href="../type/package.html">package</a></a></li>
+<li><a href="#material_ttype_1"><a href="../type/material_t~2.html">material_t</a></a></li>
+<li><a href="#flux_planestype"><a href="../type/flux_planes.html">flux_planes</a></a></li>
+<li><a href="#plate_3dtype"><a href="../type/plate_3d.html">plate_3d</a></a></li>
+<li><a href="#geometrytype"><a href="../type/geometry.html">geometry</a></a></li>
+<li><a href="#subdomain_ttype"><a href="../type/subdomain_t.html">subdomain_t</a></a></li>
+<li><a href="#etc-etc">etc., etc.</a></li>
+</ul>
+</li>
+<li><a href="#high-level-procedures-and-methods">High Level Procedures and Methods</a><ul>
+<li><a href="#assertproc"><a href="../interface/assert.html">assert</a></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p></details></p>
+<p></p><div class="alert alert-warning" role="alert"><h4>Warning</h4><p>The block-structure parallel FD solver is still a work in progress</p></div>
+<h2 id="overview">Overview</h2>
+<p>Here an overview of the Morfeus finite difference (FD) framework is given.
+Included is a brief description of how to setup a new solver using the framework.
+Key objects/classes, and procedures are outlined.
+An overview of reading input files, reading grid files,
+initializing the library and data structures and, setting up PDEs, integrating the solution forward in time
+and writing outputs is given.</p>
+<h2 id="solver-and-problem-setup">Solver and Problem Setup</h2>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>This needs more text added here.</p></div>
+<h2 id="time-stepping-and-integration">Time-stepping and Integration</h2>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>This needs more text added here.
+Presumably something better than forward Euler is being used...</p></div>
+<p>
+<script type="math/tex; mode=display">\begin{equation}
+u_i^{n+1} = u_i^n + \Delta_t f(t,u_i^n)
+\end{equation}</script>
+</p>
+<h2 id="high-level-classes-and-objects">High Level Classes and Objects</h2>
+<p>Below is a list of the important high-level objects and classes, with a brief discussion and
+links to detailed API documentation and their implementations.
+A complete list of all FD and FV classes and types can be found on the <a href="../lists/types.html">types list page</a>.</p>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>This needs updating/finishing</p></div>
+<h3 id="objecttype"><a href="../type/object.html">object</a></h3>
+<p><code><a href="../type/object.html">object</a></code> is an abstract type to ensure descendents declare the required deferred bindings to</p>
+<h4 id="methods">Methods</h4>
+<ul>
+<li><code><a href="../type/object.html#boundprocedure-mark_as_defined">mark_as_defined</a></code> : Set the object as defined</li>
+<li><code><a href="../type/object.html#boundprocedure-user_defined">user_defined</a></code> : Query whether the object is defined</li>
+</ul>
+<h3 id="gridtype"><a href="../type/grid.html">grid</a></h3>
+<p><code><a href="../type/grid.html">grid</a></code> Is the Morfeus universal base type for all grids, even for FV grids. It extends <code><a href="../type/object.html">object</a></code>.</p>
+<h4 id="methods_1">Methods</h4>
+<ul>
+<li><code><a href="../type/grid.html#boundprocedure-set_units">set_units</a></code> : Set the physical units used by the grid</li>
+<li><code><a href="../type/grid.html#boundprocedure-get_units">get_units</a></code> : Get the physical units used by the grid</li>
+</ul>
+<h3 id="structured_gridtype"><a href="../type/structured_grid.html">structured_grid</a></h3>
+<p>This is the main structured grid class used by Morfeus FD. It extends the <code><a href="../type/grid.html">grid</a></code> class.
+Methods defined for this class can get information about the global grid as well as this images particular block.</p>
+<h4 id="methods_2">Methods</h4>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>This section needs to be filled in/expanded!</p></div>
+<ul>
+<li><code><a href="../type/structured_grid.html#boundprocedure-clone">clone</a></code> :</li>
+<li><code><a href="../type/structured_grid.html#boundprocedure-space_dimension">space_dimension</a></code> :</li>
+<li><code><a href="../type/structured_grid.html#boundprocedure-set_metadata">set_metadata</a></code> :</li>
+</ul>
+<h3 id="cartesian_gridtype"><a href="../type/cartesian_grid.html">cartesian_grid</a></h3>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>add description and how to use, etc.</p></div>
+<h4 id="methods_3">Methods</h4>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>discussion of important methods provided and how to use them, etc.</p></div>
+<h3 id="curvilinear_gridtype"><a href="../type/curvilinear_grid.html">curvilinear_grid</a></h3>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>add description and how to use, etc.</p></div>
+<h4 id="methods_4">Methods</h4>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>discussion of important methods provided and how to use them, etc.</p></div>
+<h3 id="co_objecttype"><a href="../type/co_object.html">co_object</a></h3>
+<h3 id="surfacestype"><a href="../type/surfaces.html">surfaces</a></h3>
+<h3 id="material_ttype"><a href="../type/material_t~2.html">material_t</a></h3>
+<h3 id="thickness_ttype"><a href="../type/thickness_t~2.html">thickness_t</a></h3>
+<h3 id="problem_discretizationtype"><a href="../type/problem_discretization.html">problem_discretization</a></h3>
+<h3 id="packagetype"><a href="../type/package.html">package</a></h3>
+<h3 id="material_ttype_1"><a href="../type/material_t~2.html">material_t</a></h3>
+<h3 id="flux_planestype"><a href="../type/flux_planes.html">flux_planes</a></h3>
+<h3 id="plate_3dtype"><a href="../type/plate_3d.html">plate_3d</a></h3>
+<h3 id="geometrytype"><a href="../type/geometry.html">geometry</a></h3>
+<h3 id="subdomain_ttype"><a href="../type/subdomain_t.html">subdomain_t</a></h3>
+<h3 id="etc-etc">etc., etc.</h3>
+<h2 id="high-level-procedures-and-methods">High Level Procedures and Methods</h2>
+<p>All Morfeus FV and FD procedures are listed on the <a href="../lists/procedures.html">procedures list page</a>, but below is a curated list of those that correspond to high-level
+operations in FD. These should help you write your own programs and kernels using Morfeus FD.</p>
+<h3 id="assertproc"><a href="../interface/assert.html">assert</a></h3>
+<p><code><a href="../interface/assert.html">assert</a></code> Is an assertion utility used in design by contract (DBC) for enforcing pre-conditions, post-conditions and invariants, as well in testing.</p>
+<p></p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>Add other stand-alone procedures used to instantiate objects of for other purposes where a TBP method is not used.</p></div>
+    </div>
+    
+    <div class="col-md-3 col-md-pull-9">
+      <hr class="visible-xs visible-sm">
+        <div class="well toc">
+          <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="title"><a href='../page/index.html'>Developer Documentation</a></li>
+          </ul>
+          <hr>
+          <ul class="nav nav-stacked nav-pills">
+            
+            <li role="presentation" class="disabled">
+            <a href='../page/./FD-API.html'>High-level FD API documentation</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../page/./FV-API.html'>High-level FV API documentation</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../page/examples/index.html'>Example Usage</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../page/./getting-started.html'>Getting Started</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../page/./style-guide.html'>Style Guide</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../page/./using-ford.html'>Documenting New and Modified Code</a>
+            
+            </li>
+            
+          </ul>
+        </div>
+    </div>
+    
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

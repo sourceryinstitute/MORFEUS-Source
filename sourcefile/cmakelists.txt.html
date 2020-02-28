@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>CMakeLists.txt &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>CMakeLists.txt
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     <li><i class="fa fa-pencil"></i> Izaak Beekman, ParaTools, Inc, Damian Rouson, GSE LLC, Ian Porter, NRC</li>
+     
+     
+     
+     
+    
+    <li><i class="fa fa-folder-open"></i> Morfeus-FD</li>
+    
+    
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/CMakeLists.txt"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">CMakeLists.txt</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/cmakelists.txt.html#src">CMakeLists.txt</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      <h1 id="morfeus-fd-top-level-cmake-file">Morfeus-FD Top Level CMake file</h1>
+<p></p><div class="alert alert-info" role="alert"><h4>Note</h4><p>This file is currently being refactored</p></div>
+<h2 id="copyright-notice">Copyright Notice</h2>
+<div class="codehilite"><pre><span></span>(c) 2019 Guide Star Engineering, LLC
+This Software was developed for the US Nuclear Regulatory Commission (US NRC)
+under contract &quot;Multi-Dimensional Physics Implementation into Fuel Analysis under
+Steady-state and Transients (FAST)&quot;, contract # NRC-HQ-60-17-C-0007
+</pre></div>
+      <br>
+    
+      
+      <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/cmakelists.txt.html#src">CMakeLists.txt</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a>#! author: Izaak Beekman, ParaTools, Inc, Damian Rouson, GSE LLC, Ian Porter, NRC
+<a name="ln-2"></a>#! summary: Top level CMake file for building Morfeus-FD component
+<a name="ln-3"></a>#! category: Morfeus-FD
+<a name="ln-4"></a>#!
+<a name="ln-5"></a>#! # Morfeus-FD Top Level CMake file
+<a name="ln-6"></a>#!
+<a name="ln-7"></a>#!
+<a name="ln-8"></a>#!
+<a name="ln-9"></a>#! @note
+<a name="ln-10"></a>#! This file is currently being refactored
+<a name="ln-11"></a>#!
+<a name="ln-12"></a>#! ## Copyright Notice
+<a name="ln-13"></a>#!
+<a name="ln-14"></a>#!```
+<a name="ln-15"></a>#!     (c) 2019 Guide Star Engineering, LLC
+<a name="ln-16"></a>#!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)
+<a name="ln-17"></a>#!     under contract &quot;Multi-Dimensional Physics Implementation into Fuel Analysis under
+<a name="ln-18"></a>#!     Steady-state and Transients (FAST)&quot;, contract # NRC-HQ-60-17-C-0007
+<a name="ln-19"></a>#!```
+<a name="ln-20"></a>
+<a name="ln-21"></a>cmake_minimum_required(VERSION 3.13.4)
+<a name="ln-22"></a>
+<a name="ln-23"></a># Name project and specify source languages
+<a name="ln-24"></a>project(morfeus VERSION &quot;0.1&quot; LANGUAGES Fortran)
+<a name="ln-25"></a>
+<a name="ln-26"></a>option(USE_ASSERTIONS &quot;Turn on runtime assertion checking&quot;
+<a name="ln-27"></a>  FALSE)
+<a name="ln-28"></a>if (&quot;${CMAKE_Fortran_COMPILER_ID}&quot; MATCHES &quot;GNU&quot; )
+<a name="ln-29"></a>  set (CMAKE_Fortran_FLAGS_DEBUG &quot;-g -DUSE_ASSERTIONS=.true.&quot; CACHE
+<a name="ln-30"></a>    STRING &quot;Flags used by the compiler during debug builds.&quot;
+<a name="ln-31"></a>    FORCE)
+<a name="ln-32"></a>  set (CMAKE_Fortran_FLAGS_RELWITHDEBINFO &quot;-g -O2 -DNDEBUG -DUSE_ASSERTIONS=.true.&quot; CACHE
+<a name="ln-33"></a>    STRING &quot;Flags used by the compiler during release builds with debug info.&quot;
+<a name="ln-34"></a>    FORCE)
+<a name="ln-35"></a>elseif (&quot;${CMAKE_Fortran_COMPILER_ID}&quot; MATCHES &quot;Intel&quot; )
+<a name="ln-36"></a>  set (CMAKE_Fortran_FLAGS_DEBUG &quot;-DUSE_ASSERTIONS=.true.&quot; CACHE
+<a name="ln-37"></a>    STRING &quot;Flags used by the compiler during debug builds.&quot;
+<a name="ln-38"></a>    FORCE)
+<a name="ln-39"></a>  set (CMAKE_Fortran_FLAGS_RELWITHDEBINFO &quot;-O2 -DNDEBUG -DUSE_ASSERTIONS=.true.&quot; CACHE
+<a name="ln-40"></a>    STRING &quot;Flags used by the compiler during release builds with debug info.&quot;
+<a name="ln-41"></a>    FORCE)
+<a name="ln-42"></a>endif()
+<a name="ln-43"></a>
+<a name="ln-44"></a>  if (&quot;${CMAKE_Fortran_COMPILER_ID}&quot; MATCHES &quot;GNU&quot; )
+<a name="ln-45"></a>    set(coarray_flags &quot;-fcoarray=single&quot;)
+<a name="ln-46"></a>  elseif (&quot;${CMAKE_Fortran_COMPILER_ID}&quot; MATCHES &quot;Intel&quot; )
+<a name="ln-47"></a>    if ( &quot;${CMAKE_SYSTEM_NAME}&quot; MATCHES &quot;Windows&quot;)
+<a name="ln-48"></a>      set(coarray_flags &quot;${prefix}Qcoarray${eq}shared&quot;)
+<a name="ln-49"></a>    else()
+<a name="ln-50"></a>      set(coarray_flags &quot;${prefix}coarray${eq}shared&quot;)
+<a name="ln-51"></a>    endif()
+<a name="ln-52"></a>    set(CMAKE_Fortran_FLAGS_DEBUG &quot;${coarray_flags} ${CMAKE_Fortran_FLAGS_DEBUG}&quot;)
+<a name="ln-53"></a>    set(CMAKE_Fortran_FLAGS_RUNTIMEDEBUG &quot;${coarray_flags} ${CMAKE_Fortran_FLAGS_RUNTIMEDEBUG}&quot;)
+<a name="ln-54"></a>    set(CMAKE_Fortran_FLAGS_RELEASE &quot;${coarray_flags} ${CMAKE_Fortran_FLAGS_RELEASE}&quot;)
+<a name="ln-55"></a>    set(CMAKE_Fortran_FLAGS_MINSIZEREL &quot;${coarray_flags} ${CMAKE_Fortran_FLAGS_MINSIZEREL}&quot;)
+<a name="ln-56"></a>    set(CMAKE_Fortran_FLAGS_RELWITHDEBINFO &quot;${coarray_flags} ${CMAKE_Fortran_FLAGS_RELWITHDEBINFO}&quot;)
+<a name="ln-57"></a>  else()
+<a name="ln-58"></a>    message(FATAL_ERROR &quot;Only GFortran and Intel Fortran compilers supported.&quot;)
+<a name="ln-59"></a>  endif()
+<a name="ln-60"></a>
+<a name="ln-61"></a>set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/mod)
+<a name="ln-62"></a>#install(TARGETS mod DESTINATION mod)
+<a name="ln-63"></a>
+<a name="ln-64"></a>
+<a name="ln-65"></a>set(OLD_REQUIRED_FLAGS ${CMAKE_REQUIRED_FLAGS})
+<a name="ln-66"></a>set(CMAKE_REQUIRED_FLAGS &quot;${coarray_flags}&quot;)
+<a name="ln-67"></a>include(CheckFortranSourceCompiles)
+<a name="ln-68"></a>check_fortran_source_compiles(&quot;
+<a name="ln-69"></a>  program main
+<a name="ln-70"></a>    implicit none
+<a name="ln-71"></a>    integer :: i[*]
+<a name="ln-72"></a>    i = this_image()
+<a name="ln-73"></a>  end program
+<a name="ln-74"></a>&quot; Check_Simple_Coarray_Fortran_Source_Compiles
+<a name="ln-75"></a>  SRC_EXT &quot;.f90&quot;)
+<a name="ln-76"></a>set (CMAKE_REQUIRED_FLAGS ${OLD_REQUIRED_FLAGS})
+<a name="ln-77"></a>unset(OLD_REQUIRED_FLAGS)
+<a name="ln-78"></a>
+<a name="ln-79"></a>check_fortran_source_compiles(&quot;
+<a name="ln-80"></a>  program main
+<a name="ln-81"></a>  contains
+<a name="ln-82"></a>  pure function foo() result(res)
+<a name="ln-83"></a>    error stop &#39;Error stop is supported in pure functions (F2018)&#39;
+<a name="ln-84"></a>  end function
+<a name="ln-85"></a>  end program
+<a name="ln-86"></a>&quot;
+<a name="ln-87"></a>  HAVE_ERROR_STOP_IN_PURE
+<a name="ln-88"></a>  SRC_EXT &quot;.f90&quot;
+<a name="ln-89"></a>  )
+<a name="ln-90"></a>if(HAVE_ERROR_STOP_IN_PURE)
+<a name="ln-91"></a>  add_definitions(-DHAVE_ERROR_STOP_IN_PURE)
+<a name="ln-92"></a>endif()
+<a name="ln-93"></a>
+<a name="ln-94"></a>check_fortran_source_compiles(&quot;
+<a name="ln-95"></a>  program main
+<a name="ln-96"></a>  integer :: i
+<a name="ln-97"></a>  i = 0
+<a name="ln-98"></a>  error stop i
+<a name="ln-99"></a>  end program
+<a name="ln-100"></a>&quot;
+<a name="ln-101"></a>  HAVE_NON_CONSTANT_ERROR_STOP
+<a name="ln-102"></a>  SRC_EXT &quot;.f90&quot;)
+<a name="ln-103"></a>if(HAVE_NON_CONSTANT_ERROR_STOP)
+<a name="ln-104"></a>  add_definitions(-DHAVE_NON_CONSTANT_ERROR_STOP)
+<a name="ln-105"></a>endif()
+<a name="ln-106"></a>
+<a name="ln-107"></a>check_fortran_source_compiles(&quot;
+<a name="ln-108"></a>  program main
+<a name="ln-109"></a>  implicit none
+<a name="ln-110"></a>  print *,findloc(array=[1,2], value=1, dim=1)
+<a name="ln-111"></a>  end program
+<a name="ln-112"></a>&quot;
+<a name="ln-113"></a>  HAVE_FINDLOC
+<a name="ln-114"></a>  SRC_EXT &quot;.f90&quot;)
+<a name="ln-115"></a>if(HAVE_FINDLOC)
+<a name="ln-116"></a>  add_definitions(-DHAVE_FINDLOC)
+<a name="ln-117"></a>endif()
+<a name="ln-118"></a>
+<a name="ln-119"></a>check_fortran_source_compiles(&quot;
+<a name="ln-120"></a>  program main
+<a name="ln-121"></a>  implicit none
+<a name="ln-122"></a>  integer :: i=1
+<a name="ln-123"></a>  call co_sum(i)
+<a name="ln-124"></a>  call co_broadcast(i,source_image=1)
+<a name="ln-125"></a>  end program
+<a name="ln-126"></a>&quot;
+<a name="ln-127"></a>  HAVE_COLLECTIVE_SUBROUTINES
+<a name="ln-128"></a>  SRC_EXT &quot;.f90&quot;)
+<a name="ln-129"></a>if(HAVE_COLLECTIVE_SUBROUTINES)
+<a name="ln-130"></a>  add_definitions(-DHAVE_COLLECTIVE_SUBROUTINES)
+<a name="ln-131"></a>endif()
+<a name="ln-132"></a>
+<a name="ln-133"></a>if( (NOT HAVE_FINDLOC) OR (NOT HAVE_COLLECTIVE_SUBROUTINES))
+<a name="ln-134"></a>  set(EMULATE_MISSING_INTRINSICS TRUE)
+<a name="ln-135"></a>endif()
+<a name="ln-136"></a>
+<a name="ln-137"></a>set( directories utilities grid tests ) # Order *may* matter here
+<a name="ln-138"></a>foreach( directory ${directories} )
+<a name="ln-139"></a>  add_subdirectory(${directory})
+<a name="ln-140"></a>endforeach()
+<a name="ln-141"></a>
+<a name="ln-142"></a>enable_testing()
+<a name="ln-143"></a>
+<a name="ln-144"></a># Add test fixtures for setup and teardown
+<a name="ln-145"></a>set(MORFEUS_FD_INPUTS
+<a name="ln-146"></a>  &quot;${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-low-resolution-layers.json&quot;
+<a name="ln-147"></a>  &quot;${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-low-resolution-layers-material-map.json&quot;
+<a name="ln-148"></a>  &quot;${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-high-resolution-layers.json&quot;
+<a name="ln-149"></a>  &quot;${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-low-resolution-halo.json&quot;
+<a name="ln-150"></a>  &quot;${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/2Dcylinder.json&quot;
+<a name="ln-151"></a>  &quot;${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/1Dsphere.json&quot;
+<a name="ln-152"></a>)
+<a name="ln-153"></a>
+<a name="ln-154"></a>add_test(NAME morfeus-fd-setup-fixture
+<a name="ln-155"></a>  WORKING_DIRECTORY &quot;${CMAKE_BINARY_DIR}&quot;
+<a name="ln-156"></a>  COMMAND ${CMAKE_COMMAND} -E copy ${MORFEUS_FD_INPUTS} &quot;${CMAKE_CURRENT_BINARY_DIR}&quot;)
+<a name="ln-157"></a>set_tests_properties(morfeus-fd-setup-fixture
+<a name="ln-158"></a>    PROPERTIES FIXTURES_SETUP MFD)
+<a name="ln-159"></a>
+<a name="ln-160"></a>#------------------------------------------------------------------------------------------
+<a name="ln-161"></a># Define function for adding CAF tests, and ensuring proper flags are passed to MPI runtime
+<a name="ln-162"></a>#------------------------------------------------------------------------------------------
+<a name="ln-163"></a>function(add_caf_test name num_caf_img test_target)
+<a name="ln-164"></a>  # Function to add MPI tests.
+<a name="ln-165"></a>  if(TARGET ${test_target})
+<a name="ln-166"></a>    get_target_property(min_test_imgs ${test_target} MIN_IMAGES)
+<a name="ln-167"></a>  elseif(TARGET build_${test_target})
+<a name="ln-168"></a>    get_target_property(min_test_imgs build_${test_target} MIN_IMAGES)
+<a name="ln-169"></a>  endif()
+<a name="ln-170"></a>  if(min_test_imgs)
+<a name="ln-171"></a>    if(num_caf_img LESS min_test_imgs)
+<a name="ln-172"></a>      message( FATAL_ERROR &quot;Test ${name} requires ${min_test_imgs} but was only given ${num_caf_img}&quot; )
+<a name="ln-173"></a>    endif()
+<a name="ln-174"></a>  endif()
+<a name="ln-175"></a>  # Add a host file for OMPI
+<a name="ln-176"></a>  if ( openmpi )
+<a name="ln-177"></a>    set(test_parameters --hostfile ${CMAKE_BINARY_DIR}/hostfile)
+<a name="ln-178"></a>  endif()
+<a name="ln-179"></a>  if ( ((N_CPU LESS num_caf_img) OR (N_CPU EQUAL 0)) )
+<a name="ln-180"></a>    message(STATUS &quot;Test ${name} is oversubscribed: ${num_caf_img} CAF images requested with ${N_CPU} system processor available.&quot;)
+<a name="ln-181"></a>    if ( openmpi )
+<a name="ln-182"></a>      if (min_test_imgs)
+<a name="ln-183"></a>        set( num_caf_img ${min_test_imgs} )
+<a name="ln-184"></a>      elseif ( N_CPU LESS 2 )
+<a name="ln-185"></a>        set( num_caf_img 2 )
+<a name="ln-186"></a>      endif()
+<a name="ln-187"></a>      set (test_parameters ${test_parameters} --oversubscribe)
+<a name="ln-188"></a>    endif()
+<a name="ln-189"></a>  endif()
+<a name="ln-190"></a>  if( openmpi)
+<a name="ln-191"></a>    set (test_parameters ${test_parameters} --allow-run-as-root)
+<a name="ln-192"></a>  endif()
+<a name="ln-193"></a>  set(test_parameters ${MPIEXEC_NUMPROC_FLAG} ${num_caf_img} ${test_parameters})
+<a name="ln-194"></a>  if (&quot;${CMAKE_Fortran_COMPILER_ID}&quot; MATCHES &quot;Intel&quot; )
+<a name="ln-195"></a>    add_test(NAME ${name} COMMAND &quot;${test_target}&quot; ${ARGN})
+<a name="ln-196"></a>    set_property(TEST ${name}
+<a name="ln-197"></a>      APPEND
+<a name="ln-198"></a>      PROPERTY ENVIRONMENT FOR_COARRAY_NUM_IMAGES=${num_caf_img})
+<a name="ln-199"></a>    message ( STATUS &quot;Setting FOR_COARRAY_NUM_IMAGES=${num_caf_img} for test ${test}&quot;)
+<a name="ln-200"></a>  else()
+<a name="ln-201"></a>    add_test(NAME ${name} COMMAND ${MPIEXEC_EXECUTABLE} ${test_parameters} &quot;${test_target}&quot; ${ARGN})
+<a name="ln-202"></a>  endif()
+<a name="ln-203"></a>  set_tests_properties( ${name}
+<a name="ln-204"></a>    PROPERTIES
+<a name="ln-205"></a>    FIXTURES_REQUIRED MFD
+<a name="ln-206"></a>    PASS_REGULAR_EXPRESSION &quot;Test passed.&quot;)
+<a name="ln-207"></a>  set_property(TEST ${name}
+<a name="ln-208"></a>    APPEND
+<a name="ln-209"></a>    PROPERTY LABELS &quot;MORFEUS_FD&quot; &quot;MORFEUS&quot;)
+<a name="ln-210"></a>  set_property(TEST ${name}
+<a name="ln-211"></a>    APPEND
+<a name="ln-212"></a>    PROPERTY PROCESSORS ${num_caf_img})
+<a name="ln-213"></a>  set_property(TEST ${name}
+<a name="ln-214"></a>    APPEND
+<a name="ln-215"></a>    PROPERTY PROCESSOR_AFFINITY ON)
+<a name="ln-216"></a>
+<a name="ln-217"></a>endfunction(add_caf_test)
+<a name="ln-218"></a>
+<a name="ln-219"></a># Single-image tests
+<a name="ln-220"></a>set( base_names
+<a name="ln-221"></a>  structured-grid
+<a name="ln-222"></a>  write-problem-discretization
+<a name="ln-223"></a>  read-geometry
+<a name="ln-224"></a>  array-functions
+<a name="ln-225"></a>  spatial-derivatives
+<a name="ln-226"></a>  spatial-derivatives-new
+<a name="ln-227"></a>  adi-time-advancing
+<a name="ln-228"></a>  1d-sphere
+<a name="ln-229"></a>  units
+<a name="ln-230"></a>)
+<a name="ln-231"></a>foreach(unit_test ${base_names})
+<a name="ln-232"></a>  add_caf_test( fd-${unit_test} 1 ${CMAKE_CURRENT_BINARY_DIR}/tests/unit/test-${unit_test}
+<a name="ln-233"></a>    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+<a name="ln-234"></a>endforeach()
+<a name="ln-235"></a>
+<a name="ln-236"></a># Dual-image unit tests
+<a name="ln-237"></a>set( base_names
+<a name="ln-238"></a>  assertions
+<a name="ln-239"></a>)
+<a name="ln-240"></a>foreach(unit_test ${base_names})
+<a name="ln-241"></a>  add_caf_test( fd-${unit_test} 2 ${CMAKE_CURRENT_BINARY_DIR}/tests/unit/test-${unit_test}
+<a name="ln-242"></a>    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+<a name="ln-243"></a>endforeach()
+<a name="ln-244"></a>
+<a name="ln-245"></a># Tri-image unit tests
+<a name="ln-246"></a>if(EMULATE_MISSING_INTRINSICS)
+<a name="ln-247"></a>set( base_names
+<a name="ln-248"></a>  emulated-intrinsics
+<a name="ln-249"></a>)
+<a name="ln-250"></a>foreach(unit_test ${base_names})
+<a name="ln-251"></a>  add_caf_test( fd-${unit_test} 3 ${CMAKE_CURRENT_BINARY_DIR}/tests/unit/test-${unit_test}
+<a name="ln-252"></a>    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+<a name="ln-253"></a>endforeach()
+<a name="ln-254"></a>endif()
+<a name="ln-255"></a>
+<a name="ln-256"></a># Quad-image unit tests
+<a name="ln-257"></a>set( base_names
+<a name="ln-258"></a>  problem-discretization
+<a name="ln-259"></a>  block-structure
+<a name="ln-260"></a>)
+<a name="ln-261"></a>foreach(unit_test ${base_names})
+<a name="ln-262"></a>  add_caf_test( fd-${unit_test} 4 ${CMAKE_CURRENT_BINARY_DIR}/tests/unit/test-${unit_test}
+<a name="ln-263"></a>    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+<a name="ln-264"></a>endforeach()
+<a name="ln-265"></a>
+<a name="ln-266"></a># 7-image unit tests
+<a name="ln-267"></a>set( base_names
+<a name="ln-268"></a>  halo-exchange
+<a name="ln-269"></a>)
+<a name="ln-270"></a>foreach(unit_test ${base_names})
+<a name="ln-271"></a>  add_caf_test( fd-${unit_test} 7 ${CMAKE_CURRENT_BINARY_DIR}/tests/unit/test-${unit_test}
+<a name="ln-272"></a>    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+<a name="ln-273"></a>endforeach()
+<a name="ln-274"></a>
+<a name="ln-275"></a># Single-image integration tests
+<a name="ln-276"></a>set( base_names
+<a name="ln-277"></a>  plate-material-mapping
+<a name="ln-278"></a>  discretize-3D-plate
+<a name="ln-279"></a>  discretize-2D-cylinder
+<a name="ln-280"></a>  write-slab-vtk
+<a name="ln-281"></a>  write-voxels-vtk
+<a name="ln-282"></a>)
+<a name="ln-283"></a>foreach(integration_test ${base_names})
+<a name="ln-284"></a>  add_caf_test( fd-${integration_test} 1 ${CMAKE_CURRENT_BINARY_DIR}/tests/integration/test-${integration_test}
+<a name="ln-285"></a>    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+<a name="ln-286"></a>endforeach()
+<a name="ln-287"></a>
+<a name="ln-288"></a># Tri-image integration tests
+<a name="ln-289"></a>set( base_names
+<a name="ln-290"></a>  differentiate-cartesian-grid
+<a name="ln-291"></a>  differentiate-cylindrical-grid
+<a name="ln-292"></a>  differentiate-spherical-grid
+<a name="ln-293"></a>)
+<a name="ln-294"></a>foreach(integration_test ${base_names})
+<a name="ln-295"></a>  add_caf_test( fd-${integration_test} 3 ${CMAKE_CURRENT_BINARY_DIR}/tests/integration/test-${integration_test}
+<a name="ln-296"></a>    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+<a name="ln-297"></a>endforeach()
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

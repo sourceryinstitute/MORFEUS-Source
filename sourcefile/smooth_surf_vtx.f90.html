@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>smooth_surf_vtx.f90 &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>smooth_surf_vtx.f90
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.9% of total for source files.">243 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/smooth_surf_vtx.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">smooth_surf_vtx.f90</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-0">Submodules</a></h3></div>
+  <div id="submods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/smooth_surf_vtx_implementation.html">smooth_surf_vtx_implementation</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/smooth_surf_vtx.f90.html#src">smooth_surf_vtx.f90</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">This file depends on</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~smooth_surf_vtx.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefilesmooth_surf_vtxf90EfferentGraph" width="641pt" height="258pt"
+ viewBox="0.00 0.00 641.00 258.09" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph" class="graph" transform="scale(3.02 3.02) rotate(0) translate(4 776.47)">
+<title>sourcefile~~smooth_surf_vtx.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-776.47 1934.37,-776.47 1934.37,4 -4,4"/>
+<!-- sourcefile~smooth_surf_vtx.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~smooth_surf_vtx.f90</title>
+<polygon fill="none" stroke="black" points="1930.15,-481.36 1824.05,-481.36 1824.05,-459.35 1930.15,-459.35 1930.15,-481.36"/>
+<text text-anchor="middle" x="1877.1" y="-467.21" font-family="Helvetica,sans-Serif" font-size="10.50">smooth_surf_vtx.f90</text>
+</g>
+<!-- sourcefile~class_keytable.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~class_keytable.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/class_keytable.f90.html" xlink:title="class_keytable.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="916.07,-704.36 817.3,-704.36 817.3,-682.35 916.07,-682.35 916.07,-704.36"/>
+<text text-anchor="middle" x="866.69" y="-690.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_keytable.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~class_keytable.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~class_keytable.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1160.71,-694.36C1079.51,-689.57 985.42,-690.37 926.23,-691.65"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="925.88,-688.16 915.96,-691.88 926.04,-695.16 925.88,-688.16"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1415.47,-692.36C1303.33,-685.54 1274.77,-686.46 1162.71,-694.36"/>
+</g>
+<!-- sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~class_psblas.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node3"><a xlink:href=".././sourcefile/class_psblas.f90.html" xlink:title="class_psblas.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="355.88,-510.36 266.62,-510.36 266.62,-488.35 355.88,-488.35 355.88,-510.36"/>
+<text text-anchor="middle" x="311.25" y="-496.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_psblas.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge3" class="edge">
+<title>sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1728.59,-731.36C1669.63,-765.76 1452.61,-770.36 1417.47,-770.36 1417.47,-770.36 1417.47,-770.36 1160.71,-770.36 1030.48,-770.36 997.85,-774.58 867.69,-770.36"/>
+</g>
+<!-- sourcefile~class_surface.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node4" class="node">
+<title>sourcefile~class_surface.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node4"><a xlink:href=".././sourcefile/class_surface.f90.html" xlink:title="class_surface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="913.39,-626.36 819.98,-626.36 819.98,-604.35 913.39,-604.35 913.39,-626.36"/>
+<text text-anchor="middle" x="866.69" y="-612.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_surface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~class_surface.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge5" class="edge">
+<title>sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~class_surface.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1415.47,-692.36C1261.66,-671.16 1231.63,-622.14 1077.4,-604.36 1025.53,-598.38 966.08,-602.53 923.75,-607.35"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="923.16,-603.89 913.64,-608.55 923.98,-610.84 923.16,-603.89"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1574.94,-692.36C1508.38,-670.72 1487.33,-696.6 1417.47,-692.36"/>
+</g>
+<!-- sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node5" class="node">
+<title>sourcefile~class_connectivity.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node5"><a xlink:href=".././sourcefile/class_connectivity.f90.html" xlink:title="class_connectivity.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="768.54,-667.36 654.82,-667.36 654.82,-645.35 768.54,-645.35 768.54,-667.36"/>
+<text text-anchor="middle" x="711.68" y="-653.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_connectivity.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge4" class="edge">
+<title>sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1160.71,-694.36C1097.1,-699.64 1085.85,-727.51 1022.2,-732.36"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1020.2,-732.36C952.61,-737.5 935.24,-737.99 867.69,-732.36"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node6" class="node">
+<title>sourcefile~tools_mesh_optimize.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node6"><a xlink:href=".././sourcefile/tools_mesh_optimize.f90.html" xlink:title="tools_mesh_optimize.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1480.61,-664.36 1352.32,-664.36 1352.32,-642.35 1480.61,-642.35 1480.61,-664.36"/>
+<text text-anchor="middle" x="1416.47" y="-650.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_mesh_optimize.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~tools_mesh_optimize.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge6" class="edge">
+<title>sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~tools_mesh_optimize.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1574.94,-692.36C1544.15,-682.35 1509.26,-673.47 1480.16,-666.71"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1480.66,-663.24 1470.13,-664.42 1479.09,-670.06 1480.66,-663.24"/>
+</g>
+<!-- sourcefile~class_cell.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node7" class="node">
+<title>sourcefile~class_cell.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node7"><a xlink:href=".././sourcefile/class_cell.f90.html" xlink:title="class_cell.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="905.71,-394.36 827.66,-394.36 827.66,-372.35 905.71,-372.35 905.71,-394.36"/>
+<text text-anchor="middle" x="866.69" y="-380.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cell.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~class_cell.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge7" class="edge">
+<title>sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~class_cell.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1020.2,-383.36C985.9,-376.12 946.29,-376.37 916.03,-378.29"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="915.47,-374.83 905.74,-379.04 915.97,-381.81 915.47,-374.83"/>
+</g>
+<!-- sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node8" class="node">
+<title>sourcefile~class_vertex.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node8"><a xlink:href=".././sourcefile/class_vertex.f90.html" xlink:title="class_vertex.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="611.05,-588.36 523.31,-588.36 523.31,-566.35 611.05,-566.35 611.05,-588.36"/>
+<text text-anchor="middle" x="567.18" y="-574.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vertex.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge8" class="edge">
+<title>sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1020.2,-542.36C979.48,-544.32 969.62,-548.72 929.01,-552.36 819.99,-562.11 692.15,-570.17 621.66,-574.32"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="621.05,-570.85 611.27,-574.93 621.46,-577.84 621.05,-570.85"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1415.47,-540.36C1339.52,-497.11 1109.59,-543.39 1022.2,-542.36"/>
+</g>
+<!-- sourcefile~tools_mesh_basics.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node9" class="node">
+<title>sourcefile~tools_mesh_basics.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node9"><a xlink:href=".././sourcefile/tools_mesh_basics.f90.html" xlink:title="tools_mesh_basics.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1635.25,-742.36 1516.63,-742.36 1516.63,-720.35 1635.25,-720.35 1635.25,-742.36"/>
+<text text-anchor="middle" x="1575.94" y="-728.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_mesh_basics.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~tools_mesh_basics.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge12" class="edge">
+<title>sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~tools_mesh_basics.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1728.59,-731.36C1699.27,-748.46 1661.02,-748.34 1630.27,-744"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1630.58,-740.51 1620.15,-742.39 1629.48,-747.42 1630.58,-740.51"/>
+</g>
+<!-- sourcefile~class_face.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node10" class="node">
+<title>sourcefile~class_face.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node10"><a xlink:href=".././sourcefile/class_face.f90.html" xlink:title="class_face.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="907.81,-353.36 825.57,-353.36 825.57,-331.35 907.81,-331.35 907.81,-353.36"/>
+<text text-anchor="middle" x="866.69" y="-339.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_face.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~class_face.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge9" class="edge">
+<title>sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~class_face.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1874.01,-481.55C1865.44,-523.8 1828.72,-674.1 1730.59,-731.36"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1020.2,-383.36C984.29,-375.78 944.23,-364.92 914.18,-356.27"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="914.98,-352.86 904.4,-353.44 913.03,-359.58 914.98,-352.86"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1574.94,-692.36C1482.43,-662.29 1502,-588.49 1417.47,-540.36"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1280.21,-464.36C1164.02,-433.6 1139.8,-408.16 1022.2,-383.36"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1728.59,-731.36C1721.07,-735.74 1585.22,-695.04 1576.94,-692.36"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1415.47,-540.36C1356.22,-506.62 1348.17,-481.62 1282.21,-464.36"/>
+</g>
+<!-- sourcefile~tools_mesh_check.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node11" class="node">
+<title>sourcefile~tools_mesh_check.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node11"><a xlink:href=".././sourcefile/tools_mesh_check.f90.html" xlink:title="tools_mesh_check.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1788.06,-329.36 1671.11,-329.36 1671.11,-307.35 1788.06,-307.35 1788.06,-329.36"/>
+<text text-anchor="middle" x="1729.59" y="-315.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_mesh_check.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~tools_mesh_check.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~tools_mesh_check.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1865.16,-458.93C1840.18,-432.84 1778.74,-368.66 1748.29,-336.85"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1750.7,-334.3 1741.25,-329.5 1745.64,-339.14 1750.7,-334.3"/>
+</g>
+<!-- sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node12" class="node">
+<title>sourcefile~class_vector.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node12"><a xlink:href=".././sourcefile/class_vector.f90.html" xlink:title="class_vector.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="479.5,-510.36 391.91,-510.36 391.91,-488.35 479.5,-488.35 479.5,-510.36"/>
+<text text-anchor="middle" x="435.71" y="-496.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vector.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge11" class="edge">
+<title>sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1280.21,-464.36C1249.44,-456.3 1241.66,-475.06 1210.03,-478.36 1030.7,-497.03 983.72,-499.75 804.36,-481.36 762.97,-477.11 754.26,-464.04 712.68,-462.36"/>
+</g>
+<!-- sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node13" class="node">
+<title>sourcefile~class_mesh.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node13"><a xlink:href=".././sourcefile/class_mesh.f90.html" xlink:title="class_mesh.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1065.65,-433.36 976.75,-433.36 976.75,-411.35 1065.65,-411.35 1065.65,-433.36"/>
+<text text-anchor="middle" x="1021.2" y="-419.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_mesh.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge10" class="edge">
+<title>sourcefile~smooth_surf_vtx.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1280.21,-464.36C1229.73,-450.99 1214.02,-474.06 1162.71,-464.36"/>
+</g>
+<!-- sourcefile~class_stopwatch.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node14" class="node">
+<title>sourcefile~class_stopwatch.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node14"><a xlink:href=".././sourcefile/class_stopwatch.f90.html" xlink:title="class_stopwatch.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="230.21,-530.36 124.11,-530.36 124.11,-508.35 230.21,-508.35 230.21,-530.36"/>
+<text text-anchor="middle" x="177.16" y="-516.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_stopwatch.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_psblas.f90&#45;&gt;sourcefile~class_stopwatch.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge13" class="edge">
+<title>sourcefile~class_psblas.f90&#45;&gt;sourcefile~class_stopwatch.f90</title>
+<path fill="none" stroke="#ff7f00" stroke-dasharray="5,2" d="M266.27,-506.02C258.07,-507.26 249.35,-508.58 240.72,-509.88"/>
+<polygon fill="#ff7f00" stroke="#ff7f00" points="240.02,-506.45 230.66,-511.41 241.07,-513.37 240.02,-506.45"/>
+</g>
+<!-- sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node20" class="node">
+<title>sourcefile~tools_psblas.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node20"><a xlink:href=".././sourcefile/tools_psblas.f90.html" xlink:title="tools_psblas.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="87.83,-510.36 0.06,-510.36 0.06,-488.35 87.83,-488.35 87.83,-510.36"/>
+<text text-anchor="middle" x="43.94" y="-496.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_psblas.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_psblas.f90&#45;&gt;sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge14" class="edge">
+<title>sourcefile~class_psblas.f90&#45;&gt;sourcefile~tools_psblas.f90</title>
+<path fill="none" stroke="#ff7f00" stroke-dasharray="5,2" d="M266.44,-499.36C220.27,-499.36 147.53,-499.36 98.11,-499.36"/>
+<polygon fill="#ff7f00" stroke="#ff7f00" points="97.94,-495.86 87.94,-499.36 97.94,-502.86 97.94,-495.86"/>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge17" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M824.28,-626.45C805.58,-631.46 783.31,-637.43 763.6,-642.71"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="762.61,-639.35 753.85,-645.32 764.42,-646.11 762.61,-639.35"/>
+</g>
+<!-- sourcefile~class_plane.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node16" class="node">
+<title>sourcefile~class_plane.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node16"><a xlink:href=".././sourcefile/class_plane.f90.html" xlink:title="class_plane.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="609.65,-547.36 524.71,-547.36 524.71,-525.35 609.65,-525.35 609.65,-547.36"/>
+<text text-anchor="middle" x="567.18" y="-533.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_plane.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_plane.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge16" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_plane.f90</title>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M824.01,-604.29C770.49,-590.08 677.64,-565.42 619.74,-550.05"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="620.62,-546.66 610.06,-547.48 618.82,-553.43 620.62,-546.66"/>
+</g>
+<!-- sourcefile~class_cylinder.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node21" class="node">
+<title>sourcefile~class_cylinder.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node21"><a xlink:href=".././sourcefile/class_cylinder.f90.html" xlink:title="class_cylinder.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="759.06,-626.36 664.3,-626.36 664.3,-604.35 759.06,-604.35 759.06,-626.36"/>
+<text text-anchor="middle" x="711.68" y="-612.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cylinder.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_cylinder.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge15" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_cylinder.f90</title>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M819.78,-615.36C803.89,-615.36 785.89,-615.36 769.24,-615.36"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="769.08,-611.86 759.08,-615.36 769.08,-618.86 769.08,-611.86"/>
+</g>
+<!-- sourcefile~class_connectivity.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge18" class="edge">
+<title>sourcefile~class_connectivity.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M682.31,-667.41C647.35,-680.45 589.91,-699.84 568.18,-695.36"/>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M566.18,-695.36C500.16,-681.73 500.27,-638.79 436.71,-616.36"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge20" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M865.69,-732.36C837.32,-729.3 829.21,-727.37 804.36,-713.36 785.72,-702.84 786.33,-692.99 768.36,-681.36 762.99,-677.88 757.06,-674.65 751.12,-671.75"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="752.42,-668.5 741.88,-667.47 749.48,-674.85 752.42,-668.5"/>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M1160.71,-578.36C1062.9,-585.62 1045.34,-624.07 965.01,-680.36 947.23,-692.81 947.83,-702.55 929.01,-713.36 904.27,-727.56 896.06,-735.41 867.69,-732.36"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge21" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M1397.96,-642.14C1378.73,-630.35 1346.56,-612.19 1316.39,-602.36 1250.67,-580.93 1231.77,-575.17 1162.71,-578.36"/>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M1160.71,-578.36C1097.12,-577.32 1085.73,-539.3 1022.2,-542.36"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge23" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M1407.46,-642.21C1379.25,-604.26 1279.82,-481.48 1162.71,-464.36"/>
+</g>
+<!-- sourcefile~class_bc.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node15" class="node">
+<title>sourcefile~class_bc.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node15"><a xlink:href=".././sourcefile/class_bc.f90.html" xlink:title="class_bc.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1316.58,-159.36 1245.84,-159.36 1245.84,-137.35 1316.58,-137.35 1316.58,-159.36"/>
+<text text-anchor="middle" x="1281.21" y="-145.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_bc.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge19" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_bc.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M1406.14,-642.34C1391.96,-624.91 1365.26,-589.36 1352.39,-554.36 1312,-444.44 1337.85,-408.47 1316.39,-293.36 1308.11,-248.91 1295.2,-197.56 1287.84,-169.45"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="1291.17,-168.33 1285.23,-159.56 1284.4,-170.12 1291.17,-168.33"/>
+</g>
+<!-- sourcefile~class_iterating.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node18" class="node">
+<title>sourcefile~class_iterating.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node18"><a xlink:href=".././sourcefile/class_iterating.f90.html" xlink:title="class_iterating.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1209.84,-666.36 1113.58,-666.36 1113.58,-644.35 1209.84,-644.35 1209.84,-666.36"/>
+<text text-anchor="middle" x="1161.71" y="-652.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_iterating.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_iterating.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge22" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_iterating.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M1352.34,-653.86C1311.8,-654.18 1259.57,-654.59 1220.19,-654.9"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="1219.93,-651.4 1209.96,-654.98 1219.99,-658.4 1219.93,-651.4"/>
+</g>
+<!-- sourcefile~class_cell.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge24" class="edge">
+<title>sourcefile~class_cell.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ff7f" stroke-dasharray="5,2" d="M827.62,-384.41C796.64,-385.02 751.81,-385.32 712.68,-383.36"/>
+</g>
+<!-- sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge25" class="edge">
+<title>sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M541.86,-588.42C510.08,-602.22 456.19,-623.23 436.71,-616.36"/>
+</g>
+<!-- sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge26" class="edge">
+<title>sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M536.06,-566.28C529.12,-563.36 521.86,-559.99 515.36,-556.36 494.74,-544.84 473.14,-528.86 457.8,-516.75"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="459.97,-514 449.98,-510.47 455.59,-519.46 459.97,-514"/>
+</g>
+<!-- sourcefile~tools_mesh_basics.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge27" class="edge">
+<title>sourcefile~tools_mesh_basics.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#007fff" stroke-dasharray="5,2" d="M1516.36,-728.95C1415.36,-725.37 1201.97,-720.26 1022.2,-732.36"/>
+</g>
+<!-- sourcefile~class_face.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge28" class="edge">
+<title>sourcefile~class_face.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M710.68,-383.36C619.98,-378.81 596.29,-364.55 515.36,-323.36 476.41,-303.53 474.13,-241.78 436.71,-264.36"/>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M830.48,-353.44C789.03,-366.23 724.31,-385.29 712.68,-383.36"/>
+</g>
+<!-- sourcefile~tools_mesh_check.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge29" class="edge">
+<title>sourcefile~tools_mesh_check.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1722.91,-307.14C1700.02,-263.48 1609.58,-104.9 1480.54,-57.36 1427.1,-37.66 1409.07,-51.76 1352.39,-57.36 1320.74,-60.48 1313.62,-76.39 1282.21,-71.36"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1280.21,-71.36C1139.97,-45.49 1102.35,27.02 965.01,-11.36 916.29,-24.97 917.89,-64.19 867.69,-70.36"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M566.18,-186.36C544.56,-197.03 536.51,-193.78 515.36,-205.36 477.02,-226.33 473.06,-240.11 436.71,-264.36"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M434.71,-264.36C358,-315.53 326.34,-430.62 316.21,-478.18"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="312.73,-477.75 314.18,-488.25 319.59,-479.14 312.73,-477.75"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M865.69,-70.36C724.64,-86.07 695.44,-123.53 568.18,-186.36"/>
+</g>
+<!-- sourcefile~tools_mesh_check.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge30" class="edge">
+<title>sourcefile~tools_mesh_check.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1689.18,-329.46C1565.16,-364.31 1189.41,-468.87 1162.71,-464.36"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1160.71,-464.36C1126.63,-457.91 1089.03,-446.2 1061.61,-436.78"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="1062.59,-433.42 1052,-433.43 1060.29,-440.03 1062.59,-433.42"/>
+</g>
+<!-- sourcefile~class_scalar_field.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node22" class="node">
+<title>sourcefile~class_scalar_field.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node22"><a xlink:href=".././sourcefile/class_scalar_field.f90.html" xlink:title="class_scalar_field.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1632.33,-220.36 1519.56,-220.36 1519.56,-198.35 1632.33,-198.35 1632.33,-220.36"/>
+<text text-anchor="middle" x="1575.94" y="-206.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_scalar_field.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tools_mesh_check.f90&#45;&gt;sourcefile~class_scalar_field.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge31" class="edge">
+<title>sourcefile~tools_mesh_check.f90&#45;&gt;sourcefile~class_scalar_field.f90</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1713.21,-307.3C1686.64,-288.21 1631.98,-248.92 1600.56,-226.33"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="1602.52,-223.43 1592.36,-220.44 1598.44,-229.11 1602.52,-223.43"/>
+</g>
+<!-- sourcefile~class_vector.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge32" class="edge">
+<title>sourcefile~class_vector.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M391.88,-499.36C383.64,-499.36 374.91,-499.36 366.37,-499.36"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="366.09,-495.86 356.09,-499.36 366.09,-502.86 366.09,-495.86"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_keytable.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge33" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_keytable.f90</title>
+<path fill="none" stroke="#ff007f" stroke-dasharray="5,2" d="M1017.37,-433.45C1006.16,-476.56 963.87,-632.36 929.01,-668.36 925.64,-671.84 921.71,-674.85 917.51,-677.45"/>
+<polygon fill="#ff007f" stroke="#ff007f" points="915.74,-674.43 908.58,-682.25 919.05,-680.6 915.74,-674.43"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge34" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff007f" stroke-dasharray="5,2" d="M983.99,-411.26C976.95,-407.74 970.16,-403.19 965.01,-397.36 929.29,-356.89 968.69,-317.96 929.01,-281.36 875.23,-231.74 841.09,-253.4 768.36,-245.36 718.28,-239.81 705.34,-243.17 655,-245.36 630.68,-246.41 457.14,-251.11 436.71,-264.36"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_surface.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge36" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_surface.f90</title>
+<path fill="none" stroke="#ff007f" stroke-dasharray="5,2" d="M1011.34,-433.57C986.23,-465.35 914.36,-556.3 882.82,-596.2"/>
+<polygon fill="#ff007f" stroke="#ff007f" points="880.02,-594.1 876.57,-604.11 885.52,-598.44 880.02,-594.1"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge35" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#ff007f" stroke-dasharray="5,2" d="M1019.26,-433.57C1015.53,-469.84 998.49,-584.53 929.01,-635.36 886.26,-666.63 825.34,-669.92 779.04,-666.51"/>
+<polygon fill="#ff007f" stroke="#ff007f" points="779.06,-663 768.8,-665.63 778.46,-669.97 779.06,-663"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_cell.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge38" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_cell.f90</title>
+<path fill="none" stroke="#ff007f" stroke-dasharray="5,2" d="M976.91,-411.28C957.86,-406.41 935.41,-400.67 915.84,-395.67"/>
+<polygon fill="#ff007f" stroke="#ff007f" points="916.45,-392.21 905.9,-393.13 914.72,-398.99 916.45,-392.21"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge39" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#ff007f" stroke-dasharray="5,2" d="M1006.17,-433.46C988.92,-446.61 958.32,-468.37 929.01,-481.36 824.79,-527.54 693.49,-555.57 621.49,-568.6"/>
+<polygon fill="#ff007f" stroke="#ff007f" points="620.54,-565.21 611.31,-570.41 621.77,-572.1 620.54,-565.21"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_face.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge41" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_face.f90</title>
+<path fill="none" stroke="#ff007f" stroke-dasharray="5,2" d="M990.88,-411.23C982.23,-407.39 972.96,-402.69 965.01,-397.36 946.74,-385.09 947.85,-374.73 929.01,-363.36 925.38,-361.16 921.49,-359.16 917.49,-357.34"/>
+<polygon fill="#ff007f" stroke="#ff007f" points="918.63,-354.02 908.05,-353.42 915.95,-360.49 918.63,-354.02"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge42" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#ff007f" stroke-dasharray="5,2" d="M710.68,-462.36C633.32,-457.88 544.57,-473.77 489.56,-486.11"/>
+<polygon fill="#ff007f" stroke="#ff007f" points="488.66,-482.73 479.69,-488.37 490.22,-489.55 488.66,-482.73"/>
+<path fill="none" stroke="#ff007f" stroke-dasharray="5,2" d="M976.58,-424.43C932.83,-426.93 863.63,-432 804.36,-441.36 763.07,-447.87 754.47,-463.18 712.68,-462.36"/>
+</g>
+<!-- sourcefile~class_least_squares.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node17" class="node">
+<title>sourcefile~class_least_squares.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node17"><a xlink:href=".././sourcefile/class_least_squares.f90.html" xlink:title="class_least_squares.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="928.84,-472.36 804.54,-472.36 804.54,-450.35 928.84,-450.35 928.84,-472.36"/>
+<text text-anchor="middle" x="866.69" y="-458.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_least_squares.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_least_squares.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge37" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_least_squares.f90</title>
+<path fill="none" stroke="#ff007f" stroke-dasharray="5,2" d="M976.91,-433.43C959.36,-437.91 938.94,-443.14 920.53,-447.84"/>
+<polygon fill="#ff007f" stroke="#ff007f" points="919.65,-444.46 910.83,-450.32 921.38,-451.24 919.65,-444.46"/>
+</g>
+<!-- sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node19" class="node">
+<title>sourcefile~grid_interface.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node19"><a xlink:href=".././sourcefile/grid_interface.f90.html" xlink:title="grid_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="914.82,-312.36 818.55,-312.36 818.55,-290.35 914.82,-290.35 914.82,-312.36"/>
+<text text-anchor="middle" x="866.69" y="-298.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">grid_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge40" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~grid_interface.f90</title>
+<path fill="none" stroke="#ff007f" stroke-dasharray="5,2" d="M985.77,-411.22C978.29,-407.65 970.88,-403.09 965.01,-397.36 938.58,-371.5 956.65,-346.92 929.01,-322.36 927.02,-320.59 924.88,-318.97 922.63,-317.49"/>
+<polygon fill="#ff007f" stroke="#ff007f" points="923.93,-314.21 913.49,-312.41 920.53,-320.32 923.93,-314.21"/>
+</g>
+<!-- sourcefile~class_stopwatch.f90&#45;&gt;sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge43" class="edge">
+<title>sourcefile~class_stopwatch.f90&#45;&gt;sourcefile~tools_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M123.92,-511.39C115.49,-510.11 106.75,-508.78 98.28,-507.49"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="98.56,-503.99 88.14,-505.94 97.5,-510.91 98.56,-503.99"/>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge44" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M1160.71,-147.36C1116.05,-140.93 1119.79,-104.79 1077.4,-89.36 989.46,-57.33 960.52,-58.51 867.69,-70.36"/>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M1245.85,-150.36C1222.34,-151.17 1190.5,-151.17 1162.71,-147.36"/>
+</g>
+<!-- sourcefile~class_motion.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node25" class="node">
+<title>sourcefile~class_motion.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node25"><a xlink:href=".././sourcefile/class_motion.f90.html" xlink:title="class_motion.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="612.47,-236.36 521.89,-236.36 521.89,-214.35 612.47,-214.35 612.47,-236.36"/>
+<text text-anchor="middle" x="567.18" y="-222.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_motion.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_motion.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge46" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_motion.f90</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M1160.71,-147.36C955.98,-119.29 711.18,-182.1 612.56,-211.38"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="611.5,-208.04 602.93,-214.27 613.51,-214.75 611.5,-208.04"/>
+</g>
+<!-- sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node27" class="node">
+<title>sourcefile~class_bc_math.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node27"><a xlink:href=".././sourcefile/class_bc_math.f90.html" xlink:title="class_bc_math.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1070.75,-120.36 971.65,-120.36 971.65,-98.35 1070.75,-98.35 1070.75,-120.36"/>
+<text text-anchor="middle" x="1021.2" y="-106.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc_math.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge45" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_math.f90</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M1160.71,-147.36C1127.16,-142.76 1090.22,-132.34 1062.93,-123.58"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="1063.94,-120.22 1053.34,-120.43 1061.76,-126.87 1063.94,-120.22"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node28" class="node">
+<title>sourcefile~class_bc_wall.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node28"><a xlink:href=".././sourcefile/class_bc_wall.f90.html" xlink:title="class_bc_wall.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1209,-197.36 1114.42,-197.36 1114.42,-175.35 1209,-175.35 1209,-197.36"/>
+<text text-anchor="middle" x="1161.71" y="-183.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc_wall.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_wall.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge47" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_wall.f90</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M1245.91,-159.45C1233.6,-163.43 1219.55,-167.97 1206.55,-172.18"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="1205.29,-168.91 1196.85,-175.31 1207.44,-175.57 1205.29,-168.91"/>
+</g>
+<!-- sourcefile~class_plane.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge48" class="edge">
+<title>sourcefile~class_plane.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M535.75,-547.46C528.89,-550.37 521.74,-553.72 515.36,-557.36 477.39,-578.98 477.92,-630.9 436.71,-616.36"/>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M434.71,-616.36C384.42,-598.61 343.92,-547.28 324.58,-518.86"/>
+<polygon fill="#aaff00" stroke="#aaff00" points="327.5,-516.92 319.06,-510.51 321.66,-520.78 327.5,-516.92"/>
+</g>
+<!-- sourcefile~class_plane.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge49" class="edge">
+<title>sourcefile~class_plane.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M527.33,-525.25C514.15,-521.49 499.25,-517.23 485.39,-513.27"/>
+<polygon fill="#aaff00" stroke="#aaff00" points="486.1,-509.83 475.53,-510.45 484.18,-516.56 486.1,-509.83"/>
+</g>
+<!-- sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge50" class="edge">
+<title>sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M852.89,-450.03C827.93,-429.11 770.15,-386.24 712.68,-383.36"/>
+</g>
+<!-- sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge51" class="edge">
+<title>sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M862.46,-472.46C853.07,-502.88 822.92,-588.39 768.36,-635.36 766.34,-637.1 764.16,-638.7 761.87,-640.17"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="759.72,-637.36 752.64,-645.25 763.09,-643.5 759.72,-637.36"/>
+</g>
+<!-- sourcefile~class_iterating.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge52" class="edge">
+<title>sourcefile~class_iterating.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M865.69,-770.36C730.07,-756.1 701.73,-722.91 568.18,-695.36"/>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M1138.41,-666.53C1080.17,-695.32 924.11,-769.82 867.69,-770.36"/>
+</g>
+<!-- sourcefile~object_interface.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node24" class="node">
+<title>sourcefile~object_interface.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node24"><a xlink:href=".././sourcefile/object_interface.f90.html" xlink:title="object_interface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="618.82,-314.36 515.53,-314.36 515.53,-292.35 618.82,-292.35 618.82,-314.36"/>
+<text text-anchor="middle" x="567.18" y="-300.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">object_interface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~grid_interface.f90&#45;&gt;sourcefile~object_interface.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge53" class="edge">
+<title>sourcefile~grid_interface.f90&#45;&gt;sourcefile~object_interface.f90</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M818.54,-301.67C767.26,-302.02 685.1,-302.57 628.99,-302.95"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="628.81,-299.45 618.83,-303.02 628.86,-306.45 628.81,-299.45"/>
+</g>
+<!-- sourcefile~units_interface.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node30" class="node">
+<title>sourcefile~units_interface.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node30"><a xlink:href=".././sourcefile/units_interface.f90.html" xlink:title="units_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="762.48,-276.36 660.88,-276.36 660.88,-254.35 762.48,-254.35 762.48,-276.36"/>
+<text text-anchor="middle" x="711.68" y="-262.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">units_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~grid_interface.f90&#45;&gt;sourcefile~units_interface.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge54" class="edge">
+<title>sourcefile~grid_interface.f90&#45;&gt;sourcefile~units_interface.f90</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M818.53,-290.26C803.04,-286.62 785.66,-282.53 769.53,-278.73"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="770.22,-275.3 759.68,-276.41 768.61,-282.11 770.22,-275.3"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge56" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M566.18,-616.36C509.85,-604.59 490.97,-635.51 436.71,-616.36"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge55" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M669.08,-604.26C653.57,-600.13 635.78,-595.38 619.49,-591.04"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="620.15,-587.59 609.59,-588.4 618.35,-594.36 620.15,-587.59"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge57" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M566.18,-616.36C542.57,-611.43 534.9,-611.49 515.36,-597.36 485.95,-576.09 461.54,-541.07 448.06,-519.16"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="450.95,-517.17 442.82,-510.38 444.94,-520.76 450.95,-517.17"/>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M663.98,-620.62C635.92,-622.57 599.66,-622.93 568.18,-616.36"/>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge60" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1569.25,-198.31C1556.59,-174.83 1523.74,-119.68 1480.54,-90.36 1456.32,-73.91 1446.05,-77.7 1417.47,-71.36"/>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1415.47,-71.36C1357.65,-58.51 1340.69,-80.73 1282.21,-71.36"/>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge62" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1415.47,-307.36C1371.81,-326.46 1361.64,-333.39 1316.39,-348.36 1233.67,-375.71 1135.01,-398.61 1075.56,-411.39"/>
+<polygon fill="#ff00aa" stroke="#ff00aa" points="1074.69,-408 1065.64,-413.51 1076.15,-414.85 1074.69,-408"/>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_bc.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge59" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_bc.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1415.47,-71.36C1366.92,-60.57 1354.85,-91.83 1316.39,-123.36 1313.22,-125.96 1309.81,-128.61 1306.41,-131.17"/>
+<polygon fill="#ff00aa" stroke="#ff00aa" points="1304.12,-128.51 1298.14,-137.26 1308.27,-134.15 1304.12,-128.51"/>
+</g>
+<!-- sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node23" class="node">
+<title>sourcefile~class_dimensions.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node23"><a xlink:href=".././sourcefile/class_dimensions.f90.html" xlink:title="class_dimensions.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1077.59,-236.36 964.82,-236.36 964.82,-214.35 1077.59,-214.35 1077.59,-236.36"/>
+<text text-anchor="middle" x="1021.2" y="-222.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_dimensions.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge58" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_dimensions.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1560.12,-220.65C1533.11,-240.73 1473.52,-282.83 1417.47,-307.36"/>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1415.47,-307.36C1361.21,-331.1 1339.17,-291.15 1282.21,-307.36"/>
+</g>
+<!-- sourcefile~class_material.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node26" class="node">
+<title>sourcefile~class_material.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node26"><a xlink:href=".././sourcefile/class_material.f90.html" xlink:title="class_material.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1069.32,-42.36 973.08,-42.36 973.08,-20.35 1069.32,-20.35 1069.32,-42.36"/>
+<text text-anchor="middle" x="1021.2" y="-28.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_material.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_material.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge61" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_material.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1415.47,-71.36C1355.34,-58 1343.65,-105.17 1282.21,-109.36"/>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1280.21,-109.36C1236.65,-112.32 1119.5,-69.52 1059.19,-46.09"/>
+<polygon fill="#ff00aa" stroke="#ff00aa" points="1060.26,-42.75 1049.67,-42.37 1057.71,-49.27 1060.26,-42.75"/>
+</g>
+<!-- sourcefile~class_field.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node29" class="node">
+<title>sourcefile~class_field.f90</title>
+<g id="a_sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_node29"><a xlink:href=".././sourcefile/class_field.f90.html" xlink:title="class_field.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1455.5,-121.36 1377.43,-121.36 1377.43,-99.35 1455.5,-99.35 1455.5,-121.36"/>
+<text text-anchor="middle" x="1416.47" y="-107.21" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_field.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_field.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge63" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_field.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1557.18,-198.19C1529.54,-180.81 1476.05,-147.19 1443.87,-126.96"/>
+<polygon fill="#ff00aa" stroke="#ff00aa" points="1445.73,-123.99 1435.4,-121.63 1442,-129.92 1445.73,-123.99"/>
+</g>
+<!-- sourcefile~class_dimensions.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge64" class="edge">
+<title>sourcefile~class_dimensions.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M990.64,-214.27C960.3,-203.74 911.47,-189.11 867.69,-186.36"/>
+</g>
+<!-- sourcefile~class_motion.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge65" class="edge">
+<title>sourcefile~class_motion.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M521.65,-233.01C495.57,-238.86 462.74,-248.65 436.71,-264.36"/>
+</g>
+<!-- sourcefile~class_motion.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge66" class="edge">
+<title>sourcefile~class_motion.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M553.84,-236.76C542.54,-247.78 525.99,-265.38 515.36,-283.36 476.26,-349.42 451.51,-438.16 441.63,-478.2"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="438.22,-477.38 439.28,-487.93 445.03,-479.02 438.22,-477.38"/>
+</g>
+<!-- sourcefile~class_material.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge67" class="edge">
+<title>sourcefile~class_material.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ff3f" stroke-dasharray="5,2" d="M987.04,-42.37C956.45,-51.91 909.57,-65.01 867.69,-70.36"/>
+</g>
+<!-- sourcefile~class_bc_math.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge68" class="edge">
+<title>sourcefile~class_bc_math.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M998.31,-98.29C968.98,-84.75 915.13,-64.3 867.69,-70.36"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge70" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#003fff" stroke-dasharray="5,2" d="M1114.45,-184.25C1087.48,-183.55 1052.86,-183.55 1022.2,-186.36"/>
+<path fill="none" stroke="#003fff" stroke-dasharray="5,2" d="M865.69,-186.36C733.72,-178.06 688.47,-131.46 568.18,-186.36"/>
+<path fill="none" stroke="#003fff" stroke-dasharray="5,2" d="M1020.2,-186.36C952.7,-192.53 934.93,-194.94 867.69,-186.36"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge74" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#003fff" stroke-dasharray="5,2" d="M1020.2,-186.36C895.14,-201.51 556.51,-420.15 461.69,-482.73"/>
+<polygon fill="#003fff" stroke="#003fff" points="459.7,-479.85 453.29,-488.29 463.56,-485.69 459.7,-479.85"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge73" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#003fff" stroke-dasharray="5,2" d="M1157.55,-197.4C1146.24,-236.32 1106.86,-366.4 1077.4,-397.36 1074.21,-400.7 1070.49,-403.64 1066.52,-406.2"/>
+<polygon fill="#003fff" stroke="#003fff" points="1064.53,-403.3 1057.52,-411.25 1067.95,-409.41 1064.53,-403.3"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge69" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_dimensions.f90</title>
+<path fill="none" stroke="#003fff" stroke-dasharray="5,2" d="M1121.39,-197.43C1105.89,-201.79 1087.92,-206.85 1071.56,-211.46"/>
+<polygon fill="#003fff" stroke="#003fff" points="1070.3,-208.18 1061.62,-214.26 1072.2,-214.92 1070.3,-208.18"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_material.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge71" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_material.f90</title>
+<path fill="none" stroke="#003fff" stroke-dasharray="5,2" d="M1132.72,-175.22C1125.82,-171.55 1118.85,-166.94 1113.4,-161.36 1088.38,-135.78 1097.95,-118.64 1077.4,-89.36 1067.14,-74.75 1053.29,-60.21 1042.03,-49.34"/>
+<polygon fill="#003fff" stroke="#003fff" points="1044.4,-46.76 1034.73,-42.44 1039.6,-51.85 1044.4,-46.76"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge72" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_bc_math.f90</title>
+<path fill="none" stroke="#003fff" stroke-dasharray="5,2" d="M1139.44,-175.3C1131.26,-171 1121.87,-166.01 1113.4,-161.36 1092.04,-149.63 1068.12,-135.97 1050.13,-125.59"/>
+<polygon fill="#003fff" stroke="#003fff" points="1051.73,-122.47 1041.32,-120.49 1048.22,-128.53 1051.73,-122.47"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge77" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1385.79,-99.33C1359.11,-89.98 1318.63,-77.19 1282.21,-71.36"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge80" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1160.71,-345.36C1117.45,-351.18 1114.76,-374.8 1077.4,-397.36 1071.78,-400.75 1065.63,-403.97 1059.53,-406.9"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="1057.7,-403.89 1050.08,-411.26 1060.63,-410.25 1057.7,-403.89"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_bc.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge76" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_bc.f90</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1377.28,-121.24C1361.48,-125.75 1343.06,-131 1326.67,-135.68"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="1325.42,-132.4 1316.76,-138.5 1327.34,-139.13 1325.42,-132.4"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge79" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~grid_interface.f90</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1413.9,-121.59C1408.25,-157.39 1385.52,-269.52 1316.39,-321.36 1261.08,-362.83 1231.22,-336.14 1162.71,-345.36"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1160.71,-345.36C1070.47,-361.74 963.79,-333.96 907.35,-315.59"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="908.33,-312.22 897.74,-312.39 906.12,-318.87 908.33,-312.22"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge75" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_dimensions.f90</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1280.21,-307.36C1193.48,-335.59 1089.98,-273.9 1044.97,-242.39"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="1046.94,-239.5 1036.77,-236.53 1042.87,-245.19 1046.94,-239.5"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1413,-121.49C1403.88,-159.48 1367.99,-282.95 1282.21,-307.36"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_material.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge78" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_material.f90</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1377.22,-108.54C1350.56,-107.65 1314.18,-107.18 1282.21,-109.36"/>
+</g>
+<!-- sourcefile~units_interface.f90&#45;&gt;sourcefile~object_interface.f90 -->
+<g id="sourcefile~~smooth_surf_vtx.f90~~EfferentGraph_edge81" class="edge">
+<title>sourcefile~units_interface.f90&#45;&gt;sourcefile~object_interface.f90</title>
+<path fill="none" stroke="#ff00bf" stroke-dasharray="5,2" d="M669.08,-276.45C653.57,-280.59 635.78,-285.33 619.49,-289.67"/>
+<polygon fill="#ff00bf" stroke="#ff00bf" points="618.35,-286.36 609.59,-292.31 620.15,-293.12 618.35,-286.36"/>
+</g>
+</g>
+</svg>
+</div><script>var pansourcefilesmooth_surf_vtxf90EfferentGraph = svgPanZoom('#sourcefilesmooth_surf_vtxf90EfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="31pt"
+ viewBox="0.00 0.00 186.41 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 182.41,-26.5 182.41,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="65.16,-22.26 -0.05,-22.26 -0.05,-0.24 65.16,-0.24 65.16,-22.26"/>
+<text text-anchor="middle" x="32.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="178.26,-22.26 82.84,-22.26 82.84,-0.24 178.26,-0.24 178.26,-22.26"/>
+<text text-anchor="middle" x="130.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+      
+      <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-1">Submodules</a></h3></div>
+  <div id="submods-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/smooth_surf_vtx_implementation.html">smooth_surf_vtx_implementation</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/smooth_surf_vtx.f90.html#src">smooth_surf_vtx.f90</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="c">!     (c) 2019 Guide Star Engineering, LLC</span>
+<a name="ln-2"></a><span class="c">!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)</span>
+<a name="ln-3"></a><span class="c">!     under contract &quot;Multi-Dimensional Physics Implementation into Fuel Analysis under</span>
+<a name="ln-4"></a><span class="c">!     Steady-state and Transients (FAST)&quot;, contract # NRC-HQ-60-17-C-0007</span>
+<a name="ln-5"></a><span class="c">!</span>
+<a name="ln-6"></a><span class="c">!    NEMO - Numerical Engine (for) Multiphysics Operators</span>
+<a name="ln-7"></a><span class="c">! Copyright (c) 2007, Stefano Toninel</span>
+<a name="ln-8"></a><span class="c">!                     Gian Marco Bianchi  University of Bologna</span>
+<a name="ln-9"></a><span class="c">!              David P. Schmidt    University of Massachusetts - Amherst</span>
+<a name="ln-10"></a><span class="c">!              Salvatore Filippone University of Rome Tor Vergata</span>
+<a name="ln-11"></a><span class="c">! All rights reserved.</span>
+<a name="ln-12"></a><span class="c">!</span>
+<a name="ln-13"></a><span class="c">! Redistribution and use in source and binary forms, with or without modification,</span>
+<a name="ln-14"></a><span class="c">! are permitted provided that the following conditions are met:</span>
+<a name="ln-15"></a><span class="c">!</span>
+<a name="ln-16"></a><span class="c">!     1. Redistributions of source code must retain the above copyright notice,</span>
+<a name="ln-17"></a><span class="c">!        this list of conditions and the following disclaimer.</span>
+<a name="ln-18"></a><span class="c">!     2. Redistributions in binary form must reproduce the above copyright notice,</span>
+<a name="ln-19"></a><span class="c">!        this list of conditions and the following disclaimer in the documentation</span>
+<a name="ln-20"></a><span class="c">!        and/or other materials provided with the distribution.</span>
+<a name="ln-21"></a><span class="c">!     3. Neither the name of the NEMO project nor the names of its contributors</span>
+<a name="ln-22"></a><span class="c">!        may be used to endorse or promote products derived from this software</span>
+<a name="ln-23"></a><span class="c">!        without specific prior written permission.</span>
+<a name="ln-24"></a><span class="c">!</span>
+<a name="ln-25"></a><span class="c">! THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND</span>
+<a name="ln-26"></a><span class="c">! ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
+<a name="ln-27"></a><span class="c">! WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<a name="ln-28"></a><span class="c">! DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR</span>
+<a name="ln-29"></a><span class="c">! ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span>
+<a name="ln-30"></a><span class="c">! (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;</span>
+<a name="ln-31"></a><span class="c">! LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON</span>
+<a name="ln-32"></a><span class="c">! ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span>
+<a name="ln-33"></a><span class="c">! (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS</span>
+<a name="ln-34"></a><span class="c">! SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+<a name="ln-35"></a><span class="c">!</span>
+<a name="ln-36"></a><span class="c">!---------------------------------------------------------------------------------</span>
+<a name="ln-37"></a><span class="c">!</span>
+<a name="ln-38"></a><span class="c">! $Id: smooth_surf_vtx.f90 3093 2008-04-22 14:51:09Z sfilippo $</span>
+<a name="ln-39"></a><span class="c">!</span>
+<a name="ln-40"></a><span class="c">! Description: moves an surf point in the mesh to optimize adjoining cell quality</span>
+<a name="ln-41"></a><span class="c">!</span>
+<a name="ln-42"></a><span class="k">SUBMODULE</span> <span class="p">(</span><span class="n">tools_mesh_optimize</span><span class="p">)</span> <span class="n">smooth_surf_vtx_implementation</span>
+<a name="ln-43"></a>    <span class="k">IMPLICIT NONE</span>
+<a name="ln-44"></a>
+<a name="ln-45"></a><span class="k">    CONTAINS</span>
+<a name="ln-46"></a>
+<a name="ln-47"></a><span class="k">        MODULE PROCEDURE </span><span class="n">smooth_surf_vtx</span>
+<a name="ln-48"></a>        <span class="k">USE </span><span class="n">class_psblas</span>
+<a name="ln-49"></a>        <span class="k">USE </span><span class="n">class_cell</span>
+<a name="ln-50"></a>        <span class="k">USE </span><span class="n">class_connectivity</span>
+<a name="ln-51"></a>        <span class="k">USE </span><span class="n">class_face</span>
+<a name="ln-52"></a>        <span class="k">USE </span><span class="n">class_keytable</span>
+<a name="ln-53"></a>        <span class="k">USE </span><span class="n">class_mesh</span>
+<a name="ln-54"></a>        <span class="k">USE </span><span class="n">class_surface</span>
+<a name="ln-55"></a>        <span class="k">USE </span><span class="n">class_vector</span>
+<a name="ln-56"></a>        <span class="k">USE </span><span class="n">class_vertex</span>
+<a name="ln-57"></a>        <span class="k">USE </span><span class="n">tools_mesh_basics</span>
+<a name="ln-58"></a>        <span class="k">USE </span><span class="n">tools_mesh_check</span>
+<a name="ln-59"></a>        <span class="k">USE </span><span class="n">tools_mesh_optimize</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">call_smooth2d</span><span class="p">,</span><span class="n">right_handed2d</span>
+<a name="ln-60"></a>        <span class="k">USE </span><span class="nb">iso_c_binding</span><span class="p">,</span> <span class="n">ONLY</span> <span class="p">:</span> <span class="nb">c_loc</span>
+<a name="ln-61"></a><span class="nb">        </span><span class="k">IMPLICIT NONE</span>
+<a name="ln-62"></a>
+<a name="ln-63"></a>        <span class="c">! Local Variables</span>
+<a name="ln-64"></a>        <span class="kt">INTEGER</span><span class="p">,</span><span class="k">POINTER</span> <span class="kd">::</span> <span class="n">iv2f</span><span class="p">(:)</span><span class="o">=&gt;</span><span class="nb">null</span><span class="p">()</span> <span class="c">! given a cell, finds connected vertices</span>
+<a name="ln-65"></a>        <span class="kt">INTEGER</span><span class="p">,</span><span class="k">POINTER</span> <span class="kd">::</span> <span class="n">if2v</span><span class="p">(:)</span><span class="o">=&gt;</span><span class="nb">null</span><span class="p">()</span> <span class="c">! given a vert, finds connected cells</span>
+<a name="ln-66"></a>
+<a name="ln-67"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>    <span class="kd">::</span>   <span class="n">free_pos</span>      <span class="c">! position of free vertex</span>
+<a name="ln-68"></a>        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">)</span> <span class="kd">::</span> <span class="n">free_p2d</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>   <span class="c">! position of free vertex in 2d local coord. sys</span>
+<a name="ln-69"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">TARGET</span> <span class="kd">::</span> <span class="n">num_incident_vtx</span><span class="p">,</span> <span class="n">num_incident_tri</span>
+<a name="ln-70"></a>        <span class="kt">INTEGER</span><span class="p">,</span><span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">max_incident_vtx</span><span class="o">=</span><span class="mi">150</span>   <span class="c">! sanity check on connectivity</span>
+<a name="ln-71"></a>        <span class="kt">INTEGER</span><span class="p">,</span><span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">max_incident_tri</span><span class="o">=</span><span class="n">max_incident_vtx</span> <span class="c">!for tris, this should hold</span>
+<a name="ln-72"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">iface</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">jv</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">itri</span><span class="p">,</span><span class="n">num_f</span>       <span class="c">! vertex number, cell id, and loop index</span>
+<a name="ln-73"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">ifree_vtx</span>       <span class="c">! used for creating a right-handed list of cell vertices</span>
+<a name="ln-74"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">info</span>
+<a name="ln-75"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>     <span class="p">,</span><span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">vtx_pos</span><span class="p">(:)</span>   <span class="c">! 3d position</span>
+<a name="ln-76"></a>        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span><span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">vtx_p2d</span><span class="p">(:,:)</span> <span class="c">! 2d position in local coord sys</span>
+<a name="ln-77"></a>
+<a name="ln-78"></a>        <span class="kt">INTEGER</span><span class="p">,</span><span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">tri_verts</span><span class="p">(:,:)</span>
+<a name="ln-79"></a>        <span class="kt">INTEGER</span><span class="p">,</span><span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">TARGET</span>      <span class="kd">::</span> <span class="n">index_copy</span><span class="p">(:)</span>
+<a name="ln-80"></a>        <span class="kt">INTEGER</span><span class="p">,</span><span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">relative_numbering</span><span class="p">(:)</span>
+<a name="ln-81"></a>        <span class="kt">INTEGER</span><span class="p">,</span><span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">idloc</span><span class="p">(:),</span><span class="n">idglob</span><span class="p">(:)</span>
+<a name="ln-82"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span> <span class="kd">::</span> <span class="n">new_pos</span>  <span class="c">! the new vertex position, after smoothing</span>
+<a name="ln-83"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ahat</span><span class="p">,</span><span class="n">bhat</span><span class="c">! unit vectors in the local coordinate system</span>
+<a name="ln-84"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span> <span class="kd">::</span> <span class="n">nhat</span>     <span class="c">! normal unit vector to the surface</span>
+<a name="ln-85"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span> <span class="kd">::</span> <span class="n">prel</span>     <span class="c">! relative position between neighbor point and free point</span>
+<a name="ln-86"></a>        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">)</span> <span class="kd">::</span> <span class="n">xlocal</span><span class="p">,</span><span class="n">ylocal</span>  <span class="c">! posititions of points in the local coord. system</span>
+<a name="ln-87"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">ibv2v</span><span class="p">(</span><span class="n">max_incident_vtx</span><span class="p">)</span>  <span class="c">! connected vertices that lie on boundaries</span>
+<a name="ln-88"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">ibf2v</span><span class="p">(</span><span class="n">max_incident_tri</span><span class="p">)</span>  <span class="c">! connected triangles that lie on boundaries</span>
+<a name="ln-89"></a>        <span class="kt">REAL</span><span class="kd">::</span> <span class="n">cfac</span>                         <span class="c">! correction factor for non-planar surface dist.</span>
+<a name="ln-90"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">TARGET</span> <span class="kd">::</span> <span class="n">local_tangled</span> <span class="c">! for checking if the mesh is locally twisted</span>
+<a name="ln-91"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">valid_flag</span>  <span class="c">! for checking if the mesh is locally twisted</span>
+<a name="ln-92"></a>        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">)</span> <span class="kd">::</span> <span class="n">vtx1</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">vtx2</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">vtx3</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-93"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span> <span class="kd">::</span> <span class="n">vtx_pos_temp</span>
+<a name="ln-94"></a>
+<a name="ln-95"></a>        <span class="c">! allocate storage for point-wise connectivity</span>
+<a name="ln-96"></a>        <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">relative_numbering</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">)),</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-97"></a>
+<a name="ln-98"></a>        <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">vtx_pos</span><span class="p">(</span>  <span class="n">max_incident_vtx</span><span class="p">)</span>  <span class="p">,</span> <span class="n">tri_verts</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">max_incident_tri</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-99"></a>            <span class="p">&amp;</span>   <span class="n">vtx_p2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">max_incident_vtx</span><span class="p">)</span>  <span class="p">,</span> <span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-100"></a>
+<a name="ln-101"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-102"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">600</span><span class="p">)</span>
+<a name="ln-103"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-104"></a>        <span class="k">END IF</span>
+<a name="ln-105"></a>
+<a name="ln-106"></a>        <span class="c">! prepare info for calling OptMS</span>
+<a name="ln-107"></a>
+<a name="ln-108"></a>        <span class="c">! first, construct list of boundary faces that are attached to the vertex</span>
+<a name="ln-109"></a>        <span class="k">IF</span> <span class="p">(</span> <span class="n">shared_flag</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span> <span class="p">)</span> <span class="k">THEN</span> <span class="c">! we have to use supplemental connectivity</span>
+<a name="ln-110"></a>
+<a name="ln-111"></a>            <span class="n">jv</span> <span class="o">=</span> <span class="n">loc_to_glob_</span><span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_v</span><span class="p">,</span><span class="n">iv</span><span class="p">)</span> <span class="c">! jv is now global vertex index number</span>
+<a name="ln-112"></a>
+<a name="ln-113"></a>            <span class="k">CALL </span><span class="n">msh</span><span class="p">%</span><span class="n">f2ov_sup</span><span class="p">%</span><span class="n">get_kt_row</span><span class="p">(</span><span class="n">jv</span><span class="p">,</span> <span class="n">if2v</span><span class="p">)</span> <span class="c">! get global face numbers</span>
+<a name="ln-114"></a>
+<a name="ln-115"></a>            <span class="c">! assume that we have culled faces that do not lie on boundaries</span>
+<a name="ln-116"></a>            <span class="c">! when we created the supplemental info</span>
+<a name="ln-117"></a>            <span class="n">num_incident_tri</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">if2v</span><span class="p">)</span>
+<a name="ln-118"></a>
+<a name="ln-119"></a>            <span class="n">ibf2v</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">num_incident_tri</span><span class="p">)</span> <span class="o">=</span> <span class="n">if2v</span>
+<a name="ln-120"></a>
+<a name="ln-121"></a>        <span class="k">ELSE</span>
+<a name="ln-122"></a>
+<a name="ln-123"></a><span class="k">            CALL </span><span class="n">f2v</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">if2v</span><span class="p">,</span> <span class="n">iv</span><span class="p">)</span>  <span class="c">!list of tris connected to ith vert</span>
+<a name="ln-124"></a>
+<a name="ln-125"></a>            <span class="c">! cull faces that do not lie on boundaries</span>
+<a name="ln-126"></a>
+<a name="ln-127"></a>            <span class="n">num_incident_tri</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-128"></a>            <span class="k">DO </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">if2v</span><span class="p">)</span>
+<a name="ln-129"></a>                <span class="n">iface</span> <span class="o">=</span> <span class="n">if2v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<a name="ln-130"></a>
+<a name="ln-131"></a>                <span class="k">IF</span> <span class="p">(</span> <span class="n">msh</span><span class="p">%</span><span class="n">faces</span><span class="p">(</span><span class="n">iface</span><span class="p">)%</span><span class="n">flag_</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-132"></a><span class="k">                    </span><span class="n">num_incident_tri</span> <span class="o">=</span> <span class="n">num_incident_tri</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-133"></a>                    <span class="n">ibf2v</span><span class="p">(</span><span class="n">num_incident_tri</span><span class="p">)</span> <span class="o">=</span> <span class="n">iface</span>
+<a name="ln-134"></a>                <span class="n">ENDIF</span>
+<a name="ln-135"></a>
+<a name="ln-136"></a>            <span class="n">ENDDO</span>
+<a name="ln-137"></a>
+<a name="ln-138"></a>        <span class="n">ENDIF</span>
+<a name="ln-139"></a>
+<a name="ln-140"></a>        <span class="k">IF</span> <span class="p">(</span><span class="n">num_incident_tri</span> <span class="o">&gt;</span> <span class="n">max_incident_tri</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-141"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">300</span><span class="p">)</span>  <span class="c">! too many tris use this vertex--something must be wrong</span>
+<a name="ln-142"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-143"></a>        <span class="n">ENDIF</span>
+<a name="ln-144"></a>
+<a name="ln-145"></a>        <span class="c">! construct vertex list from triangle&#39;s vertices, avoiding repeats</span>
+<a name="ln-146"></a>        <span class="n">num_incident_vtx</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c">! this will eventually tally to equal num tri</span>
+<a name="ln-147"></a>        <span class="n">ibv2v</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>          <span class="c">! this will contain the vertices that belong</span>
+<a name="ln-148"></a>
+<a name="ln-149"></a>        <span class="k">DO </span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">num_incident_tri</span>
+<a name="ln-150"></a>            <span class="n">itri</span><span class="o">=</span><span class="n">ibf2v</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>      <span class="c">! itri is the triangle ID extracted from tri list</span>
+<a name="ln-151"></a>
+<a name="ln-152"></a>            <span class="k">IF</span> <span class="p">(</span> <span class="n">shared_flag</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span> <span class="p">)</span> <span class="k">THEN</span> <span class="c">! we have global face ID&#39;s</span>
+<a name="ln-153"></a>
+<a name="ln-154"></a>                <span class="c">!lookup vertex numbers using global face and vertex id&#39;s</span>
+<a name="ln-155"></a>                <span class="k">CALL </span><span class="n">msh</span><span class="p">%</span><span class="n">ov2f_sup</span><span class="p">%</span><span class="n">get_kt_row</span> <span class="p">(</span><span class="n">itri</span><span class="p">,</span> <span class="n">iv2f</span><span class="p">)</span>
+<a name="ln-156"></a>
+<a name="ln-157"></a>                <span class="c">! make a copy to dereference the iv2f pointer</span>
+<a name="ln-158"></a>                <span class="n">num_f</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">iv2f</span><span class="p">)</span>
+<a name="ln-159"></a>
+<a name="ln-160"></a>                <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">index_copy</span><span class="p">(</span><span class="n">num_f</span><span class="p">))</span>
+<a name="ln-161"></a>
+<a name="ln-162"></a>                <span class="n">index_copy</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">num_f</span><span class="p">)</span> <span class="o">=</span> <span class="n">iv2f</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">num_f</span><span class="p">)</span>
+<a name="ln-163"></a>
+<a name="ln-164"></a>                <span class="c">! convert global to local vertex id&#39;s</span>
+<a name="ln-165"></a>                <span class="k">CALL </span><span class="n">psb_glob_to_loc</span><span class="p">(</span><span class="n">index_copy</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_v</span><span class="p">,</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-166"></a>
+<a name="ln-167"></a>                <span class="c">! save local vert ids in the same storage as we would use in the else-branch</span>
+<a name="ln-168"></a>                <span class="n">iv2f</span> <span class="o">=&gt;</span> <span class="n">index_copy</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">num_f</span><span class="p">)</span>
+<a name="ln-169"></a>
+<a name="ln-170"></a>            <span class="k">ELSE</span>
+<a name="ln-171"></a>                <span class="c">! get list of vertices that belong to this triangle</span>
+<a name="ln-172"></a>                <span class="k">CALL </span><span class="n">msh</span><span class="p">%</span><span class="n">v2f</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">iv2f</span><span class="p">,</span><span class="n">itri</span><span class="p">)</span>
+<a name="ln-173"></a>            <span class="n">ENDIF</span>
+<a name="ln-174"></a>
+<a name="ln-175"></a>            <span class="k">DO </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">iv2f</span><span class="p">)</span>
+<a name="ln-176"></a>                <span class="n">jv</span> <span class="o">=</span> <span class="n">iv2f</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>  <span class="c">! one of the vertices used by the tri</span>
+<a name="ln-177"></a>                <span class="c">! we don&#39;t want to count our free vertex or already-counted vertiex</span>
+<a name="ln-178"></a>                <span class="k">IF</span> <span class="p">(</span> <span class="p">(</span> <span class="n">jv</span> <span class="o">/=</span> <span class="n">iv</span> <span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="p">(</span> <span class="nb">ANY</span><span class="p">(</span> <span class="n">ibv2v</span> <span class="o">==</span> <span class="n">jv</span><span class="p">)</span> <span class="p">)</span> <span class="p">)</span> <span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-179"></a><span class="k">                    </span><span class="n">num_incident_vtx</span> <span class="o">=</span> <span class="n">num_incident_vtx</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-180"></a>                    <span class="n">ibv2v</span><span class="p">(</span> <span class="n">num_incident_vtx</span> <span class="p">)</span> <span class="o">=</span> <span class="n">jv</span>
+<a name="ln-181"></a>                <span class="n">ENDIF</span>
+<a name="ln-182"></a>            <span class="n">ENDDO</span>
+<a name="ln-183"></a>
+<a name="ln-184"></a>            <span class="k">NULLIFY</span><span class="p">(</span><span class="n">iv2f</span><span class="p">)</span>  <span class="c">! end the association with index_copy</span>
+<a name="ln-185"></a>            <span class="k">IF</span> <span class="p">(</span> <span class="nb">ALLOCATED</span><span class="p">(</span><span class="n">index_copy</span><span class="p">)</span> <span class="p">)</span> <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">index_copy</span><span class="p">)</span>
+<a name="ln-186"></a>
+<a name="ln-187"></a>        <span class="n">ENDDO</span>
+<a name="ln-188"></a>
+<a name="ln-189"></a>        <span class="k">IF</span> <span class="p">(</span><span class="n">num_incident_vtx</span> <span class="o">&gt;</span> <span class="n">max_incident_vtx</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-190"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">400</span><span class="p">)</span> <span class="c">! too many tris connected to this vertex--something must be wrong</span>
+<a name="ln-191"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-192"></a>        <span class="n">ENDIF</span>
+<a name="ln-193"></a>
+<a name="ln-194"></a>        <span class="c">! the position to be optimized</span>
+<a name="ln-195"></a>        <span class="n">free_pos</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)%</span><span class="n">position_</span><span class="p">()</span>
+<a name="ln-196"></a>
+<a name="ln-197"></a>        <span class="c">! load up an array with the positions of the non-free surface vertices</span>
+<a name="ln-198"></a>        <span class="k">DO </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">num_incident_vtx</span>
+<a name="ln-199"></a>
+<a name="ln-200"></a>            <span class="n">jv</span><span class="o">=</span><span class="n">ibv2v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>  <span class="c">! look up vertex id number from ith conn</span>
+<a name="ln-201"></a>            <span class="n">relative_numbering</span><span class="p">(</span><span class="n">jv</span><span class="p">)</span><span class="o">=</span><span class="n">j</span> <span class="c">! store array position so that we can go backward</span>
+<a name="ln-202"></a>
+<a name="ln-203"></a>            <span class="n">vtx_pos</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">jv</span><span class="p">)%</span><span class="n">position_</span><span class="p">()</span>
+<a name="ln-204"></a>        <span class="n">ENDDO</span>
+<a name="ln-205"></a>
+<a name="ln-206"></a>        <span class="c">! establish 2d basis vectors so that we can operate in a local x,y coord sys</span>
+<a name="ln-207"></a>
+<a name="ln-208"></a>        <span class="n">free_p2d</span><span class="p">(:)</span> <span class="o">=</span> <span class="mf">0.0d0</span> <span class="c">! the free vertex is at the origin</span>
+<a name="ln-209"></a>
+<a name="ln-210"></a>        <span class="c">! normal of conceptual surface</span>
+<a name="ln-211"></a>        <span class="n">nhat</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">surf</span><span class="p">(</span><span class="n">ib</span><span class="p">)%</span><span class="n">normal_</span><span class="p">(</span><span class="n">free_pos</span><span class="p">)</span>
+<a name="ln-212"></a>
+<a name="ln-213"></a>        <span class="c">! the conceptual surface normal should be constructed so that the normal points outside</span>
+<a name="ln-214"></a>        <span class="c">!  of the domain.  The local processor may not have ownership of all the faces, if this</span>
+<a name="ln-215"></a>        <span class="c">! is an overlap vertex, so find the first local face.  Surface smoothing requires</span>
+<a name="ln-216"></a>        <span class="c">! at least one local face</span>
+<a name="ln-217"></a>        <span class="k">IF</span> <span class="p">(</span> <span class="n">shared_flag</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span> <span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-218"></a><span class="k">            </span><span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-219"></a>            <span class="k">DO</span>
+<a name="ln-220"></a><span class="k">                </span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-221"></a>                <span class="n">itri</span><span class="o">=</span><span class="n">ibf2v</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>      <span class="c">! itri is the triangle ID extracted from tri list</span>
+<a name="ln-222"></a>                <span class="n">iface</span> <span class="o">=</span> <span class="n">glob_to_loc_</span><span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_f</span><span class="p">,</span><span class="n">itri</span><span class="p">)</span> <span class="c">! get the local ID</span>
+<a name="ln-223"></a>
+<a name="ln-224"></a>                <span class="k">IF</span> <span class="p">(</span> <span class="p">(</span> <span class="n">iface</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">(</span> <span class="n">k</span> <span class="o">==</span> <span class="n">num_incident_tri</span><span class="p">)</span> <span class="p">)</span> <span class="k">EXIT</span>
+<a name="ln-225"></a><span class="k">            </span><span class="n">ENDDO</span>
+<a name="ln-226"></a>
+<a name="ln-227"></a>            <span class="k">IF</span> <span class="p">(</span> <span class="n">iface</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">THEN</span>  <span class="c">! none of these faces are local, so no smoothing possible</span>
+<a name="ln-228"></a>                <span class="c">! exit and let other processors negotiate the vertex location</span>
+<a name="ln-229"></a>
+<a name="ln-230"></a>                <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">relative_numbering</span><span class="p">,</span> <span class="n">vtx_pos</span><span class="p">,</span> <span class="n">vtx_p2d</span><span class="p">,</span> <span class="n">tri_verts</span><span class="p">)</span>
+<a name="ln-231"></a>
+<a name="ln-232"></a>                <span class="k">IF</span> <span class="p">(</span> <span class="nb">ALLOCATED</span><span class="p">(</span><span class="n">idloc</span><span class="p">)</span> <span class="p">)</span>  <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">idloc</span><span class="p">)</span>
+<a name="ln-233"></a>
+<a name="ln-234"></a>                <span class="k">IF</span> <span class="p">(</span> <span class="nb">ALLOCATED</span><span class="p">(</span><span class="n">idglob</span><span class="p">)</span> <span class="p">)</span> <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">idglob</span><span class="p">)</span>
+<a name="ln-235"></a>
+<a name="ln-236"></a>                <span class="k">RETURN</span>
+<a name="ln-237"></a>
+<a name="ln-238"></a><span class="k">            ELSE</span>
+<a name="ln-239"></a>                <span class="c">! found local face ID</span>
+<a name="ln-240"></a>                <span class="k">IF</span> <span class="p">(</span> <span class="p">(</span> <span class="n">nhat</span> <span class="p">.</span><span class="n">dot</span><span class="p">.</span> <span class="n">msh</span><span class="p">%</span><span class="n">af</span><span class="p">(</span> <span class="n">iface</span> <span class="p">)</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.0d0</span> <span class="p">)</span> <span class="n">nhat</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0d0</span><span class="p">)</span> <span class="o">*</span> <span class="n">nhat</span>
+<a name="ln-241"></a>            <span class="n">ENDIF</span>
+<a name="ln-242"></a>        <span class="k">ELSE</span>
+<a name="ln-243"></a>            <span class="c">! for local vertices, any face normal will do</span>
+<a name="ln-244"></a>            <span class="k">IF</span> <span class="p">(</span> <span class="p">(</span> <span class="n">nhat</span> <span class="p">.</span><span class="n">dot</span><span class="p">.</span> <span class="n">msh</span><span class="p">%</span><span class="n">af</span><span class="p">(</span> <span class="n">ibf2v</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.0d0</span><span class="p">)</span> <span class="n">nhat</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0d0</span><span class="p">)</span> <span class="o">*</span> <span class="n">nhat</span>
+<a name="ln-245"></a>        <span class="n">ENDIF</span>
+<a name="ln-246"></a>
+<a name="ln-247"></a>        <span class="c">! the x_local unit vector is arbitrarily constructed from the first vtx position</span>
+<a name="ln-248"></a>        <span class="n">jv</span> <span class="o">=</span> <span class="n">ibv2v</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-249"></a>        <span class="n">vtx_pos_temp</span> <span class="o">=</span> <span class="n">vtx_pos</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">free_pos</span>
+<a name="ln-250"></a>        <span class="c">!ahat = unit( vtx_pos(1) - free_pos )</span>
+<a name="ln-251"></a>        <span class="n">ahat</span> <span class="o">=</span> <span class="n">vtx_pos_temp</span> <span class="p">%</span><span class="n">unit</span><span class="p">()</span>
+<a name="ln-252"></a>        <span class="c">!because the points do not generally lie in a plane, ahat is not yet orthogonal to nhat</span>
+<a name="ln-253"></a>        <span class="c">!so subtract off any component of nhat</span>
+<a name="ln-254"></a>
+<a name="ln-255"></a>        <span class="n">ahat</span> <span class="o">=</span> <span class="n">ahat</span> <span class="o">-</span> <span class="p">(</span><span class="n">nhat</span> <span class="p">.</span><span class="n">dot</span><span class="p">.</span> <span class="n">ahat</span><span class="p">)</span> <span class="o">*</span> <span class="n">ahat</span>
+<a name="ln-256"></a>        <span class="n">ahat</span> <span class="o">=</span> <span class="n">ahat</span><span class="p">%</span><span class="n">unit</span><span class="p">()</span>
+<a name="ln-257"></a>
+<a name="ln-258"></a>        <span class="c">! bhat is constructed so that ahat cross bhat gives nhat</span>
+<a name="ln-259"></a>        <span class="n">bhat</span> <span class="o">=</span> <span class="p">(</span> <span class="o">-</span><span class="mf">1.0d0</span> <span class="p">)</span> <span class="o">*</span> <span class="p">(</span> <span class="n">ahat</span> <span class="p">.</span><span class="n">cross</span><span class="p">.</span> <span class="n">nhat</span> <span class="p">)</span>
+<a name="ln-260"></a>
+<a name="ln-261"></a>        <span class="c">! calculate xlocal and ylocal for each point and store in 2d coord sys</span>
+<a name="ln-262"></a>        <span class="k">DO </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">num_incident_vtx</span>
+<a name="ln-263"></a>
+<a name="ln-264"></a>            <span class="n">jv</span><span class="o">=</span><span class="n">ibv2v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>  <span class="c">! look up vertex id number from ith conn</span>
+<a name="ln-265"></a>
+<a name="ln-266"></a>            <span class="n">prel</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">jv</span><span class="p">)</span><span class="o">-</span><span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span> <span class="c">!position relative to free vtx</span>
+<a name="ln-267"></a>
+<a name="ln-268"></a>            <span class="c">!calculate projection into ahat/bhat plane</span>
+<a name="ln-269"></a>            <span class="n">xlocal</span> <span class="o">=</span> <span class="n">ahat</span> <span class="p">.</span><span class="n">dot</span><span class="p">.</span> <span class="n">prel</span>
+<a name="ln-270"></a>            <span class="n">ylocal</span> <span class="o">=</span> <span class="n">bhat</span> <span class="p">.</span><span class="n">dot</span><span class="p">.</span> <span class="n">prel</span>
+<a name="ln-271"></a>
+<a name="ln-272"></a>            <span class="c">!correct projected lengths to restore original prel</span>
+<a name="ln-273"></a>            <span class="n">cfac</span> <span class="o">=</span> <span class="n">prel</span><span class="p">%</span><span class="n">mag</span><span class="p">()</span><span class="o">/</span><span class="nb">SQRT</span><span class="p">(</span><span class="n">xlocal</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">ylocal</span> <span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-274"></a>
+<a name="ln-275"></a>            <span class="n">vtx_p2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">xlocal</span><span class="o">*</span><span class="n">cfac</span>
+<a name="ln-276"></a>            <span class="n">vtx_p2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">ylocal</span><span class="o">*</span><span class="n">cfac</span>
+<a name="ln-277"></a>
+<a name="ln-278"></a>        <span class="n">ENDDO</span>
+<a name="ln-279"></a>
+<a name="ln-280"></a>        <span class="k">IF</span> <span class="p">(</span> <span class="n">all_tets</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span> <span class="p">)</span> <span class="k">THEN</span> <span class="c">! use optimization on triangular faces</span>
+<a name="ln-281"></a>
+<a name="ln-282"></a>            <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">index_copy</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<a name="ln-283"></a>            <span class="n">local_tangled</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-284"></a>
+<a name="ln-285"></a>            <span class="c">! set up connectivity array</span>
+<a name="ln-286"></a>            <span class="k">DO </span><span class="n">itri</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="n">num_incident_tri</span>
+<a name="ln-287"></a>
+<a name="ln-288"></a>                <span class="k">IF</span> <span class="p">(</span> <span class="n">shared_flag</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span> <span class="p">)</span> <span class="k">THEN</span> <span class="c">! use global id&#39;s set above</span>
+<a name="ln-289"></a>
+<a name="ln-290"></a>                    <span class="n">iface</span> <span class="o">=</span> <span class="n">ibf2v</span><span class="p">(</span><span class="n">itri</span><span class="p">)</span>
+<a name="ln-291"></a>
+<a name="ln-292"></a>                    <span class="c">!lookup vertex numbers using global face and vertex id&#39;s</span>
+<a name="ln-293"></a>                    <span class="k">CALL </span><span class="n">msh</span><span class="p">%</span><span class="n">ov2f_sup</span><span class="p">%</span><span class="n">get_kt_row</span> <span class="p">(</span><span class="n">iface</span><span class="p">,</span> <span class="n">iv2f</span><span class="p">)</span>
+<a name="ln-294"></a>
+<a name="ln-295"></a>                    <span class="c">! make a copy to dereference iv2f</span>
+<a name="ln-296"></a>                    <span class="n">index_copy</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="n">iv2f</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span>
+<a name="ln-297"></a>
+<a name="ln-298"></a>                    <span class="c">! convert to local vertex id&#39;s</span>
+<a name="ln-299"></a>                    <span class="k">CALL </span><span class="n">psb_glob_to_loc</span><span class="p">(</span><span class="n">index_copy</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_v</span><span class="p">,</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-300"></a>
+<a name="ln-301"></a>                    <span class="c">!DEBUG--to be deleted once mesh adaptation coding is complete</span>
+<a name="ln-302"></a>                    <span class="k">IF</span> <span class="p">(</span><span class="nb">ANY</span><span class="p">(</span><span class="n">index_copy</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-303"></a><span class="k">                        WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;Processor &quot;</span><span class="p">,</span><span class="n">mypnum_</span><span class="p">(),</span><span class="s2">&quot;....vertices out of range on face&quot;</span><span class="p">,</span><span class="n">iface</span>
+<a name="ln-304"></a>                        <span class="k">DO </span><span class="n">k</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span>
+<a name="ln-305"></a>                            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;(a,i3,a,i1,a,i5,a,i6)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-306"></a>                                <span class="p">&amp;</span> <span class="s2">&quot;Processor &quot;</span><span class="p">,</span><span class="n">mypnum_</span><span class="p">(),</span><span class="s2">&quot; index_copy(&quot;</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="s2">&quot;) =&quot;</span><span class="p">,</span><span class="n">index_copy</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-307"></a>                                <span class="p">&amp;</span> <span class="s2">&quot;   global vertex ID =&quot;</span><span class="p">,</span><span class="n">iv2f</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<a name="ln-308"></a>                        <span class="n">ENDDO</span>
+<a name="ln-309"></a>
+<a name="ln-310"></a>                        <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-311"></a>                    <span class="n">ENDIF</span>
+<a name="ln-312"></a>
+<a name="ln-313"></a>                    <span class="c">! end DEBUG</span>
+<a name="ln-314"></a>
+<a name="ln-315"></a>                <span class="k">ELSE</span>
+<a name="ln-316"></a><span class="k">                    </span><span class="n">iface</span> <span class="o">=</span> <span class="n">ibf2v</span><span class="p">(</span><span class="n">itri</span><span class="p">)</span>  <span class="c">! look up cell id number from ith conn</span>
+<a name="ln-317"></a>
+<a name="ln-318"></a>                    <span class="c">!get the vertices for this face and shift the list until</span>
+<a name="ln-319"></a>                    <span class="c">!the free vertex is first.  Since this is a bndry face, all</span>
+<a name="ln-320"></a>                    <span class="c">! vertices should be boundary vertices</span>
+<a name="ln-321"></a>                    <span class="k">CALL </span><span class="n">msh</span><span class="p">%</span><span class="n">v2f</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">iv2f</span><span class="p">,</span><span class="n">iface</span><span class="p">)</span>
+<a name="ln-322"></a>
+<a name="ln-323"></a>                    <span class="c">! make a copy to dereference iv2f</span>
+<a name="ln-324"></a>                    <span class="n">index_copy</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="n">iv2f</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span>
+<a name="ln-325"></a>                <span class="n">ENDIF</span>
+<a name="ln-326"></a>
+<a name="ln-327"></a>                <span class="k">DO </span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span>  <span class="c">!find where the free vertex is located...we want it listed first</span>
+<a name="ln-328"></a>                    <span class="k">IF</span> <span class="p">(</span><span class="n">index_copy</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">==</span> <span class="n">iv</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-329"></a>
+<a name="ln-330"></a><span class="k">                        </span><span class="n">ifree_vtx</span> <span class="o">=</span> <span class="n">k</span>
+<a name="ln-331"></a>                    <span class="n">ENDIF</span>
+<a name="ln-332"></a>                <span class="n">ENDDO</span>
+<a name="ln-333"></a>
+<a name="ln-334"></a>                <span class="c">! circular shift to make the free vertex first yet keep right-handed</span>
+<a name="ln-335"></a>                <span class="c">! orientation</span>
+<a name="ln-336"></a>                <span class="k">IF</span> <span class="p">(</span><span class="n">ifree_vtx</span> <span class="o">==</span> <span class="mi">2</span> <span class="p">)</span> <span class="n">index_copy</span> <span class="o">=</span> <span class="nb">CSHIFT</span><span class="p">(</span><span class="n">index_copy</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-337"></a>                <span class="k">IF</span> <span class="p">(</span><span class="n">ifree_vtx</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>  <span class="n">index_copy</span> <span class="o">=</span> <span class="nb">CSHIFT</span><span class="p">(</span><span class="n">index_copy</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-338"></a>
+<a name="ln-339"></a>                <span class="c">!store the connected vertices for each tri (except the vertex of interest)</span>
+<a name="ln-340"></a>                <span class="c">!in the 2d array</span>
+<a name="ln-341"></a>
+<a name="ln-342"></a>                <span class="k">DO </span><span class="n">k</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span><span class="mi">3</span> <span class="c">! loop over verts in this tri skipping the free vertex</span>
+<a name="ln-343"></a>
+<a name="ln-344"></a>                    <span class="c">!get relative numbering (in the vtx_pos array above)</span>
+<a name="ln-345"></a>                    <span class="n">j</span> <span class="o">=</span> <span class="n">relative_numbering</span><span class="p">(</span><span class="n">index_copy</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>  <span class="c">! index copy is the vertex number</span>
+<a name="ln-346"></a>
+<a name="ln-347"></a>                    <span class="n">tri_verts</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">itri</span><span class="p">)</span> <span class="o">=</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span> <span class="c">!shift numbering by 1 to start with 0</span>
+<a name="ln-348"></a>                <span class="n">ENDDO</span> <span class="c">! end of k loop</span>
+<a name="ln-349"></a>
+<a name="ln-350"></a>                <span class="c">! check that the triangle is not twisted or invalid</span>
+<a name="ln-351"></a>                <span class="n">vtx1</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span> <span class="mf">0.0d0</span><span class="p">,</span> <span class="mf">0.0d0</span> <span class="o">/</span><span class="p">)</span>
+<a name="ln-352"></a>                <span class="n">j</span><span class="o">=</span> <span class="n">relative_numbering</span><span class="p">(</span><span class="n">index_copy</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<a name="ln-353"></a>                <span class="n">vtx2</span> <span class="o">=</span> <span class="n">vtx_p2d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+<a name="ln-354"></a>                <span class="n">j</span><span class="o">=</span> <span class="n">relative_numbering</span><span class="p">(</span><span class="n">index_copy</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<a name="ln-355"></a>                <span class="n">vtx3</span> <span class="o">=</span> <span class="n">vtx_p2d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+<a name="ln-356"></a>
+<a name="ln-357"></a>                <span class="c">! we use 3 element vectors and the 3rd element is ignored in right_handed2d</span>
+<a name="ln-358"></a>                <span class="n">valid_flag</span> <span class="o">=</span>  <span class="n">right_handed2d</span> <span class="p">(</span><span class="n">vtx1</span><span class="p">,</span> <span class="n">vtx2</span><span class="p">,</span> <span class="n">vtx3</span><span class="p">)</span>
+<a name="ln-359"></a>                <span class="k">IF</span> <span class="p">(</span> <span class="n">valid_flag</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="p">)</span> <span class="n">local_tangled</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-360"></a>
+<a name="ln-361"></a>            <span class="n">ENDDO</span> <span class="c">! end of loop over connected tris</span>
+<a name="ln-362"></a>
+<a name="ln-363"></a>            <span class="c">!        ------------ call smoother -----------------</span>
+<a name="ln-364"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">num_incident_tri</span> <span class="o">==</span> <span class="n">num_incident_vtx</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-365"></a>
+<a name="ln-366"></a><span class="k">                </span><span class="n">info</span> <span class="o">=</span> <span class="n">call_smooth2d</span> <span class="p">(</span><span class="nb">c_loc</span><span class="p">(</span><span class="n">num_incident_vtx</span><span class="p">),</span><span class="nb">c_loc</span><span class="p">(</span><span class="n">num_incident_tri</span><span class="p">),</span> <span class="n">free_p2d</span><span class="p">,</span>  <span class="p">&amp;</span>
+<a name="ln-367"></a>                    <span class="p">&amp;</span> <span class="n">vtx_p2d</span><span class="p">,</span> <span class="n">tri_verts</span><span class="p">,</span> <span class="nb">c_loc</span><span class="p">(</span><span class="n">local_tangled</span><span class="p">))</span>
+<a name="ln-368"></a>
+<a name="ln-369"></a>                <span class="c">!returns the optimal vertex location, free_p2d, in the local coord. system</span>
+<a name="ln-370"></a>
+<a name="ln-371"></a>                <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-372"></a><span class="k">                    WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">500</span><span class="p">)</span>
+<a name="ln-373"></a>                    <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-374"></a>                <span class="k">END IF</span>
+<a name="ln-375"></a>
+<a name="ln-376"></a><span class="k">            ELSE</span> <span class="c">! something is wrong, but not fatal, so produce helpful information</span>
+<a name="ln-377"></a>
+<a name="ln-378"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-379"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-380"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;(a,i2,a,i2,a,i2)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-381"></a>                    <span class="p">&amp;</span> <span class="s2">&quot;Abnormal vertex with: &quot;</span><span class="p">,</span><span class="n">num_incident_vtx</span><span class="p">,</span><span class="s2">&quot; incident vertices and &quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-382"></a>                    <span class="p">&amp;</span> <span class="n">num_incident_tri</span><span class="p">,</span><span class="s2">&quot; incident tris on processor &quot;</span><span class="p">,</span><span class="n">mypnum_</span><span class="p">()</span>
+<a name="ln-383"></a>
+<a name="ln-384"></a>                <span class="k">IF</span> <span class="p">(</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)%</span><span class="n">on_boundary_</span><span class="p">()</span> <span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-385"></a><span class="k">                    WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;(a,i4,a,3(f8.3,1x))&#39;</span><span class="p">)</span><span class="s2">&quot;Vertex on boundary&quot;</span><span class="p">,</span><span class="n">ib</span><span class="p">,</span><span class="s2">&quot; at position:&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-386"></a>                        <span class="p">&amp;</span> <span class="n">free_pos</span><span class="p">%</span><span class="n">x_</span><span class="p">(),</span><span class="n">free_pos</span><span class="p">%</span><span class="n">y_</span><span class="p">(),</span><span class="n">free_pos</span><span class="p">%</span><span class="n">z_</span><span class="p">()</span>
+<a name="ln-387"></a>                <span class="k">ELSE</span>
+<a name="ln-388"></a><span class="k">                    WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="s2">&quot;Vertex not on boundary&quot;</span>
+<a name="ln-389"></a>                <span class="n">ENDIF</span>
+<a name="ln-390"></a>
+<a name="ln-391"></a>                <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">idloc</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">idglob</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<a name="ln-392"></a>                <span class="n">idloc</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">iv</span>
+<a name="ln-393"></a>                <span class="k">CALL </span><span class="n">psb_loc_to_glob</span><span class="p">(</span><span class="n">idloc</span><span class="p">,</span><span class="n">idglob</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_v</span><span class="p">,</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-394"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;(a,i5,a,i5)&#39;</span><span class="p">)</span><span class="s2">&quot;Local vertex number: &quot;</span><span class="p">,</span><span class="n">idloc</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-395"></a>                    <span class="p">&amp;</span>                <span class="s2">&quot; and global number &quot;</span><span class="p">,</span><span class="n">idglob</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-396"></a>
+<a name="ln-397"></a>                <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">idloc</span><span class="p">,</span><span class="n">idglob</span><span class="p">)</span>
+<a name="ln-398"></a>
+<a name="ln-399"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-400"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s2">&quot; Index   Vertex   On Boundary&quot;</span>
+<a name="ln-401"></a>                <span class="k">DO </span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">num_incident_vtx</span>
+<a name="ln-402"></a>                    <span class="n">jv</span> <span class="o">=</span> <span class="n">ibv2v</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<a name="ln-403"></a>                    <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;(i5,3x,i5,9x,l1)&#39;</span><span class="p">)</span><span class="n">k</span><span class="p">,</span><span class="n">jv</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">jv</span><span class="p">)%</span><span class="n">on_boundary_</span><span class="p">()</span>
+<a name="ln-404"></a>                <span class="n">ENDDO</span>
+<a name="ln-405"></a>
+<a name="ln-406"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-407"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s2">&quot; Index   Tri ID  &quot;</span>
+<a name="ln-408"></a>
+<a name="ln-409"></a>                <span class="k">DO </span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">num_incident_tri</span>
+<a name="ln-410"></a>                    <span class="n">itri</span><span class="o">=</span><span class="n">ibf2v</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<a name="ln-411"></a>                    <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;(2(i5,5x))&#39;</span><span class="p">)</span> <span class="n">k</span><span class="p">,</span><span class="n">itri</span>
+<a name="ln-412"></a>                <span class="n">ENDDO</span>
+<a name="ln-413"></a>
+<a name="ln-414"></a>            <span class="n">ENDIF</span>
+<a name="ln-415"></a>
+<a name="ln-416"></a>            <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">index_copy</span><span class="p">)</span>
+<a name="ln-417"></a>
+<a name="ln-418"></a>        <span class="k">ELSE</span>  <span class="c">! if not all tets, find free_pos by simple averaging</span>
+<a name="ln-419"></a>
+<a name="ln-420"></a>            <span class="n">free_p2d</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="nb">SUM</span><span class="p">(</span><span class="n">vtx_p2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="n">num_incident_vtx</span><span class="p">))</span><span class="o">/</span><span class="n">num_incident_vtx</span>
+<a name="ln-421"></a>            <span class="n">free_p2d</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="nb">SUM</span><span class="p">(</span><span class="n">vtx_p2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="n">num_incident_vtx</span><span class="p">))</span><span class="o">/</span><span class="n">num_incident_vtx</span>
+<a name="ln-422"></a>
+<a name="ln-423"></a>        <span class="n">ENDIF</span> <span class="c">! end of non-tet branch</span>
+<a name="ln-424"></a>
+<a name="ln-425"></a>        <span class="c">! convert to 3d coord system.  Note that this conversion is not perfect</span>
+<a name="ln-426"></a>        <span class="c">! since we are working in a projected 2d coord. system, but as the movement</span>
+<a name="ln-427"></a>        <span class="c">! of free_pos becomes small, it becomes a very good approximation (2nd order)</span>
+<a name="ln-428"></a>        <span class="n">new_pos</span> <span class="o">=</span> <span class="n">free_pos</span> <span class="o">+</span> <span class="n">free_p2d</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">ahat</span> <span class="o">+</span> <span class="n">free_p2d</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">bhat</span>
+<a name="ln-429"></a>
+<a name="ln-430"></a>        <span class="c">! for curved surfaces, smoothing introduces small errors that require the</span>
+<a name="ln-431"></a>        <span class="c">! point to be forced back onto the precise surface</span>
+<a name="ln-432"></a>        <span class="n">new_pos</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">surf</span><span class="p">(</span><span class="n">ib</span><span class="p">)%</span><span class="n">get_closest_point</span><span class="p">(</span><span class="n">new_pos</span><span class="p">)</span>
+<a name="ln-433"></a>
+<a name="ln-434"></a>        <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span> <span class="o">=</span> <span class="n">new_pos</span>
+<a name="ln-435"></a>
+<a name="ln-436"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>  <span class="c">!OptMS failed</span>
+<a name="ln-437"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">500</span><span class="p">)</span>
+<a name="ln-438"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-439"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s2">&quot;The problem vertex is:&quot;</span>
+<a name="ln-440"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s2">&quot;ID #&quot;</span><span class="p">,</span><span class="n">iv</span>
+<a name="ln-441"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s2">&quot;Located at: (&quot;</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)%</span><span class="n">x_</span><span class="p">(),</span><span class="s2">&quot;,&quot;</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)%</span><span class="n">y_</span><span class="p">(),</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-442"></a>                <span class="p">&amp;</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)%</span><span class="n">z_</span><span class="p">(),</span><span class="s2">&quot;)&quot;</span>
+<a name="ln-443"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s2">&quot;With &quot;</span><span class="p">,</span><span class="n">num_incident_vtx</span><span class="p">,</span><span class="s2">&quot; incident vertices and &quot;</span><span class="p">,</span><span class="n">num_incident_tri</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-444"></a>                <span class="p">&amp;</span><span class="s2">&quot; incident tris.&quot;</span>
+<a name="ln-445"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-446"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-447"></a>        <span class="k">END IF</span>
+<a name="ln-448"></a>
+<a name="ln-449"></a><span class="k">        DEALLOCATE</span><span class="p">(</span><span class="n">relative_numbering</span><span class="p">)</span>
+<a name="ln-450"></a>
+<a name="ln-451"></a>        <span class="k">DEALLOCATE</span><span class="p">(</span> <span class="n">vtx_pos</span><span class="p">,</span><span class="n">vtx_p2d</span><span class="p">,</span><span class="n">tri_verts</span><span class="p">)</span>
+<a name="ln-452"></a>
+<a name="ln-453"></a>        <span class="k">IF</span> <span class="p">(</span> <span class="nb">ALLOCATED</span><span class="p">(</span><span class="n">idloc</span><span class="p">)</span> <span class="p">)</span>  <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">idloc</span><span class="p">)</span>
+<a name="ln-454"></a>
+<a name="ln-455"></a>        <span class="k">IF</span> <span class="p">(</span> <span class="nb">ALLOCATED</span><span class="p">(</span><span class="n">idglob</span><span class="p">)</span> <span class="p">)</span> <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">idglob</span><span class="p">)</span>
+<a name="ln-456"></a>
+<a name="ln-457"></a><span class="mi">300</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Too many triangles connected to a single vertex in SMOOTH_SURF_VTX&#39;</span><span class="p">)</span>
+<a name="ln-458"></a><span class="mi">400</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Too many verts connected to a single vertex in SMOOTH_SURF_VTX&#39;</span><span class="p">)</span>
+<a name="ln-459"></a><span class="mi">500</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Call to smoother from SMOOTH_SURF_VTX returned error.&#39;</span><span class="p">)</span>
+<a name="ln-460"></a><span class="mi">600</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory allocation failure in SMOOTH_SURF_VTX&#39;</span><span class="p">)</span>
+<a name="ln-461"></a>
+<a name="ln-462"></a>        <span class="k">END PROCEDURE </span><span class="n">smooth_surf_vtx</span>
+<a name="ln-463"></a>
+<a name="ln-464"></a><span class="k">END SUBMODULE </span><span class="n">smooth_surf_vtx_implementation</span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

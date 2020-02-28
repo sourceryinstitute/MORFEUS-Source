@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>geom_diff &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>geom_diff
+      <small>Module Procedure</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.2% of total for procedures.">88 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/geom_diff.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/geom_diff.f90.html'>geom_diff.f90</a></li>
+    
+     <li><a href='../module/geom_diff_implementation.html'>geom_diff_implementation</a></li>
+    
+  
+     <li class="active">geom_diff</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<em>None</em>
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>
+module procedure geom_diff <small>module subroutine geom_diff(faces, f2b, face_cntr, af, cell_cntr, df, dist, int_fact)</small>
+    
+    
+   <a href='../interface/geom_diff.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h2>
+    
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      
+      <li class="list-group-item">
+  <ul class="list-inline">
+    
+    <li><a href='../module/class_psblas.html'>class_psblas</a></li>
+    
+    <li><a href='../module/class_connectivity.html'>class_connectivity</a></li>
+    
+  </ul>
+      </li>
+      
+      
+      
+      <li class="list-group-item">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~geom_diff~~UsesGraph Pages: 1 -->
+<svg id="procgeom_diffUsesGraph" width="641pt" height="109pt"
+ viewBox="0.00 0.00 641.00 108.85" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~geom_diff~~UsesGraph" class="graph" transform="scale(1.03 1.03) rotate(0) translate(4 108.5)">
+<title>proc~~geom_diff~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-108.5 658.52,-108.5 658.52,4 -4,4"/>
+<!-- proc~geom_diff -->
+<g id="proc~~geom_diff~~UsesGraph_node1" class="node">
+<title>proc~geom_diff</title>
+<polygon fill="none" stroke="black" points="654.49,-42.26 596.63,-42.26 596.63,-20.24 654.49,-20.24 654.49,-42.26"/>
+<text text-anchor="middle" x="625.56" y="-28.1" font-family="Helvetica,sans-Serif" font-size="10.50">geom_diff</text>
+</g>
+<!-- module~class_psblas -->
+<g id="proc~~geom_diff~~UsesGraph_node2" class="node">
+<title>module~class_psblas</title>
+<g id="a_proc~~geom_diff~~UsesGraph_node2"><a xlink:href=".././module/class_psblas.html" xlink:title="class_psblas">
+<polygon fill="#337ab7" stroke="#337ab7" points="428.03,-42.26 355.8,-42.26 355.8,-20.24 428.03,-20.24 428.03,-42.26"/>
+<text text-anchor="middle" x="391.92" y="-28.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_psblas</text>
+</a>
+</g>
+</g>
+<!-- proc~geom_diff&#45;&gt;module~class_psblas -->
+<g id="proc~~geom_diff~~UsesGraph_edge1" class="edge">
+<title>proc~geom_diff&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M596.54,-31.78C585.36,-31.97 572.37,-32.16 560.59,-32.25 517.65,-32.59 506.92,-32.55 463.97,-32.25 455.73,-32.19 446.95,-32.1 438.47,-31.99"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="438.38,-28.48 428.34,-31.85 438.29,-35.48 438.38,-28.48"/>
+</g>
+<!-- module~class_connectivity -->
+<g id="proc~~geom_diff~~UsesGraph_node3" class="node">
+<title>module~class_connectivity</title>
+<g id="a_proc~~geom_diff~~UsesGraph_node3"><a xlink:href=".././module/class_connectivity.html" xlink:title="class_connectivity">
+<polygon fill="#337ab7" stroke="#337ab7" points="560.41,-23.26 464.16,-23.26 464.16,-1.24 560.41,-1.24 560.41,-23.26"/>
+<text text-anchor="middle" x="512.28" y="-9.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_connectivity</text>
+</a>
+</g>
+</g>
+<!-- proc~geom_diff&#45;&gt;module~class_connectivity -->
+<g id="proc~~geom_diff~~UsesGraph_edge2" class="edge">
+<title>proc~geom_diff&#45;&gt;module~class_connectivity</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M596.48,-26.46C588.62,-25.11 579.78,-23.6 570.87,-22.08"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="571.28,-18.6 560.84,-20.37 570.11,-25.5 571.28,-18.6"/>
+</g>
+<!-- module~class_stopwatch -->
+<g id="proc~~geom_diff~~UsesGraph_node4" class="node">
+<title>module~class_stopwatch</title>
+<g id="a_proc~~geom_diff~~UsesGraph_node4"><a xlink:href=".././module/class_stopwatch.html" xlink:title="class_stopwatch">
+<polygon fill="#337ab7" stroke="#337ab7" points="319.88,-23.26 230.8,-23.26 230.8,-1.24 319.88,-1.24 319.88,-23.26"/>
+<text text-anchor="middle" x="275.34" y="-9.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_stopwatch</text>
+</a>
+</g>
+</g>
+<!-- module~class_psblas&#45;&gt;module~class_stopwatch -->
+<g id="proc~~geom_diff~~UsesGraph_edge3" class="edge">
+<title>module~class_psblas&#45;&gt;module~class_stopwatch</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M355.61,-25.39C347.57,-24.06 338.86,-22.62 330.25,-21.19"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="330.67,-17.71 320.23,-19.53 329.52,-24.62 330.67,-17.71"/>
+</g>
+<!-- module~tools_psblas -->
+<g id="proc~~geom_diff~~UsesGraph_node5" class="node">
+<title>module~tools_psblas</title>
+<g id="a_proc~~geom_diff~~UsesGraph_node5"><a xlink:href=".././module/tools_psblas.html" xlink:title="tools_psblas">
+<polygon fill="#337ab7" stroke="#337ab7" points="195.01,-62.26 124.27,-62.26 124.27,-40.24 195.01,-40.24 195.01,-62.26"/>
+<text text-anchor="middle" x="159.64" y="-48.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_psblas</text>
+</a>
+</g>
+</g>
+<!-- module~class_psblas&#45;&gt;module~tools_psblas -->
+<g id="proc~~geom_diff~~UsesGraph_edge4" class="edge">
+<title>module~class_psblas&#45;&gt;module~tools_psblas</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M355.69,-34.31C315.33,-37.81 249.13,-43.56 205.21,-47.38"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="204.77,-43.9 195.11,-48.26 205.37,-50.88 204.77,-43.9"/>
+</g>
+<!-- module~class_connectivity&#45;&gt;module~class_psblas -->
+<g id="proc~~geom_diff~~UsesGraph_edge5" class="edge">
+<title>module~class_connectivity&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M464.16,-19.81C455.64,-21.18 446.76,-22.61 438.29,-23.97"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="437.52,-20.55 428.2,-25.59 438.63,-27.46 437.52,-20.55"/>
+</g>
+<!-- module~class_stopwatch&#45;&gt;module~tools_psblas -->
+<g id="proc~~geom_diff~~UsesGraph_edge6" class="edge">
+<title>module~class_stopwatch&#45;&gt;module~tools_psblas</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M242.06,-23.32C229.82,-27.52 215.7,-32.37 202.68,-36.83"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="201.32,-33.6 193,-40.15 203.59,-40.22 201.32,-33.6"/>
+</g>
+<!-- psb_base_mod -->
+<g id="proc~~geom_diff~~UsesGraph_node7" class="node">
+<title>psb_base_mod</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="86.03,-22.26 2.42,-22.26 2.42,-0.24 86.03,-0.24 86.03,-22.26"/>
+<text text-anchor="middle" x="44.23" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_base_mod</text>
+</g>
+<!-- module~class_stopwatch&#45;&gt;psb_base_mod -->
+<g id="proc~~geom_diff~~UsesGraph_edge7" class="edge">
+<title>module~class_stopwatch&#45;&gt;psb_base_mod</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M230.71,-12.06C192.49,-11.89 136.9,-11.65 96.56,-11.47"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="96.4,-7.97 86.39,-11.43 96.37,-14.97 96.4,-7.97"/>
+</g>
+<!-- psb_prec_mod -->
+<g id="proc~~geom_diff~~UsesGraph_node6" class="node">
+<title>psb_prec_mod</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="85.19,-104.26 3.27,-104.26 3.27,-82.24 85.19,-82.24 85.19,-104.26"/>
+<text text-anchor="middle" x="44.23" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_prec_mod</text>
+</g>
+<!-- module~tools_psblas&#45;&gt;psb_prec_mod -->
+<g id="proc~~geom_diff~~UsesGraph_edge8" class="edge">
+<title>module~tools_psblas&#45;&gt;psb_prec_mod</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M128.84,-62.29C115.4,-67.26 99.34,-73.21 84.9,-78.56"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="83.38,-75.39 75.22,-82.14 85.81,-81.95 83.38,-75.39"/>
+</g>
+<!-- module~tools_psblas&#45;&gt;psb_base_mod -->
+<g id="proc~~geom_diff~~UsesGraph_edge9" class="edge">
+<title>module~tools_psblas&#45;&gt;psb_base_mod</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M127.35,-40.21C114.69,-35.75 99.89,-30.53 86.38,-25.76"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="87.4,-22.41 76.81,-22.39 85.08,-29.02 87.4,-22.41"/>
+</g>
+<!-- psb_krylov_mod -->
+<g id="proc~~geom_diff~~UsesGraph_node8" class="node">
+<title>psb_krylov_mod</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="88.68,-63.26 -0.23,-63.26 -0.23,-41.24 88.68,-41.24 88.68,-63.26"/>
+<text text-anchor="middle" x="44.23" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_krylov_mod</text>
+</g>
+<!-- module~tools_psblas&#45;&gt;psb_krylov_mod -->
+<g id="proc~~geom_diff~~UsesGraph_edge10" class="edge">
+<title>module~tools_psblas&#45;&gt;psb_krylov_mod</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M124.3,-51.55C116.24,-51.62 107.47,-51.7 98.79,-51.78"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="98.66,-48.28 88.69,-51.87 98.72,-55.28 98.66,-48.28"/>
+</g>
+</g>
+</svg>
+</div><script>var panprocgeom_diffUsesGraph = svgPanZoom('#procgeom_diffUsesGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="484pt" height="31pt"
+ viewBox="0.00 0.00 483.85 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 479.85,-26.5 479.85,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-22.26 0,-22.26 0,-0.24 54,-0.24 54,-22.26"/>
+<text text-anchor="middle" x="27" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="137.62,-22.26 72.38,-22.26 72.38,-0.24 137.62,-0.24 137.62,-22.26"/>
+<text text-anchor="middle" x="105" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="218.29,-22.26 155.71,-22.26 155.71,-0.24 218.29,-0.24 218.29,-22.26"/>
+<text text-anchor="middle" x="187" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="290,-22.26 236,-22.26 236,-0.24 290,-0.24 290,-22.26"/>
+<text text-anchor="middle" x="263" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="362,-22.26 308,-22.26 308,-0.24 362,-0.24 362,-22.26"/>
+<text text-anchor="middle" x="335" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="475.71,-22.26 380.29,-22.26 380.29,-0.24 475.71,-0.24 475.71,-22.26"/>
+<text text-anchor="middle" x="428" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a submodule to the (sub)module which it is
+    descended from. Dashed arrows point from a module or program unit to 
+    modules which it uses. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </li>
+      
+      </ul>
+    </div>
+    
+
+
+    
+    <p>$  if(    allocated(df)   .or. &amp;
+$       &amp; allocated(dist) .or. &amp;
+$       &amp; allocated(int_fact)) then
+$     call abort_psblas
+$  end if</p>
+    
+
+    <h3>Arguments</h3>
+    
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-faces~17"></span>type(face),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>allocatable</td><td>::</td>
+  <td><strong>faces</strong>(:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-f2b~4"></span>type(<a href='../type/connectivity.html'>connectivity</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>f2b</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-face_cntr~3"></span>type(vector),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>allocatable</td><td>::</td>
+  <td><strong>face_cntr</strong>(:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-af~2"></span>type(vector),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>allocatable</td><td>::</td>
+  <td><strong>af</strong>(:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-cell_cntr~4"></span>type(vector),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>allocatable</td><td>::</td>
+  <td><strong>cell_cntr</strong>(:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-df~2"></span>type(vector),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>allocatable</td><td>::</td>
+  <td><strong>df</strong>(:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dist~2"></span>real(kind=psb_dpk_),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>allocatable</td><td>::</td>
+  <td><strong>dist</strong>(:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-int_fact"></span>real(kind=psb_dpk_),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>allocatable</td><td>::</td>
+  <td><strong>int_fact</strong>(:)</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    
+    
+    
+    <br>
+    
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Calls</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~geom_diff~~CallsGraph Pages: 1 -->
+<svg id="procgeom_diffCallsGraph" width="377pt" height="236pt"
+ viewBox="0.00 0.00 376.88 235.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~geom_diff~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 231.5)">
+<title>proc~~geom_diff~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-231.5 372.88,-231.5 372.88,4 -4,4"/>
+<!-- proc~geom_diff -->
+<g id="proc~~geom_diff~~CallsGraph_node1" class="node">
+<title>proc~geom_diff</title>
+<polygon fill="none" stroke="black" points="57.89,-124.26 0.04,-124.26 0.04,-102.24 57.89,-102.24 57.89,-124.26"/>
+<text text-anchor="middle" x="28.96" y="-110.1" font-family="Helvetica,sans-Serif" font-size="10.50">geom_diff</text>
+</g>
+<!-- interface~icontxt_ -->
+<g id="proc~~geom_diff~~CallsGraph_node2" class="node">
+<title>interface~icontxt_</title>
+<g id="a_proc~~geom_diff~~CallsGraph_node2"><a xlink:href=".././interface/icontxt_.html" xlink:title="icontxt_">
+<polygon fill="#a7506f" stroke="#a7506f" points="156.99,-227.26 102.99,-227.26 102.99,-205.24 156.99,-205.24 156.99,-227.26"/>
+<text text-anchor="middle" x="129.99" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">icontxt_</text>
+</a>
+</g>
+</g>
+<!-- proc~geom_diff&#45;&gt;interface~icontxt_ -->
+<g id="proc~~geom_diff~~CallsGraph_edge1" class="edge">
+<title>proc~geom_diff&#45;&gt;interface~icontxt_</title>
+<path fill="none" stroke="#ff0000" d="M36.74,-124.39C47.37,-141.22 69.31,-173.48 93.93,-195.25 95.61,-196.74 97.42,-198.18 99.29,-199.57"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="97.47,-202.56 107.72,-205.23 101.37,-196.75 97.47,-202.56"/>
+</g>
+<!-- interface~mypnum_ -->
+<g id="proc~~geom_diff~~CallsGraph_node3" class="node">
+<title>interface~mypnum_</title>
+<g id="a_proc~~geom_diff~~CallsGraph_node3"><a xlink:href=".././interface/mypnum_.html" xlink:title="mypnum_">
+<polygon fill="#a7506f" stroke="#a7506f" points="159.09,-186.26 100.89,-186.26 100.89,-164.24 159.09,-164.24 159.09,-186.26"/>
+<text text-anchor="middle" x="129.99" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mypnum_</text>
+</a>
+</g>
+</g>
+<!-- proc~geom_diff&#45;&gt;interface~mypnum_ -->
+<g id="proc~~geom_diff~~CallsGraph_edge2" class="edge">
+<title>proc~geom_diff&#45;&gt;interface~mypnum_</title>
+<path fill="none" stroke="#ff0000" d="M46.98,-124.35C59.82,-132.68 77.89,-144.31 93.93,-154.25 96.42,-155.79 99.01,-157.38 101.62,-158.97"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="99.99,-162.07 110.37,-164.24 103.61,-156.08 99.99,-162.07"/>
+</g>
+<!-- interface~abort_psblas -->
+<g id="proc~~geom_diff~~CallsGraph_node4" class="node">
+<title>interface~abort_psblas</title>
+<g id="a_proc~~geom_diff~~CallsGraph_node4"><a xlink:href=".././interface/abort_psblas.html" xlink:title="abort_psblas">
+<polygon fill="#a7506f" stroke="#a7506f" points="166.11,-145.26 93.87,-145.26 93.87,-123.24 166.11,-123.24 166.11,-145.26"/>
+<text text-anchor="middle" x="129.99" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abort_psblas</text>
+</a>
+</g>
+</g>
+<!-- proc~geom_diff&#45;&gt;interface~abort_psblas -->
+<g id="proc~~geom_diff~~CallsGraph_edge3" class="edge">
+<title>proc~geom_diff&#45;&gt;interface~abort_psblas</title>
+<path fill="none" stroke="#ff0000" d="M58.08,-119.21C66.14,-120.92 75.13,-122.83 83.94,-124.7"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="83.23,-128.12 93.74,-126.78 84.68,-121.28 83.23,-128.12"/>
+</g>
+<!-- psb_sum -->
+<g id="proc~~geom_diff~~CallsGraph_node5" class="node">
+<title>psb_sum</title>
+<polygon fill="#777777" stroke="#777777" points="157.1,-104.26 102.88,-104.26 102.88,-82.24 157.1,-82.24 157.1,-104.26"/>
+<text text-anchor="middle" x="129.99" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_sum</text>
+</g>
+<!-- proc~geom_diff&#45;&gt;psb_sum -->
+<g id="proc~~geom_diff~~CallsGraph_edge4" class="edge">
+<title>proc~geom_diff&#45;&gt;psb_sum</title>
+<path fill="none" stroke="#ff0000" d="M58.08,-107.57C68.85,-105.4 81.29,-102.88 92.71,-100.58"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="93.74,-103.94 102.85,-98.53 92.35,-97.08 93.74,-103.94"/>
+</g>
+<!-- interface~vector_ -->
+<g id="proc~~geom_diff~~CallsGraph_node6" class="node">
+<title>interface~vector_</title>
+<g id="a_proc~~geom_diff~~CallsGraph_node6"><a xlink:href=".././interface/vector_.html" xlink:title="vector_">
+<polygon fill="#a7506f" stroke="#a7506f" points="156.99,-63.26 102.99,-63.26 102.99,-41.24 156.99,-41.24 156.99,-63.26"/>
+<text text-anchor="middle" x="129.99" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_</text>
+</a>
+</g>
+</g>
+<!-- proc~geom_diff&#45;&gt;interface~vector_ -->
+<g id="proc~~geom_diff~~CallsGraph_edge5" class="edge">
+<title>proc~geom_diff&#45;&gt;interface~vector_</title>
+<path fill="none" stroke="#ff0000" d="M47.55,-102.12C60.37,-94.05 78.18,-82.89 93.93,-73.25 96.42,-71.72 99.03,-70.14 101.63,-68.56"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="103.62,-71.45 110.39,-63.3 100.02,-65.45 103.62,-71.45"/>
+</g>
+<!-- 3 -->
+<g id="proc~~geom_diff~~CallsGraph_node7" class="node">
+<title>3</title>
+<polygon fill="#777777" stroke="#777777" points="156.99,-22.26 102.99,-22.26 102.99,-0.24 156.99,-0.24 156.99,-22.26"/>
+<text text-anchor="middle" x="129.99" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">3</text>
+</g>
+<!-- proc~geom_diff&#45;&gt;3 -->
+<g id="proc~~geom_diff~~CallsGraph_edge6" class="edge">
+<title>proc~geom_diff&#45;&gt;3</title>
+<path fill="none" stroke="#ff0000" d="M36.94,-101.98C47.68,-85.29 69.57,-53.66 93.93,-32.25 95.62,-30.77 97.42,-29.33 99.3,-27.95"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="101.38,-30.76 107.74,-22.29 97.48,-24.95 101.38,-30.76"/>
+</g>
+<!-- proc~icontxt_ -->
+<g id="proc~~geom_diff~~CallsGraph_node10" class="node">
+<title>proc~icontxt_</title>
+<g id="a_proc~~geom_diff~~CallsGraph_node10"><a xlink:href=".././proc/icontxt_.html" xlink:title="icontxt_">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="265.11,-227.26 211.11,-227.26 211.11,-205.24 265.11,-205.24 265.11,-227.26"/>
+<text text-anchor="middle" x="238.11" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">icontxt_</text>
+</a>
+</g>
+</g>
+<!-- interface~icontxt_&#45;&gt;proc~icontxt_ -->
+<g id="proc~~geom_diff~~CallsGraph_edge7" class="edge">
+<title>interface~icontxt_&#45;&gt;proc~icontxt_</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M157.22,-216.25C170.36,-216.25 186.48,-216.25 200.78,-216.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="200.81,-219.75 210.81,-216.25 200.81,-212.75 200.81,-219.75"/>
+</g>
+<!-- proc~mypnum_ -->
+<g id="proc~~geom_diff~~CallsGraph_node9" class="node">
+<title>proc~mypnum_</title>
+<g id="a_proc~~geom_diff~~CallsGraph_node9"><a xlink:href=".././proc/mypnum_.html" xlink:title="mypnum_">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="267.21,-186.26 209.01,-186.26 209.01,-164.24 267.21,-164.24 267.21,-186.26"/>
+<text text-anchor="middle" x="238.11" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mypnum_</text>
+</a>
+</g>
+</g>
+<!-- interface~mypnum_&#45;&gt;proc~mypnum_ -->
+<g id="proc~~geom_diff~~CallsGraph_edge8" class="edge">
+<title>interface~mypnum_&#45;&gt;proc~mypnum_</title>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M159.15,-175.25C171.26,-175.25 185.62,-175.25 198.68,-175.25"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="198.82,-178.75 208.82,-175.25 198.82,-171.75 198.82,-178.75"/>
+</g>
+<!-- proc~abort_psblas -->
+<g id="proc~~geom_diff~~CallsGraph_node11" class="node">
+<title>proc~abort_psblas</title>
+<g id="a_proc~~geom_diff~~CallsGraph_node11"><a xlink:href=".././proc/abort_psblas.html" xlink:title="abort_psblas">
+<polygon fill="#d9534f" stroke="#d9534f" points="274.24,-145.26 201.99,-145.26 201.99,-123.24 274.24,-123.24 274.24,-145.26"/>
+<text text-anchor="middle" x="238.11" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abort_psblas</text>
+</a>
+</g>
+</g>
+<!-- interface~abort_psblas&#45;&gt;proc~abort_psblas -->
+<g id="proc~~geom_diff~~CallsGraph_edge9" class="edge">
+<title>interface~abort_psblas&#45;&gt;proc~abort_psblas</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M166.33,-134.25C174.47,-134.25 183.25,-134.25 191.75,-134.25"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="191.93,-137.75 201.93,-134.25 191.93,-130.75 191.93,-137.75"/>
+</g>
+<!-- proc~vector_ -->
+<g id="proc~~geom_diff~~CallsGraph_node8" class="node">
+<title>proc~vector_</title>
+<g id="a_proc~~geom_diff~~CallsGraph_node8"><a xlink:href=".././proc/vector_.html" xlink:title="vector_">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="265.11,-63.26 211.11,-63.26 211.11,-41.24 265.11,-41.24 265.11,-63.26"/>
+<text text-anchor="middle" x="238.11" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_</text>
+</a>
+</g>
+</g>
+<!-- interface~vector_&#45;&gt;proc~vector_ -->
+<g id="proc~~geom_diff~~CallsGraph_edge10" class="edge">
+<title>interface~vector_&#45;&gt;proc~vector_</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M157.22,-52.25C170.36,-52.25 186.48,-52.25 200.78,-52.25"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="200.81,-55.75 210.81,-52.25 200.81,-48.75 200.81,-55.75"/>
+</g>
+<!-- psb_abort -->
+<g id="proc~~geom_diff~~CallsGraph_node12" class="node">
+<title>psb_abort</title>
+<polygon fill="#777777" stroke="#777777" points="368.73,-145.26 310.32,-145.26 310.32,-123.24 368.73,-123.24 368.73,-145.26"/>
+<text text-anchor="middle" x="339.53" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_abort</text>
+</g>
+<!-- proc~abort_psblas&#45;&gt;psb_abort -->
+<g id="proc~~geom_diff~~CallsGraph_edge11" class="edge">
+<title>proc~abort_psblas&#45;&gt;psb_abort</title>
+<path fill="none" stroke="#7f00ff" d="M274.44,-134.25C282.77,-134.25 291.7,-134.25 300.15,-134.25"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="300.17,-137.75 310.17,-134.25 300.17,-130.75 300.17,-137.75"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="550pt" height="31pt"
+ viewBox="0.00 0.00 550.25 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 546.25,-26.5 546.25,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="62.68,-22.26 0.11,-22.26 0.11,-0.24 62.68,-0.24 62.68,-22.26"/>
+<text text-anchor="middle" x="31.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="134.39,-22.26 80.39,-22.26 80.39,-0.24 134.39,-0.24 134.39,-22.26"/>
+<text text-anchor="middle" x="107.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="206.39,-22.26 152.39,-22.26 152.39,-0.24 206.39,-0.24 206.39,-22.26"/>
+<text text-anchor="middle" x="179.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="356.53,-22.26 224.26,-22.26 224.26,-0.24 356.53,-0.24 356.53,-22.26"/>
+<text text-anchor="middle" x="290.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="428.39,-22.26 374.39,-22.26 374.39,-0.24 428.39,-0.24 428.39,-22.26"/>
+<text text-anchor="middle" x="401.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="542.1,-22.26 446.69,-22.26 446.69,-0.24 542.1,-0.24 542.1,-22.26"/>
+<text text-anchor="middle" x="494.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a procedure to one which it calls. Dashed 
+    arrows point from an interface to procedures which implement that interface.
+    This could include the module procedures in a generic interface or the
+    implementation in a submodule of an interface in a parent module. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+     
+     
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Called by</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~geom_diff~~CalledByGraph Pages: 1 -->
+<svg id="procgeom_diffCalledByGraph" width="388pt" height="72pt"
+ viewBox="0.00 0.00 387.75 71.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~geom_diff~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 67.5)">
+<title>proc~~geom_diff~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-67.5 383.75,-67.5 383.75,4 -4,4"/>
+<!-- proc~geom_diff -->
+<g id="proc~~geom_diff~~CalledByGraph_node1" class="node">
+<title>proc~geom_diff</title>
+<polygon fill="none" stroke="black" points="379.71,-42.26 321.86,-42.26 321.86,-20.24 379.71,-20.24 379.71,-42.26"/>
+<text text-anchor="middle" x="350.79" y="-28.1" font-family="Helvetica,sans-Serif" font-size="10.50">geom_diff</text>
+</g>
+<!-- interface~geom_diff -->
+<g id="proc~~geom_diff~~CalledByGraph_node2" class="node">
+<title>interface~geom_diff</title>
+<g id="a_proc~~geom_diff~~CalledByGraph_node2"><a xlink:href=".././interface/geom_diff.html" xlink:title="geom_diff">
+<polygon fill="#a7506f" stroke="#a7506f" points="285.79,-42.26 227.93,-42.26 227.93,-20.24 285.79,-20.24 285.79,-42.26"/>
+<text text-anchor="middle" x="256.86" y="-28.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geom_diff</text>
+</a>
+</g>
+</g>
+<!-- interface~geom_diff&#45;&gt;proc~geom_diff -->
+<g id="proc~~geom_diff~~CalledByGraph_edge1" class="edge">
+<title>interface~geom_diff&#45;&gt;proc~geom_diff</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M285.94,-31.25C293.97,-31.25 302.87,-31.25 311.41,-31.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="311.56,-34.75 321.56,-31.25 311.56,-27.75 311.56,-34.75"/>
+</g>
+<!-- proc~create_mesh -->
+<g id="proc~~geom_diff~~CalledByGraph_node3" class="node">
+<title>proc~create_mesh</title>
+<g id="a_proc~~geom_diff~~CalledByGraph_node3"><a xlink:href=".././proc/create_mesh.html" xlink:title="create_mesh">
+<polygon fill="#d9534f" stroke="#d9534f" points="189.12,-63.26 116.72,-63.26 116.72,-41.24 189.12,-41.24 189.12,-63.26"/>
+<text text-anchor="middle" x="152.92" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">create_mesh</text>
+</a>
+</g>
+</g>
+<!-- proc~create_mesh&#45;&gt;interface~geom_diff -->
+<g id="proc~~geom_diff~~CalledByGraph_edge2" class="edge">
+<title>proc~create_mesh&#45;&gt;interface~geom_diff</title>
+<path fill="none" stroke="#ff0000" d="M189.29,-44.96C198.49,-43.07 208.45,-41.02 217.79,-39.09"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="218.53,-42.51 227.62,-37.07 217.12,-35.66 218.53,-42.51"/>
+</g>
+<!-- proc~smooth_mesh -->
+<g id="proc~~geom_diff~~CalledByGraph_node4" class="node">
+<title>proc~smooth_mesh</title>
+<g id="a_proc~~geom_diff~~CalledByGraph_node4"><a xlink:href=".././proc/smooth_mesh.html" xlink:title="smooth_mesh">
+<polygon fill="#d9534f" stroke="#d9534f" points="191.87,-22.26 113.97,-22.26 113.97,-0.24 191.87,-0.24 191.87,-22.26"/>
+<text text-anchor="middle" x="152.92" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">smooth_mesh</text>
+</a>
+</g>
+</g>
+<!-- proc~smooth_mesh&#45;&gt;interface~geom_diff -->
+<g id="proc~~geom_diff~~CalledByGraph_edge3" class="edge">
+<title>proc~smooth_mesh&#45;&gt;interface~geom_diff</title>
+<path fill="none" stroke="#ff0000" d="M191.88,-18.7C200.33,-20.36 209.29,-22.11 217.75,-23.77"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="217.26,-27.24 227.75,-25.73 218.61,-20.37 217.26,-27.24"/>
+</g>
+<!-- interface~create_mesh -->
+<g id="proc~~geom_diff~~CalledByGraph_node5" class="node">
+<title>interface~create_mesh</title>
+<g id="a_proc~~geom_diff~~CalledByGraph_node5"><a xlink:href=".././interface/create_mesh.html" xlink:title="create_mesh">
+<polygon fill="#a7506f" stroke="#a7506f" points="75.17,-63.26 2.78,-63.26 2.78,-41.24 75.17,-41.24 75.17,-63.26"/>
+<text text-anchor="middle" x="38.97" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">create_mesh</text>
+</a>
+</g>
+</g>
+<!-- interface~create_mesh&#45;&gt;proc~create_mesh -->
+<g id="proc~~geom_diff~~CalledByGraph_edge4" class="edge">
+<title>interface~create_mesh&#45;&gt;proc~create_mesh</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M75.4,-52.25C85.2,-52.25 95.97,-52.25 106.27,-52.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="106.35,-55.75 116.35,-52.25 106.35,-48.75 106.35,-55.75"/>
+</g>
+<!-- interface~smooth_mesh -->
+<g id="proc~~geom_diff~~CalledByGraph_node6" class="node">
+<title>interface~smooth_mesh</title>
+<g id="a_proc~~geom_diff~~CalledByGraph_node6"><a xlink:href=".././interface/smooth_mesh.html" xlink:title="smooth_mesh">
+<polygon fill="#a7506f" stroke="#a7506f" points="77.92,-22.26 0.03,-22.26 0.03,-0.24 77.92,-0.24 77.92,-22.26"/>
+<text text-anchor="middle" x="38.97" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">smooth_mesh</text>
+</a>
+</g>
+</g>
+<!-- interface~smooth_mesh&#45;&gt;proc~smooth_mesh -->
+<g id="proc~~geom_diff~~CalledByGraph_edge5" class="edge">
+<title>interface~smooth_mesh&#45;&gt;proc~smooth_mesh</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M78.19,-11.25C86.38,-11.25 95.15,-11.25 103.66,-11.25"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="103.88,-14.75 113.88,-11.25 103.88,-7.75 103.88,-14.75"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="550pt" height="31pt"
+ viewBox="0.00 0.00 550.25 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 546.25,-26.5 546.25,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="62.68,-22.26 0.11,-22.26 0.11,-0.24 62.68,-0.24 62.68,-22.26"/>
+<text text-anchor="middle" x="31.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="134.39,-22.26 80.39,-22.26 80.39,-0.24 134.39,-0.24 134.39,-22.26"/>
+<text text-anchor="middle" x="107.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="206.39,-22.26 152.39,-22.26 152.39,-0.24 206.39,-0.24 206.39,-22.26"/>
+<text text-anchor="middle" x="179.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="356.53,-22.26 224.26,-22.26 224.26,-0.24 356.53,-0.24 356.53,-22.26"/>
+<text text-anchor="middle" x="290.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="428.39,-22.26 374.39,-22.26 374.39,-0.24 428.39,-0.24 428.39,-22.26"/>
+<text text-anchor="middle" x="401.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="542.1,-22.26 446.69,-22.26 446.69,-0.24 542.1,-0.24 542.1,-22.26"/>
+<text text-anchor="middle" x="494.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a procedure to one which it calls. Dashed 
+    arrows point from an interface to procedures which implement that interface.
+    This could include the module procedures in a generic interface or the
+    implementation in a submodule of an interface in a parent module. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+     
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<em>None</em>
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    </div>
+  </div>
+
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

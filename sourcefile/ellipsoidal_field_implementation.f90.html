@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>ellipsoidal_field_implementation.f90 &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>ellipsoidal_field_implementation.f90
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.3% of total for source files.">65 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/ellipsoidal_field_implementation.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">ellipsoidal_field_implementation.f90</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-0">Submodules</a></h3></div>
+  <div id="submods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/ellipsoidal_field_implementation.html">ellipsoidal_field_implementation</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/ellipsoidal_field_implementation.f90.html#src">ellipsoidal_field_implementation.f90</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">This file depends on</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefileellipsoidal_field_implementationf90EfferentGraph" width="641pt" height="149pt"
+ viewBox="0.00 0.00 641.00 149.22" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph" class="graph" transform="scale(1.9 1.9) rotate(0) translate(4 279.5)">
+<title>sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-279.5 1213.79,-279.5 1213.79,4 -4,4"/>
+<!-- sourcefile~ellipsoidal_field_implementation.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~ellipsoidal_field_implementation.f90</title>
+<polygon fill="none" stroke="black" points="1209.67,-109.26 1032.13,-109.26 1032.13,-87.24 1209.67,-87.24 1209.67,-109.26"/>
+<text text-anchor="middle" x="1120.9" y="-95.1" font-family="Helvetica,sans-Serif" font-size="10.50">ellipsoidal_field_implementation.f90</text>
+</g>
+<!-- sourcefile~ellipsoidal_field_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~ellipsoidal_field_interface.f90</title>
+<g id="a_sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/ellipsoidal_field_interface.f90.html" xlink:title="ellipsoidal_field_interface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="817.2,-257.26 670.52,-257.26 670.52,-235.24 817.2,-235.24 817.2,-257.26"/>
+<text text-anchor="middle" x="743.86" y="-243.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ellipsoidal_field_interface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~ellipsoidal_field_implementation.f90&#45;&gt;sourcefile~ellipsoidal_field_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge3" class="edge">
+<title>sourcefile~ellipsoidal_field_implementation.f90&#45;&gt;sourcefile~ellipsoidal_field_interface.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1102.86,-109.43C1079.52,-124.39 1035.93,-151.01 996.02,-168.25 930.98,-196.34 852.52,-219.03 800.8,-232.55"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="799.63,-229.24 790.82,-235.13 801.38,-236.02 799.63,-229.24"/>
+</g>
+<!-- sourcefile~kind_parameters.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~kind_parameters.f90</title>
+<g id="a_sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node3"><a xlink:href=".././sourcefile/kind_parameters.f90.html" xlink:title="kind_parameters.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="247.22,-139.26 139.78,-139.26 139.78,-117.24 247.22,-117.24 247.22,-139.26"/>
+<text text-anchor="middle" x="193.5" y="-125.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~ellipsoidal_field_implementation.f90&#45;&gt;sourcefile~kind_parameters.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~ellipsoidal_field_implementation.f90&#45;&gt;sourcefile~kind_parameters.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1067.38,-87.24C995.1,-73.07 860.72,-50.25 744.86,-50.25 744.86,-50.25 744.86,-50.25 551.95,-50.25 432.28,-50.25 396.64,-30.66 283.36,-69.25 257.39,-78.1 231.72,-96.47 214.7,-110.38"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="212.02,-108.05 206.63,-117.17 216.53,-113.4 212.02,-108.05"/>
+</g>
+<!-- sourcefile~cartesian_grid_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node4" class="node">
+<title>sourcefile~cartesian_grid_interface.f90</title>
+<g id="a_sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node4"><a xlink:href=".././sourcefile/cartesian_grid_interface.f90.html" xlink:title="cartesian_grid_interface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="995.81,-159.26 854.65,-159.26 854.65,-137.24 995.81,-137.24 995.81,-159.26"/>
+<text text-anchor="middle" x="925.23" y="-145.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cartesian_grid_interface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~ellipsoidal_field_implementation.f90&#45;&gt;sourcefile~cartesian_grid_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~ellipsoidal_field_implementation.f90&#45;&gt;sourcefile~cartesian_grid_interface.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1076.92,-109.35C1047.96,-116.82 1009.58,-126.73 978.8,-134.68"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="977.9,-131.3 969.09,-137.18 979.65,-138.07 977.9,-131.3"/>
+</g>
+<!-- sourcefile~assertions_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node5" class="node">
+<title>sourcefile~assertions_interface.f90</title>
+<g id="a_sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node5"><a xlink:href=".././sourcefile/assertions_interface.f90.html" xlink:title="assertions_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="988.71,-22.26 861.75,-22.26 861.75,-0.24 988.71,-0.24 988.71,-22.26"/>
+<text text-anchor="middle" x="925.23" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assertions_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~ellipsoidal_field_implementation.f90&#45;&gt;sourcefile~assertions_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge4" class="edge">
+<title>sourcefile~ellipsoidal_field_implementation.f90&#45;&gt;sourcefile~assertions_interface.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1099.65,-87.17C1075.41,-74.13 1033.39,-52.23 996.02,-36.25 987.41,-32.57 978.07,-28.97 969.1,-25.69"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="970.15,-22.35 959.56,-22.27 967.79,-28.94 970.15,-22.35"/>
+</g>
+<!-- sourcefile~differentiable_field_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node7" class="node">
+<title>sourcefile~differentiable_field_interface.f90</title>
+<g id="a_sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node7"><a xlink:href=".././sourcefile/differentiable_field_interface.f90.html" xlink:title="differentiable_field_interface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="633.12,-256.26 472.78,-256.26 472.78,-234.24 633.12,-234.24 633.12,-256.26"/>
+<text text-anchor="middle" x="552.95" y="-242.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_field_interface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~ellipsoidal_field_interface.f90&#45;&gt;sourcefile~differentiable_field_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge6" class="edge">
+<title>sourcefile~ellipsoidal_field_interface.f90&#45;&gt;sourcefile~differentiable_field_interface.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M670.36,-245.87C661.52,-245.82 652.4,-245.77 643.35,-245.72"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="643.19,-242.22 633.17,-245.67 643.15,-249.22 643.19,-242.22"/>
+</g>
+<!-- sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node8" class="node">
+<title>sourcefile~grid_interface.f90</title>
+<g id="a_sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node8"><a xlink:href=".././sourcefile/grid_interface.f90.html" xlink:title="grid_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="408.12,-256.26 311.86,-256.26 311.86,-234.24 408.12,-234.24 408.12,-256.26"/>
+<text text-anchor="middle" x="359.99" y="-242.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">grid_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~ellipsoidal_field_interface.f90&#45;&gt;sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge5" class="edge">
+<title>sourcefile~ellipsoidal_field_interface.f90&#45;&gt;sourcefile~grid_interface.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M690.15,-257.28C672.19,-260.53 651.94,-263.64 633.28,-265.25 562.14,-271.37 543.74,-271.57 472.62,-265.25 454.83,-263.67 435.64,-260.7 418.26,-257.52"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="418.74,-254.05 408.27,-255.63 417.45,-260.93 418.74,-254.05"/>
+</g>
+<!-- sourcefile~surfaces_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node6" class="node">
+<title>sourcefile~surfaces_interface.f90</title>
+<g id="a_sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node6"><a xlink:href=".././sourcefile/surfaces_interface.f90.html" xlink:title="surfaces_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="612.26,-141.26 493.65,-141.26 493.65,-119.24 612.26,-119.24 612.26,-141.26"/>
+<text text-anchor="middle" x="552.95" y="-127.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">surfaces_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~cartesian_grid_interface.f90&#45;&gt;sourcefile~surfaces_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge8" class="edge">
+<title>sourcefile~cartesian_grid_interface.f90&#45;&gt;sourcefile~surfaces_interface.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M742.86,-129.25C703.22,-125.15 658.65,-125.17 622.77,-126.32"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="622.27,-122.83 612.4,-126.69 622.52,-129.83 622.27,-122.83"/>
+</g>
+<!-- sourcefile~cartesian_grid_interface.f90&#45;&gt;sourcefile~differentiable_field_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge10" class="edge">
+<title>sourcefile~cartesian_grid_interface.f90&#45;&gt;sourcefile~differentiable_field_interface.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M898.08,-159.39C876.9,-168.11 846.12,-180.08 818.44,-188.25 755.06,-206.95 681.46,-222.31 628.02,-232.35"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="627.14,-228.96 617.95,-234.23 628.42,-235.84 627.14,-228.96"/>
+</g>
+<!-- sourcefile~geometry_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node9" class="node">
+<title>sourcefile~geometry_interface.f90</title>
+<g id="a_sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node9"><a xlink:href=".././sourcefile/geometry_interface.f90.html" xlink:title="geometry_interface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="612.85,-100.26 493.06,-100.26 493.06,-78.24 612.85,-78.24 612.85,-100.26"/>
+<text text-anchor="middle" x="552.95" y="-86.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geometry_interface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~cartesian_grid_interface.f90&#45;&gt;sourcefile~geometry_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge7" class="edge">
+<title>sourcefile~cartesian_grid_interface.f90&#45;&gt;sourcefile~geometry_interface.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M742.86,-129.25C695.11,-124.31 641.67,-112.38 603.84,-102.83"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="604.65,-99.42 594.09,-100.33 602.91,-106.2 604.65,-99.42"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M854.39,-140.77C821.21,-137.24 780.99,-132.99 744.86,-129.25"/>
+</g>
+<!-- sourcefile~structured_grid_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node10" class="node">
+<title>sourcefile~structured_grid_interface.f90</title>
+<g id="a_sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node10"><a xlink:href=".././sourcefile/structured_grid_interface.f90.html" xlink:title="structured_grid_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="818.52,-179.26 669.21,-179.26 669.21,-157.24 818.52,-157.24 818.52,-179.26"/>
+<text text-anchor="middle" x="743.86" y="-165.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">structured_grid_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~cartesian_grid_interface.f90&#45;&gt;sourcefile~structured_grid_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge9" class="edge">
+<title>sourcefile~cartesian_grid_interface.f90&#45;&gt;sourcefile~structured_grid_interface.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M854.62,-156.01C846.13,-156.96 837.38,-157.93 828.71,-158.9"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="828.13,-155.44 818.58,-160.03 828.91,-162.4 828.13,-155.44"/>
+</g>
+<!-- sourcefile~surfaces_interface.f90&#45;&gt;sourcefile~kind_parameters.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge12" class="edge">
+<title>sourcefile~surfaces_interface.f90&#45;&gt;sourcefile~kind_parameters.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M493.33,-129.92C428.47,-129.56 324.33,-128.98 257.69,-128.6"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="257.35,-125.1 247.33,-128.55 257.31,-132.1 257.35,-125.1"/>
+</g>
+<!-- sourcefile~package_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node12" class="node">
+<title>sourcefile~package_interface.f90</title>
+<g id="a_sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node12"><a xlink:href=".././sourcefile/package_interface.f90.html" xlink:title="package_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="419.31,-100.26 300.67,-100.26 300.67,-78.24 419.31,-78.24 419.31,-100.26"/>
+<text text-anchor="middle" x="359.99" y="-86.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">package_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~surfaces_interface.f90&#45;&gt;sourcefile~package_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge11" class="edge">
+<title>sourcefile~surfaces_interface.f90&#45;&gt;sourcefile~package_interface.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M500.53,-119.21C476.44,-114.04 447.56,-107.84 422.34,-102.42"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="423.02,-98.99 412.51,-100.31 421.55,-105.83 423.02,-98.99"/>
+</g>
+<!-- sourcefile~differentiable_field_interface.f90&#45;&gt;sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge13" class="edge">
+<title>sourcefile~differentiable_field_interface.f90&#45;&gt;sourcefile~grid_interface.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M472.63,-245.25C454.47,-245.25 435.5,-245.25 418.47,-245.25"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="418.13,-241.75 408.13,-245.25 418.13,-248.75 418.13,-241.75"/>
+</g>
+<!-- sourcefile~object_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node13" class="node">
+<title>sourcefile~object_interface.f90</title>
+<g id="a_sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node13"><a xlink:href=".././sourcefile/object_interface.f90.html" xlink:title="object_interface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="103.47,-255.26 0.18,-255.26 0.18,-233.24 103.47,-233.24 103.47,-255.26"/>
+<text text-anchor="middle" x="51.82" y="-241.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">object_interface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~grid_interface.f90&#45;&gt;sourcefile~object_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge14" class="edge">
+<title>sourcefile~grid_interface.f90&#45;&gt;sourcefile~object_interface.f90</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M311.74,-244.73C291.86,-244.54 268.49,-244.34 247.36,-244.25 202.75,-244.05 152.39,-244.06 114.08,-244.11"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="113.61,-240.61 103.61,-244.13 113.62,-247.61 113.61,-240.61"/>
+</g>
+<!-- sourcefile~units_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node14" class="node">
+<title>sourcefile~units_interface.f90</title>
+<g id="a_sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node14"><a xlink:href=".././sourcefile/units_interface.f90.html" xlink:title="units_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="244.31,-275.26 142.7,-275.26 142.7,-253.24 244.31,-253.24 244.31,-275.26"/>
+<text text-anchor="middle" x="193.5" y="-261.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">units_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~grid_interface.f90&#45;&gt;sourcefile~units_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge15" class="edge">
+<title>sourcefile~grid_interface.f90&#45;&gt;sourcefile~units_interface.f90</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M311.86,-250.69C293.91,-252.77 273.22,-255.16 254.26,-257.35"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="253.76,-253.88 244.23,-258.51 254.56,-260.84 253.76,-253.88"/>
+</g>
+<!-- sourcefile~structured_grid_interface.f90&#45;&gt;sourcefile~kind_parameters.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge20" class="edge">
+<title>sourcefile~structured_grid_interface.f90&#45;&gt;sourcefile~kind_parameters.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M551.95,-206.25C432.86,-217.99 396.64,-225.84 283.36,-187.25 257.39,-178.4 231.72,-160.03 214.7,-146.12"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="216.53,-143.1 206.63,-139.33 212.02,-148.45 216.53,-143.1"/>
+</g>
+<!-- sourcefile~structured_grid_interface.f90&#45;&gt;sourcefile~surfaces_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge17" class="edge">
+<title>sourcefile~structured_grid_interface.f90&#45;&gt;sourcefile~surfaces_interface.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M687.97,-157.21C666.33,-152.86 641.31,-147.82 618.8,-143.29"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="619.48,-139.86 608.98,-141.32 618.1,-146.72 619.48,-139.86"/>
+</g>
+<!-- sourcefile~structured_grid_interface.f90&#45;&gt;sourcefile~differentiable_field_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge18" class="edge">
+<title>sourcefile~structured_grid_interface.f90&#45;&gt;sourcefile~differentiable_field_interface.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M702.96,-179.26C691.76,-183.02 679.78,-187.71 669.28,-193.25 651.59,-202.58 651.07,-211.11 633.28,-220.25 625.35,-224.32 616.63,-227.89 607.96,-230.95"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="606.61,-227.71 598.24,-234.19 608.83,-234.35 606.61,-227.71"/>
+</g>
+<!-- sourcefile~structured_grid_interface.f90&#45;&gt;sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge19" class="edge">
+<title>sourcefile~structured_grid_interface.f90&#45;&gt;sourcefile~grid_interface.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M551.95,-206.25C504.04,-210.97 450.39,-222.49 412.19,-231.8"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="411.2,-228.43 402.34,-234.23 412.88,-235.23 411.2,-228.43"/>
+</g>
+<!-- sourcefile~structured_grid_interface.f90&#45;&gt;sourcefile~geometry_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge21" class="edge">
+<title>sourcefile~structured_grid_interface.f90&#45;&gt;sourcefile~geometry_interface.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M700.29,-157.12C689.77,-153.48 678.8,-148.89 669.28,-143.25 650.61,-132.19 652.33,-120.66 633.28,-110.25 628.87,-107.83 624.15,-105.69 619.32,-103.78"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="620.49,-100.48 609.9,-100.39 618.13,-107.07 620.49,-100.48"/>
+</g>
+<!-- sourcefile~block_metadata_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node11" class="node">
+<title>sourcefile~block_metadata_interface.f90</title>
+<g id="a_sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_node11"><a xlink:href=".././sourcefile/block_metadata_interface.f90.html" xlink:title="block_metadata_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="436.74,-178.26 283.24,-178.26 283.24,-156.24 436.74,-156.24 436.74,-178.26"/>
+<text text-anchor="middle" x="359.99" y="-164.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">block_metadata_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~structured_grid_interface.f90&#45;&gt;sourcefile~block_metadata_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge16" class="edge">
+<title>sourcefile~structured_grid_interface.f90&#45;&gt;sourcefile~block_metadata_interface.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M700.46,-179.32C662.42,-188.64 604.89,-201.23 553.95,-206.25"/>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M551.95,-206.25C525.15,-208.89 457.85,-193.17 410.77,-180.9"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="411.62,-177.5 401.06,-178.34 409.84,-184.27 411.62,-177.5"/>
+</g>
+<!-- sourcefile~block_metadata_interface.f90&#45;&gt;sourcefile~kind_parameters.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge22" class="edge">
+<title>sourcefile~block_metadata_interface.f90&#45;&gt;sourcefile~kind_parameters.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M312.3,-156.18C293.2,-151.65 270.94,-146.37 250.95,-141.63"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="251.57,-138.18 241.03,-139.28 249.95,-144.99 251.57,-138.18"/>
+</g>
+<!-- sourcefile~package_interface.f90&#45;&gt;sourcefile~kind_parameters.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge23" class="edge">
+<title>sourcefile~package_interface.f90&#45;&gt;sourcefile~kind_parameters.f90</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M312.3,-100.32C293.2,-104.85 270.94,-110.13 250.95,-114.87"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="249.95,-111.51 241.03,-117.22 251.57,-118.32 249.95,-111.51"/>
+</g>
+<!-- sourcefile~units_interface.f90&#45;&gt;sourcefile~object_interface.f90 -->
+<g id="sourcefile~~ellipsoidal_field_implementation.f90~~EfferentGraph_edge24" class="edge">
+<title>sourcefile~units_interface.f90&#45;&gt;sourcefile~object_interface.f90</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M142.47,-257.09C133.27,-255.77 123.57,-254.38 114.09,-253.02"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="114.31,-249.52 103.92,-251.57 113.32,-256.45 114.31,-249.52"/>
+</g>
+</g>
+</svg>
+</div><script>var pansourcefileellipsoidal_field_implementationf90EfferentGraph = svgPanZoom('#sourcefileellipsoidal_field_implementationf90EfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="31pt"
+ viewBox="0.00 0.00 186.41 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 182.41,-26.5 182.41,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="65.16,-22.26 -0.05,-22.26 -0.05,-0.24 65.16,-0.24 65.16,-22.26"/>
+<text text-anchor="middle" x="32.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="178.26,-22.26 82.84,-22.26 82.84,-0.24 178.26,-0.24 178.26,-22.26"/>
+<text text-anchor="middle" x="130.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+      
+      <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-1">Submodules</a></h3></div>
+  <div id="submods-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/ellipsoidal_field_implementation.html">ellipsoidal_field_implementation</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/ellipsoidal_field_implementation.f90.html#src">ellipsoidal_field_implementation.f90</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="c">!</span>
+<a name="ln-2"></a><span class="c">!     (c) 2019-2020 Guide Star Engineering, LLC</span>
+<a name="ln-3"></a><span class="c">!     This Software was developed for the US Nuclear Regulatory Commission (US NRC) under contract</span>
+<a name="ln-4"></a><span class="c">!     &quot;Multi-Dimensional Physics Implementation into Fuel Analysis under Steady-state and Transients (FAST)&quot;,</span>
+<a name="ln-5"></a><span class="c">!     contract # NRC-HQ-60-17-C-0007</span>
+<a name="ln-6"></a><span class="c">!</span>
+<a name="ln-7"></a><span class="k">submodule</span><span class="p">(</span><span class="n">ellipsoidal_field_interface</span><span class="p">)</span> <span class="n">ellipsoidal_field_implementation</span>
+<a name="ln-8"></a>  <span class="k">use </span><span class="n">kind_parameters</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="n">r8k</span>
+<a name="ln-9"></a>  <span class="k">use </span><span class="n">assertions_interface</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="n">assert</span><span class="p">,</span> <span class="n">max_errmsg_len</span><span class="p">,</span> <span class="n">assertions</span>
+<a name="ln-10"></a>  <span class="k">implicit none</span>
+<a name="ln-11"></a>
+<a name="ln-12"></a><span class="k">contains</span>
+<a name="ln-13"></a>
+<a name="ln-14"></a><span class="k">  module procedure </span><span class="n">evaluate</span>
+<a name="ln-15"></a>    <span class="k">use </span><span class="n">cartesian_grid_interface</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="n">cartesian_grid</span>
+<a name="ln-16"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">r8k</span><span class="p">),</span> <span class="k">allocatable</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(:,:,:,:)</span> <span class="kd">::</span> <span class="n">position_vectors</span>
+<a name="ln-17"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">r8k</span><span class="p">),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">f_value</span><span class="p">(:,:,:)</span>
+<a name="ln-18"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">r8k</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span>  <span class="n">x_center</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="mf">0.25E-01</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.E-01</span><span class="o">/</span><span class="mf">2.</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">x_center</span>
+<a name="ln-19"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">r8k</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span>  <span class="n">y_center</span> <span class="o">=</span> <span class="mf">0.5E-01</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mf">0.25E-01</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.E-01</span><span class="o">/</span><span class="mf">2.</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_center</span>
+<a name="ln-20"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">r8k</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span>  <span class="n">z_center</span> <span class="o">=</span> <span class="mi">2</span><span class="mf">0.E-01</span><span class="o">/</span><span class="mf">2.</span><span class="p">,</span> <span class="n">z_max</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">z_center</span>
+<a name="ln-21"></a>    <span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">success</span><span class="o">=</span><span class="mi">0</span>
+<a name="ln-22"></a>    <span class="kt">integer </span><span class="n">alloc_stat</span>
+<a name="ln-23"></a>    <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">max_errmsg_len</span><span class="p">)</span> <span class="n">error_message</span>
+<a name="ln-24"></a>
+<a name="ln-25"></a>    <span class="k">select type</span><span class="p">(</span><span class="n">grid_points</span><span class="p">)</span>
+<a name="ln-26"></a>      <span class="k">class is</span><span class="p">(</span><span class="n">cartesian_grid</span><span class="p">)</span>
+<a name="ln-27"></a>        <span class="n">position_vectors</span> <span class="o">=</span> <span class="n">grid_points</span><span class="p">%</span><span class="n">vectors</span><span class="p">()</span>
+<a name="ln-28"></a>
+<a name="ln-29"></a>        <span class="k">associate</span><span class="p">(</span> <span class="n">x</span><span class="o">=&gt;</span><span class="n">position_vectors</span><span class="p">(:,:,:,</span><span class="mi">1</span><span class="p">),</span> <span class="n">y</span><span class="o">=&gt;</span><span class="n">position_vectors</span><span class="p">(:,:,:,</span><span class="mi">2</span><span class="p">),</span> <span class="n">z</span><span class="o">=&gt;</span><span class="n">position_vectors</span><span class="p">(:,:,:,</span><span class="mi">3</span><span class="p">)</span> <span class="p">)</span>
+<a name="ln-30"></a>          <span class="k">associate</span><span class="p">(</span> <span class="p">&amp;</span>
+<a name="ln-31"></a>            <span class="n">r_sq</span><span class="o">=&gt;</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">x_center</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">x_max</span><span class="o">-</span><span class="n">x_center</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">((</span><span class="n">y</span><span class="o">-</span><span class="n">y_center</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">y_max</span><span class="o">-</span><span class="n">y_center</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">((</span><span class="n">z</span><span class="o">-</span><span class="n">z_center</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">z_max</span><span class="o">-</span><span class="n">z_center</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span> <span class="p">)</span>
+<a name="ln-32"></a>            <span class="n">f_value</span> <span class="o">=</span> <span class="mi">40</span><span class="mf">0.</span> <span class="o">-</span> <span class="n">r_sq</span>
+<a name="ln-33"></a>          <span class="k">end associate</span>
+<a name="ln-34"></a><span class="k">        end associate</span>
+<a name="ln-35"></a>
+<a name="ln-36"></a><span class="k">        allocate</span><span class="p">(</span> <span class="n">cartesian_grid</span> <span class="kd">::</span> <span class="n">f</span><span class="p">,</span> <span class="nb">stat</span><span class="o">=</span><span class="n">alloc_stat</span><span class="p">,</span> <span class="n">errmsg</span><span class="o">=</span><span class="n">error_message</span><span class="p">)</span>
+<a name="ln-37"></a>        <span class="k">call </span><span class="n">assert</span><span class="p">(</span><span class="n">alloc_stat</span><span class="o">==</span><span class="n">success</span><span class="p">,</span> <span class="s2">&quot;ellipsoidal_field%evaluate: f allocation (error message: &quot;</span><span class="o">//</span><span class="n">error_message</span><span class="o">//</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+<a name="ln-38"></a>
+<a name="ln-39"></a>        <span class="k">select type</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<a name="ln-40"></a>          <span class="k">class is</span><span class="p">(</span><span class="n">cartesian_grid</span><span class="p">)</span>
+<a name="ln-41"></a>            <span class="k">call </span><span class="n">f</span><span class="p">%</span><span class="n">set_scalar</span><span class="p">(</span> <span class="n">f_value</span> <span class="p">)</span>
+<a name="ln-42"></a>          <span class="k">class </span><span class="n">default</span>
+<a name="ln-43"></a>            <span class="n">error</span> <span class="k">stop</span> <span class="s2">&quot;ellipsoidal_field%evaluate: unsupported class&quot;</span>
+<a name="ln-44"></a>        <span class="k">end select</span>
+<a name="ln-45"></a>
+<a name="ln-46"></a><span class="k">      class </span><span class="n">default</span>
+<a name="ln-47"></a>        <span class="n">error</span> <span class="k">stop</span> <span class="s2">&quot;ellipsoidal_field%evaluate: unsupported f class&quot;</span>
+<a name="ln-48"></a>    <span class="k">end select</span>
+<a name="ln-49"></a>
+<a name="ln-50"></a><span class="k">  end procedure</span>
+<a name="ln-51"></a>
+<a name="ln-52"></a><span class="k">  module procedure </span><span class="n">laplacian</span>
+<a name="ln-53"></a>    <span class="k">use </span><span class="n">cartesian_grid_interface</span><span class="p">,</span> <span class="n">only</span> <span class="p">:</span> <span class="n">cartesian_grid</span>
+<a name="ln-54"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">r8k</span><span class="p">),</span> <span class="k">allocatable</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(:,:,:,:)</span> <span class="kd">::</span> <span class="n">position_vectors</span>
+<a name="ln-55"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">r8k</span><span class="p">),</span> <span class="k">allocatable</span><span class="p">,</span> <span class="k">dimension</span><span class="p">(:,:,:)</span> <span class="kd">::</span> <span class="n">laplacian_values</span>
+<a name="ln-56"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">r8k</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span>  <span class="n">x_center</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="mf">0.25E-01</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.E-01</span><span class="o">/</span><span class="mf">2.</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">x_center</span>
+<a name="ln-57"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">r8k</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span>  <span class="n">y_center</span> <span class="o">=</span> <span class="mf">0.5E-01</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mf">0.25E-01</span><span class="p">)</span> <span class="o">+</span> <span class="mf">3.E-01</span><span class="o">/</span><span class="mf">2.</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">y_center</span>
+<a name="ln-58"></a>    <span class="kt">real</span><span class="p">(</span><span class="n">r8k</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span>  <span class="n">z_center</span> <span class="o">=</span> <span class="mi">2</span><span class="mf">0.E-01</span><span class="o">/</span><span class="mf">2.</span><span class="p">,</span> <span class="n">z_max</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">z_center</span>
+<a name="ln-59"></a>    <span class="kt">integer </span><span class="n">alloc_stat</span>
+<a name="ln-60"></a>    <span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">success</span><span class="o">=</span><span class="mi">0</span>
+<a name="ln-61"></a>    <span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">max_errmsg_len</span><span class="p">)</span> <span class="n">error_message</span>
+<a name="ln-62"></a>
+<a name="ln-63"></a>    <span class="k">select type</span><span class="p">(</span><span class="n">grid_points</span><span class="p">)</span>
+<a name="ln-64"></a>      <span class="k">class is</span><span class="p">(</span><span class="n">cartesian_grid</span><span class="p">)</span>
+<a name="ln-65"></a>
+<a name="ln-66"></a>        <span class="n">position_vectors</span> <span class="o">=</span> <span class="n">grid_points</span><span class="p">%</span><span class="n">vectors</span><span class="p">()</span>
+<a name="ln-67"></a>
+<a name="ln-68"></a>        <span class="k">associate</span><span class="p">(</span> <span class="nb">dim</span><span class="o">=&gt;</span><span class="nb">shape</span><span class="p">(</span><span class="n">position_vectors</span><span class="p">)</span> <span class="p">)</span>
+<a name="ln-69"></a>          <span class="k">allocate</span><span class="p">(</span> <span class="n">laplacian_values</span><span class="p">(</span><span class="nb">dim</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="nb">dim</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="nb">dim</span><span class="p">(</span><span class="mi">3</span><span class="p">)),</span> <span class="nb">stat</span><span class="o">=</span><span class="n">alloc_stat</span><span class="p">,</span> <span class="n">errmsg</span><span class="o">=</span><span class="n">error_message</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-70"></a>            <span class="n">source</span> <span class="o">=</span>  <span class="o">-</span> <span class="p">(</span> <span class="p">(</span><span class="mf">2.</span><span class="o">/</span><span class="p">(</span><span class="n">x_max</span><span class="o">-</span><span class="n">x_center</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="mf">2.</span><span class="o">/</span><span class="p">(</span><span class="n">y_max</span><span class="o">-</span><span class="n">y_center</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="mf">2.</span><span class="o">/</span><span class="p">(</span><span class="n">z_max</span><span class="o">-</span><span class="n">z_center</span><span class="p">))</span> <span class="p">)</span> <span class="p">)</span>
+<a name="ln-71"></a>          <span class="k">call </span><span class="n">assert</span><span class="p">(</span> <span class="n">alloc_stat</span><span class="o">==</span><span class="n">success</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-72"></a>            <span class="s2">&quot;ellipsoidal_field%laplacian: allocate laplacian_values (error: &quot;</span><span class="o">//</span><span class="nb">adjustl</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">error_message</span><span class="p">))</span><span class="o">//</span><span class="s2">&quot;)&quot;</span> <span class="p">)</span>
+<a name="ln-73"></a>        <span class="k">end associate</span>
+<a name="ln-74"></a>
+<a name="ln-75"></a><span class="k">        allocate</span><span class="p">(</span> <span class="n">cartesian_grid</span> <span class="kd">::</span> <span class="n">laplacian_f</span><span class="p">,</span> <span class="nb">stat</span><span class="o">=</span><span class="n">alloc_stat</span><span class="p">,</span> <span class="n">errmsg</span><span class="o">=</span><span class="n">error_message</span><span class="p">)</span>
+<a name="ln-76"></a>        <span class="k">call </span><span class="n">assert</span><span class="p">(</span><span class="n">alloc_stat</span><span class="o">==</span><span class="n">success</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-77"></a>          <span class="s2">&quot;ellipsoidal_field%evaluate: allocate laplacian_f (error: &quot;</span><span class="o">//</span><span class="nb">adjustl</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">error_message</span><span class="p">))</span><span class="o">//</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+<a name="ln-78"></a>
+<a name="ln-79"></a>        <span class="k">select type</span><span class="p">(</span><span class="n">laplacian_f</span><span class="p">)</span>
+<a name="ln-80"></a>          <span class="k">class is</span><span class="p">(</span><span class="n">cartesian_grid</span><span class="p">)</span>
+<a name="ln-81"></a>            <span class="k">call </span><span class="n">laplacian_f</span><span class="p">%</span><span class="n">set_scalar</span><span class="p">(</span><span class="n">laplacian_values</span><span class="p">)</span>
+<a name="ln-82"></a>          <span class="k">class </span><span class="n">default</span>
+<a name="ln-83"></a>            <span class="n">error</span> <span class="k">stop</span> <span class="s2">&quot;ellipsoidal_field%laplacian: unsupported laplacian_f type&quot;</span>
+<a name="ln-84"></a>        <span class="k">end select</span>
+<a name="ln-85"></a>
+<a name="ln-86"></a><span class="k">      class </span><span class="n">default</span>
+<a name="ln-87"></a>        <span class="n">error</span> <span class="k">stop</span> <span class="s2">&quot;ellipsoidal_field%laplacian: unsupported laplacian_f type&quot;</span>
+<a name="ln-88"></a>    <span class="k">end select</span>
+<a name="ln-89"></a>
+<a name="ln-90"></a><span class="k">  end procedure</span>
+<a name="ln-91"></a>
+<a name="ln-92"></a><span class="k">end submodule </span><span class="n">ellipsoidal_field_implementation</span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

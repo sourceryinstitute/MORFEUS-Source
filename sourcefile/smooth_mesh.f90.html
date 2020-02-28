@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>smooth_mesh.f90 &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>smooth_mesh.f90
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.8% of total for source files.">216 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/smooth_mesh.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">smooth_mesh.f90</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-0">Submodules</a></h3></div>
+  <div id="submods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/smooth_mesh_implementation.html">smooth_mesh_implementation</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/smooth_mesh.f90.html#src">smooth_mesh.f90</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">This file depends on</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~smooth_mesh.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefilesmooth_meshf90EfferentGraph" width="641pt" height="259pt"
+ viewBox="0.00 0.00 641.00 259.24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph" class="graph" transform="scale(3.04 3.04) rotate(0) translate(4 785.14)">
+<title>sourcefile~~smooth_mesh.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-785.14 1947.21,-785.14 1947.21,4 -4,4"/>
+<!-- sourcefile~smooth_mesh.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~smooth_mesh.f90</title>
+<polygon fill="none" stroke="black" points="1943.45,-576.98 1847.52,-576.98 1847.52,-554.97 1943.45,-554.97 1943.45,-576.98"/>
+<text text-anchor="middle" x="1895.48" y="-562.82" font-family="Helvetica,sans-Serif" font-size="10.50">smooth_mesh.f90</text>
+</g>
+<!-- sourcefile~class_keytable.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~class_keytable.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/class_keytable.f90.html" xlink:title="class_keytable.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="916.07,-518.98 817.3,-518.98 817.3,-496.97 916.07,-496.97 916.07,-518.98"/>
+<text text-anchor="middle" x="866.69" y="-504.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_keytable.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_keytable.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_keytable.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1020.2,-546.97C982.57,-542.22 940.9,-531.15 910.65,-522.02"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="911.43,-518.6 900.84,-519.01 909.38,-525.29 911.43,-518.6"/>
+</g>
+<!-- sourcefile~class_bc.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~class_bc.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node3"><a xlink:href=".././sourcefile/class_bc.f90.html" xlink:title="class_bc.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1327.37,-404.98 1256.64,-404.98 1256.64,-382.97 1327.37,-382.97 1327.37,-404.98"/>
+<text text-anchor="middle" x="1292" y="-390.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_bc.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_bc.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1887.78,-577.09C1870.2,-604.95 1819.6,-677.16 1754.51,-699.97"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1598.87,-622.97C1534.5,-597.48 1371.75,-461.31 1313.85,-411.9"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1315.97,-409.11 1306.09,-405.26 1311.42,-414.42 1315.97,-409.11"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1752.51,-699.97C1681.18,-724.97 1672.68,-646.58 1600.87,-622.97"/>
+</g>
+<!-- sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node4" class="node">
+<title>sourcefile~class_psblas.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node4"><a xlink:href=".././sourcefile/class_psblas.f90.html" xlink:title="class_psblas.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="355.88,-322.98 266.62,-322.98 266.62,-300.97 355.88,-300.97 355.88,-322.98"/>
+<text text-anchor="middle" x="311.25" y="-308.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_psblas.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge4" class="edge">
+<title>sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1159.54,-776.97C1098.66,-772.61 1083.11,-772.98 1022.2,-776.97"/>
+</g>
+<!-- sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node5" class="node">
+<title>sourcefile~class_connectivity.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node5"><a xlink:href=".././sourcefile/class_connectivity.f90.html" xlink:title="class_connectivity.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="768.54,-672.98 654.82,-672.98 654.82,-650.97 768.54,-650.97 768.54,-672.98"/>
+<text text-anchor="middle" x="711.68" y="-658.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_connectivity.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge5" class="edge">
+<title>sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1752.51,-699.97C1580.24,-760.36 1347.61,-789.6 1161.54,-776.97"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1159.54,-776.97C1096.37,-772.44 1082.48,-758.42 1022.2,-738.97"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node6" class="node">
+<title>sourcefile~tools_mesh_optimize.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node6"><a xlink:href=".././sourcefile/tools_mesh_optimize.f90.html" xlink:title="tools_mesh_optimize.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1504.54,-633.98 1376.25,-633.98 1376.25,-611.97 1504.54,-611.97 1504.54,-633.98"/>
+<text text-anchor="middle" x="1440.39" y="-619.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_mesh_optimize.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~tools_mesh_optimize.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge6" class="edge">
+<title>sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~tools_mesh_optimize.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1598.87,-622.97C1572.72,-612.62 1542.17,-610.58 1514.96,-611.86"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1514.48,-608.38 1504.72,-612.5 1514.91,-615.37 1514.48,-608.38"/>
+</g>
+<!-- sourcefile~class_iterating.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node7" class="node">
+<title>sourcefile~class_iterating.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node7"><a xlink:href=".././sourcefile/class_iterating.f90.html" xlink:title="class_iterating.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1340.14,-672.98 1243.87,-672.98 1243.87,-650.97 1340.14,-650.97 1340.14,-672.98"/>
+<text text-anchor="middle" x="1292" y="-658.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_iterating.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_iterating.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge7" class="edge">
+<title>sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_iterating.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1439.39,-661.97C1410.03,-663.58 1377.3,-663.73 1350.25,-663.42"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1350.23,-659.92 1340.18,-663.28 1350.13,-666.92 1350.23,-659.92"/>
+</g>
+<!-- sourcefile~class_cell.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node8" class="node">
+<title>sourcefile~class_cell.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node8"><a xlink:href=".././sourcefile/class_cell.f90.html" xlink:title="class_cell.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="905.71,-477.98 827.66,-477.98 827.66,-455.97 905.71,-455.97 905.71,-477.98"/>
+<text text-anchor="middle" x="866.69" y="-463.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cell.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_cell.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge8" class="edge">
+<title>sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_cell.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1291,-546.97C1175.45,-516.66 1140.73,-561.94 1022.2,-546.97"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1020.2,-546.97C972.21,-541.78 972.43,-509.06 929.01,-487.97 924.38,-485.72 919.45,-483.61 914.48,-481.65"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="915.51,-478.3 904.92,-478.09 913.07,-484.86 915.51,-478.3"/>
+</g>
+<!-- sourcefile~class_least_squares.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node9" class="node">
+<title>sourcefile~class_least_squares.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node9"><a xlink:href=".././sourcefile/class_least_squares.f90.html" xlink:title="class_least_squares.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="928.84,-634.98 804.54,-634.98 804.54,-612.97 928.84,-612.97 928.84,-634.98"/>
+<text text-anchor="middle" x="866.69" y="-620.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_least_squares.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_least_squares.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge9" class="edge">
+<title>sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_least_squares.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1020.2,-700.97C973.68,-704.47 970.97,-669.38 929.01,-648.97 921.81,-645.47 914,-642.03 906.43,-638.86"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="907.62,-635.57 897.04,-635.03 904.97,-642.05 907.62,-635.57"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1598.87,-622.97C1564.64,-611.66 1477.39,-660 1441.39,-661.97"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1439.39,-661.97C1394.54,-664.42 1385.02,-646.44 1340.32,-641.97 1297.59,-637.7 1286.27,-636.4 1243.69,-641.97 1142.68,-655.19 1123.79,-693.33 1022.2,-700.97"/>
+</g>
+<!-- sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node10" class="node">
+<title>sourcefile~class_vertex.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node10"><a xlink:href=".././sourcefile/class_vertex.f90.html" xlink:title="class_vertex.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="611.05,-477.98 523.31,-477.98 523.31,-455.97 611.05,-455.97 611.05,-477.98"/>
+<text text-anchor="middle" x="567.18" y="-463.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vertex.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge10" class="edge">
+<title>sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1020.2,-546.97C952.81,-539.68 933.44,-563.44 867.69,-546.97"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M865.69,-546.97C777.89,-524.99 676.18,-497.12 617.3,-480.74"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="618.1,-477.33 607.53,-478.02 616.22,-484.07 618.1,-477.33"/>
+</g>
+<!-- sourcefile~tools_mesh_basics.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node11" class="node">
+<title>sourcefile~tools_mesh_basics.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node11"><a xlink:href=".././sourcefile/tools_mesh_basics.f90.html" xlink:title="tools_mesh_basics.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1659.18,-710.98 1540.56,-710.98 1540.56,-688.97 1659.18,-688.97 1659.18,-710.98"/>
+<text text-anchor="middle" x="1599.87" y="-696.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_mesh_basics.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~tools_mesh_basics.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge13" class="edge">
+<title>sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~tools_mesh_basics.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1752.51,-699.97C1726.3,-709.16 1695.93,-710.77 1669.29,-709.5"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1669.47,-706 1659.27,-708.88 1669.04,-712.99 1669.47,-706"/>
+</g>
+<!-- sourcefile~tools_mesh_check.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node12" class="node">
+<title>sourcefile~tools_mesh_check.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node12"><a xlink:href=".././sourcefile/tools_mesh_check.f90.html" xlink:title="tools_mesh_check.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1811.99,-481.98 1695.04,-481.98 1695.04,-459.97 1811.99,-459.97 1811.99,-481.98"/>
+<text text-anchor="middle" x="1753.51" y="-467.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_mesh_check.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~tools_mesh_check.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge3" class="edge">
+<title>sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~tools_mesh_check.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1878.15,-554.89C1853.82,-538.37 1807.85,-507.17 1779.33,-487.82"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1780.98,-484.7 1770.74,-481.98 1777.05,-490.5 1780.98,-484.7"/>
+</g>
+<!-- sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node13" class="node">
+<title>sourcefile~class_vector.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node13"><a xlink:href=".././sourcefile/class_vector.f90.html" xlink:title="class_vector.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="479.5,-457.98 391.91,-457.98 391.91,-435.97 479.5,-435.97 479.5,-457.98"/>
+<text text-anchor="middle" x="435.71" y="-443.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vector.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge12" class="edge">
+<title>sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1020.2,-700.97C938.94,-701.6 722.18,-727.7 655,-681.97 623.1,-660.26 642.21,-633.8 619,-602.97 573.66,-542.74 501.31,-489.7 462.81,-463.79"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="464.5,-460.71 454.23,-458.09 460.63,-466.54 464.5,-460.71"/>
+</g>
+<!-- sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node14" class="node">
+<title>sourcefile~class_mesh.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node14"><a xlink:href=".././sourcefile/class_mesh.f90.html" xlink:title="class_mesh.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1065.65,-438.98 976.75,-438.98 976.75,-416.97 1065.65,-416.97 1065.65,-438.98"/>
+<text text-anchor="middle" x="1021.2" y="-424.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_mesh.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge11" class="edge">
+<title>sourcefile~smooth_mesh.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1598.87,-622.97C1465.8,-579.22 1428.27,-583.37 1293,-546.97"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1291,-546.97C1226.47,-530.04 1227.43,-481.48 1161.54,-470.97"/>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge14" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff7500" stroke-dasharray="5,2" d="M1256.7,-386.12C1149.43,-361.7 821.01,-287.83 712.68,-273.97"/>
+</g>
+<!-- sourcefile~class_motion.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node16" class="node">
+<title>sourcefile~class_motion.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node16"><a xlink:href=".././sourcefile/class_motion.f90.html" xlink:title="class_motion.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="612.47,-633.98 521.89,-633.98 521.89,-611.97 612.47,-611.97 612.47,-633.98"/>
+<text text-anchor="middle" x="567.18" y="-619.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_motion.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_motion.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge16" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_motion.f90</title>
+<path fill="none" stroke="#ff7500" stroke-dasharray="5,2" d="M1284.32,-405.02C1271.87,-424.56 1243.16,-465.02 1207.69,-484.97 1111.86,-538.87 1065.03,-487.32 965.01,-532.97 946.57,-541.39 947.55,-552.79 929.01,-560.97 827.17,-605.92 695.79,-618.38 622.96,-621.77"/>
+<polygon fill="#ff7500" stroke="#ff7500" points="622.49,-618.29 612.65,-622.21 622.79,-625.28 622.49,-618.29"/>
+</g>
+<!-- sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node17" class="node">
+<title>sourcefile~class_bc_math.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node17"><a xlink:href=".././sourcefile/class_bc_math.f90.html" xlink:title="class_bc_math.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1070.75,-246.98 971.65,-246.98 971.65,-224.97 1070.75,-224.97 1070.75,-246.98"/>
+<text text-anchor="middle" x="1021.2" y="-232.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc_math.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge15" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_math.f90</title>
+<path fill="none" stroke="#ff7500" stroke-dasharray="5,2" d="M1261.41,-382.86C1254.86,-379.26 1248.45,-374.68 1243.69,-368.97 1209.65,-328.17 1248.89,-288.53 1207.69,-254.97 1172.82,-226.57 1121.18,-223.4 1081.24,-226.44"/>
+<polygon fill="#ff7500" stroke="#ff7500" points="1080.73,-222.97 1071.09,-227.36 1081.37,-229.94 1080.73,-222.97"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node18" class="node">
+<title>sourcefile~class_bc_wall.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node18"><a xlink:href=".././sourcefile/class_bc_wall.f90.html" xlink:title="class_bc_wall.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1207.84,-285.98 1113.25,-285.98 1113.25,-263.97 1207.84,-263.97 1207.84,-285.98"/>
+<text text-anchor="middle" x="1160.54" y="-271.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc_wall.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_wall.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge17" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_wall.f90</title>
+<path fill="none" stroke="#ff7500" stroke-dasharray="5,2" d="M1263.08,-382.77C1256.18,-379.1 1249.19,-374.5 1243.69,-368.97 1219.29,-344.45 1231.96,-324.62 1207.69,-299.97 1204.51,-296.74 1200.83,-293.83 1196.95,-291.22"/>
+<polygon fill="#ff7500" stroke="#ff7500" points="1198.67,-288.17 1188.29,-286.02 1195.06,-294.17 1198.67,-288.17"/>
+</g>
+<!-- sourcefile~class_stopwatch.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node15" class="node">
+<title>sourcefile~class_stopwatch.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node15"><a xlink:href=".././sourcefile/class_stopwatch.f90.html" xlink:title="class_stopwatch.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="230.21,-303.98 124.11,-303.98 124.11,-281.97 230.21,-281.97 230.21,-303.98"/>
+<text text-anchor="middle" x="177.16" y="-289.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_stopwatch.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_psblas.f90&#45;&gt;sourcefile~class_stopwatch.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge18" class="edge">
+<title>sourcefile~class_psblas.f90&#45;&gt;sourcefile~class_stopwatch.f90</title>
+<path fill="none" stroke="#ffeb00" stroke-dasharray="5,2" d="M266.27,-305.64C258.07,-304.47 249.35,-303.21 240.72,-301.97"/>
+<polygon fill="#ffeb00" stroke="#ffeb00" points="241.06,-298.48 230.66,-300.52 240.06,-305.41 241.06,-298.48"/>
+</g>
+<!-- sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node21" class="node">
+<title>sourcefile~tools_psblas.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node21"><a xlink:href=".././sourcefile/tools_psblas.f90.html" xlink:title="tools_psblas.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="87.83,-322.98 0.06,-322.98 0.06,-300.97 87.83,-300.97 87.83,-322.98"/>
+<text text-anchor="middle" x="43.94" y="-308.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_psblas.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_psblas.f90&#45;&gt;sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge19" class="edge">
+<title>sourcefile~class_psblas.f90&#45;&gt;sourcefile~tools_psblas.f90</title>
+<path fill="none" stroke="#ffeb00" stroke-dasharray="5,2" d="M266.34,-312.62C254.67,-312.77 242.08,-312.9 230.44,-312.97 183.08,-313.27 171.24,-313.27 123.88,-312.97 115.51,-312.92 106.64,-312.83 97.98,-312.74"/>
+<polygon fill="#ffeb00" stroke="#ffeb00" points="98,-309.24 87.96,-312.61 97.92,-316.23 98,-309.24"/>
+</g>
+<!-- sourcefile~class_connectivity.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge20" class="edge">
+<title>sourcefile~class_connectivity.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#9cff00" stroke-dasharray="5,2" d="M654.98,-669.79C628.14,-671.61 595.85,-670.88 568.18,-661.97"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_bc.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge21" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_bc.f90</title>
+<path fill="none" stroke="#27ff00" stroke-dasharray="5,2" d="M1433.29,-611.85C1418.34,-584.78 1378.29,-513.54 1340.32,-456.97 1330.26,-441.98 1318,-425.71 1308.48,-413.45"/>
+<polygon fill="#27ff00" stroke="#27ff00" points="1311.02,-411.03 1302.1,-405.32 1305.51,-415.35 1311.02,-411.03"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge22" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#27ff00" stroke-dasharray="5,2" d="M1020.2,-623.97C950.43,-629.23 937.51,-667.36 867.69,-662.97"/>
+<path fill="none" stroke="#27ff00" stroke-dasharray="5,2" d="M865.69,-662.97C837.24,-661.18 805.76,-660.72 778.79,-660.78"/>
+<polygon fill="#27ff00" stroke="#27ff00" points="778.67,-657.28 768.69,-660.83 778.71,-664.28 778.67,-657.28"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_iterating.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge24" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_iterating.f90</title>
+<path fill="none" stroke="#27ff00" stroke-dasharray="5,2" d="M1397.84,-634.04C1381.23,-638.47 1361.93,-643.61 1344.46,-648.26"/>
+<polygon fill="#27ff00" stroke="#27ff00" points="1343.17,-644.98 1334.41,-650.94 1344.98,-651.75 1343.17,-644.98"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge23" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#27ff00" stroke-dasharray="5,2" d="M1291,-584.97C1176.8,-545.86 1142.58,-614.89 1022.2,-623.97"/>
+<path fill="none" stroke="#27ff00" stroke-dasharray="5,2" d="M1020.2,-623.97C944.41,-628.67 941.35,-565.41 867.69,-546.97"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge25" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#27ff00" stroke-dasharray="5,2" d="M1291,-584.97C1268.7,-577.33 1262.46,-575.25 1243.69,-560.97 1200.58,-528.19 1214.79,-480.87 1161.54,-470.97"/>
+<path fill="none" stroke="#27ff00" stroke-dasharray="5,2" d="M1389.04,-611.9C1360.54,-605.14 1324.43,-595.73 1293,-584.97"/>
+</g>
+<!-- sourcefile~class_iterating.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge26" class="edge">
+<title>sourcefile~class_iterating.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ff4e" stroke-dasharray="5,2" d="M1020.2,-776.97C855.99,-788.81 809.19,-772.68 655,-714.97 612.66,-699.13 611.02,-676.41 568.18,-661.97"/>
+<path fill="none" stroke="#00ff4e" stroke-dasharray="5,2" d="M1274.36,-673.13C1233.58,-699.54 1124.5,-764.62 1022.2,-776.97"/>
+</g>
+<!-- sourcefile~class_cell.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge27" class="edge">
+<title>sourcefile~class_cell.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ffc4" stroke-dasharray="5,2" d="M830.45,-478.06C730.98,-509.15 454.12,-594.29 436.71,-583.97"/>
+</g>
+<!-- sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge28" class="edge">
+<title>sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00c4ff" stroke-dasharray="5,2" d="M566.18,-661.97C543.22,-654.58 536.51,-654.55 515.36,-642.97 477.02,-622 474.07,-606.63 436.71,-583.97"/>
+<path fill="none" stroke="#00c4ff" stroke-dasharray="5,2" d="M804.1,-626.94C761.95,-629.53 704.87,-634.14 655,-641.97 615.88,-648.12 605.87,-674.11 568.18,-661.97"/>
+</g>
+<!-- sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge29" class="edge">
+<title>sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#00c4ff" stroke-dasharray="5,2" d="M821.02,-635.06C804.21,-639.24 784.9,-644.04 767.28,-648.41"/>
+<polygon fill="#00c4ff" stroke="#00c4ff" points="766,-645.12 757.14,-650.93 767.69,-651.92 766,-645.12"/>
+</g>
+<!-- sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge30" class="edge">
+<title>sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M434.71,-583.97C343.19,-529.76 319.7,-387.45 313.98,-333.3"/>
+<polygon fill="#004eff" stroke="#004eff" points="317.45,-332.77 313.02,-323.15 310.48,-333.44 317.45,-332.77"/>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M558.13,-478.06C534.33,-510.22 464.21,-600.26 436.71,-583.97"/>
+</g>
+<!-- sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge31" class="edge">
+<title>sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M523.07,-460.31C512.37,-458.66 500.78,-456.87 489.66,-455.15"/>
+<polygon fill="#004eff" stroke="#004eff" points="490.05,-451.67 479.63,-453.6 488.98,-458.59 490.05,-451.67"/>
+</g>
+<!-- sourcefile~tools_mesh_basics.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge32" class="edge">
+<title>sourcefile~tools_mesh_basics.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#2700ff" stroke-dasharray="5,2" d="M1020.2,-738.97C994.62,-731.16 989.09,-726.62 965.01,-714.97 920.86,-693.62 916.63,-666.05 867.69,-662.97"/>
+<path fill="none" stroke="#2700ff" stroke-dasharray="5,2" d="M1540.51,-709.17C1413.93,-728.29 1117.81,-768.16 1022.2,-738.97"/>
+</g>
+<!-- sourcefile~tools_mesh_check.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge33" class="edge">
+<title>sourcefile~tools_mesh_check.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#9c00ff" stroke-dasharray="5,2" d="M1695.02,-474.63C1666.57,-475.52 1631.78,-475.2 1600.87,-470.97"/>
+<path fill="none" stroke="#9c00ff" stroke-dasharray="5,2" d="M1598.87,-470.97C1421.5,-446.69 1367.18,-410.58 1243.69,-280.97 1222.5,-258.73 1233.02,-239.35 1207.69,-221.97 1117.29,-159.97 1072.63,-198.78 965.01,-177.97 921.65,-169.59 911.53,-152.69 867.69,-157.97"/>
+</g>
+<!-- sourcefile~tools_mesh_check.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge34" class="edge">
+<title>sourcefile~tools_mesh_check.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#9c00ff" stroke-dasharray="5,2" d="M1598.87,-470.97C1463.86,-455.11 1426.67,-446.18 1293,-470.97"/>
+</g>
+<!-- sourcefile~class_scalar_field.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node23" class="node">
+<title>sourcefile~class_scalar_field.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node23"><a xlink:href=".././sourcefile/class_scalar_field.f90.html" xlink:title="class_scalar_field.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1656.26,-210.98 1543.48,-210.98 1543.48,-188.97 1656.26,-188.97 1656.26,-210.98"/>
+<text text-anchor="middle" x="1599.87" y="-196.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_scalar_field.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tools_mesh_check.f90&#45;&gt;sourcefile~class_scalar_field.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge35" class="edge">
+<title>sourcefile~tools_mesh_check.f90&#45;&gt;sourcefile~class_scalar_field.f90</title>
+<path fill="none" stroke="#9c00ff" stroke-dasharray="5,2" d="M1746.19,-459.67C1722.92,-418.08 1641.84,-273.19 1612,-219.87"/>
+<polygon fill="#9c00ff" stroke="#9c00ff" points="1614.99,-218.04 1607.05,-211.02 1608.88,-221.46 1614.99,-218.04"/>
+</g>
+<!-- sourcefile~class_vector.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge36" class="edge">
+<title>sourcefile~class_vector.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff00eb" stroke-dasharray="5,2" d="M424.69,-435.92C403.79,-412.88 355.34,-359.47 329.39,-330.87"/>
+<polygon fill="#ff00eb" stroke="#ff00eb" points="331.72,-328.23 322.41,-323.17 326.54,-332.93 331.72,-328.23"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_keytable.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge37" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_keytable.f90</title>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M1005.39,-439.19C987.88,-452.05 957.51,-473.13 929.01,-486.97 924.38,-489.22 919.45,-491.33 914.48,-493.29"/>
+<polygon fill="#ff0075" stroke="#ff0075" points="913.07,-490.08 904.92,-496.85 915.51,-496.64 913.07,-490.08"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge38" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M566.18,-311.97C508.95,-305.96 493.66,-320.17 436.71,-311.97"/>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M434.71,-311.97C412.47,-308.77 387.71,-308.21 366.32,-308.66"/>
+<polygon fill="#ff0075" stroke="#ff0075" points="366,-305.17 356.11,-308.95 366.2,-312.16 366,-305.17"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge39" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M865.69,-427.97C838.98,-438.03 825.55,-427.86 804.36,-446.97 745.33,-500.24 722.95,-597.92 715.7,-640.82"/>
+<polygon fill="#ff0075" stroke="#ff0075" points="712.24,-640.29 714.14,-650.71 719.16,-641.38 712.24,-640.29"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_cell.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge42" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_cell.f90</title>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M976.91,-439.04C957.86,-443.91 935.41,-449.65 915.84,-454.66"/>
+<polygon fill="#ff0075" stroke="#ff0075" points="914.72,-451.33 905.9,-457.2 916.45,-458.11 914.72,-451.33"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_least_squares.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge41" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_least_squares.f90</title>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M1013.48,-439.11C999.13,-462.55 963.97,-518.31 929.01,-560.97 915.87,-577.01 899.41,-593.76 886.86,-605.95"/>
+<polygon fill="#ff0075" stroke="#ff0075" points="884.4,-603.46 879.61,-612.91 889.24,-608.51 884.4,-603.46"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge43" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M710.68,-465.97C681.24,-467.64 648.33,-467.97 621.56,-467.85"/>
+<polygon fill="#ff0075" stroke="#ff0075" points="621.27,-464.35 611.24,-467.78 621.22,-471.35 621.27,-464.35"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge46" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M710.68,-465.97C645.24,-469.68 633.54,-423.05 568.18,-427.97"/>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M976.67,-420.01C945.35,-416.15 902.63,-414.82 867.69,-427.97"/>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M865.69,-427.97C849.29,-434.14 730.17,-464.98 712.68,-465.97"/>
+</g>
+<!-- sourcefile~class_surface.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node19" class="node">
+<title>sourcefile~class_surface.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node19"><a xlink:href=".././sourcefile/class_surface.f90.html" xlink:title="class_surface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="913.39,-399.98 819.98,-399.98 819.98,-377.97 913.39,-377.97 913.39,-399.98"/>
+<text text-anchor="middle" x="866.69" y="-385.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_surface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_surface.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge40" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_surface.f90</title>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M976.91,-416.9C959.36,-412.41 938.94,-407.19 920.53,-402.48"/>
+<polygon fill="#ff0075" stroke="#ff0075" points="921.38,-399.09 910.83,-400 919.65,-405.87 921.38,-399.09"/>
+</g>
+<!-- sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node20" class="node">
+<title>sourcefile~grid_interface.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node20"><a xlink:href=".././sourcefile/grid_interface.f90.html" xlink:title="grid_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="914.82,-207.98 818.55,-207.98 818.55,-185.97 914.82,-185.97 914.82,-207.98"/>
+<text text-anchor="middle" x="866.69" y="-193.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">grid_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge44" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~grid_interface.f90</title>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M1015.41,-416.74C1003.22,-388.8 969.15,-314.49 929.01,-259.97 916.87,-243.48 900.61,-226.97 887.89,-214.99"/>
+<polygon fill="#ff0075" stroke="#ff0075" points="890.21,-212.37 880.49,-208.16 885.46,-217.52 890.21,-212.37"/>
+</g>
+<!-- sourcefile~class_face.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node22" class="node">
+<title>sourcefile~class_face.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node22"><a xlink:href=".././sourcefile/class_face.f90.html" xlink:title="class_face.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="476.83,-283.98 394.59,-283.98 394.59,-261.97 476.83,-261.97 476.83,-283.98"/>
+<text text-anchor="middle" x="435.71" y="-269.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_face.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_face.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge45" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_face.f90</title>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M566.18,-311.97C533.11,-309.53 497.12,-297.91 471.5,-287.98"/>
+<polygon fill="#ff0075" stroke="#ff0075" points="472.46,-284.6 461.87,-284.15 469.86,-291.1 472.46,-284.6"/>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M1006.98,-416.83C990.06,-403.21 959.3,-380.56 929.01,-368.97 777.37,-310.95 730.1,-323.91 568.18,-311.97"/>
+</g>
+<!-- sourcefile~class_stopwatch.f90&#45;&gt;sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge47" class="edge">
+<title>sourcefile~class_stopwatch.f90&#45;&gt;sourcefile~tools_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M123.92,-300.54C115.49,-301.76 106.75,-303.02 98.28,-304.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="97.54,-300.82 88.14,-305.72 98.54,-307.75 97.54,-300.82"/>
+</g>
+<!-- sourcefile~class_motion.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge48" class="edge">
+<title>sourcefile~class_motion.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M521.74,-615.16C495.69,-609.26 462.87,-599.46 436.71,-583.97"/>
+</g>
+<!-- sourcefile~class_motion.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge49" class="edge">
+<title>sourcefile~class_motion.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M535.65,-611.83C528.41,-608.2 521.12,-603.61 515.36,-597.97 476.8,-560.29 453.26,-499.66 442.92,-467.9"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="446.24,-466.81 439.91,-458.32 439.56,-468.9 446.24,-466.81"/>
+</g>
+<!-- sourcefile~class_bc_math.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge50" class="edge">
+<title>sourcefile~class_bc_math.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M971.27,-240.84C927.48,-245.33 861.55,-252.43 804.36,-259.97 763.5,-265.36 753.56,-279.26 712.68,-273.97"/>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M710.68,-273.97C649.82,-264.97 492.96,-209.05 436.71,-233.97"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge52" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M1113.3,-271.02C1055.55,-266.95 953.84,-262.66 867.69,-273.97"/>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M865.69,-273.97C798.48,-284.35 780.13,-282.6 712.68,-273.97"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge56" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M566.18,-427.97C540.82,-429.88 512.89,-433.75 489.48,-437.51"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="488.7,-434.09 479.4,-439.16 489.84,-441 488.7,-434.09"/>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M865.69,-273.97C719.02,-299.59 716.65,-416.78 568.18,-427.97"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge55" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M1149.22,-286.47C1125.74,-312.63 1068.15,-376.79 1039.28,-408.95"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="1036.35,-406.97 1032.27,-416.75 1041.56,-411.65 1036.35,-406.97"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge54" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_bc_math.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M1120.55,-263.9C1105.19,-259.54 1087.36,-254.47 1071.14,-249.87"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="1071.87,-246.44 1061.29,-247.07 1069.95,-253.17 1071.87,-246.44"/>
+</g>
+<!-- sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node24" class="node">
+<title>sourcefile~class_dimensions.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node24"><a xlink:href=".././sourcefile/class_dimensions.f90.html" xlink:title="class_dimensions.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1077.59,-168.98 964.82,-168.98 964.82,-146.97 1077.59,-146.97 1077.59,-168.98"/>
+<text text-anchor="middle" x="1021.2" y="-154.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_dimensions.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge51" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_dimensions.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M1146.62,-263.96C1122.8,-243.67 1071.76,-200.19 1043.01,-175.69"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="1045.07,-172.85 1035.19,-169.03 1040.53,-178.18 1045.07,-172.85"/>
+</g>
+<!-- sourcefile~class_material.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node27" class="node">
+<title>sourcefile~class_material.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node27"><a xlink:href=".././sourcefile/class_material.f90.html" xlink:title="class_material.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1069.32,-90.98 973.08,-90.98 973.08,-68.97 1069.32,-68.97 1069.32,-90.98"/>
+<text text-anchor="middle" x="1021.2" y="-76.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_material.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_material.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge53" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_material.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M1153.92,-263.79C1141.6,-239.73 1110.64,-181.67 1077.4,-137.97 1066.59,-123.77 1052.74,-109.23 1041.62,-98.26"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="1044.04,-95.73 1034.43,-91.28 1039.17,-100.75 1044.04,-95.73"/>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge59" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M824.79,-400.08C817.28,-403.57 810.04,-408.1 804.36,-413.97 771.51,-447.92 732.22,-587.59 718.08,-641.03"/>
+<polygon fill="#00ffa9" stroke="#00ffa9" points="714.67,-640.23 715.53,-650.79 721.45,-642 714.67,-640.23"/>
+</g>
+<!-- sourcefile~class_plane.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node26" class="node">
+<title>sourcefile~class_plane.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node26"><a xlink:href=".././sourcefile/class_plane.f90.html" xlink:title="class_plane.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="609.65,-361.98 524.71,-361.98 524.71,-339.97 609.65,-339.97 609.65,-361.98"/>
+<text text-anchor="middle" x="567.18" y="-347.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_plane.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_plane.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge58" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_plane.f90</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M819.85,-383.12C765.84,-376.22 676.32,-364.78 619.88,-357.57"/>
+<polygon fill="#00ffa9" stroke="#00ffa9" points="620.1,-354.08 609.74,-356.28 619.22,-361.02 620.1,-354.08"/>
+</g>
+<!-- sourcefile~class_cylinder.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node28" class="node">
+<title>sourcefile~class_cylinder.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node28"><a xlink:href=".././sourcefile/class_cylinder.f90.html" xlink:title="class_cylinder.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="759.06,-437.98 664.3,-437.98 664.3,-415.97 759.06,-415.97 759.06,-437.98"/>
+<text text-anchor="middle" x="711.68" y="-423.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cylinder.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_cylinder.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge57" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_cylinder.f90</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M821.02,-400.06C804.21,-404.24 784.9,-409.04 767.28,-413.41"/>
+<polygon fill="#00ffa9" stroke="#00ffa9" points="766,-410.12 757.14,-415.93 767.69,-416.92 766,-410.12"/>
+</g>
+<!-- sourcefile~object_interface.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node25" class="node">
+<title>sourcefile~object_interface.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node25"><a xlink:href=".././sourcefile/object_interface.f90.html" xlink:title="object_interface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="618.82,-207.98 515.53,-207.98 515.53,-185.97 618.82,-185.97 618.82,-207.98"/>
+<text text-anchor="middle" x="567.18" y="-193.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">object_interface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~grid_interface.f90&#45;&gt;sourcefile~object_interface.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge60" class="edge">
+<title>sourcefile~grid_interface.f90&#45;&gt;sourcefile~object_interface.f90</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M818.54,-196.97C767.26,-196.97 685.1,-196.97 628.99,-196.97"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="628.83,-193.47 618.83,-196.97 628.83,-200.47 628.83,-193.47"/>
+</g>
+<!-- sourcefile~units_interface.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node30" class="node">
+<title>sourcefile~units_interface.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node30"><a xlink:href=".././sourcefile/units_interface.f90.html" xlink:title="units_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="762.48,-245.98 660.88,-245.98 660.88,-223.97 762.48,-223.97 762.48,-245.98"/>
+<text text-anchor="middle" x="711.68" y="-231.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">units_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~grid_interface.f90&#45;&gt;sourcefile~units_interface.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge61" class="edge">
+<title>sourcefile~grid_interface.f90&#45;&gt;sourcefile~units_interface.f90</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M821.02,-208.06C804.21,-212.24 784.9,-217.04 767.28,-221.41"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="766,-218.12 757.14,-223.93 767.69,-224.92 766,-218.12"/>
+</g>
+<!-- sourcefile~class_face.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge62" class="edge">
+<title>sourcefile~class_face.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M399.94,-284.04C386.5,-288.32 370.95,-293.28 356.71,-297.81"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="355.57,-294.5 347.1,-300.87 357.69,-301.17 355.57,-294.5"/>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_bc.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge64" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_bc.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1439.39,-356.97C1406.5,-371.01 1367.1,-380.59 1337.46,-386.48"/>
+<polygon fill="#ff00aa" stroke="#ff00aa" points="1336.57,-383.09 1327.41,-388.41 1337.89,-389.96 1336.57,-383.09"/>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge65" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1439.39,-3.97C1374.54,14.14 1360.21,-38.83 1293,-42.97"/>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1596.18,-188.93C1588.06,-157.89 1560.76,-69.12 1504.47,-22.97 1481.82,-4.41 1469.59,-11.85 1441.39,-3.97"/>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M865.69,-157.97C710.95,-177.2 662.33,-124.87 515.36,-176.97 474.67,-191.39 476.36,-216.9 436.71,-233.97"/>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M434.71,-233.97C415.53,-241.9 409.99,-242.52 392.06,-252.97 371.09,-265.2 349.02,-281.84 333.42,-294.33"/>
+<polygon fill="#ff00aa" stroke="#ff00aa" points="331.02,-291.77 325.47,-300.79 335.44,-297.21 331.02,-291.77"/>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1291,-42.97C1146.2,-51.89 1097.46,-0.75 965.01,-59.97 908.97,-85.03 928.6,-150.4 867.69,-157.97"/>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge67" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1439.39,-356.97C1365.39,-393.35 1374.08,-455.93 1293,-470.97"/>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1291,-470.97C1234.43,-481.46 1218.36,-480.04 1161.54,-470.97"/>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge63" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_dimensions.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1592.13,-211.14C1573.05,-241.51 1515.25,-325.45 1441.39,-356.97"/>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1439.39,-356.97C1321.19,-407.42 1326.54,-232.87 1207.69,-183.97 1169.76,-168.37 1124.17,-161.83 1087.68,-159.21"/>
+<polygon fill="#ff00aa" stroke="#ff00aa" points="1087.85,-155.71 1077.65,-158.57 1087.41,-162.7 1087.85,-155.71"/>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_material.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge66" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_material.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1439.39,-3.97C1411.08,3.49 1401.66,-8.3 1376.32,-22.97 1357.27,-34 1360.46,-48.11 1340.32,-56.97 1255.53,-94.28 1145.7,-92.65 1079.77,-87.04"/>
+<polygon fill="#ff00aa" stroke="#ff00aa" points="1079.85,-83.53 1069.58,-86.11 1079.22,-90.5 1079.85,-83.53"/>
+</g>
+<!-- sourcefile~class_field.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_node29" class="node">
+<title>sourcefile~class_field.f90</title>
+<g id="a_sourcefile~~smooth_mesh.f90~~EfferentGraph_node29"><a xlink:href=".././sourcefile/class_field.f90.html" xlink:title="class_field.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1479.43,-53.98 1401.35,-53.98 1401.35,-31.97 1479.43,-31.97 1479.43,-53.98"/>
+<text text-anchor="middle" x="1440.39" y="-39.82" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_field.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_field.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge68" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_field.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M1587.8,-188.93C1561.09,-162.31 1492.93,-94.35 1459.89,-61.42"/>
+<polygon fill="#ff00aa" stroke="#ff00aa" points="1462.22,-58.79 1452.66,-54.21 1457.28,-63.75 1462.22,-58.79"/>
+</g>
+<!-- sourcefile~class_dimensions.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge69" class="edge">
+<title>sourcefile~class_dimensions.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M964.94,-154.7C935.88,-153.8 899.74,-153.99 867.69,-157.97"/>
+</g>
+<!-- sourcefile~class_plane.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge70" class="edge">
+<title>sourcefile~class_plane.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M538.19,-339.9C512.33,-330.31 472.6,-317.18 436.71,-311.97"/>
+</g>
+<!-- sourcefile~class_plane.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge71" class="edge">
+<title>sourcefile~class_plane.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M551.33,-361.98C529.01,-378.53 486.62,-409.96 460.11,-429.62"/>
+<polygon fill="#48ff00" stroke="#48ff00" points="457.74,-427.02 451.79,-435.79 461.9,-432.65 457.74,-427.02"/>
+</g>
+<!-- sourcefile~class_material.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge72" class="edge">
+<title>sourcefile~class_material.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ff91" stroke-dasharray="5,2" d="M1000.51,-91C962.62,-112.09 882.04,-156.19 867.69,-157.97"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge74" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M663.94,-418.57C623.23,-410.11 563.37,-394.84 515.36,-370.97 476.23,-351.52 479.95,-318.25 436.71,-311.97"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge73" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M671.36,-438.01C654.84,-442.65 635.42,-448.1 617.91,-453.01"/>
+<polygon fill="#0091ff" stroke="#0091ff" points="616.54,-449.76 607.86,-455.83 618.44,-456.5 616.54,-449.76"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge75" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M664.09,-425.7C636.22,-425.34 600.13,-425.56 568.18,-427.97"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_bc.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge77" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_bc.f90</title>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M1436.88,-54.2C1427.73,-93.78 1393.97,-229.84 1340.32,-330.97 1331.96,-346.72 1319.85,-362.77 1309.97,-374.72"/>
+<polygon fill="#4800ff" stroke="#4800ff" points="1307.05,-372.75 1303.26,-382.64 1312.39,-377.28 1307.05,-372.75"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge78" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M1401.13,-41.69C1371.57,-41 1329.66,-40.71 1293,-42.97"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge81" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M1159.54,-470.97C1125.2,-464.58 1087.4,-452.35 1060.16,-442.55"/>
+<polygon fill="#4800ff" stroke="#4800ff" points="1061.23,-439.22 1050.63,-439.07 1058.82,-445.79 1061.23,-439.22"/>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M1432.94,-54.11C1393.58,-121.87 1186.75,-475.66 1161.54,-470.97"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge80" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~grid_interface.f90</title>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M1159.54,-118.97C1072.78,-123.25 1044.08,-101.99 965.01,-137.97 944.98,-147.09 947.52,-160.06 929.01,-171.97 923.29,-175.65 916.95,-178.96 910.57,-181.88"/>
+<polygon fill="#4800ff" stroke="#4800ff" points="909.07,-178.72 901.26,-185.88 911.83,-185.15 909.07,-178.72"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge76" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_dimensions.f90</title>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M1159.54,-118.97C1123.71,-120.74 1084.5,-132.97 1057.18,-143.27"/>
+<polygon fill="#4800ff" stroke="#4800ff" points="1055.74,-140.08 1047.68,-146.96 1058.27,-146.6 1055.74,-140.08"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_material.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge79" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_material.f90</title>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M1159.54,-118.97C1122.9,-118.97 1082.77,-105.96 1055.41,-94.97"/>
+<polygon fill="#4800ff" stroke="#4800ff" points="1056.51,-91.64 1045.94,-91.04 1053.83,-98.11 1056.51,-91.64"/>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M1422.66,-54.1C1403.58,-66.22 1371.04,-85.18 1340.32,-94.97 1263.93,-119.3 1241.71,-118.97 1161.54,-118.97"/>
+</g>
+<!-- sourcefile~units_interface.f90&#45;&gt;sourcefile~object_interface.f90 -->
+<g id="sourcefile~~smooth_mesh.f90~~EfferentGraph_edge82" class="edge">
+<title>sourcefile~units_interface.f90&#45;&gt;sourcefile~object_interface.f90</title>
+<path fill="none" stroke="#ff00da" stroke-dasharray="5,2" d="M669.08,-223.88C653.57,-219.74 635.78,-215 619.49,-210.66"/>
+<polygon fill="#ff00da" stroke="#ff00da" points="620.15,-207.21 609.59,-208.01 618.35,-213.97 620.15,-207.21"/>
+</g>
+</g>
+</svg>
+</div><script>var pansourcefilesmooth_meshf90EfferentGraph = svgPanZoom('#sourcefilesmooth_meshf90EfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="31pt"
+ viewBox="0.00 0.00 186.41 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 182.41,-26.5 182.41,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="65.16,-22.26 -0.05,-22.26 -0.05,-0.24 65.16,-0.24 65.16,-22.26"/>
+<text text-anchor="middle" x="32.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="178.26,-22.26 82.84,-22.26 82.84,-0.24 178.26,-0.24 178.26,-22.26"/>
+<text text-anchor="middle" x="130.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+      
+      <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-1">Submodules</a></h3></div>
+  <div id="submods-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/smooth_mesh_implementation.html">smooth_mesh_implementation</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/smooth_mesh.f90.html#src">smooth_mesh.f90</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="c">!</span>
+<a name="ln-2"></a><span class="c">!     (c) 2019 Guide Star Engineering, LLC</span>
+<a name="ln-3"></a><span class="c">!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)</span>
+<a name="ln-4"></a><span class="c">!     under contract &quot;Multi-Dimensional Physics Implementation into Fuel Analysis under</span>
+<a name="ln-5"></a><span class="c">!     Steady-state and Transients (FAST)&quot;, contract # NRC-HQ-60-17-C-0007</span>
+<a name="ln-6"></a><span class="c">!</span>
+<a name="ln-7"></a><span class="c">!    NEMO - Numerical Engine (for) Multiphysics Operators</span>
+<a name="ln-8"></a><span class="c">! Copyright (c) 2007, Stefano Toninel</span>
+<a name="ln-9"></a><span class="c">!                     Gian Marco Bianchi  University of Bologna</span>
+<a name="ln-10"></a><span class="c">!              David P. Schmidt    University of Massachusetts - Amherst</span>
+<a name="ln-11"></a><span class="c">!              Salvatore Filippone University of Rome Tor Vergata</span>
+<a name="ln-12"></a><span class="c">! All rights reserved.</span>
+<a name="ln-13"></a><span class="c">!</span>
+<a name="ln-14"></a><span class="c">! Redistribution and use in source and binary forms, with or without modification,</span>
+<a name="ln-15"></a><span class="c">! are permitted provided that the following conditions are met:</span>
+<a name="ln-16"></a><span class="c">!</span>
+<a name="ln-17"></a><span class="c">!     1. Redistributions of source code must retain the above copyright notice,</span>
+<a name="ln-18"></a><span class="c">!        this list of conditions and the following disclaimer.</span>
+<a name="ln-19"></a><span class="c">!     2. Redistributions in binary form must reproduce the above copyright notice,</span>
+<a name="ln-20"></a><span class="c">!        this list of conditions and the following disclaimer in the documentation</span>
+<a name="ln-21"></a><span class="c">!        and/or other materials provided with the distribution.</span>
+<a name="ln-22"></a><span class="c">!     3. Neither the name of the NEMO project nor the names of its contributors</span>
+<a name="ln-23"></a><span class="c">!        may be used to endorse or promote products derived from this software</span>
+<a name="ln-24"></a><span class="c">!        without specific prior written permission.</span>
+<a name="ln-25"></a><span class="c">!</span>
+<a name="ln-26"></a><span class="c">! THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND</span>
+<a name="ln-27"></a><span class="c">! ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
+<a name="ln-28"></a><span class="c">! WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<a name="ln-29"></a><span class="c">! DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR</span>
+<a name="ln-30"></a><span class="c">! ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span>
+<a name="ln-31"></a><span class="c">! (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;</span>
+<a name="ln-32"></a><span class="c">! LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON</span>
+<a name="ln-33"></a><span class="c">! ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span>
+<a name="ln-34"></a><span class="c">! (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS</span>
+<a name="ln-35"></a><span class="c">! SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+<a name="ln-36"></a><span class="c">!</span>
+<a name="ln-37"></a><span class="c">!---------------------------------------------------------------------------------</span>
+<a name="ln-38"></a><span class="c">!</span>
+<a name="ln-39"></a><span class="c">! $Id: smooth_mesh.f90 3323 2008-08-28 15:44:18Z sfilippo $</span>
+<a name="ln-40"></a><span class="c">!</span>
+<a name="ln-41"></a><span class="c">! Description: sweeps through the mesh to find the optimum location of all the vertices</span>
+<a name="ln-42"></a><span class="c">!</span>
+<a name="ln-43"></a><span class="k">SUBMODULE</span> <span class="p">(</span><span class="n">tools_mesh_optimize</span><span class="p">)</span> <span class="n">smooth_mesh_implementation</span>
+<a name="ln-44"></a>    <span class="k">USE </span><span class="n">class_iterating</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">iterating</span>
+<a name="ln-45"></a>    <span class="k">IMPLICIT NONE</span>
+<a name="ln-46"></a>
+<a name="ln-47"></a><span class="k">    CONTAINS</span>
+<a name="ln-48"></a>
+<a name="ln-49"></a><span class="k">        MODULE PROCEDURE </span><span class="n">smooth_mesh</span>
+<a name="ln-50"></a>
+<a name="ln-51"></a>        <span class="k">USE </span><span class="n">class_bc</span>
+<a name="ln-52"></a>        <span class="k">USE </span><span class="n">class_psblas</span>
+<a name="ln-53"></a>        <span class="k">USE </span><span class="n">class_cell</span>
+<a name="ln-54"></a>        <span class="k">USE </span><span class="n">class_connectivity</span>
+<a name="ln-55"></a>        <span class="k">USE </span><span class="n">class_keytable</span>
+<a name="ln-56"></a>        <span class="k">USE </span><span class="n">class_least_squares</span><span class="p">,</span> <span class="n">ONLY</span> <span class="p">:</span> <span class="n">free_least_squares</span><span class="p">,</span> <span class="n">set_least_squares</span>
+<a name="ln-57"></a>        <span class="k">USE </span><span class="n">class_mesh</span>
+<a name="ln-58"></a>        <span class="k">USE </span><span class="n">class_vector</span>
+<a name="ln-59"></a>        <span class="k">USE </span><span class="n">class_vertex</span>
+<a name="ln-60"></a>        <span class="k">USE </span><span class="n">tools_mesh_basics</span><span class="p">,</span> <span class="n">ONLY</span> <span class="p">:</span> <span class="n">geom_cell</span><span class="p">,</span> <span class="n">geom_diff</span><span class="p">,</span> <span class="n">geom_face</span>
+<a name="ln-61"></a>        <span class="k">USE </span><span class="n">tools_mesh_check</span>
+<a name="ln-62"></a>        <span class="k">USE </span><span class="n">tools_mesh_optimize</span><span class="p">,</span> <span class="n">nemo_protect_name</span> <span class="o">=&gt;</span> <span class="n">smooth_mesh</span>
+<a name="ln-63"></a>
+<a name="ln-64"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-65"></a>
+<a name="ln-66"></a>        <span class="c">! Local variables</span>
+<a name="ln-67"></a>
+<a name="ln-68"></a>        <span class="c">!  Variables for list of unconstrained vertices</span>
+<a name="ln-69"></a>        <span class="c">!  note that unconstrained(:) is a list of integers, sized to ncells</span>
+<a name="ln-70"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">unconstrained</span><span class="p">(:)</span>  <span class="c">! list of vertices that move</span>
+<a name="ln-71"></a>        <span class="c">! (and connected only to tets)</span>
+<a name="ln-72"></a>
+<a name="ln-73"></a>        <span class="c">! constrained lists a mobile, but constrained vertex</span>
+<a name="ln-74"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">constrained</span><span class="p">(:)</span>
+<a name="ln-75"></a>
+<a name="ln-76"></a>        <span class="c">! shared flags a vertex that is shared by another processor, sized to ncells</span>
+<a name="ln-77"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">n_shared</span><span class="p">,</span> <span class="n">tot_n_shared</span>       <span class="c">! number of shared vertices</span>
+<a name="ln-78"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">shared</span><span class="p">(:)</span>       <span class="c">!list of shared (overlap) vertices</span>
+<a name="ln-79"></a>        <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">shared_flag</span><span class="p">(:)</span>  <span class="c">!flags if a vertex is shared</span>
+<a name="ln-80"></a>        <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">all_tets</span><span class="p">(:)</span>     <span class="c">!flags if a vertex is used only by tets</span>
+<a name="ln-81"></a>        <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">mixed</span><span class="p">(:)</span>        <span class="c">!flags if a vertex is used only by tets</span>
+<a name="ln-82"></a>
+<a name="ln-83"></a>        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span><span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">vpos</span><span class="p">(:,:)</span> <span class="c">!  list of vertex positions</span>
+<a name="ln-84"></a>
+<a name="ln-85"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">n_unconstrained</span>     <span class="c">! number of unconstrained vertices</span>
+<a name="ln-86"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">n_constrained</span>       <span class="c">! number of constrained vertices</span>
+<a name="ln-87"></a>
+<a name="ln-88"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">connectivity</span><span class="p">)</span> <span class="kd">::</span>   <span class="n">c2v</span> <span class="c">! given all vertices, finds connected cells</span>
+<a name="ln-89"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">connectivity</span><span class="p">)</span> <span class="kd">::</span>   <span class="n">f2v</span> <span class="c">! given all vertices, finds connected faces</span>
+<a name="ln-90"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">connectivity</span><span class="p">)</span> <span class="kd">::</span>   <span class="n">b2v</span> <span class="c">! given all verts, finds the boundaries to which they belong</span>
+<a name="ln-91"></a>        <span class="kt">INTEGER</span><span class="p">,</span><span class="k">POINTER</span> <span class="kd">::</span> <span class="n">ib2v</span><span class="p">(:)</span><span class="o">=&gt;</span><span class="nb">null</span><span class="p">()</span> <span class="c">! given a vert, the bndry to which it belongs</span>
+<a name="ln-92"></a>
+<a name="ln-93"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">iv</span><span class="p">,</span><span class="n">i</span>             <span class="c">! vertex number, cell id, and loop index</span>
+<a name="ln-94"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">nverts</span>           <span class="c">!number of local vertices in mesh</span>
+<a name="ln-95"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">info</span>
+<a name="ln-96"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">tangled</span>     <span class="c">! number of tangled cells in the initial mesh</span>
+<a name="ln-97"></a>
+<a name="ln-98"></a>        <span class="c">! parameters for calling Opt-MS library</span>
+<a name="ln-99"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">dims</span>
+<a name="ln-100"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">technique</span><span class="p">,</span> <span class="n">functionID</span>
+<a name="ln-101"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span> <span class="kd">::</span> <span class="n">new_pos</span>  <span class="c">! the new vertex position, after smoothing</span>
+<a name="ln-102"></a>        <span class="kt">INTEGER</span><span class="p">,</span><span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">idloc</span><span class="p">(:),</span><span class="n">idglob</span><span class="p">(:)</span>
+<a name="ln-103"></a>
+<a name="ln-104"></a>        <span class="c">! for error handling</span>
+<a name="ln-105"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">err_act</span><span class="p">,</span><span class="n">icontxt</span><span class="p">,</span><span class="n">mypnum</span>
+<a name="ln-106"></a>        <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">32</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="k">WHERE</span> <span class="o">=</span> <span class="s1">&#39;smooth_mesh&#39;</span>
+<a name="ln-107"></a>
+<a name="ln-108"></a>        <span class="c">! Sets error handling for PSBLAS-2 routines</span>
+<a name="ln-109"></a>        <span class="n">info</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-110"></a>        <span class="k">CALL </span><span class="n">psb_erractionsave</span><span class="p">(</span><span class="n">err_act</span><span class="p">)</span>
+<a name="ln-111"></a>
+<a name="ln-112"></a>        <span class="n">icontxt</span> <span class="o">=</span> <span class="n">icontxt_</span><span class="p">()</span>
+<a name="ln-113"></a>        <span class="n">mypnum</span>  <span class="o">=</span> <span class="n">mypnum_</span><span class="p">()</span>
+<a name="ln-114"></a>
+<a name="ln-115"></a>        <span class="k">IF</span> <span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">ncd</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="k">RETURN</span>   <span class="c">! can&#39;t yet do 2d meshes</span>
+<a name="ln-116"></a>
+<a name="ln-117"></a>        <span class="n">nverts</span> <span class="o">=</span> <span class="n">psb_cd_get_local_rows</span><span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_v</span><span class="p">)</span> <span class="c">!local and shared vertices</span>
+<a name="ln-118"></a>
+<a name="ln-119"></a>        <span class="c">! allocate storage for shared vertex positions</span>
+<a name="ln-120"></a>        <span class="k">CALL </span><span class="n">psb_geall</span><span class="p">(</span><span class="n">vpos</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_v</span><span class="p">,</span><span class="n">info</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<a name="ln-121"></a>
+<a name="ln-122"></a>        <span class="k">IF</span> <span class="p">(</span><span class="n">info</span><span class="o">/=</span><span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-123"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-124"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-125"></a>        <span class="n">ENDIF</span>
+<a name="ln-126"></a>
+<a name="ln-127"></a>        <span class="c">! note shared (overlap) vertices</span>
+<a name="ln-128"></a>        <span class="k">CALL </span><span class="n">psb_get_overlap</span><span class="p">(</span><span class="n">shared</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_v</span><span class="p">,</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-129"></a>
+<a name="ln-130"></a>        <span class="k">IF</span> <span class="p">(</span><span class="n">info</span><span class="o">/=</span><span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-131"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
+<a name="ln-132"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-133"></a>        <span class="n">ENDIF</span>
+<a name="ln-134"></a>
+<a name="ln-135"></a>        <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">shared_flag</span><span class="p">(</span><span class="n">nverts</span><span class="p">),</span> <span class="n">all_tets</span><span class="p">(</span><span class="n">nverts</span><span class="p">),</span> <span class="n">mixed</span><span class="p">(</span><span class="n">nverts</span><span class="p">),</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-136"></a>
+<a name="ln-137"></a>        <span class="k">IF</span> <span class="p">(</span><span class="n">info</span><span class="o">/=</span><span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-138"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">600</span><span class="p">)</span>
+<a name="ln-139"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-140"></a>        <span class="n">ENDIF</span>
+<a name="ln-141"></a>
+<a name="ln-142"></a>        <span class="n">shared_flag</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-143"></a>
+<a name="ln-144"></a>        <span class="k">IF</span> <span class="p">(</span><span class="nb">ALLOCATED</span><span class="p">(</span><span class="n">shared</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-145"></a><span class="k">            </span><span class="n">n_shared</span><span class="o">=</span><span class="n">SIZE</span><span class="p">(</span><span class="n">shared</span><span class="p">)</span>
+<a name="ln-146"></a>            <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_shared</span>
+<a name="ln-147"></a>                <span class="n">shared_flag</span><span class="p">(</span> <span class="n">shared</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">)</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-148"></a>            <span class="k">END DO</span>
+<a name="ln-149"></a><span class="k">        ELSE</span>
+<a name="ln-150"></a><span class="k">            </span><span class="n">n_shared</span><span class="o">=</span><span class="mi">0</span>  <span class="c">! if there are no shared vertices, shared will still have size 1</span>
+<a name="ln-151"></a>        <span class="n">ENDIF</span>
+<a name="ln-152"></a>        <span class="n">tot_n_shared</span> <span class="o">=</span> <span class="n">n_shared</span>
+<a name="ln-153"></a>        <span class="k">CALL </span><span class="n">psb_sum</span><span class="p">(</span><span class="n">icontxt</span><span class="p">,</span><span class="n">tot_n_shared</span><span class="p">)</span>
+<a name="ln-154"></a>
+<a name="ln-155"></a>        <span class="k">IF</span> <span class="p">(</span><span class="n">info</span><span class="o">/=</span><span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-156"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
+<a name="ln-157"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-158"></a>        <span class="n">ENDIF</span>
+<a name="ln-159"></a>
+<a name="ln-160"></a>        <span class="c">!initialize OptMS parameters</span>
+<a name="ln-161"></a>        <span class="n">dims</span>       <span class="o">=</span> <span class="mi">3</span>
+<a name="ln-162"></a>        <span class="n">technique</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>  <span class="c">! -1 is default, 4 is OPTMS_COMBINED:  see SMuserDefs.h</span>
+<a name="ln-163"></a>        <span class="n">functionID</span> <span class="o">=</span> <span class="mi">27</span> <span class="c">! Minimize Max SMRS Volume Ratio</span>
+<a name="ln-164"></a>        <span class="c">!(SMRS Vol. Ratio is Knupp&#39;s metric to the -3/2 power)</span>
+<a name="ln-165"></a>
+<a name="ln-166"></a>        <span class="c">! pass parameters and initialize OptMS data structures for 3D smoothing</span>
+<a name="ln-167"></a>        <span class="n">info</span> <span class="o">=</span> <span class="n">initoptms</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span><span class="n">technique</span><span class="p">,</span><span class="n">functionID</span><span class="p">)</span>
+<a name="ln-168"></a>
+<a name="ln-169"></a>        <span class="k">IF</span> <span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-170"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-171"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-172"></a>        <span class="n">ENDIF</span>
+<a name="ln-173"></a>
+<a name="ln-174"></a>        <span class="c">!initialize OptMS parameters for 2D smoothing</span>
+<a name="ln-175"></a>        <span class="n">dims</span>       <span class="o">=</span> <span class="mi">2</span>
+<a name="ln-176"></a>        <span class="n">technique</span>  <span class="o">=</span> <span class="mi">3</span>  <span class="c">! -1 is default, 4 is OPTMS_COMBINED:  see SMuserDefs.h</span>
+<a name="ln-177"></a>        <span class="n">functionID</span> <span class="o">=</span> <span class="mi">7</span> <span class="c">! was 7 ! Minimize Max Jacobian</span>
+<a name="ln-178"></a>
+<a name="ln-179"></a>        <span class="c">! pass parameters and initialize OptMS data structures</span>
+<a name="ln-180"></a>        <span class="n">info</span> <span class="o">=</span> <span class="n">initoptms2d</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span><span class="n">technique</span><span class="p">,</span><span class="n">functionID</span><span class="p">)</span>
+<a name="ln-181"></a>
+<a name="ln-182"></a>        <span class="c">! prepare the c2v connectivity, required for calculating unconstrained vertices</span>
+<a name="ln-183"></a>        <span class="k">CALL </span><span class="n">msh</span><span class="p">%</span><span class="n">v2c</span><span class="p">%</span><span class="n">get_dual_conn</span><span class="p">(</span><span class="n">c2v</span><span class="p">)</span>
+<a name="ln-184"></a>
+<a name="ln-185"></a>        <span class="c">! prepare the f2v connectivity, required for calculating surf. vtx movement</span>
+<a name="ln-186"></a>        <span class="k">CALL </span><span class="n">msh</span><span class="p">%</span><span class="n">v2f</span><span class="p">%</span><span class="n">get_dual_conn</span><span class="p">(</span><span class="n">f2v</span><span class="p">)</span>
+<a name="ln-187"></a>
+<a name="ln-188"></a>        <span class="c">! prepare the b2v connectivity, required for calculating surf. vtx movement</span>
+<a name="ln-189"></a>        <span class="k">CALL </span><span class="n">msh</span><span class="p">%</span><span class="n">v2b</span><span class="p">%</span><span class="n">get_dual_conn</span><span class="p">(</span><span class="n">b2v</span><span class="p">)</span>
+<a name="ln-190"></a>
+<a name="ln-191"></a>        <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">unconstrained</span><span class="p">(</span><span class="n">nverts</span><span class="p">),</span><span class="n">constrained</span><span class="p">(</span><span class="n">nverts</span><span class="p">),</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-192"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-193"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">600</span><span class="p">)</span>
+<a name="ln-194"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-195"></a>        <span class="k">END IF</span>
+<a name="ln-196"></a>
+<a name="ln-197"></a>        <span class="c">! decide which vertices we will smooth and which are special boundary vertices</span>
+<a name="ln-198"></a>        <span class="k">CALL </span><span class="n">mobile_verts</span><span class="p">(</span><span class="n">msh</span><span class="p">,</span><span class="n">bc</span><span class="p">,</span><span class="n">c2v</span><span class="p">,</span><span class="n">shared_flag</span><span class="p">,</span><span class="n">unconstrained</span><span class="p">,</span><span class="n">n_unconstrained</span><span class="p">,</span><span class="n">constrained</span><span class="p">,</span>  <span class="p">&amp;</span>
+<a name="ln-199"></a>            <span class="p">&amp;</span>    <span class="n">n_constrained</span><span class="p">,</span> <span class="n">all_tets</span><span class="p">,</span> <span class="n">mixed</span><span class="p">)</span>
+<a name="ln-200"></a>
+<a name="ln-201"></a>        <span class="k">CALL </span><span class="n">check_right_handed</span><span class="p">(</span><span class="n">msh</span><span class="p">,</span><span class="n">shared</span><span class="p">,</span><span class="n">shared_flag</span><span class="p">,</span><span class="n">tangled</span><span class="p">,</span><span class="n">all_tets</span><span class="p">)</span>
+<a name="ln-202"></a>
+<a name="ln-203"></a>        <span class="k">IF</span> <span class="p">(</span><span class="n">tangled</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-204"></a><span class="k">            WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-205"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;(a,i4,a,i3,a)&#39;</span><span class="p">)</span><span class="s2">&quot;Warning: &quot;</span><span class="p">,</span><span class="n">tangled</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-206"></a>                <span class="p">&amp;</span> <span class="s2">&quot; inverted cells detected on processor &quot;</span><span class="p">,</span><span class="n">mypnum_</span><span class="p">(),</span><span class="s2">&quot;.&quot;</span>
+<a name="ln-207"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="s2">&quot;Attempting to untangle mesh.&quot;</span>
+<a name="ln-208"></a>        <span class="n">ENDIF</span>
+<a name="ln-209"></a>
+<a name="ln-210"></a>        <span class="c">!           ============= repeatedly do surface sweeps ======================</span>
+<a name="ln-211"></a>        <span class="k">CALL </span><span class="n">surface_iter</span><span class="p">%</span><span class="n">reset</span><span class="p">()</span>
+<a name="ln-212"></a>
+<a name="ln-213"></a>        <span class="n">surface_iteration</span><span class="p">:</span> <span class="k">DO</span>
+<a name="ln-214"></a>
+<a name="ln-215"></a><span class="k">            CALL </span><span class="n">surface_iter</span><span class="p">%</span><span class="n">increment</span><span class="p">()</span>
+<a name="ln-216"></a>
+<a name="ln-217"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;(a,i4,2a)&#39;</span><span class="p">)</span><span class="s2">&quot; - Iteration: &quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-218"></a>                <span class="p">&amp;</span> <span class="n">surface_iter</span><span class="p">%</span><span class="n">current_iteration</span><span class="p">(),</span> <span class="nb">CHAR</span><span class="p">(</span><span class="mi">27</span><span class="p">),</span><span class="nb">CHAR</span><span class="p">(</span><span class="mi">77</span><span class="p">)</span>
+<a name="ln-219"></a>
+<a name="ln-220"></a>            <span class="c">!  Loop over interior vertices</span>
+<a name="ln-221"></a>            <span class="k">DO </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">n_constrained</span>
+<a name="ln-222"></a>
+<a name="ln-223"></a>                <span class="n">iv</span> <span class="o">=</span> <span class="n">constrained</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="c">! get index of unconstrained vertex out of the list</span>
+<a name="ln-224"></a>
+<a name="ln-225"></a>                <span class="k">CALL </span><span class="n">b2v</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">ib2v</span><span class="p">,</span><span class="n">iv</span><span class="p">)</span>
+<a name="ln-226"></a>
+<a name="ln-227"></a>                <span class="k">IF</span> <span class="p">(</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">ib2v</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-228"></a>                    <span class="c">! a normal sliding vertex can only belong to one boundary,</span>
+<a name="ln-229"></a>                    <span class="c">! so assume ib2v has only 1 elem.</span>
+<a name="ln-230"></a>                    <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">mixed</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span> <span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-231"></a>                        <span class="p">&amp;</span> <span class="k">CALL </span><span class="n">smooth_surf_vtx</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="n">ib2v</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">msh</span><span class="p">,</span><span class="n">f2v</span><span class="p">,</span><span class="n">shared_flag</span><span class="p">,</span> <span class="n">tangled</span><span class="p">,</span> <span class="n">all_tets</span><span class="p">)</span>
+<a name="ln-232"></a>
+<a name="ln-233"></a>                <span class="n">ENDIF</span>
+<a name="ln-234"></a>                <span class="c">! TBD: we could do some sort of averaging with points adjoining 2 sliding BC&#39;s</span>
+<a name="ln-235"></a>
+<a name="ln-236"></a>            <span class="k">END DO</span>
+<a name="ln-237"></a>
+<a name="ln-238"></a>            <span class="c">!copy all shared vertices to a dense vector and average among overlapping processors</span>
+<a name="ln-239"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">tot_n_shared</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span> <span class="c">! there are shared vertices</span>
+<a name="ln-240"></a>                <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="n">n_shared</span>
+<a name="ln-241"></a>
+<a name="ln-242"></a>                    <span class="n">iv</span> <span class="o">=</span> <span class="n">shared</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-243"></a>                    <span class="n">vpos</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)%</span><span class="n">x_</span><span class="p">()</span>
+<a name="ln-244"></a>                    <span class="n">vpos</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)%</span><span class="n">y_</span><span class="p">()</span>
+<a name="ln-245"></a>                    <span class="n">vpos</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)%</span><span class="n">z_</span><span class="p">()</span>
+<a name="ln-246"></a>
+<a name="ln-247"></a>                <span class="k">END DO</span> <span class="c">! end of loop over shared vertices</span>
+<a name="ln-248"></a>
+<a name="ln-249"></a>                <span class="k">CALL </span><span class="n">psb_ovrl</span><span class="p">(</span><span class="n">vpos</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_v</span><span class="p">,</span><span class="n">info</span><span class="p">,</span><span class="n">update</span><span class="o">=</span><span class="n">psb_avg_</span><span class="p">)</span>
+<a name="ln-250"></a>
+<a name="ln-251"></a>                <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-252"></a><span class="k">                    WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">700</span><span class="p">)</span>
+<a name="ln-253"></a>                    <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-254"></a>                <span class="k">END IF</span>
+<a name="ln-255"></a>
+<a name="ln-256"></a>                <span class="c">!now copy the averaged positions from vpos back to the vertices</span>
+<a name="ln-257"></a>                <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="n">n_shared</span>
+<a name="ln-258"></a>                    <span class="n">iv</span> <span class="o">=</span> <span class="n">shared</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-259"></a>                    <span class="n">new_pos</span> <span class="o">=</span> <span class="n">vector_</span><span class="p">(</span><span class="n">vpos</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">vpos</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="n">vpos</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<a name="ln-260"></a>                    <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span> <span class="o">=</span> <span class="n">new_pos</span>
+<a name="ln-261"></a>                <span class="k">END DO</span>
+<a name="ln-262"></a>
+<a name="ln-263"></a><span class="k">                CALL </span><span class="n">update_vertex_halo</span><span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_v</span><span class="p">)</span>
+<a name="ln-264"></a>
+<a name="ln-265"></a>            <span class="n">ENDIF</span> <span class="c">! end of if-test for allocation of shared vertex storage</span>
+<a name="ln-266"></a>
+<a name="ln-267"></a>            <span class="n">tangled</span> <span class="o">=</span> <span class="mi">0</span> <span class="c">! assume that after one surface sweep, things are untangled</span>
+<a name="ln-268"></a>
+<a name="ln-269"></a>            <span class="k">IF</span> <span class="p">(</span> <span class="n">surface_iter</span><span class="p">%</span><span class="n">stop_iterating</span><span class="p">()</span> <span class="p">)</span> <span class="k">EXIT </span><span class="n">surface_iteration</span>
+<a name="ln-270"></a>        <span class="k">END DO </span><span class="n">surface_iteration</span> <span class="c">! end of surface sweep loops</span>
+<a name="ln-271"></a>
+<a name="ln-272"></a>        <span class="c">! Now that the surface is hopefully in good shape, do interior smoothing</span>
+<a name="ln-273"></a>        <span class="k">IF</span> <span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-274"></a>
+<a name="ln-275"></a>        <span class="c">! Free memory, because these will be recalculated later.  For now, since</span>
+<a name="ln-276"></a>        <span class="c">! they are immediately out of date, they are worse than useless</span>
+<a name="ln-277"></a>        <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">face_cntr</span><span class="p">,</span> <span class="n">msh</span><span class="p">%</span><span class="n">af</span><span class="p">,</span> <span class="n">msh</span><span class="p">%</span><span class="n">area</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">cell_cntr</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">vol</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">df</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-278"></a>            <span class="p">&amp;</span> <span class="n">msh</span><span class="p">%</span><span class="n">dist</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">interp</span><span class="p">)</span>
+<a name="ln-279"></a>
+<a name="ln-280"></a>        <span class="k">CALL </span><span class="n">free_least_squares</span><span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">lsr</span><span class="p">)</span>
+<a name="ln-281"></a>
+<a name="ln-282"></a>        <span class="c">! set all interior points (except at region boundaries) to the avg. position</span>
+<a name="ln-283"></a>        <span class="k">CALL </span><span class="n">laplacian_smooth</span> <span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_v</span><span class="p">,</span> <span class="n">msh</span><span class="p">%</span><span class="n">v2v</span><span class="p">,</span> <span class="n">n_unconstrained</span><span class="p">,</span> <span class="n">unconstrained</span><span class="p">,</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">,</span> <span class="n">mixed</span><span class="p">)</span>
+<a name="ln-284"></a>
+<a name="ln-285"></a>        <span class="k">CALL </span><span class="n">interior_iter</span><span class="p">%</span><span class="n">reset</span><span class="p">()</span>
+<a name="ln-286"></a>
+<a name="ln-287"></a>        <span class="k">IF</span> <span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;(a,i4,2a)&#39;</span><span class="p">)</span><span class="s2">&quot; - Iteration: &quot;</span><span class="p">,</span>  <span class="p">&amp;</span>
+<a name="ln-288"></a>            <span class="p">&amp;</span>  <span class="n">interior_iter</span><span class="p">%</span><span class="n">current_iteration</span><span class="p">(),</span><span class="nb">CHAR</span><span class="p">(</span><span class="mi">27</span><span class="p">),</span><span class="nb">CHAR</span><span class="p">(</span><span class="mi">77</span><span class="p">)</span>
+<a name="ln-289"></a>
+<a name="ln-290"></a>        <span class="n">interior_iteration</span><span class="p">:</span> <span class="k">DO</span>
+<a name="ln-291"></a>            <span class="c">!  Loop over interior vertices</span>
+<a name="ln-292"></a>            <span class="k">DO </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">n_unconstrained</span>
+<a name="ln-293"></a>
+<a name="ln-294"></a>                <span class="n">iv</span> <span class="o">=</span> <span class="n">unconstrained</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="c">! get index of unconstrained vertex out of the list</span>
+<a name="ln-295"></a>
+<a name="ln-296"></a>                <span class="c">! Optimize the location of the interior vertex</span>
+<a name="ln-297"></a>                <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">mixed</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span> <span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-298"></a>                    <span class="p">&amp;</span> <span class="k">CALL </span><span class="n">smooth_interior_vtx</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="n">msh</span><span class="p">,</span><span class="n">c2v</span><span class="p">,</span><span class="n">shared_flag</span><span class="p">,</span> <span class="n">all_tets</span><span class="p">)</span>
+<a name="ln-299"></a>
+<a name="ln-300"></a>            <span class="k">END DO</span> <span class="c">! end of loop over unconstrained vertices</span>
+<a name="ln-301"></a>            <span class="c">!copy all shared vertices to a dense vector and average among overlapping processors</span>
+<a name="ln-302"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">tot_n_shared</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span> <span class="c">! there are shared vertices</span>
+<a name="ln-303"></a>                <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="n">n_shared</span>
+<a name="ln-304"></a>                    <span class="n">iv</span> <span class="o">=</span> <span class="n">shared</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-305"></a>                    <span class="n">vpos</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)%</span><span class="n">x_</span><span class="p">()</span>
+<a name="ln-306"></a>                    <span class="n">vpos</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)%</span><span class="n">y_</span><span class="p">()</span>
+<a name="ln-307"></a>                    <span class="n">vpos</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)%</span><span class="n">z_</span><span class="p">()</span>
+<a name="ln-308"></a>                <span class="k">END DO</span>
+<a name="ln-309"></a><span class="k">                CALL </span><span class="n">psb_ovrl</span><span class="p">(</span><span class="n">vpos</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_v</span><span class="p">,</span><span class="n">info</span><span class="p">,</span><span class="n">update</span><span class="o">=</span><span class="n">psb_avg_</span><span class="p">)</span>
+<a name="ln-310"></a>
+<a name="ln-311"></a>                <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-312"></a><span class="k">                    WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">700</span><span class="p">)</span>
+<a name="ln-313"></a>                    <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-314"></a>                <span class="k">END IF</span>
+<a name="ln-315"></a>
+<a name="ln-316"></a>                <span class="c">!now copy the averaged positions from vpos back to the vertices</span>
+<a name="ln-317"></a>                <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="n">n_shared</span>
+<a name="ln-318"></a>                    <span class="n">iv</span> <span class="o">=</span> <span class="n">shared</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-319"></a>                    <span class="n">new_pos</span> <span class="o">=</span> <span class="n">vector_</span><span class="p">(</span><span class="n">vpos</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">vpos</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="n">vpos</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<a name="ln-320"></a>                    <span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span> <span class="o">=</span> <span class="n">new_pos</span>
+<a name="ln-321"></a>                <span class="k">END DO</span>
+<a name="ln-322"></a>
+<a name="ln-323"></a><span class="k">                CALL </span><span class="n">update_vertex_halo</span><span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_v</span><span class="p">)</span>
+<a name="ln-324"></a>
+<a name="ln-325"></a>            <span class="n">ENDIF</span> <span class="c">! end of if-test for allocation of shared vertex storage</span>
+<a name="ln-326"></a>
+<a name="ln-327"></a>            <span class="k">CALL </span><span class="n">check_right_handed</span><span class="p">(</span><span class="n">msh</span><span class="p">,</span><span class="n">shared</span><span class="p">,</span><span class="n">shared_flag</span><span class="p">,</span><span class="n">tangled</span><span class="p">,</span><span class="n">all_tets</span><span class="p">)</span>
+<a name="ln-328"></a>
+<a name="ln-329"></a>            <span class="c">!share largest value of tangled among processors</span>
+<a name="ln-330"></a>
+<a name="ln-331"></a>            <span class="k">CALL </span><span class="n">psb_amx</span><span class="p">(</span><span class="n">icontxt</span><span class="p">,</span><span class="n">tangled</span><span class="p">)</span>
+<a name="ln-332"></a>            <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="nb">TRIM</span><span class="p">(</span><span class="k">WHERE</span><span class="p">),</span><span class="s1">&#39;psb_amx&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-333"></a>
+<a name="ln-334"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">tangled</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-335"></a><span class="k">                WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-336"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;(a,i4,a,i3,a)&#39;</span><span class="p">)</span><span class="s2">&quot;Warning: &quot;</span><span class="p">,</span><span class="n">tangled</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-337"></a>                    <span class="p">&amp;</span> <span class="s2">&quot; inverted cells detected on processor &quot;</span><span class="p">,</span><span class="n">mypnum_</span><span class="p">(),</span><span class="s2">&quot;.&quot;</span>
+<a name="ln-338"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;(a)&#39;</span><span class="p">)</span><span class="s2">&quot;Attempting to untangle mesh.&quot;</span>
+<a name="ln-339"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-340"></a>
+<a name="ln-341"></a>            <span class="n">ENDIF</span>
+<a name="ln-342"></a>
+<a name="ln-343"></a>            <span class="k">CALL </span><span class="n">interior_iter</span><span class="p">%</span><span class="n">increment</span><span class="p">()</span>
+<a name="ln-344"></a>
+<a name="ln-345"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;(a,i4,2a)&#39;</span><span class="p">)</span><span class="s2">&quot; - Iteration: &quot;</span><span class="p">,</span>  <span class="p">&amp;</span>
+<a name="ln-346"></a>                <span class="p">&amp;</span>  <span class="n">interior_iter</span><span class="p">%</span><span class="n">current_iteration</span><span class="p">(),</span><span class="nb">CHAR</span><span class="p">(</span><span class="mi">27</span><span class="p">),</span><span class="nb">CHAR</span><span class="p">(</span><span class="mi">77</span><span class="p">)</span>
+<a name="ln-347"></a>
+<a name="ln-348"></a>
+<a name="ln-349"></a>            <span class="k">IF</span> <span class="p">(</span> <span class="n">interior_iter</span><span class="p">%</span><span class="n">stop_iterating</span><span class="p">()</span> <span class="p">)</span> <span class="k">EXIT </span><span class="n">interior_iteration</span>
+<a name="ln-350"></a>        <span class="k">END DO </span><span class="n">interior_iteration</span>
+<a name="ln-351"></a>
+<a name="ln-352"></a>        <span class="k">IF</span> <span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-353"></a><span class="k">            WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-354"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-355"></a>        <span class="n">ENDIF</span>  <span class="c">!End of if-test for processor zero</span>
+<a name="ln-356"></a>
+<a name="ln-357"></a>        <span class="c">!now recalculate all mesh geometry</span>
+<a name="ln-358"></a>
+<a name="ln-359"></a>        <span class="c">! Computes face-related metrics members MSH%FACE_CNTR, MSH%AF, MSH%AREA</span>
+<a name="ln-360"></a>        <span class="k">CALL </span><span class="n">geom_face</span><span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">v2f</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">ncd</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-361"></a>            <span class="p">&amp;</span> <span class="n">msh</span><span class="p">%</span><span class="n">face_cntr</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">af</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">area</span><span class="p">)</span>
+<a name="ln-362"></a>
+<a name="ln-363"></a>        <span class="c">! Computes cell-related metrics members MSH%CELL_CNTR, MSH%VOL</span>
+<a name="ln-364"></a>        <span class="k">CALL </span><span class="n">geom_cell</span><span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">verts</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">faces</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">cells</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">v2f</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">v2c</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-365"></a>            <span class="p">&amp;</span> <span class="n">msh</span><span class="p">%</span><span class="n">f2c</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">ncd</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">cell_cntr</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">vol</span><span class="p">)</span>
+<a name="ln-366"></a>
+<a name="ln-367"></a>        <span class="c">! Computes face-related metrics members MSH%DF, MSH%DIST, MSH%INTERP</span>
+<a name="ln-368"></a>        <span class="k">CALL </span><span class="n">geom_diff</span><span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">faces</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">f2b</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">face_cntr</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">af</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">cell_cntr</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-369"></a>            <span class="p">&amp;</span> <span class="n">msh</span><span class="p">%</span><span class="n">df</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">dist</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">interp</span><span class="p">)</span>
+<a name="ln-370"></a>
+<a name="ln-371"></a>        <span class="c">! Computes metrics for cell-centered least squares regression</span>
+<a name="ln-372"></a>        <span class="k">CALL </span><span class="n">set_least_squares</span><span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">lsr</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">ncd</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_c</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">c2c</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">f2b</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-373"></a>            <span class="p">&amp;</span> <span class="n">msh</span><span class="p">%</span><span class="n">faces</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">cell_cntr</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">face_cntr</span><span class="p">)</span>
+<a name="ln-374"></a>
+<a name="ln-375"></a>        <span class="c">! free allocated memory</span>
+<a name="ln-376"></a>
+<a name="ln-377"></a>        <span class="k">CALL </span><span class="n">psb_gefree</span><span class="p">(</span><span class="n">vpos</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_v</span><span class="p">,</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-378"></a>
+<a name="ln-379"></a>        <span class="k">IF</span> <span class="p">(</span> <span class="nb">ALLOCATED</span><span class="p">(</span><span class="n">shared</span><span class="p">)</span> <span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-380"></a><span class="k">            DEALLOCATE</span> <span class="p">(</span><span class="n">shared</span><span class="p">)</span>
+<a name="ln-381"></a>        <span class="n">ENDIF</span>
+<a name="ln-382"></a>
+<a name="ln-383"></a>        <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">shared_flag</span><span class="p">,</span> <span class="n">all_tets</span><span class="p">)</span>
+<a name="ln-384"></a>
+<a name="ln-385"></a>        <span class="n">info</span><span class="o">=</span><span class="n">freeoptms</span><span class="p">()</span>
+<a name="ln-386"></a>        <span class="n">info</span><span class="o">=</span><span class="n">freeoptms2d</span><span class="p">()</span>
+<a name="ln-387"></a>
+<a name="ln-388"></a>        <span class="k">CALL </span><span class="n">free_conn</span><span class="p">(</span><span class="n">c2v</span><span class="p">)</span>
+<a name="ln-389"></a>        <span class="k">CALL </span><span class="n">free_conn</span><span class="p">(</span><span class="n">f2v</span><span class="p">)</span>
+<a name="ln-390"></a>        <span class="k">CALL </span><span class="n">free_conn</span><span class="p">(</span><span class="n">b2v</span><span class="p">)</span>
+<a name="ln-391"></a>
+<a name="ln-392"></a>        <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">unconstrained</span><span class="p">,</span> <span class="n">constrained</span><span class="p">)</span>
+<a name="ln-393"></a>
+<a name="ln-394"></a>        <span class="k">IF</span> <span class="p">(</span> <span class="nb">ALLOCATED</span><span class="p">(</span><span class="n">idloc</span><span class="p">)</span> <span class="p">)</span>  <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">idloc</span><span class="p">)</span>
+<a name="ln-395"></a>
+<a name="ln-396"></a>        <span class="k">IF</span> <span class="p">(</span> <span class="nb">ALLOCATED</span><span class="p">(</span><span class="n">idglob</span><span class="p">)</span> <span class="p">)</span> <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">idglob</span><span class="p">)</span>
+<a name="ln-397"></a>
+<a name="ln-398"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-399"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">600</span><span class="p">)</span>
+<a name="ln-400"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-401"></a>        <span class="k">END IF</span>
+<a name="ln-402"></a>
+<a name="ln-403"></a><span class="k">        IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-404"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">600</span><span class="p">)</span>
+<a name="ln-405"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-406"></a>        <span class="k">END IF</span>
+<a name="ln-407"></a>
+<a name="ln-408"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Failure to allocate dense matrix in SMOOTH_MESH&#39;</span><span class="p">)</span>
+<a name="ln-409"></a><span class="mi">200</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Failed to get overlap points in SMOOTH_MESH&#39;</span><span class="p">)</span>
+<a name="ln-410"></a><span class="mi">600</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory allocation failure in SMOOTH_MESH&#39;</span><span class="p">)</span>
+<a name="ln-411"></a><span class="mi">700</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Failure to average shared vertex positions in SMOOTH_MESH&#39;</span><span class="p">)</span>
+<a name="ln-412"></a>
+<a name="ln-413"></a>        <span class="k">END PROCEDURE </span><span class="n">smooth_mesh</span>
+<a name="ln-414"></a>
+<a name="ln-415"></a><span class="k">END SUBMODULE </span><span class="n">smooth_mesh_implementation</span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

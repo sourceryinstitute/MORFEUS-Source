@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>laplacian_smooth.f90 &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>laplacian_smooth.f90
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.6% of total for source files.">151 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/laplacian_smooth.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">laplacian_smooth.f90</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-0">Submodules</a></h3></div>
+  <div id="submods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/laplacian_smooth_implementation.html">laplacian_smooth_implementation</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/laplacian_smooth.f90.html#src">laplacian_smooth.f90</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">This file depends on</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~laplacian_smooth.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefilelaplacian_smoothf90EfferentGraph" width="641pt" height="279pt"
+ viewBox="0.00 0.00 641.00 279.13" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph" class="graph" transform="scale(2.6 2.6) rotate(0) translate(4 722.04)">
+<title>sourcefile~~laplacian_smooth.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-722.04 1663.29,-722.04 1663.29,4 -4,4"/>
+<!-- sourcefile~laplacian_smooth.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~laplacian_smooth.f90</title>
+<polygon fill="none" stroke="black" points="1659.4,-292.01 1547.94,-292.01 1547.94,-269.99 1659.4,-269.99 1659.4,-292.01"/>
+<text text-anchor="middle" x="1603.67" y="-277.85" font-family="Helvetica,sans-Serif" font-size="10.50">laplacian_smooth.f90</text>
+</g>
+<!-- sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~class_psblas.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/class_psblas.f90.html" xlink:title="class_psblas.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="355.88,-262.01 266.62,-262.01 266.62,-239.99 355.88,-239.99 355.88,-262.01"/>
+<text text-anchor="middle" x="311.25" y="-247.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_psblas.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~laplacian_smooth.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~laplacian_smooth.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1311.72,-665C1280.41,-673.45 1273.45,-679.2 1241.54,-685 1038.29,-721.97 984.26,-711.79 777.7,-715 727.32,-715.78 714.4,-720.69 664.34,-715 624.99,-710.53 616.64,-701.12 577.52,-695"/>
+</g>
+<!-- sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~class_connectivity.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node3"><a xlink:href=".././sourcefile/class_connectivity.f90.html" xlink:title="class_connectivity.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="777.88,-706.01 664.16,-706.01 664.16,-683.99 777.88,-683.99 777.88,-706.01"/>
+<text text-anchor="middle" x="721.02" y="-691.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_connectivity.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~laplacian_smooth.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~laplacian_smooth.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1600.27,-292.08C1585.94,-355.04 1505.62,-665 1313.72,-665"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1311.72,-665C1280.35,-673.21 1273.43,-650.93 1241.54,-645 1149.41,-627.86 1123.14,-606.22 1031.54,-626"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node4" class="node">
+<title>sourcefile~tools_mesh_optimize.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node4"><a xlink:href=".././sourcefile/tools_mesh_optimize.f90.html" xlink:title="tools_mesh_optimize.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1512.13,-292.01 1383.83,-292.01 1383.83,-269.99 1512.13,-269.99 1512.13,-292.01"/>
+<text text-anchor="middle" x="1447.98" y="-277.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_mesh_optimize.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~laplacian_smooth.f90&#45;&gt;sourcefile~tools_mesh_optimize.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge3" class="edge">
+<title>sourcefile~laplacian_smooth.f90&#45;&gt;sourcefile~tools_mesh_optimize.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1548.05,-281C1539.68,-281 1530.92,-281 1522.23,-281"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1522.08,-277.5 1512.08,-281 1522.08,-284.5 1522.08,-277.5"/>
+</g>
+<!-- sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node5" class="node">
+<title>sourcefile~class_vertex.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node5"><a xlink:href=".././sourcefile/class_vertex.f90.html" xlink:title="class_vertex.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="620.38,-320.01 532.65,-320.01 532.65,-297.99 620.38,-297.99 620.38,-320.01"/>
+<text text-anchor="middle" x="576.52" y="-305.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vertex.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~laplacian_smooth.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge4" class="edge">
+<title>sourcefile~laplacian_smooth.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M720.02,-270C683.27,-272.47 642.92,-284.43 614.57,-294.47"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="613.27,-291.22 605.06,-297.92 615.66,-297.8 613.27,-291.22"/>
+</g>
+<!-- sourcefile~tools_math.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node6" class="node">
+<title>sourcefile~tools_math.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node6"><a xlink:href=".././sourcefile/tools_math.f90.html" xlink:title="tools_math.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="616.89,-88.01 536.14,-88.01 536.14,-65.99 616.89,-65.99 616.89,-88.01"/>
+<text text-anchor="middle" x="576.52" y="-73.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_math.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~laplacian_smooth.f90&#45;&gt;sourcefile~tools_math.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge5" class="edge">
+<title>sourcefile~laplacian_smooth.f90&#45;&gt;sourcefile~tools_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1552.37,-269.96C1522.13,-262.89 1483.03,-253.01 1448.98,-242"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1446.98,-242C1398.22,-226.24 1391.97,-209.17 1347.91,-183 1239.01,-118.33 1211.79,-89.07 1086.73,-69 1037.41,-61.09 1024.29,-68.5 974.35,-69 849.31,-70.26 702.14,-73.75 627.05,-75.68"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="626.84,-72.18 616.94,-75.94 627.03,-79.18 626.84,-72.18"/>
+</g>
+<!-- sourcefile~class_vector.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node7" class="node">
+<title>sourcefile~class_vector.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node7"><a xlink:href=".././sourcefile/class_vector.f90.html" xlink:title="class_vector.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="484.17,-282.01 396.58,-282.01 396.58,-259.99 484.17,-259.99 484.17,-282.01"/>
+<text text-anchor="middle" x="440.38" y="-267.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vector.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~laplacian_smooth.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge6" class="edge">
+<title>sourcefile~laplacian_smooth.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M575.52,-270C548.85,-268.67 519.18,-268.73 494.53,-269.21"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="494.22,-265.71 484.3,-269.43 494.37,-272.71 494.22,-265.71"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1446.98,-242C1291.45,-199.54 882.88,-259.2 722.02,-270"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M720.02,-270C657.08,-277.09 640.77,-273.15 577.52,-270"/>
+</g>
+<!-- sourcefile~tools_mesh_basics.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node8" class="node">
+<title>sourcefile~tools_mesh_basics.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node8"><a xlink:href=".././sourcefile/tools_mesh_basics.f90.html" xlink:title="tools_mesh_basics.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1241.45,-676.01 1122.83,-676.01 1122.83,-653.99 1241.45,-653.99 1241.45,-676.01"/>
+<text text-anchor="middle" x="1182.14" y="-661.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_mesh_basics.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~laplacian_smooth.f90&#45;&gt;sourcefile~tools_mesh_basics.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge7" class="edge">
+<title>sourcefile~laplacian_smooth.f90&#45;&gt;sourcefile~tools_mesh_basics.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1311.72,-665C1292.33,-665 1271.29,-665 1251.95,-665"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1251.71,-661.5 1241.71,-665 1251.71,-668.5 1251.71,-661.5"/>
+</g>
+<!-- sourcefile~class_stopwatch.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node9" class="node">
+<title>sourcefile~class_stopwatch.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node9"><a xlink:href=".././sourcefile/class_stopwatch.f90.html" xlink:title="class_stopwatch.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="230.21,-282.01 124.11,-282.01 124.11,-259.99 230.21,-259.99 230.21,-282.01"/>
+<text text-anchor="middle" x="177.16" y="-267.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_stopwatch.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_psblas.f90&#45;&gt;sourcefile~class_stopwatch.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge8" class="edge">
+<title>sourcefile~class_psblas.f90&#45;&gt;sourcefile~class_stopwatch.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M266.27,-257.66C258.07,-258.9 249.35,-260.22 240.72,-261.53"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="240.02,-258.09 230.66,-263.05 241.07,-265.01 240.02,-258.09"/>
+</g>
+<!-- sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node12" class="node">
+<title>sourcefile~tools_psblas.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node12"><a xlink:href=".././sourcefile/tools_psblas.f90.html" xlink:title="tools_psblas.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="87.83,-262.01 0.06,-262.01 0.06,-239.99 87.83,-239.99 87.83,-262.01"/>
+<text text-anchor="middle" x="43.94" y="-247.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_psblas.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_psblas.f90&#45;&gt;sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge9" class="edge">
+<title>sourcefile~class_psblas.f90&#45;&gt;sourcefile~tools_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M266.44,-251C220.27,-251 147.53,-251 98.11,-251"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="97.94,-247.5 87.94,-251 97.94,-254.5 97.94,-247.5"/>
+</g>
+<!-- sourcefile~class_connectivity.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge10" class="edge">
+<title>sourcefile~class_connectivity.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M664.18,-695C637.89,-695 606.09,-695 577.52,-695"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge12" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M1181.14,-587C1147.05,-582.76 1065.12,-618.75 1031.54,-626"/>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M1029.54,-626C984.15,-635.8 981.02,-658.69 938.35,-677 912.12,-688.25 904.6,-688.68 877.02,-696"/>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge13" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M720.02,-346C684.08,-343.68 644.54,-332.71 616.24,-323.31"/>
+<polygon fill="#48ff00" stroke="#48ff00" points="617.32,-319.98 606.73,-320.07 615.06,-326.61 617.32,-319.98"/>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M1443.79,-292.27C1426.76,-349.73 1341.5,-606.71 1183.14,-587"/>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M1181.14,-587C1025.17,-599.81 1082.18,-393.65 938.35,-332 887.43,-310.17 868.94,-327.81 813.7,-332 772.6,-335.12 763.15,-348.65 722.02,-346"/>
+</g>
+<!-- sourcefile~class_bc.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node10" class="node">
+<title>sourcefile~class_bc.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node10"><a xlink:href=".././sourcefile/class_bc.f90.html" xlink:title="class_bc.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1348.09,-214.01 1277.36,-214.01 1277.36,-191.99 1348.09,-191.99 1348.09,-214.01"/>
+<text text-anchor="middle" x="1312.72" y="-199.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_bc.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge11" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_bc.f90</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M1414.12,-269.9C1404.16,-266.03 1393.35,-261.31 1383.91,-256 1366.05,-245.96 1347.64,-231.89 1334.15,-220.77"/>
+<polygon fill="#48ff00" stroke="#48ff00" points="1336.35,-218.04 1326.44,-214.29 1331.84,-223.4 1336.35,-218.04"/>
+</g>
+<!-- sourcefile~class_iterating.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node11" class="node">
+<title>sourcefile~class_iterating.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node11"><a xlink:href=".././sourcefile/class_iterating.f90.html" xlink:title="class_iterating.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="488.51,-50.01 392.25,-50.01 392.25,-27.99 488.51,-27.99 488.51,-50.01"/>
+<text text-anchor="middle" x="440.38" y="-35.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_iterating.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_iterating.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge14" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_iterating.f90</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M1406.06,-269.88C1398.07,-266.37 1390.23,-261.83 1383.91,-256 1357.32,-231.47 1368.2,-212.95 1347.91,-183 1286.51,-92.4 1292.58,0 1183.14,0 1183.14,0 1183.14,0 720.02,0 642.99,0 555.14,-14.8 499.02,-26.16"/>
+<polygon fill="#48ff00" stroke="#48ff00" points="498.01,-22.8 488.92,-28.24 499.42,-29.65 498.01,-22.8"/>
+</g>
+<!-- sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node13" class="node">
+<title>sourcefile~class_mesh.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node13"><a xlink:href=".././sourcefile/class_mesh.f90.html" xlink:title="class_mesh.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1074.99,-598.01 986.09,-598.01 986.09,-575.99 1074.99,-575.99 1074.99,-598.01"/>
+<text text-anchor="middle" x="1030.54" y="-583.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_mesh.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge15" class="edge">
+<title>sourcefile~tools_mesh_optimize.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M1181.14,-587C1149.46,-583.06 1113.72,-582.9 1085.12,-583.8"/>
+<polygon fill="#48ff00" stroke="#48ff00" points="1084.79,-580.31 1074.92,-584.18 1085.04,-587.31 1084.79,-580.31"/>
+</g>
+<!-- sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge16" class="edge">
+<title>sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ff91" stroke-dasharray="5,2" d="M567.77,-320.07C557.65,-334.6 539.48,-360.97 524.69,-384 486.18,-443.96 506.34,-550.3 441.38,-521"/>
+<path fill="none" stroke="#00ff91" stroke-dasharray="5,2" d="M439.38,-521C341.73,-476.96 318.89,-327.94 313.71,-272.24"/>
+<polygon fill="#00ff91" stroke="#00ff91" points="317.19,-271.8 312.87,-262.12 310.21,-272.38 317.19,-271.8"/>
+</g>
+<!-- sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge17" class="edge">
+<title>sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#00ff91" stroke-dasharray="5,2" d="M536.36,-297.91C521.89,-293.81 505.32,-289.12 490.11,-284.81"/>
+<polygon fill="#00ff91" stroke="#00ff91" points="490.93,-281.4 480.35,-282.04 489.02,-288.13 490.93,-281.4"/>
+</g>
+<!-- sourcefile~tools_math.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge18" class="edge">
+<title>sourcefile~tools_math.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M535.91,-85.84C508.73,-92.54 472.15,-102.85 441.38,-116"/>
+</g>
+<!-- sourcefile~tools_math.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge19" class="edge">
+<title>sourcefile~tools_math.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M563.94,-88.19C552.87,-99.32 536.21,-117.26 524.69,-135 503.9,-167.02 508.92,-180.62 488.69,-213 480.02,-226.88 468.44,-241.13 458.9,-252.04"/>
+<polygon fill="#0091ff" stroke="#0091ff" points="456.14,-249.88 452.09,-259.66 461.36,-254.54 456.14,-249.88"/>
+</g>
+<!-- sourcefile~class_vector.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge20" class="edge">
+<title>sourcefile~class_vector.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M396.69,-264.28C386.85,-262.74 376.25,-261.07 366,-259.46"/>
+<polygon fill="#4800ff" stroke="#4800ff" points="366.33,-255.96 355.91,-257.87 365.24,-262.88 366.33,-255.96"/>
+</g>
+<!-- sourcefile~tools_mesh_basics.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge21" class="edge">
+<title>sourcefile~tools_mesh_basics.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#ff00da" stroke-dasharray="5,2" d="M1151.63,-653.93C1114.92,-640.75 1054.3,-621.09 1031.54,-626"/>
+</g>
+<!-- sourcefile~class_stopwatch.f90&#45;&gt;sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge22" class="edge">
+<title>sourcefile~class_stopwatch.f90&#45;&gt;sourcefile~tools_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M123.92,-263.04C115.49,-261.75 106.75,-260.42 98.28,-259.13"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="98.56,-255.63 88.14,-257.58 97.5,-262.55 98.56,-255.63"/>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge23" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M1181.14,-134C1138.07,-119.65 1130.86,-105.67 1086.73,-95 888.03,-46.96 832.59,-65.45 628.34,-57 582.31,-55.1 568.59,-43.03 524.69,-57 481.46,-70.76 482.89,-97.68 441.38,-116"/>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M1295.53,-191.82C1271.96,-176.13 1226.28,-147.96 1183.14,-134"/>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M439.38,-116C384.65,-139.39 342.66,-199.4 323.56,-230.94"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="320.44,-229.35 318.38,-239.75 326.47,-232.91 320.44,-229.35"/>
+</g>
+<!-- sourcefile~class_motion.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node15" class="node">
+<title>sourcefile~class_motion.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node15"><a xlink:href=".././sourcefile/class_motion.f90.html" xlink:title="class_motion.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="621.81,-166.01 531.22,-166.01 531.22,-143.99 621.81,-143.99 621.81,-166.01"/>
+<text text-anchor="middle" x="576.52" y="-151.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_motion.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_motion.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge25" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_motion.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M1181.14,-134C1174.63,-131.95 779.26,-147.13 632,-152.87"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="631.69,-149.38 621.83,-153.26 631.96,-156.37 631.69,-149.38"/>
+</g>
+<!-- sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node16" class="node">
+<title>sourcefile~class_bc_math.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node16"><a xlink:href=".././sourcefile/class_bc_math.f90.html" xlink:title="class_bc_math.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1080.09,-126.01 980.99,-126.01 980.99,-103.99 1080.09,-103.99 1080.09,-126.01"/>
+<text text-anchor="middle" x="1030.54" y="-111.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc_math.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge24" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_math.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M1181.14,-134C1152.01,-124.82 1118.35,-120.06 1090.35,-117.6"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="1090.56,-114.1 1080.31,-116.79 1090,-121.08 1090.56,-114.1"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node18" class="node">
+<title>sourcefile~class_bc_wall.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node18"><a xlink:href=".././sourcefile/class_bc_wall.f90.html" xlink:title="class_bc_wall.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1229.43,-214.01 1134.84,-214.01 1134.84,-191.99 1229.43,-191.99 1229.43,-214.01"/>
+<text text-anchor="middle" x="1182.14" y="-199.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc_wall.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_wall.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge26" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_wall.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M1277.27,-203C1265.64,-203 1252.35,-203 1239.49,-203"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="1239.3,-199.5 1229.3,-203 1239.3,-206.5 1239.3,-199.5"/>
+</g>
+<!-- sourcefile~class_iterating.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge27" class="edge">
+<title>sourcefile~class_iterating.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M430.11,-50.23C420.15,-62.55 404.13,-83.09 392.06,-102 363.82,-146.26 336.07,-201.43 321.92,-230.64"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="318.68,-229.3 317.5,-239.83 324.99,-232.34 318.68,-229.3"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge29" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M575.52,-501C515.83,-509.41 496.55,-545.27 441.38,-521"/>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1018.22,-575.85C1001.95,-560.47 970.36,-532.96 938.35,-518 827.01,-465.99 786.44,-467.12 664.34,-481 624.99,-485.47 616.73,-495.47 577.52,-501"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge30" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M875.02,-696C847.13,-703.4 815.36,-704.34 788.03,-702.97"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="787.98,-699.46 777.79,-702.34 787.55,-706.45 787.98,-699.46"/>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M995.92,-598.11C988.24,-601.71 980.53,-606.29 974.35,-612 950.07,-634.39 963.97,-656.16 938.35,-677 916.21,-695 904.6,-688.68 877.02,-696"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge34" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M875.02,-346C817.45,-309.8 789.88,-350.37 722.02,-346"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge37" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1026.33,-575.91C1014.32,-536.59 967.98,-403.19 877.02,-346"/>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M875.02,-346C846.14,-327.84 611.57,-272.1 577.52,-270"/>
+</g>
+<!-- sourcefile~class_keytable.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node14" class="node">
+<title>sourcefile~class_keytable.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node14"><a xlink:href=".././sourcefile/class_keytable.f90.html" xlink:title="class_keytable.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="925.41,-668.01 826.64,-668.01 826.64,-645.99 925.41,-645.99 925.41,-668.01"/>
+<text text-anchor="middle" x="876.02" y="-653.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_keytable.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_keytable.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge28" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_keytable.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1002.72,-598.1C993.56,-602.16 983.36,-607 974.35,-612 957.53,-621.33 955.59,-627.48 938.35,-636 933.74,-638.28 928.82,-640.41 923.85,-642.38"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="922.43,-639.17 914.29,-645.96 924.88,-645.73 922.43,-639.17"/>
+</g>
+<!-- sourcefile~class_surface.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node17" class="node">
+<title>sourcefile~class_surface.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node17"><a xlink:href=".././sourcefile/class_surface.f90.html" xlink:title="class_surface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="922.73,-549.01 829.31,-549.01 829.31,-526.99 922.73,-526.99 922.73,-549.01"/>
+<text text-anchor="middle" x="876.02" y="-534.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_surface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_surface.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge31" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_surface.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M994.93,-575.88C973.09,-568.86 944.68,-559.74 921.21,-552.2"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="922.08,-548.8 911.49,-549.07 919.94,-555.47 922.08,-548.8"/>
+</g>
+<!-- sourcefile~class_least_squares.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node19" class="node">
+<title>sourcefile~class_least_squares.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node19"><a xlink:href=".././sourcefile/class_least_squares.f90.html" xlink:title="class_least_squares.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="938.17,-627.01 813.87,-627.01 813.87,-604.99 938.17,-604.99 938.17,-627.01"/>
+<text text-anchor="middle" x="876.02" y="-612.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_least_squares.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_least_squares.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge32" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_least_squares.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M986.24,-595.23C973.42,-597.67 959.05,-600.4 945.05,-603.06"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="944.13,-599.68 934.96,-604.98 945.44,-606.55 944.13,-599.68"/>
+</g>
+<!-- sourcefile~class_cell.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node20" class="node">
+<title>sourcefile~class_cell.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node20"><a xlink:href=".././sourcefile/class_cell.f90.html" xlink:title="class_cell.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="479.41,-610.01 401.35,-610.01 401.35,-587.99 479.41,-587.99 479.41,-610.01"/>
+<text text-anchor="middle" x="440.38" y="-595.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cell.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_cell.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge33" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_cell.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M875.02,-577C830.7,-578.62 821.77,-594.08 777.7,-599 675.66,-610.39 555.12,-606.13 489.64,-602.35"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="489.8,-598.85 479.61,-601.75 489.38,-605.84 489.8,-598.85"/>
+</g>
+<!-- sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node21" class="node">
+<title>sourcefile~grid_interface.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node21"><a xlink:href=".././sourcefile/grid_interface.f90.html" xlink:title="grid_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="924.15,-434.01 827.89,-434.01 827.89,-411.99 924.15,-411.99 924.15,-434.01"/>
+<text text-anchor="middle" x="876.02" y="-419.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">grid_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge35" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~grid_interface.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1024.92,-575.61C1013.81,-549.53 983.14,-484.87 938.35,-448 933.85,-444.3 928.74,-441.09 923.43,-438.31"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="924.91,-435.14 914.37,-434.05 921.93,-441.48 924.91,-435.14"/>
+</g>
+<!-- sourcefile~class_face.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node22" class="node">
+<title>sourcefile~class_face.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node22"><a xlink:href=".././sourcefile/class_face.f90.html" xlink:title="class_face.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="762.14,-590.01 679.9,-590.01 679.9,-567.99 762.14,-567.99 762.14,-590.01"/>
+<text text-anchor="middle" x="721.02" y="-575.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_face.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_face.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge36" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_face.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M986.18,-581.8C955.68,-578.71 913.88,-575.65 877.02,-577"/>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M875.02,-577C840.83,-578.25 802.3,-578.75 772.47,-578.94"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="772.28,-575.44 762.3,-578.99 772.32,-582.44 772.28,-575.44"/>
+</g>
+<!-- sourcefile~class_motion.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge38" class="edge">
+<title>sourcefile~class_motion.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M551.27,-143.98C518.32,-129.69 461.23,-107.52 441.38,-116"/>
+</g>
+<!-- sourcefile~class_motion.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge39" class="edge">
+<title>sourcefile~class_motion.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M562.65,-166.12C539.38,-186.25 490.09,-228.88 462.04,-253.13"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="459.67,-250.55 454.4,-259.74 464.25,-255.85 459.67,-250.55"/>
+</g>
+<!-- sourcefile~class_bc_math.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge40" class="edge">
+<title>sourcefile~class_bc_math.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M980.88,-112.89C848.79,-107.47 490.17,-94.9 441.38,-116"/>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge43" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M838.1,-549.05C829.56,-552.65 820.88,-557.25 813.7,-563 774.74,-594.21 745.46,-646.27 731.35,-674.79"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="728.19,-673.29 727.01,-683.82 734.5,-676.33 728.19,-673.29"/>
+</g>
+<!-- sourcefile~class_plane.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node25" class="node">
+<title>sourcefile~class_plane.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node25"><a xlink:href=".././sourcefile/class_plane.f90.html" xlink:title="class_plane.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="618.98,-551.01 534.05,-551.01 534.05,-528.99 618.98,-528.99 618.98,-551.01"/>
+<text text-anchor="middle" x="576.52" y="-536.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_plane.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_plane.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge42" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_plane.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M829.19,-538.31C775.18,-538.67 685.66,-539.27 629.22,-539.65"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="629.05,-536.15 619.08,-539.72 629.1,-543.15 629.05,-536.15"/>
+</g>
+<!-- sourcefile~class_cylinder.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node27" class="node">
+<title>sourcefile~class_cylinder.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node27"><a xlink:href=".././sourcefile/class_cylinder.f90.html" xlink:title="class_cylinder.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="768.4,-512.01 673.63,-512.01 673.63,-489.99 768.4,-489.99 768.4,-512.01"/>
+<text text-anchor="middle" x="721.02" y="-497.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cylinder.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_cylinder.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge41" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_cylinder.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M829.12,-526.9C812.85,-522.97 794.38,-518.5 777.42,-514.4"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="778.17,-510.98 767.63,-512.03 776.52,-517.78 778.17,-510.98"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge45" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M575.52,-232C502.91,-232 419.34,-239.28 366.18,-244.82"/>
+<polygon fill="#00ffa9" stroke="#00ffa9" points="365.54,-241.37 355.97,-245.91 366.28,-248.33 365.54,-241.37"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge49" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M575.52,-232C539.66,-232 500.48,-245.01 473.78,-256"/>
+<polygon fill="#00ffa9" stroke="#00ffa9" points="472.36,-252.8 464.53,-259.93 475.1,-259.24 472.36,-252.8"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge48" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M1176.82,-214.08C1156.13,-267.18 1067,-495.99 1039.59,-566.34"/>
+<polygon fill="#00ffa9" stroke="#00ffa9" points="1036.24,-565.29 1035.87,-575.88 1042.76,-567.83 1036.24,-565.29"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge47" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_bc_math.f90</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M1162.19,-191.85C1136.11,-176.51 1088.99,-148.8 1059.04,-131.17"/>
+<polygon fill="#00ffa9" stroke="#00ffa9" points="1060.73,-128.11 1050.33,-126.05 1057.18,-134.14 1060.73,-128.11"/>
+</g>
+<!-- sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node23" class="node">
+<title>sourcefile~class_dimensions.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node23"><a xlink:href=".././sourcefile/class_dimensions.f90.html" xlink:title="class_dimensions.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1086.93,-204.01 974.15,-204.01 974.15,-181.99 1086.93,-181.99 1086.93,-204.01"/>
+<text text-anchor="middle" x="1030.54" y="-189.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_dimensions.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge44" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_dimensions.f90</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M1134.62,-199.89C1122.71,-199.09 1109.68,-198.22 1097.01,-197.38"/>
+<polygon fill="#00ffa9" stroke="#00ffa9" points="1097.16,-193.88 1086.95,-196.7 1096.7,-200.86 1097.16,-193.88"/>
+</g>
+<!-- sourcefile~class_material.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node26" class="node">
+<title>sourcefile~class_material.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node26"><a xlink:href=".././sourcefile/class_material.f90.html" xlink:title="class_material.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="488.5,-204.01 392.26,-204.01 392.26,-181.99 488.5,-181.99 488.5,-204.01"/>
+<text text-anchor="middle" x="440.38" y="-189.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_material.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_material.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge46" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_material.f90</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M575.52,-232C539.66,-232 500.48,-218.99 473.78,-208"/>
+<polygon fill="#00ffa9" stroke="#00ffa9" points="475.1,-204.76 464.53,-204.07 472.36,-211.2 475.1,-204.76"/>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M1134.62,-208.57C1119.38,-210.22 1102.35,-211.88 1086.73,-213 860.83,-229.16 803.99,-232 577.52,-232"/>
+</g>
+<!-- sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge50" class="edge">
+<title>sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M835.51,-627.07C757.62,-648.81 590.59,-695 577.52,-695"/>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M575.52,-695C487.26,-694.8 448.63,-686.74 392.06,-619 347.11,-565.17 321.44,-343.08 314.31,-272.58"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="317.76,-271.88 313.29,-262.27 310.79,-272.57 317.76,-271.88"/>
+</g>
+<!-- sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge51" class="edge">
+<title>sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M835.02,-627.02C827.69,-629.78 820.28,-633.09 813.7,-637 795.04,-648.08 795.83,-658.07 777.7,-670 772.35,-673.52 766.43,-676.77 760.5,-679.68"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="758.86,-676.58 751.27,-683.96 761.81,-682.93 758.86,-676.58"/>
+</g>
+<!-- sourcefile~class_cell.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge52" class="edge">
+<title>sourcefile~class_cell.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M428.91,-587.58C418.24,-575.39 401.91,-555.1 392.06,-535 346.83,-442.61 323.44,-320.37 315.47,-272"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="318.92,-271.41 313.88,-262.08 312.01,-272.51 318.92,-271.41"/>
+</g>
+<!-- sourcefile~object_interface.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node24" class="node">
+<title>sourcefile~object_interface.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node24"><a xlink:href=".././sourcefile/object_interface.f90.html" xlink:title="object_interface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="628.16,-415.01 524.87,-415.01 524.87,-392.99 628.16,-392.99 628.16,-415.01"/>
+<text text-anchor="middle" x="576.52" y="-400.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">object_interface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~grid_interface.f90&#45;&gt;sourcefile~object_interface.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge53" class="edge">
+<title>sourcefile~grid_interface.f90&#45;&gt;sourcefile~object_interface.f90</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M830.74,-411.93C814.21,-408.32 795.2,-404.78 777.7,-403 727.57,-397.9 714.72,-402.71 664.34,-403 655.99,-403.05 647.2,-403.12 638.54,-403.21"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="638.44,-399.71 628.47,-403.32 638.51,-406.71 638.44,-399.71"/>
+</g>
+<!-- sourcefile~units_interface.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_node28" class="node">
+<title>sourcefile~units_interface.f90</title>
+<g id="a_sourcefile~~laplacian_smooth.f90~~EfferentGraph_node28"><a xlink:href=".././sourcefile/units_interface.f90.html" xlink:title="units_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="771.82,-434.01 670.22,-434.01 670.22,-411.99 771.82,-411.99 771.82,-434.01"/>
+<text text-anchor="middle" x="721.02" y="-419.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">units_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~grid_interface.f90&#45;&gt;sourcefile~units_interface.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge54" class="edge">
+<title>sourcefile~grid_interface.f90&#45;&gt;sourcefile~units_interface.f90</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M827.87,-423C813.46,-423 797.41,-423 782.25,-423"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="781.93,-419.5 771.93,-423 781.93,-426.5 781.93,-419.5"/>
+</g>
+<!-- sourcefile~class_face.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge55" class="edge">
+<title>sourcefile~class_face.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M679.64,-579.05C639.63,-578.18 576.94,-574.31 524.69,-560 485.26,-549.2 478.65,-537.81 441.38,-521"/>
+</g>
+<!-- sourcefile~class_dimensions.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge56" class="edge">
+<title>sourcefile~class_dimensions.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M974.29,-201.09C879.41,-212.79 680.69,-227.72 524.69,-175 481.71,-160.47 483.1,-98.17 441.38,-116"/>
+</g>
+<!-- sourcefile~class_plane.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge57" class="edge">
+<title>sourcefile~class_plane.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M533.95,-540.06C506.57,-538.69 470.54,-534.15 441.38,-521"/>
+</g>
+<!-- sourcefile~class_plane.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge58" class="edge">
+<title>sourcefile~class_plane.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M564.66,-528.69C553.52,-516.64 536.23,-496.62 524.69,-477 487.5,-413.74 459.58,-330.75 447.69,-292.28"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="450.89,-290.8 444.64,-282.25 444.2,-292.84 450.89,-290.8"/>
+</g>
+<!-- sourcefile~class_material.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge59" class="edge">
+<title>sourcefile~class_material.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M415.17,-204.05C395.59,-212.98 367.79,-225.66 346.03,-235.59"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="344.45,-232.46 336.8,-239.8 347.35,-238.83 344.45,-232.46"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge61" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M673.58,-497.74C645.61,-496.58 609.36,-496.51 577.52,-501"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge60" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M707.7,-489.69C695.85,-478.47 677.8,-460.47 664.34,-443 645.59,-418.67 644.96,-409.83 628.34,-384 616.07,-364.94 601.51,-343.58 591.13,-328.54"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="593.83,-326.3 585.26,-320.07 588.08,-330.28 593.83,-326.3"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge62" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M673.39,-492.17C630.51,-482.01 567.3,-461.66 524.69,-424 483.16,-387.29 458.39,-324.72 447.67,-292.14"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="450.92,-290.8 444.57,-282.32 444.24,-292.91 450.92,-290.8"/>
+</g>
+<!-- sourcefile~units_interface.f90&#45;&gt;sourcefile~object_interface.f90 -->
+<g id="sourcefile~~laplacian_smooth.f90~~EfferentGraph_edge63" class="edge">
+<title>sourcefile~units_interface.f90&#45;&gt;sourcefile~object_interface.f90</title>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M670.18,-416.35C659.96,-414.99 649.09,-413.54 638.53,-412.14"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="638.91,-408.65 628.53,-410.8 637.98,-415.59 638.91,-408.65"/>
+</g>
+</g>
+</svg>
+</div><script>var pansourcefilelaplacian_smoothf90EfferentGraph = svgPanZoom('#sourcefilelaplacian_smoothf90EfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="31pt"
+ viewBox="0.00 0.00 186.41 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 182.41,-26.5 182.41,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="65.16,-22.26 -0.05,-22.26 -0.05,-0.24 65.16,-0.24 65.16,-22.26"/>
+<text text-anchor="middle" x="32.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="178.26,-22.26 82.84,-22.26 82.84,-0.24 178.26,-0.24 178.26,-22.26"/>
+<text text-anchor="middle" x="130.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+      
+      <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-1">Submodules</a></h3></div>
+  <div id="submods-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/laplacian_smooth_implementation.html">laplacian_smooth_implementation</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/laplacian_smooth.f90.html#src">laplacian_smooth.f90</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="c">!</span>
+<a name="ln-2"></a><span class="c">!     (c) 2019 Guide Star Engineering, LLC</span>
+<a name="ln-3"></a><span class="c">!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)</span>
+<a name="ln-4"></a><span class="c">!     under contract &quot;Multi-Dimensional Physics Implementation into Fuel Analysis under</span>
+<a name="ln-5"></a><span class="c">!     Steady-state and Transients (FAST)&quot;, contract # NRC-HQ-60-17-C-0007</span>
+<a name="ln-6"></a><span class="c">!</span>
+<a name="ln-7"></a><span class="c">!    NEMO - Numerical Engine (for) Multiphysics Operators</span>
+<a name="ln-8"></a><span class="c">! Copyright (c) 2007, Stefano Toninel</span>
+<a name="ln-9"></a><span class="c">!                     Gian Marco Bianchi  University of Bologna</span>
+<a name="ln-10"></a><span class="c">!              David P. Schmidt    University of Massachusetts - Amherst</span>
+<a name="ln-11"></a><span class="c">!              Salvatore Filippone University of Rome Tor Vergata</span>
+<a name="ln-12"></a><span class="c">! All rights reserved.</span>
+<a name="ln-13"></a><span class="c">!</span>
+<a name="ln-14"></a><span class="c">! Redistribution and use in source and binary forms, with or without modification,</span>
+<a name="ln-15"></a><span class="c">! are permitted provided that the following conditions are met:</span>
+<a name="ln-16"></a><span class="c">!</span>
+<a name="ln-17"></a><span class="c">!     1. Redistributions of source code must retain the above copyright notice,</span>
+<a name="ln-18"></a><span class="c">!        this list of conditions and the following disclaimer.</span>
+<a name="ln-19"></a><span class="c">!     2. Redistributions in binary form must reproduce the above copyright notice,</span>
+<a name="ln-20"></a><span class="c">!        this list of conditions and the following disclaimer in the documentation</span>
+<a name="ln-21"></a><span class="c">!        and/or other materials provided with the distribution.</span>
+<a name="ln-22"></a><span class="c">!     3. Neither the name of the NEMO project nor the names of its contributors</span>
+<a name="ln-23"></a><span class="c">!        may be used to endorse or promote products derived from this software</span>
+<a name="ln-24"></a><span class="c">!        without specific prior written permission.</span>
+<a name="ln-25"></a><span class="c">!</span>
+<a name="ln-26"></a><span class="c">! THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND</span>
+<a name="ln-27"></a><span class="c">! ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
+<a name="ln-28"></a><span class="c">! WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<a name="ln-29"></a><span class="c">! DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR</span>
+<a name="ln-30"></a><span class="c">! ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span>
+<a name="ln-31"></a><span class="c">! (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;</span>
+<a name="ln-32"></a><span class="c">! LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON</span>
+<a name="ln-33"></a><span class="c">! ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span>
+<a name="ln-34"></a><span class="c">! (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS</span>
+<a name="ln-35"></a><span class="c">! SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+<a name="ln-36"></a><span class="c">!</span>
+<a name="ln-37"></a><span class="c">!---------------------------------------------------------------------------------</span>
+<a name="ln-38"></a><span class="c">!</span>
+<a name="ln-39"></a><span class="c">! $Id: laplacian_smooth.f90 8157 2014-10-09 13:02:44Z sfilippo $</span>
+<a name="ln-40"></a><span class="c">!</span>
+<a name="ln-41"></a><span class="c">! Description: moves all interior points to the average position of their neighbors.</span>
+<a name="ln-42"></a><span class="c">! This is done by forming three linear systems, one for each of the x,y,z components</span>
+<a name="ln-43"></a><span class="c">! of position and using PSBLAS linear solvers</span>
+<a name="ln-44"></a><span class="c">!</span>
+<a name="ln-45"></a><span class="k">SUBMODULE</span><span class="p">(</span><span class="n">tools_mesh_optimize</span><span class="p">)</span> <span class="n">laplacian_smooth_implementation</span>
+<a name="ln-46"></a>    <span class="k">IMPLICIT NONE</span>
+<a name="ln-47"></a>
+<a name="ln-48"></a><span class="k">    CONTAINS</span>
+<a name="ln-49"></a>
+<a name="ln-50"></a><span class="k">        MODULE PROCEDURE </span><span class="n">laplacian_smooth</span>
+<a name="ln-51"></a>        <span class="k">USE </span><span class="n">class_psblas</span>
+<a name="ln-52"></a>        <span class="k">USE </span><span class="n">class_connectivity</span>
+<a name="ln-53"></a>        <span class="k">USE </span><span class="n">class_vector</span>
+<a name="ln-54"></a>        <span class="k">USE </span><span class="n">class_vertex</span>
+<a name="ln-55"></a>        <span class="k">USE </span><span class="n">tools_mesh_basics</span>
+<a name="ln-56"></a>        <span class="k">USE </span><span class="n">tools_math</span><span class="p">,</span> <span class="n">ONLY</span> <span class="p">:</span> <span class="n">build_prec</span><span class="p">,</span> <span class="n">solve_sys</span>
+<a name="ln-57"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-58"></a>        <span class="c">! Local variables</span>
+<a name="ln-59"></a>        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">bx</span><span class="p">(:),</span><span class="n">by</span><span class="p">(:),</span><span class="n">bz</span><span class="p">(:)</span><span class="c">! Right-hand side of the eqns</span>
+<a name="ln-60"></a>        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">newx</span><span class="p">(:),</span><span class="n">newy</span><span class="p">(:),</span><span class="n">newz</span><span class="p">(:)</span>  <span class="c">! new locations</span>
+<a name="ln-61"></a>        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">acoeffs</span><span class="p">(:)</span>     <span class="c">! non-zero coefficients of A</span>
+<a name="ln-62"></a>        <span class="kt">INTEGER</span><span class="p">,</span>        <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">ia</span><span class="p">(:),</span><span class="n">ja</span><span class="p">(:)</span>    <span class="c">! indexing arrays for A&#39;s elements</span>
+<a name="ln-63"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">psb_dspmat_type</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">Amatrix</span>        <span class="c">! the matrix for averaging for x,y,z</span>
+<a name="ln-64"></a>        <span class="kt">INTEGER</span>                        <span class="kd">::</span> <span class="n">n_entries</span>      <span class="c">! number of non-zero elements of A</span>
+<a name="ln-65"></a>        <span class="kt">INTEGER</span>                        <span class="kd">::</span> <span class="n">err_act</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">icontxt</span>
+<a name="ln-66"></a>        <span class="kt">INTEGER</span>                        <span class="kd">::</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">iglob</span>
+<a name="ln-67"></a>        <span class="kt">INTEGER</span>                        <span class="kd">::</span> <span class="n">nverts</span>         <span class="c">! number of local verts</span>
+<a name="ln-68"></a>        <span class="kt">INTEGER</span><span class="p">,</span><span class="k">POINTER</span>                <span class="kd">::</span> <span class="n">iv2v</span><span class="p">(:)</span><span class="o">=&gt;</span><span class="nb">null</span><span class="p">()</span><span class="c">! given a vert, list neighbors</span>
+<a name="ln-69"></a>        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">rhs</span>            <span class="c">! an entry to be inserted in the RHS</span>
+<a name="ln-70"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">psb_dprec_type</span><span class="p">)</span>           <span class="kd">::</span> <span class="n">Aprec</span>          <span class="c">! the preconditioner</span>
+<a name="ln-71"></a>        <span class="kt">INTEGER</span>                        <span class="kd">::</span> <span class="n">iter</span>
+<a name="ln-72"></a>        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">err</span>
+<a name="ln-73"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">new_pos</span>        <span class="c">! new vertex position</span>
+<a name="ln-74"></a>        <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">ALLOCATABLE</span>           <span class="kd">::</span> <span class="n">fixed</span><span class="p">(:)</span>       <span class="c">! identifies verts to be fixed in pos.</span>
+<a name="ln-75"></a>        <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">32</span><span class="p">),</span> <span class="k">PARAMETER</span>   <span class="kd">::</span> <span class="n">name_err</span> <span class="o">=</span> <span class="s1">&#39;laplacian_smooth&#39;</span>
+<a name="ln-76"></a>
+<a name="ln-77"></a>        <span class="c">! Set error handling for PSBLAS-2 routines</span>
+<a name="ln-78"></a>        <span class="k">CALL </span><span class="n">psb_erractionsave</span><span class="p">(</span><span class="n">err_act</span><span class="p">)</span>
+<a name="ln-79"></a>
+<a name="ln-80"></a>        <span class="c">! Get PSBLAS context</span>
+<a name="ln-81"></a>        <span class="n">icontxt</span> <span class="o">=</span> <span class="n">icontxt_</span><span class="p">()</span>
+<a name="ln-82"></a>
+<a name="ln-83"></a>        <span class="n">nverts</span> <span class="o">=</span> <span class="n">psb_cd_get_local_rows</span><span class="p">(</span><span class="n">desc_v</span><span class="p">)</span> <span class="c">! local and shared vertices</span>
+<a name="ln-84"></a>
+<a name="ln-85"></a>        <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">fixed</span><span class="p">(</span><span class="n">nverts</span><span class="p">),</span> <span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-86"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-87"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-88"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-89"></a>        <span class="k">END IF</span>
+<a name="ln-90"></a>
+<a name="ln-91"></a><span class="k">        </span><span class="n">fixed</span> <span class="o">=</span> <span class="n">mixed</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">verts</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nverts</span><span class="p">)%</span><span class="n">on_boundary_</span><span class="p">()</span>
+<a name="ln-92"></a>        <span class="c">!initialize so that all mixed-cell and boundary vertices are fixed</span>
+<a name="ln-93"></a>
+<a name="ln-94"></a>        <span class="k">IF</span> <span class="p">(</span><span class="n">n_unconstrained</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-95"></a><span class="k">            DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_unconstrained</span>
+<a name="ln-96"></a>                <span class="n">fixed</span><span class="p">(</span> <span class="n">unconstrained</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">)</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-97"></a>            <span class="n">ENDDO</span>
+<a name="ln-98"></a>        <span class="n">ENDIF</span>
+<a name="ln-99"></a>
+<a name="ln-100"></a>        <span class="c">!NEL is the number of diag. elements and NCONN the off-diag. elements</span>
+<a name="ln-101"></a>        <span class="n">n_entries</span> <span class="o">=</span> <span class="n">v2v</span><span class="p">%</span><span class="n">nel_</span><span class="p">()</span> <span class="o">+</span> <span class="n">v2v</span><span class="p">%</span><span class="n">nconn_</span><span class="p">()</span> <span class="c">! estimated non-zero values</span>
+<a name="ln-102"></a>
+<a name="ln-103"></a>        <span class="c">! Allocate matrices</span>
+<a name="ln-104"></a>        <span class="k">CALL </span><span class="n">psb_spall</span><span class="p">(</span><span class="n">Amatrix</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">n_entries</span><span class="p">)</span>
+<a name="ln-105"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_spall&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-106"></a>
+<a name="ln-107"></a>        <span class="c">! Allocate all three right-hand sides</span>
+<a name="ln-108"></a>        <span class="k">CALL </span><span class="n">psb_geall</span><span class="p">(</span><span class="n">bx</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-109"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geall&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-110"></a>
+<a name="ln-111"></a>        <span class="k">CALL </span><span class="n">psb_geall</span><span class="p">(</span><span class="n">by</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-112"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geall&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-113"></a>
+<a name="ln-114"></a>        <span class="k">CALL </span><span class="n">psb_geall</span><span class="p">(</span><span class="n">bz</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-115"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geall&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-116"></a>
+<a name="ln-117"></a>        <span class="c">! Allocate all three solution vectors</span>
+<a name="ln-118"></a>        <span class="k">CALL </span><span class="n">psb_geall</span><span class="p">(</span><span class="n">newx</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-119"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geall&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-120"></a>
+<a name="ln-121"></a>        <span class="k">CALL </span><span class="n">psb_geall</span><span class="p">(</span><span class="n">newy</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-122"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geall&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-123"></a>
+<a name="ln-124"></a>        <span class="k">CALL </span><span class="n">psb_geall</span><span class="p">(</span><span class="n">newz</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-125"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geall&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-126"></a>
+<a name="ln-127"></a>
+<a name="ln-128"></a>        <span class="c">! Loop over all vertices and add equations to the linear systems</span>
+<a name="ln-129"></a>        <span class="c">! Note the Amatrix is identical for all three systems</span>
+<a name="ln-130"></a>        <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nverts</span>
+<a name="ln-131"></a>
+<a name="ln-132"></a>            <span class="n">iglob</span> <span class="o">=</span> <span class="n">loc_to_glob_</span><span class="p">(</span><span class="n">desc_v</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-133"></a>
+<a name="ln-134"></a>            <span class="k">IF</span> <span class="p">(</span> <span class="n">fixed</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-135"></a>                <span class="c">! we simply apply a Dirichlet BC</span>
+<a name="ln-136"></a>
+<a name="ln-137"></a>                <span class="n">n_entries</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-138"></a>
+<a name="ln-139"></a>                <span class="c">! insert 1.0 on diagonal</span>
+<a name="ln-140"></a>                <span class="k">CALL </span><span class="n">psb_spins</span><span class="p">(</span><span class="n">n_entries</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="n">iglob</span><span class="o">/</span><span class="p">),</span> <span class="p">(</span><span class="o">/</span><span class="n">iglob</span><span class="o">/</span><span class="p">),</span> <span class="p">(</span><span class="o">/</span><span class="mf">1.0d0</span><span class="o">/</span><span class="p">),</span> <span class="n">Amatrix</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-141"></a>                <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_spins&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-142"></a>
+<a name="ln-143"></a>                <span class="c">! insert vertex location on the right hand sides</span>
+<a name="ln-144"></a>                <span class="n">rhs</span> <span class="o">=</span> <span class="n">verts</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">x_</span><span class="p">()</span>
+<a name="ln-145"></a>                <span class="k">CALL </span><span class="n">psb_geins</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="n">iglob</span><span class="o">/</span><span class="p">),</span> <span class="p">(</span><span class="o">/</span><span class="n">rhs</span><span class="o">/</span><span class="p">),</span> <span class="n">bx</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">psb_dupl_ovwrt_</span><span class="p">)</span>
+<a name="ln-146"></a>                <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geins&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-147"></a>
+<a name="ln-148"></a>                <span class="n">rhs</span> <span class="o">=</span> <span class="n">verts</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">y_</span><span class="p">()</span>
+<a name="ln-149"></a>                <span class="k">CALL </span><span class="n">psb_geins</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="n">iglob</span><span class="o">/</span><span class="p">),</span> <span class="p">(</span><span class="o">/</span><span class="n">rhs</span><span class="o">/</span><span class="p">),</span> <span class="n">by</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">psb_dupl_ovwrt_</span><span class="p">)</span>
+<a name="ln-150"></a>                <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geins&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-151"></a>
+<a name="ln-152"></a>                <span class="n">rhs</span> <span class="o">=</span> <span class="n">verts</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">z_</span><span class="p">()</span>
+<a name="ln-153"></a>                <span class="k">CALL </span><span class="n">psb_geins</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="n">iglob</span><span class="o">/</span><span class="p">),</span> <span class="p">(</span><span class="o">/</span><span class="n">rhs</span><span class="o">/</span><span class="p">),</span> <span class="n">bz</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">psb_dupl_ovwrt_</span><span class="p">)</span>
+<a name="ln-154"></a>                <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geins&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-155"></a>
+<a name="ln-156"></a>            <span class="k">ELSE</span>
+<a name="ln-157"></a>                <span class="c">! set this vertex&#39;s position to be the average of his neighbors</span>
+<a name="ln-158"></a>                <span class="c">! thus the matrix has 1&#39;s on off-diagonals corresponding to neighbors</span>
+<a name="ln-159"></a>                <span class="c">! and -1/N on the diagonal.  The RHS is zero</span>
+<a name="ln-160"></a>                <span class="c">! -1/N*position_p + sum(positions_neighbors) = 0</span>
+<a name="ln-161"></a>
+<a name="ln-162"></a>                <span class="k">CALL </span><span class="n">v2v</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">iv2v</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="c">! get neighbors</span>
+<a name="ln-163"></a>                <span class="n">n_entries</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">iv2v</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="c">! add 1 for the diagonal</span>
+<a name="ln-164"></a>
+<a name="ln-165"></a>                <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">acoeffs</span><span class="p">(</span><span class="n">n_entries</span><span class="p">),</span> <span class="n">ia</span><span class="p">(</span><span class="n">n_entries</span><span class="p">),</span> <span class="n">ja</span><span class="p">(</span><span class="n">n_entries</span><span class="p">),</span> <span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-166"></a>
+<a name="ln-167"></a>                <span class="c">! fill arrays with off-diag elements first</span>
+<a name="ln-168"></a>                <span class="k">DO </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">iv2v</span><span class="p">)</span>
+<a name="ln-169"></a>                    <span class="n">acoeffs</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.0d0</span>
+<a name="ln-170"></a>                    <span class="n">ia</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>      <span class="o">=</span> <span class="n">iglob</span>
+<a name="ln-171"></a>                    <span class="n">ja</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>      <span class="o">=</span> <span class="n">loc_to_glob_</span><span class="p">(</span><span class="n">desc_v</span><span class="p">,</span><span class="n">iv2v</span><span class="p">(</span><span class="n">j</span><span class="p">))</span>
+<a name="ln-172"></a>                <span class="n">ENDDO</span>
+<a name="ln-173"></a>
+<a name="ln-174"></a>                <span class="n">acoeffs</span><span class="p">(</span><span class="n">n_entries</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0d0</span><span class="o">*</span><span class="kt">REAL</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">iv2v</span><span class="p">))</span>
+<a name="ln-175"></a>                <span class="n">ia</span>     <span class="p">(</span><span class="n">n_entries</span><span class="p">)</span> <span class="o">=</span> <span class="n">iglob</span>
+<a name="ln-176"></a>                <span class="n">ja</span>     <span class="p">(</span><span class="n">n_entries</span><span class="p">)</span> <span class="o">=</span> <span class="n">iglob</span>
+<a name="ln-177"></a>
+<a name="ln-178"></a>                <span class="c">! insert matrix coefficients</span>
+<a name="ln-179"></a>                <span class="k">CALL </span><span class="n">psb_spins</span><span class="p">(</span><span class="n">n_entries</span><span class="p">,</span> <span class="n">ia</span><span class="p">,</span> <span class="n">ja</span><span class="p">,</span> <span class="n">acoeffs</span><span class="p">,</span> <span class="n">Amatrix</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-180"></a>                <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_spins&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-181"></a>
+<a name="ln-182"></a>                <span class="c">! insert RHS</span>
+<a name="ln-183"></a>                <span class="k">CALL </span><span class="n">psb_geins</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="n">iglob</span><span class="o">/</span><span class="p">),</span> <span class="p">(</span><span class="o">/</span><span class="mf">0.0d0</span><span class="o">/</span><span class="p">),</span> <span class="n">bx</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">psb_dupl_ovwrt_</span><span class="p">)</span>
+<a name="ln-184"></a>                <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geins&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-185"></a>
+<a name="ln-186"></a>                <span class="k">CALL </span><span class="n">psb_geins</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="n">iglob</span><span class="o">/</span><span class="p">),</span> <span class="p">(</span><span class="o">/</span><span class="mf">0.0d0</span><span class="o">/</span><span class="p">),</span> <span class="n">by</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">psb_dupl_ovwrt_</span><span class="p">)</span>
+<a name="ln-187"></a>                <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geins&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-188"></a>
+<a name="ln-189"></a>                <span class="k">CALL </span><span class="n">psb_geins</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="n">iglob</span><span class="o">/</span><span class="p">),</span> <span class="p">(</span><span class="o">/</span><span class="mf">0.0d0</span><span class="o">/</span><span class="p">),</span> <span class="n">bz</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">psb_dupl_ovwrt_</span><span class="p">)</span>
+<a name="ln-190"></a>                <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geins&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-191"></a>
+<a name="ln-192"></a>                <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">acoeffs</span><span class="p">,</span> <span class="n">ia</span><span class="p">,</span> <span class="n">ja</span><span class="p">)</span>
+<a name="ln-193"></a>
+<a name="ln-194"></a>            <span class="n">ENDIF</span> <span class="c">! end of if-test about interior vs. bndry point</span>
+<a name="ln-195"></a>
+<a name="ln-196"></a>        <span class="n">ENDDO</span>
+<a name="ln-197"></a>
+<a name="ln-198"></a>        <span class="c">! Assemble matrices and right-hand sides</span>
+<a name="ln-199"></a>
+<a name="ln-200"></a>        <span class="k">CALL </span><span class="n">psb_spasb</span><span class="p">(</span><span class="n">Amatrix</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">dupl</span><span class="o">=</span> <span class="n">psb_dupl_ovwrt_</span><span class="p">)</span>
+<a name="ln-201"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_spasb&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-202"></a>
+<a name="ln-203"></a>        <span class="k">CALL </span><span class="n">psb_geasb</span><span class="p">(</span><span class="n">bx</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-204"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geasb&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-205"></a>
+<a name="ln-206"></a>        <span class="k">CALL </span><span class="n">psb_geasb</span><span class="p">(</span><span class="n">by</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-207"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geasb&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-208"></a>
+<a name="ln-209"></a>        <span class="k">CALL </span><span class="n">psb_geasb</span><span class="p">(</span><span class="n">bz</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-210"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geasb&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-211"></a>
+<a name="ln-212"></a>        <span class="c">! Set initial guesses: Loop over all vertices</span>
+<a name="ln-213"></a>        <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nverts</span>
+<a name="ln-214"></a>
+<a name="ln-215"></a>            <span class="n">iglob</span> <span class="o">=</span> <span class="n">loc_to_glob_</span><span class="p">(</span><span class="n">desc_v</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-216"></a>
+<a name="ln-217"></a>            <span class="k">CALL </span><span class="n">psb_geins</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="n">iglob</span><span class="o">/</span><span class="p">),</span> <span class="p">(</span><span class="o">/</span><span class="n">verts</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">x_</span><span class="p">()</span><span class="o">/</span><span class="p">),</span> <span class="n">newx</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">psb_dupl_ovwrt_</span><span class="p">)</span>
+<a name="ln-218"></a>            <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geins&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-219"></a>
+<a name="ln-220"></a>            <span class="k">CALL </span><span class="n">psb_geins</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="n">iglob</span><span class="o">/</span><span class="p">),</span> <span class="p">(</span><span class="o">/</span><span class="n">verts</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">y_</span><span class="p">()</span><span class="o">/</span><span class="p">),</span> <span class="n">newy</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">psb_dupl_ovwrt_</span><span class="p">)</span>
+<a name="ln-221"></a>            <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geins&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-222"></a>
+<a name="ln-223"></a>            <span class="k">CALL </span><span class="n">psb_geins</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="n">iglob</span><span class="o">/</span><span class="p">),</span> <span class="p">(</span><span class="o">/</span><span class="n">verts</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">z_</span><span class="p">()</span><span class="o">/</span><span class="p">),</span> <span class="n">newz</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">psb_dupl_ovwrt_</span><span class="p">)</span>
+<a name="ln-224"></a>            <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geins&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-225"></a>
+<a name="ln-226"></a>        <span class="n">ENDDO</span>
+<a name="ln-227"></a>
+<a name="ln-228"></a>        <span class="c">! assemble guesses</span>
+<a name="ln-229"></a>        <span class="k">CALL </span><span class="n">psb_geasb</span><span class="p">(</span><span class="n">newx</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-230"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geasb&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-231"></a>
+<a name="ln-232"></a>        <span class="k">CALL </span><span class="n">psb_geasb</span><span class="p">(</span><span class="n">newy</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-233"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geasb&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-234"></a>
+<a name="ln-235"></a>        <span class="k">CALL </span><span class="n">psb_geasb</span><span class="p">(</span><span class="n">newz</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-236"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_geasb&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-237"></a>
+<a name="ln-238"></a>        <span class="c">! note the preconditioner can be re-used after each solve</span>
+<a name="ln-239"></a>
+<a name="ln-240"></a>        <span class="c">! select and build preconditioner and solve</span>
+<a name="ln-241"></a>        <span class="k">CALL </span><span class="n">build_prec</span><span class="p">(</span><span class="s2">&quot;BJAC&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s2">&quot;BICGSTAB&quot;</span><span class="p">,</span><span class="n">Amatrix</span><span class="p">,</span><span class="n">desc_v</span><span class="p">,</span><span class="n">Aprec</span><span class="p">)</span>
+<a name="ln-242"></a>        <span class="k">CALL </span><span class="n">solve_sys</span><span class="p">(</span><span class="n">Amatrix</span><span class="p">,</span> <span class="n">Aprec</span><span class="p">,</span> <span class="n">bx</span><span class="p">,</span> <span class="n">newx</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="s2">&quot;BICGSTAB&quot;</span><span class="p">,</span> <span class="mf">1.0D-6</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">iter</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+<a name="ln-243"></a>        <span class="k">CALL </span><span class="n">solve_sys</span><span class="p">(</span><span class="n">Amatrix</span><span class="p">,</span> <span class="n">Aprec</span><span class="p">,</span> <span class="n">by</span><span class="p">,</span> <span class="n">newy</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="s2">&quot;BICGSTAB&quot;</span><span class="p">,</span> <span class="mf">1.0D-6</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">iter</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+<a name="ln-244"></a>        <span class="k">CALL </span><span class="n">solve_sys</span><span class="p">(</span><span class="n">Amatrix</span><span class="p">,</span> <span class="n">Aprec</span><span class="p">,</span> <span class="n">bz</span><span class="p">,</span> <span class="n">newz</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="s2">&quot;BICGSTAB&quot;</span><span class="p">,</span> <span class="mf">1.0D-6</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">iter</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+<a name="ln-245"></a>
+<a name="ln-246"></a>        <span class="k">CALL </span><span class="n">psb_ovrl</span><span class="p">(</span><span class="n">newx</span><span class="p">,</span><span class="n">desc_v</span><span class="p">,</span><span class="n">info</span><span class="p">,</span><span class="n">update</span><span class="o">=</span><span class="n">psb_avg_</span><span class="p">)</span>
+<a name="ln-247"></a>        <span class="k">CALL </span><span class="n">psb_ovrl</span><span class="p">(</span><span class="n">newy</span><span class="p">,</span><span class="n">desc_v</span><span class="p">,</span><span class="n">info</span><span class="p">,</span><span class="n">update</span><span class="o">=</span><span class="n">psb_avg_</span><span class="p">)</span>
+<a name="ln-248"></a>        <span class="k">CALL </span><span class="n">psb_ovrl</span><span class="p">(</span><span class="n">newz</span><span class="p">,</span><span class="n">desc_v</span><span class="p">,</span><span class="n">info</span><span class="p">,</span><span class="n">update</span><span class="o">=</span><span class="n">psb_avg_</span><span class="p">)</span>
+<a name="ln-249"></a>
+<a name="ln-250"></a>        <span class="c">! extract answers</span>
+<a name="ln-251"></a>
+<a name="ln-252"></a>        <span class="c">! Loop over all vertices</span>
+<a name="ln-253"></a>        <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nverts</span>
+<a name="ln-254"></a>
+<a name="ln-255"></a>            <span class="c">! set position of vertices</span>
+<a name="ln-256"></a>            <span class="n">new_pos</span>  <span class="o">=</span> <span class="n">vector_</span><span class="p">(</span> <span class="n">newx</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">newy</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">newz</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">)</span>
+<a name="ln-257"></a>            <span class="n">verts</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">new_pos</span>
+<a name="ln-258"></a>
+<a name="ln-259"></a>        <span class="n">ENDDO</span>
+<a name="ln-260"></a>
+<a name="ln-261"></a>        <span class="c">! free preconditioner</span>
+<a name="ln-262"></a>        <span class="k">CALL </span><span class="n">psb_precfree</span><span class="p">(</span><span class="n">Aprec</span><span class="p">,</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-263"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_precfree&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-264"></a>
+<a name="ln-265"></a>        <span class="c">! free matrices and b vectors</span>
+<a name="ln-266"></a>        <span class="k">CALL </span><span class="n">psb_spfree</span><span class="p">(</span><span class="n">Amatrix</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-267"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_spfree&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-268"></a>
+<a name="ln-269"></a>        <span class="k">CALL </span><span class="n">psb_gefree</span><span class="p">(</span><span class="n">bx</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-270"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_gefree&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-271"></a>
+<a name="ln-272"></a>        <span class="k">CALL </span><span class="n">psb_gefree</span><span class="p">(</span><span class="n">by</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-273"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_gefree&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-274"></a>
+<a name="ln-275"></a>        <span class="k">CALL </span><span class="n">psb_gefree</span><span class="p">(</span><span class="n">bz</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-276"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_gefree&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-277"></a>
+<a name="ln-278"></a>        <span class="k">CALL </span><span class="n">psb_gefree</span><span class="p">(</span><span class="n">newx</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-279"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_gefree&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-280"></a>
+<a name="ln-281"></a>        <span class="k">CALL </span><span class="n">psb_gefree</span><span class="p">(</span><span class="n">newy</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-282"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_gefree&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-283"></a>
+<a name="ln-284"></a>        <span class="k">CALL </span><span class="n">psb_gefree</span><span class="p">(</span><span class="n">newz</span><span class="p">,</span> <span class="n">desc_v</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="ln-285"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="n">name_err</span><span class="p">,</span><span class="s1">&#39;psb_gefree&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-286"></a>
+<a name="ln-287"></a>        <span class="k">NULLIFY</span><span class="p">(</span><span class="n">iv2v</span><span class="p">)</span>
+<a name="ln-288"></a>        <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">fixed</span><span class="p">)</span>
+<a name="ln-289"></a>
+<a name="ln-290"></a>        <span class="c">! ----- Normal Termination -----</span>
+<a name="ln-291"></a>        <span class="k">CALL </span><span class="n">psb_erractionrestore</span><span class="p">(</span><span class="n">err_act</span><span class="p">)</span>
+<a name="ln-292"></a>
+<a name="ln-293"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory allocation failure in LAPLACIAN_SMOOTH&#39;</span><span class="p">)</span>
+<a name="ln-294"></a>
+<a name="ln-295"></a>        <span class="k">END PROCEDURE </span><span class="n">laplacian_smooth</span>
+<a name="ln-296"></a>
+<a name="ln-297"></a><span class="k">END SUBMODULE </span><span class="n">laplacian_smooth_implementation</span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

@@ -1,0 +1,577 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>alloc_cylinder &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>alloc_cylinder
+   <small>Interface</small>
+    
+    </h1>
+    
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.1% of total for procedures.">48 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/class_cylinder.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/class_cylinder.f90.html'>class_cylinder.f90</a></li>
+    
+     <li><a href='../module/class_cylinder.html'>class_cylinder</a></li>
+    
+  
+     <li class="active">alloc_cylinder</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+    
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<em>None</em>
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    
+    
+      <h2>interface</h2>
+      
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Calls</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: interface~~alloc_cylinder~~CallsGraph Pages: 1 -->
+<svg id="interfacealloc_cylinderCallsGraph" width="515pt" height="152pt"
+ viewBox="0.00 0.00 514.92 151.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="interface~~alloc_cylinder~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 147.5)">
+<title>interface~~alloc_cylinder~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-147.5 510.92,-147.5 510.92,4 -4,4"/>
+<!-- interface~alloc_cylinder -->
+<g id="interface~~alloc_cylinder~~CallsGraph_node1" class="node">
+<title>interface~alloc_cylinder</title>
+<polygon fill="none" stroke="black" points="75.42,-83.26 0.19,-83.26 0.19,-61.24 75.42,-61.24 75.42,-83.26"/>
+<text text-anchor="middle" x="37.81" y="-69.1" font-family="Helvetica,sans-Serif" font-size="10.50">alloc_cylinder</text>
+</g>
+<!-- proc~alloc_cylinder -->
+<g id="interface~~alloc_cylinder~~CallsGraph_node2" class="node">
+<title>proc~alloc_cylinder</title>
+<g id="a_interface~~alloc_cylinder~~CallsGraph_node2"><a xlink:href=".././proc/alloc_cylinder.html" xlink:title="alloc_cylinder">
+<polygon fill="#d9534f" stroke="#d9534f" points="187.04,-83.26 111.81,-83.26 111.81,-61.24 187.04,-61.24 187.04,-83.26"/>
+<text text-anchor="middle" x="149.42" y="-69.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">alloc_cylinder</text>
+</a>
+</g>
+</g>
+<!-- interface~alloc_cylinder&#45;&gt;proc~alloc_cylinder -->
+<g id="interface~~alloc_cylinder~~CallsGraph_edge1" class="edge">
+<title>interface~alloc_cylinder&#45;&gt;proc~alloc_cylinder</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M75.61,-72.25C83.84,-72.25 92.67,-72.25 101.25,-72.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="101.53,-75.75 111.53,-72.25 101.53,-68.75 101.53,-75.75"/>
+</g>
+<!-- proc~try_cylinder_r2 -->
+<g id="interface~~alloc_cylinder~~CallsGraph_node3" class="node">
+<title>proc~try_cylinder_r2</title>
+<g id="a_interface~~alloc_cylinder~~CallsGraph_node3"><a xlink:href=".././proc/try_cylinder_r2.html" xlink:title="try_cylinder_r2">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="304.02,-104.26 223.3,-104.26 223.3,-82.24 304.02,-82.24 304.02,-104.26"/>
+<text text-anchor="middle" x="263.66" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">try_cylinder_r2</text>
+</a>
+</g>
+</g>
+<!-- proc~alloc_cylinder&#45;&gt;proc~try_cylinder_r2 -->
+<g id="interface~~alloc_cylinder~~CallsGraph_edge2" class="edge">
+<title>proc~alloc_cylinder&#45;&gt;proc~try_cylinder_r2</title>
+<path fill="none" stroke="#ff0000" d="M187.17,-79.13C195.44,-80.67 204.36,-82.34 213.06,-83.97"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="212.65,-87.45 223.12,-85.85 213.93,-80.57 212.65,-87.45"/>
+</g>
+<!-- interface~vector_ -->
+<g id="interface~~alloc_cylinder~~CallsGraph_node4" class="node">
+<title>interface~vector_</title>
+<g id="a_interface~~alloc_cylinder~~CallsGraph_node4"><a xlink:href=".././interface/vector_.html" xlink:title="vector_">
+<polygon fill="#a7506f" stroke="#a7506f" points="403.15,-143.26 349.15,-143.26 349.15,-121.24 403.15,-121.24 403.15,-143.26"/>
+<text text-anchor="middle" x="376.15" y="-129.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_</text>
+</a>
+</g>
+</g>
+<!-- proc~alloc_cylinder&#45;&gt;interface~vector_ -->
+<g id="interface~~alloc_cylinder~~CallsGraph_edge3" class="edge">
+<title>proc~alloc_cylinder&#45;&gt;interface~vector_</title>
+<path fill="none" stroke="#ff0000" d="M165.78,-83.26C179.98,-92.84 202.01,-106.25 223.23,-113.25 261.44,-125.86 307.59,-130.2 338.92,-131.64"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="338.82,-135.14 348.95,-132.03 339.09,-128.14 338.82,-135.14"/>
+</g>
+<!-- my_vertices -->
+<g id="interface~~alloc_cylinder~~CallsGraph_node5" class="node">
+<title>my_vertices</title>
+<polygon fill="#777777" stroke="#777777" points="297.67,-63.26 229.65,-63.26 229.65,-41.24 297.67,-41.24 297.67,-63.26"/>
+<text text-anchor="middle" x="263.66" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">my_vertices</text>
+</g>
+<!-- proc~alloc_cylinder&#45;&gt;my_vertices -->
+<g id="interface~~alloc_cylinder~~CallsGraph_edge4" class="edge">
+<title>proc~alloc_cylinder&#45;&gt;my_vertices</title>
+<path fill="none" stroke="#ff0000" d="M187.17,-65.7C197.54,-63.85 208.91,-61.83 219.62,-59.92"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="220.39,-63.34 229.62,-58.14 219.16,-56.45 220.39,-63.34"/>
+</g>
+<!-- interface~abort_psblas -->
+<g id="interface~~alloc_cylinder~~CallsGraph_node6" class="node">
+<title>interface~abort_psblas</title>
+<g id="a_interface~~alloc_cylinder~~CallsGraph_node6"><a xlink:href=".././interface/abort_psblas.html" xlink:title="abort_psblas">
+<polygon fill="#a7506f" stroke="#a7506f" points="299.78,-22.26 227.54,-22.26 227.54,-0.24 299.78,-0.24 299.78,-22.26"/>
+<text text-anchor="middle" x="263.66" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abort_psblas</text>
+</a>
+</g>
+</g>
+<!-- proc~alloc_cylinder&#45;&gt;interface~abort_psblas -->
+<g id="interface~~alloc_cylinder~~CallsGraph_edge5" class="edge">
+<title>proc~alloc_cylinder&#45;&gt;interface~abort_psblas</title>
+<path fill="none" stroke="#ff0000" d="M170.47,-61.14C185.07,-53.08 205.34,-41.93 223.23,-32.25 226.33,-30.58 229.56,-28.83 232.79,-27.1"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="234.59,-30.11 241.76,-22.32 231.29,-23.94 234.59,-30.11"/>
+</g>
+<!-- proc~try_cylinder_r2&#45;&gt;interface~vector_ -->
+<g id="interface~~alloc_cylinder~~CallsGraph_edge7" class="edge">
+<title>proc~try_cylinder_r2&#45;&gt;interface~vector_</title>
+<path fill="none" stroke="#ff0000" d="M296.03,-104.32C309.48,-109.07 325.27,-114.64 339.19,-119.56"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="338.34,-122.97 348.94,-123 340.67,-116.37 338.34,-122.97"/>
+</g>
+<!-- float -->
+<g id="interface~~alloc_cylinder~~CallsGraph_node7" class="node">
+<title>float</title>
+<polygon fill="#777777" stroke="#777777" points="504.57,-84.26 450.57,-84.26 450.57,-62.24 504.57,-62.24 504.57,-84.26"/>
+<text text-anchor="middle" x="477.57" y="-70.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">float</text>
+</g>
+<!-- proc~try_cylinder_r2&#45;&gt;float -->
+<g id="interface~~alloc_cylinder~~CallsGraph_edge6" class="edge">
+<title>proc~try_cylinder_r2&#45;&gt;float</title>
+<path fill="none" stroke="#ff0000" d="M304.02,-89.54C343.08,-85.85 402.44,-80.25 440.36,-76.67"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="440.82,-80.14 450.45,-75.72 440.16,-73.17 440.82,-80.14"/>
+</g>
+<!-- proc~calc_error -->
+<g id="interface~~alloc_cylinder~~CallsGraph_node8" class="node">
+<title>proc~calc_error</title>
+<g id="a_interface~~alloc_cylinder~~CallsGraph_node8"><a xlink:href=".././proc/calc_error.html" xlink:title="calc_error">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="405.33,-65.26 346.97,-65.26 346.97,-43.24 405.33,-43.24 405.33,-65.26"/>
+<text text-anchor="middle" x="376.15" y="-51.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calc_error</text>
+</a>
+</g>
+</g>
+<!-- proc~try_cylinder_r2&#45;&gt;proc~calc_error -->
+<g id="interface~~alloc_cylinder~~CallsGraph_edge8" class="edge">
+<title>proc~try_cylinder_r2&#45;&gt;proc~calc_error</title>
+<path fill="none" stroke="#ff0000" d="M296.03,-82.18C308.86,-77.65 323.83,-72.37 337.27,-67.62"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="338.46,-70.91 346.73,-64.28 336.13,-64.31 338.46,-70.91"/>
+</g>
+<!-- proc~vector_ -->
+<g id="interface~~alloc_cylinder~~CallsGraph_node10" class="node">
+<title>proc~vector_</title>
+<g id="a_interface~~alloc_cylinder~~CallsGraph_node10"><a xlink:href=".././proc/vector_.html" xlink:title="vector_">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="504.57,-143.26 450.57,-143.26 450.57,-121.24 504.57,-121.24 504.57,-143.26"/>
+<text text-anchor="middle" x="477.57" y="-129.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_</text>
+</a>
+</g>
+</g>
+<!-- interface~vector_&#45;&gt;proc~vector_ -->
+<g id="interface~~alloc_cylinder~~CallsGraph_edge9" class="edge">
+<title>interface~vector_&#45;&gt;proc~vector_</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M403.27,-132.25C414.48,-132.25 427.78,-132.25 439.95,-132.25"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="440.27,-135.75 450.27,-132.25 440.27,-128.75 440.27,-135.75"/>
+</g>
+<!-- proc~abort_psblas -->
+<g id="interface~~alloc_cylinder~~CallsGraph_node9" class="node">
+<title>proc~abort_psblas</title>
+<g id="a_interface~~alloc_cylinder~~CallsGraph_node9"><a xlink:href=".././proc/abort_psblas.html" xlink:title="abort_psblas">
+<polygon fill="#d9534f" stroke="#d9534f" points="412.28,-22.26 340.03,-22.26 340.03,-0.24 412.28,-0.24 412.28,-22.26"/>
+<text text-anchor="middle" x="376.15" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abort_psblas</text>
+</a>
+</g>
+</g>
+<!-- interface~abort_psblas&#45;&gt;proc~abort_psblas -->
+<g id="interface~~alloc_cylinder~~CallsGraph_edge10" class="edge">
+<title>interface~abort_psblas&#45;&gt;proc~abort_psblas</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M299.92,-11.25C309.39,-11.25 319.77,-11.25 329.7,-11.25"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="329.84,-14.75 339.84,-11.25 329.84,-7.75 329.84,-14.75"/>
+</g>
+<!-- proc~calc_error&#45;&gt;float -->
+<g id="interface~~alloc_cylinder~~CallsGraph_edge11" class="edge">
+<title>proc~calc_error&#45;&gt;float</title>
+<path fill="none" stroke="#7fff00" d="M405.37,-59.64C416.19,-61.71 428.68,-64.1 440.15,-66.29"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="439.84,-69.79 450.32,-68.23 441.15,-62.92 439.84,-69.79"/>
+</g>
+<!-- psb_abort -->
+<g id="interface~~alloc_cylinder~~CallsGraph_node11" class="node">
+<title>psb_abort</title>
+<polygon fill="#777777" stroke="#777777" points="506.77,-22.26 448.36,-22.26 448.36,-0.24 506.77,-0.24 506.77,-22.26"/>
+<text text-anchor="middle" x="477.57" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_abort</text>
+</g>
+<!-- proc~abort_psblas&#45;&gt;psb_abort -->
+<g id="interface~~alloc_cylinder~~CallsGraph_edge12" class="edge">
+<title>proc~abort_psblas&#45;&gt;psb_abort</title>
+<path fill="none" stroke="#00ffff" d="M412.48,-11.25C420.81,-11.25 429.74,-11.25 438.19,-11.25"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="438.21,-14.75 448.21,-11.25 438.21,-7.75 438.21,-14.75"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="550pt" height="31pt"
+ viewBox="0.00 0.00 550.25 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 546.25,-26.5 546.25,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="62.68,-22.26 0.11,-22.26 0.11,-0.24 62.68,-0.24 62.68,-22.26"/>
+<text text-anchor="middle" x="31.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="134.39,-22.26 80.39,-22.26 80.39,-0.24 134.39,-0.24 134.39,-22.26"/>
+<text text-anchor="middle" x="107.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="206.39,-22.26 152.39,-22.26 152.39,-0.24 206.39,-0.24 206.39,-22.26"/>
+<text text-anchor="middle" x="179.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="356.53,-22.26 224.26,-22.26 224.26,-0.24 356.53,-0.24 356.53,-22.26"/>
+<text text-anchor="middle" x="290.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="428.39,-22.26 374.39,-22.26 374.39,-0.24 428.39,-0.24 428.39,-22.26"/>
+<text text-anchor="middle" x="401.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="542.1,-22.26 446.69,-22.26 446.69,-0.24 542.1,-0.24 542.1,-22.26"/>
+<text text-anchor="middle" x="494.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a procedure to one which it calls. Dashed 
+    arrows point from an interface to procedures which implement that interface.
+    This could include the module procedures in a generic interface or the
+    implementation in a submodule of an interface in a parent module. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+     
+     
+    
+    <br>
+    
+      <h2>
+public module subroutine alloc_cylinder(vertices, this_cylinder)
+    
+    
+   
+   <a href='../proc/alloc_cylinder.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h2>
+    
+
+    
+  
+
+
+    <h3>Arguments</h3>
+    
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-vertices~15"></span>type(<a href='../type/vertex.html'>vertex</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>vertices</strong>(:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-this_cylinder"></span>type(<a href='../type/cylinder.html'>cylinder</a>),</td>
+  <td></td>
+  <td></td>
+  
+  <td>pointer</td><td>::</td>
+  <td><strong>this_cylinder</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    
+    
+    
+    <h3>Description</h3>
+    <p>Constructs cylinder by using steepest descents to fit a cylinder to the vertices' locations.
+ We make our figure of merit f = 1 - error</p>
+    
+    <br>
+
+ </div>
+</div>
+
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

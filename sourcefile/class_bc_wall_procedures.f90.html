@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>class_bc_wall_procedures.f90 &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>class_bc_wall_procedures.f90
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 1.4% of total for source files.">359 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/class_bc_wall_procedures.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">class_bc_wall_procedures.f90</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-0">Submodules</a></h3></div>
+  <div id="submods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/class_bc_wall_procedures.html">class_bc_wall_procedures</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/class_bc_wall_procedures.f90.html#src">class_bc_wall_procedures.f90</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">This file depends on</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefileclass_bc_wall_proceduresf90EfferentGraph" width="641pt" height="263pt"
+ viewBox="0.00 0.00 641.00 262.98" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph" class="graph" transform="scale(2.19 2.19) rotate(0) translate(4 572.16)">
+<title>sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-572.16 1400.35,-572.16 1400.35,4 -4,4"/>
+<!-- sourcefile~class_bc_wall_procedures.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~class_bc_wall_procedures.f90</title>
+<polygon fill="none" stroke="black" points="1396.18,-253.26 1243.86,-253.26 1243.86,-231.24 1396.18,-231.24 1396.18,-253.26"/>
+<text text-anchor="middle" x="1320.02" y="-239.1" font-family="Helvetica,sans-Serif" font-size="10.50">class_bc_wall_procedures.f90</text>
+</g>
+<!-- sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~class_dimensions.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/class_dimensions.f90.html" xlink:title="class_dimensions.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1077.59,-526.26 964.82,-526.26 964.82,-504.24 1077.59,-504.24 1077.59,-526.26"/>
+<text text-anchor="middle" x="1021.2" y="-512.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_dimensions.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~class_dimensions.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1159.54,-554.25C1141.13,-562.26 1091.02,-544.51 1056.7,-530.4"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1057.63,-526.99 1047.05,-526.36 1054.92,-533.45 1057.63,-526.99"/>
+</g>
+<!-- sourcefile~tools_bc.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~tools_bc.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node3"><a xlink:href=".././sourcefile/tools_bc.f90.html" xlink:title="tools_bc.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1194.67,-82.26 1126.42,-82.26 1126.42,-60.24 1194.67,-60.24 1194.67,-82.26"/>
+<text text-anchor="middle" x="1160.54" y="-68.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_bc.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~tools_bc.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~tools_bc.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1308.69,-231.03C1282.21,-202.28 1211.7,-125.71 1178.84,-90.04"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1181.06,-87.27 1171.71,-82.29 1175.91,-92.02 1181.06,-87.27"/>
+</g>
+<!-- sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node4" class="node">
+<title>sourcefile~class_psblas.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node4"><a xlink:href=".././sourcefile/class_psblas.f90.html" xlink:title="class_psblas.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="355.88,-449.26 266.62,-449.26 266.62,-427.24 355.88,-427.24 355.88,-449.26"/>
+<text text-anchor="middle" x="311.25" y="-435.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_psblas.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge3" class="edge">
+<title>sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1159.54,-554.25C1079.89,-588.91 1050.9,-548.23 965.01,-535.25 921.35,-528.65 910.6,-504.84 867.69,-515.25"/>
+</g>
+<!-- sourcefile~class_material.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node5" class="node">
+<title>sourcefile~class_material.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node5"><a xlink:href=".././sourcefile/class_material.f90.html" xlink:title="class_material.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1069.32,-485.26 973.08,-485.26 973.08,-463.24 1069.32,-463.24 1069.32,-485.26"/>
+<text text-anchor="middle" x="1021.2" y="-471.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_material.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~class_material.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge4" class="edge">
+<title>sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~class_material.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1159.54,-554.25C1118.33,-572.19 1116.99,-516.53 1077.4,-495.25 1073.43,-493.12 1069.2,-491.1 1064.91,-489.22"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1066.09,-485.92 1055.51,-485.33 1063.41,-492.38 1066.09,-485.92"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1318.06,-253.44C1313.15,-302.7 1285.89,-500.14 1161.54,-554.25"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node6" class="node">
+<title>sourcefile~class_bc_wall.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node6"><a xlink:href=".././sourcefile/class_bc_wall.f90.html" xlink:title="class_bc_wall.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1207.84,-354.26 1113.25,-354.26 1113.25,-332.24 1207.84,-332.24 1207.84,-354.26"/>
+<text text-anchor="middle" x="1160.54" y="-340.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc_wall.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~class_bc_wall.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge5" class="edge">
+<title>sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~class_bc_wall.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1301.57,-253.44C1273.9,-271.19 1219.8,-305.88 1187.55,-326.57"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1185.6,-323.66 1179.08,-332.01 1189.38,-329.55 1185.6,-323.66"/>
+</g>
+<!-- sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node7" class="node">
+<title>sourcefile~class_bc_math.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node7"><a xlink:href=".././sourcefile/class_bc_math.f90.html" xlink:title="class_bc_math.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1070.75,-354.26 971.65,-354.26 971.65,-332.24 1070.75,-332.24 1070.75,-354.26"/>
+<text text-anchor="middle" x="1021.2" y="-340.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc_math.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge6" class="edge">
+<title>sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~class_bc_math.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1159.54,-242.25C1108.74,-246.24 1120.36,-294.84 1077.4,-322.25 1074.09,-324.36 1070.53,-326.31 1066.88,-328.1"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1065.39,-324.93 1057.69,-332.21 1068.25,-331.32 1065.39,-324.93"/>
+</g>
+<!-- sourcefile~class_face.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node8" class="node">
+<title>sourcefile~class_face.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node8"><a xlink:href=".././sourcefile/class_face.f90.html" xlink:title="class_face.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="907.81,-119.26 825.57,-119.26 825.57,-97.24 907.81,-97.24 907.81,-119.26"/>
+<text text-anchor="middle" x="866.69" y="-105.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_face.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~class_face.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge7" class="edge">
+<title>sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~class_face.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1159.54,-242.25C1085.55,-248.06 1091.61,-173.53 1022.2,-147.25"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1243.63,-239.86C1217.59,-239.66 1188.25,-240.15 1161.54,-242.25"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1020.2,-147.25C986.91,-134.64 948,-124.77 917.82,-118.11"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="918.45,-114.66 907.94,-115.97 916.97,-121.51 918.45,-114.66"/>
+</g>
+<!-- sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node9" class="node">
+<title>sourcefile~class_mesh.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node9"><a xlink:href=".././sourcefile/class_mesh.f90.html" xlink:title="class_mesh.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1065.65,-313.26 976.75,-313.26 976.75,-291.24 1065.65,-291.24 1065.65,-313.26"/>
+<text text-anchor="middle" x="1021.2" y="-299.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_mesh.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge8" class="edge">
+<title>sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1159.54,-242.25C1117.31,-245.56 1073.25,-268.93 1046.76,-285.5"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1044.68,-282.68 1038.16,-291.04 1048.47,-288.57 1044.68,-282.68"/>
+</g>
+<!-- sourcefile~tools_input.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node10" class="node">
+<title>sourcefile~tools_input.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node10"><a xlink:href=".././sourcefile/tools_input.f90.html" xlink:title="tools_input.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="607.48,-22.26 526.88,-22.26 526.88,-0.24 607.48,-0.24 607.48,-22.26"/>
+<text text-anchor="middle" x="567.18" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_input.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~tools_input.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge9" class="edge">
+<title>sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~tools_input.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1316.01,-231C1306.45,-197.61 1273.48,-98.47 1207.69,-51.25 1139.33,-2.18 1106.35,-13.25 1022.2,-13.25 1022.2,-13.25 1022.2,-13.25 865.69,-13.25 778.47,-13.25 676.87,-12.38 617.81,-11.79"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="617.68,-8.29 607.64,-11.68 617.6,-15.29 617.68,-8.29"/>
+</g>
+<!-- sourcefile~class_vector.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node11" class="node">
+<title>sourcefile~class_vector.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node11"><a xlink:href=".././sourcefile/class_vector.f90.html" xlink:title="class_vector.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="479.5,-256.26 391.91,-256.26 391.91,-234.24 479.5,-234.24 479.5,-256.26"/>
+<text text-anchor="middle" x="435.71" y="-242.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vector.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge10" class="edge">
+<title>sourcefile~class_bc_wall_procedures.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1020.2,-147.25C967.7,-127.37 566.83,-144.85 515.36,-167.25 487.04,-179.57 463.31,-207.12 449.54,-225.95"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="446.67,-223.95 443.78,-234.14 452.4,-227.98 446.67,-223.95"/>
+</g>
+<!-- sourcefile~class_dimensions.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge11" class="edge">
+<title>sourcefile~class_dimensions.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M964.79,-510.97C935.7,-509.79 899.57,-510.04 867.69,-515.25"/>
+</g>
+<!-- sourcefile~class_motion.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node14" class="node">
+<title>sourcefile~class_motion.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node14"><a xlink:href=".././sourcefile/class_motion.f90.html" xlink:title="class_motion.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="612.47,-63.26 521.89,-63.26 521.89,-41.24 612.47,-41.24 612.47,-63.26"/>
+<text text-anchor="middle" x="567.18" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_motion.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tools_bc.f90&#45;&gt;sourcefile~class_motion.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge12" class="edge">
+<title>sourcefile~tools_bc.f90&#45;&gt;sourcefile~class_motion.f90</title>
+<path fill="none" stroke="#ff9900" stroke-dasharray="5,2" d="M1126.05,-70.17C1028.36,-67.04 743.02,-57.87 622.69,-54"/>
+<polygon fill="#ff9900" stroke="#ff9900" points="622.71,-50.5 612.6,-53.68 622.49,-57.5 622.71,-50.5"/>
+</g>
+<!-- sourcefile~class_stopwatch.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node13" class="node">
+<title>sourcefile~class_stopwatch.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node13"><a xlink:href=".././sourcefile/class_stopwatch.f90.html" xlink:title="class_stopwatch.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="230.21,-469.26 124.11,-469.26 124.11,-447.24 230.21,-447.24 230.21,-469.26"/>
+<text text-anchor="middle" x="177.16" y="-455.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_stopwatch.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_psblas.f90&#45;&gt;sourcefile~class_stopwatch.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge13" class="edge">
+<title>sourcefile~class_psblas.f90&#45;&gt;sourcefile~class_stopwatch.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M266.27,-444.91C258.07,-446.15 249.35,-447.47 240.72,-448.78"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="240.02,-445.34 230.66,-450.3 241.07,-452.26 240.02,-445.34"/>
+</g>
+<!-- sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node21" class="node">
+<title>sourcefile~tools_psblas.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node21"><a xlink:href=".././sourcefile/tools_psblas.f90.html" xlink:title="tools_psblas.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="87.83,-449.26 0.06,-449.26 0.06,-427.24 87.83,-427.24 87.83,-449.26"/>
+<text text-anchor="middle" x="43.94" y="-435.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_psblas.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_psblas.f90&#45;&gt;sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge14" class="edge">
+<title>sourcefile~class_psblas.f90&#45;&gt;sourcefile~tools_psblas.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M266.44,-438.25C220.27,-438.25 147.53,-438.25 98.11,-438.25"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="97.94,-434.75 87.94,-438.25 97.94,-441.75 97.94,-434.75"/>
+</g>
+<!-- sourcefile~class_material.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge15" class="edge">
+<title>sourcefile~class_material.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#33ff00" stroke-dasharray="5,2" d="M986.71,-485.35C956.09,-494.98 909.36,-508.44 867.69,-515.25"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge16" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_dimensions.f90</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M1156.43,-354.45C1148.19,-382.09 1123.24,-454.19 1077.4,-494.25 1075.4,-495.99 1073.25,-497.59 1070.99,-499.07"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="1068.9,-496.23 1061.86,-504.15 1072.3,-502.35 1068.9,-496.23"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge17" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M1136.74,-354.3C1099.43,-372.8 1023.61,-412.19 965.01,-454.25 947.62,-466.73 946.87,-474.44 929.01,-486.25 903.86,-502.88 897.05,-508.4 867.69,-515.25"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_material.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge18" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_material.f90</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M1153.47,-354.29C1141.44,-375.3 1112.66,-421.4 1077.4,-449.25 1072.96,-452.75 1067.95,-455.89 1062.81,-458.65"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="1060.93,-455.68 1053.5,-463.24 1064.02,-461.96 1060.93,-455.68"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge19" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_bc_math.f90</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M1113.05,-343.25C1102.78,-343.25 1091.78,-343.25 1081.1,-343.25"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="1081,-339.75 1071,-343.25 1081,-346.75 1081,-339.75"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge20" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M1122.38,-332.15C1106.04,-327.28 1086.67,-321.49 1069.33,-316.32"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="1069.98,-312.86 1059.4,-313.35 1067.98,-319.57 1069.98,-312.86"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge21" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M566.18,-245.25C541.13,-241.98 513.13,-241.59 489.59,-242.17"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="489.34,-238.67 479.46,-242.48 489.56,-245.67 489.34,-238.67"/>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M1148.47,-332.07C1133.69,-317.89 1106.03,-293.9 1077.4,-282.25 1015.76,-257.17 995.28,-268.27 929.01,-262.25 769.12,-247.74 727.38,-266.01 568.18,-245.25"/>
+</g>
+<!-- sourcefile~class_bc_math.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge22" class="edge">
+<title>sourcefile~class_bc_math.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M865.69,-515.25C657.79,-549.24 590.85,-566.96 392.06,-497.25 368.19,-488.88 345.45,-470.7 330.39,-456.72"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="332.49,-453.89 322.86,-449.48 327.64,-458.93 332.49,-453.89"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M1011.65,-354.28C1000.33,-369.09 980.07,-396.43 965.01,-421.25 946.86,-451.16 954.98,-467.81 929.01,-491.25 907.29,-510.86 896.19,-508.6 867.69,-515.25"/>
+</g>
+<!-- sourcefile~class_face.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge23" class="edge">
+<title>sourcefile~class_face.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M825.43,-103.45C724.09,-91.8 464.47,-64.88 436.71,-91.25"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge25" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M977.99,-313.31C973.15,-315.95 968.65,-319.22 965.01,-323.25 923.42,-369.36 977.24,-419.14 929.01,-458.25 866.65,-508.83 648.26,-483.16 568.18,-477.25"/>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M566.18,-477.25C506.41,-470.97 495.96,-428.22 436.71,-438.25"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_face.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge32" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_face.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M1011.73,-291.13C995.71,-270.13 959.82,-223.26 929.01,-184.25 913.64,-164.79 895.81,-142.75 883.35,-127.44"/>
+<polygon fill="#3200ff" stroke="#3200ff" points="885.73,-124.81 876.7,-119.27 880.3,-129.23 885.73,-124.81"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge33" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M710.68,-283.25C646.24,-271.27 633.18,-253.72 568.18,-245.25"/>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M976.66,-304.85C932.97,-306.85 863.82,-308.35 804.36,-302.25 762.97,-298.01 753.59,-290.86 712.68,-283.25"/>
+</g>
+<!-- sourcefile~class_keytable.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node12" class="node">
+<title>sourcefile~class_keytable.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node12"><a xlink:href=".././sourcefile/class_keytable.f90.html" xlink:title="class_keytable.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="916.07,-293.26 817.3,-293.26 817.3,-271.24 916.07,-271.24 916.07,-293.26"/>
+<text text-anchor="middle" x="866.69" y="-279.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_keytable.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_keytable.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge24" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_keytable.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M976.91,-296.57C961.15,-294.51 943.08,-292.14 926.22,-289.93"/>
+<polygon fill="#3200ff" stroke="#3200ff" points="926.29,-286.4 915.92,-288.57 925.38,-293.35 926.29,-286.4"/>
+</g>
+<!-- sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node15" class="node">
+<title>sourcefile~class_connectivity.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node15"><a xlink:href=".././sourcefile/class_connectivity.f90.html" xlink:title="class_connectivity.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="768.54,-411.26 654.82,-411.26 654.82,-389.24 768.54,-389.24 768.54,-411.26"/>
+<text text-anchor="middle" x="711.68" y="-397.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_connectivity.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge26" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M981.34,-313.35C975.52,-316.03 969.85,-319.29 965.01,-323.25 941.82,-342.22 954.56,-364.59 929.01,-380.25 884.16,-407.73 823.98,-411.21 778.48,-408.68"/>
+<polygon fill="#3200ff" stroke="#3200ff" points="778.63,-405.18 768.42,-408.01 778.17,-412.17 778.63,-405.18"/>
+</g>
+<!-- sourcefile~class_surface.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node16" class="node">
+<title>sourcefile~class_surface.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node16"><a xlink:href=".././sourcefile/class_surface.f90.html" xlink:title="class_surface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="913.39,-371.26 819.98,-371.26 819.98,-349.24 913.39,-349.24 913.39,-371.26"/>
+<text text-anchor="middle" x="866.69" y="-357.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_surface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_surface.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge27" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_surface.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M991.16,-313.3C967.17,-322.42 932.91,-335.45 906.56,-345.47"/>
+<polygon fill="#3200ff" stroke="#3200ff" points="904.99,-342.32 896.88,-349.15 907.47,-348.86 904.99,-342.32"/>
+</g>
+<!-- sourcefile~class_least_squares.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node17" class="node">
+<title>sourcefile~class_least_squares.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node17"><a xlink:href=".././sourcefile/class_least_squares.f90.html" xlink:title="class_least_squares.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="928.84,-449.26 804.54,-449.26 804.54,-427.24 928.84,-427.24 928.84,-449.26"/>
+<text text-anchor="middle" x="866.69" y="-435.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_least_squares.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_least_squares.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge28" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_least_squares.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M979.27,-313.3C974.05,-315.96 969.1,-319.22 965.01,-323.25 934.29,-353.45 959.37,-382.69 929.01,-413.25 925.55,-416.74 921.53,-419.76 917.24,-422.37"/>
+<polygon fill="#3200ff" stroke="#3200ff" points="915.35,-419.41 908.14,-427.17 918.62,-425.6 915.35,-419.41"/>
+</g>
+<!-- sourcefile~class_cell.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node18" class="node">
+<title>sourcefile~class_cell.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node18"><a xlink:href=".././sourcefile/class_cell.f90.html" xlink:title="class_cell.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="474.74,-488.26 396.68,-488.26 396.68,-466.24 474.74,-466.24 474.74,-488.26"/>
+<text text-anchor="middle" x="435.71" y="-474.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cell.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_cell.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge29" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_cell.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M566.18,-477.25C539.41,-475.28 509.43,-475.14 485.07,-475.56"/>
+<polygon fill="#3200ff" stroke="#3200ff" points="484.93,-472.07 475,-475.77 485.07,-479.06 484.93,-472.07"/>
+</g>
+<!-- sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node19" class="node">
+<title>sourcefile~class_vertex.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node19"><a xlink:href=".././sourcefile/class_vertex.f90.html" xlink:title="class_vertex.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="611.05,-295.26 523.31,-295.26 523.31,-273.24 611.05,-273.24 611.05,-295.26"/>
+<text text-anchor="middle" x="567.18" y="-281.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vertex.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge30" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M710.68,-283.25C681.46,-277.81 648.27,-277.7 621.29,-279.11"/>
+<polygon fill="#3200ff" stroke="#3200ff" points="621.04,-275.62 611.27,-279.72 621.46,-282.61 621.04,-275.62"/>
+</g>
+<!-- sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node20" class="node">
+<title>sourcefile~grid_interface.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node20"><a xlink:href=".././sourcefile/grid_interface.f90.html" xlink:title="grid_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="914.82,-215.26 818.55,-215.26 818.55,-193.24 914.82,-193.24 914.82,-215.26"/>
+<text text-anchor="middle" x="866.69" y="-201.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">grid_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge31" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~grid_interface.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M1003,-291.2C976.34,-274.07 924.87,-240.99 893.66,-220.94"/>
+<polygon fill="#3200ff" stroke="#3200ff" points="895.36,-217.87 885.06,-215.41 891.58,-223.76 895.36,-217.87"/>
+</g>
+<!-- sourcefile~tools_input.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge34" class="edge">
+<title>sourcefile~tools_input.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M434.71,-91.25C337.89,-183.22 317.54,-356.34 313.33,-416.78"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="309.82,-416.81 312.7,-427.01 316.8,-417.24 309.82,-416.81"/>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M535.75,-22.36C528.89,-25.26 521.74,-28.61 515.36,-32.25 477.39,-53.88 468.39,-61.16 436.71,-91.25"/>
+</g>
+<!-- sourcefile~tools_input.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge35" class="edge">
+<title>sourcefile~tools_input.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M528.89,-22.35C523.91,-25 519.2,-28.26 515.36,-32.25 501.38,-46.77 459.56,-173.96 443.29,-224.59"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="439.94,-223.57 440.23,-234.16 446.61,-225.71 439.94,-223.57"/>
+</g>
+<!-- sourcefile~class_vector.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge36" class="edge">
+<title>sourcefile~class_vector.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0098" stroke-dasharray="5,2" d="M427.6,-256.46C407.56,-288.04 350.45,-378.05 324.89,-418.33"/>
+<polygon fill="#ff0098" stroke="#ff0098" points="321.78,-416.69 319.38,-427.01 327.69,-420.44 321.78,-416.69"/>
+</g>
+<!-- sourcefile~class_stopwatch.f90&#45;&gt;sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge37" class="edge">
+<title>sourcefile~class_stopwatch.f90&#45;&gt;sourcefile~tools_psblas.f90</title>
+<path fill="none" stroke="#ff9900" stroke-dasharray="5,2" d="M123.92,-450.29C115.49,-449 106.75,-447.67 98.28,-446.38"/>
+<polygon fill="#ff9900" stroke="#ff9900" points="98.56,-442.88 88.14,-444.83 97.5,-449.8 98.56,-442.88"/>
+</g>
+<!-- sourcefile~class_motion.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge38" class="edge">
+<title>sourcefile~class_motion.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M521.84,-55.57C494.18,-59.84 459.6,-69.5 436.71,-91.25"/>
+</g>
+<!-- sourcefile~class_motion.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge39" class="edge">
+<title>sourcefile~class_motion.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M556.33,-63.5C545.72,-75.83 528.59,-96.38 515.36,-115.25 489.04,-152.79 462.21,-199.27 447.69,-225.26"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="444.55,-223.71 442.75,-234.15 450.67,-227.1 444.55,-223.71"/>
+</g>
+<!-- sourcefile~class_connectivity.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge40" class="edge">
+<title>sourcefile~class_connectivity.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#33ff00" stroke-dasharray="5,2" d="M683.4,-411.3C655.13,-421.89 609.39,-436.64 568.18,-439.25"/>
+<path fill="none" stroke="#33ff00" stroke-dasharray="5,2" d="M566.18,-439.25C508.75,-442.89 493.45,-428.65 436.71,-438.25"/>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge43" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M823.47,-371.29C805.32,-376.03 783.92,-381.63 764.79,-386.63"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="763.81,-383.27 755.02,-389.18 765.58,-390.04 763.81,-383.27"/>
+</g>
+<!-- sourcefile~class_cylinder.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node22" class="node">
+<title>sourcefile~class_cylinder.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node22"><a xlink:href=".././sourcefile/class_cylinder.f90.html" xlink:title="class_cylinder.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="759.06,-333.26 664.3,-333.26 664.3,-311.24 759.06,-311.24 759.06,-333.26"/>
+<text text-anchor="middle" x="711.68" y="-319.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cylinder.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_cylinder.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge41" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_cylinder.f90</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M821.02,-349.16C804.21,-344.98 784.9,-340.19 767.28,-335.81"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="767.69,-332.31 757.14,-333.29 766,-339.1 767.69,-332.31"/>
+</g>
+<!-- sourcefile~class_plane.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node23" class="node">
+<title>sourcefile~class_plane.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node23"><a xlink:href=".././sourcefile/class_plane.f90.html" xlink:title="class_plane.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="609.65,-411.26 524.71,-411.26 524.71,-389.24 609.65,-389.24 609.65,-411.26"/>
+<text text-anchor="middle" x="567.18" y="-397.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_plane.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_plane.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge42" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_plane.f90</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M819.85,-362.85C777.02,-365.7 711.4,-371.12 655,-380.25 643.55,-382.1 631.35,-384.59 619.83,-387.18"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="618.87,-383.81 609.91,-389.46 620.44,-390.63 618.87,-383.81"/>
+</g>
+<!-- sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge44" class="edge">
+<title>sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M804.36,-436.32C744.16,-434.92 649.75,-434.08 568.18,-439.25"/>
+</g>
+<!-- sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge45" class="edge">
+<title>sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M821.02,-427.16C804.21,-422.98 784.9,-418.19 767.28,-413.81"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="767.69,-410.31 757.14,-411.29 766,-417.1 767.69,-410.31"/>
+</g>
+<!-- sourcefile~class_cell.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge46" class="edge">
+<title>sourcefile~class_cell.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M399.94,-466.18C386.5,-461.9 370.95,-456.94 356.71,-452.41"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="357.69,-449.05 347.1,-449.35 355.57,-455.72 357.69,-449.05"/>
+</g>
+<!-- sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge47" class="edge">
+<title>sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M434.71,-438.25C412.46,-442.01 387.61,-442.66 366.14,-442.12"/>
+<polygon fill="#3200ff" stroke="#3200ff" points="366.01,-438.61 355.9,-441.77 365.78,-445.61 366.01,-438.61"/>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M557.24,-295.26C528.69,-330.38 441.32,-437.47 436.71,-438.25"/>
+</g>
+<!-- sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge48" class="edge">
+<title>sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#3200ff" stroke-dasharray="5,2" d="M529.42,-273.18C515.07,-268.86 498.45,-263.85 483.28,-259.28"/>
+<polygon fill="#3200ff" stroke="#3200ff" points="484.14,-255.88 473.56,-256.35 482.12,-262.58 484.14,-255.88"/>
+</g>
+<!-- sourcefile~object_interface.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node24" class="node">
+<title>sourcefile~object_interface.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node24"><a xlink:href=".././sourcefile/object_interface.f90.html" xlink:title="object_interface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="618.82,-198.26 515.53,-198.26 515.53,-176.24 618.82,-176.24 618.82,-198.26"/>
+<text text-anchor="middle" x="567.18" y="-184.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">object_interface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~grid_interface.f90&#45;&gt;sourcefile~object_interface.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge49" class="edge">
+<title>sourcefile~grid_interface.f90&#45;&gt;sourcefile~object_interface.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M818.41,-193.71C802.58,-190.66 784.79,-187.76 768.36,-186.25 718.19,-181.65 705.38,-185.96 655,-186.25 646.66,-186.3 637.87,-186.37 629.21,-186.46"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="629.1,-182.96 619.14,-186.57 629.17,-189.96 629.1,-182.96"/>
+</g>
+<!-- sourcefile~units_interface.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node25" class="node">
+<title>sourcefile~units_interface.f90</title>
+<g id="a_sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_node25"><a xlink:href=".././sourcefile/units_interface.f90.html" xlink:title="units_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="762.48,-217.26 660.88,-217.26 660.88,-195.24 762.48,-195.24 762.48,-217.26"/>
+<text text-anchor="middle" x="711.68" y="-203.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">units_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~grid_interface.f90&#45;&gt;sourcefile~units_interface.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge50" class="edge">
+<title>sourcefile~grid_interface.f90&#45;&gt;sourcefile~units_interface.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M818.53,-204.87C804.12,-205.05 788.07,-205.26 772.92,-205.46"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="772.55,-201.97 762.6,-205.6 772.64,-208.97 772.55,-201.97"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge52" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M663.99,-331.32C623.32,-340.33 563.49,-356.28 515.36,-380.25 476.48,-399.61 479.53,-431 436.71,-438.25"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge53" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M681.43,-311.21C672.63,-307.34 663.14,-302.61 655,-297.25 636.87,-285.32 637.51,-275.59 619,-264.25 598.44,-251.65 592.09,-248.37 568.18,-245.25"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge51" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M669.08,-311.16C653.57,-307.02 635.78,-302.28 619.49,-297.93"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="620.15,-294.49 609.59,-295.29 618.35,-301.25 620.15,-294.49"/>
+</g>
+<!-- sourcefile~class_plane.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge54" class="edge">
+<title>sourcefile~class_plane.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M536.05,-411.3C510.11,-420.27 471.47,-432.37 436.71,-438.25"/>
+</g>
+<!-- sourcefile~class_plane.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge55" class="edge">
+<title>sourcefile~class_plane.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M556.87,-389.1C534.94,-362.85 479.84,-296.89 452.55,-264.21"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="455.03,-261.73 445.94,-256.3 449.66,-266.21 455.03,-261.73"/>
+</g>
+<!-- sourcefile~units_interface.f90&#45;&gt;sourcefile~object_interface.f90 -->
+<g id="sourcefile~~class_bc_wall_procedures.f90~~EfferentGraph_edge56" class="edge">
+<title>sourcefile~units_interface.f90&#45;&gt;sourcefile~object_interface.f90</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M660.84,-199.6C650.62,-198.24 639.76,-196.79 629.2,-195.39"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="629.57,-191.9 619.2,-194.05 628.65,-198.84 629.57,-191.9"/>
+</g>
+</g>
+</svg>
+</div><script>var pansourcefileclass_bc_wall_proceduresf90EfferentGraph = svgPanZoom('#sourcefileclass_bc_wall_proceduresf90EfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="31pt"
+ viewBox="0.00 0.00 186.41 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 182.41,-26.5 182.41,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="65.16,-22.26 -0.05,-22.26 -0.05,-0.24 65.16,-0.24 65.16,-22.26"/>
+<text text-anchor="middle" x="32.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="178.26,-22.26 82.84,-22.26 82.84,-0.24 178.26,-0.24 178.26,-22.26"/>
+<text text-anchor="middle" x="130.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+      
+      <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-1">Submodules</a></h3></div>
+  <div id="submods-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/class_bc_wall_procedures.html">class_bc_wall_procedures</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/class_bc_wall_procedures.f90.html#src">class_bc_wall_procedures.f90</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="c">!</span>
+<a name="ln-2"></a><span class="c">!     (c) 2019 Guide Star Engineering, LLC</span>
+<a name="ln-3"></a><span class="c">!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)</span>
+<a name="ln-4"></a><span class="c">!     under contract &quot;Multi-Dimensional Physics Implementation into Fuel Analysis under</span>
+<a name="ln-5"></a><span class="c">!     Steady-state and Transients (FAST)&quot;, contract # NRC-HQ-60-17-C-0007</span>
+<a name="ln-6"></a><span class="c">!</span>
+<a name="ln-7"></a><span class="c">!</span>
+<a name="ln-8"></a><span class="c">!    NEMO - Numerical Engine (for) Multiphysics Operators</span>
+<a name="ln-9"></a><span class="c">! Copyright (c) 2007, Stefano Toninel</span>
+<a name="ln-10"></a><span class="c">!                     Gian Marco Bianchi  University of Bologna</span>
+<a name="ln-11"></a><span class="c">!              David P. Schmidt    University of Massachusetts - Amherst</span>
+<a name="ln-12"></a><span class="c">!              Salvatore Filippone University of Rome Tor Vergata</span>
+<a name="ln-13"></a><span class="c">! All rights reserved.</span>
+<a name="ln-14"></a><span class="c">!</span>
+<a name="ln-15"></a><span class="c">! Redistribution and use in source and binary forms, with or without modification,</span>
+<a name="ln-16"></a><span class="c">! are permitted provided that the following conditions are met:</span>
+<a name="ln-17"></a><span class="c">!</span>
+<a name="ln-18"></a><span class="c">!     1. Redistributions of source code must retain the above copyright notice,</span>
+<a name="ln-19"></a><span class="c">!        this list of conditions and the following disclaimer.</span>
+<a name="ln-20"></a><span class="c">!     2. Redistributions in binary form must reproduce the above copyright notice,</span>
+<a name="ln-21"></a><span class="c">!        this list of conditions and the following disclaimer in the documentation</span>
+<a name="ln-22"></a><span class="c">!        and/or other materials provided with the distribution.</span>
+<a name="ln-23"></a><span class="c">!     3. Neither the name of the NEMO project nor the names of its contributors</span>
+<a name="ln-24"></a><span class="c">!        may be used to endorse or promote products derived from this software</span>
+<a name="ln-25"></a><span class="c">!        without specific prior written permission.</span>
+<a name="ln-26"></a><span class="c">!</span>
+<a name="ln-27"></a><span class="c">! THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND</span>
+<a name="ln-28"></a><span class="c">! ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
+<a name="ln-29"></a><span class="c">! WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<a name="ln-30"></a><span class="c">! DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR</span>
+<a name="ln-31"></a><span class="c">! ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span>
+<a name="ln-32"></a><span class="c">! (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;</span>
+<a name="ln-33"></a><span class="c">! LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON</span>
+<a name="ln-34"></a><span class="c">! ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span>
+<a name="ln-35"></a><span class="c">! (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS</span>
+<a name="ln-36"></a><span class="c">! SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+<a name="ln-37"></a><span class="c">!</span>
+<a name="ln-38"></a><span class="c">!---------------------------------------------------------------------------------</span>
+<a name="ln-39"></a><span class="c">!</span>
+<a name="ln-40"></a><span class="c">! $Id: class_bc_wall.f90 8157 2014-10-09 13:02:44Z sfilippo $</span>
+<a name="ln-41"></a><span class="c">!</span>
+<a name="ln-42"></a><span class="c">! Description:</span>
+<a name="ln-43"></a><span class="c">!    WALL boundary condition class.</span>
+<a name="ln-44"></a><span class="c">!</span>
+<a name="ln-45"></a><span class="k">SUBMODULE</span><span class="p">(</span><span class="n">class_bc_wall</span><span class="p">)</span> <span class="n">class_bc_wall_procedures</span>
+<a name="ln-46"></a>
+<a name="ln-47"></a>    <span class="k">USE </span><span class="n">class_psblas</span>
+<a name="ln-48"></a>    <span class="k">USE </span><span class="n">class_bc_math</span>
+<a name="ln-49"></a>    <span class="k">USE </span><span class="n">class_material</span>
+<a name="ln-50"></a>    <span class="k">USE </span><span class="n">class_vector</span>
+<a name="ln-51"></a>    <span class="k">USE </span><span class="n">class_face</span>
+<a name="ln-52"></a>
+<a name="ln-53"></a>    <span class="k">IMPLICIT NONE</span>
+<a name="ln-54"></a>
+<a name="ln-55"></a><span class="k">CONTAINS</span>
+<a name="ln-56"></a>
+<a name="ln-57"></a>    <span class="c">! REMARK: the implementation of run-time polymorphism requires</span>
+<a name="ln-58"></a>    <span class="c">! specific BC object as POINTERS!</span>
+<a name="ln-59"></a>
+<a name="ln-60"></a>    <span class="k">MODULE PROCEDURE </span><span class="n">nemo_bc_wall_sizeof</span>
+<a name="ln-61"></a>        <span class="k">USE </span><span class="n">psb_base_mod</span>
+<a name="ln-62"></a>
+<a name="ln-63"></a>        <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">nemo_int_long_</span><span class="p">)</span>   <span class="kd">::</span> <span class="n">val</span>
+<a name="ln-64"></a>
+<a name="ln-65"></a>        <span class="n">val</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">nemo_sizeof_int</span>
+<a name="ln-66"></a>        <span class="n">val</span> <span class="o">=</span> <span class="n">val</span> <span class="o">+</span> <span class="n">bc</span><span class="p">%</span><span class="n">temp</span><span class="p">%</span><span class="n">nemo_sizeof</span><span class="p">()</span> <span class="o">+</span> <span class="nb">SUM</span><span class="p">(</span><span class="n">bc</span><span class="p">%</span><span class="n">vel</span><span class="p">%</span><span class="n">nemo_sizeof</span><span class="p">())</span>
+<a name="ln-67"></a>        <span class="n">nemo_bc_wall_sizeof</span> <span class="o">=</span> <span class="n">val</span>
+<a name="ln-68"></a>
+<a name="ln-69"></a>    <span class="k">END PROCEDURE </span><span class="n">nemo_bc_wall_sizeof</span>
+<a name="ln-70"></a>
+<a name="ln-71"></a>    <span class="c">! ----- Constructor -----</span>
+<a name="ln-72"></a>
+<a name="ln-73"></a>    <span class="k">MODULE PROCEDURE </span><span class="n">create_bc_wall</span>
+<a name="ln-74"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-75"></a>        <span class="c">!</span>
+<a name="ln-76"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">info</span>
+<a name="ln-77"></a>
+<a name="ln-78"></a>        <span class="c">! Alloc bc_wall target on every process</span>
+<a name="ln-79"></a>
+<a name="ln-80"></a>        <span class="k">IF</span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">bc</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-81"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-82"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-83"></a>        <span class="k">ELSE</span>
+<a name="ln-84"></a><span class="k">            ALLOCATE</span><span class="p">(</span><span class="n">bc</span><span class="p">,</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-85"></a>            <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-86"></a><span class="k">                WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
+<a name="ln-87"></a>                <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-88"></a>            <span class="k">END IF</span>
+<a name="ln-89"></a><span class="k">        END IF</span>
+<a name="ln-90"></a>
+<a name="ln-91"></a>        <span class="c">! Allocates and sets BC class members, according to the parameters</span>
+<a name="ln-92"></a>        <span class="c">! get from the input file.</span>
+<a name="ln-93"></a>        <span class="k">CALL </span><span class="n">rd_inp_bc_wall</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span><span class="n">sec</span><span class="p">,</span><span class="n">nbf</span><span class="p">,</span><span class="n">bc</span><span class="p">%</span><span class="n">id</span><span class="p">,</span><span class="n">bc</span><span class="p">%</span><span class="n">temp</span><span class="p">,</span><span class="n">bc</span><span class="p">%</span><span class="n">conc</span><span class="p">,</span><span class="n">bc</span><span class="p">%</span><span class="n">vel</span><span class="p">,</span><span class="n">bc</span><span class="p">%</span><span class="n">stress</span><span class="p">)</span>
+<a name="ln-94"></a>
+<a name="ln-95"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Illegal call to CREATE_BC_WALL: pointer already associated&#39;</span><span class="p">)</span>
+<a name="ln-96"></a><span class="mi">200</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory allocation failure in CREATE_BC_WALL&#39;</span><span class="p">)</span>
+<a name="ln-97"></a>
+<a name="ln-98"></a>    <span class="k">END PROCEDURE </span><span class="n">create_bc_wall</span>
+<a name="ln-99"></a>
+<a name="ln-100"></a>
+<a name="ln-101"></a>    <span class="c">! ----- Destructor -----</span>
+<a name="ln-102"></a>
+<a name="ln-103"></a>    <span class="k">MODULE PROCEDURE </span><span class="n">free_bc_wall</span>
+<a name="ln-104"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-105"></a>        <span class="c">!</span>
+<a name="ln-106"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">info</span>
+<a name="ln-107"></a>
+<a name="ln-108"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">bc</span><span class="p">%</span><span class="n">temp</span><span class="p">%</span><span class="n">is_allocated</span><span class="p">())</span> <span class="k">CALL </span><span class="n">bc</span><span class="p">%</span><span class="n">temp</span><span class="p">%</span><span class="n">dealloc_bc_math</span><span class="p">()</span>
+<a name="ln-109"></a>        <span class="k">IF</span><span class="p">(</span><span class="nb">ANY</span><span class="p">(</span><span class="n">bc</span><span class="p">%</span><span class="n">vel</span><span class="p">%</span><span class="n">is_allocated</span><span class="p">()))</span>  <span class="k">THEN</span>
+<a name="ln-110"></a><span class="k">            CALL </span><span class="n">bc</span><span class="p">%</span><span class="n">vel</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">dealloc_bc_math</span><span class="p">()</span>
+<a name="ln-111"></a>            <span class="k">CALL </span><span class="n">bc</span><span class="p">%</span><span class="n">vel</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">dealloc_bc_math</span><span class="p">()</span>
+<a name="ln-112"></a>            <span class="k">CALL </span><span class="n">bc</span><span class="p">%</span><span class="n">vel</span><span class="p">(</span><span class="mi">3</span><span class="p">)%</span><span class="n">dealloc_bc_math</span><span class="p">()</span>
+<a name="ln-113"></a>        <span class="k">END IF</span>
+<a name="ln-114"></a>
+<a name="ln-115"></a><span class="k">        DEALLOCATE</span><span class="p">(</span><span class="n">bc</span><span class="p">,</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-116"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-117"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-118"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-119"></a>        <span class="k">END IF</span>
+<a name="ln-120"></a>
+<a name="ln-121"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory allocation failure in FREE_BC_WALL&#39;</span><span class="p">)</span>
+<a name="ln-122"></a>
+<a name="ln-123"></a>    <span class="k">END PROCEDURE </span><span class="n">free_bc_wall</span>
+<a name="ln-124"></a>
+<a name="ln-125"></a>
+<a name="ln-126"></a>    <span class="c">! ----- Getter -----</span>
+<a name="ln-127"></a>
+<a name="ln-128"></a>    <span class="k">MODULE PROCEDURE </span><span class="n">get_abc_wall_s</span>
+<a name="ln-129"></a>        <span class="k">USE </span><span class="n">class_dimensions</span>
+<a name="ln-130"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-131"></a>
+<a name="ln-132"></a><span class="k">        IF</span><span class="p">(</span><span class="nb">dim</span> <span class="o">==</span> <span class="n">temperature_</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-133"></a><span class="k">            CALL </span><span class="n">get_abc_math</span><span class="p">(</span><span class="n">bc</span><span class="p">%</span><span class="n">temp</span><span class="p">,</span><span class="n">id</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+<a name="ln-134"></a>        <span class="n">ELSEIF</span><span class="p">(</span><span class="nb">dim</span> <span class="o">==</span> <span class="n">density_</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-135"></a><span class="k">            CALL </span><span class="n">get_abc_math</span><span class="p">(</span><span class="n">bc</span><span class="p">%</span><span class="n">temp</span><span class="p">,</span><span class="n">id</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+<a name="ln-136"></a>        <span class="k">ELSE</span>
+<a name="ln-137"></a>
+<a name="ln-138"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-139"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-140"></a>        <span class="k">END IF</span>
+<a name="ln-141"></a>
+<a name="ln-142"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Unsupported field dimensions in GET_ABC_WALL_S&#39;</span><span class="p">)</span>
+<a name="ln-143"></a>
+<a name="ln-144"></a>    <span class="k">END PROCEDURE </span><span class="n">get_abc_wall_s</span>
+<a name="ln-145"></a>
+<a name="ln-146"></a>
+<a name="ln-147"></a>    <span class="k">MODULE PROCEDURE </span><span class="n">get_abc_wall_v</span>
+<a name="ln-148"></a>        <span class="k">USE </span><span class="n">class_dimensions</span>
+<a name="ln-149"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-150"></a>
+<a name="ln-151"></a><span class="k">        IF</span><span class="p">(</span><span class="nb">dim</span> <span class="o">==</span> <span class="n">velocity_</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-152"></a><span class="k">            CALL </span><span class="n">get_abc_math</span><span class="p">(</span><span class="n">bc</span><span class="p">%</span><span class="n">vel</span><span class="p">,</span><span class="n">id</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+<a name="ln-153"></a>        <span class="k">ELSE IF</span><span class="p">(</span><span class="nb">dim</span> <span class="o">==</span> <span class="n">length_</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-154"></a><span class="k">            CALL </span><span class="n">get_abc_math</span><span class="p">(</span><span class="n">bc</span><span class="p">%</span><span class="n">vel</span><span class="p">,</span><span class="n">id</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+<a name="ln-155"></a>        <span class="k">ELSE IF</span><span class="p">(</span><span class="nb">dim</span> <span class="o">==</span> <span class="n">pressure_</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-156"></a><span class="k">            CALL </span><span class="n">get_abc_math</span><span class="p">(</span><span class="n">bc</span><span class="p">%</span><span class="n">stress</span><span class="p">,</span><span class="n">id</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+<a name="ln-157"></a>        <span class="k">ELSE</span>
+<a name="ln-158"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-159"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-160"></a>        <span class="k">END IF</span>
+<a name="ln-161"></a>
+<a name="ln-162"></a>        <span class="c">! REMARK: BC(:) elements are supposed to differ only in &quot;C&quot; term</span>
+<a name="ln-163"></a>
+<a name="ln-164"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Unsupported field dimensions in GET_ABC_WALL_V&#39;</span><span class="p">)</span>
+<a name="ln-165"></a>
+<a name="ln-166"></a>    <span class="k">END PROCEDURE </span><span class="n">get_abc_wall_v</span>
+<a name="ln-167"></a>
+<a name="ln-168"></a>    <span class="c">! ----- Setter -----</span>
+<a name="ln-169"></a>
+<a name="ln-170"></a>    <span class="k">MODULE PROCEDURE </span><span class="n">set_bc_wall_map_s</span>
+<a name="ln-171"></a>        <span class="k">USE </span><span class="n">tools_bc</span>
+<a name="ln-172"></a>        <span class="k">USE </span><span class="n">class_bc_math</span>
+<a name="ln-173"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-174"></a>
+<a name="ln-175"></a><span class="k">        SELECT CASE</span><span class="p">(</span><span class="n">bc</span><span class="p">%</span><span class="n">id</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<a name="ln-176"></a>        <span class="k">CASE</span><span class="p">(</span><span class="n">bc_temp_convection_map_</span><span class="p">)</span>
+<a name="ln-177"></a>            <span class="k">CALL </span><span class="n">bc</span><span class="p">%</span><span class="n">temp</span><span class="p">%</span><span class="n">set_bc_math_map</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+<a name="ln-178"></a>        <span class="k">CASE </span><span class="n">DEFAULT</span>
+<a name="ln-179"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-180"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-181"></a>        <span class="k">END SELECT</span>
+<a name="ln-182"></a>
+<a name="ln-183"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Unsupported BC type in SET_BC_WALL_MAP&#39;</span><span class="p">)</span>
+<a name="ln-184"></a>
+<a name="ln-185"></a>    <span class="k">END PROCEDURE </span><span class="n">set_bc_wall_map_s</span>
+<a name="ln-186"></a>
+<a name="ln-187"></a>
+<a name="ln-188"></a>    <span class="k">MODULE PROCEDURE </span><span class="n">set_bc_wall_map_v</span>
+<a name="ln-189"></a>        <span class="k">USE </span><span class="n">tools_bc</span>
+<a name="ln-190"></a>        <span class="k">USE </span><span class="n">class_bc_math</span>
+<a name="ln-191"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-192"></a>
+<a name="ln-193"></a><span class="k">        SELECT CASE</span><span class="p">(</span><span class="n">bc</span><span class="p">%</span><span class="n">id</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<a name="ln-194"></a>        <span class="k">CASE</span><span class="p">(</span><span class="n">bc_vel_free_sliding_</span><span class="p">)</span>
+<a name="ln-195"></a>            <span class="k">CALL </span><span class="n">bc</span><span class="p">%</span><span class="n">vel</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">set_bc_math_map</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">%</span><span class="n">x_</span><span class="p">())</span>
+<a name="ln-196"></a>            <span class="k">CALL </span><span class="n">bc</span><span class="p">%</span><span class="n">vel</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">set_bc_math_map</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">%</span><span class="n">y_</span><span class="p">())</span>
+<a name="ln-197"></a>            <span class="k">CALL </span><span class="n">bc</span><span class="p">%</span><span class="n">vel</span><span class="p">(</span><span class="mi">3</span><span class="p">)%</span><span class="n">set_bc_math_map</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">%</span><span class="n">x_</span><span class="p">())</span>
+<a name="ln-198"></a>        <span class="k">CASE </span><span class="n">DEFAULT</span>
+<a name="ln-199"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-200"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-201"></a>        <span class="k">END SELECT</span>
+<a name="ln-202"></a>
+<a name="ln-203"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Unsupported BC type in SET_BC_WALL_MAP&#39;</span><span class="p">)</span>
+<a name="ln-204"></a>
+<a name="ln-205"></a>    <span class="k">END PROCEDURE </span><span class="n">set_bc_wall_map_v</span>
+<a name="ln-206"></a>
+<a name="ln-207"></a>    <span class="c">! ----- Boundary Values Updater -----</span>
+<a name="ln-208"></a>
+<a name="ln-209"></a>    <span class="k">MODULE PROCEDURE </span><span class="n">update_boundary_wall_s</span>
+<a name="ln-210"></a>        <span class="k">USE </span><span class="n">class_dimensions</span>
+<a name="ln-211"></a>        <span class="k">USE </span><span class="n">class_material</span>
+<a name="ln-212"></a>        <span class="k">USE </span><span class="n">class_mesh</span>
+<a name="ln-213"></a>        <span class="k">USE </span><span class="n">tools_bc</span>
+<a name="ln-214"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-215"></a>        <span class="c">!</span>
+<a name="ln-216"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">id</span><span class="p">,</span> <span class="k">IF</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">ib_offset</span><span class="p">,</span> <span class="n">n</span>
+<a name="ln-217"></a>        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">a</span><span class="p">(:),</span> <span class="n">b</span><span class="p">(:),</span> <span class="n">c</span><span class="p">(:)</span>
+<a name="ln-218"></a>
+<a name="ln-219"></a>        <span class="c">! WARNING!</span>
+<a name="ln-220"></a>        <span class="c">! - Use intent(inout) for BX(:).</span>
+<a name="ln-221"></a>
+<a name="ln-222"></a>        <span class="c">! Number of boundary faces with flag &lt; IB</span>
+<a name="ln-223"></a>        <span class="n">ib_offset</span> <span class="o">=</span> <span class="nb">COUNT</span><span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">faces</span><span class="p">%</span><span class="n">flag_</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">msh</span><span class="p">%</span><span class="n">faces</span><span class="p">%</span><span class="n">flag_</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">ib</span><span class="p">)</span>
+<a name="ln-224"></a>
+<a name="ln-225"></a>        <span class="n">n</span> <span class="o">=</span> <span class="nb">COUNT</span><span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">faces</span><span class="p">%</span><span class="n">flag_</span><span class="p">()</span> <span class="o">==</span> <span class="n">ib</span><span class="p">)</span>
+<a name="ln-226"></a>
+<a name="ln-227"></a>        <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="n">b</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="n">c</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-228"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-229"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-230"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-231"></a>        <span class="k">END IF</span>
+<a name="ln-232"></a>
+<a name="ln-233"></a><span class="k">        IF</span><span class="p">(</span><span class="nb">dim</span> <span class="o">==</span> <span class="n">temperature_</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-234"></a><span class="k">            CALL </span><span class="n">get_abc_math</span><span class="p">(</span><span class="n">bc</span><span class="p">%</span><span class="n">temp</span><span class="p">,</span><span class="n">id</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+<a name="ln-235"></a>            <span class="k">IF</span><span class="p">(</span>  <span class="n">id</span> <span class="o">==</span> <span class="n">bc_neumann_flux_</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">&amp;</span>
+<a name="ln-236"></a>                <span class="n">id</span> <span class="o">==</span> <span class="n">bc_robin_convection_</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-237"></a><span class="k">                DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+<a name="ln-238"></a>                    <span class="k">IF</span> <span class="o">=</span> <span class="n">ib_offset</span> <span class="o">+</span> <span class="n">i</span>
+<a name="ln-239"></a>                    <span class="k">CALL </span><span class="n">matlaw</span><span class="p">(</span><span class="n">mats</span><span class="p">,</span><span class="n">im</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">bx</span><span class="p">(</span><span class="k">IF</span><span class="p">),</span><span class="n">conductivity_</span><span class="p">,</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<a name="ln-240"></a>                <span class="k">END DO</span>
+<a name="ln-241"></a><span class="k">            END IF</span>
+<a name="ln-242"></a><span class="k">        </span><span class="n">ELSEIF</span><span class="p">(</span><span class="nb">dim</span> <span class="o">==</span> <span class="n">density_</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-243"></a><span class="k">            CALL </span><span class="n">get_abc_math</span><span class="p">(</span><span class="n">bc</span><span class="p">%</span><span class="n">temp</span><span class="p">,</span><span class="n">id</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+<a name="ln-244"></a>            <span class="k">IF</span><span class="p">(</span>  <span class="n">id</span> <span class="o">==</span> <span class="n">bc_neumann_flux_</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">&amp;</span>
+<a name="ln-245"></a>                <span class="n">id</span> <span class="o">==</span> <span class="n">bc_robin_convection_</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-246"></a><span class="k">                DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+<a name="ln-247"></a>                    <span class="k">IF</span> <span class="o">=</span> <span class="n">ib_offset</span> <span class="o">+</span> <span class="n">i</span>
+<a name="ln-248"></a>                    <span class="k">CALL </span><span class="n">matlaw</span><span class="p">(</span><span class="n">mats</span><span class="p">,</span><span class="n">im</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">bx</span><span class="p">(</span><span class="k">IF</span><span class="p">),</span><span class="n">conductivity_</span><span class="p">,</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<a name="ln-249"></a>                <span class="k">END DO</span>
+<a name="ln-250"></a><span class="k">            END IF</span>
+<a name="ln-251"></a><span class="k">        ELSE</span>
+<a name="ln-252"></a>
+<a name="ln-253"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
+<a name="ln-254"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-255"></a>        <span class="k">END IF</span>
+<a name="ln-256"></a>
+<a name="ln-257"></a><span class="k">        CALL </span><span class="n">apply_abc_to_boundary</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">ib</span><span class="p">,</span><span class="n">msh</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">bx</span><span class="p">)</span>
+<a name="ln-258"></a>
+<a name="ln-259"></a>        <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-260"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-261"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">300</span><span class="p">)</span>
+<a name="ln-262"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-263"></a>        <span class="k">END IF</span>
+<a name="ln-264"></a>
+<a name="ln-265"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory allocation failure in UPDATE_BOUNDARY_WALL_S&#39;</span><span class="p">)</span>
+<a name="ln-266"></a><span class="mi">200</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Unsupported field dimensions in UPDATE_BOUNDARY_WALL_S&#39;</span><span class="p">)</span>
+<a name="ln-267"></a><span class="mi">300</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory deallocation failure in UPDATE_BOUNDARY_WALL_S&#39;</span><span class="p">)</span>
+<a name="ln-268"></a>
+<a name="ln-269"></a>    <span class="k">END PROCEDURE </span><span class="n">update_boundary_wall_s</span>
+<a name="ln-270"></a>
+<a name="ln-271"></a>
+<a name="ln-272"></a>    <span class="k">MODULE PROCEDURE </span><span class="n">update_boundary_wall_v</span>
+<a name="ln-273"></a>        <span class="k">USE </span><span class="n">class_dimensions</span>
+<a name="ln-274"></a>        <span class="k">USE </span><span class="n">class_mesh</span>
+<a name="ln-275"></a>        <span class="k">USE </span><span class="n">tools_bc</span>
+<a name="ln-276"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-277"></a>        <span class="c">!</span>
+<a name="ln-278"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">id</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">ib_offset</span><span class="p">,</span> <span class="n">n</span>
+<a name="ln-279"></a>        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">a</span><span class="p">(:),</span> <span class="n">b</span><span class="p">(:)</span>
+<a name="ln-280"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">vector</span><span class="p">),</span>     <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">c</span><span class="p">(:)</span>
+<a name="ln-281"></a>
+<a name="ln-282"></a>        <span class="c">! WARNING!</span>
+<a name="ln-283"></a>        <span class="c">! - Use intent(inout) for BX(:).</span>
+<a name="ln-284"></a>
+<a name="ln-285"></a>        <span class="c">! Number of boundary faces with flag &lt; IB</span>
+<a name="ln-286"></a>        <span class="n">ib_offset</span> <span class="o">=</span> <span class="nb">COUNT</span><span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">faces</span><span class="p">%</span><span class="n">flag_</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">msh</span><span class="p">%</span><span class="n">faces</span><span class="p">%</span><span class="n">flag_</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">ib</span><span class="p">)</span>
+<a name="ln-287"></a>
+<a name="ln-288"></a>        <span class="n">n</span> <span class="o">=</span> <span class="nb">COUNT</span><span class="p">(</span><span class="n">msh</span><span class="p">%</span><span class="n">faces</span><span class="p">%</span><span class="n">flag_</span><span class="p">()</span> <span class="o">==</span> <span class="n">ib</span><span class="p">)</span>
+<a name="ln-289"></a>
+<a name="ln-290"></a>        <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="n">b</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="n">c</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-291"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-292"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-293"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-294"></a>        <span class="k">END IF</span>
+<a name="ln-295"></a>
+<a name="ln-296"></a><span class="k">        IF</span><span class="p">(</span><span class="nb">dim</span> <span class="o">==</span> <span class="n">velocity_</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="nb">dim</span> <span class="o">==</span> <span class="n">length_</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-297"></a><span class="k">            CALL </span><span class="n">get_abc_math</span><span class="p">(</span><span class="n">bc</span><span class="p">%</span><span class="n">vel</span><span class="p">,</span><span class="n">id</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+<a name="ln-298"></a>            <span class="k">CALL </span><span class="n">apply_abc_to_boundary</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">ib</span><span class="p">,</span><span class="n">msh</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">bx</span><span class="p">)</span>
+<a name="ln-299"></a>        <span class="k">ELSE IF</span><span class="p">(</span><span class="nb">dim</span> <span class="o">==</span> <span class="n">pressure_</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-300"></a><span class="k">            CALL </span><span class="n">get_abc_math</span><span class="p">(</span><span class="n">bc</span><span class="p">%</span><span class="n">stress</span><span class="p">,</span><span class="n">id</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+<a name="ln-301"></a>            <span class="k">CALL </span><span class="n">apply_abc_to_boundary</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">ib</span><span class="p">,</span><span class="n">msh</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">bx</span><span class="p">)</span>
+<a name="ln-302"></a>        <span class="k">ELSE</span>
+<a name="ln-303"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
+<a name="ln-304"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-305"></a>        <span class="k">END IF</span>
+<a name="ln-306"></a>
+<a name="ln-307"></a><span class="k">        DEALLOCATE</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-308"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-309"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">300</span><span class="p">)</span>
+<a name="ln-310"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-311"></a>        <span class="k">END IF</span>
+<a name="ln-312"></a>
+<a name="ln-313"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory allocation failure in UPDATE_BOUNDARY_WALL_V&#39;</span><span class="p">)</span>
+<a name="ln-314"></a><span class="mi">200</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Unsupported field dimensions in UPDATE_BOUNDARY_WALL_V&#39;</span><span class="p">)</span>
+<a name="ln-315"></a><span class="mi">300</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory deallocation failure in UPDATE_BOUNDARY_WALL_V&#39;</span><span class="p">)</span>
+<a name="ln-316"></a>
+<a name="ln-317"></a>    <span class="k">END PROCEDURE </span><span class="n">update_boundary_wall_v</span>
+<a name="ln-318"></a>
+<a name="ln-319"></a><span class="k">SUBROUTINE </span><span class="n">rd_inp_bc_wall</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span><span class="n">sec</span><span class="p">,</span><span class="n">nbf</span><span class="p">,</span><span class="n">id</span><span class="p">,</span><span class="n">bc_temp</span><span class="p">,</span><span class="n">bc_conc</span><span class="p">,</span><span class="n">bc_vel</span><span class="p">,</span><span class="n">bc_stress</span><span class="p">)</span>
+<a name="ln-320"></a>    <span class="k">USE </span><span class="n">class_psblas</span>
+<a name="ln-321"></a>    <span class="k">USE </span><span class="n">json_module</span><span class="p">,</span> <span class="n">ONLY</span> <span class="p">:</span> <span class="n">json_file</span>
+<a name="ln-322"></a>    <span class="k">USE </span><span class="n">class_bc_math</span>
+<a name="ln-323"></a>    <span class="k">USE </span><span class="n">tools_bc</span>
+<a name="ln-324"></a>    <span class="k">USE </span><span class="n">tools_input</span>
+<a name="ln-325"></a>
+<a name="ln-326"></a>    <span class="k">IMPLICIT NONE</span>
+<a name="ln-327"></a>    <span class="c">!</span>
+<a name="ln-328"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span> <span class="kd">::</span> <span class="n">nemo_json</span>
+<a name="ln-329"></a>    <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">input_file</span>
+<a name="ln-330"></a>    <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">sec</span>
+<a name="ln-331"></a>    <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">nbf</span>
+<a name="ln-332"></a>    <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">id</span><span class="p">(:)</span>
+<a name="ln-333"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">bc_math</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">bc_temp</span>
+<a name="ln-334"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">bc_math</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">bc_conc</span>
+<a name="ln-335"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">bc_math</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">bc_vel</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<a name="ln-336"></a>    <span class="k">TYPE</span><span class="p">(</span><span class="n">bc_math</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">bc_stress</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<a name="ln-337"></a>    <span class="c">!</span>
+<a name="ln-338"></a>    <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">debug</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-339"></a>    <span class="kt">LOGICAL</span> <span class="kd">::</span> <span class="n">found</span>
+<a name="ln-340"></a>    <span class="c">!</span>
+<a name="ln-341"></a>    <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">mypnum</span><span class="p">,</span> <span class="n">icontxt</span>
+<a name="ln-342"></a>    <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">id_sec</span><span class="p">,</span> <span class="n">inp</span>
+<a name="ln-343"></a>    <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">)</span> <span class="kd">::</span> <span class="n">work</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">wtemp</span>
+<a name="ln-344"></a>    <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span> <span class="kd">::</span> <span class="n">par</span>
+<a name="ln-345"></a>
+<a name="ln-346"></a>    <span class="n">icontxt</span> <span class="o">=</span> <span class="n">icontxt_</span><span class="p">()</span>
+<a name="ln-347"></a>    <span class="n">mypnum</span>  <span class="o">=</span> <span class="n">mypnum_</span><span class="p">()</span>
+<a name="ln-348"></a>
+<a name="ln-349"></a>    <span class="n">id</span>   <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="c">! DEFAULT value</span>
+<a name="ln-350"></a>    <span class="n">work</span> <span class="o">=</span> <span class="mf">0.d0</span>
+<a name="ln-351"></a>
+<a name="ln-352"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">mypnum</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-353"></a>
+<a name="ln-354"></a><span class="k">        CALL </span><span class="n">open_file</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span><span class="n">nemo_json</span><span class="p">)</span>
+<a name="ln-355"></a>        <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;- Reading &#39;</span><span class="p">,</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">sec</span><span class="p">),</span> <span class="s1">&#39; section: type WALL&#39;</span>
+<a name="ln-356"></a>
+<a name="ln-357"></a>        <span class="k">CALL </span><span class="n">nemo_json</span><span class="p">%</span><span class="n">get</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">sec</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;.temperature.id&#39;</span><span class="p">,</span> <span class="n">id_sec</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-358"></a>
+<a name="ln-359"></a>        <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="n">found</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-360"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Temperature BC not found in RD_INP_BC_WALL&#39;</span>
+<a name="ln-361"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-362"></a>        <span class="k">ELSE</span>
+<a name="ln-363"></a><span class="k">            </span><span class="n">id</span><span class="p">(</span><span class="n">bc_temp_</span><span class="p">)</span> <span class="o">=</span> <span class="n">id_sec</span>
+<a name="ln-364"></a>            <span class="k">SELECT CASE</span><span class="p">(</span><span class="n">id_sec</span><span class="p">)</span>
+<a name="ln-365"></a>            <span class="k">CASE</span><span class="p">(</span><span class="n">bc_temp_fixed_</span><span class="p">)</span>      <span class="c">! Fixed temperature</span>
+<a name="ln-366"></a>                <span class="k">CALL </span><span class="n">nemo_json</span><span class="p">%</span><span class="n">get</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">sec</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;.temperature.value&#39;</span><span class="p">,</span> <span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">bc_temp_</span><span class="p">),</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-367"></a>            <span class="k">CASE</span><span class="p">(</span><span class="n">bc_temp_adiabatic_</span><span class="p">)</span>  <span class="c">! Adiabatic wall</span>
+<a name="ln-368"></a>                <span class="c">!READ(inp,&#39;()&#39;)</span>
+<a name="ln-369"></a>
+<a name="ln-370"></a>            <span class="k">CASE</span><span class="p">(</span><span class="n">bc_temp_flux_</span><span class="p">)</span>       <span class="c">! Fixed heat flux</span>
+<a name="ln-371"></a>                <span class="k">CALL </span><span class="n">nemo_json</span><span class="p">%</span><span class="n">get</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">sec</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;.temperature.value&#39;</span><span class="p">,</span> <span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">bc_temp_</span><span class="p">),</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-372"></a>
+<a name="ln-373"></a>            <span class="k">CASE</span><span class="p">(</span><span class="n">bc_temp_convection_</span><span class="p">)</span> <span class="c">! Convection</span>
+<a name="ln-374"></a>                <span class="k">CALL </span><span class="n">nemo_json</span><span class="p">%</span><span class="n">get</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">sec</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;.temperature.value&#39;</span><span class="p">,</span> <span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">bc_temp_</span><span class="p">),</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-375"></a>                <span class="k">CALL </span><span class="n">nemo_json</span><span class="p">%</span><span class="n">get</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">sec</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;.temperature.value2&#39;</span><span class="p">,</span> <span class="n">work</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">bc_temp_</span><span class="p">),</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-376"></a>
+<a name="ln-377"></a>            <span class="k">CASE</span><span class="p">(</span><span class="n">bc_temp_convection_map_</span><span class="p">)</span> <span class="c">! Convection map</span>
+<a name="ln-378"></a>                <span class="c">!READ(inp,&#39;()&#39;)         ! To be actually set at the first mapping</span>
+<a name="ln-379"></a>
+<a name="ln-380"></a>            <span class="k">CASE </span><span class="n">DEFAULT</span>
+<a name="ln-381"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">210</span><span class="p">)</span>
+<a name="ln-382"></a>                <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-383"></a>            <span class="k">END SELECT</span>
+<a name="ln-384"></a><span class="k">        END IF</span>
+<a name="ln-385"></a>
+<a name="ln-386"></a><span class="k">        CALL </span><span class="n">nemo_json</span><span class="p">%</span><span class="n">get</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">sec</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;.concentration.id&#39;</span><span class="p">,</span> <span class="n">id_sec</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-387"></a>
+<a name="ln-388"></a>        <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="n">found</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-389"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Concentration BC not found in RD_INP_BC_WALL&#39;</span>
+<a name="ln-390"></a>            <span class="c">! CALL abort_psblas</span>
+<a name="ln-391"></a>        <span class="k">ELSE</span>
+<a name="ln-392"></a><span class="k">            </span><span class="n">id</span><span class="p">(</span><span class="n">bc_conc_</span><span class="p">)</span> <span class="o">=</span> <span class="n">id_sec</span>
+<a name="ln-393"></a>            <span class="k">SELECT CASE</span><span class="p">(</span><span class="n">id_sec</span><span class="p">)</span>
+<a name="ln-394"></a>            <span class="k">CASE</span><span class="p">(</span><span class="n">bc_conc_fixed_</span><span class="p">)</span>      <span class="c">! Fixed temperature</span>
+<a name="ln-395"></a>                <span class="k">CALL </span><span class="n">nemo_json</span><span class="p">%</span><span class="n">get</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">sec</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;.concetration.value&#39;</span><span class="p">,</span> <span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">bc_conc_</span><span class="p">),</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-396"></a>
+<a name="ln-397"></a>            <span class="k">CASE</span><span class="p">(</span><span class="n">bc_conc_adiabatic_</span><span class="p">)</span>  <span class="c">! Adiabatic wall</span>
+<a name="ln-398"></a>                <span class="c">!READ(inp,&#39;()&#39;)</span>
+<a name="ln-399"></a>
+<a name="ln-400"></a>            <span class="k">CASE </span><span class="n">DEFAULT</span>
+<a name="ln-401"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">210</span><span class="p">)</span>
+<a name="ln-402"></a>                <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-403"></a>            <span class="k">END SELECT</span>
+<a name="ln-404"></a><span class="k">        END IF</span>
+<a name="ln-405"></a>
+<a name="ln-406"></a><span class="k">        CALL </span><span class="n">nemo_json</span><span class="p">%</span><span class="n">get</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">sec</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;.velocity.id&#39;</span><span class="p">,</span> <span class="n">id_sec</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-407"></a>
+<a name="ln-408"></a>        <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="n">found</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-409"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Velocity BC not found in RD_INP_BC_WALL&#39;</span>
+<a name="ln-410"></a>        <span class="k">ELSE</span>
+<a name="ln-411"></a><span class="k">            </span><span class="n">id</span><span class="p">(</span><span class="n">bc_vel_</span><span class="p">)</span> <span class="o">=</span> <span class="n">id_sec</span>
+<a name="ln-412"></a>
+<a name="ln-413"></a>            <span class="k">SELECT CASE</span><span class="p">(</span><span class="n">id_sec</span><span class="p">)</span>
+<a name="ln-414"></a>            <span class="k">CASE</span><span class="p">(</span><span class="n">bc_vel_no_slip_</span><span class="p">,</span> <span class="n">bc_vel_free_slip_</span><span class="p">,</span> <span class="n">bc_vel_free_sliding_</span><span class="p">)</span>
+<a name="ln-415"></a>                <span class="c">!READ(inp,&#39;()&#39;)</span>
+<a name="ln-416"></a>            <span class="k">CASE</span><span class="p">(</span><span class="n">bc_vel_sliding_</span><span class="p">)</span>
+<a name="ln-417"></a>                <span class="k">CALL </span><span class="n">nemo_json</span><span class="p">%</span><span class="n">get</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">sec</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;.velocity.v1&#39;</span><span class="p">,</span> <span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">bc_vel_</span><span class="p">),</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-418"></a>                <span class="k">CALL </span><span class="n">nemo_json</span><span class="p">%</span><span class="n">get</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">sec</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;.velocity.v2&#39;</span><span class="p">,</span> <span class="n">work</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">bc_vel_</span><span class="p">),</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-419"></a>                <span class="k">CALL </span><span class="n">nemo_json</span><span class="p">%</span><span class="n">get</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">sec</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;.velocity.v3&#39;</span><span class="p">,</span> <span class="n">work</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">bc_vel_</span><span class="p">),</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-420"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;rd_inp_bc_wall: Debug: work&#39;</span><span class="p">,</span> <span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="n">bc_vel_</span><span class="p">)</span>
+<a name="ln-421"></a>            <span class="k">CASE</span><span class="p">(</span><span class="n">bc_vel_moving_</span><span class="p">)</span>
+<a name="ln-422"></a>                <span class="c">!READ(inp,&#39;()&#39;)</span>
+<a name="ln-423"></a>            <span class="k">CASE </span><span class="n">DEFAULT</span>
+<a name="ln-424"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">220</span><span class="p">)</span>
+<a name="ln-425"></a>                <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-426"></a>            <span class="k">END SELECT</span>
+<a name="ln-427"></a><span class="k">        END IF</span>
+<a name="ln-428"></a>
+<a name="ln-429"></a>
+<a name="ln-430"></a><span class="k">        CALL </span><span class="n">nemo_json</span><span class="p">%</span><span class="n">get</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">sec</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;.stress.id&#39;</span><span class="p">,</span> <span class="n">id_sec</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-431"></a>
+<a name="ln-432"></a>        <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="n">found</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-433"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Stress BC not found in RD_INP_BC_WALL&#39;</span>
+<a name="ln-434"></a>        <span class="k">ELSE</span>
+<a name="ln-435"></a><span class="k">            </span><span class="n">id</span><span class="p">(</span><span class="n">bc_stress_</span><span class="p">)</span> <span class="o">=</span> <span class="n">id_sec</span>
+<a name="ln-436"></a>
+<a name="ln-437"></a>            <span class="k">SELECT CASE</span><span class="p">(</span><span class="n">id_sec</span><span class="p">)</span>
+<a name="ln-438"></a>            <span class="k">CASE</span><span class="p">(</span><span class="n">bc_stress_free_</span><span class="p">)</span>
+<a name="ln-439"></a>                <span class="c">!READ(inp,&#39;()&#39;)</span>
+<a name="ln-440"></a>            <span class="k">CASE</span><span class="p">(</span><span class="n">bc_stress_prescribed_</span><span class="p">)</span>
+<a name="ln-441"></a>                <span class="k">CALL </span><span class="n">nemo_json</span><span class="p">%</span><span class="n">get</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">sec</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;.stress.v1&#39;</span><span class="p">,</span> <span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">bc_stress_</span><span class="p">),</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-442"></a>                <span class="k">CALL </span><span class="n">nemo_json</span><span class="p">%</span><span class="n">get</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">sec</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;.stress.v2&#39;</span><span class="p">,</span> <span class="n">work</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">bc_stress_</span><span class="p">),</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-443"></a>                <span class="k">CALL </span><span class="n">nemo_json</span><span class="p">%</span><span class="n">get</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">sec</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;.stress.v3&#39;</span><span class="p">,</span> <span class="n">work</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">bc_stress_</span><span class="p">),</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-444"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;rd_inp_bc_wall: Debug: work&#39;</span><span class="p">,</span> <span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="n">bc_stress_</span><span class="p">)</span>
+<a name="ln-445"></a>            <span class="k">CASE </span><span class="n">DEFAULT</span>
+<a name="ln-446"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">230</span><span class="p">)</span>
+<a name="ln-447"></a>                <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-448"></a>            <span class="k">END SELECT</span>
+<a name="ln-449"></a><span class="k">        END IF</span>
+<a name="ln-450"></a><span class="k">    END IF</span>
+<a name="ln-451"></a>
+<a name="ln-452"></a>
+<a name="ln-453"></a>    <span class="c">! Broadcast</span>
+<a name="ln-454"></a>    <span class="k">CALL </span><span class="n">psb_bcast</span><span class="p">(</span><span class="n">icontxt</span><span class="p">,</span><span class="n">id</span><span class="p">)</span>
+<a name="ln-455"></a>    <span class="k">CALL </span><span class="n">psb_bcast</span><span class="p">(</span><span class="n">icontxt</span><span class="p">,</span><span class="n">work</span><span class="p">)</span>
+<a name="ln-456"></a>
+<a name="ln-457"></a>
+<a name="ln-458"></a>    <span class="c">! TEMPERATURE section</span>
+<a name="ln-459"></a>    <span class="k">SELECT CASE</span><span class="p">(</span><span class="n">id</span><span class="p">(</span><span class="n">bc_temp_</span><span class="p">))</span>
+<a name="ln-460"></a>    <span class="k">CASE</span><span class="p">(</span><span class="n">bc_temp_fixed_</span><span class="p">)</span>      <span class="c">! Fixed temperature</span>
+<a name="ln-461"></a>        <span class="k">CALL </span><span class="n">bc_temp</span><span class="p">%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_dirichlet_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-462"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">bc_temp_</span><span class="p">)</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-463"></a>
+<a name="ln-464"></a>    <span class="k">CASE</span><span class="p">(</span><span class="n">bc_temp_adiabatic_</span><span class="p">)</span>  <span class="c">! Adiabatic wall</span>
+<a name="ln-465"></a>        <span class="k">CALL </span><span class="n">bc_temp</span><span class="p">%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_neumann_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-466"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-467"></a>
+<a name="ln-468"></a>    <span class="k">CASE</span><span class="p">(</span><span class="n">bc_temp_flux_</span><span class="p">)</span>       <span class="c">! Fixed heat flux</span>
+<a name="ln-469"></a>        <span class="k">CALL </span><span class="n">bc_temp</span><span class="p">%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_neumann_flux_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-470"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">bc_temp_</span><span class="p">)</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-471"></a>
+<a name="ln-472"></a>    <span class="k">CASE</span><span class="p">(</span><span class="n">bc_temp_convection_</span><span class="p">)</span> <span class="c">! Convection</span>
+<a name="ln-473"></a>        <span class="k">CALL </span><span class="n">bc_temp</span><span class="p">%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_robin_convection_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-474"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">bc_temp_</span><span class="p">)</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),&amp;</span>
+<a name="ln-475"></a>            <span class="p">&amp;</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">bc_temp_</span><span class="p">)</span><span class="o">*</span><span class="n">work</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">bc_temp_</span><span class="p">)</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-476"></a>
+<a name="ln-477"></a>    <span class="k">CASE</span><span class="p">(</span><span class="n">bc_temp_convection_map_</span><span class="p">)</span> <span class="c">! Convection map</span>
+<a name="ln-478"></a>        <span class="k">CALL </span><span class="n">bc_temp</span><span class="p">%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_robin_map_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-479"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="mf">0.d0</span><span class="p">,</span> <span class="n">inp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">nbf</span><span class="p">)</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="mf">1.d0</span><span class="p">,</span> <span class="n">inp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">nbf</span><span class="p">)</span><span class="o">/</span><span class="p">),&amp;</span>
+<a name="ln-480"></a>            <span class="p">&amp;</span> <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="mf">0.d0</span><span class="p">,</span> <span class="n">inp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">nbf</span><span class="p">)</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-481"></a>
+<a name="ln-482"></a>    <span class="k">END SELECT</span>
+<a name="ln-483"></a>
+<a name="ln-484"></a>
+<a name="ln-485"></a>    <span class="c">! VELOCITY section</span>
+<a name="ln-486"></a>    <span class="k">SELECT CASE</span><span class="p">(</span><span class="n">id</span><span class="p">(</span><span class="n">bc_vel_</span><span class="p">))</span>
+<a name="ln-487"></a>    <span class="k">CASE</span><span class="p">(</span><span class="n">bc_vel_no_slip_</span><span class="p">)</span>
+<a name="ln-488"></a>
+<a name="ln-489"></a>        <span class="k">CALL </span><span class="n">bc_vel</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_dirichlet_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-490"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-491"></a>        <span class="k">CALL </span><span class="n">bc_vel</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_dirichlet_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-492"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-493"></a>        <span class="k">CALL </span><span class="n">bc_vel</span><span class="p">(</span><span class="mi">3</span><span class="p">)%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_dirichlet_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-494"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-495"></a>
+<a name="ln-496"></a>    <span class="k">CASE</span><span class="p">(</span><span class="n">bc_vel_free_slip_</span><span class="p">)</span>
+<a name="ln-497"></a>
+<a name="ln-498"></a>        <span class="k">CALL </span><span class="n">bc_vel</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_neumann_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-499"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-500"></a>        <span class="k">CALL </span><span class="n">bc_vel</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_neumann_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-501"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-502"></a>        <span class="k">CALL </span><span class="n">bc_vel</span><span class="p">(</span><span class="mi">3</span><span class="p">)%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_neumann_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-503"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-504"></a>
+<a name="ln-505"></a>    <span class="k">CASE</span><span class="p">(</span><span class="n">bc_vel_sliding_</span><span class="p">)</span>
+<a name="ln-506"></a>        <span class="k">WRITE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;rd_inp_bc_wall: Debug: setting&#39;</span><span class="p">,</span> <span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="n">bc_vel_</span><span class="p">)</span>
+<a name="ln-507"></a>        <span class="k">CALL </span><span class="n">bc_vel</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_dirichlet_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-508"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">bc_vel_</span><span class="p">)</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-509"></a>        <span class="k">CALL </span><span class="n">bc_vel</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_dirichlet_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-510"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="n">work</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">bc_vel_</span><span class="p">)</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-511"></a>        <span class="k">CALL </span><span class="n">bc_vel</span><span class="p">(</span><span class="mi">3</span><span class="p">)%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_dirichlet_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-512"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="n">work</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">bc_vel_</span><span class="p">)</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-513"></a>        <span class="k">WRITE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;rd_inp_bc_wall: Debug: set&#39;</span>
+<a name="ln-514"></a>
+<a name="ln-515"></a>    <span class="k">CASE</span><span class="p">(</span><span class="n">bc_vel_free_sliding_</span><span class="p">)</span>
+<a name="ln-516"></a>
+<a name="ln-517"></a>        <span class="k">CALL </span><span class="n">bc_vel</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_dirichlet_map_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-518"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="mf">0.d0</span><span class="p">,</span> <span class="n">inp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">nbf</span><span class="p">)</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-519"></a>        <span class="k">CALL </span><span class="n">bc_vel</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_dirichlet_map_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-520"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="mf">0.d0</span><span class="p">,</span> <span class="n">inp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">nbf</span><span class="p">)</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-521"></a>        <span class="k">CALL </span><span class="n">bc_vel</span><span class="p">(</span><span class="mi">3</span><span class="p">)%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_dirichlet_map_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-522"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="mf">0.d0</span><span class="p">,</span> <span class="n">inp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">nbf</span><span class="p">)</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-523"></a>    <span class="k">CASE</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-524"></a>    <span class="k">CASE </span><span class="n">DEFAULT</span>
+<a name="ln-525"></a>        <span class="k">WRITE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Fix here unimplemented BC setup !!&#39;</span>
+<a name="ln-526"></a>
+<a name="ln-527"></a>    <span class="k">END SELECT</span>
+<a name="ln-528"></a>
+<a name="ln-529"></a>    <span class="c">! Stress section</span>
+<a name="ln-530"></a>    <span class="k">SELECT CASE</span><span class="p">(</span><span class="n">id</span><span class="p">(</span><span class="n">bc_stress_</span><span class="p">))</span>
+<a name="ln-531"></a>    <span class="k">CASE</span><span class="p">(</span><span class="n">bc_stress_free_</span><span class="p">)</span>
+<a name="ln-532"></a>        <span class="k">CALL </span><span class="n">bc_stress</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_neumann_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-533"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-534"></a>        <span class="k">CALL </span><span class="n">bc_stress</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_neumann_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-535"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-536"></a>        <span class="k">CALL </span><span class="n">bc_stress</span><span class="p">(</span><span class="mi">3</span><span class="p">)%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_neumann_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-537"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-538"></a>
+<a name="ln-539"></a>    <span class="k">CASE</span><span class="p">(</span><span class="n">bc_stress_prescribed_</span><span class="p">)</span>
+<a name="ln-540"></a>        <span class="k">CALL </span><span class="n">bc_stress</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_dirichlet_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-541"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">bc_stress_</span><span class="p">)</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-542"></a>        <span class="k">CALL </span><span class="n">bc_stress</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_dirichlet_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-543"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="n">work</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">bc_stress_</span><span class="p">)</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-544"></a>        <span class="k">CALL </span><span class="n">bc_stress</span><span class="p">(</span><span class="mi">3</span><span class="p">)%</span><span class="n">alloc_bc_math</span><span class="p">(</span><span class="n">bc_dirichlet_</span><span class="p">,</span><span class="n">nbf</span><span class="p">,&amp;</span>
+<a name="ln-545"></a>            <span class="p">&amp;</span> <span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">1.d0</span><span class="o">/</span><span class="p">),</span><span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mf">0.d0</span><span class="o">/</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="n">work</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">bc_stress_</span><span class="p">)</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-546"></a>
+<a name="ln-547"></a>    <span class="k">CASE </span><span class="n">DEFAULT</span>
+<a name="ln-548"></a>        <span class="k">WRITE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Fix here unimplemented BC setup !!&#39;</span><span class="p">,</span> <span class="n">id</span><span class="p">(</span><span class="n">bc_stress_</span><span class="p">)</span>
+<a name="ln-549"></a>
+<a name="ln-550"></a>    <span class="k">END SELECT</span>
+<a name="ln-551"></a>
+<a name="ln-552"></a>
+<a name="ln-553"></a>    <span class="c">! ***</span>
+<a name="ln-554"></a>    <span class="c">! If ID = -1 (Default)  the corresponding BC will not be allocated</span>
+<a name="ln-555"></a>    <span class="c">! ***</span>
+<a name="ln-556"></a>
+<a name="ln-557"></a>    <span class="k">IF</span><span class="p">(</span><span class="n">debug</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-558"></a><span class="k">        WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-559"></a>        <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">400</span><span class="p">)</span> <span class="n">mypnum</span>
+<a name="ln-560"></a>        <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">500</span><span class="p">)</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">sec</span><span class="p">),</span><span class="s1">&#39; - Type: Wall&#39;</span>
+<a name="ln-561"></a>
+<a name="ln-562"></a>        <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">600</span><span class="p">)</span> <span class="s1">&#39; * TEMPERATURE Section *&#39;</span>
+<a name="ln-563"></a>        <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">700</span><span class="p">)</span> <span class="s1">&#39;  BC%id(bc_temp_) = &#39;</span><span class="p">,</span> <span class="n">id</span><span class="p">(</span><span class="n">bc_temp_</span><span class="p">)</span>
+<a name="ln-564"></a>        <span class="k">IF</span> <span class="p">(</span><span class="n">id</span><span class="p">(</span><span class="n">bc_temp_</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">bc_temp</span><span class="p">%</span><span class="n">debug_bc_math</span><span class="p">()</span>
+<a name="ln-565"></a>
+<a name="ln-566"></a>        <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">600</span><span class="p">)</span> <span class="s1">&#39; * VELOCITY Section *&#39;</span>
+<a name="ln-567"></a>        <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">700</span><span class="p">)</span> <span class="s1">&#39;  BC%id(bc_vel_) = &#39;</span><span class="p">,</span> <span class="n">id</span><span class="p">(</span><span class="n">bc_vel_</span><span class="p">)</span>
+<a name="ln-568"></a>        <span class="k">IF</span> <span class="p">(</span><span class="n">id</span><span class="p">(</span><span class="n">bc_vel_</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-569"></a><span class="k">            CALL </span><span class="n">bc_vel</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">debug_bc_math</span><span class="p">()</span>
+<a name="ln-570"></a>            <span class="k">CALL </span><span class="n">bc_vel</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">debug_bc_math</span><span class="p">()</span>
+<a name="ln-571"></a>            <span class="k">CALL </span><span class="n">bc_vel</span><span class="p">(</span><span class="mi">3</span><span class="p">)%</span><span class="n">debug_bc_math</span><span class="p">()</span>
+<a name="ln-572"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-573"></a>        <span class="k">END IF</span>
+<a name="ln-574"></a><span class="k">    END IF</span>
+<a name="ln-575"></a>
+<a name="ln-576"></a>
+<a name="ln-577"></a><span class="mi">100</span> <span class="k">FORMAT</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">i1</span><span class="p">)</span>
+<a name="ln-578"></a><span class="mi">210</span> <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Unsupported ID(BC_TEMP_) in RD_INP_BC_WALL&#39;</span><span class="p">)</span>
+<a name="ln-579"></a><span class="mi">220</span> <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Unsupported ID(BC_VEL_) in RD_INP_BC_WALL&#39;</span><span class="p">)</span>
+<a name="ln-580"></a><span class="mi">230</span> <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Unsupported ID(BC_STRESS_) in RD_INP_BC_WALL&#39;</span><span class="p">)</span>
+<a name="ln-581"></a><span class="mi">999</span> <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Missing boundary condition in RC_INP_BC_WALL&#39;</span><span class="p">)</span>
+<a name="ln-582"></a>
+<a name="ln-583"></a><span class="mi">400</span> <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ----- Process ID = &#39;</span><span class="p">,</span><span class="n">i2</span><span class="p">,</span><span class="s1">&#39; -----&#39;</span><span class="p">)</span>
+<a name="ln-584"></a><span class="mi">500</span> <span class="k">FORMAT</span><span class="p">(</span><span class="mi">1</span><span class="n">x</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="p">)</span>
+<a name="ln-585"></a><span class="mi">600</span> <span class="k">FORMAT</span><span class="p">(</span><span class="mi">1</span><span class="n">x</span><span class="p">,</span><span class="n">a</span><span class="p">)</span>
+<a name="ln-586"></a><span class="mi">700</span> <span class="k">FORMAT</span><span class="p">(</span><span class="mi">1</span><span class="n">x</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">i2</span><span class="p">)</span>
+<a name="ln-587"></a>
+<a name="ln-588"></a><span class="k">END SUBROUTINE </span><span class="n">rd_inp_bc_wall</span>
+<a name="ln-589"></a>
+<a name="ln-590"></a><span class="k">END SUBMODULE </span><span class="n">class_bc_wall_procedures</span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

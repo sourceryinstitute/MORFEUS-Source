@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>cmp_mesh_implementation.f90 &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>cmp_mesh_implementation.f90
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 2.1% of total for source files.">535 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/cmp_mesh_implementation.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">cmp_mesh_implementation.f90</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-0">Submodules</a></h3></div>
+  <div id="submods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/cmp_mesh_implementation.html">cmp_mesh_implementation</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/cmp_mesh_implementation.f90.html#src">cmp_mesh_implementation.f90</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">This file depends on</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefilecmp_mesh_implementationf90EfferentGraph" width="641pt" height="249pt"
+ viewBox="0.00 0.00 641.00 249.16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph" class="graph" transform="scale(1.69 1.69) rotate(0) translate(4 417.43)">
+<title>sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-417.43 1080.2,-417.43 1080.2,4 -4,4"/>
+<!-- sourcefile~cmp_mesh_implementation.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~cmp_mesh_implementation.f90</title>
+<polygon fill="none" stroke="black" points="1076.16,-262.26 918.34,-262.26 918.34,-240.24 1076.16,-240.24 1076.16,-262.26"/>
+<text text-anchor="middle" x="997.25" y="-248.1" font-family="Helvetica,sans-Serif" font-size="10.50">cmp_mesh_implementation.f90</text>
+</g>
+<!-- sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~class_psblas.f90</title>
+<g id="a_sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/class_psblas.f90.html" xlink:title="class_psblas.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="355.88,-223.26 266.62,-223.26 266.62,-201.24 355.88,-201.24 355.88,-223.26"/>
+<text text-anchor="middle" x="311.25" y="-209.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_psblas.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M694.91,-409.25C614.78,-413.69 589.8,-420.21 515.36,-390.25 474.32,-373.74 476.36,-348.87 436.71,-329.25"/>
+</g>
+<!-- sourcefile~renum.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~renum.f90</title>
+<g id="a_sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node3"><a xlink:href=".././sourcefile/renum.f90.html" xlink:title="renum.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="590.56,-381.26 528.02,-381.26 528.02,-359.24 590.56,-359.24 590.56,-381.26"/>
+<text text-anchor="middle" x="559.29" y="-367.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">renum.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~renum.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~renum.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M694.91,-409.25C660.47,-406.8 622.86,-395.09 596.17,-385.13"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="597.09,-381.74 586.5,-381.43 594.58,-388.28 597.09,-381.74"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M986.34,-262.28C967.79,-282.31 925.75,-324.85 882.29,-349.25 806.78,-391.65 783.29,-415.38 696.91,-409.25"/>
+</g>
+<!-- sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node4" class="node">
+<title>sourcefile~class_connectivity.f90</title>
+<g id="a_sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node4"><a xlink:href=".././sourcefile/class_connectivity.f90.html" xlink:title="class_connectivity.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="752.77,-262.26 639.05,-262.26 639.05,-240.24 752.77,-240.24 752.77,-262.26"/>
+<text text-anchor="middle" x="695.91" y="-248.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_connectivity.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge4" class="edge">
+<title>sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M965.83,-262.35C934.05,-273.07 882.51,-288 836.44,-290.25"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M834.44,-290.25C797.13,-292.07 756.15,-278.27 728.71,-266.59"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="729.81,-263.25 719.25,-262.41 726.98,-269.65 729.81,-263.25"/>
+</g>
+<!-- sourcefile~class_surface.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node5" class="node">
+<title>sourcefile~class_surface.f90</title>
+<g id="a_sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node5"><a xlink:href=".././sourcefile/class_surface.f90.html" xlink:title="class_surface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="882.15,-340.26 788.73,-340.26 788.73,-318.24 882.15,-318.24 882.15,-340.26"/>
+<text text-anchor="middle" x="835.44" y="-326.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_surface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~class_surface.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge3" class="edge">
+<title>sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~class_surface.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M973.69,-262.26C946.17,-275.69 899.45,-298.49 868.28,-313.71"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="866.59,-310.64 859.14,-318.17 869.66,-316.93 866.59,-310.64"/>
+</g>
+<!-- sourcefile~tools_mesh.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node6" class="node">
+<title>sourcefile~tools_mesh.f90</title>
+<g id="a_sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node6"><a xlink:href=".././sourcefile/tools_mesh.f90.html" xlink:title="tools_mesh.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="877.15,-262.26 793.73,-262.26 793.73,-240.24 877.15,-240.24 877.15,-262.26"/>
+<text text-anchor="middle" x="835.44" y="-248.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_mesh.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~tools_mesh.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge5" class="edge">
+<title>sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~tools_mesh.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M918.22,-251.25C907.86,-251.25 897.46,-251.25 887.72,-251.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="887.43,-247.75 877.43,-251.25 887.43,-254.75 887.43,-247.75"/>
+</g>
+<!-- sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node7" class="node">
+<title>sourcefile~class_vertex.f90</title>
+<g id="a_sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node7"><a xlink:href=".././sourcefile/class_vertex.f90.html" xlink:title="class_vertex.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="603.16,-262.26 515.42,-262.26 515.42,-240.24 603.16,-240.24 603.16,-262.26"/>
+<text text-anchor="middle" x="559.29" y="-248.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vertex.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge6" class="edge">
+<title>sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M834.44,-290.25C747.37,-294.51 725.1,-286.22 639.23,-271.25 629.3,-269.52 618.79,-267.2 608.78,-264.76"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="609.54,-261.34 598.98,-262.29 607.83,-268.13 609.54,-261.34"/>
+</g>
+<!-- sourcefile~part_graph.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node8" class="node">
+<title>sourcefile~part_graph.f90</title>
+<g id="a_sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node8"><a xlink:href=".././sourcefile/part_graph.f90.html" xlink:title="part_graph.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="736.21,-184.26 655.6,-184.26 655.6,-162.24 736.21,-162.24 736.21,-184.26"/>
+<text text-anchor="middle" x="695.91" y="-170.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">part_graph.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~part_graph.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge7" class="edge">
+<title>sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~part_graph.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M953.99,-240.24C899.26,-225.98 804.03,-201.16 746.1,-186.07"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="746.65,-182.59 736.09,-183.46 744.88,-189.37 746.65,-182.59"/>
+</g>
+<!-- sourcefile~part_block.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node9" class="node">
+<title>sourcefile~part_block.f90</title>
+<g id="a_sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node9"><a xlink:href=".././sourcefile/part_block.f90.html" xlink:title="part_block.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="734.86,-143.26 656.95,-143.26 656.95,-121.24 734.86,-121.24 734.86,-143.26"/>
+<text text-anchor="middle" x="695.91" y="-129.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">part_block.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~part_block.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge8" class="edge">
+<title>sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~part_block.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M834.44,-91.25C825.2,-87.48 773.68,-104.48 736.4,-117.73"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="735.02,-114.51 726.79,-121.18 737.38,-121.1 735.02,-114.51"/>
+</g>
+<!-- sourcefile~class_cell.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node10" class="node">
+<title>sourcefile~class_cell.f90</title>
+<g id="a_sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node10"><a xlink:href=".././sourcefile/class_cell.f90.html" xlink:title="class_cell.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="474.74,-63.26 396.68,-63.26 396.68,-41.24 474.74,-41.24 474.74,-63.26"/>
+<text text-anchor="middle" x="435.71" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cell.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~class_cell.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge9" class="edge">
+<title>sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~class_cell.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M558.29,-52.25C534.23,-50.27 507.4,-50.06 485.07,-50.43"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="484.76,-46.94 474.83,-50.65 484.91,-53.93 484.76,-46.94"/>
+</g>
+<!-- sourcefile~class_face.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node11" class="node">
+<title>sourcefile~class_face.f90</title>
+<g id="a_sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node11"><a xlink:href=".././sourcefile/class_face.f90.html" xlink:title="class_face.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="476.83,-22.26 394.59,-22.26 394.59,-0.24 476.83,-0.24 476.83,-22.26"/>
+<text text-anchor="middle" x="435.71" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_face.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~class_face.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge10" class="edge">
+<title>sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~class_face.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M558.29,-52.25C526.49,-49.63 492.2,-37.1 468.18,-26.58"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="469.42,-23.3 458.86,-22.37 466.53,-29.68 469.42,-23.3"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M834.44,-91.25C720.49,-44.74 682.95,-62.35 560.29,-52.25"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M989.78,-240.11C970.96,-209.01 912.7,-121.53 836.44,-91.25"/>
+</g>
+<!-- sourcefile~tools_part.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node12" class="node">
+<title>sourcefile~tools_part.f90</title>
+<g id="a_sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node12"><a xlink:href=".././sourcefile/tools_part.f90.html" xlink:title="tools_part.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="873.07,-184.26 797.81,-184.26 797.81,-162.24 873.07,-162.24 873.07,-184.26"/>
+<text text-anchor="middle" x="835.44" y="-170.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_part.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~tools_part.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge11" class="edge">
+<title>sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~tools_part.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M973.69,-240.24C946.17,-226.81 899.45,-204.01 868.28,-188.79"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="869.66,-185.57 859.14,-184.33 866.59,-191.86 869.66,-185.57"/>
+</g>
+<!-- sourcefile~part_random.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node13" class="node">
+<title>sourcefile~part_random.f90</title>
+<g id="a_sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node13"><a xlink:href=".././sourcefile/part_random.f90.html" xlink:title="part_random.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="740.45,-102.26 651.36,-102.26 651.36,-80.24 740.45,-80.24 740.45,-102.26"/>
+<text text-anchor="middle" x="695.91" y="-88.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">part_random.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~part_random.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge12" class="edge">
+<title>sourcefile~cmp_mesh_implementation.f90&#45;&gt;sourcefile~part_random.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M834.44,-91.25C808.29,-80.58 776.94,-79.77 750.78,-81.99"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="750.25,-78.52 740.66,-83.01 750.96,-85.48 750.25,-78.52"/>
+</g>
+<!-- sourcefile~class_stopwatch.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node14" class="node">
+<title>sourcefile~class_stopwatch.f90</title>
+<g id="a_sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node14"><a xlink:href=".././sourcefile/class_stopwatch.f90.html" xlink:title="class_stopwatch.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="230.21,-243.26 124.11,-243.26 124.11,-221.24 230.21,-221.24 230.21,-243.26"/>
+<text text-anchor="middle" x="177.16" y="-229.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_stopwatch.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_psblas.f90&#45;&gt;sourcefile~class_stopwatch.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge13" class="edge">
+<title>sourcefile~class_psblas.f90&#45;&gt;sourcefile~class_stopwatch.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M266.27,-218.91C258.07,-220.15 249.35,-221.47 240.72,-222.78"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="240.02,-219.34 230.66,-224.3 241.07,-226.26 240.02,-219.34"/>
+</g>
+<!-- sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node16" class="node">
+<title>sourcefile~tools_psblas.f90</title>
+<g id="a_sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node16"><a xlink:href=".././sourcefile/tools_psblas.f90.html" xlink:title="tools_psblas.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="87.83,-223.26 0.06,-223.26 0.06,-201.24 87.83,-201.24 87.83,-223.26"/>
+<text text-anchor="middle" x="43.94" y="-209.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_psblas.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_psblas.f90&#45;&gt;sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge14" class="edge">
+<title>sourcefile~class_psblas.f90&#45;&gt;sourcefile~tools_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M266.44,-212.25C220.27,-212.25 147.53,-212.25 98.11,-212.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="97.94,-208.75 87.94,-212.25 97.94,-215.75 97.94,-208.75"/>
+</g>
+<!-- sourcefile~renum.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge15" class="edge">
+<title>sourcefile~renum.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff7f00" stroke-dasharray="5,2" d="M527.92,-362.46C502.76,-355.44 466.46,-343.97 436.71,-329.25"/>
+</g>
+<!-- sourcefile~class_connectivity.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge16" class="edge">
+<title>sourcefile~class_connectivity.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M667.05,-240.23C634.03,-227.68 580.88,-209.28 560.29,-212.25"/>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge19" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M813.84,-318.16C805.92,-313.86 796.81,-308.87 788.59,-304.25 767.02,-292.14 742.8,-278.12 724.67,-267.54"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="726.19,-264.38 715.79,-262.35 722.66,-270.42 726.19,-264.38"/>
+</g>
+<!-- sourcefile~class_plane.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node15" class="node">
+<title>sourcefile~class_plane.f90</title>
+<g id="a_sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node15"><a xlink:href=".././sourcefile/class_plane.f90.html" xlink:title="class_plane.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="601.76,-340.26 516.82,-340.26 516.82,-318.24 601.76,-318.24 601.76,-340.26"/>
+<text text-anchor="middle" x="559.29" y="-326.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_plane.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_plane.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge18" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_plane.f90</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M797.3,-340.32C783.4,-343.93 767.4,-347.47 752.59,-349.25 702.56,-355.27 689.22,-355.49 639.23,-349.25 628.27,-347.88 616.65,-345.49 605.8,-342.82"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="606.64,-339.43 596.08,-340.32 604.89,-346.2 606.64,-339.43"/>
+</g>
+<!-- sourcefile~class_cylinder.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node17" class="node">
+<title>sourcefile~class_cylinder.f90</title>
+<g id="a_sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node17"><a xlink:href=".././sourcefile/class_cylinder.f90.html" xlink:title="class_cylinder.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="743.29,-340.26 648.52,-340.26 648.52,-318.24 743.29,-318.24 743.29,-340.26"/>
+<text text-anchor="middle" x="695.91" y="-326.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cylinder.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_cylinder.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge17" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_cylinder.f90</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M788.64,-329.25C777.4,-329.25 765.23,-329.25 753.55,-329.25"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="753.44,-325.75 743.44,-329.25 753.44,-332.75 753.44,-325.75"/>
+</g>
+<!-- sourcefile~tools_mesh.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge20" class="edge">
+<title>sourcefile~tools_mesh.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M800.67,-240.23C748.92,-224.75 646.89,-199.77 560.29,-212.25"/>
+</g>
+<!-- sourcefile~tools_mesh.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge21" class="edge">
+<title>sourcefile~tools_mesh.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M793.55,-251.25C783.83,-251.25 773.21,-251.25 762.69,-251.25"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="762.66,-247.75 752.66,-251.25 762.66,-254.75 762.66,-247.75"/>
+</g>
+<!-- sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge22" class="edge">
+<title>sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ff7f" stroke-dasharray="5,2" d="M534.74,-240.08C510.72,-229.56 472.07,-215.02 436.71,-212.25"/>
+</g>
+<!-- sourcefile~class_vector.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node18" class="node">
+<title>sourcefile~class_vector.f90</title>
+<g id="a_sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_node18"><a xlink:href=".././sourcefile/class_vector.f90.html" xlink:title="class_vector.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="479.5,-282.26 391.91,-282.26 391.91,-260.24 479.5,-260.24 479.5,-282.26"/>
+<text text-anchor="middle" x="435.71" y="-268.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vector.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge23" class="edge">
+<title>sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#00ff7f" stroke-dasharray="5,2" d="M515.08,-258.36C506.74,-259.73 497.92,-261.18 489.32,-262.6"/>
+<polygon fill="#00ff7f" stroke="#00ff7f" points="488.67,-259.16 479.37,-264.23 489.8,-266.06 488.67,-259.16"/>
+</g>
+<!-- sourcefile~part_graph.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge24" class="edge">
+<title>sourcefile~part_graph.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M665.49,-184.35C638.56,-193.88 597.38,-206.91 560.29,-212.25"/>
+</g>
+<!-- sourcefile~part_block.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge25" class="edge">
+<title>sourcefile~part_block.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#007fff" stroke-dasharray="5,2" d="M660.95,-143.31C653.61,-146.18 646.02,-149.53 639.23,-153.25 600.82,-174.3 603.64,-206 560.29,-212.25"/>
+</g>
+<!-- sourcefile~class_cell.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge26" class="edge">
+<title>sourcefile~class_cell.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M426.1,-63.5C405.41,-90.53 352.71,-159.39 326.92,-193.09"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="323.99,-191.16 320.69,-201.22 329.55,-195.41 323.99,-191.16"/>
+</g>
+<!-- sourcefile~class_face.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge27" class="edge">
+<title>sourcefile~class_face.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M405.34,-22.29C400.5,-25.02 395.84,-28.32 392.06,-32.25 347.42,-78.72 325.25,-154.35 316.66,-191"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="313.18,-190.52 314.42,-201.05 320.01,-192.05 313.18,-190.52"/>
+</g>
+<!-- sourcefile~tools_part.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge30" class="edge">
+<title>sourcefile~tools_part.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M815.03,-184.26C791.71,-197.48 752.4,-219.78 725.58,-234.99"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="723.64,-232.07 716.67,-240.04 727.09,-238.15 723.64,-232.07"/>
+</g>
+<!-- sourcefile~tools_part.f90&#45;&gt;sourcefile~part_graph.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge31" class="edge">
+<title>sourcefile~tools_part.f90&#45;&gt;sourcefile~part_graph.f90</title>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M797.58,-173.25C781.9,-173.25 763.37,-173.25 746.51,-173.25"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="746.27,-169.75 736.27,-173.25 746.27,-176.75 746.27,-169.75"/>
+</g>
+<!-- sourcefile~tools_part.f90&#45;&gt;sourcefile~part_block.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge28" class="edge">
+<title>sourcefile~tools_part.f90&#45;&gt;sourcefile~part_block.f90</title>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M797.58,-162.26C781.09,-157.35 761.44,-151.49 743.91,-146.26"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="744.45,-142.77 733.86,-143.27 742.45,-149.48 744.45,-142.77"/>
+</g>
+<!-- sourcefile~tools_part.f90&#45;&gt;sourcefile~part_random.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge29" class="edge">
+<title>sourcefile~tools_part.f90&#45;&gt;sourcefile~part_random.f90</title>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M821.88,-162.12C806.44,-148.86 779.02,-126.71 752.59,-112.25 748.66,-110.1 744.46,-108.08 740.2,-106.2"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="741.43,-102.92 730.85,-102.32 738.75,-109.39 741.43,-102.92"/>
+</g>
+<!-- sourcefile~part_random.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge32" class="edge">
+<title>sourcefile~part_random.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff007f" stroke-dasharray="5,2" d="M656.93,-102.38C650.71,-105.08 644.56,-108.35 639.23,-112.25 593.53,-145.68 616.33,-204.18 560.29,-212.25"/>
+<path fill="none" stroke="#ff007f" stroke-dasharray="5,2" d="M558.29,-212.25C504.81,-219.96 490.58,-216.47 436.71,-212.25"/>
+<path fill="none" stroke="#ff007f" stroke-dasharray="5,2" d="M434.71,-212.25C412.31,-210.49 387.52,-210.19 366.15,-210.43"/>
+<polygon fill="#ff007f" stroke="#ff007f" points="365.9,-206.94 355.95,-210.59 366.01,-213.94 365.9,-206.94"/>
+</g>
+<!-- sourcefile~class_stopwatch.f90&#45;&gt;sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge33" class="edge">
+<title>sourcefile~class_stopwatch.f90&#45;&gt;sourcefile~tools_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M123.92,-224.29C115.49,-223 106.75,-221.67 98.28,-220.38"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="98.56,-216.88 88.14,-218.83 97.5,-223.8 98.56,-216.88"/>
+</g>
+<!-- sourcefile~class_plane.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge34" class="edge">
+<title>sourcefile~class_plane.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M516.8,-338.09C492.27,-341.23 461.3,-341.42 436.71,-329.25"/>
+</g>
+<!-- sourcefile~class_plane.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge35" class="edge">
+<title>sourcefile~class_plane.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M535.14,-318.2C516.5,-309.31 490.07,-296.71 469.29,-286.79"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="470.72,-283.6 460.19,-282.45 467.71,-289.92 470.72,-283.6"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge37" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M434.71,-329.25C387.83,-306.05 346.97,-258.6 326.4,-231.8"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="329.02,-229.47 320.22,-223.57 323.43,-233.67 329.02,-229.47"/>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M558.29,-290.25C501.82,-284.66 487.57,-354.42 436.71,-329.25"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge36" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M666.77,-318.18C657.74,-314.22 647.85,-309.44 639.23,-304.25 621.86,-293.8 620.02,-287.6 603.23,-276.25 598.87,-273.31 594.16,-270.35 589.5,-267.55"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="591.12,-264.45 580.73,-262.41 587.58,-270.48 591.12,-264.45"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge38" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M667.9,-318.24C641.13,-308.09 598.67,-294.05 560.29,-290.25"/>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M558.29,-290.25C535.73,-288.02 510.98,-284.37 489.73,-280.86"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="490.05,-277.37 479.6,-279.16 488.88,-284.27 490.05,-277.37"/>
+</g>
+<!-- sourcefile~class_vector.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~cmp_mesh_implementation.f90~~EfferentGraph_edge39" class="edge">
+<title>sourcefile~class_vector.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M411.68,-260.15C392.69,-251.01 365.55,-237.93 344.41,-227.75"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="345.71,-224.48 335.18,-223.3 342.67,-230.79 345.71,-224.48"/>
+</g>
+</g>
+</svg>
+</div><script>var pansourcefilecmp_mesh_implementationf90EfferentGraph = svgPanZoom('#sourcefilecmp_mesh_implementationf90EfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="31pt"
+ viewBox="0.00 0.00 186.41 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 182.41,-26.5 182.41,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="65.16,-22.26 -0.05,-22.26 -0.05,-0.24 65.16,-0.24 65.16,-22.26"/>
+<text text-anchor="middle" x="32.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="178.26,-22.26 82.84,-22.26 82.84,-0.24 178.26,-0.24 178.26,-22.26"/>
+<text text-anchor="middle" x="130.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+      
+      <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-1">Submodules</a></h3></div>
+  <div id="submods-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/cmp_mesh_implementation.html">cmp_mesh_implementation</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/cmp_mesh_implementation.f90.html#src">cmp_mesh_implementation.f90</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="c">!</span>
+<a name="ln-2"></a><span class="c">!     (c) 2019 Guide Star Engineering, LLC</span>
+<a name="ln-3"></a><span class="c">!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)</span>
+<a name="ln-4"></a><span class="c">!     under contract &quot;Multi-Dimensional Physics Implementation into Fuel Analysis under</span>
+<a name="ln-5"></a><span class="c">!     Steady-state and Transients (FAST)&quot;, contract # NRC-HQ-60-17-C-0007</span>
+<a name="ln-6"></a><span class="c">!</span>
+<a name="ln-7"></a><span class="c">!</span>
+<a name="ln-8"></a><span class="c">!    NEMO - Numerical Engine (for) Multiphysics Operators</span>
+<a name="ln-9"></a><span class="c">! Copyright (c) 2007, Stefano Toninel</span>
+<a name="ln-10"></a><span class="c">!                     Gian Marco Bianchi  University of Bologna</span>
+<a name="ln-11"></a><span class="c">!              David P. Schmidt    University of Massachusetts - Amherst</span>
+<a name="ln-12"></a><span class="c">!              Salvatore Filippone University of Rome Tor Vergata</span>
+<a name="ln-13"></a><span class="c">! All rights reserved.</span>
+<a name="ln-14"></a><span class="c">!</span>
+<a name="ln-15"></a><span class="c">! Redistribution and use in source and binary forms, with or without modification,</span>
+<a name="ln-16"></a><span class="c">! are permitted provided that the following conditions are met:</span>
+<a name="ln-17"></a><span class="c">!</span>
+<a name="ln-18"></a><span class="c">!     1. Redistributions of source code must retain the above copyright notice,</span>
+<a name="ln-19"></a><span class="c">!        this list of conditions and the following disclaimer.</span>
+<a name="ln-20"></a><span class="c">!     2. Redistributions in binary form must reproduce the above copyright notice,</span>
+<a name="ln-21"></a><span class="c">!        this list of conditions and the following disclaimer in the documentation</span>
+<a name="ln-22"></a><span class="c">!        and/or other materials provided with the distribution.</span>
+<a name="ln-23"></a><span class="c">!     3. Neither the name of the NEMO project nor the names of its contributors</span>
+<a name="ln-24"></a><span class="c">!        may be used to endorse or promote products derived from this software</span>
+<a name="ln-25"></a><span class="c">!        without specific prior written permission.</span>
+<a name="ln-26"></a><span class="c">!</span>
+<a name="ln-27"></a><span class="c">! THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND</span>
+<a name="ln-28"></a><span class="c">! ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
+<a name="ln-29"></a><span class="c">! WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<a name="ln-30"></a><span class="c">! DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR</span>
+<a name="ln-31"></a><span class="c">! ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span>
+<a name="ln-32"></a><span class="c">! (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;</span>
+<a name="ln-33"></a><span class="c">! LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON</span>
+<a name="ln-34"></a><span class="c">! ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span>
+<a name="ln-35"></a><span class="c">! (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS</span>
+<a name="ln-36"></a><span class="c">! SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+<a name="ln-37"></a><span class="c">!</span>
+<a name="ln-38"></a><span class="c">!---------------------------------------------------------------------------------</span>
+<a name="ln-39"></a><span class="k">SUBMODULE</span> <span class="p">(</span><span class="n">tools_mesh</span><span class="p">)</span> <span class="n">cmp_mesh_implementation</span>
+<a name="ln-40"></a>    <span class="k">USE </span><span class="n">class_face</span>
+<a name="ln-41"></a>    <span class="k">IMPLICIT NONE</span>
+<a name="ln-42"></a>
+<a name="ln-43"></a><span class="k">    CONTAINS</span>
+<a name="ln-44"></a>
+<a name="ln-45"></a><span class="k">        MODULE PROCEDURE </span><span class="n">cmp_moving_surf</span>
+<a name="ln-46"></a>        <span class="k">USE </span><span class="n">class_psblas</span><span class="c">!, ONLY : mypnum_</span>
+<a name="ln-47"></a>        <span class="k">USE </span><span class="n">class_connectivity</span>
+<a name="ln-48"></a>        <span class="k">USE </span><span class="n">class_surface</span><span class="c">!, ONLY : alloc_surface</span>
+<a name="ln-49"></a>        <span class="k">USE </span><span class="n">class_vertex</span>
+<a name="ln-50"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-51"></a>        <span class="c">!! $Id: cmp_moving_surf.f90 8157 2014-10-09 13:02:44Z sfilippo $</span>
+<a name="ln-52"></a>        <span class="c">!!</span>
+<a name="ln-53"></a>        <span class="c">!! Description: Allocates and calculates shapes of moving surfaces</span>
+<a name="ln-54"></a>        <span class="c">!!</span>
+<a name="ln-55"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">ib</span><span class="p">,</span> <span class="n">info</span>
+<a name="ln-56"></a>
+<a name="ln-57"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-58"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Autodetecting virtual surfaces:&#39;</span>
+<a name="ln-59"></a>
+<a name="ln-60"></a>            <span class="c">! Not necessary since INTENT(OUT)</span>
+<a name="ln-61"></a>    <span class="c">!!$  if (associated (surf) ) then</span>
+<a name="ln-62"></a>    <span class="c">!!$     call abort_psblas</span>
+<a name="ln-63"></a>    <span class="c">!!$  endif</span>
+<a name="ln-64"></a>
+<a name="ln-65"></a>            <span class="c">! Allocates pointer of SURFACE objects</span>
+<a name="ln-66"></a>            <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">surf</span><span class="p">(</span><span class="n">nbc</span><span class="p">),</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-67"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-68"></a><span class="k">                WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-69"></a>                <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-70"></a>            <span class="n">ENDIF</span>
+<a name="ln-71"></a>
+<a name="ln-72"></a>            <span class="c">! Identifies surfaces</span>
+<a name="ln-73"></a>            <span class="k">DO </span><span class="n">ib</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nbc</span>
+<a name="ln-74"></a>                <span class="k">CALL </span><span class="n">alloc_surface</span><span class="p">(</span><span class="n">v2b</span><span class="p">,</span><span class="n">ib</span><span class="p">,</span><span class="n">verts</span><span class="p">,</span><span class="n">surf</span><span class="p">(</span><span class="n">ib</span><span class="p">))</span>
+<a name="ln-75"></a>            <span class="k">END DO</span>
+<a name="ln-76"></a>
+<a name="ln-77"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-78"></a>
+<a name="ln-79"></a>        <span class="n">ENDIF</span>
+<a name="ln-80"></a>
+<a name="ln-81"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Failure to allocate memory in CMP_MOVING_SURF&#39;</span><span class="p">)</span>
+<a name="ln-82"></a>
+<a name="ln-83"></a>        <span class="k">END PROCEDURE </span><span class="n">cmp_moving_surf</span>
+<a name="ln-84"></a>
+<a name="ln-85"></a>
+<a name="ln-86"></a>        <span class="k">MODULE PROCEDURE </span><span class="n">cmp_mesh_c2c</span>
+<a name="ln-87"></a>        <span class="k">USE </span><span class="n">class_psblas</span>
+<a name="ln-88"></a>        <span class="k">USE </span><span class="n">class_connectivity</span>
+<a name="ln-89"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-90"></a>        <span class="c">!! $Id: cmp_mesh_c2c.f90 8157 2014-10-09 13:02:44Z sfilippo $</span>
+<a name="ln-91"></a>        <span class="c">!!</span>
+<a name="ln-92"></a>        <span class="c">!! Description:</span>
+<a name="ln-93"></a>        <span class="c">!!</span>
+<a name="ln-94"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">ic</span><span class="p">,</span> <span class="k">IF</span><span class="p">,</span> <span class="n">im</span><span class="p">,</span> <span class="k">is</span><span class="p">,</span> <span class="n">info</span>
+<a name="ln-95"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">n</span><span class="p">,</span> <span class="n">ncells</span><span class="p">,</span> <span class="n">nfl_faces</span>
+<a name="ln-96"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">itab</span><span class="p">(:,:),</span> <span class="n">kconn</span><span class="p">(:)</span>
+<a name="ln-97"></a>
+<a name="ln-98"></a>
+<a name="ln-99"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-100"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Computing cells adjacency graph C2C&#39;</span>
+<a name="ln-101"></a>
+<a name="ln-102"></a>            <span class="n">n</span>         <span class="o">=</span> <span class="n">f2c</span><span class="p">%</span><span class="n">max_conn</span><span class="p">()</span>            <span class="c">! Maximum connectivity degree</span>
+<a name="ln-103"></a>            <span class="n">ncells</span>    <span class="o">=</span> <span class="n">f2c</span><span class="p">%</span><span class="n">nel_</span><span class="p">()</span>                <span class="c">! Number of cells</span>
+<a name="ln-104"></a>            <span class="n">nfl_faces</span> <span class="o">=</span> <span class="nb">COUNT</span><span class="p">(</span><span class="n">faces</span><span class="p">%</span><span class="n">flag_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="c">! Number of fluid faces</span>
+<a name="ln-105"></a>
+<a name="ln-106"></a>            <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">itab</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">ncells</span><span class="p">),</span><span class="n">kconn</span><span class="p">(</span><span class="n">ncells</span><span class="p">),</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-107"></a>            <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-108"></a><span class="k">                WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-109"></a>                <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-110"></a>            <span class="k">END IF</span>
+<a name="ln-111"></a>
+<a name="ln-112"></a><span class="k">            </span><span class="n">itab</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-113"></a>            <span class="n">kconn</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-114"></a>
+<a name="ln-115"></a>            <span class="c">! WARNING! CMP_MESH_C2C is called before the global-to-local reallocation.</span>
+<a name="ln-116"></a>            <span class="c">! Thus faces are still numbered in such a way that fluid ones come first</span>
+<a name="ln-117"></a>
+<a name="ln-118"></a>            <span class="k">DO IF</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nfl_faces</span>
+<a name="ln-119"></a>            <span class="n">im</span> <span class="o">=</span> <span class="n">faces</span><span class="p">(</span><span class="k">IF</span><span class="p">)%</span><span class="n">master_</span><span class="p">()</span>
+<a name="ln-120"></a>            <span class="k">is</span> <span class="o">=</span> <span class="n">faces</span><span class="p">(</span><span class="k">IF</span><span class="p">)%</span><span class="n">slave_</span><span class="p">()</span>
+<a name="ln-121"></a>                <span class="n">kconn</span><span class="p">(</span><span class="n">im</span><span class="p">)</span> <span class="o">=</span> <span class="n">kconn</span><span class="p">(</span><span class="n">im</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-122"></a>                <span class="n">kconn</span><span class="p">(</span><span class="k">is</span><span class="p">)</span> <span class="o">=</span> <span class="n">kconn</span><span class="p">(</span><span class="k">is</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-123"></a>                <span class="n">itab</span><span class="p">(</span><span class="n">kconn</span><span class="p">(</span><span class="n">im</span><span class="p">),</span><span class="n">im</span><span class="p">)</span> <span class="o">=</span> <span class="k">is</span>
+<a name="ln-124"></a><span class="k">                </span><span class="n">itab</span><span class="p">(</span><span class="n">kconn</span><span class="p">(</span><span class="k">is</span><span class="p">),</span><span class="k">is</span><span class="p">)</span> <span class="o">=</span> <span class="n">im</span>
+<a name="ln-125"></a>            <span class="k">END DO</span>
+<a name="ln-126"></a>
+<a name="ln-127"></a>            <span class="c">! Counts total amount of connectivities</span>
+<a name="ln-128"></a>            <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-129"></a>            <span class="k">DO </span><span class="n">ic</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ncells</span>
+<a name="ln-130"></a>                <span class="n">n</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="n">kconn</span><span class="p">(</span><span class="n">ic</span><span class="p">)</span>
+<a name="ln-131"></a>            <span class="k">END DO</span>
+<a name="ln-132"></a>
+<a name="ln-133"></a>            <span class="c">! Creates C2C connectivity object</span>
+<a name="ln-134"></a>            <span class="k">CALL </span><span class="n">alloc_conn</span><span class="p">(</span><span class="n">c2c</span><span class="p">,</span><span class="n">nel</span><span class="o">=</span><span class="n">ncells</span><span class="p">,</span><span class="n">nconn</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+<a name="ln-135"></a>
+<a name="ln-136"></a>            <span class="c">! Sets C2C connectivity</span>
+<a name="ln-137"></a>            <span class="k">DO </span><span class="n">ic</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ncells</span>
+<a name="ln-138"></a>                <span class="n">n</span> <span class="o">=</span> <span class="n">kconn</span><span class="p">(</span><span class="n">ic</span><span class="p">)</span>
+<a name="ln-139"></a>                <span class="k">CALL </span><span class="n">c2c</span><span class="p">%</span><span class="n">set_ith_conn</span><span class="p">(</span><span class="n">ic</span><span class="p">,</span><span class="n">itab</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">,</span><span class="n">ic</span><span class="p">))</span>
+<a name="ln-140"></a>            <span class="k">END DO</span>
+<a name="ln-141"></a>
+<a name="ln-142"></a><span class="k">            DEALLOCATE</span><span class="p">(</span><span class="n">itab</span><span class="p">,</span><span class="n">kconn</span><span class="p">,</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-143"></a>            <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-144"></a><span class="k">                WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
+<a name="ln-145"></a>                <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-146"></a>            <span class="k">END IF</span>
+<a name="ln-147"></a>
+<a name="ln-148"></a><span class="k">        </span><span class="n">ENDIF</span>
+<a name="ln-149"></a>
+<a name="ln-150"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory allocation failure in CMP_MESH_C2C&#39;</span><span class="p">)</span>
+<a name="ln-151"></a><span class="mi">200</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory deallocation failure in CMP_MESH_C2C&#39;</span><span class="p">)</span>
+<a name="ln-152"></a>
+<a name="ln-153"></a>        <span class="k">END PROCEDURE </span><span class="n">cmp_mesh_c2c</span>
+<a name="ln-154"></a>
+<a name="ln-155"></a>
+<a name="ln-156"></a>        <span class="k">MODULE PROCEDURE </span><span class="n">cmp_mesh_f2b</span>
+<a name="ln-157"></a>        <span class="k">USE </span><span class="n">class_psblas</span>
+<a name="ln-158"></a>        <span class="k">USE </span><span class="n">class_connectivity</span>
+<a name="ln-159"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-160"></a>        <span class="c">!! $Id: cmp_mesh_f2b.f90 3175 2008-06-13 12:59:07Z sfilippo $</span>
+<a name="ln-161"></a>        <span class="c">!!</span>
+<a name="ln-162"></a>        <span class="c">!! Description:</span>
+<a name="ln-163"></a>        <span class="c">!!</span>
+<a name="ln-164"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">ib</span><span class="p">,</span> <span class="k">IF</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">maxconn</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">nfaces</span><span class="p">,</span><span class="n">j</span>
+<a name="ln-165"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">flag</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">faces</span><span class="p">)),</span> <span class="n">iface</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">faces</span><span class="p">)),</span> <span class="n">kf</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">nbc</span><span class="p">)</span>
+<a name="ln-166"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">iconn</span><span class="p">(:)</span>
+<a name="ln-167"></a>
+<a name="ln-168"></a>
+<a name="ln-169"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-170"></a>            <span class="p">&amp;</span> <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Computing face to boundary connectivity F2B&#39;</span>
+<a name="ln-171"></a>
+<a name="ln-172"></a>        <span class="n">nfaces</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">faces</span><span class="p">)</span>
+<a name="ln-173"></a>        <span class="n">iface</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="k">IF</span><span class="p">,</span> <span class="k">IF</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nfaces</span><span class="p">)</span><span class="o">/</span><span class="p">)</span>
+<a name="ln-174"></a>
+<a name="ln-175"></a>        <span class="n">flag</span> <span class="o">=</span> <span class="n">faces</span><span class="p">%</span><span class="n">flag_</span><span class="p">()</span>
+<a name="ln-176"></a>
+<a name="ln-177"></a>        <span class="c">! Computes maximum connectivity degree</span>
+<a name="ln-178"></a>        <span class="k">IF</span> <span class="p">(.</span><span class="n">FALSE</span><span class="p">.)</span> <span class="k">THEN</span>
+<a name="ln-179"></a><span class="k">            </span><span class="n">maxconn</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-180"></a>            <span class="k">DO </span><span class="n">ib</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">nbc</span>
+<a name="ln-181"></a>                <span class="n">kf</span><span class="p">(</span><span class="n">ib</span><span class="p">)</span> <span class="o">=</span> <span class="nb">COUNT</span><span class="p">(</span><span class="n">flag</span> <span class="o">==</span> <span class="n">ib</span><span class="p">)</span>
+<a name="ln-182"></a>                <span class="n">maxconn</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">maxconn</span><span class="p">,</span><span class="n">kf</span><span class="p">(</span><span class="n">ib</span><span class="p">))</span>
+<a name="ln-183"></a>            <span class="k">END DO</span>
+<a name="ln-184"></a><span class="k">        ELSE</span>
+<a name="ln-185"></a><span class="k">            CALL </span><span class="n">psb_msort</span><span class="p">(</span><span class="n">flag</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nfaces</span><span class="p">),</span><span class="n">ix</span><span class="o">=</span><span class="n">iface</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nfaces</span><span class="p">),</span><span class="n">flag</span><span class="o">=</span><span class="n">psb_sort_keep_idx_</span><span class="p">)</span>
+<a name="ln-186"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">nfaces</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-187"></a><span class="k">                IF</span> <span class="p">((</span><span class="n">flag</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="nb">OR</span><span class="p">.(</span><span class="n">flag</span><span class="p">(</span><span class="n">nfaces</span><span class="p">)</span><span class="o">&gt;</span><span class="n">nbc</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-188"></a><span class="k">                    WRITE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Error in cmp_mesh_f2b: flags out of bounds &#39;</span><span class="p">,</span><span class="n">flag</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">flag</span><span class="p">(</span><span class="n">nfaces</span><span class="p">)</span>
+<a name="ln-189"></a>                    <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-190"></a>                <span class="k">END IF</span>
+<a name="ln-191"></a><span class="k">            END IF</span>
+<a name="ln-192"></a><span class="k">            </span><span class="n">maxconn</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-193"></a>            <span class="n">kf</span><span class="p">(:)</span>   <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-194"></a>            <span class="k">DO IF</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nfaces</span>
+<a name="ln-195"></a>                <span class="n">ib</span>  <span class="o">=</span> <span class="n">flag</span><span class="p">(</span><span class="k">IF</span><span class="p">)</span>
+<a name="ln-196"></a>                <span class="n">kf</span><span class="p">(</span><span class="n">ib</span><span class="p">)</span> <span class="o">=</span> <span class="n">kf</span><span class="p">(</span><span class="n">ib</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-197"></a>                <span class="n">maxconn</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">maxconn</span><span class="p">,</span><span class="n">kf</span><span class="p">(</span><span class="n">ib</span><span class="p">))</span>
+<a name="ln-198"></a>            <span class="k">END DO</span>
+<a name="ln-199"></a><span class="k">        END IF</span>
+<a name="ln-200"></a>
+<a name="ln-201"></a><span class="k">        CALL </span><span class="n">alloc_conn</span><span class="p">(</span><span class="n">f2b</span><span class="p">,</span><span class="n">nel</span><span class="o">=</span><span class="n">nbc</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span><span class="n">nconn</span><span class="o">=</span><span class="n">nfaces</span><span class="p">,</span><span class="n">lb</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-202"></a>
+<a name="ln-203"></a>        <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">iconn</span><span class="p">(</span><span class="n">maxconn</span><span class="p">),</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-204"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-205"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-206"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-207"></a>        <span class="k">END IF</span>
+<a name="ln-208"></a>
+<a name="ln-209"></a><span class="k">        </span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-210"></a>        <span class="k">DO </span><span class="n">ib</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">nbc</span>
+<a name="ln-211"></a>            <span class="n">n</span> <span class="o">=</span> <span class="n">kf</span><span class="p">(</span><span class="n">ib</span><span class="p">)</span>
+<a name="ln-212"></a>            <span class="n">iconn</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">iface</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">j</span><span class="o">+</span><span class="n">n</span><span class="p">)</span>
+<a name="ln-213"></a>    <span class="c">!!$     iconn(1:n) = pack(iface,flag == ib)</span>
+<a name="ln-214"></a>            <span class="k">CALL </span><span class="n">f2b</span><span class="p">%</span><span class="n">set_ith_conn</span><span class="p">(</span><span class="n">ib</span><span class="p">,</span><span class="n">iconn</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">))</span>
+<a name="ln-215"></a>            <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="n">n</span>
+<a name="ln-216"></a>        <span class="k">END DO</span>
+<a name="ln-217"></a>
+<a name="ln-218"></a><span class="k">        DEALLOCATE</span><span class="p">(</span><span class="n">iconn</span><span class="p">)</span>
+<a name="ln-219"></a>
+<a name="ln-220"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory allocation failure in CMP_MESH_F2B&#39;</span><span class="p">)</span>
+<a name="ln-221"></a>
+<a name="ln-222"></a>        <span class="k">END PROCEDURE </span><span class="n">cmp_mesh_f2b</span>
+<a name="ln-223"></a>
+<a name="ln-224"></a>
+<a name="ln-225"></a>        <span class="k">MODULE PROCEDURE </span><span class="n">cmp_mesh_f2f</span>
+<a name="ln-226"></a>        <span class="k">USE </span><span class="n">class_psblas</span>
+<a name="ln-227"></a>        <span class="k">USE </span><span class="n">class_connectivity</span>
+<a name="ln-228"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-229"></a>        <span class="c">!! $Id: cmp_mesh_f2f.f90 8157 2014-10-09 13:02:44Z sfilippo $</span>
+<a name="ln-230"></a>        <span class="c">!!</span>
+<a name="ln-231"></a>        <span class="c">!! Description:</span>
+<a name="ln-232"></a>        <span class="c">!!    Provides the Face To Face adjacency graph.</span>
+<a name="ln-233"></a>        <span class="c">!!    The criterium for associating the graph nodes is arbitrarly defined by the</span>
+<a name="ln-234"></a>        <span class="c">!!    user. In this case, using a co-located cell-centered strategy for variable</span>
+<a name="ln-235"></a>        <span class="c">!!    displacement, the F2F connectivity is obtained by linking each face to all</span>
+<a name="ln-236"></a>        <span class="c">!!    the ones belonging to its master and slave cells.</span>
+<a name="ln-237"></a>        <span class="c">!!</span>
+<a name="ln-238"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">ic</span><span class="p">,</span> <span class="k">IF</span><span class="p">,</span> <span class="n">if1</span><span class="p">,</span> <span class="n">if2</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">ncells</span><span class="p">,</span> <span class="n">ncf</span>
+<a name="ln-239"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">if2c</span><span class="p">(:)</span> <span class="o">=&gt;</span> <span class="nb">NULL</span><span class="p">()</span>
+<a name="ln-240"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">kconn</span><span class="p">(:),</span> <span class="n">itab</span><span class="p">(:,:)</span>
+<a name="ln-241"></a>
+<a name="ln-242"></a>
+<a name="ln-243"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-244"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Computing faces adjacency graph F2F&#39;</span>
+<a name="ln-245"></a>
+<a name="ln-246"></a>            <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="n">f2c</span><span class="p">%</span><span class="n">max_conn</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="c">! F2F maximum connectivity degree</span>
+<a name="ln-247"></a>            <span class="n">ncells</span> <span class="o">=</span> <span class="n">f2c</span><span class="p">%</span><span class="n">nel_</span><span class="p">()</span>          <span class="c">! Number of cells</span>
+<a name="ln-248"></a>
+<a name="ln-249"></a>            <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">itab</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">nfaces</span><span class="p">),</span><span class="n">kconn</span><span class="p">(</span><span class="n">nfaces</span><span class="p">),</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-250"></a>            <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-251"></a><span class="k">                WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-252"></a>                <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-253"></a>            <span class="k">END IF</span>
+<a name="ln-254"></a>
+<a name="ln-255"></a><span class="k">            </span><span class="n">kconn</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-256"></a>            <span class="k">DO </span><span class="n">ic</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ncells</span>
+<a name="ln-257"></a>                <span class="k">CALL </span><span class="n">f2c</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">if2c</span><span class="p">,</span><span class="n">ic</span><span class="p">)</span>
+<a name="ln-258"></a>                <span class="n">ncf</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">if2c</span><span class="p">)</span>
+<a name="ln-259"></a>                <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ncf</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-260"></a>                    <span class="n">if1</span> <span class="o">=</span> <span class="n">if2c</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-261"></a>                    <span class="k">DO </span><span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ncf</span>
+<a name="ln-262"></a>                        <span class="n">if2</span> <span class="o">=</span> <span class="n">if2c</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<a name="ln-263"></a>
+<a name="ln-264"></a>                        <span class="c">! Add direct arc</span>
+<a name="ln-265"></a>                        <span class="n">kconn</span><span class="p">(</span><span class="n">if1</span><span class="p">)</span> <span class="o">=</span> <span class="n">kconn</span><span class="p">(</span><span class="n">if1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-266"></a>                        <span class="n">itab</span><span class="p">(</span><span class="n">kconn</span><span class="p">(</span><span class="n">if1</span><span class="p">),</span><span class="n">if1</span><span class="p">)</span> <span class="o">=</span> <span class="n">if2</span>
+<a name="ln-267"></a>
+<a name="ln-268"></a>                        <span class="c">! Add indirect arc</span>
+<a name="ln-269"></a>                        <span class="n">kconn</span><span class="p">(</span><span class="n">if2</span><span class="p">)</span> <span class="o">=</span> <span class="n">kconn</span><span class="p">(</span><span class="n">if2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-270"></a>                        <span class="n">itab</span><span class="p">(</span><span class="n">kconn</span><span class="p">(</span><span class="n">if2</span><span class="p">),</span><span class="n">if2</span><span class="p">)</span> <span class="o">=</span> <span class="n">if1</span>
+<a name="ln-271"></a>                    <span class="k">END DO</span>
+<a name="ln-272"></a><span class="k">                END DO</span>
+<a name="ln-273"></a><span class="k">            END DO</span>
+<a name="ln-274"></a>
+<a name="ln-275"></a>
+<a name="ln-276"></a>            <span class="c">! Computes total number of connectivities</span>
+<a name="ln-277"></a>            <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-278"></a>            <span class="k">DO IF</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nfaces</span>
+<a name="ln-279"></a>                <span class="n">n</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="n">kconn</span><span class="p">(</span><span class="k">IF</span><span class="p">)</span>
+<a name="ln-280"></a>            <span class="k">END DO</span>
+<a name="ln-281"></a><span class="k">            CALL </span><span class="n">alloc_conn</span><span class="p">(</span><span class="n">f2f</span><span class="p">,</span><span class="n">nel</span><span class="o">=</span><span class="n">nfaces</span><span class="p">,</span><span class="n">nconn</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+<a name="ln-282"></a>
+<a name="ln-283"></a>
+<a name="ln-284"></a>            <span class="c">! Sets F2F connectivity</span>
+<a name="ln-285"></a>            <span class="k">DO IF</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nfaces</span>
+<a name="ln-286"></a>                <span class="n">n</span> <span class="o">=</span> <span class="n">kconn</span><span class="p">(</span><span class="k">IF</span><span class="p">)</span>
+<a name="ln-287"></a>                <span class="k">CALL </span><span class="n">f2f</span><span class="p">%</span><span class="n">set_ith_conn</span><span class="p">(</span><span class="k">IF</span><span class="p">,</span><span class="n">itab</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">,</span><span class="k">IF</span><span class="p">))</span>
+<a name="ln-288"></a>            <span class="k">END DO</span>
+<a name="ln-289"></a>
+<a name="ln-290"></a>
+<a name="ln-291"></a>            <span class="c">! Frees memory</span>
+<a name="ln-292"></a>            <span class="k">NULLIFY</span><span class="p">(</span><span class="n">if2c</span><span class="p">)</span>
+<a name="ln-293"></a>            <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">itab</span><span class="p">,</span><span class="n">kconn</span><span class="p">)</span>
+<a name="ln-294"></a>
+<a name="ln-295"></a>        <span class="n">ENDIF</span>
+<a name="ln-296"></a>
+<a name="ln-297"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory allocation failure in CMP_MESH_F2F&#39;</span><span class="p">)</span>
+<a name="ln-298"></a>
+<a name="ln-299"></a>        <span class="k">END PROCEDURE </span><span class="n">cmp_mesh_f2f</span>
+<a name="ln-300"></a>
+<a name="ln-301"></a>
+<a name="ln-302"></a>        <span class="k">MODULE PROCEDURE </span><span class="n">cmp_mesh_part</span>
+<a name="ln-303"></a>        <span class="k">USE </span><span class="n">class_psblas</span>
+<a name="ln-304"></a>        <span class="k">USE </span><span class="n">class_connectivity</span>
+<a name="ln-305"></a>        <span class="k">USE </span><span class="n">tools_part</span>
+<a name="ln-306"></a>        <span class="k">USE </span><span class="n">part_graph</span><span class="p">,</span> <span class="n">ONLY</span> <span class="p">:</span> <span class="n">bld_part_graph</span><span class="p">,</span> <span class="n">get_part_graph</span>
+<a name="ln-307"></a>        <span class="k">USE </span><span class="n">part_block</span><span class="p">,</span> <span class="n">ONLY</span> <span class="p">:</span> <span class="n">bld_part_block</span>
+<a name="ln-308"></a>        <span class="k">USE </span><span class="n">part_random</span><span class="p">,</span> <span class="n">ONLY</span> <span class="p">:</span> <span class="n">bld_part_random</span>
+<a name="ln-309"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-310"></a>        <span class="c">!! $Id: cmp_mesh_part.f90 8157 2014-10-09 13:02:44Z sfilippo $</span>
+<a name="ln-311"></a>        <span class="c">!!</span>
+<a name="ln-312"></a>        <span class="c">!! Description:</span>
+<a name="ln-313"></a>        <span class="c">!!</span>
+<a name="ln-314"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">info</span><span class="p">,</span> <span class="n">nprocs</span><span class="p">,</span> <span class="n">ncells</span>
+<a name="ln-315"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">xadj_glob</span><span class="p">(:)</span>
+<a name="ln-316"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">adjncy_glob</span><span class="p">(:)</span>
+<a name="ln-317"></a>
+<a name="ln-318"></a>        <span class="k">IF</span> <span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-319"></a><span class="k">            CALL </span><span class="n">sw_par</span><span class="p">%</span><span class="n">tic</span><span class="p">()</span>
+<a name="ln-320"></a>
+<a name="ln-321"></a>            <span class="n">nprocs</span> <span class="o">=</span> <span class="n">nprocs_</span><span class="p">()</span>
+<a name="ln-322"></a>
+<a name="ln-323"></a>            <span class="k">IF</span><span class="p">(</span><span class="n">nprocs</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="p">)</span> <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-324"></a>
+<a name="ln-325"></a>            <span class="n">ncells</span> <span class="o">=</span> <span class="n">c2c</span><span class="p">%</span><span class="n">nel_</span><span class="p">()</span>
+<a name="ln-326"></a>
+<a name="ln-327"></a>            <span class="c">! Checks status of PART_CELLS vector</span>
+<a name="ln-328"></a>            <span class="k">IF</span><span class="p">(</span><span class="nb">ALLOCATED</span><span class="p">(</span><span class="n">part_cells</span><span class="p">))</span> <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">part_cells</span><span class="p">)</span>
+<a name="ln-329"></a>            <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">part_cells</span><span class="p">(</span><span class="n">ncells</span><span class="p">),</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-330"></a>            <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-331"></a><span class="k">                WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-332"></a>                <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-333"></a>            <span class="k">END IF</span>
+<a name="ln-334"></a>
+<a name="ln-335"></a>            <span class="c">! Retrieves connectivity data in CSR-like format</span>
+<a name="ln-336"></a>            <span class="k">IF</span><span class="p">(</span><span class="n">ipart</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-337"></a>                <span class="c">! ParMetis requires global connectivity in CSR format, therefore</span>
+<a name="ln-338"></a>                <span class="c">! the call to GET_CONN_CSR is done here, outside BLD_PART_GRAPH.</span>
+<a name="ln-339"></a>                <span class="k">CALL </span><span class="n">c2c</span><span class="p">%</span><span class="n">get_conn_csr</span><span class="p">(</span><span class="n">xadj_glob</span><span class="p">,</span><span class="n">adjncy_glob</span><span class="p">)</span>
+<a name="ln-340"></a>            <span class="k">END IF</span>
+<a name="ln-341"></a>
+<a name="ln-342"></a><span class="k">            SELECT CASE</span><span class="p">(</span><span class="n">ipart</span><span class="p">)</span>
+<a name="ln-343"></a>            <span class="k">CASE</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-344"></a>                <span class="c">! Random partitioning</span>
+<a name="ln-345"></a>                <span class="k">CALL </span><span class="n">bld_part_random</span><span class="p">(</span><span class="n">ncells</span><span class="p">,</span><span class="n">nprocs</span><span class="p">,</span><span class="n">part_cells</span><span class="p">)</span>
+<a name="ln-346"></a>            <span class="k">CASE</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<a name="ln-347"></a>                <span class="c">! HPF Block partitioning</span>
+<a name="ln-348"></a>                <span class="k">CALL </span><span class="n">bld_part_block</span><span class="p">(</span><span class="n">ncells</span><span class="p">,</span><span class="n">nprocs</span><span class="p">,</span><span class="n">part_cells</span><span class="p">)</span>
+<a name="ln-349"></a>            <span class="k">CASE</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-350"></a>                <span class="c">! METIS Partitioning</span>
+<a name="ln-351"></a>                <span class="k">CALL </span><span class="n">bld_part_graph</span><span class="p">(</span><span class="n">xadj_glob</span><span class="p">,</span><span class="n">adjncy_glob</span><span class="p">,</span><span class="n">ipart</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-352"></a>                <span class="k">CALL </span><span class="n">get_part_graph</span><span class="p">(</span><span class="n">part_cells</span><span class="p">)</span>
+<a name="ln-353"></a>            <span class="k">CASE </span><span class="n">DEFAULT</span>
+<a name="ln-354"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
+<a name="ln-355"></a>                <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-356"></a>            <span class="k">END SELECT</span>
+<a name="ln-357"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-358"></a>
+<a name="ln-359"></a>
+<a name="ln-360"></a>            <span class="k">IF</span><span class="p">(</span><span class="n">ipart</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-361"></a><span class="k">                DEALLOCATE</span><span class="p">(</span><span class="n">xadj_glob</span><span class="p">,</span><span class="n">adjncy_glob</span><span class="p">,</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-362"></a>                <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-363"></a><span class="k">                    WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">300</span><span class="p">)</span>
+<a name="ln-364"></a>                    <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-365"></a>                <span class="k">END IF</span>
+<a name="ln-366"></a><span class="k">            END IF</span>
+<a name="ln-367"></a>
+<a name="ln-368"></a><span class="k">            CALL </span><span class="n">sw_par</span><span class="p">%</span><span class="n">toc</span><span class="p">()</span>
+<a name="ln-369"></a>        <span class="n">ENDIF</span>
+<a name="ln-370"></a>
+<a name="ln-371"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory allocation failure in CMP_MESH_PART&#39;</span><span class="p">)</span>
+<a name="ln-372"></a><span class="mi">200</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Unknown partitioning method in CMP_MESH_PART&#39;</span><span class="p">)</span>
+<a name="ln-373"></a><span class="mi">300</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory deallocation failure in CMP_MESH_PART&#39;</span><span class="p">)</span>
+<a name="ln-374"></a>
+<a name="ln-375"></a>        <span class="k">END PROCEDURE </span><span class="n">cmp_mesh_part</span>
+<a name="ln-376"></a>
+<a name="ln-377"></a>
+<a name="ln-378"></a>        <span class="k">MODULE PROCEDURE </span><span class="n">cmp_mesh_renum</span>
+<a name="ln-379"></a>        <span class="k">USE </span><span class="n">class_psblas</span>
+<a name="ln-380"></a>        <span class="k">USE </span><span class="n">class_cell</span>
+<a name="ln-381"></a>        <span class="k">USE </span><span class="n">class_connectivity</span>
+<a name="ln-382"></a>        <span class="k">USE </span><span class="n">renum</span>
+<a name="ln-383"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-384"></a>        <span class="c">!! $Id: cmp_mesh_renum.f90 8157 2014-10-09 13:02:44Z sfilippo $</span>
+<a name="ln-385"></a>        <span class="c">!!</span>
+<a name="ln-386"></a>        <span class="c">!! Description:</span>
+<a name="ln-387"></a>        <span class="c">!!</span>
+<a name="ln-388"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">icontxt</span><span class="p">,</span> <span class="n">mypnum</span>
+<a name="ln-389"></a>
+<a name="ln-390"></a>
+<a name="ln-391"></a>        <span class="n">icontxt</span> <span class="o">=</span> <span class="n">icontxt_</span><span class="p">()</span>
+<a name="ln-392"></a>        <span class="n">mypnum</span> <span class="o">=</span> <span class="n">mypnum_</span><span class="p">()</span>
+<a name="ln-393"></a>
+<a name="ln-394"></a>        <span class="k">CALL </span><span class="n">sw_ord</span><span class="p">%</span><span class="n">tic</span><span class="p">()</span>
+<a name="ln-395"></a>
+<a name="ln-396"></a>        <span class="k">SELECT CASE</span><span class="p">(</span><span class="n">irenum</span><span class="p">)</span>
+<a name="ln-397"></a>        <span class="k">CASE</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<a name="ln-398"></a>            <span class="k">IF</span><span class="p">(</span><span class="n">mypnum</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-399"></a><span class="k">                WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Matrix renumbering: none&#39;</span>
+<a name="ln-400"></a>                <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-401"></a>            <span class="k">END IF</span>
+<a name="ln-402"></a><span class="k">        CASE</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-403"></a>            <span class="c">! Builds permutation array on P0, according to IRENUM value.</span>
+<a name="ln-404"></a>            <span class="k">IF</span><span class="p">(</span><span class="n">mypnum</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-405"></a><span class="k">                CALL </span><span class="n">start_renum</span><span class="p">(</span><span class="n">irenum</span><span class="p">,</span><span class="n">c2c</span><span class="p">)</span>
+<a name="ln-406"></a>                <span class="c">!!     call print_renum(0)</span>
+<a name="ln-407"></a>                <span class="c">! Applies permutation to cell-related structures</span>
+<a name="ln-408"></a>
+<a name="ln-409"></a>                <span class="k">CALL </span><span class="n">apply_renum</span><span class="p">(</span><span class="n">c2c</span><span class="p">,</span><span class="n">to_a_and_b_</span><span class="p">)</span>
+<a name="ln-410"></a>                <span class="k">CALL </span><span class="n">apply_renum</span><span class="p">(</span><span class="n">v2c</span><span class="p">,</span><span class="n">to_b_</span><span class="p">)</span>
+<a name="ln-411"></a>                <span class="k">CALL </span><span class="n">apply_renum</span><span class="p">(</span><span class="n">f2c</span><span class="p">,</span><span class="n">to_b_</span><span class="p">)</span>
+<a name="ln-412"></a>                <span class="k">CALL </span><span class="n">apply_renum</span><span class="p">(</span><span class="n">c2g</span><span class="p">,</span><span class="n">to_a_</span><span class="p">)</span>
+<a name="ln-413"></a>                <span class="k">CALL </span><span class="n">apply_renum</span><span class="p">(</span><span class="n">cells</span><span class="p">)</span>
+<a name="ln-414"></a>                <span class="k">CALL </span><span class="n">apply_renum</span><span class="p">(</span><span class="n">faces</span><span class="p">)</span>
+<a name="ln-415"></a>
+<a name="ln-416"></a>                <span class="c">! Deallocates private storage of renum module</span>
+<a name="ln-417"></a>                <span class="k">CALL </span><span class="n">stop_renum</span>
+<a name="ln-418"></a>            <span class="n">ENDIF</span>
+<a name="ln-419"></a>        <span class="k">CASE </span><span class="n">DEFAULT</span>
+<a name="ln-420"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-421"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-422"></a>        <span class="k">END SELECT</span>
+<a name="ln-423"></a>
+<a name="ln-424"></a><span class="k">        CALL </span><span class="n">sw_ord</span><span class="p">%</span><span class="n">toc</span><span class="p">()</span>
+<a name="ln-425"></a>
+<a name="ln-426"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Unknown renumbering method in CMP_MESH_RENUM&#39;</span><span class="p">)</span>
+<a name="ln-427"></a>
+<a name="ln-428"></a>        <span class="k">END PROCEDURE </span><span class="n">cmp_mesh_renum</span>
+<a name="ln-429"></a>
+<a name="ln-430"></a>
+<a name="ln-431"></a>        <span class="k">MODULE PROCEDURE </span><span class="n">cmp_mesh_v2b</span>
+<a name="ln-432"></a>        <span class="k">USE </span><span class="n">class_psblas</span>
+<a name="ln-433"></a>        <span class="k">USE </span><span class="n">class_connectivity</span>
+<a name="ln-434"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-435"></a>        <span class="c">!! $Id: cmp_mesh_v2b.f90 8157 2014-10-09 13:02:44Z sfilippo $</span>
+<a name="ln-436"></a>        <span class="c">!!</span>
+<a name="ln-437"></a>        <span class="c">!! Description:  Sets up vertex to boundary connectivity, so that given a boundary, the</span>
+<a name="ln-438"></a>        <span class="c">!! GET_ITH_CONN method can be used to obtain the list of vertices that belong to the boundary.</span>
+<a name="ln-439"></a>        <span class="c">!! Boundary ID&#39;s correspond to those used to flag faces:</span>
+<a name="ln-440"></a>        <span class="c">!!</span>
+<a name="ln-441"></a>        <span class="c">!!---------------------------|</span>
+<a name="ln-442"></a>        <span class="c">!! Vertex Flag | Vertex Type |</span>
+<a name="ln-443"></a>        <span class="c">!!---------------------------|</span>
+<a name="ln-444"></a>        <span class="c">!!      0      | interior    |</span>
+<a name="ln-445"></a>        <span class="c">!!    &lt; 0      | proc. bndry |</span>
+<a name="ln-446"></a>        <span class="c">!!    &gt; 0      | phys. bndry |</span>
+<a name="ln-447"></a>        <span class="c">!!---------------------------|</span>
+<a name="ln-448"></a>        <span class="c">!!</span>
+<a name="ln-449"></a>        <span class="kt">LOGICAL</span> <span class="kd">::</span> <span class="n">inspected</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nbc</span><span class="p">)</span>
+<a name="ln-450"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">flag</span><span class="p">,</span> <span class="k">IF</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">iv</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">nverts</span>
+<a name="ln-451"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">kconn</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nbc</span><span class="p">)</span>
+<a name="ln-452"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">itab</span><span class="p">(:,:)</span>
+<a name="ln-453"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">if2v</span><span class="p">(:)</span> <span class="o">=&gt;</span> <span class="nb">NULL</span><span class="p">()</span>
+<a name="ln-454"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">connectivity</span><span class="p">)</span> <span class="kd">::</span> <span class="n">f2v</span>
+<a name="ln-455"></a>
+<a name="ln-456"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-457"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Computing vertex to boundary connectivity V2B&#39;</span>
+<a name="ln-458"></a>
+<a name="ln-459"></a>
+<a name="ln-460"></a>            <span class="k">CALL </span><span class="n">v2f</span><span class="p">%</span><span class="n">get_dual_conn</span><span class="p">(</span><span class="n">f2v</span><span class="p">)</span>
+<a name="ln-461"></a>
+<a name="ln-462"></a>            <span class="n">nverts</span> <span class="o">=</span> <span class="n">f2v</span><span class="p">%</span><span class="n">nel_</span><span class="p">()</span>
+<a name="ln-463"></a>
+<a name="ln-464"></a>            <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">itab</span><span class="p">(</span><span class="n">nverts</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="n">nbc</span><span class="p">),</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-465"></a>            <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-466"></a><span class="k">                WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-467"></a>                <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-468"></a>            <span class="k">END IF</span>
+<a name="ln-469"></a>
+<a name="ln-470"></a><span class="k">            </span><span class="n">itab</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-471"></a>            <span class="n">kconn</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-472"></a>
+<a name="ln-473"></a>            <span class="k">DO </span><span class="n">iv</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nverts</span>
+<a name="ln-474"></a>                <span class="n">inspected</span><span class="p">(:)</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-475"></a>
+<a name="ln-476"></a>                <span class="k">CALL </span><span class="n">f2v</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">if2v</span><span class="p">,</span><span class="n">iv</span><span class="p">)</span>
+<a name="ln-477"></a>                <span class="n">n</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">if2v</span><span class="p">)</span>
+<a name="ln-478"></a>
+<a name="ln-479"></a>                <span class="k">DO </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+<a name="ln-480"></a>                    <span class="k">IF</span> <span class="o">=</span> <span class="n">if2v</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<a name="ln-481"></a>                    <span class="n">flag</span> <span class="o">=</span> <span class="n">faces</span><span class="p">(</span><span class="k">IF</span><span class="p">)%</span><span class="n">flag_</span><span class="p">()</span>
+<a name="ln-482"></a>                    <span class="k">IF</span><span class="p">(</span><span class="n">flag</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="n">inspected</span><span class="p">(</span><span class="n">flag</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-483"></a><span class="k">                        </span><span class="n">inspected</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-484"></a>                        <span class="n">kconn</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span> <span class="o">=</span> <span class="n">kconn</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-485"></a>                        <span class="n">itab</span><span class="p">(</span><span class="n">kconn</span><span class="p">(</span><span class="n">flag</span><span class="p">),</span><span class="n">flag</span><span class="p">)</span> <span class="o">=</span> <span class="n">iv</span>
+<a name="ln-486"></a>                    <span class="k">END IF</span>
+<a name="ln-487"></a><span class="k">                END DO</span>
+<a name="ln-488"></a>
+<a name="ln-489"></a><span class="k">                IF</span><span class="p">(</span><span class="k">ALL</span><span class="p">(</span><span class="n">inspected</span> <span class="p">.</span><span class="n">EQV</span><span class="p">.</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.))</span> <span class="k">THEN</span>
+<a name="ln-490"></a><span class="k">                    </span><span class="n">kconn</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="n">kconn</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-491"></a>                    <span class="n">itab</span><span class="p">(</span><span class="n">kconn</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="n">iv</span>
+<a name="ln-492"></a>                <span class="k">END IF</span>
+<a name="ln-493"></a><span class="k">            END DO</span>
+<a name="ln-494"></a>
+<a name="ln-495"></a>            <span class="c">! Computes number of V2B connectivity</span>
+<a name="ln-496"></a>            <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-497"></a>            <span class="k">DO </span><span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nbc</span>
+<a name="ln-498"></a>                <span class="n">n</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="n">kconn</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<a name="ln-499"></a>            <span class="k">END DO</span>
+<a name="ln-500"></a>
+<a name="ln-501"></a><span class="k">            CALL </span><span class="n">alloc_conn</span><span class="p">(</span><span class="n">v2b</span><span class="p">,</span><span class="n">nel</span><span class="o">=</span><span class="n">nbc</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">nconn</span><span class="o">=</span><span class="n">n</span><span class="p">,</span><span class="n">lb</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<a name="ln-502"></a>
+<a name="ln-503"></a>            <span class="k">DO </span><span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nbc</span>
+<a name="ln-504"></a>                <span class="n">n</span> <span class="o">=</span> <span class="n">kconn</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<a name="ln-505"></a>                <span class="k">CALL </span><span class="n">v2b</span><span class="p">%</span><span class="n">set_ith_conn</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">itab</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">))</span>
+<a name="ln-506"></a>            <span class="k">END DO</span>
+<a name="ln-507"></a>
+<a name="ln-508"></a><span class="k">            DEALLOCATE</span><span class="p">(</span><span class="n">itab</span><span class="p">)</span>
+<a name="ln-509"></a>            <span class="k">NULLIFY</span><span class="p">(</span><span class="n">if2v</span><span class="p">)</span>
+<a name="ln-510"></a>            <span class="k">CALL </span><span class="n">free_conn</span><span class="p">(</span><span class="n">f2v</span><span class="p">)</span>
+<a name="ln-511"></a>
+<a name="ln-512"></a>        <span class="n">ENDIF</span>
+<a name="ln-513"></a>
+<a name="ln-514"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory allocation failure in CMP_MESH_V2B&#39;</span><span class="p">)</span>
+<a name="ln-515"></a>
+<a name="ln-516"></a>        <span class="k">END PROCEDURE </span><span class="n">cmp_mesh_v2b</span>
+<a name="ln-517"></a>
+<a name="ln-518"></a>
+<a name="ln-519"></a>        <span class="k">MODULE PROCEDURE  </span><span class="n">cmp_mesh_v2e</span>
+<a name="ln-520"></a>        <span class="k">USE </span><span class="n">class_psblas</span>
+<a name="ln-521"></a>        <span class="k">USE </span><span class="n">class_connectivity</span>
+<a name="ln-522"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-523"></a>        <span class="c">!! $Id: cmp_mesh_v2e.f90 8157 2014-10-09 13:02:44Z sfilippo $</span>
+<a name="ln-524"></a>        <span class="c">!!</span>
+<a name="ln-525"></a>        <span class="c">!! Description:</span>
+<a name="ln-526"></a>        <span class="c">!!    Provides the Vertex To Edge connectivity.</span>
+<a name="ln-527"></a>        <span class="c">!!</span>
+<a name="ln-528"></a>        <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">inspected</span><span class="p">(:),</span> <span class="n">twice</span><span class="p">(:)</span>
+<a name="ln-529"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">ie</span><span class="p">,</span> <span class="n">ie1</span><span class="p">,</span> <span class="n">ie2</span>
+<a name="ln-530"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">iv</span><span class="p">,</span> <span class="n">iv1</span><span class="p">,</span> <span class="n">iv2</span><span class="p">,</span> <span class="n">iv3</span><span class="p">,</span> <span class="n">iv4</span>
+<a name="ln-531"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="k">IF</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">nedges</span><span class="p">,</span> <span class="n">nfaces</span><span class="p">,</span> <span class="n">nverts</span>
+<a name="ln-532"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">iv2f</span><span class="p">(:)</span> <span class="o">=&gt;</span> <span class="nb">NULL</span><span class="p">()</span>
+<a name="ln-533"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">iv2e</span><span class="p">(:)</span> <span class="o">=&gt;</span> <span class="nb">NULL</span><span class="p">(),</span> <span class="n">ie2v</span><span class="p">(:)</span> <span class="o">=&gt;</span> <span class="nb">NULL</span><span class="p">()</span>
+<a name="ln-534"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">connectivity</span><span class="p">)</span> <span class="kd">::</span> <span class="n">work</span><span class="p">,</span> <span class="n">e2v</span>
+<a name="ln-535"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">stopwatch</span><span class="p">)</span> <span class="kd">::</span> <span class="n">sw_v2e</span>
+<a name="ln-536"></a>
+<a name="ln-537"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span>
+<a name="ln-538"></a>
+<a name="ln-539"></a>        <span class="c">! V2E makes sense only for 3D meshes!</span>
+<a name="ln-540"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">ncd</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="k">RETURN</span>
+<a name="ln-541"></a>
+<a name="ln-542"></a><span class="k">        IF</span><span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-543"></a>            <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Computing vertex to edge connectivity V2E&#39;</span>
+<a name="ln-544"></a>
+<a name="ln-545"></a>        <span class="c">! Constructs stopwatch</span>
+<a name="ln-546"></a>        <span class="n">sw_v2e</span> <span class="o">=</span> <span class="n">stopwatch_</span><span class="p">(</span><span class="n">icontxt_</span><span class="p">())</span>
+<a name="ln-547"></a>
+<a name="ln-548"></a>        <span class="c">! Start timing</span>
+<a name="ln-549"></a>        <span class="k">CALL </span><span class="n">sw_v2e</span><span class="p">%</span><span class="n">tic</span><span class="p">()</span>
+<a name="ln-550"></a>
+<a name="ln-551"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-552"></a>
+<a name="ln-553"></a><span class="k">            </span><span class="n">nfaces</span> <span class="o">=</span> <span class="n">v2f</span><span class="p">%</span><span class="n">nel_</span><span class="p">()</span>
+<a name="ln-554"></a>
+<a name="ln-555"></a>            <span class="n">nedges</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-556"></a>            <span class="k">DO IF</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nfaces</span>
+<a name="ln-557"></a>                <span class="k">CALL </span><span class="n">v2f</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">iv2f</span><span class="p">,</span><span class="k">IF</span><span class="p">)</span>
+<a name="ln-558"></a>                <span class="n">nedges</span> <span class="o">=</span> <span class="n">nedges</span> <span class="o">+</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">iv2f</span><span class="p">)</span>
+<a name="ln-559"></a>            <span class="k">END DO</span>
+<a name="ln-560"></a>
+<a name="ln-561"></a>
+<a name="ln-562"></a><span class="k">            CALL </span><span class="n">alloc_conn</span><span class="p">(</span><span class="n">work</span><span class="p">,</span><span class="n">nel</span><span class="o">=</span><span class="n">nedges</span><span class="p">,</span><span class="n">nconn</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">nedges</span><span class="p">)</span>
+<a name="ln-563"></a>
+<a name="ln-564"></a>            <span class="n">ie</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-565"></a>            <span class="k">DO IF</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nfaces</span>
+<a name="ln-566"></a>
+<a name="ln-567"></a>                <span class="k">CALL </span><span class="n">v2f</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">iv2f</span><span class="p">,</span><span class="k">IF</span><span class="p">)</span>
+<a name="ln-568"></a>
+<a name="ln-569"></a>                <span class="n">n</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">iv2f</span><span class="p">)</span>
+<a name="ln-570"></a>                <span class="c">! # of face vertices is equal to # of face edges N</span>
+<a name="ln-571"></a>
+<a name="ln-572"></a>                <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-573"></a>                    <span class="k">CALL </span><span class="n">work</span><span class="p">%</span><span class="n">set_ith_conn</span><span class="p">(</span><span class="n">ie</span><span class="p">,(</span><span class="o">/</span> <span class="n">iv2f</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">iv2f</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span><span class="p">))</span>
+<a name="ln-574"></a>                    <span class="n">ie</span> <span class="o">=</span> <span class="n">ie</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-575"></a>                <span class="k">END DO</span>
+<a name="ln-576"></a><span class="k">                CALL </span><span class="n">work</span><span class="p">%</span><span class="n">set_ith_conn</span><span class="p">(</span><span class="n">ie</span><span class="p">,(</span><span class="o">/</span> <span class="n">iv2f</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">iv2f</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span><span class="p">))</span>
+<a name="ln-577"></a>                <span class="n">ie</span> <span class="o">=</span> <span class="n">ie</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-578"></a>            <span class="k">END DO</span>
+<a name="ln-579"></a>
+<a name="ln-580"></a><span class="k">            CALL </span><span class="n">work</span><span class="p">%</span><span class="n">get_dual_conn</span><span class="p">(</span><span class="n">e2v</span><span class="p">)</span>
+<a name="ln-581"></a>
+<a name="ln-582"></a>            <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">inspected</span><span class="p">(</span><span class="n">nedges</span><span class="p">),</span><span class="n">twice</span><span class="p">(</span><span class="n">nedges</span><span class="p">),</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-583"></a>            <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-584"></a><span class="k">                WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-585"></a>                <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-586"></a>            <span class="k">END IF</span>
+<a name="ln-587"></a>
+<a name="ln-588"></a><span class="k">            </span><span class="n">nverts</span> <span class="o">=</span> <span class="n">e2v</span><span class="p">%</span><span class="n">nel_</span><span class="p">()</span>
+<a name="ln-589"></a>
+<a name="ln-590"></a>            <span class="n">inspected</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-591"></a>            <span class="n">twice</span>     <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-592"></a>            <span class="k">DO </span><span class="n">iv</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>  <span class="n">nverts</span>
+<a name="ln-593"></a>                <span class="k">CALL </span><span class="n">e2v</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">ie2v</span><span class="p">,</span><span class="n">iv</span><span class="p">)</span>
+<a name="ln-594"></a>                <span class="n">n</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">ie2v</span><span class="p">)</span>
+<a name="ln-595"></a>
+<a name="ln-596"></a>                <span class="n">edge1</span><span class="p">:</span> <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-597"></a>                    <span class="n">ie1</span> <span class="o">=</span> <span class="n">ie2v</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-598"></a>                    <span class="k">IF</span><span class="p">(</span><span class="n">twice</span><span class="p">(</span><span class="n">ie1</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">inspected</span><span class="p">(</span><span class="n">ie1</span><span class="p">))</span> <span class="k">CYCLE </span><span class="n">edge1</span>
+<a name="ln-599"></a>                    <span class="n">inspected</span><span class="p">(</span><span class="n">ie1</span><span class="p">)</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-600"></a>
+<a name="ln-601"></a>                    <span class="k">CALL </span><span class="n">work</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">iv2e</span><span class="p">,</span><span class="n">ie1</span><span class="p">)</span>
+<a name="ln-602"></a>                    <span class="n">iv1</span> <span class="o">=</span> <span class="n">iv2e</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-603"></a>                    <span class="n">iv2</span> <span class="o">=</span> <span class="n">iv2e</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-604"></a>                    <span class="n">s1</span> <span class="o">=</span> <span class="n">iv1</span> <span class="o">+</span> <span class="n">iv2</span>
+<a name="ln-605"></a>                    <span class="n">d1</span> <span class="o">=</span> <span class="nb">ABS</span><span class="p">(</span><span class="n">iv1</span> <span class="o">-</span> <span class="n">iv2</span><span class="p">)</span>
+<a name="ln-606"></a>
+<a name="ln-607"></a>                    <span class="n">edge2</span><span class="p">:</span> <span class="k">DO </span><span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+<a name="ln-608"></a>                        <span class="n">ie2</span> <span class="o">=</span> <span class="n">ie2v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<a name="ln-609"></a>                        <span class="k">IF</span><span class="p">(</span><span class="n">twice</span><span class="p">(</span><span class="n">ie2</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">inspected</span><span class="p">(</span><span class="n">ie2</span><span class="p">))</span> <span class="k">CYCLE </span><span class="n">edge2</span>
+<a name="ln-610"></a>
+<a name="ln-611"></a>                        <span class="k">CALL </span><span class="n">work</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">iv2e</span><span class="p">,</span><span class="n">ie2</span><span class="p">)</span>
+<a name="ln-612"></a>                        <span class="n">iv3</span> <span class="o">=</span> <span class="n">iv2e</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-613"></a>                        <span class="n">iv4</span> <span class="o">=</span> <span class="n">iv2e</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-614"></a>                        <span class="n">s2</span> <span class="o">=</span> <span class="n">iv3</span> <span class="o">+</span> <span class="n">iv4</span>
+<a name="ln-615"></a>                        <span class="n">d2</span> <span class="o">=</span> <span class="nb">ABS</span><span class="p">(</span><span class="n">iv3</span> <span class="o">-</span> <span class="n">iv4</span><span class="p">)</span>
+<a name="ln-616"></a>
+<a name="ln-617"></a>                        <span class="k">IF</span><span class="p">(</span><span class="n">s1</span> <span class="o">==</span> <span class="n">s2</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">d1</span> <span class="o">==</span> <span class="n">d2</span><span class="p">)</span> <span class="n">twice</span><span class="p">(</span><span class="n">ie2</span><span class="p">)</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-618"></a>    <span class="c">!!$           if((iv4 == iv1 .and. iv3 == iv2) .or.&amp;</span>
+<a name="ln-619"></a>    <span class="c">!!$               iv4 == iv2 .and. iv3 == iv1 ) then</span>
+<a name="ln-620"></a>    <span class="c">!!$              twice(ie2) = .true.</span>
+<a name="ln-621"></a>    <span class="c">!!$           end if</span>
+<a name="ln-622"></a>                    <span class="k">END DO </span><span class="n">edge2</span>
+<a name="ln-623"></a>
+<a name="ln-624"></a>                <span class="k">END DO </span><span class="n">edge1</span>
+<a name="ln-625"></a>            <span class="k">END DO</span>
+<a name="ln-626"></a>
+<a name="ln-627"></a><span class="k">            </span><span class="n">nedges</span> <span class="o">=</span> <span class="nb">COUNT</span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="n">twice</span><span class="p">)</span>
+<a name="ln-628"></a>            <span class="k">CALL </span><span class="n">alloc_conn</span><span class="p">(</span><span class="n">v2e</span><span class="p">,</span><span class="n">nel</span><span class="o">=</span><span class="n">nedges</span><span class="p">,</span><span class="n">nconn</span><span class="o">=</span><span class="n">nedges</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-629"></a>
+<a name="ln-630"></a>            <span class="n">ie</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-631"></a>            <span class="n">n</span> <span class="o">=</span> <span class="n">work</span><span class="p">%</span><span class="n">nel_</span><span class="p">()</span>
+<a name="ln-632"></a>            <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+<a name="ln-633"></a>                <span class="k">IF</span><span class="p">(</span><span class="n">twice</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">CYCLE</span>
+<a name="ln-634"></a><span class="k">                </span><span class="n">ie</span> <span class="o">=</span> <span class="n">ie</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-635"></a>                <span class="k">CALL </span><span class="n">work</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">iv2e</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-636"></a>                <span class="k">CALL </span><span class="n">v2e</span><span class="p">%</span><span class="n">set_ith_conn</span><span class="p">(</span><span class="n">ie</span><span class="p">,</span><span class="n">iv2e</span><span class="p">)</span>
+<a name="ln-637"></a>            <span class="k">END DO</span>
+<a name="ln-638"></a>
+<a name="ln-639"></a>
+<a name="ln-640"></a>            <span class="c">! Frees storage</span>
+<a name="ln-641"></a>            <span class="k">NULLIFY</span><span class="p">(</span><span class="n">iv2e</span><span class="p">,</span><span class="n">ie2v</span><span class="p">,</span><span class="n">iv2f</span><span class="p">)</span>
+<a name="ln-642"></a>            <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">inspected</span><span class="p">,</span><span class="n">twice</span><span class="p">)</span>
+<a name="ln-643"></a>            <span class="k">CALL </span><span class="n">free_conn</span><span class="p">(</span><span class="n">e2v</span><span class="p">)</span>
+<a name="ln-644"></a>            <span class="k">CALL </span><span class="n">free_conn</span><span class="p">(</span><span class="n">work</span><span class="p">)</span>
+<a name="ln-645"></a>
+<a name="ln-646"></a>        <span class="n">ENDIF</span>
+<a name="ln-647"></a>
+<a name="ln-648"></a>        <span class="c">! Stop timing</span>
+<a name="ln-649"></a>        <span class="k">CALL </span><span class="n">sw_v2e</span><span class="p">%</span><span class="n">toc</span><span class="p">()</span>
+<a name="ln-650"></a>
+<a name="ln-651"></a>        <span class="c">! Synchronization</span>
+<a name="ln-652"></a>        <span class="k">CALL </span><span class="n">sw_v2e</span><span class="p">%</span><span class="n">synchro</span><span class="p">()</span>
+<a name="ln-653"></a>
+<a name="ln-654"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a,es13.6)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-655"></a>            <span class="p">&amp;</span><span class="s1">&#39;  - Elapsed time for V2E building:&#39;</span><span class="p">,</span> <span class="n">sw_v2e</span><span class="p">%</span><span class="n">partial_</span><span class="p">()</span>
+<a name="ln-656"></a>
+<a name="ln-657"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory allocation failure in CMP_MESH_V2E&#39;</span><span class="p">)</span>
+<a name="ln-658"></a>
+<a name="ln-659"></a>        <span class="k">END PROCEDURE </span><span class="n">cmp_mesh_v2e</span>
+<a name="ln-660"></a>
+<a name="ln-661"></a>
+<a name="ln-662"></a>        <span class="k">MODULE PROCEDURE </span><span class="n">cmp_mesh_v2v</span>
+<a name="ln-663"></a>        <span class="k">USE </span><span class="n">class_psblas</span>
+<a name="ln-664"></a>        <span class="k">USE </span><span class="n">class_connectivity</span>
+<a name="ln-665"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-666"></a>        <span class="c">!! $Id: cmp_mesh_v2v.f90 3093 2008-04-22 14:51:09Z sfilippo $</span>
+<a name="ln-667"></a>        <span class="c">!!</span>
+<a name="ln-668"></a>        <span class="c">!! Description:</span>
+<a name="ln-669"></a>        <span class="c">!!    Provides the Vertex To Vertex adjacency graph.</span>
+<a name="ln-670"></a>        <span class="c">!!    The criterium for associating the graph nodes is arbitrarly defined by the</span>
+<a name="ln-671"></a>        <span class="c">!!    user. In this case, using a co-located cell-centered strategy for variable</span>
+<a name="ln-672"></a>        <span class="c">!!    displacement, the V2V connectivity is obtained by linking each vertex to all</span>
+<a name="ln-673"></a>        <span class="c">!!    the ones belonging to the cells which share it.</span>
+<a name="ln-674"></a>        <span class="c">!!</span>
+<a name="ln-675"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">ncv_max</span> <span class="o">=</span> <span class="mi">50</span> <span class="c">! Max # of cells sharing a vertex</span>
+<a name="ln-676"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">ic</span><span class="p">,</span> <span class="n">inb</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">iv</span><span class="p">,</span> <span class="n">iv1</span><span class="p">,</span> <span class="n">iv2</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">ncv</span><span class="p">,</span> <span class="n">ncells</span>
+<a name="ln-677"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">iv2c</span><span class="p">(:)</span> <span class="o">=&gt;</span> <span class="nb">NULL</span><span class="p">()</span>
+<a name="ln-678"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">kconn</span><span class="p">(:),</span> <span class="n">itab</span><span class="p">(:,:)</span>
+<a name="ln-679"></a>        <span class="kt">LOGICAL</span> <span class="kd">::</span> <span class="n">inspected</span><span class="p">(</span><span class="n">nverts</span><span class="p">)</span>
+<a name="ln-680"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">stopwatch</span><span class="p">)</span> <span class="kd">::</span> <span class="n">sw_v2v</span>
+<a name="ln-681"></a>
+<a name="ln-682"></a>
+<a name="ln-683"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Computing vertices adjacency graph V2V&#39;</span>
+<a name="ln-684"></a>
+<a name="ln-685"></a>        <span class="c">! Constructs stopwatch</span>
+<a name="ln-686"></a>        <span class="n">sw_v2v</span> <span class="o">=</span> <span class="n">stopwatch_</span><span class="p">(</span><span class="n">icontxt_</span><span class="p">())</span>
+<a name="ln-687"></a>
+<a name="ln-688"></a>        <span class="c">! Start timing</span>
+<a name="ln-689"></a>        <span class="k">CALL </span><span class="n">sw_v2v</span><span class="p">%</span><span class="n">tic</span><span class="p">()</span>
+<a name="ln-690"></a>
+<a name="ln-691"></a>        <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="n">v2c</span><span class="p">%</span><span class="n">max_conn</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">ncv_max</span> <span class="c">! Maximum conn. degree (overestimated)</span>
+<a name="ln-692"></a>        <span class="n">ncells</span> <span class="o">=</span> <span class="n">v2c</span><span class="p">%</span><span class="n">nel_</span><span class="p">()</span>
+<a name="ln-693"></a>
+<a name="ln-694"></a>        <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">itab</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">nverts</span><span class="p">),</span><span class="n">kconn</span><span class="p">(</span><span class="n">nverts</span><span class="p">),</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-695"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-696"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-697"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-698"></a>        <span class="k">END IF</span>
+<a name="ln-699"></a>
+<a name="ln-700"></a><span class="k">        </span><span class="n">kconn</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-701"></a>        <span class="k">DO </span><span class="n">ic</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ncells</span>
+<a name="ln-702"></a>            <span class="k">CALL </span><span class="n">v2c</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">iv2c</span><span class="p">,</span><span class="n">ic</span><span class="p">)</span>
+<a name="ln-703"></a>            <span class="n">ncv</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">iv2c</span><span class="p">)</span>
+<a name="ln-704"></a>            <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ncv</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-705"></a>                <span class="n">iv1</span> <span class="o">=</span> <span class="n">iv2c</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-706"></a>                <span class="k">DO </span><span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ncv</span>
+<a name="ln-707"></a>                    <span class="n">iv2</span> <span class="o">=</span> <span class="n">iv2c</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<a name="ln-708"></a>
+<a name="ln-709"></a>                    <span class="c">! Add direct arc</span>
+<a name="ln-710"></a>                    <span class="n">kconn</span><span class="p">(</span><span class="n">iv1</span><span class="p">)</span> <span class="o">=</span> <span class="n">kconn</span><span class="p">(</span><span class="n">iv1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-711"></a>                    <span class="n">itab</span><span class="p">(</span><span class="n">kconn</span><span class="p">(</span><span class="n">iv1</span><span class="p">),</span><span class="n">iv1</span><span class="p">)</span> <span class="o">=</span> <span class="n">iv2</span>
+<a name="ln-712"></a>
+<a name="ln-713"></a>                    <span class="c">! Add indirect arc</span>
+<a name="ln-714"></a>                    <span class="n">kconn</span><span class="p">(</span><span class="n">iv2</span><span class="p">)</span> <span class="o">=</span> <span class="n">kconn</span><span class="p">(</span><span class="n">iv2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-715"></a>                    <span class="n">itab</span><span class="p">(</span><span class="n">kconn</span><span class="p">(</span><span class="n">iv2</span><span class="p">),</span><span class="n">iv2</span><span class="p">)</span> <span class="o">=</span> <span class="n">iv1</span>
+<a name="ln-716"></a>                <span class="k">END DO</span>
+<a name="ln-717"></a><span class="k">            END DO</span>
+<a name="ln-718"></a><span class="k">        END DO</span>
+<a name="ln-719"></a>
+<a name="ln-720"></a>        <span class="c">! Eliminates duplicates</span>
+<a name="ln-721"></a>        <span class="n">inspected</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-722"></a>        <span class="k">DO </span><span class="n">iv</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nverts</span>
+<a name="ln-723"></a>            <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-724"></a>
+<a name="ln-725"></a>            <span class="n">n</span> <span class="o">=</span> <span class="n">kconn</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span>
+<a name="ln-726"></a>            <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+<a name="ln-727"></a>                <span class="n">inb</span> <span class="o">=</span> <span class="n">itab</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">iv</span><span class="p">)</span>
+<a name="ln-728"></a>                <span class="k">IF</span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="n">inspected</span><span class="p">(</span><span class="n">inb</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-729"></a><span class="k">                    </span><span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-730"></a>                    <span class="n">itab</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">iv</span><span class="p">)</span> <span class="o">=</span> <span class="n">inb</span>
+<a name="ln-731"></a>                    <span class="n">inspected</span><span class="p">(</span><span class="n">inb</span><span class="p">)</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-732"></a>                <span class="k">END IF</span>
+<a name="ln-733"></a><span class="k">            END DO</span>
+<a name="ln-734"></a><span class="k">            </span><span class="n">kconn</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span> <span class="o">=</span> <span class="n">j</span>
+<a name="ln-735"></a>
+<a name="ln-736"></a>            <span class="c">! Reset inspected</span>
+<a name="ln-737"></a>            <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span>
+<a name="ln-738"></a>                <span class="n">inb</span> <span class="o">=</span> <span class="n">itab</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">iv</span><span class="p">)</span>
+<a name="ln-739"></a>                <span class="n">inspected</span><span class="p">(</span><span class="n">inb</span><span class="p">)</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-740"></a>            <span class="k">END DO</span>
+<a name="ln-741"></a><span class="k">        END DO</span>
+<a name="ln-742"></a>
+<a name="ln-743"></a>        <span class="c">! Computes total number of connectivities</span>
+<a name="ln-744"></a>        <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-745"></a>        <span class="k">DO </span><span class="n">iv</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nverts</span>
+<a name="ln-746"></a>            <span class="n">n</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="n">kconn</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span>
+<a name="ln-747"></a>        <span class="k">END DO</span>
+<a name="ln-748"></a><span class="k">        CALL </span><span class="n">alloc_conn</span><span class="p">(</span><span class="n">v2v</span><span class="p">,</span><span class="n">nel</span><span class="o">=</span><span class="n">nverts</span><span class="p">,</span><span class="n">nconn</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+<a name="ln-749"></a>
+<a name="ln-750"></a>
+<a name="ln-751"></a>        <span class="c">! Sets V2V connectivity</span>
+<a name="ln-752"></a>        <span class="k">DO </span><span class="n">iv</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nverts</span>
+<a name="ln-753"></a>            <span class="n">n</span> <span class="o">=</span> <span class="n">kconn</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span>
+<a name="ln-754"></a>            <span class="k">CALL </span><span class="n">v2v</span><span class="p">%</span><span class="n">set_ith_conn</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="n">itab</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">,</span><span class="n">iv</span><span class="p">))</span>
+<a name="ln-755"></a>        <span class="k">END DO</span>
+<a name="ln-756"></a>
+<a name="ln-757"></a>
+<a name="ln-758"></a>        <span class="c">! Frees memory</span>
+<a name="ln-759"></a>        <span class="k">NULLIFY</span><span class="p">(</span><span class="n">iv2c</span><span class="p">)</span>
+<a name="ln-760"></a>        <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">kconn</span><span class="p">,</span><span class="n">itab</span><span class="p">)</span>
+<a name="ln-761"></a>
+<a name="ln-762"></a>
+<a name="ln-763"></a>        <span class="c">! Stop timing</span>
+<a name="ln-764"></a>        <span class="k">CALL </span><span class="n">sw_v2v</span><span class="p">%</span><span class="n">toc</span><span class="p">()</span>
+<a name="ln-765"></a>
+<a name="ln-766"></a>        <span class="c">! Synchronization</span>
+<a name="ln-767"></a>        <span class="k">CALL </span><span class="n">sw_v2v</span><span class="p">%</span><span class="n">synchro</span><span class="p">()</span>
+<a name="ln-768"></a>
+<a name="ln-769"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a,es13.6)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-770"></a>            <span class="p">&amp;</span> <span class="s1">&#39;  - Elapsed time for V2V building:&#39;</span><span class="p">,</span> <span class="n">sw_v2v</span><span class="p">%</span><span class="n">partial_</span><span class="p">()</span>
+<a name="ln-771"></a>
+<a name="ln-772"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory allocation failure in CMP_MESH_V2V&#39;</span><span class="p">)</span>
+<a name="ln-773"></a>
+<a name="ln-774"></a>        <span class="k">END PROCEDURE </span><span class="n">cmp_mesh_v2v</span>
+<a name="ln-775"></a>
+<a name="ln-776"></a>
+<a name="ln-777"></a>        <span class="k">MODULE PROCEDURE </span><span class="n">cmp_mesh_v2ve</span>
+<a name="ln-778"></a>        <span class="k">USE </span><span class="n">class_psblas</span>
+<a name="ln-779"></a>        <span class="k">USE </span><span class="n">class_connectivity</span>
+<a name="ln-780"></a>        <span class="k">USE </span><span class="n">tools_mesh</span><span class="p">,</span> <span class="n">ONLY</span> <span class="p">:</span> <span class="n">cmp_mesh_v2e</span>
+<a name="ln-781"></a>        <span class="k">IMPLICIT NONE</span>
+<a name="ln-782"></a>        <span class="c">!! $Id: cmp_mesh_v2ve.f90 8157 2014-10-09 13:02:44Z sfilippo $</span>
+<a name="ln-783"></a>        <span class="c">!!</span>
+<a name="ln-784"></a>        <span class="c">!! Description:</span>
+<a name="ln-785"></a>        <span class="c">!!    Builds a vertex to vertex connectivity based on edge connections.</span>
+<a name="ln-786"></a>        <span class="c">!!</span>
+<a name="ln-787"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">ie</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">iv</span><span class="p">,</span> <span class="n">iv_nb</span><span class="p">,</span> <span class="n">nconn</span><span class="p">,</span> <span class="n">nmax</span><span class="p">,</span> <span class="n">nverts</span>
+<a name="ln-788"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">ie2v</span><span class="p">(:)</span> <span class="o">=&gt;</span> <span class="nb">NULL</span><span class="p">(),</span> <span class="n">iv2e</span><span class="p">(:)</span> <span class="o">=&gt;</span> <span class="nb">NULL</span><span class="p">()</span>
+<a name="ln-789"></a>        <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">iv2v</span><span class="p">(:,:),</span> <span class="n">kconn</span><span class="p">(:)</span>
+<a name="ln-790"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">connectivity</span><span class="p">)</span> <span class="kd">::</span> <span class="n">v2e</span><span class="p">,</span> <span class="n">e2v</span>
+<a name="ln-791"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">stopwatch</span><span class="p">)</span> <span class="kd">::</span> <span class="n">sw_v2v</span>
+<a name="ln-792"></a>
+<a name="ln-793"></a>
+<a name="ln-794"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Computing vertices adjacency graph V2VE&#39;</span>
+<a name="ln-795"></a>
+<a name="ln-796"></a>
+<a name="ln-797"></a>        <span class="c">! Constructs stopwatch</span>
+<a name="ln-798"></a>        <span class="n">sw_v2v</span> <span class="o">=</span> <span class="n">stopwatch_</span><span class="p">(</span><span class="n">icontxt_</span><span class="p">())</span>
+<a name="ln-799"></a>
+<a name="ln-800"></a>        <span class="c">! Start timing</span>
+<a name="ln-801"></a>        <span class="k">CALL </span><span class="n">sw_v2v</span><span class="p">%</span><span class="n">tic</span><span class="p">()</span>
+<a name="ln-802"></a>
+<a name="ln-803"></a>        <span class="k">SELECT CASE</span><span class="p">(</span><span class="n">ncd</span><span class="p">)</span>
+<a name="ln-804"></a>        <span class="k">CASE</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-805"></a>            <span class="k">IF</span><span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>    <span class="k">CALL </span><span class="n">v2f</span><span class="p">%</span><span class="n">get_dual_conn</span><span class="p">(</span><span class="n">e2v</span><span class="p">)</span>
+<a name="ln-806"></a>
+<a name="ln-807"></a>        <span class="k">CASE</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<a name="ln-808"></a>            <span class="k">CALL </span><span class="n">cmp_mesh_v2e</span><span class="p">(</span><span class="n">ncd</span><span class="p">,</span><span class="n">v2f</span><span class="p">,</span><span class="n">v2e</span><span class="p">)</span>
+<a name="ln-809"></a>            <span class="k">IF</span><span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>    <span class="k">CALL </span><span class="n">v2e</span><span class="p">%</span><span class="n">get_dual_conn</span><span class="p">(</span><span class="n">e2v</span><span class="p">)</span>
+<a name="ln-810"></a>        <span class="k">END SELECT</span>
+<a name="ln-811"></a>
+<a name="ln-812"></a><span class="k">        IF</span><span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-813"></a>
+<a name="ln-814"></a><span class="k">            </span><span class="n">nverts</span> <span class="o">=</span> <span class="n">e2v</span><span class="p">%</span><span class="n">nel_</span><span class="p">()</span>
+<a name="ln-815"></a>            <span class="n">nmax</span>   <span class="o">=</span> <span class="n">e2v</span><span class="p">%</span><span class="n">max_conn</span><span class="p">()</span>
+<a name="ln-816"></a>
+<a name="ln-817"></a>            <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">iv2v</span><span class="p">(</span><span class="n">nverts</span><span class="p">,</span><span class="n">nmax</span><span class="p">),</span><span class="n">kconn</span><span class="p">(</span><span class="n">nverts</span><span class="p">),</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-818"></a>            <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-819"></a><span class="k">                WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-820"></a>                <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-821"></a>            <span class="k">END IF</span>
+<a name="ln-822"></a>
+<a name="ln-823"></a>
+<a name="ln-824"></a><span class="k">            SELECT CASE</span><span class="p">(</span><span class="n">ncd</span><span class="p">)</span>
+<a name="ln-825"></a>            <span class="k">CASE</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c">! 2D</span>
+<a name="ln-826"></a>
+<a name="ln-827"></a>                <span class="k">DO </span><span class="n">iv</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nverts</span>
+<a name="ln-828"></a>
+<a name="ln-829"></a>                    <span class="k">CALL </span><span class="n">e2v</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">ie2v</span><span class="p">,</span><span class="n">iv</span><span class="p">)</span>
+<a name="ln-830"></a>                    <span class="n">nconn</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">ie2v</span><span class="p">)</span>
+<a name="ln-831"></a>
+<a name="ln-832"></a>                    <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nconn</span>
+<a name="ln-833"></a>                        <span class="n">ie</span> <span class="o">=</span> <span class="n">ie2v</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-834"></a>
+<a name="ln-835"></a>                        <span class="c">! In 2D edges = faces =&gt; use V2F</span>
+<a name="ln-836"></a>                        <span class="k">CALL </span><span class="n">v2f</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">iv2e</span><span class="p">,</span><span class="n">ie</span><span class="p">)</span>
+<a name="ln-837"></a>                        <span class="n">iv_nb</span> <span class="o">=</span> <span class="n">iv2e</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">iv2e</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">iv</span>
+<a name="ln-838"></a>
+<a name="ln-839"></a>                        <span class="n">iv2v</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">iv_nb</span>
+<a name="ln-840"></a>                    <span class="k">END DO</span>
+<a name="ln-841"></a>
+<a name="ln-842"></a><span class="k">                    </span><span class="n">kconn</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span> <span class="o">=</span> <span class="n">nconn</span>
+<a name="ln-843"></a>                <span class="k">END DO</span>
+<a name="ln-844"></a>
+<a name="ln-845"></a><span class="k">            CASE</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c">! 3D</span>
+<a name="ln-846"></a>
+<a name="ln-847"></a>                <span class="k">DO </span><span class="n">iv</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nverts</span>
+<a name="ln-848"></a>
+<a name="ln-849"></a>                    <span class="k">CALL </span><span class="n">e2v</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">ie2v</span><span class="p">,</span><span class="n">iv</span><span class="p">)</span>
+<a name="ln-850"></a>                    <span class="n">nconn</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">ie2v</span><span class="p">)</span>
+<a name="ln-851"></a>
+<a name="ln-852"></a>                    <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nconn</span>
+<a name="ln-853"></a>                        <span class="n">ie</span> <span class="o">=</span> <span class="n">ie2v</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-854"></a>
+<a name="ln-855"></a>                        <span class="c">! In 3D edges /= faces =&gt; use V2E</span>
+<a name="ln-856"></a>                        <span class="k">CALL </span><span class="n">v2e</span><span class="p">%</span><span class="n">get_ith_conn</span><span class="p">(</span><span class="n">iv2e</span><span class="p">,</span><span class="n">ie</span><span class="p">)</span>
+<a name="ln-857"></a>                        <span class="n">iv_nb</span> <span class="o">=</span> <span class="n">iv2e</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">iv2e</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">iv</span>
+<a name="ln-858"></a>
+<a name="ln-859"></a>                        <span class="n">iv2v</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">iv_nb</span>
+<a name="ln-860"></a>                    <span class="k">END DO</span>
+<a name="ln-861"></a>
+<a name="ln-862"></a><span class="k">                    </span><span class="n">kconn</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span> <span class="o">=</span> <span class="n">nconn</span>
+<a name="ln-863"></a>                <span class="k">END DO</span>
+<a name="ln-864"></a>
+<a name="ln-865"></a><span class="k">            END SELECT</span>
+<a name="ln-866"></a>
+<a name="ln-867"></a>            <span class="c">! Computes total number of connectivities</span>
+<a name="ln-868"></a>            <span class="n">nconn</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-869"></a>            <span class="k">DO </span><span class="n">iv</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nverts</span>
+<a name="ln-870"></a>                <span class="n">nconn</span> <span class="o">=</span> <span class="n">nconn</span> <span class="o">+</span> <span class="n">kconn</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span>
+<a name="ln-871"></a>            <span class="k">END DO</span>
+<a name="ln-872"></a>
+<a name="ln-873"></a>            <span class="c">! Allocate and sets V2V</span>
+<a name="ln-874"></a>            <span class="k">CALL </span><span class="n">alloc_conn</span><span class="p">(</span><span class="n">v2v</span><span class="p">,</span><span class="n">nel</span><span class="o">=</span><span class="n">nverts</span><span class="p">,</span><span class="n">nconn</span><span class="o">=</span><span class="n">nconn</span><span class="p">)</span>
+<a name="ln-875"></a>            <span class="k">DO </span><span class="n">iv</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nverts</span>
+<a name="ln-876"></a>                <span class="n">nconn</span> <span class="o">=</span> <span class="n">kconn</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span>
+<a name="ln-877"></a>                <span class="k">CALL </span><span class="n">v2v</span><span class="p">%</span><span class="n">set_ith_conn</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="n">iv2v</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="n">nconn</span><span class="p">))</span>
+<a name="ln-878"></a>            <span class="k">END DO</span>
+<a name="ln-879"></a>
+<a name="ln-880"></a>
+<a name="ln-881"></a>            <span class="c">! Free memory storage</span>
+<a name="ln-882"></a>            <span class="k">NULLIFY</span><span class="p">(</span><span class="n">iv2e</span><span class="p">,</span><span class="n">ie2v</span><span class="p">)</span>
+<a name="ln-883"></a>            <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">iv2v</span><span class="p">,</span><span class="n">kconn</span><span class="p">)</span>
+<a name="ln-884"></a>            <span class="k">CALL </span><span class="n">free_conn</span><span class="p">(</span><span class="n">e2v</span><span class="p">)</span>
+<a name="ln-885"></a>            <span class="k">IF</span><span class="p">(</span><span class="n">ncd</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="k">CALL </span><span class="n">free_conn</span><span class="p">(</span><span class="n">v2e</span><span class="p">)</span>
+<a name="ln-886"></a>
+<a name="ln-887"></a>        <span class="n">ENDIF</span>
+<a name="ln-888"></a>
+<a name="ln-889"></a>        <span class="c">! Stop timing</span>
+<a name="ln-890"></a>        <span class="k">CALL </span><span class="n">sw_v2v</span><span class="p">%</span><span class="n">toc</span><span class="p">()</span>
+<a name="ln-891"></a>
+<a name="ln-892"></a>        <span class="c">! Synchronization</span>
+<a name="ln-893"></a>        <span class="k">CALL </span><span class="n">sw_v2v</span><span class="p">%</span><span class="n">synchro</span><span class="p">()</span>
+<a name="ln-894"></a>
+<a name="ln-895"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(a,es13.6)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-896"></a>            <span class="p">&amp;</span><span class="s1">&#39;  - Elapsed time for V2VE building:&#39;</span><span class="p">,</span> <span class="n">sw_v2v</span><span class="p">%</span><span class="n">partial_</span><span class="p">()</span>
+<a name="ln-897"></a>
+<a name="ln-898"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory allocation failure in CMP_MESH_V2VE&#39;</span><span class="p">)</span>
+<a name="ln-899"></a>
+<a name="ln-900"></a>        <span class="k">END PROCEDURE </span><span class="n">cmp_mesh_v2ve</span>
+<a name="ln-901"></a>
+<a name="ln-902"></a><span class="k">END SUBMODULE </span><span class="n">cmp_mesh_implementation</span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

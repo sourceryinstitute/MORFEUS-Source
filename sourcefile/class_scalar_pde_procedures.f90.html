@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>class_scalar_pde_procedures.f90 &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>class_scalar_pde_procedures.f90
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.5% of total for source files.">124 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/class_scalar_pde_procedures.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">class_scalar_pde_procedures.f90</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-0">Submodules</a></h3></div>
+  <div id="submods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/class_scalar_pde_procedures.html">class_scalar_pde_procedures</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/class_scalar_pde_procedures.f90.html#src">class_scalar_pde_procedures.f90</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">This file depends on</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefileclass_scalar_pde_proceduresf90EfferentGraph" width="641pt" height="195pt"
+ viewBox="0.00 0.00 641.00 194.76" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph" class="graph" transform="scale(3.04 3.04) rotate(0) translate(4 587.45)">
+<title>sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-587.45 1942.57,-587.45 1942.57,4 -4,4"/>
+<!-- sourcefile~class_scalar_pde_procedures.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~class_scalar_pde_procedures.f90</title>
+<polygon fill="none" stroke="black" points="1938.58,-342.01 1769.55,-342.01 1769.55,-319.99 1938.58,-319.99 1938.58,-342.01"/>
+<text text-anchor="middle" x="1854.07" y="-327.85" font-family="Helvetica,sans-Serif" font-size="10.50">class_scalar_pde_procedures.f90</text>
+</g>
+<!-- sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~class_dimensions.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/class_dimensions.f90.html" xlink:title="class_dimensions.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1077.59,-477.01 964.82,-477.01 964.82,-454.99 1077.59,-454.99 1077.59,-477.01"/>
+<text text-anchor="middle" x="1021.2" y="-462.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_dimensions.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_scalar_pde_procedures.f90&#45;&gt;sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~class_scalar_pde_procedures.f90&#45;&gt;sourcefile~class_dimensions.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1677.24,-579C1638.87,-595.83 1214.57,-559.14 1113.4,-524 1087.2,-514.9 1060.85,-496.97 1043.26,-483.44"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1045.39,-480.66 1035.37,-477.22 1041.05,-486.16 1045.39,-480.66"/>
+</g>
+<!-- sourcefile~class_scalar_pde.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~class_scalar_pde.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node3"><a xlink:href=".././sourcefile/class_scalar_pde.f90.html" xlink:title="class_scalar_pde.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1733.38,-342.01 1623.1,-342.01 1623.1,-319.99 1733.38,-319.99 1733.38,-342.01"/>
+<text text-anchor="middle" x="1678.24" y="-327.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_scalar_pde.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_scalar_pde_procedures.f90&#45;&gt;sourcefile~class_scalar_pde.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~class_scalar_pde_procedures.f90&#45;&gt;sourcefile~class_scalar_pde.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1769.46,-331C1760.81,-331 1752.11,-331 1743.71,-331"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1743.63,-327.5 1733.63,-331 1743.63,-334.5 1743.63,-327.5"/>
+</g>
+<!-- sourcefile~tools_output_basics.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node4" class="node">
+<title>sourcefile~tools_output_basics.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node4"><a xlink:href=".././sourcefile/tools_output_basics.f90.html" xlink:title="tools_output_basics.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1587.08,-551.01 1464.43,-551.01 1464.43,-528.99 1587.08,-528.99 1587.08,-551.01"/>
+<text text-anchor="middle" x="1525.76" y="-536.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_output_basics.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_scalar_pde_procedures.f90&#45;&gt;sourcefile~tools_output_basics.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge3" class="edge">
+<title>sourcefile~class_scalar_pde_procedures.f90&#45;&gt;sourcefile~tools_output_basics.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1849.83,-342.15C1836.93,-384.13 1784.69,-532.74 1679.24,-579"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1677.24,-579C1656.93,-587.91 1600.7,-569.31 1563.02,-554.85"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1563.99,-551.47 1553.4,-551.1 1561.45,-557.99 1563.99,-551.47"/>
+</g>
+<!-- sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node5" class="node">
+<title>sourcefile~class_mesh.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node5"><a xlink:href=".././sourcefile/class_mesh.f90.html" xlink:title="class_mesh.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1065.65,-324.01 976.75,-324.01 976.75,-301.99 1065.65,-301.99 1065.65,-324.01"/>
+<text text-anchor="middle" x="1021.2" y="-309.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_mesh.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_scalar_pde_procedures.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge4" class="edge">
+<title>sourcefile~class_scalar_pde_procedures.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1819.89,-319.91C1785.26,-309.2 1729.14,-294.27 1679.24,-292"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1277.87,-331C1267.96,-331.1 1147.92,-322.33 1075.9,-317"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1075.88,-313.49 1065.64,-316.24 1075.36,-320.47 1075.88,-313.49"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1677.24,-292C1531.55,-285.36 1494.54,-297.14 1350.05,-317 1318.54,-321.33 1311.63,-329.23 1279.87,-331"/>
+</g>
+<!-- sourcefile~class_scalar_field.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node6" class="node">
+<title>sourcefile~class_scalar_field.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node6"><a xlink:href=".././sourcefile/class_scalar_field.f90.html" xlink:title="class_scalar_field.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1582.14,-342.01 1469.37,-342.01 1469.37,-319.99 1582.14,-319.99 1582.14,-342.01"/>
+<text text-anchor="middle" x="1525.76" y="-327.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_scalar_field.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_scalar_pde_procedures.f90&#45;&gt;sourcefile~class_scalar_field.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge5" class="edge">
+<title>sourcefile~class_scalar_pde_procedures.f90&#45;&gt;sourcefile~class_scalar_field.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1677.24,-292C1636.18,-290.13 1590.72,-304.28 1560.62,-316.06"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1558.99,-312.95 1551.03,-319.94 1561.62,-319.44 1558.99,-312.95"/>
+</g>
+<!-- sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node10" class="node">
+<title>sourcefile~class_psblas.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node10"><a xlink:href=".././sourcefile/class_psblas.f90.html" xlink:title="class_psblas.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="355.88,-205.01 266.62,-205.01 266.62,-182.99 355.88,-182.99 355.88,-205.01"/>
+<text text-anchor="middle" x="311.25" y="-190.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_psblas.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_dimensions.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge6" class="edge">
+<title>sourcefile~class_dimensions.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M995.88,-477.09C966.19,-489.51 914.19,-507.7 867.69,-506"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M865.69,-506C797.73,-503.51 780.18,-514.27 712.68,-506"/>
+</g>
+<!-- sourcefile~class_scalar_pde.f90&#45;&gt;sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge7" class="edge">
+<title>sourcefile~class_scalar_pde.f90&#45;&gt;sourcefile~class_dimensions.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M1277.87,-504C1223.43,-507.15 1215.79,-470.58 1161.54,-465"/>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M1524.76,-444C1419.08,-481.27 1391.74,-497.52 1279.87,-504"/>
+</g>
+<!-- sourcefile~class_scalar_pde.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge10" class="edge">
+<title>sourcefile~class_scalar_pde.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M1667.35,-342.25C1645.15,-366.54 1588.42,-423.39 1526.76,-444"/>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M1524.76,-444C1481.17,-458.57 1472.49,-419.61 1428.59,-406 1304.21,-367.44 1153.93,-337.14 1075.59,-322.54"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="1075.95,-319.05 1065.48,-320.67 1074.68,-325.93 1075.95,-319.05"/>
+</g>
+<!-- sourcefile~class_scalar_pde.f90&#45;&gt;sourcefile~class_scalar_field.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge12" class="edge">
+<title>sourcefile~class_scalar_pde.f90&#45;&gt;sourcefile~class_scalar_field.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M1622.91,-331C1612.94,-331 1602.43,-331 1592.17,-331"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="1592.02,-327.5 1582.02,-331 1592.02,-334.5 1592.02,-327.5"/>
+</g>
+<!-- sourcefile~class_scalar_pde.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge8" class="edge">
+<title>sourcefile~class_scalar_pde.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M1277.87,-504C1245.67,-507.91 1239.81,-519.51 1207.69,-524 1179.01,-528.01 981.83,-522.46 965.01,-521 921.41,-517.22 911.42,-507.7 867.69,-506"/>
+</g>
+<!-- sourcefile~class_material.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node11" class="node">
+<title>sourcefile~class_material.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node11"><a xlink:href=".././sourcefile/class_material.f90.html" xlink:title="class_material.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1069.32,-50.01 973.08,-50.01 973.08,-27.99 1069.32,-27.99 1069.32,-50.01"/>
+<text text-anchor="middle" x="1021.2" y="-35.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_material.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_scalar_pde.f90&#45;&gt;sourcefile~class_material.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge9" class="edge">
+<title>sourcefile~class_scalar_pde.f90&#45;&gt;sourcefile~class_material.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M1646.78,-319.97C1594.95,-301.84 1485.92,-266.39 1390.32,-253"/>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M1388.32,-253C1340.99,-243.9 1315.58,-285.38 1279.87,-253"/>
+</g>
+<!-- sourcefile~class_pde.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node20" class="node">
+<title>sourcefile~class_pde.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node20"><a xlink:href=".././sourcefile/class_pde.f90.html" xlink:title="class_pde.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1198.84,-515.01 1122.25,-515.01 1122.25,-492.99 1198.84,-492.99 1198.84,-515.01"/>
+<text text-anchor="middle" x="1160.54" y="-500.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_pde.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_scalar_pde.f90&#45;&gt;sourcefile~class_pde.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge11" class="edge">
+<title>sourcefile~class_scalar_pde.f90&#45;&gt;sourcefile~class_pde.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M1277.87,-504C1255.26,-505.31 1230.13,-505.47 1209.04,-505.24"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="1209.08,-501.74 1199.03,-505.1 1208.98,-508.74 1209.08,-501.74"/>
+</g>
+<!-- sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node12" class="node">
+<title>sourcefile~class_connectivity.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node12"><a xlink:href=".././sourcefile/class_connectivity.f90.html" xlink:title="class_connectivity.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="768.54,-324.01 654.82,-324.01 654.82,-301.99 768.54,-301.99 768.54,-324.01"/>
+<text text-anchor="middle" x="711.68" y="-309.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_connectivity.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~tools_output_basics.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge13" class="edge">
+<title>sourcefile~tools_output_basics.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M1464.44,-541.63C1383.94,-542.9 1237.16,-542.05 1113.4,-524 1046.03,-514.18 1029.11,-508.94 965.01,-486 890.82,-459.44 860.67,-466.12 804.36,-411 778.51,-385.7 794.4,-363.11 768.36,-338 764.83,-334.59 760.75,-331.6 756.44,-328.98"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="757.84,-325.76 747.38,-324.13 754.54,-331.94 757.84,-325.76"/>
+</g>
+<!-- sourcefile~class_keytable.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node7" class="node">
+<title>sourcefile~class_keytable.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node7"><a xlink:href=".././sourcefile/class_keytable.f90.html" xlink:title="class_keytable.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="916.07,-283.01 817.3,-283.01 817.3,-260.99 916.07,-260.99 916.07,-283.01"/>
+<text text-anchor="middle" x="866.69" y="-268.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_keytable.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_keytable.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge14" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_keytable.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M978.93,-301.9C960.29,-296.89 938.09,-290.93 918.44,-285.64"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="919.29,-282.25 908.73,-283.03 917.48,-289.01 919.29,-282.25"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge15" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M566.18,-155C542.33,-151.42 535.12,-149.81 515.36,-136 479.1,-110.66 478.98,-61.95 436.71,-75"/>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M1012.65,-301.76C1001.97,-285.84 981.87,-255.78 965.01,-230 948.82,-205.24 954.6,-188.86 929.01,-174 790.13,-93.37 727,-178.81 568.18,-155"/>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge16" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M865.69,-233C837.19,-231.49 828.79,-237.26 804.36,-252 784.99,-263.69 786.99,-275.15 768.36,-288 763.33,-291.47 757.74,-294.64 752.1,-297.48"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="750.21,-294.5 742.65,-301.93 753.19,-300.84 750.21,-294.5"/>
+</g>
+<!-- sourcefile~class_surface.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node13" class="node">
+<title>sourcefile~class_surface.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node13"><a xlink:href=".././sourcefile/class_surface.f90.html" xlink:title="class_surface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="913.39,-205.01 819.98,-205.01 819.98,-182.99 913.39,-182.99 913.39,-205.01"/>
+<text text-anchor="middle" x="866.69" y="-190.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_surface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_surface.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge17" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_surface.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M1011.82,-301.69C997.01,-282.4 964.44,-242.92 929.01,-219 923.63,-215.37 917.65,-212.12 911.58,-209.27"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="912.62,-205.91 902.06,-205.11 909.82,-212.32 912.62,-205.91"/>
+</g>
+<!-- sourcefile~class_least_squares.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node14" class="node">
+<title>sourcefile~class_least_squares.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node14"><a xlink:href=".././sourcefile/class_least_squares.f90.html" xlink:title="class_least_squares.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="928.84,-324.01 804.54,-324.01 804.54,-301.99 928.84,-301.99 928.84,-324.01"/>
+<text text-anchor="middle" x="866.69" y="-309.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_least_squares.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_least_squares.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge18" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_least_squares.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M976.91,-313C965.16,-313 952.13,-313 939.27,-313"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="939.02,-309.5 929.02,-313 939.02,-316.5 939.02,-309.5"/>
+</g>
+<!-- sourcefile~class_cell.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node15" class="node">
+<title>sourcefile~class_cell.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node15"><a xlink:href=".././sourcefile/class_cell.f90.html" xlink:title="class_cell.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="474.74,-303.01 396.68,-303.01 396.68,-280.99 474.74,-280.99 474.74,-303.01"/>
+<text text-anchor="middle" x="435.71" y="-288.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cell.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_cell.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge19" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_cell.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M710.68,-274C669.9,-281.82 660.33,-287.98 619,-292 573.85,-296.39 522.1,-295.86 485.31,-294.55"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="485,-291.04 474.87,-294.14 484.73,-298.03 485,-291.04"/>
+</g>
+<!-- sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node16" class="node">
+<title>sourcefile~class_vertex.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node16"><a xlink:href=".././sourcefile/class_vertex.f90.html" xlink:title="class_vertex.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="611.05,-283.01 523.31,-283.01 523.31,-260.99 611.05,-260.99 611.05,-283.01"/>
+<text text-anchor="middle" x="567.18" y="-268.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vertex.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge20" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M710.68,-274C681.49,-279.6 648.31,-279.5 621.31,-277.82"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="621.51,-274.33 611.29,-277.11 621.02,-281.31 621.51,-274.33"/>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M1007.89,-301.73C983.33,-280.43 925.61,-236.06 867.69,-233"/>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M865.69,-233C795.38,-229.28 781.82,-260.74 712.68,-274"/>
+</g>
+<!-- sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node17" class="node">
+<title>sourcefile~grid_interface.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node17"><a xlink:href=".././sourcefile/grid_interface.f90.html" xlink:title="grid_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="914.82,-402.01 818.55,-402.01 818.55,-379.99 914.82,-379.99 914.82,-402.01"/>
+<text text-anchor="middle" x="866.69" y="-387.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">grid_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge21" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~grid_interface.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M998.67,-324.01C972.59,-337.35 928.46,-359.92 898.71,-375.13"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="896.91,-372.12 889.6,-379.79 900.1,-378.36 896.91,-372.12"/>
+</g>
+<!-- sourcefile~class_face.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node18" class="node">
+<title>sourcefile~class_face.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node18"><a xlink:href=".././sourcefile/class_face.f90.html" xlink:title="class_face.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="476.83,-125.01 394.59,-125.01 394.59,-102.99 476.83,-102.99 476.83,-125.01"/>
+<text text-anchor="middle" x="435.71" y="-110.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_face.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_face.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge22" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_face.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M566.18,-155C533.86,-150.15 498.59,-138.54 473.03,-128.9"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="473.99,-125.52 463.4,-125.19 471.47,-132.05 473.99,-125.52"/>
+</g>
+<!-- sourcefile~class_vector.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node19" class="node">
+<title>sourcefile~class_vector.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node19"><a xlink:href=".././sourcefile/class_vector.f90.html" xlink:title="class_vector.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="479.5,-166.01 391.91,-166.01 391.91,-143.99 479.5,-143.99 479.5,-166.01"/>
+<text text-anchor="middle" x="435.71" y="-151.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vector.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge23" class="edge">
+<title>sourcefile~class_mesh.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M566.18,-155C541.2,-151.25 513.2,-150.8 489.65,-151.46"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="489.38,-147.97 479.51,-151.83 489.63,-154.97 489.38,-147.97"/>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge24" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_dimensions.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1519.43,-342.06C1507.23,-366.01 1474.7,-422.42 1428.59,-446 1322.65,-500.17 1280.17,-474.28 1161.54,-465"/>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1159.54,-465C1136.2,-462.6 1110.5,-462.19 1087.71,-462.6"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="1087.38,-459.11 1077.47,-462.84 1087.55,-466.1 1087.38,-459.11"/>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge28" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1388.32,-331C1340.31,-326.79 1328.07,-330.53 1279.87,-331"/>
+</g>
+<!-- sourcefile~class_bc.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node8" class="node">
+<title>sourcefile~class_bc.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node8"><a xlink:href=".././sourcefile/class_bc.f90.html" xlink:title="class_bc.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1314.24,-303.01 1243.51,-303.01 1243.51,-280.99 1314.24,-280.99 1314.24,-303.01"/>
+<text text-anchor="middle" x="1278.87" y="-288.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_bc.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge25" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_bc.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1388.32,-331C1360.67,-328.58 1331.13,-317.32 1309.88,-307.52"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="1311.26,-304.31 1300.73,-303.16 1308.25,-310.63 1311.26,-304.31"/>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1469.39,-333.17C1445.09,-333.56 1416.25,-333.27 1390.32,-331"/>
+</g>
+<!-- sourcefile~class_field.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node9" class="node">
+<title>sourcefile~class_field.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node9"><a xlink:href=".././sourcefile/class_field.f90.html" xlink:title="class_field.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1428.36,-437.01 1350.28,-437.01 1350.28,-414.99 1428.36,-414.99 1428.36,-437.01"/>
+<text text-anchor="middle" x="1389.32" y="-422.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_field.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_field.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge29" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_field.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1509.07,-342.08C1485.7,-358.6 1441.55,-389.8 1414.16,-409.15"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="1412.05,-406.36 1405.91,-414.99 1416.09,-412.07 1412.05,-406.36"/>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge26" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1522.46,-319.99C1509.77,-262.55 1442.85,0 1279.87,0 1279.87,0 1279.87,0 1159.54,0 1072.67,0 1050.9,-6.02 965.01,-19 921.35,-25.6 911.84,-39.1 867.69,-39"/>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M865.69,-39C674.38,-36.11 619.52,-18.55 436.71,-75"/>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M434.71,-75C414.85,-81.01 408.48,-81.31 392.06,-94 362.69,-116.71 337.65,-152.39 323.81,-174.42"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="320.82,-172.6 318.58,-182.95 326.79,-176.26 320.82,-172.6"/>
+</g>
+<!-- sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_material.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge27" class="edge">
+<title>sourcefile~class_scalar_field.f90&#45;&gt;sourcefile~class_material.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1513.03,-319.85C1491.07,-300.05 1441.36,-260.15 1390.32,-253"/>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1277.87,-253C1240.73,-223.71 1241.23,-206.35 1207.69,-173 1153.33,-118.95 1143.18,-99.34 1077.4,-60 1073.83,-57.87 1070.02,-55.89 1066.11,-54.06"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="1067.5,-50.85 1056.94,-50.08 1064.72,-57.27 1067.5,-50.85"/>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge30" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff6d00" stroke-dasharray="5,2" d="M1243.37,-300.7C1203.63,-310.33 1136.25,-325.49 1077.4,-333 916.39,-353.54 874.68,-341.85 712.68,-352"/>
+</g>
+<!-- sourcefile~class_motion.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node23" class="node">
+<title>sourcefile~class_motion.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node23"><a xlink:href=".././sourcefile/class_motion.f90.html" xlink:title="class_motion.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="612.47,-127.01 521.89,-127.01 521.89,-104.99 612.47,-104.99 612.47,-127.01"/>
+<text text-anchor="middle" x="567.18" y="-112.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_motion.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_motion.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge32" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_motion.f90</title>
+<path fill="none" stroke="#ff6d00" stroke-dasharray="5,2" d="M1243.38,-288.17C1209.31,-283.54 1156.24,-274.02 1113.4,-256 1023.04,-218 1022.16,-165.52 929.01,-135 824.89,-100.88 694.88,-104.47 622.78,-110.2"/>
+<polygon fill="#ff6d00" stroke="#ff6d00" points="622.24,-106.73 612.57,-111.06 622.83,-113.71 622.24,-106.73"/>
+</g>
+<!-- sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node25" class="node">
+<title>sourcefile~class_bc_math.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node25"><a xlink:href=".././sourcefile/class_bc_math.f90.html" xlink:title="class_bc_math.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1070.75,-91.01 971.65,-91.01 971.65,-68.99 1070.75,-68.99 1070.75,-91.01"/>
+<text text-anchor="middle" x="1021.2" y="-76.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc_math.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge31" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_math.f90</title>
+<path fill="none" stroke="#ff6d00" stroke-dasharray="5,2" d="M1260.3,-280.81C1254.68,-276.81 1248.64,-272.03 1243.69,-267 1224.24,-247.22 1229.05,-233.7 1207.69,-216 1172.22,-186.61 1146.91,-204.59 1113.4,-173 1088.51,-149.54 1102.31,-128.42 1077.4,-105 1073.66,-101.49 1069.35,-98.41 1064.81,-95.72"/>
+<polygon fill="#ff6d00" stroke="#ff6d00" points="1066.38,-92.59 1055.9,-91.03 1063.12,-98.78 1066.38,-92.59"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node26" class="node">
+<title>sourcefile~class_bc_wall.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node26"><a xlink:href=".././sourcefile/class_bc_wall.f90.html" xlink:title="class_bc_wall.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1207.84,-247.01 1113.25,-247.01 1113.25,-224.99 1207.84,-224.99 1207.84,-247.01"/>
+<text text-anchor="middle" x="1160.54" y="-232.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc_wall.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_wall.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge33" class="edge">
+<title>sourcefile~class_bc.f90&#45;&gt;sourcefile~class_bc_wall.f90</title>
+<path fill="none" stroke="#ff6d00" stroke-dasharray="5,2" d="M1254.89,-280.94C1237.36,-272.5 1213.01,-260.78 1193.57,-251.42"/>
+<polygon fill="#ff6d00" stroke="#ff6d00" points="1195.01,-248.22 1184.48,-247.04 1191.97,-254.53 1195.01,-248.22"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge34" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_dimensions.f90</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M1159.54,-427C1140.55,-425.31 1094.8,-439.73 1061.3,-451.51"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="1060.02,-448.25 1051.78,-454.91 1062.37,-454.85 1060.02,-448.25"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge39" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M1350.11,-428.33C1304.96,-430.59 1227.62,-432.88 1161.54,-427"/>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M1159.54,-427C1102.33,-420.93 1055.86,-363.7 1034.65,-332.71"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="1037.56,-330.77 1029.12,-324.37 1031.73,-334.64 1037.56,-330.77"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_bc.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge35" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_bc.f90</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M1382.45,-414.89C1371.11,-394.11 1344.62,-348.6 1314.05,-317 1311.45,-314.3 1308.52,-311.69 1305.51,-309.23"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="1307.57,-306.4 1297.49,-303.14 1303.34,-311.98 1307.57,-306.4"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge36" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M710.68,-506C579.6,-489.94 552.37,-454.74 436.71,-391"/>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M1020.2,-427C949.75,-423.25 783.22,-507.72 712.68,-506"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~class_material.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge37" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~class_material.f90</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M1382.97,-414.67C1366.38,-379.58 1316.77,-274.87 1314.05,-272 1302.12,-259.36 1293.52,-263.76 1279.87,-253"/>
+</g>
+<!-- sourcefile~class_field.f90&#45;&gt;sourcefile~grid_interface.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge38" class="edge">
+<title>sourcefile~class_field.f90&#45;&gt;sourcefile~grid_interface.f90</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M1159.54,-427C1098.84,-420.56 1083.16,-430.25 1022.2,-427"/>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M1020.2,-427C982,-424.97 939.76,-414.31 909.43,-405.11"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="910.22,-401.69 899.63,-402.06 908.14,-408.37 910.22,-401.69"/>
+</g>
+<!-- sourcefile~class_stopwatch.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node21" class="node">
+<title>sourcefile~class_stopwatch.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node21"><a xlink:href=".././sourcefile/class_stopwatch.f90.html" xlink:title="class_stopwatch.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="230.21,-186.01 124.11,-186.01 124.11,-163.99 230.21,-163.99 230.21,-186.01"/>
+<text text-anchor="middle" x="177.16" y="-171.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_stopwatch.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_psblas.f90&#45;&gt;sourcefile~class_stopwatch.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge40" class="edge">
+<title>sourcefile~class_psblas.f90&#45;&gt;sourcefile~class_stopwatch.f90</title>
+<path fill="none" stroke="#b6ff00" stroke-dasharray="5,2" d="M266.27,-187.67C258.07,-186.49 249.35,-185.24 240.72,-184"/>
+<polygon fill="#b6ff00" stroke="#b6ff00" points="241.06,-180.51 230.66,-182.55 240.06,-187.44 241.06,-180.51"/>
+</g>
+<!-- sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node27" class="node">
+<title>sourcefile~tools_psblas.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node27"><a xlink:href=".././sourcefile/tools_psblas.f90.html" xlink:title="tools_psblas.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="87.83,-205.01 0.06,-205.01 0.06,-182.99 87.83,-182.99 87.83,-205.01"/>
+<text text-anchor="middle" x="43.94" y="-190.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_psblas.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_psblas.f90&#45;&gt;sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge41" class="edge">
+<title>sourcefile~class_psblas.f90&#45;&gt;sourcefile~tools_psblas.f90</title>
+<path fill="none" stroke="#b6ff00" stroke-dasharray="5,2" d="M266.34,-194.65C254.67,-194.79 242.08,-194.93 230.44,-195 183.08,-195.3 171.24,-195.3 123.88,-195 115.51,-194.95 106.64,-194.86 97.98,-194.76"/>
+<polygon fill="#b6ff00" stroke="#b6ff00" points="98,-191.26 87.96,-194.64 97.92,-198.26 98,-191.26"/>
+</g>
+<!-- sourcefile~class_material.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge42" class="edge">
+<title>sourcefile~class_material.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M972.8,-39.05C942.69,-39.07 902.9,-39.08 867.69,-39"/>
+</g>
+<!-- sourcefile~class_connectivity.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge43" class="edge">
+<title>sourcefile~class_connectivity.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ff24" stroke-dasharray="5,2" d="M566.18,-352C551.49,-355.15 449.87,-398.25 436.71,-391"/>
+<path fill="none" stroke="#00ff24" stroke-dasharray="5,2" d="M674.64,-324.06C646,-332.57 604.8,-344.15 568.18,-352"/>
+<path fill="none" stroke="#00ff24" stroke-dasharray="5,2" d="M434.71,-391C365.6,-352.92 330.54,-257.72 317.9,-215.15"/>
+<polygon fill="#00ff24" stroke="#00ff24" points="321.2,-213.96 315.09,-205.3 314.46,-215.88 321.2,-213.96"/>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge46" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#00ff91" stroke-dasharray="5,2" d="M826.63,-205.11C818.64,-208.65 810.74,-213.2 804.36,-219 778.78,-242.29 793.53,-264.27 768.36,-288 764.65,-291.5 760.36,-294.57 755.85,-297.24"/>
+<polygon fill="#00ff91" stroke="#00ff91" points="754.21,-294.15 746.99,-301.91 757.47,-300.35 754.21,-294.15"/>
+</g>
+<!-- sourcefile~class_plane.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node24" class="node">
+<title>sourcefile~class_plane.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node24"><a xlink:href=".././sourcefile/class_plane.f90.html" xlink:title="class_plane.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="609.65,-205.01 524.71,-205.01 524.71,-182.99 609.65,-182.99 609.65,-205.01"/>
+<text text-anchor="middle" x="567.18" y="-190.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_plane.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_plane.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge45" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_plane.f90</title>
+<path fill="none" stroke="#00ff91" stroke-dasharray="5,2" d="M819.85,-194C765.84,-194 676.32,-194 619.88,-194"/>
+<polygon fill="#00ff91" stroke="#00ff91" points="619.74,-190.5 609.74,-194 619.74,-197.5 619.74,-190.5"/>
+</g>
+<!-- sourcefile~class_cylinder.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node28" class="node">
+<title>sourcefile~class_cylinder.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node28"><a xlink:href=".././sourcefile/class_cylinder.f90.html" xlink:title="class_cylinder.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="759.06,-244.01 664.3,-244.01 664.3,-221.99 759.06,-221.99 759.06,-244.01"/>
+<text text-anchor="middle" x="711.68" y="-229.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cylinder.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~class_surface.f90&#45;&gt;sourcefile~class_cylinder.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge44" class="edge">
+<title>sourcefile~class_surface.f90&#45;&gt;sourcefile~class_cylinder.f90</title>
+<path fill="none" stroke="#00ff91" stroke-dasharray="5,2" d="M822.25,-205.07C804.65,-209.56 784.16,-214.78 765.69,-219.49"/>
+<polygon fill="#00ff91" stroke="#00ff91" points="764.79,-216.11 755.96,-221.97 766.52,-222.89 764.79,-216.11"/>
+</g>
+<!-- sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge47" class="edge">
+<title>sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M710.68,-352C647.47,-355.96 630.11,-338.72 568.18,-352"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M836.03,-324.08C805.58,-334.62 756.59,-349.25 712.68,-352"/>
+</g>
+<!-- sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_connectivity.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge48" class="edge">
+<title>sourcefile~class_least_squares.f90&#45;&gt;sourcefile~class_connectivity.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M804.33,-313C795.94,-313 787.29,-313 778.82,-313"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="778.6,-309.5 768.6,-313 778.6,-316.5 778.6,-309.5"/>
+</g>
+<!-- sourcefile~class_cell.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge49" class="edge">
+<title>sourcefile~class_cell.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M420.66,-280.76C399.44,-263.77 359.03,-231.43 333.99,-211.4"/>
+<polygon fill="#0091ff" stroke="#0091ff" points="336.13,-208.63 326.13,-205.11 331.75,-214.09 336.13,-208.63"/>
+</g>
+<!-- sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge50" class="edge">
+<title>sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#0024ff" stroke-dasharray="5,2" d="M537.92,-260.96C512.04,-251.47 472.45,-238.47 436.71,-233"/>
+</g>
+<!-- sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge51" class="edge">
+<title>sourcefile~class_vertex.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#0024ff" stroke-dasharray="5,2" d="M538.6,-260.94C530.7,-257.13 522.35,-252.43 515.36,-247 488.44,-226.1 464.07,-194.76 449.82,-174.6"/>
+<polygon fill="#0024ff" stroke="#0024ff" points="452.57,-172.43 444.01,-166.19 446.82,-176.41 452.57,-172.43"/>
+</g>
+<!-- sourcefile~object_interface.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node22" class="node">
+<title>sourcefile~object_interface.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node22"><a xlink:href=".././sourcefile/object_interface.f90.html" xlink:title="object_interface.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="618.82,-402.01 515.53,-402.01 515.53,-379.99 618.82,-379.99 618.82,-402.01"/>
+<text text-anchor="middle" x="567.18" y="-387.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">object_interface.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~grid_interface.f90&#45;&gt;sourcefile~object_interface.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge52" class="edge">
+<title>sourcefile~grid_interface.f90&#45;&gt;sourcefile~object_interface.f90</title>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M821.4,-402.07C804.87,-405.68 785.87,-409.22 768.36,-411 718.24,-416.1 705.06,-416.69 655,-411 642.75,-409.61 629.72,-407.14 617.57,-404.41"/>
+<polygon fill="#4800ff" stroke="#4800ff" points="618.15,-400.95 607.62,-402.07 616.55,-407.77 618.15,-400.95"/>
+</g>
+<!-- sourcefile~units_interface.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node29" class="node">
+<title>sourcefile~units_interface.f90</title>
+<g id="a_sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_node29"><a xlink:href=".././sourcefile/units_interface.f90.html" xlink:title="units_interface.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="762.48,-402.01 660.88,-402.01 660.88,-379.99 762.48,-379.99 762.48,-402.01"/>
+<text text-anchor="middle" x="711.68" y="-387.85" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">units_interface.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~grid_interface.f90&#45;&gt;sourcefile~units_interface.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge53" class="edge">
+<title>sourcefile~grid_interface.f90&#45;&gt;sourcefile~units_interface.f90</title>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M818.53,-391C804.12,-391 788.07,-391 772.92,-391"/>
+<polygon fill="#4800ff" stroke="#4800ff" points="772.6,-387.5 762.6,-391 772.6,-394.5 772.6,-387.5"/>
+</g>
+<!-- sourcefile~class_face.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge54" class="edge">
+<title>sourcefile~class_face.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#b600ff" stroke-dasharray="5,2" d="M410.4,-125.04C404.29,-128.06 397.84,-131.48 392.06,-135 371.33,-147.63 349.24,-164.23 333.57,-176.61"/>
+<polygon fill="#b600ff" stroke="#b600ff" points="331.2,-174.02 325.57,-182.99 335.57,-179.49 331.2,-174.02"/>
+</g>
+<!-- sourcefile~class_vector.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge55" class="edge">
+<title>sourcefile~class_vector.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff00da" stroke-dasharray="5,2" d="M399.94,-166.07C386.5,-170.35 370.95,-175.31 356.71,-179.84"/>
+<polygon fill="#ff00da" stroke="#ff00da" points="355.57,-176.53 347.1,-182.9 357.69,-183.2 355.57,-176.53"/>
+</g>
+<!-- sourcefile~class_pde.f90&#45;&gt;sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge57" class="edge">
+<title>sourcefile~class_pde.f90&#45;&gt;sourcefile~class_dimensions.f90</title>
+<path fill="none" stroke="#ff006d" stroke-dasharray="5,2" d="M1122.01,-493.62C1106.62,-489.36 1088.59,-484.37 1072.11,-479.81"/>
+<polygon fill="#ff006d" stroke="#ff006d" points="1072.66,-476.33 1062.09,-477.04 1070.79,-483.08 1072.66,-476.33"/>
+</g>
+<!-- sourcefile~class_pde.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge58" class="edge">
+<title>sourcefile~class_pde.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#ff006d" stroke-dasharray="5,2" d="M1151.33,-492.88C1142.07,-480.32 1126.58,-459.24 1113.4,-441 1085.79,-402.79 1053.91,-357.85 1036.1,-332.67"/>
+<polygon fill="#ff006d" stroke="#ff006d" points="1038.84,-330.48 1030.2,-324.34 1033.12,-334.52 1038.84,-330.48"/>
+</g>
+<!-- sourcefile~class_pde.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge56" class="edge">
+<title>sourcefile~class_pde.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#ff006d" stroke-dasharray="5,2" d="M1122.21,-505.29C1066.69,-506.98 959.09,-509.35 867.69,-506"/>
+</g>
+<!-- sourcefile~class_stopwatch.f90&#45;&gt;sourcefile~tools_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge59" class="edge">
+<title>sourcefile~class_stopwatch.f90&#45;&gt;sourcefile~tools_psblas.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M123.92,-182.56C115.49,-183.79 106.75,-185.05 98.28,-186.28"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="97.54,-182.85 88.14,-187.74 98.54,-189.78 97.54,-182.85"/>
+</g>
+<!-- sourcefile~class_motion.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge60" class="edge">
+<title>sourcefile~class_motion.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M542.5,-104.94C510.91,-90.8 456.65,-68.84 436.71,-75"/>
+</g>
+<!-- sourcefile~class_motion.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge61" class="edge">
+<title>sourcefile~class_motion.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M529.42,-127.07C515.07,-131.39 498.45,-136.4 483.28,-140.97"/>
+<polygon fill="#aaff00" stroke="#aaff00" points="482.12,-137.67 473.56,-143.9 484.14,-144.37 482.12,-137.67"/>
+</g>
+<!-- sourcefile~class_plane.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge62" class="edge">
+<title>sourcefile~class_plane.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M539.4,-205.05C507.65,-217.61 456.55,-236.04 436.71,-233"/>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M434.71,-233C404.86,-228.43 372.34,-217.79 348.32,-208.78"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="349.49,-205.48 338.9,-205.17 346.99,-212.02 349.49,-205.48"/>
+</g>
+<!-- sourcefile~class_plane.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge63" class="edge">
+<title>sourcefile~class_plane.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M529.42,-182.93C515.07,-178.61 498.45,-173.6 483.28,-169.03"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="484.14,-165.63 473.56,-166.1 482.12,-172.33 484.14,-165.63"/>
+</g>
+<!-- sourcefile~class_bc_math.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge64" class="edge">
+<title>sourcefile~class_bc_math.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M987.03,-68.92C949.55,-56.8 890.79,-39.05 867.69,-39"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_dimensions.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge65" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_dimensions.f90</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M1158,-247.36C1152.86,-281.19 1133.32,-382.55 1077.4,-441 1074.2,-444.34 1070.48,-447.27 1066.5,-449.83"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="1064.51,-446.93 1057.49,-454.87 1067.93,-453.04 1064.51,-446.93"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_mesh.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge69" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_mesh.f90</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M1139.87,-247.03C1116.51,-260.13 1077.38,-282.06 1050.71,-297.02"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="1048.86,-294.04 1041.84,-301.99 1052.28,-300.15 1048.86,-294.04"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge66" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M566.18,-77C509.2,-85.07 491.7,-58.02 436.71,-75"/>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M1135.37,-224.94C1127.75,-220.69 1119.69,-215.31 1113.4,-209 1090.9,-186.43 1102.68,-166.39 1077.4,-147 975.16,-68.63 610.33,-71.03 568.18,-77"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_material.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge67" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_material.f90</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M1149.47,-224.67C1139.18,-212.61 1123.35,-192.58 1113.4,-173 1089.51,-126.01 1113.63,-98.28 1077.4,-60 1075.97,-58.49 1074.42,-57.09 1072.78,-55.79"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="1074.25,-52.57 1063.96,-50.08 1070.45,-58.45 1074.25,-52.57"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge70" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M566.18,-77C542.3,-80.38 535.46,-82.68 515.36,-96 495.96,-108.85 498.09,-120.2 479.36,-134 476.91,-135.8 474.29,-137.52 471.59,-139.14"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="469.89,-136.08 462.82,-143.97 473.27,-142.21 469.89,-136.08"/>
+</g>
+<!-- sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_bc_math.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge68" class="edge">
+<title>sourcefile~class_bc_wall.f90&#45;&gt;sourcefile~class_bc_math.f90</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M1131.24,-224.97C1124.68,-221.33 1118.21,-216.71 1113.4,-211 1081.31,-172.97 1110.81,-141.86 1077.4,-105 1074.33,-101.62 1070.72,-98.67 1066.84,-96.1"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="1068.43,-92.98 1058.01,-91.05 1064.96,-99.05 1068.43,-92.98"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_psblas.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge72" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_psblas.f90</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M566.18,-233C509.23,-224.73 493.59,-241.7 436.71,-233"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vertex.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge71" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vertex.f90</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M670.23,-244.07C654.13,-248.48 635.44,-253.59 618.48,-258.23"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="617.46,-254.89 608.73,-260.9 619.3,-261.64 617.46,-254.89"/>
+</g>
+<!-- sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vector.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge73" class="edge">
+<title>sourcefile~class_cylinder.f90&#45;&gt;sourcefile~class_vector.f90</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M566.18,-233C521.81,-226.56 479,-193.97 455.42,-173.01"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="457.66,-170.31 447.92,-166.14 452.93,-175.47 457.66,-170.31"/>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M664.23,-236.36C636.26,-237.55 600.01,-237.62 568.18,-233"/>
+</g>
+<!-- sourcefile~units_interface.f90&#45;&gt;sourcefile~object_interface.f90 -->
+<g id="sourcefile~~class_scalar_pde_procedures.f90~~EfferentGraph_edge74" class="edge">
+<title>sourcefile~units_interface.f90&#45;&gt;sourcefile~object_interface.f90</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M660.84,-391C650.73,-391 639.98,-391 629.52,-391"/>
+<polygon fill="#ff00aa" stroke="#ff00aa" points="629.2,-387.5 619.2,-391 629.2,-394.5 629.2,-387.5"/>
+</g>
+</g>
+</svg>
+</div><script>var pansourcefileclass_scalar_pde_proceduresf90EfferentGraph = svgPanZoom('#sourcefileclass_scalar_pde_proceduresf90EfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="31pt"
+ viewBox="0.00 0.00 186.41 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 182.41,-26.5 182.41,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="65.16,-22.26 -0.05,-22.26 -0.05,-0.24 65.16,-0.24 65.16,-22.26"/>
+<text text-anchor="middle" x="32.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="178.26,-22.26 82.84,-22.26 82.84,-0.24 178.26,-0.24 178.26,-22.26"/>
+<text text-anchor="middle" x="130.55" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+      
+      <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-1">Submodules</a></h3></div>
+  <div id="submods-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/class_scalar_pde_procedures.html">class_scalar_pde_procedures</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/class_scalar_pde_procedures.f90.html#src">class_scalar_pde_procedures.f90</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="c">!</span>
+<a name="ln-2"></a><span class="c">!     (c) 2019 Guide Star Engineering, LLC</span>
+<a name="ln-3"></a><span class="c">!     This Software was developed for the US Nuclear Regulatory Commission (US NRC)</span>
+<a name="ln-4"></a><span class="c">!     under contract &quot;Multi-Dimensional Physics Implementation into Fuel Analysis under</span>
+<a name="ln-5"></a><span class="c">!     Steady-state and Transients (FAST)&quot;, contract # NRC-HQ-60-17-C-0007</span>
+<a name="ln-6"></a><span class="c">!</span>
+<a name="ln-7"></a><span class="c">!</span>
+<a name="ln-8"></a><span class="c">!    NEMO - Numerical Engine (for) Multiphysics Operators</span>
+<a name="ln-9"></a><span class="c">! Copyright (c) 2007, Stefano Toninel</span>
+<a name="ln-10"></a><span class="c">!                     Gian Marco Bianchi  University of Bologna</span>
+<a name="ln-11"></a><span class="c">!              David P. Schmidt    University of Massachusetts - Amherst</span>
+<a name="ln-12"></a><span class="c">!              Salvatore Filippone University of Rome Tor Vergata</span>
+<a name="ln-13"></a><span class="c">! All rights reserved.</span>
+<a name="ln-14"></a><span class="c">!</span>
+<a name="ln-15"></a><span class="c">! Redistribution and use in source and binary forms, with or without modification,</span>
+<a name="ln-16"></a><span class="c">! are permitted provided that the following conditions are met:</span>
+<a name="ln-17"></a><span class="c">!</span>
+<a name="ln-18"></a><span class="c">!     1. Redistributions of source code must retain the above copyright notice,</span>
+<a name="ln-19"></a><span class="c">!        this list of conditions and the following disclaimer.</span>
+<a name="ln-20"></a><span class="c">!     2. Redistributions in binary form must reproduce the above copyright notice,</span>
+<a name="ln-21"></a><span class="c">!        this list of conditions and the following disclaimer in the documentation</span>
+<a name="ln-22"></a><span class="c">!        and/or other materials provided with the distribution.</span>
+<a name="ln-23"></a><span class="c">!     3. Neither the name of the NEMO project nor the names of its contributors</span>
+<a name="ln-24"></a><span class="c">!        may be used to endorse or promote products derived from this software</span>
+<a name="ln-25"></a><span class="c">!        without specific prior written permission.</span>
+<a name="ln-26"></a><span class="c">!</span>
+<a name="ln-27"></a><span class="c">! THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND</span>
+<a name="ln-28"></a><span class="c">! ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
+<a name="ln-29"></a><span class="c">! WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<a name="ln-30"></a><span class="c">! DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR</span>
+<a name="ln-31"></a><span class="c">! ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span>
+<a name="ln-32"></a><span class="c">! (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;</span>
+<a name="ln-33"></a><span class="c">! LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON</span>
+<a name="ln-34"></a><span class="c">! ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span>
+<a name="ln-35"></a><span class="c">! (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS</span>
+<a name="ln-36"></a><span class="c">! SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+<a name="ln-37"></a><span class="c">!</span>
+<a name="ln-38"></a><span class="c">!---------------------------------------------------------------------------------</span>
+<a name="ln-39"></a><span class="c">!</span>
+<a name="ln-40"></a><span class="c">! $Id: class_scalar_pde.f90 8157 2014-10-09 13:02:44Z sfilippo $</span>
+<a name="ln-41"></a><span class="c">!</span>
+<a name="ln-42"></a><span class="c">! Description:</span>
+<a name="ln-43"></a><span class="c">!    To be added...</span>
+<a name="ln-44"></a><span class="c">!</span>
+<a name="ln-45"></a><span class="k">SUBMODULE</span><span class="p">(</span><span class="n">class_scalar_pde</span><span class="p">)</span> <span class="n">class_scalar_pde_procedures</span>
+<a name="ln-46"></a>
+<a name="ln-47"></a>    <span class="k">IMPLICIT NONE</span>
+<a name="ln-48"></a>
+<a name="ln-49"></a><span class="k">CONTAINS</span>
+<a name="ln-50"></a>
+<a name="ln-51"></a><span class="k">    MODULE PROCEDURE </span><span class="n">nemo_sizeof</span>
+<a name="ln-52"></a>        <span class="k">USE </span><span class="n">psb_base_mod</span>
+<a name="ln-53"></a>
+<a name="ln-54"></a>        <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">nemo_int_long_</span><span class="p">)</span>   <span class="kd">::</span> <span class="n">val</span>
+<a name="ln-55"></a>
+<a name="ln-56"></a>        <span class="n">val</span> <span class="o">=</span> <span class="n">eqn</span><span class="p">%</span><span class="n">pde</span><span class="p">%</span><span class="n">nemo_sizeof</span><span class="p">()</span>
+<a name="ln-57"></a>        <span class="k">IF</span> <span class="p">(</span><span class="nb">ALLOCATED</span><span class="p">(</span><span class="n">eqn</span><span class="p">%</span><span class="n">b</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-58"></a>            <span class="p">&amp;</span> <span class="n">val</span> <span class="o">=</span> <span class="n">val</span> <span class="o">+</span> <span class="n">nemo_sizeof_dp</span> <span class="o">*</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">eqn</span><span class="p">%</span><span class="n">b</span><span class="p">)</span>
+<a name="ln-59"></a>
+<a name="ln-60"></a>        <span class="n">nemo_sizeof</span> <span class="o">=</span> <span class="n">val</span>
+<a name="ln-61"></a>
+<a name="ln-62"></a>    <span class="k">END PROCEDURE </span><span class="n">nemo_sizeof</span>
+<a name="ln-63"></a>
+<a name="ln-64"></a>    <span class="c">! ----- Constructor -----</span>
+<a name="ln-65"></a>
+<a name="ln-66"></a>    <span class="k">MODULE PROCEDURE </span><span class="n">create_pde</span>
+<a name="ln-67"></a>        <span class="k">USE </span><span class="n">class_dimensions</span>
+<a name="ln-68"></a>        <span class="k">USE </span><span class="n">class_mesh</span>
+<a name="ln-69"></a>
+<a name="ln-70"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">err_act</span><span class="p">,</span> <span class="n">info</span>
+<a name="ln-71"></a>
+<a name="ln-72"></a>        <span class="c">! Sets error handling for PSBLAS-2 routines</span>
+<a name="ln-73"></a>        <span class="k">CALL </span><span class="n">psb_erractionsave</span><span class="p">(</span><span class="n">err_act</span><span class="p">)</span>
+<a name="ln-74"></a>
+<a name="ln-75"></a>        <span class="c">! Create PDE%BASE member</span>
+<a name="ln-76"></a>        <span class="k">CALL </span><span class="n">eqn</span><span class="p">%</span><span class="n">pde</span><span class="p">%</span><span class="n">create_pde</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span><span class="n">sec</span><span class="p">,</span><span class="n">msh</span><span class="p">,</span><span class="nb">dim</span><span class="p">)</span>
+<a name="ln-77"></a>
+<a name="ln-78"></a>        <span class="c">! Allocates RHS member</span>
+<a name="ln-79"></a>        <span class="k">CALL </span><span class="n">psb_geall</span><span class="p">(</span><span class="n">eqn</span><span class="p">%</span><span class="n">b</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_c</span><span class="p">,</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-80"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="s1">&#39;create_pde&#39;</span><span class="p">,</span><span class="s1">&#39;psb_geall&#39;</span><span class="p">,</span><span class="n">icontxt_</span><span class="p">())</span>
+<a name="ln-81"></a>
+<a name="ln-82"></a>        <span class="n">eqn</span><span class="p">%</span><span class="n">b</span> <span class="o">=</span> <span class="mf">0.d0</span>
+<a name="ln-83"></a>
+<a name="ln-84"></a>        <span class="c">! ----- Normal Termination -----</span>
+<a name="ln-85"></a>        <span class="k">CALL </span><span class="n">psb_erractionrestore</span><span class="p">(</span><span class="n">err_act</span><span class="p">)</span>
+<a name="ln-86"></a>
+<a name="ln-87"></a>    <span class="k">END PROCEDURE </span><span class="n">create_pde</span>
+<a name="ln-88"></a>
+<a name="ln-89"></a>
+<a name="ln-90"></a>    <span class="c">! ----- Destructor -----</span>
+<a name="ln-91"></a>
+<a name="ln-92"></a>
+<a name="ln-93"></a>    <span class="k">MODULE PROCEDURE </span><span class="n">free_pde</span>
+<a name="ln-94"></a>        <span class="k">USE </span><span class="n">class_mesh</span>
+<a name="ln-95"></a>
+<a name="ln-96"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">err_act</span><span class="p">,</span> <span class="n">info</span>
+<a name="ln-97"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">mesh</span><span class="p">),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">msh</span> <span class="o">=&gt;</span> <span class="nb">NULL</span><span class="p">()</span>
+<a name="ln-98"></a>
+<a name="ln-99"></a>        <span class="c">! Sets error handling for PSBLAS-2 routines</span>
+<a name="ln-100"></a>        <span class="k">CALL </span><span class="n">psb_erractionsave</span><span class="p">(</span><span class="n">err_act</span><span class="p">)</span>
+<a name="ln-101"></a>
+<a name="ln-102"></a>        <span class="k">CALL </span><span class="n">eqn</span><span class="p">%</span><span class="n">pde</span><span class="p">%</span><span class="n">get_mesh</span><span class="p">(</span><span class="n">msh</span><span class="p">)</span>
+<a name="ln-103"></a>
+<a name="ln-104"></a>        <span class="c">! Frees storage of RHS member</span>
+<a name="ln-105"></a>        <span class="k">CALL </span><span class="n">psb_gefree</span><span class="p">(</span><span class="n">eqn</span><span class="p">%</span><span class="n">b</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_c</span><span class="p">,</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-106"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="s1">&#39;free_pde&#39;</span><span class="p">,</span><span class="s1">&#39;psb_gefree&#39;</span><span class="p">,</span><span class="n">icontxt_</span><span class="p">())</span>
+<a name="ln-107"></a>
+<a name="ln-108"></a>        <span class="k">NULLIFY</span><span class="p">(</span><span class="n">msh</span><span class="p">)</span>
+<a name="ln-109"></a>
+<a name="ln-110"></a>        <span class="c">! Frees storage of BASE member</span>
+<a name="ln-111"></a>        <span class="k">CALL </span><span class="n">eqn</span><span class="p">%</span><span class="n">pde</span><span class="p">%</span><span class="n">free_pde</span><span class="p">()</span>
+<a name="ln-112"></a>
+<a name="ln-113"></a>        <span class="c">! ----- Normal Termination -----</span>
+<a name="ln-114"></a>        <span class="k">CALL </span><span class="n">psb_erractionrestore</span><span class="p">(</span><span class="n">err_act</span><span class="p">)</span>
+<a name="ln-115"></a>
+<a name="ln-116"></a>    <span class="k">END PROCEDURE </span><span class="n">free_pde</span>
+<a name="ln-117"></a>
+<a name="ln-118"></a>
+<a name="ln-119"></a>    <span class="c">! ----- Linear System Solving -----</span>
+<a name="ln-120"></a>
+<a name="ln-121"></a>    <span class="k">MODULE PROCEDURE </span><span class="n">geins_scalar_pde</span>
+<a name="ln-122"></a>        <span class="c">!! Inserts a ``cloud&#39;&#39; of RHS terms into pde%b</span>
+<a name="ln-123"></a>        <span class="k">USE </span><span class="n">class_mesh</span>
+<a name="ln-124"></a>
+<a name="ln-125"></a>
+<a name="ln-126"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">info</span><span class="p">,</span> <span class="n">err_act</span>
+<a name="ln-127"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">mesh</span><span class="p">),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">msh</span> <span class="o">=&gt;</span> <span class="nb">NULL</span><span class="p">()</span>
+<a name="ln-128"></a>
+<a name="ln-129"></a>        <span class="k">CALL </span><span class="n">sw_ins</span><span class="p">%</span><span class="n">tic</span><span class="p">()</span>
+<a name="ln-130"></a>
+<a name="ln-131"></a>        <span class="c">! Sets error handling for PSBLAS-2 routines</span>
+<a name="ln-132"></a>        <span class="k">CALL </span><span class="n">psb_erractionsave</span><span class="p">(</span><span class="n">err_act</span><span class="p">)</span>
+<a name="ln-133"></a>
+<a name="ln-134"></a>        <span class="k">CALL </span><span class="n">pde</span><span class="p">%</span><span class="n">pde</span><span class="p">%</span><span class="n">get_mesh</span><span class="p">(</span><span class="n">msh</span><span class="p">)</span>
+<a name="ln-135"></a>
+<a name="ln-136"></a>        <span class="c">! Inserts CLOUD into RHS pde%b</span>
+<a name="ln-137"></a>        <span class="k">CALL </span><span class="n">psb_geins</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">ia</span><span class="p">,</span><span class="n">cloud</span><span class="p">,</span><span class="n">pde</span><span class="p">%</span><span class="n">b</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_c</span><span class="p">,</span><span class="n">info</span><span class="p">,</span><span class="n">psb_dupl_add_</span><span class="p">)</span>
+<a name="ln-138"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="s1">&#39;geins_scalar_pde&#39;</span><span class="p">,</span><span class="s1">&#39;psb_geins&#39;</span><span class="p">,</span><span class="n">icontxt_</span><span class="p">())</span>
+<a name="ln-139"></a>
+<a name="ln-140"></a>        <span class="k">NULLIFY</span><span class="p">(</span><span class="n">msh</span><span class="p">)</span>
+<a name="ln-141"></a>
+<a name="ln-142"></a>        <span class="c">! ----- Normal Termination -----</span>
+<a name="ln-143"></a>        <span class="k">CALL </span><span class="n">psb_erractionrestore</span><span class="p">(</span><span class="n">err_act</span><span class="p">)</span>
+<a name="ln-144"></a>
+<a name="ln-145"></a>        <span class="k">CALL </span><span class="n">sw_ins</span><span class="p">%</span><span class="n">toc</span><span class="p">()</span>
+<a name="ln-146"></a>
+<a name="ln-147"></a>    <span class="k">END PROCEDURE </span><span class="n">geins_scalar_pde</span>
+<a name="ln-148"></a>
+<a name="ln-149"></a>    <span class="k">MODULE PROCEDURE </span><span class="n">asb_pde_</span>
+<a name="ln-150"></a>        <span class="k">USE </span><span class="n">class_mesh</span>
+<a name="ln-151"></a>
+<a name="ln-152"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">err_act</span><span class="p">,</span> <span class="n">info</span>
+<a name="ln-153"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">mesh</span><span class="p">),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">msh</span> <span class="o">=&gt;</span> <span class="nb">NULL</span><span class="p">()</span>
+<a name="ln-154"></a>
+<a name="ln-155"></a>        <span class="c">! Sets error handling for PSBLAS-2 routines</span>
+<a name="ln-156"></a>        <span class="k">CALL </span><span class="n">psb_erractionsave</span><span class="p">(</span><span class="n">err_act</span><span class="p">)</span>
+<a name="ln-157"></a>
+<a name="ln-158"></a>        <span class="c">! Assemblies sparse matrix in PDE%BASE member</span>
+<a name="ln-159"></a>        <span class="k">CALL </span><span class="n">eqn</span><span class="p">%</span><span class="n">pde</span><span class="p">%</span><span class="n">asb_pde_</span><span class="p">()</span>
+<a name="ln-160"></a>
+<a name="ln-161"></a>        <span class="k">CALL </span><span class="n">sw_asb</span><span class="p">%</span><span class="n">tic</span><span class="p">()</span>
+<a name="ln-162"></a>
+<a name="ln-163"></a>        <span class="k">CALL </span><span class="n">eqn</span><span class="p">%</span><span class="n">pde</span><span class="p">%</span><span class="n">get_mesh</span><span class="p">(</span><span class="n">msh</span><span class="p">)</span>
+<a name="ln-164"></a>
+<a name="ln-165"></a>        <span class="c">! Assemblies RHS member</span>
+<a name="ln-166"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;  - assembling RHS&#39;</span>
+<a name="ln-167"></a>        <span class="k">CALL </span><span class="n">psb_geasb</span><span class="p">(</span><span class="n">eqn</span><span class="p">%</span><span class="n">b</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_c</span><span class="p">,</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-168"></a>        <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="s1">&#39;abs_scalar_pde&#39;</span><span class="p">,</span><span class="s1">&#39;psb_geasb&#39;</span><span class="p">,</span><span class="n">icontxt_</span><span class="p">())</span>
+<a name="ln-169"></a>
+<a name="ln-170"></a>        <span class="k">CALL </span><span class="n">sw_asb</span><span class="p">%</span><span class="n">toc</span><span class="p">()</span>
+<a name="ln-171"></a>
+<a name="ln-172"></a>        <span class="k">NULLIFY</span><span class="p">(</span><span class="n">msh</span><span class="p">)</span>
+<a name="ln-173"></a>
+<a name="ln-174"></a>        <span class="c">! ----- Normal Termination -----</span>
+<a name="ln-175"></a>        <span class="k">CALL </span><span class="n">psb_erractionrestore</span><span class="p">(</span><span class="n">err_act</span><span class="p">)</span>
+<a name="ln-176"></a>
+<a name="ln-177"></a>    <span class="k">END PROCEDURE </span><span class="n">asb_pde_</span>
+<a name="ln-178"></a>
+<a name="ln-179"></a>    <span class="k">MODULE PROCEDURE </span><span class="n">solve_scalar_pde</span>
+<a name="ln-180"></a>        <span class="k">USE </span><span class="n">class_mesh</span>
+<a name="ln-181"></a>        <span class="k">USE </span><span class="n">class_scalar_field</span>
+<a name="ln-182"></a>
+<a name="ln-183"></a>        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">err_act</span><span class="p">,</span> <span class="n">icontxt</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">iter</span>
+<a name="ln-184"></a>        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">x</span><span class="p">(:)</span>
+<a name="ln-185"></a>        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">x_old</span><span class="p">(:)</span>
+<a name="ln-186"></a>        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">)</span> <span class="kd">::</span> <span class="n">err</span>
+<a name="ln-187"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">mesh</span><span class="p">),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">msh</span> <span class="o">=&gt;</span> <span class="nb">NULL</span><span class="p">()</span>
+<a name="ln-188"></a>
+<a name="ln-189"></a>        <span class="c">! Sets error handling for PSBLAS-2 routines</span>
+<a name="ln-190"></a>        <span class="k">CALL </span><span class="n">psb_erractionsave</span><span class="p">(</span><span class="n">err_act</span><span class="p">)</span>
+<a name="ln-191"></a>
+<a name="ln-192"></a>        <span class="n">icontxt</span> <span class="o">=</span> <span class="n">icontxt_</span><span class="p">()</span>
+<a name="ln-193"></a>
+<a name="ln-194"></a>        <span class="c">! Assemblies PSBLAS sparse matrix and RHS</span>
+<a name="ln-195"></a>        <span class="k">CALL </span><span class="n">pde</span><span class="p">%</span><span class="n">asb_pde_</span><span class="p">()</span>
+<a name="ln-196"></a>
+<a name="ln-197"></a>        <span class="c">! Build preconditioner in PDE%BASE member</span>
+<a name="ln-198"></a>        <span class="k">CALL </span><span class="n">pde</span><span class="p">%</span><span class="n">pde</span><span class="p">%</span><span class="n">build_pde_prec</span><span class="p">()</span>
+<a name="ln-199"></a>
+<a name="ln-200"></a>        <span class="c">! Is PHI cell-centered?</span>
+<a name="ln-201"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">phi</span><span class="p">%</span><span class="n">on_faces_</span><span class="p">())</span> <span class="k">THEN</span>
+<a name="ln-202"></a><span class="k">            WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<a name="ln-203"></a>            <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-204"></a>        <span class="k">END IF</span>
+<a name="ln-205"></a>
+<a name="ln-206"></a><span class="k">        CALL </span><span class="n">pde</span><span class="p">%</span><span class="n">get_mesh</span><span class="p">(</span><span class="n">msh</span><span class="p">)</span>
+<a name="ln-207"></a>        <span class="k">CALL </span><span class="n">phi</span><span class="p">%</span><span class="n">get_x</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<a name="ln-208"></a>
+<a name="ln-209"></a>        <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">var</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-210"></a>            <span class="c">! Allocates X_OLD</span>
+<a name="ln-211"></a>            <span class="k">ALLOCATE</span><span class="p">(</span><span class="n">x_old</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span><span class="nb">stat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-212"></a>            <span class="k">IF</span><span class="p">(</span><span class="n">info</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-213"></a><span class="k">                WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
+<a name="ln-214"></a>                <span class="k">CALL </span><span class="n">abort_psblas</span>
+<a name="ln-215"></a>            <span class="k">END IF</span>
+<a name="ln-216"></a>
+<a name="ln-217"></a>            <span class="c">! Copy X_OLD &lt;- X</span>
+<a name="ln-218"></a>            <span class="n">x_old</span> <span class="o">=</span> <span class="n">x</span>
+<a name="ln-219"></a>        <span class="k">END IF</span>
+<a name="ln-220"></a>
+<a name="ln-221"></a>        <span class="c">! Solves linear system associated to PDE%BASE</span>
+<a name="ln-222"></a>        <span class="k">CALL </span><span class="n">pde</span><span class="p">%</span><span class="n">pde</span><span class="p">%</span><span class="n">solve_pde_sys</span><span class="p">(</span><span class="n">pde</span><span class="p">%</span><span class="n">b</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">iter</span><span class="p">,</span><span class="n">err</span><span class="p">)</span>
+<a name="ln-223"></a>
+<a name="ln-224"></a>        <span class="c">! Assigns solution to scalar field</span>
+<a name="ln-225"></a>        <span class="n">phi</span> <span class="o">=</span> <span class="n">x</span>
+<a name="ln-226"></a>
+<a name="ln-227"></a>        <span class="c">! Free preconditioner storage in base member</span>
+<a name="ln-228"></a>        <span class="k">CALL </span><span class="n">pde</span><span class="p">%</span><span class="n">pde</span><span class="p">%</span><span class="n">free_pde_prec</span><span class="p">()</span>
+<a name="ln-229"></a>
+<a name="ln-230"></a>        <span class="c">! Updates phi</span>
+<a name="ln-231"></a>        <span class="k">CALL </span><span class="n">phi</span><span class="p">%</span><span class="n">update_field</span><span class="p">(</span><span class="n">mats</span><span class="p">)</span>
+<a name="ln-232"></a>
+<a name="ln-233"></a>        <span class="k">IF</span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">var</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-234"></a>            <span class="c">! Computes the norm of the relative variation</span>
+<a name="ln-235"></a>            <span class="c">! variation = || x_new - x_old || / ||x_old||</span>
+<a name="ln-236"></a>            <span class="n">var</span> <span class="o">=</span> <span class="n">psb_genrm2</span><span class="p">(</span><span class="n">x_old</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_c</span><span class="p">,</span><span class="n">info</span><span class="p">)</span>
+<a name="ln-237"></a>            <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="s1">&#39;solve_scalar_pde&#39;</span><span class="p">,</span><span class="s1">&#39;psb_genrm2&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-238"></a>
+<a name="ln-239"></a>            <span class="n">x_old</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">x_old</span>
+<a name="ln-240"></a>
+<a name="ln-241"></a>            <span class="n">var</span> <span class="o">=</span> <span class="n">psb_genrm2</span><span class="p">(</span><span class="n">x_old</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_c</span><span class="p">,</span><span class="n">info</span><span class="p">)</span> <span class="o">/</span> <span class="n">var</span>
+<a name="ln-242"></a>            <span class="k">CALL </span><span class="n">psb_check_error</span><span class="p">(</span><span class="n">info</span><span class="p">,</span><span class="s1">&#39;solve_scalar_pde&#39;</span><span class="p">,</span><span class="s1">&#39;psb_genrm2&#39;</span><span class="p">,</span><span class="n">icontxt</span><span class="p">)</span>
+<a name="ln-243"></a>
+<a name="ln-244"></a>            <span class="k">DEALLOCATE</span><span class="p">(</span><span class="n">x_old</span><span class="p">)</span>
+<a name="ln-245"></a>        <span class="k">END IF</span>
+<a name="ln-246"></a>
+<a name="ln-247"></a><span class="k">        DEALLOCATE</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<a name="ln-248"></a>        <span class="k">NULLIFY</span><span class="p">(</span><span class="n">msh</span><span class="p">)</span>
+<a name="ln-249"></a>
+<a name="ln-250"></a>        <span class="c">! ----- Normal Termination -----</span>
+<a name="ln-251"></a>        <span class="k">CALL </span><span class="n">psb_erractionrestore</span><span class="p">(</span><span class="n">err_act</span><span class="p">)</span>
+<a name="ln-252"></a>
+<a name="ln-253"></a><span class="mi">100</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Unknown PHI in SOLVE_SCALAR_PDE is face-centered&#39;</span><span class="p">)</span>
+<a name="ln-254"></a><span class="mi">200</span>     <span class="k">FORMAT</span><span class="p">(</span><span class="s1">&#39; ERROR! Memory allocation failure in SOLVE_SCALAR_PDE&#39;</span><span class="p">)</span>
+<a name="ln-255"></a>
+<a name="ln-256"></a>    <span class="k">END PROCEDURE </span><span class="n">solve_scalar_pde</span>
+<a name="ln-257"></a>
+<a name="ln-258"></a>
+<a name="ln-259"></a>    <span class="k">MODULE PROCEDURE </span><span class="n">reinit_pde</span>
+<a name="ln-260"></a>
+<a name="ln-261"></a><span class="c">!!$    write(0,*) &#39;Scalar_pde_reinit :&#39;,is_pde_asb(pde%pde)</span>
+<a name="ln-262"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">eqn</span><span class="p">%</span><span class="n">pde</span><span class="p">%</span><span class="n">is_pde_asb</span><span class="p">())</span> <span class="k">THEN</span>
+<a name="ln-263"></a><span class="k">            </span><span class="n">eqn</span><span class="p">%</span><span class="n">b</span> <span class="o">=</span> <span class="mf">0.d0</span>
+<a name="ln-264"></a>        <span class="k">END IF</span>
+<a name="ln-265"></a><span class="k">        CALL </span><span class="n">eqn</span><span class="p">%</span><span class="n">pde</span><span class="p">%</span><span class="n">reinit_pde</span><span class="p">()</span>
+<a name="ln-266"></a>
+<a name="ln-267"></a>    <span class="k">END PROCEDURE </span><span class="n">reinit_pde</span>
+<a name="ln-268"></a>
+<a name="ln-269"></a>
+<a name="ln-270"></a>    <span class="c">! ----- Output -----</span>
+<a name="ln-271"></a>
+<a name="ln-272"></a>    <span class="k">MODULE PROCEDURE </span><span class="n">write_scalar_pde</span>
+<a name="ln-273"></a>        <span class="k">USE </span><span class="n">class_mesh</span>
+<a name="ln-274"></a>        <span class="k">USE </span><span class="n">tools_output_basics</span>
+<a name="ln-275"></a>
+<a name="ln-276"></a>        <span class="kt">LOGICAL</span> <span class="kd">::</span> <span class="n">mtx_rhs</span>
+<a name="ln-277"></a>        <span class="k">TYPE</span><span class="p">(</span><span class="n">mesh</span><span class="p">),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">msh</span> <span class="o">=&gt;</span> <span class="nb">NULL</span><span class="p">()</span>
+<a name="ln-278"></a>
+<a name="ln-279"></a>        <span class="k">CALL </span><span class="n">eqn</span><span class="p">%</span><span class="n">pde</span><span class="p">%</span><span class="n">write_pde</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span><span class="n">mtx_rhs</span><span class="p">)</span>
+<a name="ln-280"></a>
+<a name="ln-281"></a>        <span class="k">IF</span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="n">mtx_rhs</span><span class="p">)</span> <span class="k">RETURN</span>
+<a name="ln-282"></a>
+<a name="ln-283"></a><span class="k">        CALL </span><span class="n">eqn</span><span class="p">%</span><span class="n">get_mesh</span><span class="p">(</span><span class="n">msh</span><span class="p">)</span>
+<a name="ln-284"></a>
+<a name="ln-285"></a>        <span class="k">CALL </span><span class="n">wr_mtx_vector</span><span class="p">(</span><span class="n">eqn</span><span class="p">%</span><span class="n">b</span><span class="p">,</span><span class="n">msh</span><span class="p">%</span><span class="n">desc_c</span><span class="p">,</span><span class="n">rhs</span><span class="p">)</span>
+<a name="ln-286"></a>        <span class="k">IF</span><span class="p">(</span><span class="n">mypnum_</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">WRITE</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span>
+<a name="ln-287"></a>
+<a name="ln-288"></a>        <span class="k">NULLIFY</span><span class="p">(</span><span class="n">msh</span><span class="p">)</span>
+<a name="ln-289"></a>
+<a name="ln-290"></a>    <span class="k">END PROCEDURE </span><span class="n">write_scalar_pde</span>
+<a name="ln-291"></a>
+<a name="ln-292"></a><span class="k">END SUBMODULE </span><span class="n">class_scalar_pde_procedures</span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

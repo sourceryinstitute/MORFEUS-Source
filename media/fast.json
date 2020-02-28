@@ -1,0 +1,240 @@
+{
+  "MORFEUS_FV": {
+    "MESH": {
+      "mesh-dir": "./",
+      "mesh-file": "coaxial_cable.e",
+      "scale": 1,
+      "gps-renumbering": false,
+      "partitioning-scheme": "Block",
+      "write-matrix-pattern-diagnostics": false
+    },
+    "MATERIALS": {
+      "copper-core": 100,
+      "dielectric-insulator": 4,
+      "copper-sheath": 100,
+      "plastic-sheath": 402,
+      "tape": 100
+    },
+    "PDES": {
+      "Energy": {
+        "convergence-method": "BICGSTAB",
+        "preconditioning-method": "BJAC",
+        "solve-epsilon": 1e-08,
+        "max-solve-iterations": 100,
+        "write-matrix-system-diagnostics": false
+      },
+      "Concentration": {
+        "convergence-method": "BICGSTAB",
+        "preconditioning-method": "BJAC",
+        "solve-epsilon": 1e-08,
+        "max-solve-iterations": 100,
+        "write-matrix-system-diagnostics": false
+      },
+      "Displacement": {
+        "convergence-method": "BICGSTAB",
+        "preconditioning-method": "BJAC",
+        "solve-epsilon": 1e-06,
+        "max-solve-iterations": 100,
+        "write-matrix-system-diagnostics": false
+      }
+    },
+    "iterations": {
+      "time": {
+        "max-steps": 200,
+        "delta-t": 1
+      },
+      "big-solver": {
+        "tolerance": 1e-08,
+        "max-steps": 100
+      },
+      "output" : {
+        "max-steps": 5
+      }
+    },
+    "output": {
+      "format": "vtk",
+      "base-path": "out_nemo"
+    },
+    "Source-terms": {
+      "temperature": {
+        "sc": {
+          "value": 10,
+          "units": "[W/m^3]"
+        },
+        "sp": {
+          "value": 0,
+          "units": "[W/m^3 K]"
+        }
+      },
+      "concentration": {
+        "sc": {
+          "value": 10,
+          "units": "[W/m^3]"
+        },
+        "sp": {
+          "value": 0,
+          "units": "[W/m^3 K]"
+        }
+      }
+    },
+    "BCS": [
+      {
+        "type": "wall",
+        "description": "copper-core 0",
+        "temperature": {
+          "id" : 2
+        },
+        "stress": {
+          "id" : 1
+        },
+        "velocity": {
+          "id" : 1
+        }
+      },
+      {
+        "type": "wall",
+        "description": "dielectric-insulator 0",
+        "temperature": {
+          "id" : 2
+        },
+        "stress": {
+          "id" : 1
+        },
+        "velocity": {
+          "id" : 1
+        }
+      },
+      {
+        "type": "wall",
+        "description": "copper-sheath 0",
+        "temperature": {
+          "id" : 2
+        },
+        "stress": {
+          "id" : 1
+        },
+        "velocity": {
+          "id" : 1
+        }
+      },
+      {
+        "type": "wall",
+        "description": "plastic-sheath 0",
+        "temperature": {
+          "id" : 2
+        },
+        "stress": {
+          "id" : 1
+        },
+        "velocity": {
+          "id" : 1
+        }
+      },
+      {
+        "type": "wall",
+        "description": "tape 0",
+        "temperature": {
+          "id" : 2
+        },
+        "stress": {
+          "id" : 1
+        },
+        "velocity": {
+          "id" : 1
+        }
+      },
+      {
+        "type": "wall",
+        "description": "copper-core 1",
+        "temperature": {
+          "id" : 2
+        },
+        "stress": {
+          "id" : 1
+        },
+        "velocity": {
+          "id" : 1
+        }
+      },
+      {
+        "type": "wall",
+        "description": "dielectric-insulator 1",
+        "temperature": {
+          "id" : 2
+        },
+        "stress": {
+          "id" : 1
+        },
+        "velocity": {
+          "id" : 1
+        }
+      },
+      {
+        "type": "wall",
+        "description": "copper-sheath 1",
+        "temperature": {
+          "id" : 2
+        },
+        "stress": {
+          "id" : 1
+        },
+        "velocity": {
+          "id" : 1
+        }
+      },
+      {
+        "type": "wall",
+        "description": "plastic-sheath 1",
+        "temperature": {
+          "id" : 2
+        },
+        "stress": {
+          "id" : 1
+        },
+        "velocity": {
+          "id" : 1
+        }
+      },
+      {
+        "type": "wall",
+        "description": "tape 1",
+        "temperature": {
+          "id" : 2
+        },
+        "stress": {
+          "id" : 1
+        },
+        "velocity": {
+          "id" : 1
+        }
+      },
+      {
+        "type": "wall",
+        "description": "copper-core surface",
+        "temperature": {
+          "id" : 1,
+          "value" : 550.0
+        },
+        "stress": {
+          "id" : 1
+        },
+        "velocity": {
+          "id" : 1
+        }
+      },
+      {
+        "type": "wall",
+        "description": "tape surface",
+        "temperature": {
+          "id" : 2
+        },
+        "stress": {
+          "id" : 1
+        },
+        "velocity": {
+          "id" : 1
+        }
+      }
+    ]
+  }
+}

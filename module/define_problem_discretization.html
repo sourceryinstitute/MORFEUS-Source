@@ -1,0 +1,2975 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>define_problem_discretization &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>define_problem_discretization 
+    <small>Submodule</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     <li><i class="fa fa-pencil"></i> Damian Rouson and Karla Morris</li>
+     
+     
+    <li><i class="fa fa-calendar-o"></i> 9/9/2019</li>
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 1.7% of total for modules and submodules.">451 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/problem_discretization_implementation.F90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/problem_discretization_implementation.f90.html'>problem_discretization_implementation.F90</a></li>
+    
+  
+     <li class="active">define_problem_discretization</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#variable-success~7">success</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
+  <div id="funcs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-evenly_spaced_points">evenly_spaced_points</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-first_block">first_block</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-last_block">last_block</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-overflow">overflow</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-0" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-csv_output">csv_output</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-define_scalar">define_scalar</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-vtk_output">vtk_output</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-0">Module Procedures</a></h3></div>
+  <div id="modprocs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-block_identifier~3">block_identifier</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-block_indicial_coordinates~3">block_indicial_coordinates</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-block_load">block_load</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-get_block_surfaces">get_block_surfaces</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-get_global_block_shape">get_global_block_shape</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-get_surface_packages">get_surface_packages</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-initialize_from_cylinder_2d">initialize_from_cylinder_2d</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-initialize_from_plate_3d">initialize_from_plate_3d</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-initialize_from_sphere_1d">initialize_from_sphere_1d</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-my_blocks">my_blocks</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-num_scalar_flux_divergences">num_scalar_flux_divergences</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-num_scalars">num_scalars</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-partition">partition</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-set_analytical_scalars">set_analytical_scalars</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-set_scalar_flux_divergence">set_scalar_flux_divergence</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-solve_governing_equations">solve_governing_equations</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-user_defined_vertices">user_defined_vertices</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-write_output">write_output</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    
+      <br>
+    
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      
+      <li class="list-group-item">
+  <ul class="list-inline">
+    
+    <li><a href='../module/assertions_interface.html'>assertions_interface</a></li>
+    
+    <li><a href="https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html">iso_fortran_env</a></li>
+    
+    <li><a href='../module/kind_parameters.html'>kind_parameters</a></li>
+    
+  </ul>
+      </li>
+      
+      
+      <li class="list-group-item">
+  <ul class="list-inline">
+    <li><h5>Ancestors:</h5></li>
+    
+    <li><a href='../module/problem_discretization_interface.html'>problem_discretization_interface</a></li>
+    
+    
+  </ul>
+      </li>
+      
+      
+      <li class="list-group-item">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~define_problem_discretization~~UsesGraph Pages: 1 -->
+<svg id="moduledefine_problem_discretizationUsesGraph" width="641pt" height="296pt"
+ viewBox="0.00 0.00 641.00 296.07" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~define_problem_discretization~~UsesGraph" class="graph" transform="scale(1.69 1.69) rotate(0) translate(4 496.74)">
+<title>module~~define_problem_discretization~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-496.74 1080.11,-496.74 1080.11,4 -4,4"/>
+<!-- module~define_problem_discretization -->
+<g id="module~~define_problem_discretization~~UsesGraph_node1" class="node">
+<title>module~define_problem_discretization</title>
+<polygon fill="none" stroke="black" points="1076.36,-177.26 924.36,-177.26 924.36,-155.24 1076.36,-155.24 1076.36,-177.26"/>
+<text text-anchor="middle" x="1000.36" y="-163.1" font-family="Helvetica,sans-Serif" font-size="10.50">define_problem_discretization</text>
+</g>
+<!-- iso_fortran_env -->
+<g id="module~~define_problem_discretization~~UsesGraph_node2" class="node">
+<title>iso_fortran_env</title>
+<g id="a_module~~define_problem_discretization~~UsesGraph_node2"><a xlink:href="https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html" xlink:title="iso_fortran_env">
+<polygon fill="#337ab7" stroke="#337ab7" points="85.44,-79.26 0.69,-79.26 0.69,-57.24 85.44,-57.24 85.44,-79.26"/>
+<text text-anchor="middle" x="43.07" y="-65.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
+</a>
+</g>
+</g>
+<!-- module~define_problem_discretization&#45;&gt;iso_fortran_env -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge1" class="edge">
+<title>module~define_problem_discretization&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M979.02,-155.13C923.98,-126.09 766.75,-50.25 626.37,-50.25 626.37,-50.25 626.37,-50.25 296.24,-50.25 226.64,-50.25 146.51,-57.16 95.59,-62.41"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="95.08,-58.95 85.5,-63.47 95.81,-65.91 95.08,-58.95"/>
+</g>
+<!-- module~kind_parameters -->
+<g id="module~~define_problem_discretization~~UsesGraph_node3" class="node">
+<title>module~kind_parameters</title>
+<g id="a_module~~define_problem_discretization~~UsesGraph_node3"><a xlink:href=".././module/kind_parameters.html" xlink:title="kind_parameters">
+<polygon fill="#337ab7" stroke="#337ab7" points="212.44,-325.26 122.03,-325.26 122.03,-303.24 212.44,-303.24 212.44,-325.26"/>
+<text text-anchor="middle" x="167.23" y="-311.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters</text>
+</a>
+</g>
+</g>
+<!-- module~define_problem_discretization&#45;&gt;module~kind_parameters -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge2" class="edge">
+<title>module~define_problem_discretization&#45;&gt;module~kind_parameters</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M993.32,-177.52C978.34,-204.77 937.13,-275.43 888.61,-322.25 812.37,-395.82 790.56,-421.63 689.45,-453.25 523.45,-505.16 459.06,-509.5 298.24,-443.25"/>
+</g>
+<!-- module~assertions_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_node4" class="node">
+<title>module~assertions_interface</title>
+<g id="a_module~~define_problem_discretization~~UsesGraph_node4"><a xlink:href=".././module/assertions_interface.html" xlink:title="assertions_interface">
+<polygon fill="#337ab7" stroke="#337ab7" points="859.99,-22.26 754.06,-22.26 754.06,-0.24 859.99,-0.24 859.99,-22.26"/>
+<text text-anchor="middle" x="807.03" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assertions_interface</text>
+</a>
+</g>
+</g>
+<!-- module~define_problem_discretization&#45;&gt;module~assertions_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge3" class="edge">
+<title>module~define_problem_discretization&#45;&gt;module~assertions_interface</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M992.88,-155C977.86,-129.88 938.11,-68.9 888.61,-36.25 882.47,-32.2 875.64,-28.78 868.63,-25.9"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="869.6,-22.52 859,-22.29 867.14,-29.07 869.6,-22.52"/>
+</g>
+<!-- module~problem_discretization_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_node5" class="node">
+<title>module~problem_discretization_interface</title>
+<g id="a_module~~define_problem_discretization~~UsesGraph_node5"><a xlink:href=".././module/problem_discretization_interface.html" xlink:title="problem_discretization_interface">
+<polygon fill="#337ab7" stroke="#337ab7" points="888.69,-313.26 725.36,-313.26 725.36,-291.24 888.69,-291.24 888.69,-313.26"/>
+<text text-anchor="middle" x="807.03" y="-299.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">problem_discretization_interface</text>
+</a>
+</g>
+</g>
+<!-- module~define_problem_discretization&#45;&gt;module~problem_discretization_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge4" class="edge">
+<title>module~define_problem_discretization&#45;&gt;module~problem_discretization_interface</title>
+<path fill="none" stroke="#ff0000" d="M983.7,-177.38C950.26,-201.15 871.69,-257 831.95,-285.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="829.76,-282.51 823.63,-291.16 833.81,-288.22 829.76,-282.51"/>
+</g>
+<!-- module~kind_parameters&#45;&gt;iso_fortran_env -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge5" class="edge">
+<title>module~kind_parameters&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M163.81,-303.09C156.36,-270.61 131.57,-174.21 86.13,-107.25 80.91,-99.55 73.89,-92.28 67.09,-86.14"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="69.2,-83.34 59.32,-79.51 64.65,-88.66 69.2,-83.34"/>
+</g>
+<!-- module~problem_discretization_interface&#45;&gt;module~kind_parameters -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge14" class="edge">
+<title>module~problem_discretization_interface&#45;&gt;module~kind_parameters</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M452.72,-443.25C384.63,-434.46 361.73,-469.4 298.24,-443.25"/>
+</g>
+<!-- module~surfaces_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_node6" class="node">
+<title>module~surfaces_interface</title>
+<g id="a_module~~define_problem_discretization~~UsesGraph_node6"><a xlink:href=".././module/surfaces_interface.html" xlink:title="surfaces_interface">
+<polygon fill="#337ab7" stroke="#337ab7" points="502.52,-254.26 404.93,-254.26 404.93,-232.24 502.52,-232.24 502.52,-254.26"/>
+<text text-anchor="middle" x="453.72" y="-240.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">surfaces_interface</text>
+</a>
+</g>
+</g>
+<!-- module~problem_discretization_interface&#45;&gt;module~surfaces_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge6" class="edge">
+<title>module~problem_discretization_interface&#45;&gt;module~surfaces_interface</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M725.08,-293.8C694.19,-290.55 658.64,-286.77 626.37,-283.25"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M624.37,-283.25C581.39,-278.56 533.53,-266.64 499.64,-257.03"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="500.6,-253.66 490.02,-254.26 498.66,-260.39 500.6,-253.66"/>
+</g>
+<!-- module~structured_grid_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_node7" class="node">
+<title>module~structured_grid_interface</title>
+<g id="a_module~~define_problem_discretization~~UsesGraph_node7"><a xlink:href=".././module/structured_grid_interface.html" xlink:title="structured_grid_interface">
+<polygon fill="#337ab7" stroke="#337ab7" points="689.52,-255.26 561.23,-255.26 561.23,-233.24 689.52,-233.24 689.52,-255.26"/>
+<text text-anchor="middle" x="625.37" y="-241.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">structured_grid_interface</text>
+</a>
+</g>
+</g>
+<!-- module~problem_discretization_interface&#45;&gt;module~structured_grid_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge7" class="edge">
+<title>module~problem_discretization_interface&#45;&gt;module~structured_grid_interface</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M771.81,-291.2C743.06,-281.92 701.77,-268.59 670.53,-258.51"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="671.36,-255.09 660.77,-255.35 669.21,-261.76 671.36,-255.09"/>
+</g>
+<!-- module~cylinder_2d_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_node8" class="node">
+<title>module~cylinder_2d_interface</title>
+<g id="a_module~~define_problem_discretization~~UsesGraph_node8"><a xlink:href=".././module/cylinder_2d_interface.html" xlink:title="cylinder_2d_interface">
+<polygon fill="#337ab7" stroke="#337ab7" points="681.18,-415.26 569.56,-415.26 569.56,-393.24 681.18,-393.24 681.18,-415.26"/>
+<text text-anchor="middle" x="625.37" y="-401.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cylinder_2d_interface</text>
+</a>
+</g>
+</g>
+<!-- module~problem_discretization_interface&#45;&gt;module~cylinder_2d_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge8" class="edge">
+<title>module~problem_discretization_interface&#45;&gt;module~cylinder_2d_interface</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M792.83,-313.33C772.02,-330.34 729.77,-363.05 689.45,-383.25 684.86,-385.55 679.96,-387.68 674.99,-389.64"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="673.6,-386.43 665.44,-393.18 676.03,-392.99 673.6,-386.43"/>
+</g>
+<!-- module~geometry_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_node9" class="node">
+<title>module~geometry_interface</title>
+<g id="a_module~~define_problem_discretization~~UsesGraph_node9"><a xlink:href=".././module/geometry_interface.html" xlink:title="geometry_interface">
+<polygon fill="#337ab7" stroke="#337ab7" points="504.6,-295.26 402.84,-295.26 402.84,-273.24 504.6,-273.24 504.6,-295.26"/>
+<text text-anchor="middle" x="453.72" y="-281.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geometry_interface</text>
+</a>
+</g>
+</g>
+<!-- module~problem_discretization_interface&#45;&gt;module~geometry_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge9" class="edge">
+<title>module~problem_discretization_interface&#45;&gt;module~geometry_interface</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M624.37,-283.25C588.18,-279.3 547.38,-279.4 514.86,-280.56"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="514.47,-277.07 504.61,-280.97 514.74,-284.06 514.47,-277.07"/>
+</g>
+<!-- module~plate_3d_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_node10" class="node">
+<title>module~plate_3d_interface</title>
+<g id="a_module~~define_problem_discretization~~UsesGraph_node10"><a xlink:href=".././module/plate_3d_interface.html" xlink:title="plate_3d_interface">
+<polygon fill="#337ab7" stroke="#337ab7" points="674.77,-374.26 575.97,-374.26 575.97,-352.24 674.77,-352.24 674.77,-374.26"/>
+<text text-anchor="middle" x="625.37" y="-360.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">plate_3d_interface</text>
+</a>
+</g>
+</g>
+<!-- module~problem_discretization_interface&#45;&gt;module~plate_3d_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge10" class="edge">
+<title>module~problem_discretization_interface&#45;&gt;module~plate_3d_interface</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M773.89,-313.36C750.49,-321.44 718.03,-332.59 689.45,-342.25 682.98,-344.44 676.14,-346.73 669.44,-348.97"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="668.16,-345.71 659.78,-352.19 670.37,-352.35 668.16,-345.71"/>
+</g>
+<!-- module~differentiable_field_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_node11" class="node">
+<title>module~differentiable_field_interface</title>
+<g id="a_module~~define_problem_discretization~~UsesGraph_node11"><a xlink:href=".././module/differentiable_field_interface.html" xlink:title="differentiable_field_interface">
+<polygon fill="#337ab7" stroke="#337ab7" points="525.38,-138.26 382.07,-138.26 382.07,-116.24 525.38,-116.24 525.38,-138.26"/>
+<text text-anchor="middle" x="453.72" y="-124.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_field_interface</text>
+</a>
+</g>
+</g>
+<!-- module~problem_discretization_interface&#45;&gt;module~differentiable_field_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge11" class="edge">
+<title>module~problem_discretization_interface&#45;&gt;module~differentiable_field_interface</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M624.37,-88.25C600.98,-78.99 536.23,-98.28 493.83,-112.89"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="492.64,-109.6 484.36,-116.21 494.96,-116.21 492.64,-109.6"/>
+</g>
+<!-- module~sphere_1d_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_node12" class="node">
+<title>module~sphere_1d_interface</title>
+<g id="a_module~~define_problem_discretization~~UsesGraph_node12"><a xlink:href=".././module/sphere_1d_interface.html" xlink:title="sphere_1d_interface">
+<polygon fill="#337ab7" stroke="#337ab7" points="679.11,-333.26 571.64,-333.26 571.64,-311.24 679.11,-311.24 679.11,-333.26"/>
+<text text-anchor="middle" x="625.37" y="-319.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sphere_1d_interface</text>
+</a>
+</g>
+</g>
+<!-- module~problem_discretization_interface&#45;&gt;module~sphere_1d_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge12" class="edge">
+<title>module~problem_discretization_interface&#45;&gt;module~sphere_1d_interface</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M725.4,-311.23C713.28,-312.58 700.93,-313.95 689.25,-315.25"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="688.74,-311.79 679.19,-316.37 689.51,-318.74 688.74,-311.79"/>
+</g>
+<!-- module~object_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_node13" class="node">
+<title>module~object_interface</title>
+<g id="a_module~~define_problem_discretization~~UsesGraph_node13"><a xlink:href=".././module/object_interface.html" xlink:title="object_interface">
+<polygon fill="#337ab7" stroke="#337ab7" points="86.2,-138.26 -0.07,-138.26 -0.07,-116.24 86.2,-116.24 86.2,-138.26"/>
+<text text-anchor="middle" x="43.07" y="-124.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">object_interface</text>
+</a>
+</g>
+</g>
+<!-- module~problem_discretization_interface&#45;&gt;module~object_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge13" class="edge">
+<title>module~problem_discretization_interface&#45;&gt;module~object_interface</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M801.38,-291.03C784.72,-252.65 723.8,-126.82 626.37,-88.25"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M624.37,-88.25C520.52,-47.14 232.66,-91.19 122.13,-107.25 111.74,-108.76 100.74,-111.1 90.37,-113.66"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="89.48,-110.27 80.67,-116.16 91.23,-117.05 89.48,-110.27"/>
+</g>
+<!-- module~package_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_node14" class="node">
+<title>module~package_interface</title>
+<g id="a_module~~define_problem_discretization~~UsesGraph_node14"><a xlink:href=".././module/package_interface.html" xlink:title="package_interface">
+<polygon fill="#337ab7" stroke="#337ab7" points="346.05,-364.26 248.43,-364.26 248.43,-342.24 346.05,-342.24 346.05,-364.26"/>
+<text text-anchor="middle" x="297.24" y="-350.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">package_interface</text>
+</a>
+</g>
+</g>
+<!-- module~problem_discretization_interface&#45;&gt;module~package_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge15" class="edge">
+<title>module~problem_discretization_interface&#45;&gt;module~package_interface</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M799.33,-313.59C783.75,-338.77 742.35,-399.06 689.45,-424.25 594.95,-469.25 558.36,-457.86 454.72,-443.25"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M452.72,-443.25C398.04,-436.19 344.87,-395.6 317.44,-371.41"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="319.54,-368.59 309.78,-364.48 314.85,-373.78 319.54,-368.59"/>
+</g>
+<!-- module~surfaces_interface&#45;&gt;module~kind_parameters -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge16" class="edge">
+<title>module~surfaces_interface&#45;&gt;module~kind_parameters</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M417.72,-232.2C375.69,-219.29 309.45,-200.16 298.24,-204.25"/>
+</g>
+<!-- module~surfaces_interface&#45;&gt;module~package_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge18" class="edge">
+<title>module~surfaces_interface&#45;&gt;module~package_interface</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M404.56,-253.86C396.76,-256.61 389,-260.03 382.15,-264.25 352.54,-282.49 326.47,-313.81 311.54,-334.02"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="308.66,-332.02 305.66,-342.18 314.35,-336.11 308.66,-332.02"/>
+</g>
+<!-- iso_c_binding -->
+<g id="module~~define_problem_discretization~~UsesGraph_node17" class="node">
+<title>iso_c_binding</title>
+<g id="a_module~~define_problem_discretization~~UsesGraph_node17"><a xlink:href="https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fC_005fBINDING.html#ISO_005fC_005fBINDING" xlink:title="iso_c_binding">
+<polygon fill="#337ab7" stroke="#337ab7" points="335.46,-275.26 259.03,-275.26 259.03,-253.24 335.46,-253.24 335.46,-275.26"/>
+<text text-anchor="middle" x="297.24" y="-261.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_c_binding</text>
+</a>
+</g>
+</g>
+<!-- module~surfaces_interface&#45;&gt;iso_c_binding -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge17" class="edge">
+<title>module~surfaces_interface&#45;&gt;iso_c_binding</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M404.69,-249.78C385.86,-252.34 364.31,-255.27 345.55,-257.82"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="344.88,-254.38 335.45,-259.19 345.83,-261.31 344.88,-254.38"/>
+</g>
+<!-- module~structured_grid_interface&#45;&gt;module~kind_parameters -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge24" class="edge">
+<title>module~structured_grid_interface&#45;&gt;module~kind_parameters</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M296.24,-204.25C247.2,-221.92 204.51,-268.15 183.02,-294.71"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="180.01,-292.88 176.56,-302.9 185.5,-297.21 180.01,-292.88"/>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M452.72,-166.25C383.22,-153.28 364.76,-180.29 298.24,-204.25"/>
+</g>
+<!-- module~structured_grid_interface&#45;&gt;module~surfaces_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge20" class="edge">
+<title>module~structured_grid_interface&#45;&gt;module~surfaces_interface</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M561.2,-243.88C545.28,-243.78 528.27,-243.68 512.63,-243.59"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="512.59,-240.09 502.57,-243.53 512.54,-247.09 512.59,-240.09"/>
+</g>
+<!-- module~structured_grid_interface&#45;&gt;module~geometry_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge22" class="edge">
+<title>module~structured_grid_interface&#45;&gt;module~geometry_interface</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M577.57,-255.29C557.16,-260.1 533.06,-265.78 511.63,-270.83"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="510.6,-267.48 501.67,-273.18 512.21,-274.29 510.6,-267.48"/>
+</g>
+<!-- module~structured_grid_interface&#45;&gt;module~differentiable_field_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge23" class="edge">
+<title>module~structured_grid_interface&#45;&gt;module~differentiable_field_interface</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M615.11,-233.06C598.78,-214.01 563.05,-175.1 525.3,-152.25 518.88,-148.36 511.76,-144.96 504.59,-142.01"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="505.43,-138.59 494.84,-138.28 502.93,-145.12 505.43,-138.59"/>
+</g>
+<!-- module~block_metadata_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_node15" class="node">
+<title>module~block_metadata_interface</title>
+<g id="a_module~~define_problem_discretization~~UsesGraph_node15"><a xlink:href=".././module/block_metadata_interface.html" xlink:title="block_metadata_interface">
+<polygon fill="#337ab7" stroke="#337ab7" points="519.97,-336.26 387.48,-336.26 387.48,-314.24 519.97,-314.24 519.97,-336.26"/>
+<text text-anchor="middle" x="453.72" y="-322.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">block_metadata_interface</text>
+</a>
+</g>
+</g>
+<!-- module~structured_grid_interface&#45;&gt;module~block_metadata_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge19" class="edge">
+<title>module~structured_grid_interface&#45;&gt;module~block_metadata_interface</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M589.45,-255.27C579.94,-259.01 569.9,-263.68 561.3,-269.25 542.56,-281.37 544.55,-292.96 525.3,-304.25 521.41,-306.53 517.25,-308.58 512.98,-310.42"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="511.52,-307.23 503.48,-314.12 514.07,-313.75 511.52,-307.23"/>
+</g>
+<!-- module~grid_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_node18" class="node">
+<title>module~grid_interface</title>
+<g id="a_module~~define_problem_discretization~~UsesGraph_node18"><a xlink:href=".././module/grid_interface.html" xlink:title="grid_interface">
+<polygon fill="#337ab7" stroke="#337ab7" points="334.86,-157.26 259.62,-157.26 259.62,-135.24 334.86,-135.24 334.86,-157.26"/>
+<text text-anchor="middle" x="297.24" y="-143.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">grid_interface</text>
+</a>
+</g>
+</g>
+<!-- module~structured_grid_interface&#45;&gt;module~grid_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge21" class="edge">
+<title>module~structured_grid_interface&#45;&gt;module~grid_interface</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M607.5,-233.03C578.04,-214.26 514.63,-177.43 454.72,-166.25"/>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M452.72,-166.25C416.78,-159.54 375.71,-154.34 344.95,-150.92"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="345.26,-147.44 334.94,-149.84 344.5,-154.4 345.26,-147.44"/>
+</g>
+<!-- module~cylinder_2d_interface&#45;&gt;module~kind_parameters -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge27" class="edge">
+<title>module~cylinder_2d_interface&#45;&gt;module~kind_parameters</title>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M569.29,-399.74C535.88,-398.19 492.53,-398.32 454.72,-405.25"/>
+</g>
+<!-- module~cylinder_2d_interface&#45;&gt;module~geometry_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge25" class="edge">
+<title>module~cylinder_2d_interface&#45;&gt;module~geometry_interface</title>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M576.57,-393.12C571.03,-390.49 565.77,-387.25 561.3,-383.25 532.85,-357.79 554.16,-330.25 525.3,-305.25 521.89,-302.3 518.08,-299.76 514.05,-297.58"/>
+<polygon fill="#aaff00" stroke="#aaff00" points="515.47,-294.38 504.93,-293.35 512.53,-300.73 515.47,-294.38"/>
+</g>
+<!-- module~cylinder_2d_interface&#45;&gt;module~block_metadata_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge26" class="edge">
+<title>module~cylinder_2d_interface&#45;&gt;module~block_metadata_interface</title>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M581.71,-393.15C574.63,-390.45 567.56,-387.18 561.3,-383.25 541.86,-371.06 544.93,-358.13 525.3,-346.25 521.51,-343.95 517.44,-341.9 513.26,-340.05"/>
+<polygon fill="#aaff00" stroke="#aaff00" points="514.53,-336.79 503.95,-336.35 511.94,-343.3 514.53,-336.79"/>
+</g>
+<!-- json_module -->
+<g id="module~~define_problem_discretization~~UsesGraph_node16" class="node">
+<title>json_module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="489.26,-377.26 418.18,-377.26 418.18,-355.24 489.26,-355.24 489.26,-377.26"/>
+<text text-anchor="middle" x="453.72" y="-363.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">json_module</text>
+</g>
+<!-- module~cylinder_2d_interface&#45;&gt;json_module -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge28" class="edge">
+<title>module~cylinder_2d_interface&#45;&gt;json_module</title>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M574.85,-393.16C550.99,-387.81 522.61,-381.45 499.42,-376.26"/>
+<polygon fill="#aaff00" stroke="#aaff00" points="500.02,-372.81 489.5,-374.04 498.49,-379.64 500.02,-372.81"/>
+</g>
+<!-- module~plate_3d_interface&#45;&gt;module~kind_parameters -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge31" class="edge">
+<title>module~plate_3d_interface&#45;&gt;module~kind_parameters</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M585.59,-374.29C551.39,-383.68 500.09,-396.93 454.72,-405.25"/>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M452.72,-405.25C417.95,-411.63 330.93,-456.72 298.24,-443.25"/>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M296.24,-443.25C242.57,-421.14 199.93,-364.19 180.19,-333.89"/>
+<polygon fill="#00ffa9" stroke="#00ffa9" points="183.12,-331.98 174.81,-325.41 177.21,-335.73 183.12,-331.98"/>
+</g>
+<!-- module~plate_3d_interface&#45;&gt;module~geometry_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge29" class="edge">
+<title>module~plate_3d_interface&#45;&gt;module~geometry_interface</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M581.71,-352.15C574.63,-349.45 567.56,-346.18 561.3,-342.25 541.86,-330.06 544.93,-317.13 525.3,-305.25 521.51,-302.95 517.44,-300.9 513.26,-299.05"/>
+<polygon fill="#00ffa9" stroke="#00ffa9" points="514.53,-295.79 503.95,-295.35 511.94,-302.3 514.53,-295.79"/>
+</g>
+<!-- module~plate_3d_interface&#45;&gt;module~block_metadata_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge30" class="edge">
+<title>module~plate_3d_interface&#45;&gt;module~block_metadata_interface</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M575.76,-352.36C556.49,-348.05 534.16,-343.04 513.96,-338.52"/>
+<polygon fill="#00ffa9" stroke="#00ffa9" points="514.46,-335.04 503.93,-336.27 512.93,-341.87 514.46,-335.04"/>
+</g>
+<!-- module~plate_3d_interface&#45;&gt;json_module -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge32" class="edge">
+<title>module~plate_3d_interface&#45;&gt;json_module</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M575.76,-364.11C551.71,-364.54 522.87,-365.04 499.38,-365.46"/>
+<polygon fill="#00ffa9" stroke="#00ffa9" points="499.27,-361.96 489.34,-365.64 499.4,-368.96 499.27,-361.96"/>
+</g>
+<!-- module~differentiable_field_interface&#45;&gt;module~grid_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge33" class="edge">
+<title>module~differentiable_field_interface&#45;&gt;module~grid_interface</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M381.81,-135.97C369.42,-137.5 356.82,-139.05 345.28,-140.46"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="344.52,-137.03 335.02,-141.73 345.37,-143.98 344.52,-137.03"/>
+</g>
+<!-- module~sphere_1d_interface&#45;&gt;module~kind_parameters -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge36" class="edge">
+<title>module~sphere_1d_interface&#45;&gt;module~kind_parameters</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M583.43,-311.15C575.44,-307.64 567.6,-303.1 561.3,-297.25 534.48,-272.38 555.47,-243.92 525.3,-223.25 483.53,-194.63 345.81,-186.89 298.24,-204.25"/>
+</g>
+<!-- module~sphere_1d_interface&#45;&gt;module~geometry_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge34" class="edge">
+<title>module~sphere_1d_interface&#45;&gt;module~geometry_interface</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M574.85,-311.16C555.77,-306.88 533.8,-301.96 513.9,-297.51"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="514.54,-294.06 504.02,-295.29 513.01,-300.89 514.54,-294.06"/>
+</g>
+<!-- module~sphere_1d_interface&#45;&gt;module~block_metadata_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge35" class="edge">
+<title>module~sphere_1d_interface&#45;&gt;module~block_metadata_interface</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M571.62,-323.18C558.48,-323.42 544.12,-323.67 530.11,-323.92"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="529.93,-320.42 520,-324.1 530.06,-327.42 529.93,-320.42"/>
+</g>
+<!-- module~sphere_1d_interface&#45;&gt;json_module -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge37" class="edge">
+<title>module~sphere_1d_interface&#45;&gt;json_module</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M581.56,-333.35C556.43,-339.87 524.72,-348.1 499.29,-354.69"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="498.33,-351.32 489.53,-357.22 500.09,-358.1 498.33,-351.32"/>
+</g>
+<!-- module~package_interface&#45;&gt;module~kind_parameters -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge38" class="edge">
+<title>module~package_interface&#45;&gt;module~kind_parameters</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M259.9,-342.18C245.71,-337.86 229.28,-332.85 214.28,-328.28"/>
+<polygon fill="#ff00aa" stroke="#ff00aa" points="215.25,-324.92 204.66,-325.35 213.21,-331.61 215.25,-324.92"/>
+</g>
+<!-- module~block_metadata_interface&#45;&gt;module~kind_parameters -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge39" class="edge">
+<title>module~block_metadata_interface&#45;&gt;module~kind_parameters</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M387.46,-322.73C337.58,-320.8 269.65,-318.17 222.68,-316.36"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="222.53,-312.85 212.4,-315.96 222.26,-319.84 222.53,-312.85"/>
+</g>
+<!-- module~block_metadata_interface&#45;&gt;iso_c_binding -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge40" class="edge">
+<title>module~block_metadata_interface&#45;&gt;iso_c_binding</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M411.68,-314.21C401.9,-311.26 391.57,-307.87 382.15,-304.25 363.94,-297.25 344.21,-287.94 328.46,-280.06"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="329.72,-276.78 319.22,-275.38 326.56,-283.02 329.72,-276.78"/>
+</g>
+<!-- module~grid_interface&#45;&gt;module~object_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge41" class="edge">
+<title>module~grid_interface&#45;&gt;module~object_interface</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M259.39,-149.25C224.03,-151.46 169.22,-153.19 122.13,-147.25 111.4,-145.9 100.03,-143.54 89.39,-140.9"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="90.02,-137.45 79.46,-138.32 88.25,-144.22 90.02,-137.45"/>
+</g>
+<!-- module~units_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_node19" class="node">
+<title>module~units_interface</title>
+<g id="a_module~~define_problem_discretization~~UsesGraph_node19"><a xlink:href=".././module/units_interface.html" xlink:title="units_interface">
+<polygon fill="#337ab7" stroke="#337ab7" points="207.53,-138.26 126.94,-138.26 126.94,-116.24 207.53,-116.24 207.53,-138.26"/>
+<text text-anchor="middle" x="167.23" y="-124.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">units_interface</text>
+</a>
+</g>
+</g>
+<!-- module~grid_interface&#45;&gt;module~units_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge42" class="edge">
+<title>module~grid_interface&#45;&gt;module~units_interface</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M259.56,-140.81C246.48,-138.86 231.53,-136.64 217.56,-134.57"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="218.01,-131.1 207.61,-133.09 216.98,-138.02 218.01,-131.1"/>
+</g>
+<!-- module~units_interface&#45;&gt;module~object_interface -->
+<g id="module~~define_problem_discretization~~UsesGraph_edge43" class="edge">
+<title>module~units_interface&#45;&gt;module~object_interface</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M126.91,-127.25C117.18,-127.25 106.6,-127.25 96.36,-127.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="96.27,-123.75 86.27,-127.25 96.27,-130.75 96.27,-123.75"/>
+</g>
+</g>
+</svg>
+</div><script>var panmoduledefine_problem_discretizationUsesGraph = svgPanZoom('#moduledefine_problem_discretizationUsesGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="484pt" height="31pt"
+ viewBox="0.00 0.00 483.85 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 479.85,-26.5 479.85,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-22.26 0,-22.26 0,-0.24 54,-0.24 54,-22.26"/>
+<text text-anchor="middle" x="27" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="137.62,-22.26 72.38,-22.26 72.38,-0.24 137.62,-0.24 137.62,-22.26"/>
+<text text-anchor="middle" x="105" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="218.29,-22.26 155.71,-22.26 155.71,-0.24 218.29,-0.24 218.29,-22.26"/>
+<text text-anchor="middle" x="187" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="290,-22.26 236,-22.26 236,-0.24 290,-0.24 290,-22.26"/>
+<text text-anchor="middle" x="263" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="362,-22.26 308,-22.26 308,-0.24 362,-0.24 362,-22.26"/>
+<text text-anchor="middle" x="335" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="475.71,-22.26 380.29,-22.26 380.29,-0.24 475.71,-0.24 475.71,-22.26"/>
+<text text-anchor="middle" x="428" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a submodule to the (sub)module which it is
+    descended from. Dashed arrows point from a module or program unit to 
+    modules which it uses. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </li>
+      
+      </ul>
+    </div>
+    
+
+    
+    
+
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#variable-success~7">success</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
+  <div id="funcs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-evenly_spaced_points">evenly_spaced_points</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-first_block">first_block</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-last_block">last_block</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-overflow">overflow</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-1" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-csv_output">csv_output</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-define_scalar">define_scalar</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-vtk_output">vtk_output</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-1">Module Procedures</a></h3></div>
+  <div id="modprocs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-block_identifier~3">block_identifier</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-block_indicial_coordinates~3">block_indicial_coordinates</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-block_load">block_load</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-get_block_surfaces">get_block_surfaces</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-get_global_block_shape">get_global_block_shape</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-get_surface_packages">get_surface_packages</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-initialize_from_cylinder_2d">initialize_from_cylinder_2d</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-initialize_from_plate_3d">initialize_from_plate_3d</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-initialize_from_sphere_1d">initialize_from_sphere_1d</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-my_blocks">my_blocks</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-num_scalar_flux_divergences">num_scalar_flux_divergences</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-num_scalars">num_scalars</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-partition">partition</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-set_analytical_scalars">set_analytical_scalars</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-set_scalar_flux_divergence">set_scalar_flux_divergence</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-solve_governing_equations">solve_governing_equations</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-user_defined_vertices">user_defined_vertices</a>
+      
+      <a class="list-group-item" href="../module/define_problem_discretization.html#proc-write_output">write_output</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    <section>
+    <h2>Variables</h2>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-success~7"></span>integer,</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>success</strong></td><td> =</td><td>0</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    </section>
+    <br>
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+     
+    <section>
+    <h2>Functions</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-evenly_spaced_points"></span><h3>
+pure function <a href='../proc/evenly_spaced_points.html'>evenly_spaced_points</a>(boundaries, resolution, direction) result(grid_nodes)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Define grid point coordinates with uniform spacing in the chosen block</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=r8k),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>boundaries</strong>(:,:)</td><td><p>block boundaries of each coordinate direction</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=i4k),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>resolution</strong>(:)</td><td><p>number of grid points in each direction</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=i4k),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>direction</strong></td><td><p>coordinate direction to define</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>real(kind=r8k),
+  allocatable, (:,:,:)</small></h4>
+  <p>grid node locations and spacing in each coordination direction</p>
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-first_block"></span><h3>
+pure function <a href='../proc/first_block.html'>first_block</a>(image, num_blocks) result(block_id)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>image</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>num_blocks</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-last_block"></span><h3>
+pure function <a href='../proc/last_block.html'>last_block</a>(image, num_blocks) result(block_id)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>image</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>num_blocks</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-overflow"></span><h3>
+pure function <a href='../proc/overflow.html'>overflow</a>(image, remainder) result(filler)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>image</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>remainder</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    </section>
+    <br>
+    
+
+    
+    <section>
+    <h2>Subroutines</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-csv_output"></span><h3>
+subroutine <a href='../proc/csv_output.html'>csv_output</a>(this, filename, iostat)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>filename</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(inout),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>iostat</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-define_scalar"></span><h3>
+subroutine <a href='../proc/define_scalar.html'>define_scalar</a>(s, vals, dataname)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(attributes),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>s</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=r8k),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>vals</strong>(:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dataname</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-vtk_output"></span><h3>
+subroutine <a href='../proc/vtk_output.html'>vtk_output</a>(this, filename, iostat)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>4D array of nodal position vectors
+ shape of 1st 3 dims specifies # points in ea. direction
+ 8-element array of block-local IDs for voxel corners</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>filename</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>iostat</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    </section>    
+    <br>
+    
+    
+    
+    
+        
+
+        
+
+        
+        <section>
+        <h2>Module Procedures</h2>
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-block_identifier~3"></span><h3>
+module procedure <a href='../proc/block_identifier~3.html'>block_identifier</a> <small>pure module function block_identifier(this, ijk) result(n)</small>
+    
+    
+   <a href='../interface/block_identifier~3.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ijk</strong>(:)</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-block_indicial_coordinates~3"></span><h3>
+module procedure <a href='../proc/block_indicial_coordinates~3.html'>block_indicial_coordinates</a> <small>pure module function block_indicial_coordinates(this, n) result(ijk)</small>
+    
+    
+   <a href='../interface/block_indicial_coordinates~3.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer,
+  dimension(:), allocatable, (:)</small></h4>
+  
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-block_load"></span><h3>
+module procedure <a href='../proc/block_load.html'>block_load</a> <small>pure module function block_load(this) result(num_blocks)</small>
+    
+    
+   <a href='../interface/block_load.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-get_block_surfaces"></span><h3>
+module procedure <a href='../proc/get_block_surfaces.html'>get_block_surfaces</a> <small>module function get_block_surfaces(this) result(this_block_surfaces)</small>
+    
+    
+   <a href='../interface/get_block_surfaces.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/surfaces.html'>surfaces</a>)
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-get_global_block_shape"></span><h3>
+module procedure <a href='../proc/get_global_block_shape.html'>get_global_block_shape</a> <small>module function get_global_block_shape(this) result(block_shape)</small>
+    
+    
+   <a href='../interface/get_global_block_shape.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer,
+  dimension(:), allocatable</small></h4>
+  
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-get_surface_packages"></span><h3>
+module procedure <a href='../proc/get_surface_packages.html'>get_surface_packages</a> <small>module function get_surface_packages(this) result(this_surface_packages)</small>
+    
+    
+   <a href='../interface/get_surface_packages.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/package.html'>package</a>),
+  allocatable, dimension(:,:,:)</small></h4>
+  
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-initialize_from_cylinder_2d"></span><h3>
+module procedure <a href='../proc/initialize_from_cylinder_2d.html'>initialize_from_cylinder_2d</a> <small>module subroutine initialize_from_cylinder_2d(this, cylinder_2d_geometry)</small>
+    
+    
+   <a href='../interface/initialize_from_cylinder_2d.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>partition a block-structured grids across images</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/cylinder_2d.html'>cylinder_2d</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>cylinder_2d_geometry</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-initialize_from_plate_3d"></span><h3>
+module procedure <a href='../proc/initialize_from_plate_3d.html'>initialize_from_plate_3d</a> <small>module subroutine initialize_from_plate_3d(this, plate_3d_geometry)</small>
+    
+    
+   <a href='../interface/initialize_from_plate_3d.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>partition a block-structured grids across images</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/plate_3d.html'>plate_3d</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>plate_3d_geometry</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-initialize_from_sphere_1d"></span><h3>
+module procedure <a href='../proc/initialize_from_sphere_1d.html'>initialize_from_sphere_1d</a> <small>module subroutine initialize_from_sphere_1d(this, sphere_1d_geometry)</small>
+    
+    
+   <a href='../interface/initialize_from_sphere_1d.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>partition a block-structured grids across images</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/sphere_1d.html'>sphere_1d</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>sphere_1d_geometry</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-my_blocks"></span><h3>
+module procedure <a href='../proc/my_blocks.html'>my_blocks</a> <small>pure module function my_blocks(this) result(block_identifier_range)</small>
+    
+    
+   <a href='../interface/my_blocks.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  (num_bounds)</small></h4>
+  
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-num_scalar_flux_divergences"></span><h3>
+module procedure <a href='../proc/num_scalar_flux_divergences.html'>num_scalar_flux_divergences</a> <small>pure module function num_scalar_flux_divergences(this) result(num_divergences)</small>
+    
+    
+   <a href='../interface/num_scalar_flux_divergences.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-num_scalars"></span><h3>
+module procedure <a href='../proc/num_scalars.html'>num_scalars</a> <small>pure module function num_scalars(this) result(num_scalar_fields)</small>
+    
+    
+   <a href='../interface/num_scalars.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-partition"></span><h3>
+module procedure <a href='../proc/partition.html'>partition</a> <small>module subroutine partition(this, global_block_shape, prototype)</small>
+    
+    
+   <a href='../interface/partition.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>global_block_shape</strong>(:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/structured_grid.html'>structured_grid</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>prototype</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-set_analytical_scalars"></span><h3>
+module procedure <a href='../proc/set_analytical_scalars.html'>set_analytical_scalars</a> <small>module subroutine set_analytical_scalars(this, scalar_setters)</small>
+    
+    
+   <a href='../interface/set_analytical_scalars.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/differentiable_field.html'>differentiable_field</a>),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>dimension(:)</td><td>::</td>
+  <td><strong>scalar_setters</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-set_scalar_flux_divergence"></span><h3>
+module procedure <a href='../proc/set_scalar_flux_divergence.html'>set_scalar_flux_divergence</a> <small>module subroutine set_scalar_flux_divergence(this, exact_result)</small>
+    
+    
+   <a href='../interface/set_scalar_flux_divergence.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>the above loop sets normal-flux data just inside each block boundary for communication in the loop below</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/differentiable_field.html'>differentiable_field</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>dimension(:)</td><td>::</td>
+  <td><strong>exact_result</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-solve_governing_equations"></span><h3>
+module procedure <a href='../proc/solve_governing_equations.html'>solve_governing_equations</a> <small>module subroutine solve_governing_equations(this, duration)</small>
+    
+    
+   <a href='../interface/solve_governing_equations.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=r8k),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>duration</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-user_defined_vertices"></span><h3>
+module procedure <a href='../proc/user_defined_vertices.html'>user_defined_vertices</a> <small>module subroutine user_defined_vertices(this, x_nodes, y_nodes, z_nodes, block_identifier)</small>
+    
+    
+   <a href='../interface/user_defined_vertices.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=r8k),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>x_nodes</strong>(:,:,:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=r8k),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>y_nodes</strong>(:,:,:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=r8k),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>z_nodes</strong>(:,:,:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>block_identifier</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-write_output"></span><h3>
+module procedure <a href='../proc/write_output.html'>write_output</a> <small>module subroutine write_output(this, filename)</small>
+    
+    
+   <a href='../interface/write_output.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+  <dl class="dl-horizontal">
+    
+    <dt>Author</dt><dd>Ian Porter</dd>
+    
+    
+    <dt>Date</dt><dd>11/25/2019</dd>
+    
+    
+    
+    
+  </dl>
+
+
+
+<p>This is a generic procedure for writing output files. This procedure eliminates the DTIO
+ to allow for linking to external libraries that handle all of the file output</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/problem_discretization.html'>problem_discretization</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>filename</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        </section>    
+        
+    
+    
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

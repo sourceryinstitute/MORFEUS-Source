@@ -1,0 +1,1964 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>class_vector_pde_procedures &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>class_vector_pde_procedures 
+    <small>Submodule</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.6% of total for modules and submodules.">149 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/class_vector_pde_procedures.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/class_vector_pde_procedures.f90.html'>class_vector_pde_procedures.f90</a></li>
+    
+  
+     <li class="active">class_vector_pde_procedures</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-0">Module Procedures</a></h3></div>
+  <div id="modprocs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/class_vector_pde_procedures.html#proc-asb_pde_~3">asb_pde_</a>
+      
+      <a class="list-group-item" href="../module/class_vector_pde_procedures.html#proc-create_pde~3">create_pde</a>
+      
+      <a class="list-group-item" href="../module/class_vector_pde_procedures.html#proc-free_pde~3">free_pde</a>
+      
+      <a class="list-group-item" href="../module/class_vector_pde_procedures.html#proc-geins_vector_pde_r">geins_vector_pde_r</a>
+      
+      <a class="list-group-item" href="../module/class_vector_pde_procedures.html#proc-geins_vector_pde_v">geins_vector_pde_v</a>
+      
+      <a class="list-group-item" href="../module/class_vector_pde_procedures.html#proc-nemo_sizeof~6">nemo_sizeof</a>
+      
+      <a class="list-group-item" href="../module/class_vector_pde_procedures.html#proc-reinit_pde~3">reinit_pde</a>
+      
+      <a class="list-group-item" href="../module/class_vector_pde_procedures.html#proc-solve_vector_pde">solve_vector_pde</a>
+      
+      <a class="list-group-item" href="../module/class_vector_pde_procedures.html#proc-write_vector_pde">write_vector_pde</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    
+      <br>
+    
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      
+      <li class="list-group-item">
+  <ul class="list-inline">
+    
+    <li><a href='../module/class_pde.html'>class_pde</a></li>
+    
+    <li><a href='../module/class_stopwatch.html'>class_stopwatch</a></li>
+    
+    <li><a href='../module/class_psblas.html'>class_psblas</a></li>
+    
+    <li><a href='../module/class_mesh.html'>class_mesh</a></li>
+    
+  </ul>
+      </li>
+      
+      
+      <li class="list-group-item">
+  <ul class="list-inline">
+    <li><h5>Ancestors:</h5></li>
+    
+    <li><a href='../module/class_vector_pde.html'>class_vector_pde</a></li>
+    
+    
+  </ul>
+      </li>
+      
+      
+      <li class="list-group-item">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~class_vector_pde_procedures~~UsesGraph Pages: 1 -->
+<svg id="moduleclass_vector_pde_proceduresUsesGraph" width="641pt" height="251pt"
+ viewBox="0.00 0.00 641.00 251.41" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~class_vector_pde_procedures~~UsesGraph" class="graph" transform="scale(2.84 2.84) rotate(0) translate(4 709.9)">
+<title>module~~class_vector_pde_procedures~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-709.9 1816.15,-709.9 1816.15,4 -4,4"/>
+<!-- module~class_vector_pde_procedures -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node1" class="node">
+<title>module~class_vector_pde_procedures</title>
+<polygon fill="none" stroke="black" points="1812.19,-579.02 1660.02,-579.02 1660.02,-557.01 1812.19,-557.01 1812.19,-579.02"/>
+<text text-anchor="middle" x="1736.1" y="-564.87" font-family="Helvetica,sans-Serif" font-size="10.50">class_vector_pde_procedures</text>
+</g>
+<!-- module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node2" class="node">
+<title>module~class_psblas</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node2"><a xlink:href=".././module/class_psblas.html" xlink:title="class_psblas">
+<polygon fill="#337ab7" stroke="#337ab7" points="428.03,-504.02 355.8,-504.02 355.8,-482.01 428.03,-482.01 428.03,-504.02"/>
+<text text-anchor="middle" x="391.92" y="-489.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_psblas</text>
+</a>
+</g>
+</g>
+<!-- module~class_vector_pde_procedures&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge1" class="edge">
+<title>module~class_vector_pde_procedures&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1136.48,-685.02C1032.22,-638.55 992.76,-700.32 879.65,-685.02"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M877.65,-685.02C808.76,-678.49 808.35,-627.88 741.77,-609.02"/>
+</g>
+<!-- module~class_stopwatch -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node3" class="node">
+<title>module~class_stopwatch</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node3"><a xlink:href=".././module/class_stopwatch.html" xlink:title="class_stopwatch">
+<polygon fill="#337ab7" stroke="#337ab7" points="319.88,-618.02 230.8,-618.02 230.8,-596.01 319.88,-596.01 319.88,-618.02"/>
+<text text-anchor="middle" x="275.34" y="-603.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_stopwatch</text>
+</a>
+</g>
+</g>
+<!-- module~class_vector_pde_procedures&#45;&gt;module~class_stopwatch -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge4" class="edge">
+<title>module~class_vector_pde_procedures&#45;&gt;module~class_stopwatch</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M877.65,-685.02C761.17,-673.99 731.4,-685.02 614.39,-685.02 614.39,-685.02 614.39,-685.02 498.15,-685.02 424.12,-685.02 343.65,-645.86 303.03,-623.04"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="304.7,-619.96 294.28,-618.03 301.22,-626.03 304.7,-619.96"/>
+</g>
+<!-- module~class_vector_pde -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node4" class="node">
+<title>module~class_vector_pde</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node4"><a xlink:href=".././module/class_vector_pde.html" xlink:title="class_vector_pde">
+<polygon fill="#337ab7" stroke="#337ab7" points="1623.92,-462.02 1530.49,-462.02 1530.49,-440.01 1623.92,-440.01 1623.92,-462.02"/>
+<text text-anchor="middle" x="1577.2" y="-447.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vector_pde</text>
+</a>
+</g>
+</g>
+<!-- module~class_vector_pde_procedures&#45;&gt;module~class_vector_pde -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge5" class="edge">
+<title>module~class_vector_pde_procedures&#45;&gt;module~class_vector_pde</title>
+<path fill="none" stroke="#ff0000" d="M1720.34,-557.01C1692.89,-536.54 1633.82,-492.49 1601.13,-468.11"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1603.15,-465.25 1593.04,-462.08 1598.96,-470.86 1603.15,-465.25"/>
+</g>
+<!-- module~class_mesh -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node5" class="node">
+<title>module~class_mesh</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node5"><a xlink:href=".././module/class_mesh.html" xlink:title="class_mesh">
+<polygon fill="#337ab7" stroke="#337ab7" points="1049.59,-425.02 981.71,-425.02 981.71,-403.01 1049.59,-403.01 1049.59,-425.02"/>
+<text text-anchor="middle" x="1015.65" y="-410.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_mesh</text>
+</a>
+</g>
+</g>
+<!-- module~class_vector_pde_procedures&#45;&gt;module~class_mesh -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge3" class="edge">
+<title>module~class_vector_pde_procedures&#45;&gt;module~class_mesh</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1237.87,-685.02C1198.65,-664.7 1178.83,-703 1138.48,-685.02"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1136.48,-685.02C1046.55,-644.94 1109.44,-562.87 1063.09,-476.02 1054.83,-460.55 1042.94,-444.76 1033.26,-432.98"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1035.81,-430.57 1026.69,-425.18 1030.46,-435.08 1035.81,-430.57"/>
+</g>
+<!-- module~class_pde -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node6" class="node">
+<title>module~class_pde</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node6"><a xlink:href=".././module/class_pde.html" xlink:title="class_pde">
+<polygon fill="#337ab7" stroke="#337ab7" points="1167.26,-501.02 1107.7,-501.02 1107.7,-479.01 1167.26,-479.01 1167.26,-501.02"/>
+<text text-anchor="middle" x="1137.48" y="-486.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_pde</text>
+</a>
+</g>
+</g>
+<!-- module~class_vector_pde_procedures&#45;&gt;module~class_pde -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge2" class="edge">
+<title>module~class_vector_pde_procedures&#45;&gt;module~class_pde</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1718.3,-579.17C1654.17,-620.29 1419.33,-757.3 1239.87,-685.02"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1237.87,-685.02C1171.6,-650.69 1148.51,-554.26 1141.36,-511.22"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1144.81,-510.62 1139.83,-501.27 1137.89,-511.68 1144.81,-510.62"/>
+</g>
+<!-- module~class_psblas&#45;&gt;module~class_stopwatch -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge6" class="edge">
+<title>module~class_psblas&#45;&gt;module~class_stopwatch</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M379.51,-504.36C359.7,-524.08 318.74,-564.83 294.82,-588.63"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="292.32,-586.18 287.7,-595.71 297.26,-591.14 292.32,-586.18"/>
+</g>
+<!-- module~tools_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node12" class="node">
+<title>module~tools_psblas</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node12"><a xlink:href=".././module/tools_psblas.html" xlink:title="tools_psblas">
+<polygon fill="#337ab7" stroke="#337ab7" points="195.01,-617.02 124.27,-617.02 124.27,-595.01 195.01,-595.01 195.01,-617.02"/>
+<text text-anchor="middle" x="159.64" y="-602.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_psblas</text>
+</a>
+</g>
+</g>
+<!-- module~class_psblas&#45;&gt;module~tools_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge7" class="edge">
+<title>module~class_psblas&#45;&gt;module~tools_psblas</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M368.42,-504.06C327.23,-524.27 239.62,-567.26 192.39,-590.44"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="190.66,-587.38 183.23,-594.93 193.75,-593.67 190.66,-587.38"/>
+</g>
+<!-- module~class_stopwatch&#45;&gt;module~tools_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge8" class="edge">
+<title>module~class_stopwatch&#45;&gt;module~tools_psblas</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M230.71,-606.63C222.34,-606.56 213.56,-606.48 205.16,-606.41"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="205.19,-602.91 195.16,-606.32 205.13,-609.91 205.19,-602.91"/>
+</g>
+<!-- psb_base_mod -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node13" class="node">
+<title>psb_base_mod</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="86.03,-658.02 2.42,-658.02 2.42,-636.01 86.03,-636.01 86.03,-658.02"/>
+<text text-anchor="middle" x="44.23" y="-643.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_base_mod</text>
+</g>
+<!-- module~class_stopwatch&#45;&gt;psb_base_mod -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge9" class="edge">
+<title>module~class_stopwatch&#45;&gt;psb_base_mod</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M158.64,-647.02C138.35,-648.76 115.95,-649.09 96.45,-648.87"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="96.3,-645.37 86.24,-648.7 96.19,-652.37 96.3,-645.37"/>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M253.27,-618.06C230.98,-628.87 194.41,-644.12 160.64,-647.02"/>
+</g>
+<!-- module~class_vector_pde&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge10" class="edge">
+<title>module~class_vector_pde&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M1014.65,-490.02C962.46,-514.39 983.03,-562.89 932.22,-590.02 857.18,-630.08 823.53,-632.48 741.77,-609.02"/>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M739.77,-609.02C683.75,-593.15 672.57,-573.48 614.39,-571.02"/>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M1136.48,-451.02C1080.47,-451.25 1067.49,-466.53 1016.65,-490.02"/>
+</g>
+<!-- module~class_vector_pde&#45;&gt;module~class_mesh -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge12" class="edge">
+<title>module~class_vector_pde&#45;&gt;module~class_mesh</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M1136.48,-451.02C1105.29,-451.14 1071.48,-439.54 1047.75,-429.3"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="1049.11,-426.07 1038.55,-425.17 1046.25,-432.46 1049.11,-426.07"/>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M1237.87,-451.02C1193.78,-448.34 1182.65,-450.83 1138.48,-451.02"/>
+</g>
+<!-- module~class_vector_pde&#45;&gt;module~class_pde -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge13" class="edge">
+<title>module~class_vector_pde&#45;&gt;module~class_pde</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M1237.87,-451.02C1210.87,-449.38 1182.37,-462.28 1162.84,-473.67"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="1160.98,-470.7 1154.28,-478.91 1164.64,-476.67 1160.98,-470.7"/>
+</g>
+<!-- module~class_vector -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node7" class="node">
+<title>module~class_vector</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node7"><a xlink:href=".././module/class_vector.html" xlink:title="class_vector">
+<polygon fill="#337ab7" stroke="#337ab7" points="534.51,-156.02 463.8,-156.02 463.8,-134.01 534.51,-134.01 534.51,-156.02"/>
+<text text-anchor="middle" x="499.15" y="-141.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vector</text>
+</a>
+</g>
+</g>
+<!-- module~class_vector_pde&#45;&gt;module~class_vector -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge11" class="edge">
+<title>module~class_vector_pde&#45;&gt;module~class_vector</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M877.65,-375.02C848.17,-372.93 635.25,-357.96 614.39,-337.02"/>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M1530.45,-452.77C1465.69,-454.85 1343.61,-457.3 1239.87,-451.02"/>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M1237.87,-451.02C1197.13,-447.89 1103.05,-402.5 1063.09,-394.02 982.91,-376.99 961.08,-384.35 879.65,-375.02"/>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M612.39,-337.02C596.94,-322.03 584.59,-329.14 570.33,-313.02 531.41,-269 512.01,-200.33 504.3,-166.01"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="507.71,-165.21 502.2,-156.16 500.86,-166.67 507.71,-165.21"/>
+</g>
+<!-- module~class_vector_field -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node15" class="node">
+<title>module~class_vector_field</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node15"><a xlink:href=".././module/class_vector_field.html" xlink:title="class_vector_field">
+<polygon fill="#337ab7" stroke="#337ab7" points="1494.58,-367.02 1398.66,-367.02 1398.66,-345.01 1494.58,-345.01 1494.58,-367.02"/>
+<text text-anchor="middle" x="1446.62" y="-352.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vector_field</text>
+</a>
+</g>
+</g>
+<!-- module~class_vector_pde&#45;&gt;module~class_vector_field -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge14" class="edge">
+<title>module~class_vector_pde&#45;&gt;module~class_vector_field</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M1561.2,-439.93C1538.94,-423.49 1496.98,-392.48 1470.76,-373.11"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="1472.65,-370.16 1462.53,-367.03 1468.49,-375.79 1472.65,-370.16"/>
+</g>
+<!-- module~class_mesh&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge15" class="edge">
+<title>module~class_mesh&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M612.39,-493.02C552.25,-493.02 482.83,-493.02 438.45,-493.02"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="438.27,-489.52 428.27,-493.02 438.27,-496.52 438.27,-489.52"/>
+</g>
+<!-- module~class_mesh&#45;&gt;module~class_vector -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge17" class="edge">
+<title>module~class_mesh&#45;&gt;module~class_vector</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M988.36,-402.84C961.59,-392.32 918.59,-377.77 879.65,-375.02"/>
+</g>
+<!-- module~class_connectivity -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node8" class="node">
+<title>module~class_connectivity</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node8"><a xlink:href=".././module/class_connectivity.html" xlink:title="class_connectivity">
+<polygon fill="#337ab7" stroke="#337ab7" points="788.89,-581.02 692.65,-581.02 692.65,-559.01 788.89,-559.01 788.89,-581.02"/>
+<text text-anchor="middle" x="740.77" y="-566.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_connectivity</text>
+</a>
+</g>
+</g>
+<!-- module~class_mesh&#45;&gt;module~class_connectivity -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge16" class="edge">
+<title>module~class_mesh&#45;&gt;module~class_connectivity</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M1006.45,-425.31C989.46,-448.42 950.49,-499.95 932.22,-512.02 910.14,-526.59 846.34,-544.48 798.63,-556.5"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="797.57,-553.16 788.72,-558.98 799.27,-559.95 797.57,-553.16"/>
+</g>
+<!-- module~class_vertex -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node9" class="node">
+<title>module~class_vertex</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node9"><a xlink:href=".././module/class_vertex.html" xlink:title="class_vertex">
+<polygon fill="#337ab7" stroke="#337ab7" points="648.75,-465.02 578.04,-465.02 578.04,-443.01 648.75,-443.01 648.75,-465.02"/>
+<text text-anchor="middle" x="613.39" y="-450.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vertex</text>
+</a>
+</g>
+</g>
+<!-- module~class_mesh&#45;&gt;module~class_vertex -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge18" class="edge">
+<title>module~class_mesh&#45;&gt;module~class_vertex</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M739.77,-493.02C705.63,-495.25 668.43,-481.46 643.49,-469.67"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="644.76,-466.39 634.24,-465.12 641.67,-472.67 644.76,-466.39"/>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M981.91,-423.9C912.11,-444.92 754.01,-492.22 741.77,-493.02"/>
+</g>
+<!-- module~grid_interface -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node11" class="node">
+<title>module~grid_interface</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node11"><a xlink:href=".././module/grid_interface.html" xlink:title="grid_interface">
+<polygon fill="#337ab7" stroke="#337ab7" points="916.27,-309.02 841.03,-309.02 841.03,-287.01 916.27,-287.01 916.27,-309.02"/>
+<text text-anchor="middle" x="878.65" y="-294.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">grid_interface</text>
+</a>
+</g>
+</g>
+<!-- module~class_mesh&#45;&gt;module~grid_interface -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge19" class="edge">
+<title>module~class_mesh&#45;&gt;module~grid_interface</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M1001.71,-402.89C978.28,-382.76 928.67,-340.14 900.44,-315.88"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="902.62,-313.14 892.75,-309.27 898.06,-318.45 902.62,-313.14"/>
+</g>
+<!-- module~class_mesh&#45;&gt;psb_base_mod -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge21" class="edge">
+<title>module~class_mesh&#45;&gt;psb_base_mod</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M1012.65,-425.42C1006.57,-456.64 985.36,-544.17 932.22,-590.02 865.32,-647.73 830.12,-647.02 741.77,-647.02 741.77,-647.02 741.77,-647.02 390.92,-647.02 288.57,-647.02 262.61,-638.27 160.64,-647.02"/>
+</g>
+<!-- module~class_face -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node14" class="node">
+<title>module~class_face</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node14"><a xlink:href=".././module/class_face.html" xlink:title="class_face">
+<polygon fill="#337ab7" stroke="#337ab7" points="529.76,-543.02 468.54,-543.02 468.54,-521.01 529.76,-521.01 529.76,-543.02"/>
+<text text-anchor="middle" x="499.15" y="-528.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_face</text>
+</a>
+</g>
+</g>
+<!-- module~class_mesh&#45;&gt;module~class_face -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge24" class="edge">
+<title>module~class_mesh&#45;&gt;module~class_face</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M612.39,-493.02C582.56,-493.02 550.62,-505.46 528.47,-516.29"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="526.64,-513.29 519.32,-520.94 529.82,-519.53 526.64,-513.29"/>
+</g>
+<!-- module~class_surface -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node16" class="node">
+<title>module~class_surface</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node16"><a xlink:href=".././module/class_surface.html" xlink:title="class_surface">
+<polygon fill="#337ab7" stroke="#337ab7" points="916.84,-425.02 840.45,-425.02 840.45,-403.01 916.84,-403.01 916.84,-425.02"/>
+<text text-anchor="middle" x="878.65" y="-410.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_surface</text>
+</a>
+</g>
+</g>
+<!-- module~class_mesh&#45;&gt;module~class_surface -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge20" class="edge">
+<title>module~class_mesh&#45;&gt;module~class_surface</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M981.63,-414.02C965.24,-414.02 945.14,-414.02 927.13,-414.02"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="927.1,-410.52 917.1,-414.02 927.1,-417.52 927.1,-410.52"/>
+</g>
+<!-- module~class_keytable -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node17" class="node">
+<title>module~class_keytable</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node17"><a xlink:href=".././module/class_keytable.html" xlink:title="class_keytable">
+<polygon fill="#337ab7" stroke="#337ab7" points="919.02,-581.02 838.28,-581.02 838.28,-559.01 919.02,-559.01 919.02,-581.02"/>
+<text text-anchor="middle" x="878.65" y="-566.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_keytable</text>
+</a>
+</g>
+</g>
+<!-- module~class_mesh&#45;&gt;module~class_keytable -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge22" class="edge">
+<title>module~class_mesh&#45;&gt;module~class_keytable</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M1005.52,-425.05C995.72,-437.16 979.97,-457.35 968.22,-476.02 949.79,-505.29 957.12,-521.01 932.22,-545.02 928.72,-548.39 924.68,-551.38 920.42,-554"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="918.58,-551.02 911.5,-558.9 921.95,-557.16 918.58,-551.02"/>
+</g>
+<!-- module~class_cell -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node18" class="node">
+<title>module~class_cell</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node18"><a xlink:href=".././module/class_cell.html" xlink:title="class_cell">
+<polygon fill="#337ab7" stroke="#337ab7" points="527.67,-465.02 470.63,-465.02 470.63,-443.01 527.67,-443.01 527.67,-465.02"/>
+<text text-anchor="middle" x="499.15" y="-450.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cell</text>
+</a>
+</g>
+</g>
+<!-- module~class_mesh&#45;&gt;module~class_cell -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge23" class="edge">
+<title>module~class_mesh&#45;&gt;module~class_cell</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M739.77,-493.02C684.15,-496.46 670.12,-493.02 614.39,-493.02"/>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M612.39,-493.02C582.56,-493.02 550.62,-480.57 528.47,-469.74"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="529.82,-466.5 519.32,-465.09 526.64,-472.74 529.82,-466.5"/>
+</g>
+<!-- module~class_least_squares -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node19" class="node">
+<title>module~class_least_squares</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node19"><a xlink:href=".././module/class_least_squares.html" xlink:title="class_least_squares">
+<polygon fill="#337ab7" stroke="#337ab7" points="932.28,-503.02 825.01,-503.02 825.01,-481.01 932.28,-481.01 932.28,-503.02"/>
+<text text-anchor="middle" x="878.65" y="-488.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_least_squares</text>
+</a>
+</g>
+</g>
+<!-- module~class_mesh&#45;&gt;module~class_least_squares -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge25" class="edge">
+<title>module~class_mesh&#45;&gt;module~class_least_squares</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M998.61,-425.2C982.26,-436.39 956.01,-453.78 932.22,-467.02 926.42,-470.24 920.14,-473.45 914.01,-476.45"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="912.1,-473.48 904.58,-480.95 915.11,-479.8 912.1,-473.48"/>
+</g>
+<!-- module~class_pde&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge26" class="edge">
+<title>module~class_pde&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1107.4,-483.39C1082.17,-479.14 1045.3,-476.63 1016.65,-490.02"/>
+</g>
+<!-- module~class_pde&#45;&gt;module~class_mesh -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge28" class="edge">
+<title>module~class_pde&#45;&gt;module~class_mesh</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1119.05,-478.96C1099,-466.24 1065.86,-445.22 1042.72,-430.55"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="1044.42,-427.48 1034.1,-425.08 1040.67,-433.39 1044.42,-427.48"/>
+</g>
+<!-- module~class_dimensions -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node10" class="node">
+<title>module~class_dimensions</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node10"><a xlink:href=".././module/class_dimensions.html" xlink:title="class_dimensions">
+<polygon fill="#337ab7" stroke="#337ab7" points="1063.02,-193.02 968.28,-193.02 968.28,-171.01 1063.02,-171.01 1063.02,-193.02"/>
+<text text-anchor="middle" x="1015.65" y="-178.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_dimensions</text>
+</a>
+</g>
+</g>
+<!-- module~class_pde&#45;&gt;module~class_dimensions -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge27" class="edge">
+<title>module~class_pde&#45;&gt;module~class_dimensions</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M1114.55,-479.01C1108.84,-475.24 1103.15,-470.56 1099.09,-465.02 1067.54,-421.97 1032.68,-261.23 1020.85,-203.14"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="1024.26,-202.35 1018.85,-193.24 1017.4,-203.74 1024.26,-202.35"/>
+</g>
+<!-- module~class_vector&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge29" class="edge">
+<title>module~class_vector&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M494.77,-156.2C479.77,-205.79 419.15,-406.27 399.27,-472.02"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="395.88,-471.11 396.34,-481.7 402.59,-473.14 395.88,-471.11"/>
+</g>
+<!-- module~class_connectivity&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge30" class="edge">
+<title>module~class_connectivity&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#ff7500" stroke-dasharray="5,2" d="M692.44,-570.48C668.97,-570.69 640.19,-570.91 614.39,-571.02"/>
+</g>
+<!-- module~class_vertex&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge31" class="edge">
+<title>module~class_vertex&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#ffeb00" stroke-dasharray="5,2" d="M590.48,-442.87C562.94,-429.48 517.22,-409.46 500.15,-415.02"/>
+</g>
+<!-- module~class_vertex&#45;&gt;module~class_vector -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge32" class="edge">
+<title>module~class_vertex&#45;&gt;module~class_vector</title>
+<path fill="none" stroke="#ffeb00" stroke-dasharray="5,2" d="M602.38,-442.8C592.9,-431.66 578.88,-413.71 570.33,-396.02 531.58,-315.81 510.93,-210.53 503.45,-166.17"/>
+<polygon fill="#ffeb00" stroke="#ffeb00" points="506.86,-165.33 501.8,-156.03 499.95,-166.46 506.86,-165.33"/>
+</g>
+<!-- module~class_dimensions&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge33" class="edge">
+<title>module~class_dimensions&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#9cff00" stroke-dasharray="5,2" d="M877.65,-221.02C860.27,-219.91 585.8,-167.03 570.33,-159.02 535.62,-141.04 534.18,-86.79 500.15,-106.02"/>
+<path fill="none" stroke="#9cff00" stroke-dasharray="5,2" d="M991.82,-193.11C965.42,-204.86 920.39,-221.65 879.65,-221.02"/>
+</g>
+<!-- module~units_interface -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node22" class="node">
+<title>module~units_interface</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node22"><a xlink:href=".././module/units_interface.html" xlink:title="units_interface">
+<polygon fill="#337ab7" stroke="#337ab7" points="781.06,-309.02 700.48,-309.02 700.48,-287.01 781.06,-287.01 781.06,-309.02"/>
+<text text-anchor="middle" x="740.77" y="-294.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">units_interface</text>
+</a>
+</g>
+</g>
+<!-- module~grid_interface&#45;&gt;module~units_interface -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge35" class="edge">
+<title>module~grid_interface&#45;&gt;module~units_interface</title>
+<path fill="none" stroke="#27ff00" stroke-dasharray="5,2" d="M840.88,-298.02C825.52,-298.02 807.44,-298.02 790.96,-298.02"/>
+<polygon fill="#27ff00" stroke="#27ff00" points="790.95,-294.52 780.95,-298.02 790.95,-301.52 790.95,-294.52"/>
+</g>
+<!-- module~object_interface -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node27" class="node">
+<title>module~object_interface</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node27"><a xlink:href=".././module/object_interface.html" xlink:title="object_interface">
+<polygon fill="#337ab7" stroke="#337ab7" points="656.53,-271.02 570.26,-271.02 570.26,-249.01 656.53,-249.01 656.53,-271.02"/>
+<text text-anchor="middle" x="613.39" y="-256.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">object_interface</text>
+</a>
+</g>
+</g>
+<!-- module~grid_interface&#45;&gt;module~object_interface -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge34" class="edge">
+<title>module~grid_interface&#45;&gt;module~object_interface</title>
+<path fill="none" stroke="#27ff00" stroke-dasharray="5,2" d="M840.78,-288.66C824.95,-284.91 806.19,-280.82 789.08,-278.02 748.32,-271.34 701.77,-266.69 666.98,-263.79"/>
+<polygon fill="#27ff00" stroke="#27ff00" points="666.83,-260.26 656.58,-262.94 666.27,-267.24 666.83,-260.26"/>
+</g>
+<!-- module~tools_psblas&#45;&gt;psb_base_mod -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge37" class="edge">
+<title>module~tools_psblas&#45;&gt;psb_base_mod</title>
+<path fill="none" stroke="#00ff4e" stroke-dasharray="5,2" d="M127.95,-617.11C114.84,-621.85 99.35,-627.45 85.35,-632.51"/>
+<polygon fill="#00ff4e" stroke="#00ff4e" points="84.16,-629.22 75.94,-635.91 86.54,-635.8 84.16,-629.22"/>
+</g>
+<!-- psb_prec_mod -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node20" class="node">
+<title>psb_prec_mod</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="85.19,-576.02 3.27,-576.02 3.27,-554.01 85.19,-554.01 85.19,-576.02"/>
+<text text-anchor="middle" x="44.23" y="-561.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_prec_mod</text>
+</g>
+<!-- module~tools_psblas&#45;&gt;psb_prec_mod -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge36" class="edge">
+<title>module~tools_psblas&#45;&gt;psb_prec_mod</title>
+<path fill="none" stroke="#00ff4e" stroke-dasharray="5,2" d="M127.95,-594.92C114.84,-590.18 99.35,-584.58 85.35,-579.52"/>
+<polygon fill="#00ff4e" stroke="#00ff4e" points="86.54,-576.23 75.94,-576.12 84.16,-582.81 86.54,-576.23"/>
+</g>
+<!-- psb_krylov_mod -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node23" class="node">
+<title>psb_krylov_mod</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="88.68,-617.02 -0.23,-617.02 -0.23,-595.01 88.68,-595.01 88.68,-617.02"/>
+<text text-anchor="middle" x="44.23" y="-602.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_krylov_mod</text>
+</g>
+<!-- module~tools_psblas&#45;&gt;psb_krylov_mod -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge38" class="edge">
+<title>module~tools_psblas&#45;&gt;psb_krylov_mod</title>
+<path fill="none" stroke="#00ff4e" stroke-dasharray="5,2" d="M124.3,-606.02C116.24,-606.02 107.47,-606.02 98.79,-606.02"/>
+<polygon fill="#00ff4e" stroke="#00ff4e" points="98.69,-602.52 88.69,-606.02 98.69,-609.52 98.69,-602.52"/>
+</g>
+<!-- module~class_face&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge39" class="edge">
+<title>module~class_face&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#00c4ff" stroke-dasharray="5,2" d="M468.28,-520.94C457.17,-516.83 444.39,-512.09 432.54,-507.7"/>
+<polygon fill="#00c4ff" stroke="#00c4ff" points="433.46,-504.31 422.87,-504.11 431.03,-510.87 433.46,-504.31"/>
+</g>
+<!-- module~class_vector_field&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge40" class="edge">
+<title>module~class_vector_field&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M1331.38,-385.02C1290.34,-387.94 1280.92,-401.78 1239.87,-399.02"/>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M1237.87,-399.02C1205.62,-396.84 1206.23,-372.09 1175.87,-361.02 1108.64,-336.5 1088.21,-337.02 1016.65,-337.02 1016.65,-337.02 1016.65,-337.02 877.65,-337.02 808.19,-337.02 617.61,-330.9 570.33,-280.02 513.57,-218.93 572.27,-64.15 500.15,-106.02"/>
+</g>
+<!-- module~class_vector_field&#45;&gt;module~class_mesh -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge42" class="edge">
+<title>module~class_vector_field&#45;&gt;module~class_mesh</title>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M1237.87,-399.02C1175.91,-396.42 1104.34,-403.03 1059.78,-408.29"/>
+<polygon fill="#004eff" stroke="#004eff" points="1059.11,-404.84 1049.6,-409.52 1059.95,-411.79 1059.11,-404.84"/>
+</g>
+<!-- module~class_vector_field&#45;&gt;module~class_vector -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge41" class="edge">
+<title>module~class_vector_field&#45;&gt;module~class_vector</title>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M1331.38,-385.02C1257.74,-374.37 1246.88,-345.24 1175.87,-323.02 912.25,-240.52 828.68,-280.77 570.33,-183.02 555.11,-177.25 539.07,-168.78 526.18,-161.29"/>
+<polygon fill="#004eff" stroke="#004eff" points="527.79,-158.18 517.41,-156.07 524.21,-164.19 527.79,-158.18"/>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M1415.16,-367.09C1392.86,-374.41 1361.69,-383 1333.38,-385.02"/>
+</g>
+<!-- module~class_vector_field&#45;&gt;module~class_dimensions -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge46" class="edge">
+<title>module~class_vector_field&#45;&gt;module~class_dimensions</title>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M1237.87,-183.02C1182.69,-172.77 1118.43,-173.89 1073.44,-176.75"/>
+<polygon fill="#004eff" stroke="#004eff" points="1073.02,-173.27 1063.29,-177.44 1073.5,-180.25 1073.02,-173.27"/>
+</g>
+<!-- module~class_field -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node21" class="node">
+<title>module~class_field</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node21"><a xlink:href=".././module/class_field.html" xlink:title="class_field">
+<polygon fill="#337ab7" stroke="#337ab7" points="1362.9,-272.02 1301.86,-272.02 1301.86,-250.01 1362.9,-250.01 1362.9,-272.02"/>
+<text text-anchor="middle" x="1332.38" y="-257.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_field</text>
+</a>
+</g>
+</g>
+<!-- module~class_vector_field&#45;&gt;module~class_field -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge43" class="edge">
+<title>module~class_vector_field&#45;&gt;module~class_field</title>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M1432.3,-344.74C1413.06,-328.46 1377.3,-298.19 1354.46,-278.85"/>
+<polygon fill="#004eff" stroke="#004eff" points="1356.57,-276.06 1346.68,-272.27 1352.05,-281.4 1356.57,-276.06"/>
+</g>
+<!-- module~class_bc -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node24" class="node">
+<title>module~class_bc</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node24"><a xlink:href=".././module/class_bc.html" xlink:title="class_bc">
+<polygon fill="#337ab7" stroke="#337ab7" points="1265.87,-155.02 1211.87,-155.02 1211.87,-133.01 1265.87,-133.01 1265.87,-155.02"/>
+<text text-anchor="middle" x="1238.87" y="-140.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc</text>
+</a>
+</g>
+</g>
+<!-- module~class_vector_field&#45;&gt;module~class_bc -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge44" class="edge">
+<title>module~class_vector_field&#45;&gt;module~class_bc</title>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M1441.92,-344.91C1430.92,-313.75 1395.29,-225.04 1333.38,-183.02"/>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M1331.38,-183.02C1314.42,-171.5 1293.51,-162.28 1275.96,-155.7"/>
+<polygon fill="#004eff" stroke="#004eff" points="1276.67,-152.23 1266.08,-152.13 1274.3,-158.82 1276.67,-152.23"/>
+</g>
+<!-- module~class_material -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node25" class="node">
+<title>module~class_material</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node25"><a xlink:href=".././module/class_material.html" xlink:title="class_material">
+<polygon fill="#337ab7" stroke="#337ab7" points="1055.26,-115.02 976.05,-115.02 976.05,-93.01 1055.26,-93.01 1055.26,-115.02"/>
+<text text-anchor="middle" x="1015.65" y="-100.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_material</text>
+</a>
+</g>
+</g>
+<!-- module~class_vector_field&#45;&gt;module~class_material -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge45" class="edge">
+<title>module~class_vector_field&#45;&gt;module~class_material</title>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M1331.38,-183.02C1297.73,-160.17 1279.74,-191.03 1239.87,-183.02"/>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M1136.48,-105.02C1114.25,-95.99 1087.73,-94.89 1065.29,-96.41"/>
+<polygon fill="#004eff" stroke="#004eff" points="1064.96,-92.93 1055.3,-97.28 1065.57,-99.9 1064.96,-92.93"/>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M1237.87,-183.02C1200.58,-175.52 1206.06,-147.16 1175.87,-124.02 1161.07,-112.67 1155.75,-112.03 1138.48,-105.02"/>
+</g>
+<!-- module~class_surface&#45;&gt;module~class_connectivity -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge47" class="edge">
+<title>module~class_surface&#45;&gt;module~class_connectivity</title>
+<path fill="none" stroke="#2700ff" stroke-dasharray="5,2" d="M867.47,-425.04C856.8,-436.64 839.6,-455.47 825.08,-472.02 801.23,-499.18 774.23,-531.18 757.6,-551.03"/>
+<polygon fill="#2700ff" stroke="#2700ff" points="754.88,-548.83 751.15,-558.75 760.25,-553.32 754.88,-548.83"/>
+</g>
+<!-- module~class_plane -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node26" class="node">
+<title>module~class_plane</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node26"><a xlink:href=".././module/class_plane.html" xlink:title="class_plane">
+<polygon fill="#337ab7" stroke="#337ab7" points="647.35,-387.02 579.44,-387.02 579.44,-365.01 647.35,-365.01 647.35,-387.02"/>
+<text text-anchor="middle" x="613.39" y="-372.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_plane</text>
+</a>
+</g>
+</g>
+<!-- module~class_surface&#45;&gt;module~class_plane -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge48" class="edge">
+<title>module~class_surface&#45;&gt;module~class_plane</title>
+<path fill="none" stroke="#2700ff" stroke-dasharray="5,2" d="M840.36,-409.32C802.92,-404.53 743.63,-396.73 692.46,-389.02 681.12,-387.31 668.88,-385.33 657.53,-383.44"/>
+<polygon fill="#2700ff" stroke="#2700ff" points="657.85,-379.95 647.41,-381.74 656.69,-386.85 657.85,-379.95"/>
+</g>
+<!-- module~class_cylinder -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node28" class="node">
+<title>module~class_cylinder</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node28"><a xlink:href=".././module/class_cylinder.html" xlink:title="class_cylinder">
+<polygon fill="#337ab7" stroke="#337ab7" points="779.71,-463.02 701.83,-463.02 701.83,-441.01 779.71,-441.01 779.71,-463.02"/>
+<text text-anchor="middle" x="740.77" y="-448.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_cylinder</text>
+</a>
+</g>
+</g>
+<!-- module~class_surface&#45;&gt;module~class_cylinder -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge49" class="edge">
+<title>module~class_surface&#45;&gt;module~class_cylinder</title>
+<path fill="none" stroke="#2700ff" stroke-dasharray="5,2" d="M840.52,-424.4C824.9,-428.77 806.53,-433.9 789.89,-438.56"/>
+<polygon fill="#2700ff" stroke="#2700ff" points="788.49,-435.32 779.8,-441.38 790.37,-442.06 788.49,-435.32"/>
+</g>
+<!-- module~class_cell&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge50" class="edge">
+<title>module~class_cell&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#ff00eb" stroke-dasharray="5,2" d="M470.5,-464.26C458.86,-468.58 445.09,-473.68 432.4,-478.38"/>
+<polygon fill="#ff00eb" stroke="#ff00eb" points="431.13,-475.12 422.97,-481.88 433.56,-481.69 431.13,-475.12"/>
+</g>
+<!-- module~class_least_squares&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge51" class="edge">
+<title>module~class_least_squares&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M612.39,-571.02C545.89,-571.28 524.96,-578.53 463.97,-552.02 442.83,-542.82 423.02,-525.34 409.72,-511.79"/>
+<polygon fill="#ff0075" stroke="#ff0075" points="412.1,-509.21 402.68,-504.35 407.01,-514.02 412.1,-509.21"/>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M841.25,-503.1C769.69,-524.88 617.31,-571.13 614.39,-571.02"/>
+</g>
+<!-- module~class_least_squares&#45;&gt;module~class_connectivity -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge52" class="edge">
+<title>module~class_least_squares&#45;&gt;module~class_connectivity</title>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M851.39,-503.14C842.8,-507.14 833.34,-511.92 825.08,-517.02 807.83,-527.65 806.11,-534.02 789.08,-545.02 784.3,-548.1 779.1,-551.14 773.95,-553.98"/>
+<polygon fill="#ff0075" stroke="#ff0075" points="772.02,-551.05 764.85,-558.85 775.32,-557.22 772.02,-551.05"/>
+</g>
+<!-- module~class_field&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge53" class="edge">
+<title>module~class_field&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M1136.48,-221.02C1022.34,-219.77 993.78,-222.78 879.65,-221.02"/>
+</g>
+<!-- module~class_field&#45;&gt;module~class_mesh -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge54" class="edge">
+<title>module~class_field&#45;&gt;module~class_mesh</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M1308.49,-272.14C1253.19,-299.02 1112.2,-367.57 1048.61,-398.48"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="1046.92,-395.41 1039.45,-402.93 1049.98,-401.71 1046.92,-395.41"/>
+</g>
+<!-- module~class_field&#45;&gt;module~class_dimensions -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge58" class="edge">
+<title>module~class_field&#45;&gt;module~class_dimensions</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M1237.87,-221.02C1198.32,-201.33 1182.59,-218.79 1138.48,-221.02"/>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M1136.48,-221.02C1104.02,-222.65 1068.89,-209.26 1045.11,-197.73"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="1046.47,-194.5 1035.97,-193.11 1043.32,-200.74 1046.47,-194.5"/>
+</g>
+<!-- module~class_field&#45;&gt;module~grid_interface -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge55" class="edge">
+<title>module~class_field&#45;&gt;module~grid_interface</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M1136.48,-221.02C1093.87,-223.17 980.61,-261.71 919.72,-283.43"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="918.29,-280.23 910.06,-286.89 920.65,-286.82 918.29,-280.23"/>
+</g>
+<!-- module~class_field&#45;&gt;module~class_bc -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge56" class="edge">
+<title>module~class_field&#45;&gt;module~class_bc</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M1324.34,-249.76C1312.97,-231.91 1289.44,-196.33 1265.87,-169.02 1263.91,-166.75 1261.78,-164.46 1259.6,-162.23"/>
+<polygon fill="#ffaa00" stroke="#ffaa00" points="1261.84,-159.52 1252.24,-155.02 1256.94,-164.52 1261.84,-159.52"/>
+</g>
+<!-- module~class_field&#45;&gt;module~class_material -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge57" class="edge">
+<title>module~class_field&#45;&gt;module~class_material</title>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M1304.23,-249.98C1285.85,-242.31 1261.13,-231.6 1239.87,-221.02"/>
+<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M1237.87,-221.02C1192.06,-198.21 1211.83,-160.41 1175.87,-124.02 1162.77,-110.76 1155.75,-112.03 1138.48,-105.02"/>
+</g>
+<!-- module~units_interface&#45;&gt;module~object_interface -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge59" class="edge">
+<title>module~units_interface&#45;&gt;module~object_interface</title>
+<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M703.17,-286.92C689.91,-282.9 674.75,-278.31 660.76,-274.07"/>
+<polygon fill="#aaff00" stroke="#aaff00" points="661.41,-270.61 650.82,-271.06 659.38,-277.31 661.41,-270.61"/>
+</g>
+<!-- module~class_bc&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge60" class="edge">
+<title>module~class_bc&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M498.15,-106.02C483.18,-114.83 474.17,-110.94 463.97,-125.02 423.01,-181.54 400.8,-401.81 394.68,-471.65"/>
+<polygon fill="#00ffa9" stroke="#00ffa9" points="391.17,-471.6 393.81,-481.86 398.15,-472.19 391.17,-471.6"/>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M877.65,-26.02C741.09,-35.69 697.28,4.23 570.33,-47.02 532.54,-62.27 535.27,-85.34 500.15,-106.02"/>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M1230.04,-132.79C1214.93,-112.05 1179.57,-67.83 1138.48,-46.02"/>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M1136.48,-46.02C1103.67,-28.6 1099.09,-15.19 1063.09,-6.02 1022.23,4.4 1010.12,-1.34 968.22,-6.02 928.11,-10.49 919.92,-23.46 879.65,-26.02"/>
+</g>
+<!-- module~class_bc_math -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node29" class="node">
+<title>module~class_bc_math</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node29"><a xlink:href=".././module/class_bc_math.html" xlink:title="class_bc_math">
+<polygon fill="#337ab7" stroke="#337ab7" points="1056.69,-37.02 974.62,-37.02 974.62,-15.01 1056.69,-15.01 1056.69,-37.02"/>
+<text text-anchor="middle" x="1015.65" y="-22.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc_math</text>
+</a>
+</g>
+</g>
+<!-- module~class_bc&#45;&gt;module~class_bc_math -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge62" class="edge">
+<title>module~class_bc&#45;&gt;module~class_bc_math</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M1136.48,-46.02C1115.07,-35.26 1089.06,-30.11 1066.76,-27.71"/>
+<polygon fill="#00ffa9" stroke="#00ffa9" points="1067.08,-24.23 1056.8,-26.79 1066.44,-31.2 1067.08,-24.23"/>
+</g>
+<!-- module~class_motion -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node30" class="node">
+<title>module~class_motion</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node30"><a xlink:href=".././module/class_motion.html" xlink:title="class_motion">
+<polygon fill="#337ab7" stroke="#337ab7" points="650.17,-78.02 576.62,-78.02 576.62,-56.01 650.17,-56.01 650.17,-78.02"/>
+<text text-anchor="middle" x="613.39" y="-63.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_motion</text>
+</a>
+</g>
+</g>
+<!-- module~class_bc&#45;&gt;module~class_motion -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge61" class="edge">
+<title>module~class_bc&#45;&gt;module~class_motion</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M1136.48,-46.02C1125.91,-40.71 785.8,-58 660.31,-64.58"/>
+<polygon fill="#00ffa9" stroke="#00ffa9" points="660.05,-61.09 650.25,-65.11 660.42,-68.08 660.05,-61.09"/>
+</g>
+<!-- module~class_bc_wall -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node32" class="node">
+<title>module~class_bc_wall</title>
+<g id="a_module~~class_vector_pde_procedures~~UsesGraph_node32"><a xlink:href=".././module/class_bc_wall.html" xlink:title="class_bc_wall">
+<polygon fill="#337ab7" stroke="#337ab7" points="1175.76,-155.02 1099.2,-155.02 1099.2,-133.01 1175.76,-133.01 1175.76,-155.02"/>
+<text text-anchor="middle" x="1137.48" y="-140.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_bc_wall</text>
+</a>
+</g>
+</g>
+<!-- module~class_bc&#45;&gt;module~class_bc_wall -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge63" class="edge">
+<title>module~class_bc&#45;&gt;module~class_bc_wall</title>
+<path fill="none" stroke="#00ffa9" stroke-dasharray="5,2" d="M1211.75,-144.02C1203.9,-144.02 1195.02,-144.02 1186.23,-144.02"/>
+<polygon fill="#00ffa9" stroke="#00ffa9" points="1186,-140.52 1176,-144.02 1186,-147.52 1186,-140.52"/>
+</g>
+<!-- module~class_material&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge64" class="edge">
+<title>module~class_material&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M975.93,-101.97C863.25,-96.34 540.9,-82.47 500.15,-106.02"/>
+</g>
+<!-- matlib -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_node31" class="node">
+<title>matlib</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="905.65,-153.02 851.65,-153.02 851.65,-131.01 905.65,-131.01 905.65,-153.02"/>
+<text text-anchor="middle" x="878.65" y="-138.87" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">matlib</text>
+</g>
+<!-- module~class_material&#45;&gt;matlib -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge65" class="edge">
+<title>module~class_material&#45;&gt;matlib</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M975.97,-114.9C957.03,-120.23 934.37,-126.61 915.79,-131.84"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="914.62,-128.54 905.94,-134.62 916.51,-135.27 914.62,-128.54"/>
+</g>
+<!-- module~class_plane&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge66" class="edge">
+<title>module~class_plane&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M498.15,-415.02C462.61,-426.58 429.33,-455.44 410.06,-474.63"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="407.4,-472.34 402.92,-481.94 412.41,-477.23 407.4,-472.34"/>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M581.54,-387.11C559.05,-395.1 527.81,-406.02 500.15,-415.02"/>
+</g>
+<!-- module~class_plane&#45;&gt;module~class_vector -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge67" class="edge">
+<title>module~class_plane&#45;&gt;module~class_vector</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M587.03,-364.83C580.9,-361.15 574.82,-356.56 570.33,-351.02 524.43,-294.42 507.86,-206.18 502.48,-166.1"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="505.94,-165.63 501.24,-156.13 499,-166.49 505.94,-165.63"/>
+</g>
+<!-- module~class_cylinder&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge68" class="edge">
+<title>module~class_cylinder&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M715.37,-440.97C671.36,-422.64 576.21,-390.28 500.15,-415.02"/>
+</g>
+<!-- module~class_cylinder&#45;&gt;module~class_vector -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge69" class="edge">
+<title>module~class_cylinder&#45;&gt;module~class_vector</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M732.51,-440.85C719.38,-421.38 689.91,-380.93 656.46,-356.02 640.01,-343.76 628.87,-351.55 614.39,-337.02"/>
+</g>
+<!-- module~class_cylinder&#45;&gt;module~class_vertex -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge70" class="edge">
+<title>module~class_cylinder&#45;&gt;module~class_vertex</title>
+<path fill="none" stroke="#ff00aa" stroke-dasharray="5,2" d="M701.81,-452.62C688.37,-452.84 673.13,-453.08 659.18,-453.3"/>
+<polygon fill="#ff00aa" stroke="#ff00aa" points="658.75,-449.81 648.81,-453.47 658.86,-456.81 658.75,-449.81"/>
+</g>
+<!-- module~class_bc_math&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge71" class="edge">
+<title>module~class_bc_math&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M974.43,-24.53C947.56,-23.9 911.44,-23.76 879.65,-26.02"/>
+</g>
+<!-- module~class_motion&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge72" class="edge">
+<title>module~class_motion&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M576.61,-75.88C553.84,-82.37 524.22,-92.42 500.15,-106.02"/>
+</g>
+<!-- module~class_motion&#45;&gt;module~class_vector -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge73" class="edge">
+<title>module~class_motion&#45;&gt;module~class_vector</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M596.31,-78.19C577.56,-91.22 546.36,-112.9 524.6,-128.02"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="522.42,-125.28 516.2,-133.86 526.41,-131.03 522.42,-125.28"/>
+</g>
+<!-- module~class_bc_wall&#45;&gt;module~class_psblas -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge74" class="edge">
+<title>module~class_bc_wall&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M612.39,-145.02C559.77,-140.56 545.66,-79.22 500.15,-106.02"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1098.9,-148.32C1057.97,-152.78 990.54,-159.45 932.22,-162.02 790.9,-168.23 755.35,-156.96 614.39,-145.02"/>
+</g>
+<!-- module~class_bc_wall&#45;&gt;module~class_mesh -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge76" class="edge">
+<title>module~class_bc_wall&#45;&gt;module~class_mesh</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1129.03,-155.33C1121.05,-167.71 1108.3,-188.3 1099.09,-207.02 1066.6,-273.04 1036.88,-355.23 1023.75,-393.12"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="1020.3,-392.39 1020.36,-402.98 1026.92,-394.66 1020.3,-392.39"/>
+</g>
+<!-- module~class_bc_wall&#45;&gt;module~class_vector -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge75" class="edge">
+<title>module~class_bc_wall&#45;&gt;module~class_vector</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M612.39,-145.02C590.14,-143.13 565.31,-142.93 544.67,-143.29"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="544.52,-139.79 534.6,-143.51 544.68,-146.79 544.52,-139.79"/>
+</g>
+<!-- module~class_bc_wall&#45;&gt;module~class_dimensions -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge79" class="edge">
+<title>module~class_bc_wall&#45;&gt;module~class_dimensions</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1101.5,-155.11C1088.95,-159.09 1074.62,-163.63 1061.36,-167.84"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="1059.94,-164.61 1051.47,-170.97 1062.06,-171.29 1059.94,-164.61"/>
+</g>
+<!-- module~class_bc_wall&#45;&gt;module~class_material -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge77" class="edge">
+<title>module~class_bc_wall&#45;&gt;module~class_material</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1103.42,-132.98C1089.91,-128.47 1074.11,-123.19 1059.71,-118.39"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="1060.61,-115 1050.02,-115.15 1058.4,-121.64 1060.61,-115"/>
+</g>
+<!-- module~class_bc_wall&#45;&gt;module~class_bc_math -->
+<g id="module~~class_vector_pde_procedures~~UsesGraph_edge78" class="edge">
+<title>module~class_bc_wall&#45;&gt;module~class_bc_math</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M1124.99,-132.7C1104.27,-112.3 1060.47,-69.17 1035.37,-44.45"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="1037.51,-41.65 1027.93,-37.12 1032.6,-46.63 1037.51,-41.65"/>
+</g>
+</g>
+</svg>
+</div><script>var panmoduleclass_vector_pde_proceduresUsesGraph = svgPanZoom('#moduleclass_vector_pde_proceduresUsesGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="484pt" height="31pt"
+ viewBox="0.00 0.00 483.85 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 479.85,-26.5 479.85,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-22.26 0,-22.26 0,-0.24 54,-0.24 54,-22.26"/>
+<text text-anchor="middle" x="27" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="137.62,-22.26 72.38,-22.26 72.38,-0.24 137.62,-0.24 137.62,-22.26"/>
+<text text-anchor="middle" x="105" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="218.29,-22.26 155.71,-22.26 155.71,-0.24 218.29,-0.24 218.29,-22.26"/>
+<text text-anchor="middle" x="187" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="290,-22.26 236,-22.26 236,-0.24 290,-0.24 290,-22.26"/>
+<text text-anchor="middle" x="263" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="362,-22.26 308,-22.26 308,-0.24 362,-0.24 362,-22.26"/>
+<text text-anchor="middle" x="335" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="475.71,-22.26 380.29,-22.26 380.29,-0.24 475.71,-0.24 475.71,-22.26"/>
+<text text-anchor="middle" x="428" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a submodule to the (sub)module which it is
+    descended from. Dashed arrows point from a module or program unit to 
+    modules which it uses. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </li>
+      
+      </ul>
+    </div>
+    
+
+    
+    
+
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-1">Module Procedures</a></h3></div>
+  <div id="modprocs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/class_vector_pde_procedures.html#proc-asb_pde_~3">asb_pde_</a>
+      
+      <a class="list-group-item" href="../module/class_vector_pde_procedures.html#proc-create_pde~3">create_pde</a>
+      
+      <a class="list-group-item" href="../module/class_vector_pde_procedures.html#proc-free_pde~3">free_pde</a>
+      
+      <a class="list-group-item" href="../module/class_vector_pde_procedures.html#proc-geins_vector_pde_r">geins_vector_pde_r</a>
+      
+      <a class="list-group-item" href="../module/class_vector_pde_procedures.html#proc-geins_vector_pde_v">geins_vector_pde_v</a>
+      
+      <a class="list-group-item" href="../module/class_vector_pde_procedures.html#proc-nemo_sizeof~6">nemo_sizeof</a>
+      
+      <a class="list-group-item" href="../module/class_vector_pde_procedures.html#proc-reinit_pde~3">reinit_pde</a>
+      
+      <a class="list-group-item" href="../module/class_vector_pde_procedures.html#proc-solve_vector_pde">solve_vector_pde</a>
+      
+      <a class="list-group-item" href="../module/class_vector_pde_procedures.html#proc-write_vector_pde">write_vector_pde</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+        
+
+        
+
+        
+        <section>
+        <h2>Module Procedures</h2>
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-asb_pde_~3"></span><h3>
+module procedure <a href='../proc/asb_pde_~3.html'>asb_pde_</a> <small>module subroutine asb_pde_(eqn)</small>
+    
+    
+   <a href='../interface/asb_pde_~3.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/vector_pde.html'>vector_pde</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>eqn</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-create_pde~3"></span><h3>
+module procedure <a href='../proc/create_pde~3.html'>create_pde</a> <small>module subroutine create_pde(eqn, input_file, sec, msh, dim)</small>
+    
+    
+   <a href='../interface/create_pde~3.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/vector_pde.html'>vector_pde</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>eqn</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>input_file</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>sec</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/mesh.html'>mesh</a>),</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>target</td><td>::</td>
+  <td><strong>msh</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(dimensions),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dim</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-free_pde~3"></span><h3>
+module procedure <a href='../proc/free_pde~3.html'>free_pde</a> <small>module subroutine free_pde(eqn)</small>
+    
+    
+   <a href='../interface/free_pde~3.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/vector_pde.html'>vector_pde</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>eqn</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-geins_vector_pde_r"></span><h3>
+module procedure <a href='../proc/geins_vector_pde_r.html'>geins_vector_pde_r</a> <small>module subroutine geins_vector_pde_r(n, ia, cloud, pde)</small>
+    
+    
+   <a href='../interface/geins_vector_pde_r.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Inserts a ``cloud'' of RHS terms into pde%b</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ia</strong>(:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=psb_dpk_),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>cloud</strong>(:,:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/vector_pde.html'>vector_pde</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>pde</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-geins_vector_pde_v"></span><h3>
+module procedure <a href='../proc/geins_vector_pde_v.html'>geins_vector_pde_v</a> <small>module subroutine geins_vector_pde_v(n, ia, cloud, pde)</small>
+    
+    
+   <a href='../interface/geins_vector_pde_v.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Wrapper for ``clouds'' of VECTOR type</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ia</strong>(:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/vector.html'>vector</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>cloud</strong>(:)</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/vector_pde.html'>vector_pde</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>pde</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-nemo_sizeof~6"></span><h3>
+module procedure <a href='../proc/nemo_sizeof~6.html'>nemo_sizeof</a> <small>module function nemo_sizeof(eqn)</small>
+    
+    
+   <a href='../interface/nemo_sizeof~5.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/vector_pde.html'>vector_pde</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>eqn</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer(kind=nemo_int_long_)
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-reinit_pde~3"></span><h3>
+module procedure <a href='../proc/reinit_pde~3.html'>reinit_pde</a> <small>module subroutine reinit_pde(eqn)</small>
+    
+    
+   <a href='../interface/reinit_pde~3.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>$    write(0,<em>) 'Reinit Vector PDE do:',is_pde_asb(pde%base)
+$      write(0,</em>) 'Reinit Vector PDE out ',pde%b</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/vector_pde.html'>vector_pde</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>eqn</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-solve_vector_pde"></span><h3>
+module procedure <a href='../proc/solve_vector_pde.html'>solve_vector_pde</a> <small>module subroutine solve_vector_pde(pde, phi, var)</small>
+    
+    
+   <a href='../interface/solve_vector_pde.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/vector_pde.html'>vector_pde</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>pde</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/vector_field.html'>vector_field</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>phi</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=psb_dpk_),</td>
+  <td>intent(out),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>var</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-write_vector_pde"></span><h3>
+module procedure <a href='../proc/write_vector_pde.html'>write_vector_pde</a> <small>module subroutine write_vector_pde(eqn, mat, rhs)</small>
+    
+    
+   <a href='../interface/write_vector_pde.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/vector_pde.html'>vector_pde</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>eqn</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mat</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>rhs</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+        
+        </section>    
+        
+    
+    
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

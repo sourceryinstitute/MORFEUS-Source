@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>surface &ndash; Morfeus Framework </title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>surface
+    <small>Derived Type</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title="<p> 2.0% of total for derived types.</p>Including implementation: 18 statements,  2.0% of total for derived types.">18 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/class_surface.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/class_surface.f90.html'>class_surface.f90</a></li>
+    
+     <li><a href='../module/class_surface.html'>class_surface</a></li>
+    
+  
+     <li class="active">surface</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../type/surface.html#variable-itype">itype</a>
+      
+      <a class="list-group-item" href="../type/surface.html#variable-my_cylinder">my_cylinder</a>
+      
+      <a class="list-group-item" href="../type/surface.html#variable-my_plane">my_plane</a>
+      
+      <a class="list-group-item" href="../type/surface.html#variable-set~2">set</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#boundprocs-0">Type-Bound Procedures</a></h3></div>
+  <div id="boundprocs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-free_surface">free_surface</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-get_closest_point">get_closest_point</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-nemo_sizeof~14">nemo_sizeof</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-normal_">normal_</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-r2_">r2_</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-reform_vertex">reform_vertex</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-translate_surface">translate_surface</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-type_~4">type_</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-get_surface_normal">get_surface_normal</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-get_surface_r2">get_surface_r2</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-get_surface_type">get_surface_type</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-nemo_surface_sizeof">nemo_surface_sizeof</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/surface.html#src">surface</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+      <h2>type, public :: surface</h2>
+    
+    <br>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Inherits</h3>
+      </div>
+      <div class="panel-body">
+    <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: type~~surface~~InheritsGraph Pages: 1 -->
+<svg id="typesurfaceInheritsGraph" width="341pt" height="72pt"
+ viewBox="0.00 0.00 340.74 71.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="type~~surface~~InheritsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 67.5)">
+<title>type~~surface~~InheritsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-67.5 336.74,-67.5 336.74,4 -4,4"/>
+<!-- type~surface -->
+<g id="type~~surface~~InheritsGraph_node1" class="node">
+<title>type~surface</title>
+<polygon fill="none" stroke="black" points="332.74,-42.26 278.74,-42.26 278.74,-20.24 332.74,-20.24 332.74,-42.26"/>
+<text text-anchor="middle" x="305.74" y="-28.1" font-family="Helvetica,sans-Serif" font-size="10.50">surface</text>
+</g>
+<!-- type~plane -->
+<g id="type~~surface~~InheritsGraph_node2" class="node">
+<title>type~plane</title>
+<g id="a_type~~surface~~InheritsGraph_node2"><a xlink:href=".././type/plane.html" xlink:title="plane">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="192.06,-63.26 138.06,-63.26 138.06,-41.24 192.06,-41.24 192.06,-63.26"/>
+<text text-anchor="middle" x="165.06" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">plane</text>
+</a>
+</g>
+</g>
+<!-- type~surface&#45;&gt;type~plane -->
+<g id="type~~surface~~InheritsGraph_edge1" class="edge">
+<title>type~surface&#45;&gt;type~plane</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M278.65,-35.2C257.19,-38.45 226.53,-43.09 202.62,-46.71"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="201.86,-43.29 192.5,-48.25 202.91,-50.21 201.86,-43.29"/>
+<text text-anchor="middle" x="235.4" y="-47.15" font-family="Helvetica,sans-Serif" font-size="9.50">my_plane</text>
+</g>
+<!-- type~cylinder -->
+<g id="type~~surface~~InheritsGraph_node3" class="node">
+<title>type~cylinder</title>
+<g id="a_type~~surface~~InheritsGraph_node3"><a xlink:href=".././type/cylinder.html" xlink:title="cylinder">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="192.06,-22.26 138.06,-22.26 138.06,-0.24 192.06,-0.24 192.06,-22.26"/>
+<text text-anchor="middle" x="165.06" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cylinder</text>
+</a>
+</g>
+</g>
+<!-- type~surface&#45;&gt;type~cylinder -->
+<g id="type~~surface~~InheritsGraph_edge2" class="edge">
+<title>type~surface&#45;&gt;type~cylinder</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M278.41,-22.86C272.64,-21.27 266.52,-19.79 260.74,-18.75 241.79,-15.34 220.43,-13.48 202.8,-12.47"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="202.52,-8.95 192.36,-11.94 202.17,-15.94 202.52,-8.95"/>
+<text text-anchor="middle" x="235.4" y="-21.15" font-family="Helvetica,sans-Serif" font-size="9.50">my_cylinder</text>
+</g>
+<!-- type~vector -->
+<g id="type~~surface~~InheritsGraph_node4" class="node">
+<title>type~vector</title>
+<g id="a_type~~surface~~InheritsGraph_node4"><a xlink:href=".././type/vector.html" xlink:title="vector">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="54,-42.26 0,-42.26 0,-20.24 54,-20.24 54,-42.26"/>
+<text text-anchor="middle" x="27" y="-28.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector</text>
+</a>
+</g>
+</g>
+<!-- type~plane&#45;&gt;type~vector -->
+<g id="type~~surface~~InheritsGraph_edge3" class="edge">
+<title>type~plane&#45;&gt;type~vector</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M137.82,-48.2C116.93,-44.98 87.45,-40.43 64.29,-36.85"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="64.57,-33.35 54.15,-35.29 63.5,-40.27 64.57,-33.35"/>
+<text text-anchor="middle" x="96.03" y="-47.15" font-family="Helvetica,sans-Serif" font-size="9.50">normal</text>
+</g>
+<!-- type~cylinder&#45;&gt;type~vector -->
+<g id="type~~surface~~InheritsGraph_edge4" class="edge">
+<title>type~cylinder&#45;&gt;type~vector</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M137.69,-12.03C119.19,-12.91 93.93,-14.78 72,-18.75 69.47,-19.21 66.88,-19.75 64.28,-20.35"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="63.16,-17.02 54.33,-22.87 64.88,-23.8 63.16,-17.02"/>
+<text text-anchor="middle" x="96.03" y="-21.15" font-family="Helvetica,sans-Serif" font-size="9.50">center, axis</text>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="176pt" height="31pt"
+ viewBox="0.00 0.00 175.85 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 171.85,-26.5 171.85,4 -4,4"/>
+<!-- Type -->
+<g id="node1" class="node">
+<title>Type</title>
+<polygon fill="#5cb85c" stroke="#5cb85c" points="54,-22.26 0,-22.26 0,-0.24 54,-0.24 54,-22.26"/>
+<text text-anchor="middle" x="27" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="167.71,-22.26 72.29,-22.26 72.29,-0.24 167.71,-0.24 167.71,-22.26"/>
+<text text-anchor="middle" x="120" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a derived type to the parent type which it
+    extends. Dashed arrows point from a derived type to the other
+    types it contains as a components, with a label listing the name(s) of
+    said component(s). Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Inherited by</h3>
+      </div>
+      <div class="panel-body">
+     <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: type~~surface~~InheritedByGraph Pages: 1 -->
+<svg id="typesurfaceInheritedByGraph" width="378pt" height="154pt"
+ viewBox="0.00 0.00 378.48 153.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="type~~surface~~InheritedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 149.5)">
+<title>type~~surface~~InheritedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-149.5 374.48,-149.5 374.48,4 -4,4"/>
+<!-- type~surface -->
+<g id="type~~surface~~InheritedByGraph_node1" class="node">
+<title>type~surface</title>
+<polygon fill="none" stroke="black" points="54,-103.26 0,-103.26 0,-81.24 54,-81.24 54,-103.26"/>
+<text text-anchor="middle" x="27" y="-89.1" font-family="Helvetica,sans-Serif" font-size="10.50">surface</text>
+</g>
+<!-- type~mesh -->
+<g id="type~~surface~~InheritedByGraph_node2" class="node">
+<title>type~mesh</title>
+<g id="a_type~~surface~~InheritedByGraph_node2"><a xlink:href=".././type/mesh.html" xlink:title="mesh">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="159.84,-103.26 105.84,-103.26 105.84,-81.24 159.84,-81.24 159.84,-103.26"/>
+<text text-anchor="middle" x="132.84" y="-89.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mesh</text>
+</a>
+</g>
+</g>
+<!-- type~mesh&#45;&gt;type~surface -->
+<g id="type~~surface~~InheritedByGraph_edge1" class="edge">
+<title>type~mesh&#45;&gt;type~surface</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M105.63,-92.25C93.09,-92.25 77.87,-92.25 64.24,-92.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="64.19,-88.75 54.19,-92.25 64.19,-95.75 64.19,-88.75"/>
+<text text-anchor="middle" x="79.92" y="-94.15" font-family="Helvetica,sans-Serif" font-size="9.50">surf</text>
+</g>
+<!-- type~field -->
+<g id="type~~surface~~InheritedByGraph_node3" class="node">
+<title>type~field</title>
+<g id="a_type~~surface~~InheritedByGraph_node3"><a xlink:href=".././type/field.html" xlink:title="field">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="267.78,-124.26 213.78,-124.26 213.78,-102.24 267.78,-102.24 267.78,-124.26"/>
+<text text-anchor="middle" x="240.78" y="-110.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">field</text>
+</a>
+</g>
+</g>
+<!-- type~field&#45;&gt;type~mesh -->
+<g id="type~~surface~~InheritedByGraph_edge2" class="edge">
+<title>type~field&#45;&gt;type~mesh</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M213.59,-108.06C200.48,-105.46 184.39,-102.27 170.11,-99.44"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="170.58,-95.97 160.09,-97.45 169.22,-102.83 170.58,-95.97"/>
+<text text-anchor="middle" x="186.81" y="-105.15" font-family="Helvetica,sans-Serif" font-size="9.50">msh</text>
+</g>
+<!-- type~pde -->
+<g id="type~~surface~~InheritedByGraph_node4" class="node">
+<title>type~pde</title>
+<g id="a_type~~surface~~InheritedByGraph_node4"><a xlink:href=".././type/pde.html" xlink:title="pde">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="267.78,-83.26 213.78,-83.26 213.78,-61.24 267.78,-61.24 267.78,-83.26"/>
+<text text-anchor="middle" x="240.78" y="-69.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pde</text>
+</a>
+</g>
+</g>
+<!-- type~pde&#45;&gt;type~mesh -->
+<g id="type~~surface~~InheritedByGraph_edge3" class="edge">
+<title>type~pde&#45;&gt;type~mesh</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M213.72,-74.49C202.6,-75.68 189.52,-77.4 177.84,-79.75 175.32,-80.26 172.73,-80.84 170.13,-81.46"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="169,-78.14 160.2,-84.04 170.76,-84.92 169,-78.14"/>
+<text text-anchor="middle" x="186.81" y="-81.15" font-family="Helvetica,sans-Serif" font-size="9.50">msh</text>
+</g>
+<!-- type~scalar_pde -->
+<g id="type~~surface~~InheritedByGraph_node5" class="node">
+<title>type~scalar_pde</title>
+<g id="a_type~~surface~~InheritedByGraph_node5"><a xlink:href=".././type/scalar_pde.html" xlink:title="scalar_pde">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="369.5,-63.26 305.76,-63.26 305.76,-41.24 369.5,-41.24 369.5,-63.26"/>
+<text text-anchor="middle" x="337.63" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">scalar_pde</text>
+</a>
+</g>
+</g>
+<!-- type~scalar_pde&#45;&gt;type~pde -->
+<g id="type~~surface~~InheritedByGraph_edge7" class="edge">
+<title>type~scalar_pde&#45;&gt;type~pde</title>
+<path fill="none" stroke="#00ffff" d="M305.83,-48.5C299.35,-48.73 292.69,-49.77 286.78,-52.25"/>
+</g>
+<!-- type~vector_pde -->
+<g id="type~~surface~~InheritedByGraph_node6" class="node">
+<title>type~vector_pde</title>
+<g id="a_type~~surface~~InheritedByGraph_node6"><a xlink:href=".././type/vector_pde.html" xlink:title="vector_pde">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="369.58,-22.26 305.68,-22.26 305.68,-0.24 369.58,-0.24 369.58,-22.26"/>
+<text text-anchor="middle" x="337.63" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_pde</text>
+</a>
+</g>
+</g>
+<!-- type~vector_pde&#45;&gt;type~pde -->
+<g id="type~~surface~~InheritedByGraph_edge6" class="edge">
+<title>type~vector_pde&#45;&gt;type~pde</title>
+<path fill="none" stroke="#00ffff" d="M285.78,-52.25C282.14,-53.78 278.36,-55.42 274.6,-57.08"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="273.11,-53.91 265.42,-61.2 275.98,-60.3 273.11,-53.91"/>
+<path fill="none" stroke="#00ffff" d="M318.2,-22.26C313.65,-25.28 308.9,-28.71 304.78,-32.25 295.72,-40.05 297.81,-47.63 286.78,-52.25"/>
+</g>
+<!-- type~vector_field -->
+<g id="type~~surface~~InheritedByGraph_node7" class="node">
+<title>type~vector_field</title>
+<g id="a_type~~surface~~InheritedByGraph_node7"><a xlink:href=".././type/vector_field.html" xlink:title="vector_field">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="370.33,-145.26 304.94,-145.26 304.94,-123.24 370.33,-123.24 370.33,-145.26"/>
+<text text-anchor="middle" x="337.63" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_field</text>
+</a>
+</g>
+</g>
+<!-- type~vector_field&#45;&gt;type~field -->
+<g id="type~~surface~~InheritedByGraph_edge4" class="edge">
+<title>type~vector_field&#45;&gt;type~field</title>
+<path fill="none" stroke="#ff0000" d="M319.37,-123.06C310.1,-118.08 298.24,-113.31 286.78,-113.25"/>
+</g>
+<!-- type~scalar_field -->
+<g id="type~~surface~~InheritedByGraph_node8" class="node">
+<title>type~scalar_field</title>
+<g id="a_type~~surface~~InheritedByGraph_node8"><a xlink:href=".././type/scalar_field.html" xlink:title="scalar_field">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="370.24,-104.26 305.02,-104.26 305.02,-82.24 370.24,-82.24 370.24,-104.26"/>
+<text text-anchor="middle" x="337.63" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">scalar_field</text>
+</a>
+</g>
+</g>
+<!-- type~scalar_field&#45;&gt;type~field -->
+<g id="type~~surface~~InheritedByGraph_edge5" class="edge">
+<title>type~scalar_field&#45;&gt;type~field</title>
+<path fill="none" stroke="#ff0000" d="M318.38,-104.47C309.24,-109.06 297.79,-113.3 286.78,-113.25"/>
+<path fill="none" stroke="#ff0000" d="M285.78,-113.25C283.24,-113.24 280.62,-113.23 277.98,-113.22"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="277.85,-109.72 267.84,-113.21 277.84,-116.72 277.85,-109.72"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="176pt" height="31pt"
+ viewBox="0.00 0.00 175.85 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 171.85,-26.5 171.85,4 -4,4"/>
+<!-- Type -->
+<g id="node1" class="node">
+<title>Type</title>
+<polygon fill="#5cb85c" stroke="#5cb85c" points="54,-22.26 0,-22.26 0,-0.24 54,-0.24 54,-22.26"/>
+<text text-anchor="middle" x="27" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="167.71,-22.26 72.29,-22.26 72.29,-0.24 167.71,-0.24 167.71,-22.26"/>
+<text text-anchor="middle" x="120" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a derived type to the parent type which it
+    extends. Dashed arrows point from a derived type to the other
+    types it contains as a components, with a label listing the name(s) of
+    said component(s). Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../type/surface.html#variable-itype">itype</a>
+      
+      <a class="list-group-item" href="../type/surface.html#variable-my_cylinder">my_cylinder</a>
+      
+      <a class="list-group-item" href="../type/surface.html#variable-my_plane">my_plane</a>
+      
+      <a class="list-group-item" href="../type/surface.html#variable-set~2">set</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#boundprocs-1">Type-Bound Procedures</a></h3></div>
+  <div id="boundprocs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-free_surface">free_surface</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-get_closest_point">get_closest_point</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-nemo_sizeof~14">nemo_sizeof</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-normal_">normal_</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-r2_">r2_</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-reform_vertex">reform_vertex</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-translate_surface">translate_surface</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-type_~4">type_</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-get_surface_normal">get_surface_normal</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-get_surface_r2">get_surface_r2</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-get_surface_type">get_surface_type</a>
+      
+      <a class="list-group-item" href="../type/surface.html#boundprocedure-nemo_surface_sizeof">nemo_surface_sizeof</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/surface.html#src">surface</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+    <section>
+    <h2>Components</h2>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-itype"></span>integer,</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>itype</strong></td><td> =</td><td>0</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-my_cylinder"></span>type(<a href='../type/cylinder.html'>cylinder</a>),</td>
+  
+  <td>private,</td>
+  <td>pointer</td><td>::</td>
+  <td><strong>my_cylinder</strong></td><td>=> </td><td>null()</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-my_plane"></span>type(<a href='../type/plane.html'>plane</a>),</td>
+  
+  <td>private,</td>
+  <td>pointer</td><td>::</td>
+  <td><strong>my_plane</strong></td><td>=> </td><td>null()</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-set~2"></span>logical,</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>set</strong></td><td> =</td><td>.false.</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    </section>
+    <br>
+    
+    
+    
+    
+    
+    
+     
+    <section>
+    <h2>Type-Bound Procedures</h2>
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-free_surface"></span><h3>procedure, public :: <strong>free_surface</strong>  
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          <h3>interface
+          
+          </h3>
+  
+          
+          
+    
+    <h3>
+private module subroutine free_surface(this_surface)
+    
+    
+   
+   <a href='../proc/free_surface.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/surface.html'>surface</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this_surface</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_closest_point"></span><h3>procedure, public :: <strong>get_closest_point</strong>  
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          <h3>interface
+          
+          </h3>
+  
+          
+          
+    
+    <h3>
+private module function get_closest_point(this_surface, point)
+    
+    
+   
+   <a href='../proc/get_closest_point.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h3>
+    
+
+
+
+<p>Returns the point on a surface that is closest to the given point</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/surface.html'>surface</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this_surface</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(vector),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>point</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(vector)
+  </small></h4>
+  
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-nemo_sizeof~14"></span><h3>generic, public :: <strong>nemo_sizeof</strong>  => <a href='../type/surface.html#boundprocedure-nemo_surface_sizeof'>nemo_surface_sizeof</a> 
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+         
+            
+    
+    <h3>
+private interface <a href='../interface/nemo_surface_sizeof.html'>nemo_surface_sizeof</a>()
+    
+    
+   
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      <em>None</em>
+    
+    
+
+         
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-normal_"></span><h3>generic, public :: <strong>normal_</strong>  => <a href='../type/surface.html#boundprocedure-get_surface_normal'>get_surface_normal</a> 
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+         
+            
+    
+    <h3>
+private interface <a href='../interface/get_surface_normal.html'>get_surface_normal</a>()
+    
+    
+   
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      <em>None</em>
+    
+    
+
+         
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-r2_"></span><h3>generic, public :: <strong>r2_</strong>  => <a href='../type/surface.html#boundprocedure-get_surface_r2'>get_surface_r2</a> 
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+         
+            
+    
+    <h3>
+private interface <a href='../interface/get_surface_r2.html'>get_surface_r2</a>()
+    
+    
+   
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      <em>None</em>
+    
+    
+
+         
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-reform_vertex"></span><h3>procedure, public :: <strong>reform_vertex</strong>  
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          <h3>interface
+          
+          </h3>
+  
+          
+          
+    
+    <h3>
+private module subroutine reform_vertex(this_surface, vtx)
+    
+    
+   
+   <a href='../proc/reform_vertex.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h3>
+    
+
+
+
+<p>moves the given vertex onto the closest point on the surface</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/surface.html'>surface</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this_surface</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(vertex),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>vtx</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-translate_surface"></span><h3>procedure, public :: <strong>translate_surface</strong>  
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          <h3>interface
+          
+          </h3>
+  
+          
+          
+    
+    <h3>
+private module subroutine translate_surface(this_surface, offset)
+    
+    
+   
+   <a href='../proc/translate_surface.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h3>
+    
+
+
+
+<p>Move a surface by translating it in 3D space</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/surface.html'>surface</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this_surface</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(vector),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>offset</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-type_~4"></span><h3>generic, public :: <strong>type_</strong>  => <a href='../type/surface.html#boundprocedure-get_surface_type'>get_surface_type</a> 
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+         
+            
+    
+    <h3>
+private interface <a href='../interface/get_surface_type.html'>get_surface_type</a>()
+    
+    
+   
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      <em>None</em>
+    
+    
+
+         
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_surface_normal"></span><h3>procedure, private :: <strong>get_surface_normal</strong>  
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          <h3>interface
+          
+          </h3>
+  
+          
+          
+    
+    <h3>
+private module function get_surface_normal(this_surface, this_point)
+    
+    
+   
+   <a href='../proc/get_surface_normal.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h3>
+    
+
+
+
+<p>Returns the surface normal at an appropriately close point
+ We assume that the point is actually on the surface</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/surface.html'>surface</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this_surface</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(vector),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this_point</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(vector)
+  </small></h4>
+  
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_surface_r2"></span><h3>procedure, private :: <strong>get_surface_r2</strong>  
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          <h3>interface
+          
+          </h3>
+  
+          
+          
+    
+    <h3>
+private module function get_surface_r2(this_surface)
+    
+    
+   
+   <a href='../proc/get_surface_r2.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h3>
+    
+
+
+
+<p>Returns the goodness of fit, R2 value, from 0 to 1</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/surface.html'>surface</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this_surface</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>real(kind=psb_dpk_)
+  </small></h4>
+  
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_surface_type"></span><h3>procedure, private :: <strong>get_surface_type</strong>  
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          <h3>interface
+          
+          </h3>
+  
+          
+          
+    
+    <h3>
+private module function get_surface_type(this_surface)
+    
+    
+   
+   <a href='../proc/get_surface_type.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/surface.html'>surface</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>this_surface</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-nemo_surface_sizeof"></span><h3>procedure, private :: <strong>nemo_surface_sizeof</strong>  
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          <h3>interface
+          
+          </h3>
+  
+          
+          
+    
+    <h3>
+private elemental module function nemo_surface_sizeof(surf)
+    
+    
+   
+   <a href='../proc/nemo_surface_sizeof.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/surface.html'>surface</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>surf</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer(kind=nemo_int_long_)
+  </small></h4>
+  
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+    </section>
+    
+    
+    
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="highlight"><pre><span></span>    <span class="k">TYPE </span><span class="n">surface</span>
+        <span class="k">PRIVATE</span>
+
+        <span class="c">! Surface holds one of these three kinds of surface.</span>
+        <span class="c">! PLANE is-a SURFACE, A_CYLINDER is-a SURFACE, etc.</span>
+
+        <span class="k">TYPE</span><span class="p">(</span> <span class="n">plane</span> <span class="p">),</span>    <span class="k">POINTER</span>  <span class="kd">::</span> <span class="n">my_plane</span> <span class="o">=&gt;</span><span class="nb">null</span><span class="p">()</span>
+        <span class="k">TYPE</span><span class="p">(</span> <span class="n">cylinder</span> <span class="p">),</span> <span class="k">POINTER</span>  <span class="kd">::</span> <span class="n">my_cylinder</span> <span class="o">=&gt;</span> <span class="nb">NULL</span><span class="p">()</span>
+        <span class="c">!     type( sphere   ), pointer :: my_sphere =&gt; null()    ! not yet written</span>
+        <span class="kt">LOGICAL</span> <span class="kd">::</span> <span class="n">set</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>      <span class="c">! true if this surface has already been created</span>
+        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">itype</span> <span class="o">=</span> <span class="mi">0</span>          <span class="c">! indicates the type of surface</span>
+    <span class="k">CONTAINS</span>
+<span class="k">        PROCEDURE</span> <span class="kd">::</span> <span class="n">free_surface</span>                                  <span class="c">! Destructor</span>
+        <span class="k">PROCEDURE</span><span class="p">,</span> <span class="k">PRIVATE</span> <span class="kd">::</span> <span class="n">get_surface_type</span>                     <span class="c">! Returns Int. ID #</span>
+        <span class="k">GENERIC</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">type_</span> <span class="o">=&gt;</span> <span class="n">get_surface_type</span>
+        <span class="k">PROCEDURE</span><span class="p">,</span> <span class="k">PRIVATE</span> <span class="kd">::</span> <span class="n">get_surface_normal</span><span class="p">,</span> <span class="n">get_surface_r2</span>   <span class="c">! Getters</span>
+        <span class="k">GENERIC</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">normal_</span> <span class="o">=&gt;</span> <span class="n">get_surface_normal</span>
+        <span class="k">GENERIC</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">r2_</span> <span class="o">=&gt;</span> <span class="n">get_surface_r2</span>
+        <span class="k">PROCEDURE</span> <span class="kd">::</span> <span class="n">get_closest_point</span>                    <span class="c">! Getters, cont.</span>
+        <span class="k">PROCEDURE</span> <span class="kd">::</span> <span class="n">reform_vertex</span><span class="p">,</span> <span class="n">translate_surface</span>     <span class="c">! Setters.</span>
+        <span class="k">PROCEDURE</span><span class="p">,</span> <span class="k">PRIVATE</span> <span class="kd">::</span> <span class="n">nemo_surface_sizeof</span>
+        <span class="k">GENERIC</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">nemo_sizeof</span> <span class="o">=&gt;</span> <span class="n">nemo_surface_sizeof</span>
+    <span class="k">END TYPE </span><span class="n">surface</span>
+</pre></div>
+
+    </section>
+    
+    
+    </div>
+  </div>
+
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

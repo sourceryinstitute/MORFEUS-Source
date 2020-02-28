@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>material &ndash; Morfeus Framework </title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>material
+    <small>Derived Type</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title="<p> 2.2% of total for derived types.</p>Including implementation: 20 statements,  2.2% of total for derived types.">20 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/class_material.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/class_material.f90.html'>class_material.f90</a></li>
+    
+     <li><a href='../module/class_material.html'>class_material</a></li>
+    
+  
+     <li class="active">material</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../type/material.html#variable-dtemp">dtemp</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-ilaw">ilaw</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-lambda">lambda</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-mat_id">mat_id</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-mat_type">mat_type</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-mu">mu</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-name~2">name</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-rho~2">rho</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-sh">sh</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-state">state</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-tmax">tmax</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-tmin">tmin</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#boundprocs-0">Type-Bound Procedures</a></h3></div>
+  <div id="boundprocs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../type/material.html#boundprocedure-create_material">create_material</a>
+      
+      <a class="list-group-item" href="../type/material.html#boundprocedure-free_material">free_material</a>
+      
+      <a class="list-group-item" href="../type/material.html#boundprocedure-mat_id_">mat_id_</a>
+      
+      <a class="list-group-item" href="../type/material.html#boundprocedure-name_~2">name_</a>
+      
+      <a class="list-group-item" href="../type/material.html#boundprocedure-nemo_sizeof~26">nemo_sizeof</a>
+      
+      <a class="list-group-item" href="../type/material.html#boundprocedure-get_material_id">get_material_id</a>
+      
+      <a class="list-group-item" href="../type/material.html#boundprocedure-get_material_name">get_material_name</a>
+      
+      <a class="list-group-item" href="../type/material.html#boundprocedure-nemo_material_sizeof">nemo_material_sizeof</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/material.html#src">material</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+      <h2>type, public :: material</h2>
+    <p>Encapsulate material properties and equations of state</p>
+    <br>
+    
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Inherited by</h3>
+      </div>
+      <div class="panel-body">
+     <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: type~~material~~InheritedByGraph Pages: 1 -->
+<svg id="typematerialInheritedByGraph" width="381pt" height="72pt"
+ viewBox="0.00 0.00 381.12 71.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="type~~material~~InheritedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 67.5)">
+<title>type~~material~~InheritedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-67.5 377.12,-67.5 377.12,4 -4,4"/>
+<!-- type~material -->
+<g id="type~~material~~InheritedByGraph_node1" class="node">
+<title>type~material</title>
+<polygon fill="none" stroke="black" points="54,-63.26 0,-63.26 0,-41.24 54,-41.24 54,-63.26"/>
+<text text-anchor="middle" x="27" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50">material</text>
+</g>
+<!-- type~matptr -->
+<g id="type~~material~~InheritedByGraph_node2" class="node">
+<title>type~matptr</title>
+<g id="a_type~~material~~InheritedByGraph_node2"><a xlink:href=".././type/matptr.html" xlink:title="matptr">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="159.84,-63.26 105.84,-63.26 105.84,-41.24 159.84,-41.24 159.84,-63.26"/>
+<text text-anchor="middle" x="132.84" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">matptr</text>
+</a>
+</g>
+</g>
+<!-- type~matptr&#45;&gt;type~material -->
+<g id="type~~material~~InheritedByGraph_edge1" class="edge">
+<title>type~matptr&#45;&gt;type~material</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M105.63,-52.25C93.09,-52.25 77.87,-52.25 64.24,-52.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="64.19,-48.75 54.19,-52.25 64.19,-55.75 64.19,-48.75"/>
+<text text-anchor="middle" x="79.92" y="-54.15" font-family="Helvetica,sans-Serif" font-size="9.50">mat</text>
+</g>
+<!-- type~field -->
+<g id="type~~material~~InheritedByGraph_node3" class="node">
+<title>type~field</title>
+<g id="a_type~~material~~InheritedByGraph_node3"><a xlink:href=".././type/field.html" xlink:title="field">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="270.42,-63.26 216.42,-63.26 216.42,-41.24 270.42,-41.24 270.42,-63.26"/>
+<text text-anchor="middle" x="243.42" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">field</text>
+</a>
+</g>
+</g>
+<!-- type~field&#45;&gt;type~matptr -->
+<g id="type~~material~~InheritedByGraph_edge2" class="edge">
+<title>type~field&#45;&gt;type~matptr</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M216.41,-52.25C202.55,-52.25 185.27,-52.25 170.1,-52.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="170.01,-48.75 160.01,-52.25 170.01,-55.75 170.01,-48.75"/>
+<text text-anchor="middle" x="188.13" y="-54.15" font-family="Helvetica,sans-Serif" font-size="9.50">mats</text>
+</g>
+<!-- type~vector_field -->
+<g id="type~~material~~InheritedByGraph_node4" class="node">
+<title>type~vector_field</title>
+<g id="a_type~~material~~InheritedByGraph_node4"><a xlink:href=".././type/vector_field.html" xlink:title="vector_field">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="372.97,-63.26 307.57,-63.26 307.57,-41.24 372.97,-41.24 372.97,-63.26"/>
+<text text-anchor="middle" x="340.27" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_field</text>
+</a>
+</g>
+</g>
+<!-- type~vector_field&#45;&gt;type~field -->
+<g id="type~~material~~InheritedByGraph_edge3" class="edge">
+<title>type~vector_field&#45;&gt;type~field</title>
+<path fill="none" stroke="#ff0000" d="M307.46,-50.45C301.43,-50.62 295.2,-51.14 289.42,-52.25"/>
+</g>
+<!-- type~scalar_field -->
+<g id="type~~material~~InheritedByGraph_node5" class="node">
+<title>type~scalar_field</title>
+<g id="a_type~~material~~InheritedByGraph_node5"><a xlink:href=".././type/scalar_field.html" xlink:title="scalar_field">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="372.88,-22.26 307.66,-22.26 307.66,-0.24 372.88,-0.24 372.88,-22.26"/>
+<text text-anchor="middle" x="340.27" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">scalar_field</text>
+</a>
+</g>
+</g>
+<!-- type~scalar_field&#45;&gt;type~field -->
+<g id="type~~material~~InheritedByGraph_edge4" class="edge">
+<title>type~scalar_field&#45;&gt;type~field</title>
+<path fill="none" stroke="#ff0000" d="M320.84,-22.26C316.29,-25.28 311.54,-28.71 307.42,-32.25 298.36,-40.05 301.17,-49.99 289.42,-52.25"/>
+<path fill="none" stroke="#ff0000" d="M288.42,-52.25C285.93,-52.73 283.34,-53.08 280.72,-53.34"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="280.44,-49.85 270.64,-53.88 280.81,-56.84 280.44,-49.85"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="176pt" height="31pt"
+ viewBox="0.00 0.00 175.85 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 171.85,-26.5 171.85,4 -4,4"/>
+<!-- Type -->
+<g id="node1" class="node">
+<title>Type</title>
+<polygon fill="#5cb85c" stroke="#5cb85c" points="54,-22.26 0,-22.26 0,-0.24 54,-0.24 54,-22.26"/>
+<text text-anchor="middle" x="27" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="167.71,-22.26 72.29,-22.26 72.29,-0.24 167.71,-0.24 167.71,-22.26"/>
+<text text-anchor="middle" x="120" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a derived type to the parent type which it
+    extends. Dashed arrows point from a derived type to the other
+    types it contains as a components, with a label listing the name(s) of
+    said component(s). Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../type/material.html#variable-dtemp">dtemp</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-ilaw">ilaw</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-lambda">lambda</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-mat_id">mat_id</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-mat_type">mat_type</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-mu">mu</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-name~2">name</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-rho~2">rho</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-sh">sh</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-state">state</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-tmax">tmax</a>
+      
+      <a class="list-group-item" href="../type/material.html#variable-tmin">tmin</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#boundprocs-1">Type-Bound Procedures</a></h3></div>
+  <div id="boundprocs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../type/material.html#boundprocedure-create_material">create_material</a>
+      
+      <a class="list-group-item" href="../type/material.html#boundprocedure-free_material">free_material</a>
+      
+      <a class="list-group-item" href="../type/material.html#boundprocedure-mat_id_">mat_id_</a>
+      
+      <a class="list-group-item" href="../type/material.html#boundprocedure-name_~2">name_</a>
+      
+      <a class="list-group-item" href="../type/material.html#boundprocedure-nemo_sizeof~26">nemo_sizeof</a>
+      
+      <a class="list-group-item" href="../type/material.html#boundprocedure-get_material_id">get_material_id</a>
+      
+      <a class="list-group-item" href="../type/material.html#boundprocedure-get_material_name">get_material_name</a>
+      
+      <a class="list-group-item" href="../type/material.html#boundprocedure-nemo_material_sizeof">nemo_material_sizeof</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/material.html#src">material</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+    <section>
+    <h2>Components</h2>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dtemp"></span>real(kind=psb_dpk_),</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>dtemp</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-ilaw"></span>integer,</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>ilaw</strong>(4)</td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-lambda"></span>real(kind=psb_dpk_),</td>
+  
+  <td>private,</td>
+  <td>allocatable</td><td>::</td>
+  <td><strong>lambda</strong>(:)</td><td></td><td></td><td><p>elastic modulus</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-mat_id"></span>integer,</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>mat_id</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-mat_type"></span>character(len=name_len),</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>mat_type</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-mu"></span>real(kind=psb_dpk_),</td>
+  
+  <td>private,</td>
+  <td>allocatable</td><td>::</td>
+  <td><strong>mu</strong>(:)</td><td></td><td></td><td><p>viscosity</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-name~2"></span>character(len=name_len),</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>name</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-rho~2"></span>real(kind=psb_dpk_),</td>
+  
+  <td>private,</td>
+  <td>allocatable</td><td>::</td>
+  <td><strong>rho</strong>(:)</td><td></td><td></td><td><p>density</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-sh"></span>real(kind=psb_dpk_),</td>
+  
+  <td>private,</td>
+  <td>allocatable</td><td>::</td>
+  <td><strong>sh</strong>(:)</td><td></td><td></td><td><p>shear modulus</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-state"></span>character(len=1),</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>state</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-tmax"></span>real(kind=psb_dpk_),</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>tmax</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-tmin"></span>real(kind=psb_dpk_),</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>tmin</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    </section>
+    <br>
+    
+    
+    
+    
+    
+    
+     
+    <section>
+    <h2>Type-Bound Procedures</h2>
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-create_material"></span><h3>procedure, public :: <strong>create_material</strong>  
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          <h3>interface
+          
+          </h3>
+  
+          
+          
+    
+    <h3>
+private module subroutine create_material(mat, input_file, block_id)
+    
+    
+   
+   <a href='../proc/create_material.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h3>
+    
+
+
+
+<p>Global Constructor</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/material.html'>material</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mat</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>input_file</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>block_id</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-free_material"></span><h3>procedure, public :: <strong>free_material</strong>  
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          <h3>interface
+          
+          </h3>
+  
+          
+          
+    
+    <h3>
+private module subroutine free_material(mat)
+    
+    
+   
+   <a href='../proc/free_material.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/material.html'>material</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mat</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-mat_id_"></span><h3>generic, public :: <strong>mat_id_</strong>  => <a href='../type/material.html#boundprocedure-get_material_id'>get_material_id</a> 
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+         
+            
+    
+    <h3>
+private interface <a href='../interface/get_material_id.html'>get_material_id</a>()
+    
+    
+   
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      <em>None</em>
+    
+    
+
+         
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-name_~2"></span><h3>generic, public :: <strong>name_</strong>  => <a href='../type/material.html#boundprocedure-get_material_name'>get_material_name</a> 
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+         
+            
+    
+    <h3>
+private interface <a href='../interface/get_material_name.html'>get_material_name</a>()
+    
+    
+   
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      <em>None</em>
+    
+    
+
+         
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-nemo_sizeof~26"></span><h3>generic, public :: <strong>nemo_sizeof</strong>  => <a href='../type/material.html#boundprocedure-nemo_material_sizeof'>nemo_material_sizeof</a> 
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+         
+            
+    
+    <h3>
+private interface <a href='../interface/nemo_material_sizeof.html'>nemo_material_sizeof</a>()
+    
+    
+   
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      <em>None</em>
+    
+    
+
+         
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_material_id"></span><h3>procedure, private :: <strong>get_material_id</strong>  
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          <h3>interface
+          
+          </h3>
+  
+          
+          
+    
+    <h3>
+private module function get_material_id(mat)
+    
+    
+   
+   <a href='../proc/get_material_id.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h3>
+    
+
+
+
+<p>Getter</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/material.html'>material</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mat</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_material_name"></span><h3>procedure, private :: <strong>get_material_name</strong>  
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          <h3>interface
+          
+          </h3>
+  
+          
+          
+    
+    <h3>
+private module function get_material_name(mat)
+    
+    
+   
+   <a href='../proc/get_material_name.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h3>
+    
+
+
+
+<p>Getter</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/material.html'>material</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mat</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>character(len=name_len)
+  </small></h4>
+  
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-nemo_material_sizeof"></span><h3>procedure, private :: <strong>nemo_material_sizeof</strong>  
+    
+  </h3></div>
+  
+  <ul class="list-group">
+    
+      <li class="list-group-item">
+      
+        
+          <h3>interface
+          
+          </h3>
+  
+          
+          
+    
+    <h3>
+private module function nemo_material_sizeof(mat)
+    
+    
+   
+   <a href='../proc/nemo_material_sizeof.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    
+</h3>
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>class(<a href='../type/material.html'>material</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mat</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer(kind=nemo_int_long_)
+  </small></h4>
+  
+    
+
+        
+      
+      </li>
+    
+  </ul>
+</div>
+
+    
+    </section>
+    
+    
+    
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="highlight"><pre><span></span>    <span class="k">TYPE </span><span class="n">material</span>
+        <span class="c">!! Encapsulate material properties and equations of state</span>
+        <span class="k">PRIVATE</span>
+        <span class="c">!</span>
+        <span class="c">! From input file ...</span>
+        <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">name_len</span><span class="p">)</span> <span class="kd">::</span> <span class="n">name</span>
+        <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">name_len</span><span class="p">)</span> <span class="kd">::</span> <span class="n">mat_type</span>
+        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">ilaw</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">mat_id</span>
+        <span class="c">!</span>
+        <span class="c">! ... and from DB</span>
+        <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="kd">::</span> <span class="n">state</span>
+        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dtemp</span><span class="p">,</span> <span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span>
+        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">rho</span><span class="p">(:)</span>    <span class="c">!! density</span>
+        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">mu</span><span class="p">(:)</span>     <span class="c">!! viscosity</span>
+        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">lambda</span><span class="p">(:)</span> <span class="c">!! elastic modulus</span>
+        <span class="kt">REAL</span><span class="p">(</span><span class="n">psb_dpk_</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">sh</span><span class="p">(:)</span>     <span class="c">!! shear modulus</span>
+    <span class="k">CONTAINS</span>
+<span class="k">        PROCEDURE</span> <span class="kd">::</span> <span class="n">create_material</span><span class="p">,</span> <span class="n">free_material</span> <span class="c">! Constructor/Destructor</span>
+        <span class="k">PROCEDURE</span><span class="p">,</span> <span class="k">PRIVATE</span> <span class="kd">::</span> <span class="n">get_material_name</span><span class="p">,</span> <span class="n">get_material_id</span>  <span class="c">! Getter</span>
+        <span class="k">GENERIC</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">name_</span> <span class="o">=&gt;</span> <span class="n">get_material_name</span>
+        <span class="k">GENERIC</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">mat_id_</span> <span class="o">=&gt;</span> <span class="n">get_material_id</span>
+        <span class="k">PROCEDURE</span><span class="p">,</span> <span class="k">PRIVATE</span> <span class="kd">::</span> <span class="n">nemo_material_sizeof</span>
+        <span class="k">GENERIC</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">nemo_sizeof</span> <span class="o">=&gt;</span> <span class="n">nemo_material_sizeof</span>
+    <span class="k">END TYPE </span><span class="n">material</span>
+</pre></div>
+
+    </section>
+    
+    
+    </div>
+  </div>
+
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

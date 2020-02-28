@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>Documenting New and Modified Code &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  <div class="row">
+    <h1>Documenting New and Modified Code</h1>
+    <div class="row">
+    <div class="col-lg-12">
+    <div class="well well-sm" style="min-height: 40px;">
+      <ul class="list-inline" style="margin-bottom:0px; display:inline">
+         
+         
+<!--
+        
+-->
+      </ul>
+        <ol class="breadcrumb in-well">
+      
+         <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+         <li class="active">Documenting New and Modified Code</li>
+      </ol>
+    </div>
+    </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-9 col-md-push-3" id='text'>
+      <p><details><summary><b>Table of Contents</b></summary></p>
+<div class="toc">
+<ul>
+<li><a href="#getting-started">Getting started</a></li>
+<li><a href="#gotchas">Gotchas</a><ul>
+<li><a href="#meta-data">Meta Data</a></li>
+<li><a href="#comments-in-body-text-and-meta-data">Comments (in body text and meta data)</a></li>
+<li><a href="#ford-errors-and-bugs">FORD errors and bugs</a></li>
+<li><a href="#slow-output-generation">Slow output generation</a></li>
+</ul>
+</li>
+<li><a href="#example-code">Example code</a></li>
+</ul>
+</div>
+<p></details></p>
+<h2 id="getting-started">Getting started</h2>
+<p><a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a> has is <a href="https://github.com/Fortran-FOSS-Programmers/ford/wiki">quite well documented</a>. Documentation is written in
+markdown syntax using the <a href="https://python-markdown.github.io/#features">python markdown</a> parser and
+generator. There are some important and often subtle differences from
+Github flavored markdown (<a href="https://github.github.com/gfm/">GFM</a>). In addition, other markdown source
+can be <a href="https://github.com/Fortran-FOSS-Programmers/ford/wiki/Writing-Documentation#include-capabilities">included</a> in any FORD markdown with the custom FORD syntax:</p>
+<div class="codehilite"><pre><span></span>    {\! ./include_file.md \!}
+</pre></div>
+
+
+<p></p><div class="alert alert-info" role="alert"><h4>Note</h4><p>The syntax above should have the backslash escape characters removed;
+<a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a> will try to look for <code>./include_file.md</code> and includes an empty string
+in this documentation if I do not add the escape character.</p></div>
+<p>The file gets injected before the document is
+processed. (This allows code to be included this way as well as
+<a href="https://github.com/Fortran-FOSS-Programmers/ford/wiki/Documentation-Meta-Data">meta data</a>.)</p>
+<p><a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a> parses and understands modern Fortran and was written in a way
+to try to make <a href="https://github.com/Fortran-FOSS-Programmers/ford/wiki/Writing-Documentation">writing documentation</a> easy. The project options are
+mostly set using the <a href="https://github.com/Fortran-FOSS-Programmers/ford/wiki/Project-File-Options">project file</a>, although some options may be
+overridden on the <a href="https://github.com/Fortran-FOSS-Programmers/ford/wiki/Command-Line-Options">command line</a>. The usual <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a> documentation
+comment string is <code>!!</code> with documentation following immediately after
+the entity being documented. This documentation sentinel can be
+changed in the <a href="https://github.com/Fortran-FOSS-Programmers/ford/wiki/Project-File-Options">project file</a>.</p>
+<h2 id="gotchas">Gotchas</h2>
+<h3 id="meta-data">Meta Data</h3>
+<p>The trickiest thing to deal with is probably <a href="https://github.com/Fortran-FOSS-Programmers/ford/wiki/Documentation-Meta-Data">meta data</a>. Meta data
+must <em>NOT</em> have an proceeding FORD documentation strings for a given
+entity even if they are empty. For example:</p>
+<div class="codehilite"><pre><span></span><span class="k">SUBROUTINE </span><span class="n">bad_sub1</span><span class="p">()</span>
+<span class="c">!!</span>
+<span class="c">!! author: me (my company)</span>
+<span class="c">!! date: 1/1/3091</span>
+<span class="c">!! regular markdown</span>
+<span class="p">...</span>
+<span class="k">END SUBROUTINE</span>
+
+<span class="k">SUBROUTINE </span><span class="n">bad_sub2</span><span class="p">()</span>
+<span class="c">!! This is my sub</span>
+<span class="c">!! author: J. Doe</span>
+<span class="c">!! date: May 1908</span>
+<span class="c">!!</span>
+<span class="c">!! more normal markdown</span>
+<span class="p">...</span>
+<span class="k">END SUBROUTINE</span>
+
+<span class="k">SUBROUTINE </span><span class="n">good1</span><span class="p">()</span>
+<span class="c">!! Author: me (my organization)</span>
+<span class="c">!! Date: June 2018</span>
+<span class="c">!!</span>
+<span class="c">!! good1() frobnicate the widget &lt;!--This becomes the brief/summary--&gt;</span>
+<span class="c">!!</span>
+<span class="c">!! More main body descriptive text.</span>
+<span class="p">...</span>
+<span class="k">END SUBROUTINE</span>
+
+<span class="k">SUBROUTINE </span><span class="n">good2</span><span class="p">()</span>
+<span class="c">!! summary: good2 provides not the widget you want, but the widget you need</span>
+<span class="c">!!     Meta data may be continued on the next IFF there are 4 spaces or more of indentation</span>
+<span class="c">!!     The summary: meta data is basically equivalent to Doxygen&#39;s !&gt;@brief but can just be specified</span>
+<span class="c">!!     as normal FORD markdown after the meta data, as shown in [good1].</span>
+<span class="c">!! author: me</span>
+<span class="c">!!</span>
+<span class="c">!! more info, this won&#39;t be included in the summary/brief text</span>
+<span class="p">...</span>
+<span class="k">END SUBROUTINE</span>
+</pre></div>
+
+
+<p>As can be seen above, the summary (<code>!&gt;@brief</code> in Doxygen parlance)
+text may be specified either using the <code>!! summary: ...</code> meta data
+entry <strong>OR</strong> as the first paragraph of the regular FORD markdown
+documentation text.</p>
+<h3 id="comments-in-body-text-and-meta-data">Comments (in body text and meta data)</h3>
+<p>The second trickiest thing might be comments that you do not wish to
+render with the documentation (but will be visible if someone reads
+the HTML source or the original code source file). Comments CANNOT BE
+INCLUDED IN THE META DATA SECTION. In the normal markdown section HTML
+comments, e.g., <code>&lt;!-- your comment goes here --&gt;</code> or the dummy link
+declaration comments:</p>
+<div class="codehilite"><pre><span></span>!! [Comment text can go here, linking to an empty anchor]:#
+</pre></div>
+
+
+<!-- here is an HTML style comment that is only visible when editing this wiki page's source -->
+
+<p>Finally, a minor annoyance is that there is no convenient way to
+document many variables declared on the same line. The best solution
+is usually to split their declarations into multiple individual
+declarations.</p>
+<h3 id="ford-errors-and-bugs">FORD errors and bugs</h3>
+<p><a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a> is not always maintained as actively as one would hope, but
+@cmacmackin has expressed interest in passing the torch, possibly to
+the @Fortran-FOSS-Programmers group. As such, when you encounter a bug
+it is important to try to reproduce it easily and provide a Python
+backtrace. To get python backtraces from <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a> the <code>--debug</code> command
+line flag may be passed when generating documentation.</p>
+<h3 id="slow-output-generation">Slow output generation</h3>
+<p>A few steps may be taken to speed up running <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>.</p>
+<ul>
+<li>Install the <code>lxml</code> python package; this helps speed up generating search data</li>
+<li>Skip generating search data:</li>
+<li>Pass <code>-DALWAYS_SKIP_SEARCH_GEN=YES</code> to CMake when configuring MORFEUS</li>
+<li>Pass <code>--no-search</code> to <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a> when running manually</li>
+<li>Edit the project file meta data field for graph generation: <code>graph: true</code> --&gt; <code>graph: false</code></li>
+<li>Don't run <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a> at all!</li>
+<li>Pass <code>-DSKIP_DOC_GEN=YES</code> to CMake during configuration</li>
+<li>Don't have <code>ford</code> on your <code>PATH</code>. (Don't install it, or move it, or edit your <code>PATH</code>.)</li>
+</ul>
+<h2 id="example-code">Example code</h2>
+<p>For an example of the suggested FORD documentation style, please see
+the <a href="./style-guide.html">style guide</a> page in this wiki.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn-polymorphism">
+<p>Akin, E. (2003) <a href="https://doi.org/10.1017/CBO9780511530111">Object-oriented programming via Fortran 90/95</a>. Cambridge University Press.&#160;<a class="footnote-backref" href="#fnref-polymorphism" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+    </div>
+    
+    <div class="col-md-3 col-md-pull-9">
+      <hr class="visible-xs visible-sm">
+        <div class="well toc">
+          <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="title"><a href='../page/index.html'>Developer Documentation</a></li>
+          </ul>
+          <hr>
+          <ul class="nav nav-stacked nav-pills">
+            
+            <li role="presentation">
+            <a href='../page/./FD-API.html'>High-level FD API documentation</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../page/./FV-API.html'>High-level FV API documentation</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../page/examples/index.html'>Example Usage</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../page/./getting-started.html'>Getting Started</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../page/./style-guide.html'>Style Guide</a>
+            
+            </li>
+            
+            <li role="presentation" class="disabled">
+            <a href='../page/./using-ford.html'>Documenting New and Modified Code</a>
+            
+            </li>
+            
+          </ul>
+        </div>
+    </div>
+    
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>

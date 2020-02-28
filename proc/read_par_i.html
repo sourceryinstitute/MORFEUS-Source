@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="A toolkit for constructing parallel PDE solvers using finite volume and finite difference methods.">
+    
+    <meta name="author" content="Guide Star Engineering, LLC" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>read_par_i &ndash; Morfeus Framework</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+    
+    
+    <link href="../css/user.css" rel="stylesheet">
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Morfeus Framework </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Developer Documentation</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>read_par_i
+      <small>Procedure</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.0% of total for procedures.">18 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/read_par_i.f90"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/read_par_i.f90.html'>read_par_i.f90</a></li>
+    
+     <li><a href='../module/read_par_i_implementation.html'>read_par_i_implementation</a></li>
+    
+  
+     <li class="active">read_par_i</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<em>None</em>
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>
+module procedure read_par_i <small>module procedure read_par_i()</small>
+    
+    
+   
+</h2>
+    
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      
+      <li class="list-group-item">
+  <ul class="list-inline">
+    
+    <li><a href='../module/class_psblas.html'>class_psblas</a></li>
+    
+    <li><a href='../module/tools_input.html'>tools_input</a></li>
+    
+  </ul>
+      </li>
+      
+      
+      
+      <li class="list-group-item">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~read_par_i~~UsesGraph Pages: 1 -->
+<svg id="procread_par_iUsesGraph" width="641pt" height="115pt"
+ viewBox="0.00 0.00 641.00 114.70" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~read_par_i~~UsesGraph" class="graph" transform="scale(1.16 1.16) rotate(0) translate(4 128.5)">
+<title>proc~~read_par_i~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-128.5 736.5,-128.5 736.5,4 -4,4"/>
+<!-- proc~read_par_i -->
+<g id="proc~~read_par_i~~UsesGraph_node1" class="node">
+<title>proc~read_par_i</title>
+<polygon fill="none" stroke="black" points="732.61,-82.26 670.2,-82.26 670.2,-60.24 732.61,-60.24 732.61,-82.26"/>
+<text text-anchor="middle" x="701.4" y="-68.1" font-family="Helvetica,sans-Serif" font-size="10.50">read_par_i</text>
+</g>
+<!-- module~class_psblas -->
+<g id="proc~~read_par_i~~UsesGraph_node2" class="node">
+<title>module~class_psblas</title>
+<g id="a_proc~~read_par_i~~UsesGraph_node2"><a xlink:href=".././module/class_psblas.html" xlink:title="class_psblas">
+<polygon fill="#337ab7" stroke="#337ab7" points="428.03,-62.26 355.8,-62.26 355.8,-40.24 428.03,-40.24 428.03,-62.26"/>
+<text text-anchor="middle" x="391.92" y="-48.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_psblas</text>
+</a>
+</g>
+</g>
+<!-- proc~read_par_i&#45;&gt;module~class_psblas -->
+<g id="proc~~read_par_i~~UsesGraph_edge1" class="edge">
+<title>proc~read_par_i&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M669.99,-77.79C630.87,-85.4 560.8,-96.32 500.74,-91.25"/>
+</g>
+<!-- module~tools_input -->
+<g id="proc~~read_par_i~~UsesGraph_node3" class="node">
+<title>module~tools_input</title>
+<g id="a_proc~~read_par_i~~UsesGraph_node3"><a xlink:href=".././module/tools_input.html" xlink:title="tools_input">
+<polygon fill="#337ab7" stroke="#337ab7" points="634.2,-63.26 571.62,-63.26 571.62,-41.24 634.2,-41.24 634.2,-63.26"/>
+<text text-anchor="middle" x="602.91" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_input</text>
+</a>
+</g>
+</g>
+<!-- proc~read_par_i&#45;&gt;module~tools_input -->
+<g id="proc~~read_par_i~~UsesGraph_edge2" class="edge">
+<title>proc~read_par_i&#45;&gt;module~tools_input</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M670.14,-65.29C661.95,-63.68 652.96,-61.91 644.32,-60.21"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="644.89,-56.75 634.4,-58.25 643.53,-63.62 644.89,-56.75"/>
+</g>
+<!-- module~class_stopwatch -->
+<g id="proc~~read_par_i~~UsesGraph_node4" class="node">
+<title>module~class_stopwatch</title>
+<g id="a_proc~~read_par_i~~UsesGraph_node4"><a xlink:href=".././module/class_stopwatch.html" xlink:title="class_stopwatch">
+<polygon fill="#337ab7" stroke="#337ab7" points="319.88,-43.26 230.8,-43.26 230.8,-21.24 319.88,-21.24 319.88,-43.26"/>
+<text text-anchor="middle" x="275.34" y="-29.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_stopwatch</text>
+</a>
+</g>
+</g>
+<!-- module~class_psblas&#45;&gt;module~class_stopwatch -->
+<g id="proc~~read_par_i~~UsesGraph_edge3" class="edge">
+<title>module~class_psblas&#45;&gt;module~class_stopwatch</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M355.61,-45.39C347.57,-44.06 338.86,-42.62 330.25,-41.19"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="330.67,-37.71 320.23,-39.53 329.52,-44.62 330.67,-37.71"/>
+</g>
+<!-- module~tools_psblas -->
+<g id="proc~~read_par_i~~UsesGraph_node5" class="node">
+<title>module~tools_psblas</title>
+<g id="a_proc~~read_par_i~~UsesGraph_node5"><a xlink:href=".././module/tools_psblas.html" xlink:title="tools_psblas">
+<polygon fill="#337ab7" stroke="#337ab7" points="195.01,-82.26 124.27,-82.26 124.27,-60.24 195.01,-60.24 195.01,-82.26"/>
+<text text-anchor="middle" x="159.64" y="-68.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tools_psblas</text>
+</a>
+</g>
+</g>
+<!-- module~class_psblas&#45;&gt;module~tools_psblas -->
+<g id="proc~~read_par_i~~UsesGraph_edge4" class="edge">
+<title>module~class_psblas&#45;&gt;module~tools_psblas</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M355.69,-54.31C315.33,-57.81 249.13,-63.56 205.21,-67.38"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="204.77,-63.9 195.11,-68.26 205.37,-70.88 204.77,-63.9"/>
+</g>
+<!-- module~tools_input&#45;&gt;module~class_psblas -->
+<g id="proc~~read_par_i~~UsesGraph_edge5" class="edge">
+<title>module~tools_input&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M498.74,-91.25C471.37,-88.94 442.32,-77.22 421.6,-67.05"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="422.92,-63.8 412.42,-62.39 419.75,-70.04 422.92,-63.8"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M586.12,-63.41C566.78,-75.86 532.63,-93.94 500.74,-91.25"/>
+</g>
+<!-- json_module -->
+<g id="proc~~read_par_i~~UsesGraph_node6" class="node">
+<title>json_module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="535.29,-63.26 464.2,-63.26 464.2,-41.24 535.29,-41.24 535.29,-63.26"/>
+<text text-anchor="middle" x="499.74" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">json_module</text>
+</g>
+<!-- module~tools_input&#45;&gt;json_module -->
+<g id="proc~~read_par_i~~UsesGraph_edge7" class="edge">
+<title>module~tools_input&#45;&gt;json_module</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M571.56,-52.25C563.36,-52.25 554.31,-52.25 545.5,-52.25"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="545.33,-48.75 535.33,-52.25 545.33,-55.75 545.33,-48.75"/>
+</g>
+<!-- module~class_vector -->
+<g id="proc~~read_par_i~~UsesGraph_node7" class="node">
+<title>module~class_vector</title>
+<g id="a_proc~~read_par_i~~UsesGraph_node7"><a xlink:href=".././module/class_vector.html" xlink:title="class_vector">
+<polygon fill="#337ab7" stroke="#337ab7" points="535.1,-22.26 464.39,-22.26 464.39,-0.24 535.1,-0.24 535.1,-22.26"/>
+<text text-anchor="middle" x="499.74" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">class_vector</text>
+</a>
+</g>
+</g>
+<!-- module~tools_input&#45;&gt;module~class_vector -->
+<g id="proc~~read_par_i~~UsesGraph_edge6" class="edge">
+<title>module~tools_input&#45;&gt;module~class_vector</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M574.53,-41.15C563.17,-36.55 549.82,-31.14 537.62,-26.2"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="538.72,-22.87 528.14,-22.35 536.1,-29.35 538.72,-22.87"/>
+</g>
+<!-- module~class_stopwatch&#45;&gt;module~tools_psblas -->
+<g id="proc~~read_par_i~~UsesGraph_edge8" class="edge">
+<title>module~class_stopwatch&#45;&gt;module~tools_psblas</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M242.06,-43.32C229.82,-47.52 215.7,-52.37 202.68,-56.83"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="201.32,-53.6 193,-60.15 203.59,-60.22 201.32,-53.6"/>
+</g>
+<!-- psb_base_mod -->
+<g id="proc~~read_par_i~~UsesGraph_node9" class="node">
+<title>psb_base_mod</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="86.03,-42.26 2.42,-42.26 2.42,-20.24 86.03,-20.24 86.03,-42.26"/>
+<text text-anchor="middle" x="44.23" y="-28.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_base_mod</text>
+</g>
+<!-- module~class_stopwatch&#45;&gt;psb_base_mod -->
+<g id="proc~~read_par_i~~UsesGraph_edge9" class="edge">
+<title>module~class_stopwatch&#45;&gt;psb_base_mod</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M230.71,-32.06C192.49,-31.89 136.9,-31.65 96.56,-31.47"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="96.4,-27.97 86.39,-31.43 96.37,-34.97 96.4,-27.97"/>
+</g>
+<!-- psb_prec_mod -->
+<g id="proc~~read_par_i~~UsesGraph_node8" class="node">
+<title>psb_prec_mod</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="85.19,-124.26 3.27,-124.26 3.27,-102.24 85.19,-102.24 85.19,-124.26"/>
+<text text-anchor="middle" x="44.23" y="-110.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_prec_mod</text>
+</g>
+<!-- module~tools_psblas&#45;&gt;psb_prec_mod -->
+<g id="proc~~read_par_i~~UsesGraph_edge10" class="edge">
+<title>module~tools_psblas&#45;&gt;psb_prec_mod</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M128.84,-82.29C115.4,-87.26 99.34,-93.21 84.9,-98.56"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="83.38,-95.39 75.22,-102.14 85.81,-101.95 83.38,-95.39"/>
+</g>
+<!-- module~tools_psblas&#45;&gt;psb_base_mod -->
+<g id="proc~~read_par_i~~UsesGraph_edge11" class="edge">
+<title>module~tools_psblas&#45;&gt;psb_base_mod</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M127.35,-60.21C114.69,-55.75 99.89,-50.53 86.38,-45.76"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="87.4,-42.41 76.81,-42.39 85.08,-49.02 87.4,-42.41"/>
+</g>
+<!-- psb_krylov_mod -->
+<g id="proc~~read_par_i~~UsesGraph_node10" class="node">
+<title>psb_krylov_mod</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="88.68,-83.26 -0.23,-83.26 -0.23,-61.24 88.68,-61.24 88.68,-83.26"/>
+<text text-anchor="middle" x="44.23" y="-69.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_krylov_mod</text>
+</g>
+<!-- module~tools_psblas&#45;&gt;psb_krylov_mod -->
+<g id="proc~~read_par_i~~UsesGraph_edge12" class="edge">
+<title>module~tools_psblas&#45;&gt;psb_krylov_mod</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M124.3,-71.55C116.24,-71.62 107.47,-71.7 98.79,-71.78"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="98.66,-68.28 88.69,-71.87 98.72,-75.28 98.66,-68.28"/>
+</g>
+<!-- module~class_vector&#45;&gt;module~class_psblas -->
+<g id="proc~~read_par_i~~UsesGraph_edge13" class="edge">
+<title>module~class_vector&#45;&gt;module~class_psblas</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M469.55,-22.29C457.96,-26.67 444.46,-31.77 432.05,-36.46"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="430.5,-33.3 422.39,-40.11 432.98,-39.85 430.5,-33.3"/>
+</g>
+</g>
+</svg>
+</div><script>var panprocread_par_iUsesGraph = svgPanZoom('#procread_par_iUsesGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="484pt" height="31pt"
+ viewBox="0.00 0.00 483.85 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 479.85,-26.5 479.85,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-22.26 0,-22.26 0,-0.24 54,-0.24 54,-22.26"/>
+<text text-anchor="middle" x="27" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="137.62,-22.26 72.38,-22.26 72.38,-0.24 137.62,-0.24 137.62,-22.26"/>
+<text text-anchor="middle" x="105" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="218.29,-22.26 155.71,-22.26 155.71,-0.24 218.29,-0.24 218.29,-22.26"/>
+<text text-anchor="middle" x="187" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="290,-22.26 236,-22.26 236,-0.24 290,-0.24 290,-22.26"/>
+<text text-anchor="middle" x="263" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="362,-22.26 308,-22.26 308,-0.24 362,-0.24 362,-22.26"/>
+<text text-anchor="middle" x="335" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="475.71,-22.26 380.29,-22.26 380.29,-0.24 475.71,-0.24 475.71,-22.26"/>
+<text text-anchor="middle" x="428" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a submodule to the (sub)module which it is
+    descended from. Dashed arrows point from a module or program unit to 
+    modules which it uses. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </li>
+      
+      </ul>
+    </div>
+    
+
+
+    
+
+    <h3>Arguments</h3>
+    
+    <em>None</em>
+    <br>
+    
+    
+    
+    <br>
+    
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Calls</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~read_par_i~~CallsGraph Pages: 1 -->
+<svg id="procread_par_iCallsGraph" width="589pt" height="236pt"
+ viewBox="0.00 0.00 589.23 235.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~read_par_i~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 231.5)">
+<title>proc~~read_par_i~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-231.5 585.23,-231.5 585.23,4 -4,4"/>
+<!-- proc~read_par_i -->
+<g id="proc~~read_par_i~~CallsGraph_node1" class="node">
+<title>proc~read_par_i</title>
+<polygon fill="none" stroke="black" points="62.31,-124.26 -0.1,-124.26 -0.1,-102.24 62.31,-102.24 62.31,-124.26"/>
+<text text-anchor="middle" x="31.1" y="-110.1" font-family="Helvetica,sans-Serif" font-size="10.50">read_par_i</text>
+</g>
+<!-- interface~icontxt_ -->
+<g id="proc~~read_par_i~~CallsGraph_node2" class="node">
+<title>interface~icontxt_</title>
+<g id="a_proc~~read_par_i~~CallsGraph_node2"><a xlink:href=".././interface/icontxt_.html" xlink:title="icontxt_">
+<polygon fill="#a7506f" stroke="#a7506f" points="159.22,-227.26 105.22,-227.26 105.22,-205.24 159.22,-205.24 159.22,-227.26"/>
+<text text-anchor="middle" x="132.22" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">icontxt_</text>
+</a>
+</g>
+</g>
+<!-- proc~read_par_i&#45;&gt;interface~icontxt_ -->
+<g id="proc~~read_par_i~~CallsGraph_edge1" class="edge">
+<title>proc~read_par_i&#45;&gt;interface~icontxt_</title>
+<path fill="none" stroke="#ff0000" d="M39.26,-124.28C50.45,-140.98 73.39,-173.07 98.2,-195.25 99.68,-196.57 101.26,-197.87 102.88,-199.13"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="101.07,-202.13 111.26,-205.03 105.11,-196.41 101.07,-202.13"/>
+</g>
+<!-- psb_bcast -->
+<g id="proc~~read_par_i~~CallsGraph_node3" class="node">
+<title>psb_bcast</title>
+<polygon fill="#777777" stroke="#777777" points="162.09,-186.26 102.36,-186.26 102.36,-164.24 162.09,-164.24 162.09,-186.26"/>
+<text text-anchor="middle" x="132.22" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_bcast</text>
+</g>
+<!-- proc~read_par_i&#45;&gt;psb_bcast -->
+<g id="proc~~read_par_i~~CallsGraph_edge2" class="edge">
+<title>proc~read_par_i&#45;&gt;psb_bcast</title>
+<path fill="none" stroke="#ff0000" d="M49.82,-124.33C65.09,-133.89 87.35,-147.81 104.74,-158.68"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="102.99,-161.72 113.32,-164.05 106.7,-155.78 102.99,-161.72"/>
+</g>
+<!-- interface~mypnum_ -->
+<g id="proc~~read_par_i~~CallsGraph_node4" class="node">
+<title>interface~mypnum_</title>
+<g id="a_proc~~read_par_i~~CallsGraph_node4"><a xlink:href=".././interface/mypnum_.html" xlink:title="mypnum_">
+<polygon fill="#a7506f" stroke="#a7506f" points="161.32,-145.26 103.12,-145.26 103.12,-123.24 161.32,-123.24 161.32,-145.26"/>
+<text text-anchor="middle" x="132.22" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mypnum_</text>
+</a>
+</g>
+</g>
+<!-- proc~read_par_i&#45;&gt;interface~mypnum_ -->
+<g id="proc~~read_par_i~~CallsGraph_edge3" class="edge">
+<title>proc~read_par_i&#45;&gt;interface~mypnum_</title>
+<path fill="none" stroke="#ff0000" d="M62.38,-119.66C72.11,-121.73 83.03,-124.04 93.24,-126.2"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="92.65,-129.66 103.16,-128.3 94.1,-122.81 92.65,-129.66"/>
+</g>
+<!-- interface~find_section -->
+<g id="proc~~read_par_i~~CallsGraph_node5" class="node">
+<title>interface~find_section</title>
+<g id="a_proc~~read_par_i~~CallsGraph_node5"><a xlink:href=".././interface/find_section.html" xlink:title="find_section">
+<polygon fill="#a7506f" stroke="#a7506f" points="166.26,-104.26 98.18,-104.26 98.18,-82.24 166.26,-82.24 166.26,-104.26"/>
+<text text-anchor="middle" x="132.22" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">find_section</text>
+</a>
+</g>
+</g>
+<!-- proc~read_par_i&#45;&gt;interface~find_section -->
+<g id="proc~~read_par_i~~CallsGraph_edge4" class="edge">
+<title>proc~read_par_i&#45;&gt;interface~find_section</title>
+<path fill="none" stroke="#ff0000" d="M62.38,-107.14C70.48,-105.51 79.4,-103.71 88.05,-101.96"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="88.91,-105.36 98.02,-99.95 87.53,-98.5 88.91,-105.36"/>
+</g>
+<!-- interface~open_file -->
+<g id="proc~~read_par_i~~CallsGraph_node6" class="node">
+<title>interface~open_file</title>
+<g id="a_proc~~read_par_i~~CallsGraph_node6"><a xlink:href=".././interface/open_file.html" xlink:title="open_file">
+<polygon fill="#a7506f" stroke="#a7506f" points="159.34,-63.26 105.1,-63.26 105.1,-41.24 159.34,-41.24 159.34,-63.26"/>
+<text text-anchor="middle" x="132.22" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">open_file</text>
+</a>
+</g>
+</g>
+<!-- proc~read_par_i&#45;&gt;interface~open_file -->
+<g id="proc~~read_par_i~~CallsGraph_edge5" class="edge">
+<title>proc~read_par_i&#45;&gt;interface~open_file</title>
+<path fill="none" stroke="#ff0000" d="M50.28,-102.06C65.37,-92.78 87.06,-79.43 104.18,-68.89"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="106.47,-71.59 113.16,-63.37 102.81,-65.63 106.47,-71.59"/>
+</g>
+<!-- interface~get_par -->
+<g id="proc~~read_par_i~~CallsGraph_node7" class="node">
+<title>interface~get_par</title>
+<g id="a_proc~~read_par_i~~CallsGraph_node7"><a xlink:href=".././interface/get_par.html" xlink:title="get_par">
+<polygon fill="#a7506f" stroke="#a7506f" points="159.22,-22.26 105.22,-22.26 105.22,-0.24 159.22,-0.24 159.22,-22.26"/>
+<text text-anchor="middle" x="132.22" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_par</text>
+</a>
+</g>
+</g>
+<!-- proc~read_par_i&#45;&gt;interface~get_par -->
+<g id="proc~~read_par_i~~CallsGraph_edge6" class="edge">
+<title>proc~read_par_i&#45;&gt;interface~get_par</title>
+<path fill="none" stroke="#ff0000" d="M39.47,-102.09C50.77,-85.53 73.64,-54.07 98.2,-32.25 99.73,-30.9 101.35,-29.57 103.02,-28.29"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="105.44,-30.87 111.62,-22.26 101.42,-25.13 105.44,-30.87"/>
+</g>
+<!-- proc~icontxt_ -->
+<g id="proc~~read_par_i~~CallsGraph_node10" class="node">
+<title>proc~icontxt_</title>
+<g id="a_proc~~read_par_i~~CallsGraph_node10"><a xlink:href=".././proc/icontxt_.html" xlink:title="icontxt_">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="263.26,-227.26 209.26,-227.26 209.26,-205.24 263.26,-205.24 263.26,-227.26"/>
+<text text-anchor="middle" x="236.26" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">icontxt_</text>
+</a>
+</g>
+</g>
+<!-- interface~icontxt_&#45;&gt;proc~icontxt_ -->
+<g id="proc~~read_par_i~~CallsGraph_edge7" class="edge">
+<title>interface~icontxt_&#45;&gt;proc~icontxt_</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M159.23,-216.25C171.25,-216.25 185.74,-216.25 198.82,-216.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="198.94,-219.75 208.94,-216.25 198.94,-212.75 198.94,-219.75"/>
+</g>
+<!-- proc~mypnum_ -->
+<g id="proc~~read_par_i~~CallsGraph_node8" class="node">
+<title>proc~mypnum_</title>
+<g id="a_proc~~read_par_i~~CallsGraph_node8"><a xlink:href=".././proc/mypnum_.html" xlink:title="mypnum_">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="265.36,-145.26 207.16,-145.26 207.16,-123.24 265.36,-123.24 265.36,-145.26"/>
+<text text-anchor="middle" x="236.26" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mypnum_</text>
+</a>
+</g>
+</g>
+<!-- interface~mypnum_&#45;&gt;proc~mypnum_ -->
+<g id="proc~~read_par_i~~CallsGraph_edge8" class="edge">
+<title>interface~mypnum_&#45;&gt;proc~mypnum_</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M161.37,-134.25C172.42,-134.25 185.26,-134.25 197.11,-134.25"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="197.2,-137.75 207.2,-134.25 197.2,-130.75 197.2,-137.75"/>
+</g>
+<!-- proc~find_section -->
+<g id="proc~~read_par_i~~CallsGraph_node9" class="node">
+<title>proc~find_section</title>
+<g id="a_proc~~read_par_i~~CallsGraph_node9"><a xlink:href=".././proc/find_section.html" xlink:title="find_section">
+<polygon fill="#d9534f" stroke="#d9534f" points="270.3,-104.26 202.22,-104.26 202.22,-82.24 270.3,-82.24 270.3,-104.26"/>
+<text text-anchor="middle" x="236.26" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">find_section</text>
+</a>
+</g>
+</g>
+<!-- interface~find_section&#45;&gt;proc~find_section -->
+<g id="proc~~read_par_i~~CallsGraph_edge9" class="edge">
+<title>interface~find_section&#45;&gt;proc~find_section</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M166.35,-93.25C174.46,-93.25 183.26,-93.25 191.77,-93.25"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="191.95,-96.75 201.95,-93.25 191.95,-89.75 191.95,-96.75"/>
+</g>
+<!-- proc~open_file -->
+<g id="proc~~read_par_i~~CallsGraph_node11" class="node">
+<title>proc~open_file</title>
+<g id="a_proc~~read_par_i~~CallsGraph_node11"><a xlink:href=".././proc/open_file.html" xlink:title="open_file">
+<polygon fill="#d9534f" stroke="#d9534f" points="263.38,-63.26 209.14,-63.26 209.14,-41.24 263.38,-41.24 263.38,-63.26"/>
+<text text-anchor="middle" x="236.26" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">open_file</text>
+</a>
+</g>
+</g>
+<!-- interface~open_file&#45;&gt;proc~open_file -->
+<g id="proc~~read_par_i~~CallsGraph_edge10" class="edge">
+<title>interface~open_file&#45;&gt;proc~open_file</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M159.5,-52.25C171.52,-52.25 185.96,-52.25 198.99,-52.25"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="199.07,-55.75 209.07,-52.25 199.07,-48.75 199.07,-55.75"/>
+</g>
+<!-- interface~abort_psblas -->
+<g id="proc~~read_par_i~~CallsGraph_node12" class="node">
+<title>interface~abort_psblas</title>
+<g id="a_proc~~read_par_i~~CallsGraph_node12"><a xlink:href=".././interface/abort_psblas.html" xlink:title="abort_psblas">
+<polygon fill="#a7506f" stroke="#a7506f" points="378.46,-83.26 306.22,-83.26 306.22,-61.24 378.46,-61.24 378.46,-83.26"/>
+<text text-anchor="middle" x="342.34" y="-69.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abort_psblas</text>
+</a>
+</g>
+</g>
+<!-- proc~find_section&#45;&gt;interface~abort_psblas -->
+<g id="proc~~read_par_i~~CallsGraph_edge11" class="edge">
+<title>proc~find_section&#45;&gt;interface~abort_psblas</title>
+<path fill="none" stroke="#7fff00" d="M270.48,-86.55C278.6,-84.91 287.43,-83.13 296.02,-81.39"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="296.81,-84.8 305.92,-79.4 295.43,-77.94 296.81,-84.8"/>
+</g>
+<!-- proc~open_file&#45;&gt;interface~abort_psblas -->
+<g id="proc~~read_par_i~~CallsGraph_edge12" class="edge">
+<title>proc~open_file&#45;&gt;interface~abort_psblas</title>
+<path fill="none" stroke="#7f00ff" d="M263.52,-57.3C273.39,-59.19 284.91,-61.41 296.02,-63.54"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="295.56,-67.02 306.04,-65.47 296.88,-60.14 295.56,-67.02"/>
+</g>
+<!-- proc~abort_psblas -->
+<g id="proc~~read_par_i~~CallsGraph_node13" class="node">
+<title>proc~abort_psblas</title>
+<g id="a_proc~~read_par_i~~CallsGraph_node13"><a xlink:href=".././proc/abort_psblas.html" xlink:title="abort_psblas">
+<polygon fill="#d9534f" stroke="#d9534f" points="486.59,-83.26 414.34,-83.26 414.34,-61.24 486.59,-61.24 486.59,-83.26"/>
+<text text-anchor="middle" x="450.46" y="-69.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">abort_psblas</text>
+</a>
+</g>
+</g>
+<!-- interface~abort_psblas&#45;&gt;proc~abort_psblas -->
+<g id="proc~~read_par_i~~CallsGraph_edge13" class="edge">
+<title>interface~abort_psblas&#45;&gt;proc~abort_psblas</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M378.68,-72.25C386.82,-72.25 395.6,-72.25 404.1,-72.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="404.28,-75.75 414.28,-72.25 404.28,-68.75 404.28,-75.75"/>
+</g>
+<!-- psb_abort -->
+<g id="proc~~read_par_i~~CallsGraph_node14" class="node">
+<title>psb_abort</title>
+<polygon fill="#777777" stroke="#777777" points="581.08,-83.26 522.67,-83.26 522.67,-61.24 581.08,-61.24 581.08,-83.26"/>
+<text text-anchor="middle" x="551.88" y="-69.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_abort</text>
+</g>
+<!-- proc~abort_psblas&#45;&gt;psb_abort -->
+<g id="proc~~read_par_i~~CallsGraph_edge14" class="edge">
+<title>proc~abort_psblas&#45;&gt;psb_abort</title>
+<path fill="none" stroke="#ff0000" d="M486.79,-72.25C495.13,-72.25 504.05,-72.25 512.51,-72.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="512.52,-75.75 522.52,-72.25 512.52,-68.75 512.52,-75.75"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="550pt" height="31pt"
+ viewBox="0.00 0.00 550.25 30.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 26.5)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-26.5 546.25,-26.5 546.25,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="62.68,-22.26 0.11,-22.26 0.11,-0.24 62.68,-0.24 62.68,-22.26"/>
+<text text-anchor="middle" x="31.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="134.39,-22.26 80.39,-22.26 80.39,-0.24 134.39,-0.24 134.39,-22.26"/>
+<text text-anchor="middle" x="107.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="206.39,-22.26 152.39,-22.26 152.39,-0.24 206.39,-0.24 206.39,-22.26"/>
+<text text-anchor="middle" x="179.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="356.53,-22.26 224.26,-22.26 224.26,-0.24 356.53,-0.24 356.53,-22.26"/>
+<text text-anchor="middle" x="290.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="428.39,-22.26 374.39,-22.26 374.39,-0.24 428.39,-0.24 428.39,-22.26"/>
+<text text-anchor="middle" x="401.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="542.1,-22.26 446.69,-22.26 446.69,-0.24 542.1,-0.24 542.1,-22.26"/>
+<text text-anchor="middle" x="494.39" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a procedure to one which it calls. Dashed 
+    arrows point from an interface to procedures which implement that interface.
+    This could include the module procedures in a generic interface or the
+    implementation in a submodule of an interface in a parent module. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+     
+     
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<em>None</em>
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    </div>
+  </div>
+
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+                                          <br /><small>763bcb5</small></p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+             on 2020-02-28 18:29  
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+    
+  </body>
+</html>
