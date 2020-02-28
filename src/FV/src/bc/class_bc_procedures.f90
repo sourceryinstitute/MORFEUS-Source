@@ -62,7 +62,7 @@ CONTAINS
     END PROCEDURE nemo_bc_poly_sizeof
 
 
-    ! ----- Constuctors -----
+    ! ----- Constructors -----
 
     MODULE PROCEDURE create_bc
     !! Global constructor

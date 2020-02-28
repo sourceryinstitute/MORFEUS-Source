@@ -535,7 +535,7 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
                     if1 = f2v%tab(i+j)
                     IF(iflag(if1) == -1 .OR. islave(if1) /= 0) CYCLE
                     ! iflag(if1) = -1  --> repeated face
-                    ! islave(if1) /= 0 --> already examinated face
+                    ! islave(if1) /= 0 --> already examined face
                     i1 = v2f%lookup(if1) - 1
                     iv1 = v2f%tab(i1+1)
                     iv2 = v2f%tab(i1+2)
@@ -894,7 +894,7 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
                         if1 = f2b%tab(i) - ncells ! Offset of cell-sections
                         ! NOTE: ICEM don't respect on bc elements the right hand ordering!!
                         ! Vertices sequences of if1 and if2 faces are copied respectively in
-                        ! arrrays work1 and work2 then ordered.
+                        ! arrays work1 and work2 then ordered.
                         j1 = bcface%lookup(if1)
                         j2 = bcface%lookup(if1+1) - 1
                         l = 0
@@ -1024,7 +1024,7 @@ SUBMODULE (tools_mesh) rd_cgns_mesh_implementation
         ! Counts total number of bc faces
         nbcfaces = COUNT(faceslave == 0)
 
-        ! Redifinition of f2b%tab
+        ! Redefinition of f2b%tab
         k = COUNT(faceflag == 0) ! Fluid faces
         DO IF = 1, nbcfaces
             f2b%tab(IF) = IF + k

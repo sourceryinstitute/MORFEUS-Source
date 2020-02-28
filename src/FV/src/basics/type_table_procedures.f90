@@ -67,7 +67,7 @@ CONTAINS
     END PROCEDURE nemo_table_sizeof
 
 
-    ! ----- Constuctor -----
+    ! ----- Constructor -----
 
     MODULE PROCEDURE alloc_table
         !
@@ -109,7 +109,7 @@ CONTAINS
 100     FORMAT(' ERROR! A2B%LOOKUP pointer is already allocated')
 200     FORMAT(' ERROR! A2B%TAB pointer is already allocated')
 300     FORMAT(' ERROR! Memory allocation failure in ALLOC_TABLE')
-400     FORMAT(' ERROR! Unsufficient actual arguments in ALLOC_TABLE')
+400     FORMAT(' ERROR! Insufficient actual arguments in ALLOC_TABLE')
 
     END PROCEDURE alloc_table
 

@@ -269,7 +269,7 @@ CONTAINS
     ! ----- Global 2 Local -----
 
     MODULE PROCEDURE g2l_conn_1d
-        ! 1D -> means "one decriptor"
+        ! 1D -> means "one descriptor"
         !
         LOGICAL :: is_a2a_
         INTEGER :: ib, info, lb, ub
@@ -315,7 +315,7 @@ CONTAINS
 
 
     MODULE PROCEDURE g2l_conn_2d
-        ! 2D -> means "two decriptors"
+        ! 2D -> means "two descriptors"
         !
         INTEGER, ALLOCATABLE :: iglob_to_loc_a(:)
         INTEGER, ALLOCATABLE :: iloc_to_glob_b(:)

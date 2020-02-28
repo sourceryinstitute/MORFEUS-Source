@@ -500,7 +500,7 @@ CONTAINS
                     if1=f2v%tab(i+j)
                     IF(iflag(if1) == -1 .OR. islave(if1) /= 0) CYCLE
                     ! iflag(if1) = -1  --> repeated face
-                    ! islave(if1) /= 0 --> already examinated face
+                    ! islave(if1) /= 0 --> already examined face
                     i1 = v2f_%lookup(if1) - 1
                     iv1 = v2f_%tab(i1+1)
                     iv2 = v2f_%tab(i1+2)
@@ -605,7 +605,7 @@ CONTAINS
             END IF
         END DO
 
-        ! Reordering and assignement of definitive face-related arrays
+        ! Reordering and assignment of definitive face-related arrays
         DO IF = 1, nfaces
             j = pinv(IF)
 
@@ -790,7 +790,7 @@ CONTAINS
         ! Counts total number of bc faces
         nbcfaces = COUNT(faceslave == 0)
 
-        ! Redifinition of f2b%tab
+        ! Redefinition of f2b%tab
         k = COUNT(faceflag == 0) ! Fluid faces
         DO IF = 1, nbcfaces
             f2b%tab(IF) = IF + k

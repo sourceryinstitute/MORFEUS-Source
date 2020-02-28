@@ -146,7 +146,7 @@ SUBMODULE (tools_mesh_check) check_mesh_quality_implementation
     ! Gets local to global list for cells
     CALL psb_get_loc_to_glob(msh%desc_c,iloc_to_glob)
 
-    ! Sets intial value to maximum quality
+    ! Sets initial value to maximum quality
     quality(:) = 1.d0
 
     CALL get_cells_type(msh%cells,nctype,ictype)

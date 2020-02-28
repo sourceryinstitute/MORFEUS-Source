@@ -90,7 +90,7 @@ MODULE class_vector_field
         PROCEDURE, PRIVATE :: vector_field_sum, vector_field_dif
         PROCEDURE, PASS(f2), PRIVATE :: vector_field_scal     !! Algebra operations
         PROCEDURE, PRIVATE :: assign_vector_field_s, assign_vector_field_v
-        GENERIC :: ASSIGNMENT(=) => assign_vector_field_s, assign_vector_field_v !! User-defined assignemnts
+        GENERIC :: ASSIGNMENT(=) => assign_vector_field_s, assign_vector_field_v !! User-defined assignments
         GENERIC :: OPERATOR(+) => vector_field_sum
         GENERIC :: OPERATOR(-) => vector_field_dif
         GENERIC :: OPERATOR(*) => vector_field_scal     !! Algebra operations

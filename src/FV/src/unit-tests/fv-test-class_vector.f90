@@ -19,7 +19,7 @@ program test_class_vector
     real(psb_dpk_), parameter :: tolerance=1.0E-06, one=1.0_psb_dpk_, zero=0.0_psb_dpk_
 
     a = [vector_(zero, zero, zero), vector_(one, zero, zero), vector_(zero, one, zero)]
-    b = vector_(zero, zero, one) ! perpindicular to all vectors in a
+    b = vector_(zero, zero, one) ! perpendicular to all vectors in a
     c = a .dot. b ! = [a(1) .dot. b,  a(2) .dot. b,  a(3) .dot. b] = [zero, zero, zero]
 
     test_operators: &

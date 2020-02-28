@@ -224,7 +224,7 @@ int SMcomputeTriJacobians(double *vtx1, double *vtx2, double *vtx3,
     /* Computes the square of the difference between the actual jacbian
         and the jacobian of an equilateral triangle based on the edge opposite
         the free vertex.  We need to minimize the maximum difference and
-        the function is therefore negated.  The corresponing gradient code
+        the function is therefore negated.  The corresponding gradient code
         is in SMcomputeJacobianGradients.  There is one value per triangle */
 
     x1=vtx1[OPTMS_XDIR];     y1=vtx1[OPTMS_YDIR];

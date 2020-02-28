@@ -116,7 +116,7 @@ CONTAINS
         z = vertices%z_()
 
         ! Decide which will be our independent variable and which will be the dependent
-        ! varible. Make the variable with the minimum range our independent variable.
+        ! variable. Make the variable with the minimum range our independent variable.
 
         xrange = MAXVAL(x) - MINVAL(x)
         yrange = MAXVAL(y) - MINVAL(y)

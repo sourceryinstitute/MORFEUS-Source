@@ -70,7 +70,7 @@ MODULE type_table
             INTEGER(kind=nemo_int_long_)   :: nemo_table_sizeof
         END FUNCTION nemo_table_sizeof
 
-    ! ----- Constuctor -----
+    ! ----- Constructor -----
 
         MODULE SUBROUTINE alloc_table(a2b, nel, ntab)
             IMPLICIT NONE
