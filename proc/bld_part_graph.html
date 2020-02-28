@@ -302,39 +302,45 @@ module procedure bld_part_graph <small>module subroutine bld_part_graph(xadj_glo
 <polygon fill="none" stroke="black" points="82.46,-145.26 0.18,-145.26 0.18,-123.24 82.46,-123.24 82.46,-145.26"/>
 <text text-anchor="middle" x="41.32" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50">bld_part_graph</text>
 </g>
-<!-- perm -->
+<!-- 16 -->
 <g id="proc~~bld_part_graph~~CallsGraph_node2" class="node">
-<title>perm</title>
+<title>16</title>
 <polygon fill="#777777" stroke="#777777" points="201.54,-268.26 147.54,-268.26 147.54,-246.24 201.54,-246.24 201.54,-268.26"/>
-<text text-anchor="middle" x="174.54" y="-254.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">perm</text>
+<text text-anchor="middle" x="174.54" y="-254.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">16</text>
 </g>
-<!-- proc~bld_part_graph&#45;&gt;perm -->
+<!-- proc~bld_part_graph&#45;&gt;16 -->
 <g id="proc~~bld_part_graph~~CallsGraph_edge1" class="edge">
-<title>proc~bld_part_graph&#45;&gt;perm</title>
+<title>proc~bld_part_graph&#45;&gt;16</title>
 <path fill="none" stroke="#ff0000" d="M47.89,-145.39C58.77,-166.08 84.75,-210.66 118.64,-236.25 124.33,-240.55 131,-244.06 137.7,-246.9"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="136.82,-250.32 147.42,-250.6 139.31,-243.77 136.82,-250.32"/>
 </g>
-<!-- 16 -->
+<!-- interface~metis_partgraphkway -->
 <g id="proc~~bld_part_graph~~CallsGraph_node3" class="node">
-<title>16</title>
-<polygon fill="#777777" stroke="#777777" points="201.54,-227.26 147.54,-227.26 147.54,-205.24 201.54,-205.24 201.54,-227.26"/>
-<text text-anchor="middle" x="174.54" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">16</text>
+<title>interface~metis_partgraphkway</title>
+<g id="a_proc~~bld_part_graph~~CallsGraph_node3"><a xlink:href=".././interface/metis_partgraphkway.html" xlink:title="metis_partgraphkway">
+<polygon fill="#a7506f" stroke="#a7506f" points="230.33,-227.26 118.74,-227.26 118.74,-205.24 230.33,-205.24 230.33,-227.26"/>
+<text text-anchor="middle" x="174.54" y="-213.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">metis_partgraphkway</text>
+</a>
 </g>
-<!-- proc~bld_part_graph&#45;&gt;16 -->
+</g>
+<!-- proc~bld_part_graph&#45;&gt;interface~metis_partgraphkway -->
 <g id="proc~~bld_part_graph~~CallsGraph_edge2" class="edge">
-<title>proc~bld_part_graph&#45;&gt;16</title>
-<path fill="none" stroke="#ff0000" d="M53.9,-145.43C68.17,-158.73 93.61,-180.93 118.64,-195.25 124.65,-198.69 131.33,-201.78 137.9,-204.47"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="136.78,-207.79 147.37,-208.11 139.29,-201.25 136.78,-207.79"/>
+<title>proc~bld_part_graph&#45;&gt;interface~metis_partgraphkway</title>
+<path fill="none" stroke="#ff0000" d="M53.9,-145.43C68.17,-158.73 93.61,-180.93 118.64,-195.25 122.33,-197.36 126.26,-199.34 130.28,-201.17"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="129.11,-204.48 139.69,-205.19 131.86,-198.04 129.11,-204.48"/>
 </g>
-<!-- pinv -->
+<!-- interface~nprocs_ -->
 <g id="proc~~bld_part_graph~~CallsGraph_node4" class="node">
-<title>pinv</title>
-<polygon fill="#777777" stroke="#777777" points="201.54,-186.26 147.54,-186.26 147.54,-164.24 201.54,-164.24 201.54,-186.26"/>
-<text text-anchor="middle" x="174.54" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pinv</text>
+<title>interface~nprocs_</title>
+<g id="a_proc~~bld_part_graph~~CallsGraph_node4"><a xlink:href=".././interface/nprocs_.html" xlink:title="nprocs_">
+<polygon fill="#a7506f" stroke="#a7506f" points="201.54,-186.26 147.54,-186.26 147.54,-164.24 201.54,-164.24 201.54,-186.26"/>
+<text text-anchor="middle" x="174.54" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">nprocs_</text>
+</a>
 </g>
-<!-- proc~bld_part_graph&#45;&gt;pinv -->
+</g>
+<!-- proc~bld_part_graph&#45;&gt;interface~nprocs_ -->
 <g id="proc~~bld_part_graph~~CallsGraph_edge3" class="edge">
-<title>proc~bld_part_graph&#45;&gt;pinv</title>
+<title>proc~bld_part_graph&#45;&gt;interface~nprocs_</title>
 <path fill="none" stroke="#ff0000" d="M77.83,-145.35C96.36,-151.13 118.98,-158.2 137.57,-164.01"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="136.57,-167.37 147.16,-167.01 138.66,-160.69 136.57,-167.37"/>
 </g>
@@ -353,18 +359,15 @@ module procedure bld_part_graph <small>module subroutine bld_part_graph(xadj_glo
 <path fill="none" stroke="#ff0000" d="M82.76,-134.25C97.06,-134.25 113.24,-134.25 127.94,-134.25"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="128.33,-137.75 138.33,-134.25 128.33,-130.75 128.33,-137.75"/>
 </g>
-<!-- interface~nprocs_ -->
+<!-- perm -->
 <g id="proc~~bld_part_graph~~CallsGraph_node6" class="node">
-<title>interface~nprocs_</title>
-<g id="a_proc~~bld_part_graph~~CallsGraph_node6"><a xlink:href=".././interface/nprocs_.html" xlink:title="nprocs_">
-<polygon fill="#a7506f" stroke="#a7506f" points="201.54,-104.26 147.54,-104.26 147.54,-82.24 201.54,-82.24 201.54,-104.26"/>
-<text text-anchor="middle" x="174.54" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">nprocs_</text>
-</a>
+<title>perm</title>
+<polygon fill="#777777" stroke="#777777" points="201.54,-104.26 147.54,-104.26 147.54,-82.24 201.54,-82.24 201.54,-104.26"/>
+<text text-anchor="middle" x="174.54" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">perm</text>
 </g>
-</g>
-<!-- proc~bld_part_graph&#45;&gt;interface~nprocs_ -->
+<!-- proc~bld_part_graph&#45;&gt;perm -->
 <g id="proc~~bld_part_graph~~CallsGraph_edge5" class="edge">
-<title>proc~bld_part_graph&#45;&gt;interface~nprocs_</title>
+<title>proc~bld_part_graph&#45;&gt;perm</title>
 <path fill="none" stroke="#ff0000" d="M77.83,-123.15C96.36,-117.37 118.98,-110.3 137.57,-104.49"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="138.66,-107.81 147.16,-101.49 136.57,-101.13 138.66,-107.81"/>
 </g>
@@ -380,20 +383,32 @@ module procedure bld_part_graph <small>module subroutine bld_part_graph(xadj_glo
 <path fill="none" stroke="#ff0000" d="M53.9,-123.07C68.17,-109.77 93.61,-87.57 118.64,-73.25 124.33,-69.99 130.63,-67.04 136.87,-64.46"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="138.48,-67.59 146.53,-60.7 135.94,-61.06 138.48,-67.59"/>
 </g>
-<!-- interface~metis_partgraphkway -->
+<!-- pinv -->
 <g id="proc~~bld_part_graph~~CallsGraph_node8" class="node">
-<title>interface~metis_partgraphkway</title>
-<g id="a_proc~~bld_part_graph~~CallsGraph_node8"><a xlink:href=".././interface/metis_partgraphkway.html" xlink:title="metis_partgraphkway">
-<polygon fill="#a7506f" stroke="#a7506f" points="230.33,-22.26 118.74,-22.26 118.74,-0.24 230.33,-0.24 230.33,-22.26"/>
-<text text-anchor="middle" x="174.54" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">metis_partgraphkway</text>
+<title>pinv</title>
+<polygon fill="#777777" stroke="#777777" points="201.54,-22.26 147.54,-22.26 147.54,-0.24 201.54,-0.24 201.54,-22.26"/>
+<text text-anchor="middle" x="174.54" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">pinv</text>
+</g>
+<!-- proc~bld_part_graph&#45;&gt;pinv -->
+<g id="proc~~bld_part_graph~~CallsGraph_edge7" class="edge">
+<title>proc~bld_part_graph&#45;&gt;pinv</title>
+<path fill="none" stroke="#ff0000" d="M47.89,-123.11C58.77,-102.42 84.75,-57.84 118.64,-32.25 124.33,-27.95 131,-24.44 137.7,-21.6"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="139.31,-24.73 147.42,-17.9 136.82,-18.18 139.31,-24.73"/>
+</g>
+<!-- proc~nprocs_ -->
+<g id="proc~~bld_part_graph~~CallsGraph_node9" class="node">
+<title>proc~nprocs_</title>
+<g id="a_proc~~bld_part_graph~~CallsGraph_node9"><a xlink:href=".././proc/nprocs_.html" xlink:title="nprocs_">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="329.5,-186.26 275.5,-186.26 275.5,-164.24 329.5,-164.24 329.5,-186.26"/>
+<text text-anchor="middle" x="302.5" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">nprocs_</text>
 </a>
 </g>
 </g>
-<!-- proc~bld_part_graph&#45;&gt;interface~metis_partgraphkway -->
-<g id="proc~~bld_part_graph~~CallsGraph_edge7" class="edge">
-<title>proc~bld_part_graph&#45;&gt;interface~metis_partgraphkway</title>
-<path fill="none" stroke="#ff0000" d="M47.89,-123.11C58.77,-102.42 84.75,-57.84 118.64,-32.25 121.24,-30.28 124.06,-28.48 126.98,-26.83"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="128.62,-29.92 136.01,-22.33 125.5,-23.66 128.62,-29.92"/>
+<!-- interface~nprocs_&#45;&gt;proc~nprocs_ -->
+<g id="proc~~bld_part_graph~~CallsGraph_edge8" class="edge">
+<title>interface~nprocs_&#45;&gt;proc~nprocs_</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M201.64,-175.25C220.05,-175.25 244.95,-175.25 265.28,-175.25"/>
+<polygon fill="#48ff00" stroke="#48ff00" points="265.43,-178.75 275.43,-175.25 265.43,-171.75 265.43,-178.75"/>
 </g>
 <!-- proc~abort_psblas -->
 <g id="proc~~bld_part_graph~~CallsGraph_node10" class="node">
@@ -405,25 +420,10 @@ module procedure bld_part_graph <small>module subroutine bld_part_graph(xadj_glo
 </g>
 </g>
 <!-- interface~abort_psblas&#45;&gt;proc~abort_psblas -->
-<g id="proc~~bld_part_graph~~CallsGraph_edge8" class="edge">
+<g id="proc~~bld_part_graph~~CallsGraph_edge9" class="edge">
 <title>interface~abort_psblas&#45;&gt;proc~abort_psblas</title>
 <path fill="none" stroke="#00ff91" stroke-dasharray="5,2" d="M210.62,-134.25C224.7,-134.25 241.11,-134.25 256.08,-134.25"/>
 <polygon fill="#00ff91" stroke="#00ff91" points="256.16,-137.75 266.16,-134.25 256.16,-130.75 256.16,-137.75"/>
-</g>
-<!-- proc~nprocs_ -->
-<g id="proc~~bld_part_graph~~CallsGraph_node9" class="node">
-<title>proc~nprocs_</title>
-<g id="a_proc~~bld_part_graph~~CallsGraph_node9"><a xlink:href=".././proc/nprocs_.html" xlink:title="nprocs_">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="329.5,-104.26 275.5,-104.26 275.5,-82.24 329.5,-82.24 329.5,-104.26"/>
-<text text-anchor="middle" x="302.5" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">nprocs_</text>
-</a>
-</g>
-</g>
-<!-- interface~nprocs_&#45;&gt;proc~nprocs_ -->
-<g id="proc~~bld_part_graph~~CallsGraph_edge9" class="edge">
-<title>interface~nprocs_&#45;&gt;proc~nprocs_</title>
-<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M201.64,-93.25C220.05,-93.25 244.95,-93.25 265.28,-93.25"/>
-<polygon fill="#0091ff" stroke="#0091ff" points="265.43,-96.75 275.43,-93.25 265.43,-89.75 265.43,-96.75"/>
 </g>
 <!-- psb_abort -->
 <g id="proc~~bld_part_graph~~CallsGraph_node11" class="node">
@@ -725,12 +725,12 @@ module procedure bld_part_graph <small>module subroutine bld_part_graph(xadj_glo
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
-                                          <br /><small>763bcb5</small></p></div>
+                                          <br /><small>dc4279a</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2020-02-28 18:29  
+             on 2020-02-28 21:49  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>

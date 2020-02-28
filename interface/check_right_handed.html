@@ -246,17 +246,17 @@
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M106.63,-93.25C115.05,-93.25 123.83,-93.25 132.45,-93.25"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="132.47,-96.75 142.47,-93.25 132.47,-89.75 132.47,-96.75"/>
 </g>
-<!-- psb_cd_get_local_rows -->
+<!-- loc_to_glob_ -->
 <g id="interface~~check_right_handed~~CallsGraph_node3" class="node">
-<title>psb_cd_get_local_rows</title>
-<polygon fill="#777777" stroke="#777777" points="406.75,-186.26 285.27,-186.26 285.27,-164.24 406.75,-164.24 406.75,-186.26"/>
-<text text-anchor="middle" x="346.01" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_cd_get_local_rows</text>
+<title>loc_to_glob_</title>
+<polygon fill="#777777" stroke="#777777" points="381.56,-186.26 310.46,-186.26 310.46,-164.24 381.56,-164.24 381.56,-186.26"/>
+<text text-anchor="middle" x="346.01" y="-172.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">loc_to_glob_</text>
 </g>
-<!-- proc~check_right_handed&#45;&gt;psb_cd_get_local_rows -->
+<!-- proc~check_right_handed&#45;&gt;loc_to_glob_ -->
 <g id="interface~~check_right_handed~~CallsGraph_edge2" class="edge">
-<title>proc~check_right_handed&#45;&gt;psb_cd_get_local_rows</title>
-<path fill="none" stroke="#ff0000" d="M210.5,-104.41C227.25,-117.69 256.92,-139.88 285.14,-154.25 289.51,-156.48 294.18,-158.56 298.9,-160.49"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="298,-163.9 308.59,-164.22 300.51,-157.36 298,-163.9"/>
+<title>proc~check_right_handed&#45;&gt;loc_to_glob_</title>
+<path fill="none" stroke="#ff0000" d="M210.5,-104.41C227.25,-117.69 256.92,-139.88 285.14,-154.25 290.05,-156.75 295.33,-159.07 300.64,-161.19"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="299.57,-164.53 310.16,-164.79 302.04,-157.98 299.57,-164.53"/>
 </g>
 <!-- interface~right_handed -->
 <g id="interface~~check_right_handed~~CallsGraph_node4" class="node">
@@ -268,7 +268,7 @@
 </g>
 </g>
 <!-- proc~check_right_handed&#45;&gt;interface~right_handed -->
-<g id="interface~~check_right_handed~~CallsGraph_edge3" class="edge">
+<g id="interface~~check_right_handed~~CallsGraph_edge4" class="edge">
 <title>proc~check_right_handed&#45;&gt;interface~right_handed</title>
 <path fill="none" stroke="#ff0000" d="M236.95,-104.35C256.16,-109.66 279.26,-116.05 299.16,-121.56"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="298.37,-124.97 308.94,-124.27 300.24,-118.23 298.37,-124.97"/>
@@ -283,22 +283,22 @@
 </g>
 </g>
 <!-- proc~check_right_handed&#45;&gt;interface~abort_psblas -->
-<g id="interface~~check_right_handed~~CallsGraph_edge4" class="edge">
+<g id="interface~~check_right_handed~~CallsGraph_edge3" class="edge">
 <title>proc~check_right_handed&#45;&gt;interface~abort_psblas</title>
 <path fill="none" stroke="#ff0000" d="M249.09,-93.25C265.63,-93.25 283.76,-93.25 299.77,-93.25"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="299.94,-96.75 309.94,-93.25 299.94,-89.75 299.94,-96.75"/>
 </g>
-<!-- loc_to_glob_ -->
+<!-- psb_cd_get_local_rows -->
 <g id="interface~~check_right_handed~~CallsGraph_node6" class="node">
-<title>loc_to_glob_</title>
-<polygon fill="#777777" stroke="#777777" points="381.56,-63.26 310.46,-63.26 310.46,-41.24 381.56,-41.24 381.56,-63.26"/>
-<text text-anchor="middle" x="346.01" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">loc_to_glob_</text>
+<title>psb_cd_get_local_rows</title>
+<polygon fill="#777777" stroke="#777777" points="406.75,-63.26 285.27,-63.26 285.27,-41.24 406.75,-41.24 406.75,-63.26"/>
+<text text-anchor="middle" x="346.01" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_cd_get_local_rows</text>
 </g>
-<!-- proc~check_right_handed&#45;&gt;loc_to_glob_ -->
+<!-- proc~check_right_handed&#45;&gt;psb_cd_get_local_rows -->
 <g id="interface~~check_right_handed~~CallsGraph_edge5" class="edge">
-<title>proc~check_right_handed&#45;&gt;loc_to_glob_</title>
-<path fill="none" stroke="#ff0000" d="M236.95,-82.15C256.6,-76.72 280.32,-70.15 300.52,-64.56"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="301.72,-67.86 310.43,-61.82 299.85,-61.12 301.72,-67.86"/>
+<title>proc~check_right_handed&#45;&gt;psb_cd_get_local_rows</title>
+<path fill="none" stroke="#ff0000" d="M236.95,-82.15C254.98,-77.17 276.43,-71.23 295.45,-65.97"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="296.44,-69.32 305.14,-63.28 294.57,-62.58 296.44,-69.32"/>
 </g>
 <!-- psb_glob_to_loc -->
 <g id="interface~~check_right_handed~~CallsGraph_node7" class="node">
@@ -642,12 +642,12 @@ public module subroutine check_right_handed(msh, shared, shared_flag, tangled, a
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
-                                          <br /><small>763bcb5</small></p></div>
+                                          <br /><small>dc4279a</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2020-02-28 18:29  
+             on 2020-02-28 21:49  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>

@@ -269,7 +269,7 @@ module procedure cholesky_solve_m <small>module subroutine cholesky_solve_m(a, b
 </g>
 </g>
 <!-- module~class_psblas&#45;&gt;module~class_stopwatch -->
-<g id="proc~~cholesky_solve_m~~UsesGraph_edge2" class="edge">
+<g id="proc~~cholesky_solve_m~~UsesGraph_edge3" class="edge">
 <title>module~class_psblas&#45;&gt;module~class_stopwatch</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M355.61,-25.39C347.57,-24.06 338.86,-22.62 330.25,-21.19"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="330.67,-17.71 320.23,-19.53 329.52,-24.62 330.67,-17.71"/>
@@ -284,13 +284,13 @@ module procedure cholesky_solve_m <small>module subroutine cholesky_solve_m(a, b
 </g>
 </g>
 <!-- module~class_psblas&#45;&gt;module~tools_psblas -->
-<g id="proc~~cholesky_solve_m~~UsesGraph_edge3" class="edge">
+<g id="proc~~cholesky_solve_m~~UsesGraph_edge2" class="edge">
 <title>module~class_psblas&#45;&gt;module~tools_psblas</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M355.69,-34.31C315.33,-37.81 249.13,-43.56 205.21,-47.38"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="204.77,-43.9 195.11,-48.26 205.37,-50.88 204.77,-43.9"/>
 </g>
 <!-- module~class_stopwatch&#45;&gt;module~tools_psblas -->
-<g id="proc~~cholesky_solve_m~~UsesGraph_edge4" class="edge">
+<g id="proc~~cholesky_solve_m~~UsesGraph_edge5" class="edge">
 <title>module~class_stopwatch&#45;&gt;module~tools_psblas</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M242.06,-23.32C229.82,-27.52 215.7,-32.37 202.68,-36.83"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="201.32,-33.6 193,-40.15 203.59,-40.22 201.32,-33.6"/>
@@ -302,20 +302,20 @@ module procedure cholesky_solve_m <small>module subroutine cholesky_solve_m(a, b
 <text text-anchor="middle" x="44.23" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_base_mod</text>
 </g>
 <!-- module~class_stopwatch&#45;&gt;psb_base_mod -->
-<g id="proc~~cholesky_solve_m~~UsesGraph_edge5" class="edge">
+<g id="proc~~cholesky_solve_m~~UsesGraph_edge4" class="edge">
 <title>module~class_stopwatch&#45;&gt;psb_base_mod</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M230.71,-12.06C192.49,-11.89 136.9,-11.65 96.56,-11.47"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="96.4,-7.97 86.39,-11.43 96.37,-14.97 96.4,-7.97"/>
 </g>
-<!-- psb_prec_mod -->
+<!-- psb_krylov_mod -->
 <g id="proc~~cholesky_solve_m~~UsesGraph_node5" class="node">
-<title>psb_prec_mod</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="85.19,-104.26 3.27,-104.26 3.27,-82.24 85.19,-82.24 85.19,-104.26"/>
-<text text-anchor="middle" x="44.23" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_prec_mod</text>
+<title>psb_krylov_mod</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="88.68,-104.26 -0.23,-104.26 -0.23,-82.24 88.68,-82.24 88.68,-104.26"/>
+<text text-anchor="middle" x="44.23" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_krylov_mod</text>
 </g>
-<!-- module~tools_psblas&#45;&gt;psb_prec_mod -->
+<!-- module~tools_psblas&#45;&gt;psb_krylov_mod -->
 <g id="proc~~cholesky_solve_m~~UsesGraph_edge6" class="edge">
-<title>module~tools_psblas&#45;&gt;psb_prec_mod</title>
+<title>module~tools_psblas&#45;&gt;psb_krylov_mod</title>
 <path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M128.84,-62.29C115.4,-67.26 99.34,-73.21 84.9,-78.56"/>
 <polygon fill="#00ffff" stroke="#00ffff" points="83.38,-75.39 75.22,-82.14 85.81,-81.95 83.38,-75.39"/>
 </g>
@@ -325,17 +325,17 @@ module procedure cholesky_solve_m <small>module subroutine cholesky_solve_m(a, b
 <path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M127.35,-40.21C114.69,-35.75 99.89,-30.53 86.38,-25.76"/>
 <polygon fill="#00ffff" stroke="#00ffff" points="87.4,-22.41 76.81,-22.39 85.08,-29.02 87.4,-22.41"/>
 </g>
-<!-- psb_krylov_mod -->
+<!-- psb_prec_mod -->
 <g id="proc~~cholesky_solve_m~~UsesGraph_node7" class="node">
-<title>psb_krylov_mod</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="88.68,-63.26 -0.23,-63.26 -0.23,-41.24 88.68,-41.24 88.68,-63.26"/>
-<text text-anchor="middle" x="44.23" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_krylov_mod</text>
+<title>psb_prec_mod</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="85.19,-63.26 3.27,-63.26 3.27,-41.24 85.19,-41.24 85.19,-63.26"/>
+<text text-anchor="middle" x="44.23" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">psb_prec_mod</text>
 </g>
-<!-- module~tools_psblas&#45;&gt;psb_krylov_mod -->
+<!-- module~tools_psblas&#45;&gt;psb_prec_mod -->
 <g id="proc~~cholesky_solve_m~~UsesGraph_edge8" class="edge">
-<title>module~tools_psblas&#45;&gt;psb_krylov_mod</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M124.3,-51.55C116.24,-51.62 107.47,-51.7 98.79,-51.78"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="98.66,-48.28 88.69,-51.87 98.72,-55.28 98.66,-48.28"/>
+<title>module~tools_psblas&#45;&gt;psb_prec_mod</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M124.3,-51.55C115.11,-51.63 104.98,-51.72 95.13,-51.81"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="94.99,-48.31 85.02,-51.9 95.05,-55.31 94.99,-48.31"/>
 </g>
 </g>
 </svg>
@@ -515,185 +515,185 @@ module procedure cholesky_solve_m <small>module subroutine cholesky_solve_m(a, b
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M573.65,-72.25C581.55,-72.25 590.45,-72.25 599.41,-72.25"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="599.5,-75.75 609.5,-72.25 599.5,-68.75 599.5,-75.75"/>
 </g>
-<!-- proc~laplacian_smooth -->
-<g id="proc~~cholesky_solve_m~~CalledByGraph_node4" class="node">
-<title>proc~laplacian_smooth</title>
-<g id="a_proc~~cholesky_solve_m~~CalledByGraph_node4"><a xlink:href=".././proc/laplacian_smooth.html" xlink:title="laplacian_smooth">
-<polygon fill="#d9534f" stroke="#d9534f" points="472.2,-145.26 378.77,-145.26 378.77,-123.24 472.2,-123.24 472.2,-145.26"/>
-<text text-anchor="middle" x="425.48" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">laplacian_smooth</text>
-</a>
-</g>
-</g>
-<!-- proc~laplacian_smooth&#45;&gt;interface~solve_sys -->
-<g id="proc~~cholesky_solve_m~~CalledByGraph_edge3" class="edge">
-<title>proc~laplacian_smooth&#45;&gt;interface~solve_sys</title>
-<path fill="none" stroke="#ff0000" d="M457.12,-123.23C464.52,-120.26 472.32,-116.85 479.35,-113.25 493.11,-106.19 507.69,-97.01 519.45,-89.12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="521.55,-91.93 527.84,-83.4 517.61,-86.15 521.55,-91.93"/>
-</g>
-<!-- proc~solve_pde_sys -->
-<g id="proc~~cholesky_solve_m~~CalledByGraph_node5" class="node">
-<title>proc~solve_pde_sys</title>
-<g id="a_proc~~cholesky_solve_m~~CalledByGraph_node5"><a xlink:href=".././proc/solve_pde_sys.html" xlink:title="solve_pde_sys">
-<polygon fill="#d9534f" stroke="#d9534f" points="466.45,-104.26 384.52,-104.26 384.52,-82.24 466.45,-82.24 466.45,-104.26"/>
-<text text-anchor="middle" x="425.48" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">solve_pde_sys</text>
-</a>
-</g>
-</g>
-<!-- proc~solve_pde_sys&#45;&gt;interface~solve_sys -->
-<g id="proc~~cholesky_solve_m~~CalledByGraph_edge4" class="edge">
-<title>proc~solve_pde_sys&#45;&gt;interface~solve_sys</title>
-<path fill="none" stroke="#ff0000" d="M466.39,-86.08C478.9,-83.84 492.67,-81.36 505.06,-79.14"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="505.87,-82.55 515.09,-77.33 504.63,-75.66 505.87,-82.55"/>
-</g>
 <!-- proc~solve_least_squares -->
-<g id="proc~~cholesky_solve_m~~CalledByGraph_node6" class="node">
+<g id="proc~~cholesky_solve_m~~CalledByGraph_node4" class="node">
 <title>proc~solve_least_squares</title>
-<g id="a_proc~~cholesky_solve_m~~CalledByGraph_node6"><a xlink:href=".././proc/solve_least_squares.html" xlink:title="solve_least_squares">
-<polygon fill="#d9534f" stroke="#d9534f" points="479.21,-63.26 371.76,-63.26 371.76,-41.24 479.21,-41.24 479.21,-63.26"/>
-<text text-anchor="middle" x="425.48" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">solve_least_squares</text>
+<g id="a_proc~~cholesky_solve_m~~CalledByGraph_node4"><a xlink:href=".././proc/solve_least_squares.html" xlink:title="solve_least_squares">
+<polygon fill="#d9534f" stroke="#d9534f" points="479.21,-145.26 371.76,-145.26 371.76,-123.24 479.21,-123.24 479.21,-145.26"/>
+<text text-anchor="middle" x="425.48" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">solve_least_squares</text>
 </a>
 </g>
 </g>
 <!-- proc~solve_least_squares&#45;&gt;interface~solve_sys -->
-<g id="proc~~cholesky_solve_m~~CalledByGraph_edge5" class="edge">
+<g id="proc~~cholesky_solve_m~~CalledByGraph_edge4" class="edge">
 <title>proc~solve_least_squares&#45;&gt;interface~solve_sys</title>
-<path fill="none" stroke="#ff0000" d="M479.47,-61.31C488.13,-62.8 496.96,-64.31 505.18,-65.71"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="504.76,-69.19 515.21,-67.43 505.94,-62.29 504.76,-69.19"/>
+<path fill="none" stroke="#ff0000" d="M457.12,-123.23C464.52,-120.26 472.32,-116.85 479.35,-113.25 493.11,-106.19 507.69,-97.01 519.45,-89.12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="521.55,-91.93 527.84,-83.4 517.61,-86.15 521.55,-91.93"/>
 </g>
 <!-- proc~alloc_plane -->
-<g id="proc~~cholesky_solve_m~~CalledByGraph_node7" class="node">
+<g id="proc~~cholesky_solve_m~~CalledByGraph_node5" class="node">
 <title>proc~alloc_plane</title>
-<g id="a_proc~~cholesky_solve_m~~CalledByGraph_node7"><a xlink:href=".././proc/alloc_plane.html" xlink:title="alloc_plane">
-<polygon fill="#d9534f" stroke="#d9534f" points="458.11,-22.26 392.86,-22.26 392.86,-0.24 458.11,-0.24 458.11,-22.26"/>
-<text text-anchor="middle" x="425.48" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">alloc_plane</text>
+<g id="a_proc~~cholesky_solve_m~~CalledByGraph_node5"><a xlink:href=".././proc/alloc_plane.html" xlink:title="alloc_plane">
+<polygon fill="#d9534f" stroke="#d9534f" points="458.11,-104.26 392.86,-104.26 392.86,-82.24 458.11,-82.24 458.11,-104.26"/>
+<text text-anchor="middle" x="425.48" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">alloc_plane</text>
 </a>
 </g>
 </g>
 <!-- proc~alloc_plane&#45;&gt;interface~solve_sys -->
-<g id="proc~~cholesky_solve_m~~CalledByGraph_edge6" class="edge">
+<g id="proc~~cholesky_solve_m~~CalledByGraph_edge3" class="edge">
 <title>proc~alloc_plane&#45;&gt;interface~solve_sys</title>
-<path fill="none" stroke="#ff0000" d="M457.09,-22.32C464.49,-25.3 472.3,-28.68 479.35,-32.25 492.96,-39.13 507.43,-48.02 519.16,-55.67"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="517.27,-58.62 527.54,-61.23 521.14,-52.78 517.27,-58.62"/>
+<path fill="none" stroke="#ff0000" d="M458.12,-87.57C472.63,-84.96 489.95,-81.85 505.18,-79.12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="506.1,-82.51 515.32,-77.29 504.86,-75.62 506.1,-82.51"/>
 </g>
-<!-- interface~solve_pde_sys -->
-<g id="proc~~cholesky_solve_m~~CalledByGraph_node8" class="node">
-<title>interface~solve_pde_sys</title>
-<g id="a_proc~~cholesky_solve_m~~CalledByGraph_node8"><a xlink:href=".././interface/solve_pde_sys.html" xlink:title="solve_pde_sys">
-<polygon fill="#a7506f" stroke="#a7506f" points="322.72,-104.26 240.8,-104.26 240.8,-82.24 322.72,-82.24 322.72,-104.26"/>
-<text text-anchor="middle" x="281.76" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">solve_pde_sys</text>
+<!-- proc~solve_pde_sys -->
+<g id="proc~~cholesky_solve_m~~CalledByGraph_node6" class="node">
+<title>proc~solve_pde_sys</title>
+<g id="a_proc~~cholesky_solve_m~~CalledByGraph_node6"><a xlink:href=".././proc/solve_pde_sys.html" xlink:title="solve_pde_sys">
+<polygon fill="#d9534f" stroke="#d9534f" points="466.45,-63.26 384.52,-63.26 384.52,-41.24 466.45,-41.24 466.45,-63.26"/>
+<text text-anchor="middle" x="425.48" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">solve_pde_sys</text>
 </a>
 </g>
 </g>
-<!-- interface~solve_pde_sys&#45;&gt;proc~solve_pde_sys -->
-<g id="proc~~cholesky_solve_m~~CalledByGraph_edge8" class="edge">
-<title>interface~solve_pde_sys&#45;&gt;proc~solve_pde_sys</title>
-<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M322.61,-93.25C338.62,-93.25 357.24,-93.25 374.16,-93.25"/>
-<polygon fill="#7fff00" stroke="#7fff00" points="374.44,-96.75 384.44,-93.25 374.44,-89.75 374.44,-96.75"/>
+<!-- proc~solve_pde_sys&#45;&gt;interface~solve_sys -->
+<g id="proc~~cholesky_solve_m~~CalledByGraph_edge6" class="edge">
+<title>proc~solve_pde_sys&#45;&gt;interface~solve_sys</title>
+<path fill="none" stroke="#ff0000" d="M466.39,-59.08C478.9,-61.22 492.67,-63.57 505.06,-65.69"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="504.65,-69.17 515.09,-67.41 505.83,-62.27 504.65,-69.17"/>
+</g>
+<!-- proc~laplacian_smooth -->
+<g id="proc~~cholesky_solve_m~~CalledByGraph_node7" class="node">
+<title>proc~laplacian_smooth</title>
+<g id="a_proc~~cholesky_solve_m~~CalledByGraph_node7"><a xlink:href=".././proc/laplacian_smooth.html" xlink:title="laplacian_smooth">
+<polygon fill="#d9534f" stroke="#d9534f" points="472.2,-22.26 378.77,-22.26 378.77,-0.24 472.2,-0.24 472.2,-22.26"/>
+<text text-anchor="middle" x="425.48" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">laplacian_smooth</text>
+</a>
+</g>
+</g>
+<!-- proc~laplacian_smooth&#45;&gt;interface~solve_sys -->
+<g id="proc~~cholesky_solve_m~~CalledByGraph_edge5" class="edge">
+<title>proc~laplacian_smooth&#45;&gt;interface~solve_sys</title>
+<path fill="none" stroke="#ff0000" d="M457.09,-22.32C464.49,-25.3 472.3,-28.68 479.35,-32.25 492.96,-39.13 507.43,-48.02 519.16,-55.67"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="517.27,-58.62 527.54,-61.23 521.14,-52.78 517.27,-58.62"/>
 </g>
 <!-- interface~alloc_plane -->
-<g id="proc~~cholesky_solve_m~~CalledByGraph_node9" class="node">
+<g id="proc~~cholesky_solve_m~~CalledByGraph_node8" class="node">
 <title>interface~alloc_plane</title>
-<g id="a_proc~~cholesky_solve_m~~CalledByGraph_node9"><a xlink:href=".././interface/alloc_plane.html" xlink:title="alloc_plane">
-<polygon fill="#a7506f" stroke="#a7506f" points="314.38,-22.26 249.13,-22.26 249.13,-0.24 314.38,-0.24 314.38,-22.26"/>
-<text text-anchor="middle" x="281.76" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">alloc_plane</text>
+<g id="a_proc~~cholesky_solve_m~~CalledByGraph_node8"><a xlink:href=".././interface/alloc_plane.html" xlink:title="alloc_plane">
+<polygon fill="#a7506f" stroke="#a7506f" points="314.38,-104.26 249.13,-104.26 249.13,-82.24 314.38,-82.24 314.38,-104.26"/>
+<text text-anchor="middle" x="281.76" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">alloc_plane</text>
 </a>
 </g>
 </g>
 <!-- interface~alloc_plane&#45;&gt;proc~alloc_plane -->
-<g id="proc~~cholesky_solve_m~~CalledByGraph_edge10" class="edge">
+<g id="proc~~cholesky_solve_m~~CalledByGraph_edge8" class="edge">
 <title>interface~alloc_plane&#45;&gt;proc~alloc_plane</title>
-<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M314.56,-11.25C334.62,-11.25 360.75,-11.25 382.5,-11.25"/>
-<polygon fill="#7f00ff" stroke="#7f00ff" points="382.78,-14.75 392.78,-11.25 382.78,-7.75 382.78,-14.75"/>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M314.56,-93.25C334.62,-93.25 360.75,-93.25 382.5,-93.25"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="382.78,-96.75 392.78,-93.25 382.78,-89.75 382.78,-96.75"/>
+</g>
+<!-- interface~solve_least_squares -->
+<g id="proc~~cholesky_solve_m~~CalledByGraph_node9" class="node">
+<title>interface~solve_least_squares</title>
+<g id="a_proc~~cholesky_solve_m~~CalledByGraph_node9"><a xlink:href=".././interface/solve_least_squares.html" xlink:title="solve_least_squares">
+<polygon fill="#a7506f" stroke="#a7506f" points="335.48,-145.26 228.03,-145.26 228.03,-123.24 335.48,-123.24 335.48,-145.26"/>
+<text text-anchor="middle" x="281.76" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">solve_least_squares</text>
+</a>
+</g>
+</g>
+<!-- interface~solve_least_squares&#45;&gt;proc~solve_least_squares -->
+<g id="proc~~cholesky_solve_m~~CalledByGraph_edge7" class="edge">
+<title>interface~solve_least_squares&#45;&gt;proc~solve_least_squares</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M335.53,-134.25C344.02,-134.25 352.87,-134.25 361.57,-134.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="361.67,-137.75 371.67,-134.25 361.67,-130.75 361.67,-137.75"/>
 </g>
 <!-- interface~laplacian_smooth -->
 <g id="proc~~cholesky_solve_m~~CalledByGraph_node10" class="node">
 <title>interface~laplacian_smooth</title>
 <g id="a_proc~~cholesky_solve_m~~CalledByGraph_node10"><a xlink:href=".././interface/laplacian_smooth.html" xlink:title="laplacian_smooth">
-<polygon fill="#a7506f" stroke="#a7506f" points="328.48,-145.26 235.04,-145.26 235.04,-123.24 328.48,-123.24 328.48,-145.26"/>
-<text text-anchor="middle" x="281.76" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">laplacian_smooth</text>
+<polygon fill="#a7506f" stroke="#a7506f" points="328.48,-22.26 235.04,-22.26 235.04,-0.24 328.48,-0.24 328.48,-22.26"/>
+<text text-anchor="middle" x="281.76" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">laplacian_smooth</text>
 </a>
 </g>
 </g>
 <!-- interface~laplacian_smooth&#45;&gt;proc~laplacian_smooth -->
-<g id="proc~~cholesky_solve_m~~CalledByGraph_edge7" class="edge">
+<g id="proc~~cholesky_solve_m~~CalledByGraph_edge10" class="edge">
 <title>interface~laplacian_smooth&#45;&gt;proc~laplacian_smooth</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M328.77,-134.25C341.4,-134.25 355.23,-134.25 368.36,-134.25"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="368.7,-137.75 378.7,-134.25 368.7,-130.75 368.7,-137.75"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M328.77,-11.25C341.4,-11.25 355.23,-11.25 368.36,-11.25"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="368.7,-14.75 378.7,-11.25 368.7,-7.75 368.7,-14.75"/>
 </g>
-<!-- interface~solve_least_squares -->
+<!-- interface~solve_pde_sys -->
 <g id="proc~~cholesky_solve_m~~CalledByGraph_node11" class="node">
-<title>interface~solve_least_squares</title>
-<g id="a_proc~~cholesky_solve_m~~CalledByGraph_node11"><a xlink:href=".././interface/solve_least_squares.html" xlink:title="solve_least_squares">
-<polygon fill="#a7506f" stroke="#a7506f" points="335.48,-63.26 228.03,-63.26 228.03,-41.24 335.48,-41.24 335.48,-63.26"/>
-<text text-anchor="middle" x="281.76" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">solve_least_squares</text>
+<title>interface~solve_pde_sys</title>
+<g id="a_proc~~cholesky_solve_m~~CalledByGraph_node11"><a xlink:href=".././interface/solve_pde_sys.html" xlink:title="solve_pde_sys">
+<polygon fill="#a7506f" stroke="#a7506f" points="322.72,-63.26 240.8,-63.26 240.8,-41.24 322.72,-41.24 322.72,-63.26"/>
+<text text-anchor="middle" x="281.76" y="-49.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">solve_pde_sys</text>
 </a>
 </g>
 </g>
-<!-- interface~solve_least_squares&#45;&gt;proc~solve_least_squares -->
+<!-- interface~solve_pde_sys&#45;&gt;proc~solve_pde_sys -->
 <g id="proc~~cholesky_solve_m~~CalledByGraph_edge9" class="edge">
-<title>interface~solve_least_squares&#45;&gt;proc~solve_least_squares</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M335.53,-52.25C344.02,-52.25 352.87,-52.25 361.57,-52.25"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="361.67,-55.75 371.67,-52.25 361.67,-48.75 361.67,-55.75"/>
+<title>interface~solve_pde_sys&#45;&gt;proc~solve_pde_sys</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M322.61,-52.25C338.62,-52.25 357.24,-52.25 374.16,-52.25"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="374.44,-55.75 384.44,-52.25 374.44,-48.75 374.44,-55.75"/>
 </g>
 <!-- proc~alloc_surface -->
 <g id="proc~~cholesky_solve_m~~CalledByGraph_node12" class="node">
 <title>proc~alloc_surface</title>
 <g id="a_proc~~cholesky_solve_m~~CalledByGraph_node12"><a xlink:href=".././proc/alloc_surface.html" xlink:title="alloc_surface">
-<polygon fill="#d9534f" stroke="#d9534f" points="189.79,-22.26 116.05,-22.26 116.05,-0.24 189.79,-0.24 189.79,-22.26"/>
-<text text-anchor="middle" x="152.92" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">alloc_surface</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="189.79,-104.26 116.05,-104.26 116.05,-82.24 189.79,-82.24 189.79,-104.26"/>
+<text text-anchor="middle" x="152.92" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">alloc_surface</text>
 </a>
 </g>
 </g>
 <!-- proc~alloc_surface&#45;&gt;interface~alloc_plane -->
 <g id="proc~~cholesky_solve_m~~CalledByGraph_edge11" class="edge">
 <title>proc~alloc_surface&#45;&gt;interface~alloc_plane</title>
-<path fill="none" stroke="#7fff00" d="M189.93,-11.25C205.19,-11.25 223.07,-11.25 238.91,-11.25"/>
-<polygon fill="#7fff00" stroke="#7fff00" points="238.98,-14.75 248.98,-11.25 238.98,-7.75 238.98,-14.75"/>
+<path fill="none" stroke="#ff0000" d="M189.93,-93.25C205.19,-93.25 223.07,-93.25 238.91,-93.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="238.98,-96.75 248.98,-93.25 238.98,-89.75 238.98,-96.75"/>
 </g>
 <!-- proc~smooth_mesh -->
 <g id="proc~~cholesky_solve_m~~CalledByGraph_node13" class="node">
 <title>proc~smooth_mesh</title>
 <g id="a_proc~~cholesky_solve_m~~CalledByGraph_node13"><a xlink:href=".././proc/smooth_mesh.html" xlink:title="smooth_mesh">
-<polygon fill="#d9534f" stroke="#d9534f" points="191.87,-145.26 113.97,-145.26 113.97,-123.24 191.87,-123.24 191.87,-145.26"/>
-<text text-anchor="middle" x="152.92" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">smooth_mesh</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="191.87,-22.26 113.97,-22.26 113.97,-0.24 191.87,-0.24 191.87,-22.26"/>
+<text text-anchor="middle" x="152.92" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">smooth_mesh</text>
 </a>
 </g>
 </g>
 <!-- proc~smooth_mesh&#45;&gt;interface~laplacian_smooth -->
 <g id="proc~~cholesky_solve_m~~CalledByGraph_edge12" class="edge">
 <title>proc~smooth_mesh&#45;&gt;interface~laplacian_smooth</title>
-<path fill="none" stroke="#00ffff" d="M191.98,-134.25C202.26,-134.25 213.6,-134.25 224.65,-134.25"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="224.67,-137.75 234.67,-134.25 224.66,-130.75 224.67,-137.75"/>
-</g>
-<!-- interface~smooth_mesh -->
-<g id="proc~~cholesky_solve_m~~CalledByGraph_node14" class="node">
-<title>interface~smooth_mesh</title>
-<g id="a_proc~~cholesky_solve_m~~CalledByGraph_node14"><a xlink:href=".././interface/smooth_mesh.html" xlink:title="smooth_mesh">
-<polygon fill="#a7506f" stroke="#a7506f" points="77.92,-145.26 0.03,-145.26 0.03,-123.24 77.92,-123.24 77.92,-145.26"/>
-<text text-anchor="middle" x="38.97" y="-131.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">smooth_mesh</text>
-</a>
-</g>
-</g>
-<!-- interface~smooth_mesh&#45;&gt;proc~smooth_mesh -->
-<g id="proc~~cholesky_solve_m~~CalledByGraph_edge14" class="edge">
-<title>interface~smooth_mesh&#45;&gt;proc~smooth_mesh</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M78.19,-134.25C86.38,-134.25 95.15,-134.25 103.66,-134.25"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="103.88,-137.75 113.88,-134.25 103.88,-130.75 103.88,-137.75"/>
+<path fill="none" stroke="#00ffff" d="M191.98,-11.25C202.26,-11.25 213.6,-11.25 224.65,-11.25"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="224.67,-14.75 234.67,-11.25 224.66,-7.75 224.67,-14.75"/>
 </g>
 <!-- interface~alloc_surface -->
-<g id="proc~~cholesky_solve_m~~CalledByGraph_node15" class="node">
+<g id="proc~~cholesky_solve_m~~CalledByGraph_node14" class="node">
 <title>interface~alloc_surface</title>
-<g id="a_proc~~cholesky_solve_m~~CalledByGraph_node15"><a xlink:href=".././interface/alloc_surface.html" xlink:title="alloc_surface">
-<polygon fill="#a7506f" stroke="#a7506f" points="75.84,-22.26 2.11,-22.26 2.11,-0.24 75.84,-0.24 75.84,-22.26"/>
-<text text-anchor="middle" x="38.97" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">alloc_surface</text>
+<g id="a_proc~~cholesky_solve_m~~CalledByGraph_node14"><a xlink:href=".././interface/alloc_surface.html" xlink:title="alloc_surface">
+<polygon fill="#a7506f" stroke="#a7506f" points="75.84,-104.26 2.11,-104.26 2.11,-82.24 75.84,-82.24 75.84,-104.26"/>
+<text text-anchor="middle" x="38.97" y="-90.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">alloc_surface</text>
 </a>
 </g>
 </g>
 <!-- interface~alloc_surface&#45;&gt;proc~alloc_surface -->
 <g id="proc~~cholesky_solve_m~~CalledByGraph_edge13" class="edge">
 <title>interface~alloc_surface&#45;&gt;proc~alloc_surface</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M76.01,-11.25C85.5,-11.25 95.87,-11.25 105.8,-11.25"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="105.95,-14.75 115.95,-11.25 105.95,-7.75 105.95,-14.75"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M76.01,-93.25C85.5,-93.25 95.87,-93.25 105.8,-93.25"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="105.95,-96.75 115.95,-93.25 105.95,-89.75 105.95,-96.75"/>
+</g>
+<!-- interface~smooth_mesh -->
+<g id="proc~~cholesky_solve_m~~CalledByGraph_node15" class="node">
+<title>interface~smooth_mesh</title>
+<g id="a_proc~~cholesky_solve_m~~CalledByGraph_node15"><a xlink:href=".././interface/smooth_mesh.html" xlink:title="smooth_mesh">
+<polygon fill="#a7506f" stroke="#a7506f" points="77.92,-22.26 0.03,-22.26 0.03,-0.24 77.92,-0.24 77.92,-22.26"/>
+<text text-anchor="middle" x="38.97" y="-8.1" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">smooth_mesh</text>
+</a>
+</g>
+</g>
+<!-- interface~smooth_mesh&#45;&gt;proc~smooth_mesh -->
+<g id="proc~~cholesky_solve_m~~CalledByGraph_edge14" class="edge">
+<title>interface~smooth_mesh&#45;&gt;proc~smooth_mesh</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M78.19,-11.25C86.38,-11.25 95.15,-11.25 103.66,-11.25"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="103.88,-14.75 113.88,-11.25 103.88,-7.75 103.88,-14.75"/>
 </g>
 </g>
 </svg>
@@ -821,12 +821,12 @@ module procedure cholesky_solve_m <small>module subroutine cholesky_solve_m(a, b
       <div class="container">
       <div class="row">
         <div class="col-xs-6 col-md-4"><p>&copy; 2020 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
-                                          <br /><small>763bcb5</small></p></div>
+                                          <br /><small>dc4279a</small></p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/cmacmackin/ford">FORD</a>
-             on 2020-02-28 18:29  
+             on 2020-02-28 21:49  
           </p>
         </div>
         <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> Morfeus Framework was developed by Guide Star Engineering, LLC</p></div>
