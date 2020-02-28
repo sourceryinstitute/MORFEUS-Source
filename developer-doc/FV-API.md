@@ -64,12 +64,12 @@ Example Program Flow
 
 A typical multi-physics application for dealing with heat transfer, solid mechanics, and various other physics would look something like the figure below:
 
-![Example app logic flow](../media/Morfeus-FV-program-flow.png)
+<img src="../media/Morfeus-FV-program-flow.png" id="responsive-image">
 
 It might not be immediately obvious how to connect these high-level concepts to the particular objects, classes and their methods listed below.
 The following figure provides a mapping to connect these abstract concepts to their more concrete realization.
 
-![Abstract program flow and specific calls](../media/Flowchart.png)
+<img src="../media/Flowchart.png" id="responsive-image">
 
 Additional information about the objects, classes and their mothods (type bound procedures) shown on the right hand side of the preceding figure can be found below.
 This information includes direct links to the more detailed API documentation.
