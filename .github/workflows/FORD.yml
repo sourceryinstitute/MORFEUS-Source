@@ -99,6 +99,7 @@ jobs:
           pr_msg="${pr_msg//$'\n'/'%0A'}"
           pr_msg="${pr_msg//$'\r'/'%0D'}"
           echo "::set-output name=pr_msg::$pr_msg"
+          sed '/^[[:space:]]*OK[[:space:]]/d' < issue.md
       - name: Create Issue From File
         uses: peter-evans/create-issue-from-file@v2
         if: github.event_name == 'push' && ( github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop' || endsWith( github.ref , '-dev' ) )
