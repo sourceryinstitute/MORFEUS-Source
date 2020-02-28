@@ -40,7 +40,7 @@
 ! $Id: tools_math.f90 2469 2007-10-08 10:34:43Z sfilippo $
 !
 ! Description:
-!    To be addded...
+!    To be added...
 !
 MODULE tools_math
     USE class_psblas, ONLY : psb_dpk_

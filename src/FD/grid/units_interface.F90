@@ -35,7 +35,7 @@ module units_interface
   character(len=*), parameter :: British_units_names(num_fundamental)=[character(len=len("sec")) :: "R", "ft", "lbm", "sec"]
 
   type, extends(object) :: units
-    !! Morfeus universal base type for all unitss
+    !! Morfeus universal base type for all units
     private
     integer :: exponents_(num_fundamental)=dimensionless  !! Store the exponents for fundamental units
     integer :: system=dimensionless  !! Default to SI units

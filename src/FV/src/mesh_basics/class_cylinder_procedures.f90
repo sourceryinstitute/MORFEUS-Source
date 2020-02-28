@@ -487,7 +487,7 @@ CONTAINS
 
         idummy = SIZE(fjac) ! since we don't control the interface to this subroutines, we must
         idummy = ldfjac     ! include these two unused variables.  These two lines make them
-        ! appear used and supressed "unused variable warnings.
+        ! appear used and suppressed "unused variable warnings.
 
         IF (nunknowns /= SIZE(unknowns) ) THEN
             WRITE(6,*)"Error in argument to FCN"

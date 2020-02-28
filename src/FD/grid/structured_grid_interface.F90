@@ -93,7 +93,7 @@ module structured_grid_interface
     end subroutine
 
     pure function block_indices_interface(this,n) result(ijk)
-      !! calculate the 3D location of the block that has the provided 1D block identifer
+      !! calculate the 3D location of the block that has the provided 1D block identifier
       import structured_grid
       implicit none
       class(structured_grid), intent(in) :: this
@@ -102,7 +102,7 @@ module structured_grid_interface
     end function
 
     pure function block_identifier_interface(this, ijk) result(n)
-      !! calculate the 1D block identifer associated with the provided 3D block location
+      !! calculate the 1D block identifier associated with the provided 3D block location
       import structured_grid
       implicit none
       class(structured_grid), intent(in) :: this
@@ -254,7 +254,7 @@ module structured_grid_interface
     end subroutine
 
     module function subtract(this, rhs) result(difference)
-      !! result contains the difference between this and rhs nodal_values compoents
+      !! result contains the difference between this and rhs nodal_values components
       implicit none
       class(structured_grid), intent(in) :: this, rhs
       class(structured_grid), allocatable :: difference

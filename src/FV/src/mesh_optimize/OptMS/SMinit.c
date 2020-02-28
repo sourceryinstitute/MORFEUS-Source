@@ -575,6 +575,6 @@ int SMconvertToDegrees(int function_id, double *value)
   default:
      *value = asin(*value) * 180 / 3.14159; break;
   }
-  OPTMS_DEBUG_ACTION(3,{fprintf(stdout,"Coverting the min value to degrees %f\n",*value);});
+  OPTMS_DEBUG_ACTION(3,{fprintf(stdout,"Converting the min value to degrees %f\n",*value);});
   return(ierr);
 }

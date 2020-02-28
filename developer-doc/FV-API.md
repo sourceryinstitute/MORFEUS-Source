@@ -29,11 +29,11 @@ is provided and its components described along with instructions for
 Solver Description
 ------------------
 
-The Morfeus-FV solver consists of two parts:
+The morfeus solver consists of two parts:
 
   - A common library of routines for reading input files, creating the grid, discretization of the equations, solving the equations using the Parallel Basic Linear Algebra Subroutines ([PSBLAS]), and plotting of the results.
 
-  - A problem-specific solver built using the routines from the Morfeus finite volume library.
+  - A problem-specific solver built using the routines from the morfeus finite volume library.
 
 [PSBLAS]: https://github.com/sfilippone/psblas3
 
@@ -41,8 +41,9 @@ The Morfeus-FV solver consists of two parts:
 Numerical Algorithms
 --------------------
 
-Morfeus-FV solves transport equations using explicit finite-difference time advancement and cell-based finite-volume spatial discretizations.  For a complete description of the algorithms employed 
-in Morfeus-FV, refer to the dissertation by S. [Toninel (2006)].  More recent work has involved modernization of the code using the modular and object-oriented programming (OOP) features of Fortran 2008, including
+Morfeus-FV solves transport equations using explicit finite-difference time advancement and cell-based finite-volume scheme spatial discretizations.  For a complete description of the algorithms employed
+in Morfeus-FV, refer to the dissertation by S. [Toninel (2006)].  More recent work has involved modernization of the code using the modular and object-oriented programming (OOP) features of Fortran 2008,
+including
 
   - Type extension,
   - Type-bound procedures,
@@ -58,6 +59,21 @@ Morfeus requires two input files. The first is a geometry file in GAMBIT neutral
 
 [sample json input file]: ../media/fast.json
 
+Example Program Flow
+--------------------
+
+A typical multi-physics application for dealing with heat transfer, solid mechanics, and various other physics would look something like the figure below:
+
+![Example app logic flow](../media/Morfeus-FV-program-flow.pdf)
+
+It might not be immediately obvious how to connect these high-level concepts to the particular objects, classes and their methods listed below.
+The following figure provides a mapping to connect these abstract concepts to their more concrete realization.
+
+![Abstract program flow and specific calls](../media/Flowchart.pdf)
+
+Additional information about the objects, classes and their mothods (type bound procedures) shown on the right hand side of the preceding figure can be found below.
+This information includes direct links to the more detailed API documentation.
+
 High-Level Object Descriptions
 ------------------------------
 As an illustrative example, the sample input file describes coaxial cable geometry. The input file is written using the JavaScript Object Notation (JSON) format and accessed by Morfeus via the [json-fortran] library. The file contains a top-level `MORFEUS` object, which in turn contains child objects defining various problem parameters. The child objects can occur in any order within the top-level object without affecting the functionality of the solver.
@@ -65,7 +81,7 @@ As an illustrative example, the sample input file describes coaxial cable geomet
 [json-fortran]: https://github.com/jacobwilliams/json-fortran
 
 ### Mesh object
-The `MESH` object in the input file describes the name and directory of the file containing the mesh geometry. The coaxial cable geometry consists of several concentric materials. All computations in Morfeus are done in MKS units. Any scaling of the geometry is also specified in this object. Mesh renumbering, partitioning scheme, and mesh diagnostics output for debugging can also be specified in this object.
+The `MESH` object in the input file describes the name and directory of the file containing the mesh geometry. The coaxial cable geometry consists of several concentric materials. All computations in morfeus are done in MKS units. Any scaling of the geometry is also specified in this object. Mesh renumbering, partitioning scheme, and mesh diagnostics output for debugging can also be specified in this object.
 ```
 "MESH": {
   "mesh-dir": "./",

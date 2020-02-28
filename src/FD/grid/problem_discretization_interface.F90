@@ -172,7 +172,7 @@ module problem_discretization_interface
     end function
 
     pure module function block_indicial_coordinates(this,n) result(ijk)
-      !! Calculate the 3D location of the block that has the provided 1D block identifer
+      !! Calculate the 3D location of the block that has the provided 1D block identifier
       implicit none
       class(problem_discretization), intent(in) :: this
       integer, intent(in) :: n
@@ -180,7 +180,7 @@ module problem_discretization_interface
     end function
 
     pure module function block_identifier(this,ijk) result(n)
-      !! Calculate the 1D block identifer associated with the provided 3D block location
+      !! Calculate the 1D block identifier associated with the provided 3D block location
       implicit none
       class(problem_discretization), intent(in) :: this
       integer, intent(in) :: ijk(:)

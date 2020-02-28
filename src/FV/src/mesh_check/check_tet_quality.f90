@@ -107,7 +107,7 @@ SUBMODULE (tools_mesh_check) tools_mesh_check_tet
         WRITE(*,600) '- Volume: ', msh%vol(ic)
         WRITE(*,700) '- Maximum dihedral angle: ', &
             & 180.0 * max_angle / pi
-        WRITE(*,700) '- Mininum dihedral angle: ', &
+        WRITE(*,700) '- Minimum dihedral angle: ', &
             & 180.0 * min_angle / pi
         WRITE(*,'()')
 

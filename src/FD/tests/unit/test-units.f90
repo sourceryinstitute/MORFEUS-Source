@@ -74,7 +74,7 @@ contains
     specific_energy = velocity**2
     call assert(specific_energy%has_specific_energy_units() .and. specific_energy%get_system()==SI, &
       "test-units: specific_energy%has_specific_energy_units()")
-      !! Verify integer exponentation of dimensional quantity
+      !! Verify integer exponentiation of dimensional quantity
 
     call mass%set_units(exponents=mass_units,system=SI)
     energy = mass*specific_energy

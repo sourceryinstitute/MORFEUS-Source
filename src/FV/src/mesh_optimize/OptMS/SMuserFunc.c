@@ -24,11 +24,11 @@ and threshold usage.
 
    Input Parameters:
 +  argc -  the number of input arguments to the program; used
-         to initialize logging.  The logging library checkes for the
+         to initialize logging.  The logging library checks for the
          command line argument -logfile filename to print the log
          summary to a file rather then to stdout.  If logging is not
          desired, or argc and argv are not available, NULL may be passed
-         in for these arguements.
+         in for these arguments.
 
 .  argv - input arguments to the program; used to initialize logging
 
@@ -72,7 +72,7 @@ and threshold usage.
                     region, but returns negative angles for inverted elements
               OPTMS_MAX_MIN_AREA_LENGTH_RATIO (or 8):  Computes the ratio of the the area
                     of the triangle and the sum of the squares of the length of the edges
-              OPTMS_MIN_MAX_LENGTH_AREA_RATIO (or 9): Computes the negtive inverse of the
+              OPTMS_MIN_MAX_LENGTH_AREA_RATIO (or 9): Computes the negative inverse of the
                     OPTMS_MAX_MIN_AREA_LENGTH_RATIO
               OPTMS_FUNCTION2D_DEFAULT (which is OPTMS_MAX_MIN_SINE) (or 4)
               OPTMS_DEFAULT (-1, which will result in a choice of OPTMS_MAX_MIN_SINE)
@@ -325,7 +325,7 @@ int SMsetUntangleTechnique(void *ext_smooth_data, int technique)
                     region, but returns negative angles for inverted elements
               OPTMS_MAX_MIN_AREA_LENGTH_RATIO (or 8):  Computes the ratio of the the area
                     of the triangle and the sum of the squares of the length of the edges
-              OPTMS_MIN_MAX_LENGTH_AREA_RATIO (or 9): Computes the negtive inverse of the
+              OPTMS_MIN_MAX_LENGTH_AREA_RATIO (or 9): Computes the negative inverse of the
                     OPTMS_MAX_MIN_AREA_LENGTH_RATIO
               OPTMS_FUNCTION2D_DEFAULT (which is OPTMS_MAX_MIN_SINE) (or 4)
               OPTMS_DEFAULT (-1, which will result in a choice of OPTMS_MAX_MIN_SINE)
@@ -796,7 +796,7 @@ int SMinitGlobalMinValue(void *ext_smooth_data)
 #define __FUNC__ "SMinitSmoothStats"
 /*@
     SMinitSmoothStats - If statistics gathering has been enabled in the configure process,
-         then this routine intializes the statistics structure that records the number
+         then this routine initializes the statistics structure that records the number
          of cells smoothed, the number of equilibrium points found, and the reason for
          algorithm termination.
 
@@ -812,7 +812,7 @@ int SMinitGlobalMinValue(void *ext_smooth_data)
 
     Note:
          It is useful to call this routine in conjunction with SMprintSmoothStats during each
-         global pass over the mesh so that the incremental improvment can be monitored.
+         global pass over the mesh so that the incremental improvement can be monitored.
 
 .seealso SMprintSmoothStats()
 @*/

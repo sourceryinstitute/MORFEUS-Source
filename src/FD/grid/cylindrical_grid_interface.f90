@@ -41,7 +41,7 @@ module cylindrical_grid_interface
     end subroutine
 
     pure module subroutine div_scalar_flux(this, vertices, block_surfaces, div_flux)
-      !! comunicate scalar fluxes between block neighbors in a halo exchange; compute scalar flux divergence at block boundaries
+      !! communicate scalar fluxes between block neighbors in a halo exchange; compute scalar flux divergence at block boundaries
       implicit none
       class(cylindrical_grid), intent(in) :: this
       class(structured_grid), intent(in) :: vertices
@@ -61,7 +61,7 @@ module cylindrical_grid_interface
     end subroutine
 
     pure module function block_indicial_coordinates(this,n) result(ijk)
-      !! calculate the 3D location of the block that has the provided 1D block identifer
+      !! calculate the 3D location of the block that has the provided 1D block identifier
       implicit none
       class(cylindrical_grid), intent(in) :: this
       integer, intent(in) :: n
@@ -69,7 +69,7 @@ module cylindrical_grid_interface
     end function
 
     pure module function block_identifier(this,ijk) result(n)
-      !! calculate the 1D block identifer associated with the provided 3D block location
+      !! calculate the 1D block identifier associated with the provided 3D block location
       implicit none
       class(cylindrical_grid), intent(in) :: this
       integer, intent(in), dimension(:) :: ijk
