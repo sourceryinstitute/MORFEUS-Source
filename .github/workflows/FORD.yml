@@ -70,7 +70,9 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: FORD-API-docs
-          path: ./API-doc
+          path: ./
+      - name: Extract source zip
+        run: unzip API-docs.zip
       - name: set git vars
         id: sgv
         run: |

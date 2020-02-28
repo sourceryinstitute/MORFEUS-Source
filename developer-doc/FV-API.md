@@ -23,17 +23,17 @@ is provided and its components described along with instructions for
   - Setting up PDEs and integrating the solution forward in time, and
   - Writing outputs.
 
-![Sphere geometry and mesh for finite volume solver](../media/sphere.png)
+![Sphere geometry and mesh for finite volume solver](https://user-images.githubusercontent.com/13108868/74580343-f5095500-4f57-11ea-9c18-5c5aec301642.png)
 
 
 Solver Description
 ------------------
 
-The Morfeus-FV solver consists of two parts:
+The morfeus solver consists of two parts:
 
   - A common library of routines for reading input files, creating the grid, discretization of the equations, solving the equations using the Parallel Basic Linear Algebra Subroutines ([PSBLAS]), and plotting of the results.
 
-  - A problem-specific solver built using the routines from the Morfeus finite volume library.
+  - A problem-specific solver built using the routines from the morfeus finite volume library.
 
 [PSBLAS]: https://github.com/sfilippone/psblas3
 
@@ -41,22 +41,23 @@ The Morfeus-FV solver consists of two parts:
 Numerical Algorithms
 --------------------
 
-Morfeus-FV solves transport equations using explicit finite-difference time advancement and cell-based finite-volume spatial discretizations.  For a complete description of the algorithms employed 
-in Morfeus-FV, refer to the dissertation by S. [Toninel (2006)].  More recent work has involved modernization of the code using the modular and object-oriented programming (OOP) features of Fortran 2008, including
+Morfeus-FV solves transport equations using explicit finite-difference time advancement and cell-based finite-volume scheme spatial discretizations.  For a complete description of the algorithms employed
+in Morfeus-FV, refer to the dissertation by S. [Toninel (2006)].  More recent work has involved modernization of the code using the modular and object-oriented programming (OOP) features of Fortran 2008,
+including
 
   - Type extension,
   - Type-bound procedures,
   - User-defined, type-bound operators, and
   - Submodules.
 
-[Toninel (2006)]: ../media/toninel_phd.pdf
+[Toninel (2006)]: http://people.uniroma2.it/salvatore.filippone/nemo/toninel_phd.pdf
 
 Input Files
 ------------
 
 Morfeus requires two input files. The first is a geometry file in GAMBIT neutral file format or in EXODUS II format; the second is a file called fast.json that contains the problem description, i.e. the description of materials, boundary conditions, solver parameters such as convergence criteria, and output parameters. The `fast.json` file should be present in the same folder as the mesh-file and the solver.   The next several sections describe different sections of a [sample json input file].
 
-[sample json input file]: ../media/fast.json
+[sample json input file]: https://github.com/sourceryinstitute/OpenCoarrays/files/4207672/fast.json.zip
 
 High-Level Object Descriptions
 ------------------------------
@@ -65,7 +66,7 @@ As an illustrative example, the sample input file describes coaxial cable geomet
 [json-fortran]: https://github.com/jacobwilliams/json-fortran
 
 ### Mesh object
-The `MESH` object in the input file describes the name and directory of the file containing the mesh geometry. The coaxial cable geometry consists of several concentric materials. All computations in Morfeus are done in MKS units. Any scaling of the geometry is also specified in this object. Mesh renumbering, partitioning scheme, and mesh diagnostics output for debugging can also be specified in this object.
+The `MESH` object in the input file describes the name and directory of the file containing the mesh geometry. The coaxial cable geometry consists of several concentric materials. All computations in morfeus are done in MKS units. Any scaling of the geometry is also specified in this object. Mesh renumbering, partitioning scheme, and mesh diagnostics output for debugging can also be specified in this object.
 ```
 "MESH": {
   "mesh-dir": "./",

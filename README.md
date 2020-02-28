@@ -31,7 +31,7 @@
 ### Capabilities
 
 MORFEUS is an open source framework for the solution of partial differential equations
-(PDEs) written in modern Fortran. It is object oriented, and attempts to provide usefull
+(PDEs) written in modern Fortran. It is object oriented, and attempts to provide useful
 abstractions for the solution of PDEs that are easy to use and performant.
 
 MORFEUS consists of two main solution approaches:
