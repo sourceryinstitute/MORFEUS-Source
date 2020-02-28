@@ -90,7 +90,7 @@ MODULE class_vector_field
         PROCEDURE, PRIVATE :: vector_field_sum, vector_field_dif
         PROCEDURE, PASS(f2), PRIVATE :: vector_field_scal     !! Algebra operations
         PROCEDURE, PRIVATE :: assign_vector_field_s, assign_vector_field_v
-        GENERIC :: ASSIGNMENT(=) => assign_vector_field_s, assign_vector_field_v !! User-defined assignemnts
+        GENERIC :: ASSIGNMENT(=) => assign_vector_field_s, assign_vector_field_v !! User-defined assignments
         GENERIC :: OPERATOR(+) => vector_field_sum
         GENERIC :: OPERATOR(-) => vector_field_dif
         GENERIC :: OPERATOR(*) => vector_field_scal     !! Algebra operations
@@ -122,7 +122,7 @@ MODULE class_vector_field
             INTEGER(kind=nemo_int_long_)    :: nemo_sizeof
         END FUNCTION nemo_sizeof
 
-        MODULE SUBROUTINE create_vector_field(fld,msh,dim,bc,mats,on_faces,x0)
+        MODULE SUBROUTINE create_vector_field(fld,msh,dim,bc,mats,on_faces,x0,name)
             !! Constructor
             IMPLICIT NONE
             !! Mandatory arguments
@@ -134,6 +134,7 @@ MODULE class_vector_field
             TYPE(matptr),     INTENT(IN), OPTIONAL, TARGET :: mats(:)
             LOGICAL,          INTENT(IN), OPTIONAL         :: on_faces
             TYPE(vector),     INTENT(IN), OPTIONAL         :: x0
+            CHARACTER(LEN=*), INTENT(IN), OPTIONAL         :: name
         END SUBROUTINE create_vector_field
 
         ! ----- Destructor -----
@@ -258,7 +259,6 @@ MODULE class_vector_field
         END SUBROUTINE check_mesh_consistency_vf
 
         MODULE FUNCTION vector_field_scal(a,f2) RESULT(r)
-            USE class_dimensions
             IMPLICIT NONE
             TYPE(vector_field) :: r
             REAL(psb_dpk_),      INTENT(IN) :: a

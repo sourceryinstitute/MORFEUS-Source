@@ -138,7 +138,7 @@ SUBMODULE (tools_mesh_optimize) smooth_interior_vtx_implementation
             CALL abort_psblas
         ENDIF
 
-        ! note location of the free vertex, whoose position will be optimized
+        ! note location of the free vertex, whose position will be optimized
         free_pos(1) = msh%verts(iv)%x_()
         free_pos(2) = msh%verts(iv)%y_()
         free_pos(3) = msh%verts(iv)%z_()

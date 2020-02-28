@@ -4,11 +4,19 @@
 #     under contract "Multi-Dimensional Physics Implementation into Fuel Analysis under
 #     Steady-state and Transients (FAST)", contract # NRC-HQ-60-17-C-0007
 #
-cmake_minimum_required(VERSION 3.11)
-cmake_policy(VERSION 3.11.1...3.14.1)
+cmake_minimum_required(VERSION 3.13.4)
+# Ensure policies are set as they have been tested
+cmake_policy(VERSION 3.13.4...3.15.2)
 if(POLICY CMP0074)
   cmake_policy(SET CMP0074 NEW)
 endif()
+if(POLICY CMP0042)
+  # Use MACOSX_RPATH
+  cmake_policy(SET CMP0042 NEW)
+endif()
+
+
+list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_LIST_DIR}/cmake/modules")
 
 set_property(GLOBAL PROPERTY USE_FOLDERS_ON)
 
@@ -189,6 +197,7 @@ set(morfeus_fv_srcs
   src/mesh/part_random.f90
   src/mesh/part_random_procedures.f90
   src/mesh/rd_gambit_implementation.f90
+  src/mesh/rd_gmsh_implementation.f90
   src/mesh/rd_inp_mesh_implementation.f90
   src/mesh/renum.F90
   src/mesh/renum_procedures.F90
@@ -228,13 +237,13 @@ set(morfeus_fv_srcs
   src/operators/vector_pde_laplacian.f90
 #  src/operators/vector_pde_source.f90  Not currently used
   src/output/class_output.f90
-  src/output/class_output_procedures.f90
+  src/output/class_output_procedures.F90
+  src/output/class_vtk_output.f90
+  src/output/class_vtk_output_procedures.f90
   src/output/htoi.f90
   src/output/itoh.f90
   src/output/tools_output_basics.f90
   src/output/tools_output.f90
-  src/output/vtkmofo_interface.f90
-  src/output/vtkmofo_implementation.f90
   src/output/wr_mtx_matrix.f90
   src/output/wr_mtx_pattern.f90
   src/output/wr_mtx_vector.f90
@@ -289,7 +298,9 @@ set(morfeus_fv_C_srcs
 
 if(USE_EXODUS)
   list(APPEND morfeus_fv_srcs
-    src/mesh/rd_exodus_mesh.f90)
+    src/mesh/rd_exodus_mesh.f90
+    src/output/class_exodus.f90
+    src/output/class_exodus_procedures.f90)
 endif()
 
 if(USE_CGNS)
@@ -532,6 +543,14 @@ else()
     "Please run CMake from the top level FAST directory; the MatLib library is now required by MORFEUS_FV.")
 endif()
 
+if(TARGET Coolant)
+  target_link_libraries(morfeus_fv
+    PUBLIC Coolant)
+else()
+  message( FATAL_ERROR
+    "Please run CMake from the top level FAST directory; the Coolant library is now required by MORFEUS_FV.")
+endif()
+
 if(TARGET vtkmofo)
   target_link_libraries(morfeus_fv
     PUBLIC vtkmofo)
@@ -673,6 +692,14 @@ function(add_morfeus_fv_test name partitions test_target mesh_file input_file wo
   get_filename_component( mesh_basename ${mesh_file} NAME )
   set( mesh_path "./")
   get_filename_component( input_basename ${input_file} NAME)
+  # Default output file type
+  if(USE_EXODUS)
+    set( output_format "exo")
+  else()
+    set( output_format "vtk")
+  endif()
+  # Base output filename
+  set (base_path ${name})
   # First copy and configure the input file and the mesh file to the test working directory
   configure_file( "${input_file}" "${workdir}/${input_basename}"
     @ONLY)
@@ -727,11 +754,36 @@ endfunction()
 
 # FAST heat conduction multiple zones
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/applications")
-  add_morfeus_fv_test( unsteady_heat_pipe 1 unsteady_fast
-    applications/fast_heat/cases/test_unsteady/heat_pipe.neu
-    applications/fast_heat/cases/test_unsteady/fast.json
-    ${integ_test_dir}/unsteady_heat_pipe)
-
+  # Heat pipe geometry
+  add_morfeus_fv_test( unsteady_heat_pipe_Gambit 6 unsteady_fast
+    applications/fast_heat/cases/test_unsteady/Gambit/heat_pipe.neu
+    applications/fast_heat/cases/test_unsteady/Gambit/fast.json
+    ${integ_test_dir}/unsteady_heat_pipe/Gambit)
+  add_morfeus_fv_test( unsteady_heat_pipe_Gmsh 6 unsteady_fast
+    applications/fast_heat/cases/test_unsteady/Gmsh/heat_pipe.msh
+    applications/fast_heat/cases/test_unsteady/Gmsh/fast.json
+  ${integ_test_dir}/unsteady_heat_pipe/Gmsh)
+  if(USE_EXODUS)
+    add_morfeus_fv_test( unsteady_heat_pipe_exodus 6 unsteady_fast
+      applications/fast_heat/cases/test_unsteady/Exodus/heat_pipe.e
+      applications/fast_heat/cases/test_unsteady/Exodus/fast.json
+      ${integ_test_dir}/unsteady_heat_pipe/Exodus)
+  endif()
+  # 3D plate geometry
+  add_morfeus_fv_test( plate-3d 4 unsteady_fast
+    applications/fast_heat/cases/plate-3d/plate-3D.msh
+    applications/fast_heat/cases/plate-3d/fast.json
+    ${integ_test_dir}/plate-3d)
+  # 3D cylinder geometry
+  add_morfeus_fv_test( cylinder-3d 4 unsteady_fast
+    applications/fast_heat/cases/cylinder-3d/cylinder-3D.msh
+    applications/fast_heat/cases/cylinder-3d/fast.json
+    ${integ_test_dir}/cylinder-3d)
+  # 3D sphere geometry
+  #add_morfeus_fv_test( sphere-3d 4 unsteady_fast
+  #  applications/fast_heat/cases/sphere-3d/sphere-3D.msh
+  #  applications/fast_heat/cases/sphere-3d/fast.json
+  #  ${integ_test_dir}/sphere-3d)
   if(${USE_CGNS})
     # Steady piston conduction test
     # Should produce:

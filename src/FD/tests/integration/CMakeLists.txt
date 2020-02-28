@@ -6,8 +6,11 @@
 #
 set( base_names
   plate-material-mapping
-  differentiate-grid
+  differentiate-cartesian-grid
+  differentiate-cylindrical-grid
+  differentiate-spherical-grid
   discretize-3D-plate
+  discretize-2D-cylinder
   write-slab-vtk
   write-voxels-vtk
 )

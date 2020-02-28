@@ -59,11 +59,10 @@ contains
           call assert(num_time_stamps==1,"structured_grid%write_formatted: single time instant")
       end associate; end associate
 
-      do xloc=1,lbound(this%nodal_values,1),ubound(this%nodal_values,1)
-        do yloc=1,lbound(this%nodal_values,2),ubound(this%nodal_values,2)
-          do zloc=1,lbound(this%nodal_values,3),ubound(this%nodal_values,3)
+      do xloc=lbound(this%nodal_values,1),ubound(this%nodal_values,1)
+        do yloc=lbound(this%nodal_values,2),ubound(this%nodal_values,2)
+          do zloc=lbound(this%nodal_values,3),ubound(this%nodal_values,3)
             write(unit,'(3(e12.4,","),3x,a)') this%nodal_values(xloc,yloc,zloc,:,1,1), "1"
-            write(unit,*) new_line('a')
       end do; end do; end do
 
     end procedure write_formatted
@@ -166,6 +165,18 @@ contains
 
     module procedure set_block_identifier
       this%block_id = id
+    end procedure
+
+    module procedure get_block_identifier
+      this_block_id = this%block_id
+    end procedure
+
+    module procedure set_scalar_identifier
+      this%scalar_id = id
+    end procedure
+
+    module procedure get_scalar_identifier
+      this_scalar_id = this%scalar_id
     end procedure
 
 end submodule

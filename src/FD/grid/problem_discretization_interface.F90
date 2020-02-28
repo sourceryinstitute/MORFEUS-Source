@@ -14,6 +14,8 @@ module problem_discretization_interface
   use geometry_interface, only : geometry
   use kind_parameters, only : r8k, i4k
   use plate_3D_interface, only : plate_3D
+  use cylinder_2D_interface, only : cylinder_2D
+  use sphere_1D_interface, only : sphere_1D
   use differentiable_field_interface, only : differentiable_field
   use surfaces_interface, only : surfaces
   use package_interface, only : package
@@ -38,6 +40,7 @@ module problem_discretization_interface
       !! div( D grad(s)): same dimensions as scalar_fields
     class(geometry), allocatable :: problem_geometry
       !! description of problem domain and material identities; child types: plate_3D, cylinder_2D, sphere_1D
+    real(r8k) :: end_time
   contains
     procedure :: get_surface_packages
     procedure :: get_block_surfaces
@@ -52,24 +55,26 @@ module problem_discretization_interface
     procedure :: num_scalars
     procedure :: num_scalar_flux_divergences
     procedure :: initialize_from_plate_3D
+    procedure :: initialize_from_cylinder_2D
+    procedure :: initialize_from_sphere_1D
     procedure :: set_scalar_flux_divergence
+    procedure :: solve_governing_equations
 #ifndef FORD
     generic :: set_vertices => user_defined_vertices
     generic :: set_scalars => set_analytical_scalars
-    generic :: initialize_from_geometry => initialize_from_plate_3D
+    generic :: initialize_from_geometry => initialize_from_plate_3D, initialize_from_cylinder_2D, initialize_from_sphere_1D
 #endif
     procedure :: write_output
   end type
 
   interface
 
-    module subroutine get_surface_packages(this, this_surface_packages)
+    module function get_surface_packages(this) result(this_surface_packages)
       !! get surface data packages of this image
-      !! This cannot be a function because the function result would not preserve the desired bounds.
       implicit none
       class(problem_discretization), intent(in) :: this
-      type(package), allocatable, dimension(:,:,:), intent(out) :: this_surface_packages
-    end subroutine
+      type(package), allocatable, dimension(:,:,:) :: this_surface_packages
+    end function
 
     module function get_block_surfaces(this) result(this_block_surfaces)
       !! get surfaces owned by this image
@@ -93,10 +98,24 @@ module problem_discretization_interface
     end subroutine
 
     module subroutine initialize_from_plate_3D(this, plate_3D_geometry)
-      !! Define a grid with points only at the corners of each structured-grid block block
+      !! Define a grid with points covering each structured-grid block in a 3D plate
       implicit none
       class(problem_discretization), intent(inout) :: this
       type(plate_3D), intent(in) :: plate_3D_geometry
+    end subroutine
+
+    module subroutine initialize_from_cylinder_2D(this, cylinder_2D_geometry)
+      !! Define a grid with points covering each structured-grid block in a 2D cylinder
+      implicit none
+      class(problem_discretization), intent(inout) :: this
+      type(cylinder_2D), intent(in) :: cylinder_2D_geometry
+    end subroutine
+
+    module subroutine initialize_from_sphere_1D(this, sphere_1D_geometry)
+      !! Define a grid with points covering each structured-grid block in a 1D sphere
+      implicit none
+      class(problem_discretization), intent(inout) :: this
+      type(sphere_1D), intent(in) :: sphere_1D_geometry
     end subroutine
 
     module subroutine partition(this,global_block_shape,prototype)
@@ -153,7 +172,7 @@ module problem_discretization_interface
     end function
 
     pure module function block_indicial_coordinates(this,n) result(ijk)
-      !! Calculate the 3D location of the block that has the provided 1D block identifer
+      !! Calculate the 3D location of the block that has the provided 1D block identifier
       implicit none
       class(problem_discretization), intent(in) :: this
       integer, intent(in) :: n
@@ -161,7 +180,7 @@ module problem_discretization_interface
     end function
 
     pure module function block_identifier(this,ijk) result(n)
-      !! Calculate the 1D block identifer associated with the provided 3D block location
+      !! Calculate the 1D block identifier associated with the provided 3D block location
       implicit none
       class(problem_discretization), intent(in) :: this
       integer, intent(in) :: ijk(:)
@@ -174,6 +193,13 @@ module problem_discretization_interface
       class(problem_discretization), intent(in) :: this
       integer num_blocks
     end function
+
+    module subroutine solve_governing_equations(this, duration)
+      !! advance the governing equations for the specified time duration
+      implicit none
+      class(problem_discretization), intent(in) :: this
+      real(r8k), intent(in) :: duration
+    end subroutine
 
   end interface
 

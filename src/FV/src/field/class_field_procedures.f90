@@ -94,7 +94,11 @@ CONTAINS
         END IF
 
         ! Field name
-        fld%name = fld%dim%quantity()
+        IF (PRESENT(name)) THEN
+            fld%name = TRIM(name)
+        ELSE
+            fld%name = fld%dim%quantity()
+        END IF
 
     END PROCEDURE create_field
 

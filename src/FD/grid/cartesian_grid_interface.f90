@@ -21,7 +21,6 @@ module cartesian_grid_interface
   contains
     procedure :: set_up_div_scalar_flux
     procedure :: div_scalar_flux
-    procedure :: assign_structured_grid
     procedure :: block_indicial_coordinates
     procedure :: block_identifier
     procedure :: build_surfaces
@@ -31,7 +30,7 @@ module cartesian_grid_interface
 
   interface
 
-    pure module subroutine set_up_div_scalar_flux(this, vertices, block_surfaces, div_flux_internal_points)
+    module subroutine set_up_div_scalar_flux(this, vertices, block_surfaces, div_flux_internal_points)
       !! define the scalar flux divergence at points internal to grid blocks grid; define block-surface data on halo blocks
       implicit none
       class(cartesian_grid), intent(in) :: this
@@ -41,6 +40,7 @@ module cartesian_grid_interface
     end subroutine
 
     pure module subroutine div_scalar_flux(this, vertices, block_surfaces, div_flux)
+      !! communicate scalar fluxes between block neighbors in a halo exchange; compute scalar flux divergence at block boundaries
       implicit none
       class(cartesian_grid), intent(in) :: this
       class(structured_grid), intent(in) :: vertices
@@ -48,26 +48,19 @@ module cartesian_grid_interface
       class(structured_grid), intent(inout) :: div_flux
     end subroutine
 
-    module subroutine build_surfaces(this, problem_geometry, space_dimension, block_faces, block_partitions, num_scalars)
+    module subroutine build_surfaces(this, problem_geometry, vertices, block_faces, block_partitions, num_scalars)
       !! allocate the surfaces array for use in halo exchanges and boundary conditions
       implicit none
       class(cartesian_grid), intent(in) :: this
       class(geometry), intent(in) :: problem_geometry
-      integer, intent(in) :: space_dimension
+      class(structured_grid), intent(in), dimension(:), allocatable :: vertices
       type(surfaces), intent(inout) :: block_faces
       integer, intent(in), dimension(:) :: block_partitions
       integer, intent(in) :: num_scalars
     end subroutine
 
-    module subroutine assign_structured_grid(this, rhs)
-     !! copy the rhs into this structured_grid
-     implicit none
-     class(cartesian_grid), intent(inout) :: this
-     class(structured_grid), intent(in) :: rhs
-    end subroutine
-
     pure module function block_indicial_coordinates(this,n) result(ijk)
-      !! calculate the 3D location of the block that has the provided 1D block identifer
+      !! calculate the 3D location of the block that has the provided 1D block identifier
       implicit none
       class(cartesian_grid), intent(in) :: this
       integer, intent(in) :: n
@@ -75,7 +68,7 @@ module cartesian_grid_interface
     end function
 
     pure module function block_identifier(this,ijk) result(n)
-      !! calculate the 1D block identifer associated with the provided 3D block location
+      !! calculate the 1D block identifier associated with the provided 3D block location
       implicit none
       class(cartesian_grid), intent(in) :: this
       integer, intent(in), dimension(:) :: ijk

@@ -243,7 +243,7 @@ CONTAINS
             END DO
         END DO
 
-100     FORMAT(' ERROR! String lenght mismatch in PSB_HGATHERV')
+100     FORMAT(' ERROR! String length mismatch in PSB_HGATHERV')
 
     END PROCEDURE psb_hgatherv
 

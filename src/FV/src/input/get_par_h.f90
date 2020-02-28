@@ -56,6 +56,7 @@ SUBMODULE (tools_input) get_par_h_implementation
             !
             LOGICAL :: found
             CHARACTER(len=15) :: str
+            CHARACTER(len=32) :: tmp_h
             INTEGER :: i, k
 
             ! File pointer is supposed to at the beginning of SEC section.
@@ -68,8 +69,8 @@ SUBMODULE (tools_input) get_par_h_implementation
                 k = k + 1
                 IF(str == par) THEN
                     BACKSPACE(inp)
-                    READ(inp,*) str, get_par_h
-                    IF(debug) WRITE(*,100) str, get_par_h
+                    READ(inp,*) str, tmp_h
+                    IF(debug) WRITE(*,100) str, tmp_h
                     found = .TRUE.
                     EXIT reading
                 ELSEIF(str == 'END OF SECTION')THEN
@@ -82,15 +83,18 @@ SUBMODULE (tools_input) get_par_h_implementation
                 BACKSPACE(inp)
             END DO
 
-            IF(found) RETURN
+            IF (found) THEN
+                get_par_h = TRIM(tmp_h)
+                RETURN
+            END IF
 
             ! Parameter not found in input file
             IF(TRIM(default) == mandatory_h_) THEN
                 WRITE(*,200) TRIM(par), TRIM(sec)
                 CALL abort_psblas
             ELSE
-                WRITE(*,300) TRIM(par), TRIM(sec), default
-                get_par_h = default
+                WRITE(*,300) TRIM(par), TRIM(sec), TRIM(default)
+                get_par_h = TRIM(default)
             END IF
 
 100         FORMAT(1x,a15,1x,a)

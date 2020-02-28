@@ -13,7 +13,7 @@ module emulated_intrinsics_interface
 
 #ifndef HAVE_FINDLOC
   interface findloc
-    !! result is the last occurence of a value in an array or zero if not found
+    !! result is the last occurrence of a value in an array or zero if not found
     module procedure findloc_integer_dim1, findloc_logical_dim1, findloc_character_dim1
   end interface
 #endif
@@ -54,7 +54,7 @@ module emulated_intrinsics_interface
     pure module function findloc_integer_dim1(array, value, dim, back) result(location)
       implicit none
       integer, intent(in) :: array(:), value, dim
-      logical, intent(in) :: back
+      logical, intent(in), optional :: back
       integer location
     end function
 

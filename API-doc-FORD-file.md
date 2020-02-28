@@ -83,7 +83,7 @@ In addition to the search box on the right side of the top navbar, the following
 * [Developer Documentation]:  
   Visit the high-level developer documentation which outlines
     - How to get started,
-    - Procedures and classes most relavent to creating or modifying a PDE solver, and
+    - Procedures and classes most relevant to creating or modifying a PDE solver, and
     - Instructions for building the Morfeus Framework library
     - A high-level overview of the CMake based build system
 * [Source Files]:  
@@ -93,7 +93,7 @@ In addition to the search box on the right side of the top navbar, the following
   the [Modules] landing page.
 * [Modules]:  
   The landing page enumerating and describing all the modules and submodules in the project.
-  More usefull than the Source Files page, as it groups submodules with their parent modules and
+  More useful than the Source Files page, as it groups submodules with their parent modules and
   provides some description for what each one does.
 * [Procedures]:  
   Enumerates all procedures including generic overloaded interfaces, operators, module procedures, functions and subroutines.

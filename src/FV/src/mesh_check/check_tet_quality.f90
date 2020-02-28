@@ -56,7 +56,7 @@ SUBMODULE (tools_mesh_check) tools_mesh_check_tet
         USE class_vector
         USE class_vertex
         USE tools_math
-        USE tools_mesh_basics, ONLY : geom_tet_quality
+        USE tools_mesh_basics, ONLY : geom_tet_quality, geom_tet_dihedral_angle
         USE tools_output_basics
 
         IMPLICIT NONE
@@ -107,7 +107,7 @@ SUBMODULE (tools_mesh_check) tools_mesh_check_tet
         WRITE(*,600) '- Volume: ', msh%vol(ic)
         WRITE(*,700) '- Maximum dihedral angle: ', &
             & 180.0 * max_angle / pi
-        WRITE(*,700) '- Mininum dihedral angle: ', &
+        WRITE(*,700) '- Minimum dihedral angle: ', &
             & 180.0 * min_angle / pi
         WRITE(*,'()')
 

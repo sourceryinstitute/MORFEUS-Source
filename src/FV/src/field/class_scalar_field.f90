@@ -71,7 +71,7 @@ MODULE class_scalar_field
         INTEGER, ALLOCATABLE :: bmat(:)
     CONTAINS
         PROCEDURE, PUBLIC :: create_scalar_field               !! Constructor
-        PROCEDURE, PUBLIC ::  free_field                       !! Destructor
+        PROCEDURE, PUBLIC :: free_field                        !! Destructor
         PROCEDURE, PUBLIC :: get_base
         PROCEDURE, PRIVATE :: get_scalar_field_x, get_scalar_field_element
         GENERIC, PUBLIC :: get_x => get_scalar_field_x, get_scalar_field_element
@@ -113,7 +113,7 @@ MODULE class_scalar_field
           !! Result is new scalar_field from parent field
             IMPLICIT NONE
             TYPE(scalar_field) :: scalar_field_
-            TYPE(field),      INTENT(IN) :: base
+            TYPE(field),    INTENT(IN) :: base
             REAL(psb_dpk_), INTENT(IN) :: x(:)
             REAL(psb_dpk_), INTENT(IN) :: bx(:)
         END FUNCTION scalar_field_
@@ -131,7 +131,7 @@ MODULE class_scalar_field
             INTEGER(kind=nemo_int_long_)   :: nemo_sizeof
         END FUNCTION nemo_sizeof
 
-        MODULE SUBROUTINE create_scalar_field(fld,msh,dim,bc,mats,on_faces,x0)
+        MODULE SUBROUTINE create_scalar_field(fld,msh,dim,bc,mats,on_faces,x0,name)
           !! label: Morfeus-FV
           !!
           !! Define scalar_field from mesh, dimensions, boundary conditions, materials, face-centeredness, and values
@@ -143,6 +143,7 @@ MODULE class_scalar_field
             TYPE(matptr),     INTENT(IN), OPTIONAL, TARGET :: mats(:)
             LOGICAL,          INTENT(IN), OPTIONAL         :: on_faces
             REAL(psb_dpk_),   INTENT(IN), OPTIONAL         :: x0
+            CHARACTER(LEN=*), INTENT(IN), OPTIONAL         :: name
         END SUBROUTINE create_scalar_field
 
         MODULE SUBROUTINE free_field(fld)

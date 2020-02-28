@@ -27,12 +27,12 @@ Solver and Problem Setup
 @todo
 This needs more text added here.
 
-Timestepping and Integration
+Time-stepping and Integration
 ----------------------------
 
 @todo
 This needs more text added here.
-Pressumably something better than forward Euler is being used...
+Presumably something better than forward Euler is being used...
 
 \begin{equation}
 u_i^{n+1} = u_i^n + \Delta_t f(t,u_i^n)

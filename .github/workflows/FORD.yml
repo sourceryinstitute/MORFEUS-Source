@@ -52,11 +52,12 @@ jobs:
           mkdir -p $(brew --cache) || true
           ford -r $(git describe --always) --debug API-doc-FORD-file.md
           touch API-doc/.nojekyll
+          zip -vr API-docs.zip API-doc/ -x "*.DS_Store"
       - name: Upload Documentation
         uses: actions/upload-artifact@v1
         with:
           name: FORD-API-docs
-          path: ./API-doc
+          path: ./API-docs.zip
 
   Check-Links:
     runs-on: ubuntu-latest
@@ -69,7 +70,11 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: FORD-API-docs
-          path: ./API-doc
+          path: ./
+      - name: Extract source zip
+        run: |
+          unzip API-docs.zip
+          ls -la
       - name: set git vars
         id: sgv
         run: |
@@ -79,7 +84,7 @@ jobs:
         uses: peter-evans/link-checker@v1
         id: lc
         with:
-          args: -c 5 -v -r -x (gsellc\.com$)|(github\.com\/cmacmackin\/ford$)|(gcc\.gnu\.org\/onlinedocs\/gfortran)|(\/interface\/operator) API-doc
+          args: -c 5 -v -r -x (gsellc\.com$)|(github\.com\/cmacmackin\/ford$)|(gcc\.gnu\.org\/onlinedocs\/gfortran)|(\/interface\/operator)|(gcc.gnu.org/bugzilla) API-doc
       - name: Prune OK links
         id: pol
         if: steps.lc.outputs.exit_code != 0
@@ -94,6 +99,7 @@ jobs:
           pr_msg="${pr_msg//$'\n'/'%0A'}"
           pr_msg="${pr_msg//$'\r'/'%0D'}"
           echo "::set-output name=pr_msg::$pr_msg"
+          sed '/^[[:space:]]*OK[[:space:]]/d' < issue.md
       - name: Create Issue From File
         uses: peter-evans/create-issue-from-file@v2
         if: github.event_name == 'push' && ( github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop' || endsWith( github.ref , '-dev' ) )

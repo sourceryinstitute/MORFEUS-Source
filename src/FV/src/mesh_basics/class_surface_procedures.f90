@@ -52,7 +52,7 @@
 !    SURFACE              class.
 !    ALLOC_SURFACE        constructor for SURFACE class.
 !    FREE_SURFACE         destructor for SURFACE class.
-!    TYPE_                indentifies the type of the surface
+!    TYPE_                identifies the type of the surface
 !    GET_SURFACE_NORMAL   returns the normal of the surface at a certain point
 !    GET_SURFACE_R2       returns how good a fit the surface is
 !    GET_CLOSEST_POINT    returns the nearest point that lies on the surface

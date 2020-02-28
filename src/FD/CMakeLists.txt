@@ -147,9 +147,10 @@ set(MORFEUS_FD_INPUTS
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-low-resolution-layers-material-map.json"
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-high-resolution-layers.json"
   "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/3Dplate-low-resolution-halo.json"
+  "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/2Dcylinder.json"
+  "${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/1Dsphere.json"
 )
 
-#  "${CMAKE_CURRENT_SOURCE_DIR}/tests/integration/3Dplate-high-resolution.json"
 add_test(NAME morfeus-fd-setup-fixture
   WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
   COMMAND ${CMAKE_COMMAND} -E copy ${MORFEUS_FD_INPUTS} "${CMAKE_CURRENT_BINARY_DIR}")
@@ -224,6 +225,7 @@ set( base_names
   spatial-derivatives
   spatial-derivatives-new
   adi-time-advancing
+  1d-sphere
   units
 )
 foreach(unit_test ${base_names})
@@ -274,6 +276,7 @@ endforeach()
 set( base_names
   plate-material-mapping
   discretize-3D-plate
+  discretize-2D-cylinder
   write-slab-vtk
   write-voxels-vtk
 )
@@ -284,7 +287,9 @@ endforeach()
 
 # Tri-image integration tests
 set( base_names
-  differentiate-grid
+  differentiate-cartesian-grid
+  differentiate-cylindrical-grid
+  differentiate-spherical-grid
 )
 foreach(integration_test ${base_names})
   add_caf_test( fd-${integration_test} 3 ${CMAKE_CURRENT_BINARY_DIR}/tests/integration/test-${integration_test}

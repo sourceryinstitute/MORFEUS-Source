@@ -112,9 +112,8 @@ CONTAINS
         TYPE(vector)     :: x0_
         TYPE(dimensions) :: fdim
 
-
         ! Creates the base-class member
-        CALL fld%field%create_field(msh,dim,bc,mats,on_faces)
+        CALL fld%field%create_field(msh,dim,bc,mats,on_faces,name)
 
         ! Gets field dimensions
         fdim = fld%field%dim_()
@@ -158,7 +157,7 @@ CONTAINS
         END IF
 
         fld%x(:)  = x0_
-        fld%xp(:)  = x0_
+        fld%xp(:) = x0_
         fld%bx(:) = x0_
 
 100     FORMAT(' ERROR! Memory allocation failure in CREATE_VECTOR_FIELD')

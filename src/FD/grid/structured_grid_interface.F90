@@ -31,10 +31,9 @@ module structured_grid_interface
       !! 1 dim for instances in time
     integer :: global_bounds(num_bounds,max_space_dims) = undefined
     integer :: block_id = undefined
+    integer :: scalar_id = undefined
     type(block_metadata) metadata
   contains
-    procedure(assignment_interface), deferred :: assign_structured_grid
-    generic :: assignment(=) => assign_structured_grid
     procedure(set_up_div_scalar_flux_interface), deferred :: set_up_div_scalar_flux
     procedure(div_scalar_flux_interface), deferred :: div_scalar_flux
     procedure(block_indices_interface), deferred :: block_indicial_coordinates
@@ -67,15 +66,19 @@ module structured_grid_interface
 #ifdef HAVE_UDDTIO
     generic :: write(formatted) => write_formatted
 #endif
-    procedure :: set_block_identifier
+    procedure set_block_identifier
+    procedure get_block_identifier
+    procedure set_scalar_identifier
+    procedure get_scalar_identifier
   end type
 
   abstract interface
 
-    pure subroutine set_up_div_scalar_flux_interface(this, vertices, block_surfaces, div_flux_internal_points)
+    subroutine set_up_div_scalar_flux_interface(this, vertices, block_surfaces, div_flux_internal_points)
       import structured_grid, differentiable_field, surfaces
       implicit none
-      class(structured_grid), intent(in) :: this, vertices
+      class(structured_grid), intent(in) :: this
+      class(structured_grid), intent(in) :: vertices
       type(surfaces), intent(inout) :: block_surfaces
       class(structured_grid), intent(inout) :: div_flux_internal_points
     end subroutine
@@ -83,20 +86,14 @@ module structured_grid_interface
     pure subroutine div_scalar_flux_interface(this, vertices, block_surfaces, div_flux)
       import structured_grid, differentiable_field, surfaces
       implicit none
-      class(structured_grid), intent(in) :: this, vertices
+      class(structured_grid), intent(in) :: this
+      class(structured_grid), intent(in) :: vertices
       type(surfaces), intent(in) :: block_surfaces
       class(structured_grid), intent(inout) :: div_flux
     end subroutine
 
-    subroutine assignment_interface(this, rhs)
-      import structured_grid
-      implicit none
-      class(structured_grid), intent(inout) :: this
-      class(structured_grid), intent(in) :: rhs
-    end subroutine
-
     pure function block_indices_interface(this,n) result(ijk)
-      !! calculate the 3D location of the block that has the provided 1D block identifer
+      !! calculate the 3D location of the block that has the provided 1D block identifier
       import structured_grid
       implicit none
       class(structured_grid), intent(in) :: this
@@ -105,7 +102,7 @@ module structured_grid_interface
     end function
 
     pure function block_identifier_interface(this, ijk) result(n)
-      !! calculate the 1D block identifer associated with the provided 3D block location
+      !! calculate the 1D block identifier associated with the provided 3D block location
       import structured_grid
       implicit none
       class(structured_grid), intent(in) :: this
@@ -113,12 +110,12 @@ module structured_grid_interface
       integer :: n
     end function
 
-    subroutine build_surfaces_interface(this, problem_geometry, space_dimension, block_faces, block_partitions, num_scalars)
+    subroutine build_surfaces_interface(this, problem_geometry, vertices, block_faces, block_partitions, num_scalars)
       !! allocate coarray for communicating across structured_grid blocks
       import structured_grid, geometry, surfaces
       class(structured_grid), intent(in) :: this
       class(geometry), intent(in) :: problem_geometry
-      integer, intent(in) :: space_dimension
+      class(structured_grid), intent(in), dimension(:), allocatable :: vertices
       type(surfaces), intent(inout) :: block_faces
       integer, intent(in), dimension(:) :: block_partitions
       integer, intent(in) :: num_scalars
@@ -257,7 +254,7 @@ module structured_grid_interface
     end subroutine
 
     module function subtract(this, rhs) result(difference)
-      !! result contains the difference between this and rhs nodal_values compoents
+      !! result contains the difference between this and rhs nodal_values components
       implicit none
       class(structured_grid), intent(in) :: this, rhs
       class(structured_grid), allocatable :: difference
@@ -276,6 +273,25 @@ module structured_grid_interface
       class(structured_grid), intent(inout) :: this
       integer, intent(in) :: id
     end subroutine
+
+    pure module function get_block_identifier(this) result(this_block_id)
+      !! result is the block identification tag
+      class(structured_grid), intent(in) :: this
+      integer this_block_id
+    end function
+
+    module subroutine set_scalar_identifier(this, id)
+      !! set block identification tag
+      implicit none
+      class(structured_grid), intent(inout) :: this
+      integer, intent(in) :: id
+    end subroutine
+
+    pure module function get_scalar_identifier(this) result(this_scalar_id)
+      !! result is the block identification tag
+      class(structured_grid), intent(in) :: this
+      integer this_scalar_id
+    end function
 
   end interface
 

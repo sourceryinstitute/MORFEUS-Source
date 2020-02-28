@@ -176,7 +176,7 @@ int SMuntangle_mesh(SMlocal_mesh *local_mesh, int *degenerate)
    double *pi, *b, *feasible_x, x_sum;
    SMlp *lp_info;
 
-   /* In this linear program we will maximize the minumum area of the local
+   /* In this linear program we will maximize the minimum area of the local
        submesh using the simplex measure.  This measure is always convex, regardless
        of the initial submesh, and we therefore expect to converge, unless the problem
        is degenerate.  If the problem is degenerate, we exit and perform laplacian
@@ -199,7 +199,7 @@ int SMuntangle_mesh(SMlocal_mesh *local_mesh, int *degenerate)
    b             = lp_info->b;
    pi            = lp_info->pi;
 
-   /* compute the matrix for the constaints; dimension num_constraints x num_active*/
+   /* compute the matrix for the constraints; dimension num_constraints x num_active*/
    SMcomputeConstraintMatrix(local_mesh,num_constraints,Amat,b);
    /* create the tanspose matrix for the phase one solution to find a feasible point for the LP */
    ierr = SMtransposeMatrix2(Amat,num_constraints,num_active,Amat_T); OPTMS_CHKERR(ierr);
@@ -357,7 +357,7 @@ int SMsolveLP(int num_constraints, int num_active, double **Amat, double *feasib
   }
 
   /* move from feasible point to feasible point, decreasing the objective function at
-     each step.  the number of feasible points is finite so we're gauranteed to stop */
+     each step.  the number of feasible points is finite so we're guaranteed to stop */
    done =0; iter=-1;
    while (!done) {
       SM_LOG_EVENT_BEGIN(__SM_LP_ITER__);
@@ -940,7 +940,7 @@ int SMremoveIdenticalVtx(int dimension, int *num_incident_vtx,int *num_tri,
 
     /* clean up the connectivity list
          - remove any tet that contains both id1 and id2
-         - replace any occurance of id2 with id1
+         - replace any occurrence of id2 with id1
     */
     if ((id1 != -1) && (id2 != -1)) {
       count = 0;

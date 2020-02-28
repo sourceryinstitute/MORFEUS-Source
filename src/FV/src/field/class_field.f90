@@ -58,7 +58,7 @@ MODULE class_field
 
     TYPE, EXTENDS(grid) :: field
         PRIVATE
-        CHARACTER(len=32)       :: name
+        CHARACTER(len=:), ALLOCATABLE :: name
         TYPE(dimensions)        :: dim
         TYPE(mesh),     POINTER :: msh   => NULL()
         LOGICAL                 :: on_faces
@@ -99,7 +99,7 @@ MODULE class_field
             INTEGER(kind=nemo_int_long_) :: nemo_sizeof
         END FUNCTION nemo_sizeof
 
-        MODULE SUBROUTINE create_field(fld,msh,dim,bc,mats,on_faces)
+        MODULE SUBROUTINE create_field(fld,msh,dim,bc,mats,on_faces,name)
             !! Constructor
             IMPLICIT NONE
             !! Mandatory arguments
@@ -110,6 +110,7 @@ MODULE class_field
             TYPE(bc_poly),    INTENT(IN), OPTIONAL, TARGET :: bc(:)
             TYPE(matptr),     INTENT(IN), OPTIONAL, TARGET :: mats(:)
             LOGICAL,          INTENT(IN), OPTIONAL :: on_faces
+            CHARACTER(LEN=*), INTENT(IN), OPTIONAL :: name
         END SUBROUTINE create_field
 
         !! ----- Destructor -----
@@ -125,7 +126,7 @@ MODULE class_field
         MODULE FUNCTION name_(fld)
             IMPLICIT NONE
             CLASS(field), INTENT(IN) :: fld
-            CHARACTER(len=32) :: name_
+            CHARACTER(len=:), ALLOCATABLE :: name_
         END FUNCTION name_
 
         MODULE FUNCTION get_field_dim(fld)

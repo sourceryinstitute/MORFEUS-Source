@@ -38,85 +38,114 @@
 !---------------------------------------------------------------------------------
 
 MODULE class_output
-
+    USE class_psblas, ONLY : psb_dpk_, nemo_int_long_
+    USE class_mesh,   ONLY : mesh
+    !! An Intel 18.0.5 bug precludes putting this in the interface bodies
+    USE class_scalar_field, ONLY : scalar_field
+    !! An Intel 18.0.5 bug precludes putting this in the interface bodies
+    USE class_vector_field, ONLY : vector_field
+    !! An Intel 18.0.5 bug precludes putting this in the interface bodies
     IMPLICIT NONE
 
     PRIVATE
-    PUBLIC :: output
+    PUBLIC :: output, create_output
 
     TYPE output
         PRIVATE
         INTEGER :: fmt
-        CHARACTER(len=32) :: basepath
-        CHARACTER(len=32) :: path
+        CHARACTER(len=:), ALLOCATABLE :: basepath
+        CHARACTER(len=:), ALLOCATABLE :: path
     CONTAINS
-        PROCEDURE :: create_output  ! Constructor
+        PROCEDURE, NOPASS :: create_output  ! Constructor
         PROCEDURE :: fmt_, path_    ! Getters
         PROCEDURE, PRIVATE :: set_output_path_h, set_output_path_iter
         GENERIC, PUBLIC :: set_output_path => set_output_path_h, set_output_path_iter ! Setters
         PROCEDURE, PRIVATE :: nemo_output_sizeof
         GENERIC, PUBLIC :: nemo_sizeof => nemo_output_sizeof
+        PROCEDURE, PRIVATE :: write_output
+        GENERIC, PUBLIC :: write => write_output
+        PROCEDURE, NOPASS :: get_scalar_field
+        PROCEDURE, NOPASS :: get_vector_field
     END TYPE output
 
-
     ! ----- Generic Interface -----
-
 
     INTERFACE
 
         MODULE FUNCTION nemo_output_sizeof(obj)
-            USE psb_base_mod
-            USE class_psblas
+            IMPLICIT NONE
             CLASS(output), INTENT(IN) :: obj
-            INTEGER(kind=nemo_int_long_)   :: nemo_output_sizeof
+            INTEGER(kind=nemo_int_long_) :: nemo_output_sizeof
         END FUNCTION nemo_output_sizeof
-
-        END INTERFACE
 
         ! ----- Setters -----
 
-        INTERFACE
-
         MODULE SUBROUTINE set_output_path_h(out,path)
-            CLASS(output),      INTENT(INOUT) :: out
-            CHARACTER(len=32), INTENT(IN) :: path
+            IMPLICIT NONE
+            CLASS(output),    INTENT(INOUT) :: out
+            CHARACTER(LEN=*), INTENT(IN)    :: path
         END SUBROUTINE set_output_path_h
 
-
         MODULE SUBROUTINE set_output_path_iter(out,iter)
-            USE class_iterating
-            USE tools_output_basics
-            CLASS(output),    INTENT(INOUT) :: out
-            TYPE(iterating), INTENT(IN) :: iter
+            USE class_iterating, ONLY : iterating
+            IMPLICIT NONE
+            CLASS(output),   INTENT(INOUT) :: out
+            TYPE(iterating), INTENT(IN)    :: iter
         END SUBROUTINE set_output_path_iter
 
         ! ----- Constructor -----
 
-        MODULE SUBROUTINE create_output(out,input_file,sec)
-            USE tools_input
-            USE tools_output_basics
-            CLASS(output),      INTENT(INOUT) :: out
-            CHARACTER(len=*), INTENT(IN) :: input_file
-            CHARACTER(len=*), INTENT(IN) :: sec
-        END SUBROUTINE create_output
-
+        MODULE FUNCTION create_output(input_file,sec) RESULT(out)
+            IMPLICIT NONE
+            CLASS(output),   ALLOCATABLE :: out
+            CHARACTER(LEN=*), INTENT(IN) :: input_file
+            CHARACTER(LEN=*), INTENT(IN) :: sec
+        END FUNCTION create_output
 
         ! ----- Getters -----
 
         MODULE FUNCTION fmt_(out)
+            IMPLICIT NONE
             INTEGER :: fmt_
             CLASS(output), INTENT(IN) :: out
         END FUNCTION fmt_
 
-
-        MODULE FUNCTION path_(out)
-            USE tools_output_basics
-            CHARACTER(len=32) :: path_
-            CLASS(output), INTENT(IN) :: out
-            !
-            INTEGER :: l
-            CHARACTER(len=1) :: path_end
+        MODULE FUNCTION path_(out) RESULT(path)
+            IMPLICIT NONE
+            CLASS(output),    INTENT(IN)  :: out
+            CHARACTER(len=:), ALLOCATABLE :: path
         END FUNCTION path_
+
+        MODULE SUBROUTINE write_output(out, msh, sfield, vfield, iter)
+            USE class_iterating, ONLY : iterating
+            IMPLICIT NONE
+            !! author: Ian Porter, GSE
+            !! date: 01/04/2020
+            !!
+            !! This subroutine is a generic writer
+            !!
+            CLASS(output),                    INTENT(INOUT)        :: out          !! DT of output file info
+            TYPE(mesh),                       INTENT(IN)           :: msh          !! DT of mesh info
+            TYPE(scalar_field), DIMENSION(:), INTENT(IN), OPTIONAL :: sfield       !! DT of scalar info
+            TYPE(vector_field), DIMENSION(:), INTENT(IN), OPTIONAL :: vfield       !! DT of vector info
+            TYPE(iterating),                  INTENT(IN), OPTIONAL :: iter         !! DT of iteration info
+        END SUBROUTINE write_output
+
+        MODULE FUNCTION get_scalar_field(fld) RESULT (x_glob)
+            IMPLICIT NONE
+            !! Returns a scalar field
+            TYPE(scalar_field), INTENT(IN) :: fld
+            REAL(psb_dpk_), ALLOCATABLE :: x_glob(:)
+
+        END FUNCTION get_scalar_field
+
+        MODULE FUNCTION get_vector_field(fld) RESULT (x_glob)
+            IMPLICIT NONE
+            !! Returns a vector field
+            TYPE(vector_field), INTENT(IN) :: fld
+            REAL(psb_dpk_), ALLOCATABLE :: x_glob(:,:)
+
+        END FUNCTION get_vector_field
 
     END INTERFACE
 

@@ -17,7 +17,7 @@ submodule(problem_discretization_interface) define_problem_discretization
 contains
 
   module procedure get_surface_packages
-    call this%block_surfaces%get_halo_outbox(this_surface_packages)
+    this_surface_packages = this%block_surfaces%get_halo_outbox()
   end procedure
 
   module procedure get_block_surfaces
@@ -49,6 +49,8 @@ contains
     select case (extension)
     case ('vtu')
       call vtk_output (this, basename, iostat)
+    case ('csv')
+      call csv_output( this, filename, iostat)
    case default
      error stop "problem_discretization%write_output: unsupported file type" // &
 #ifdef HAVE_NON_CONSTANT_ERROR_STOP
@@ -59,6 +61,22 @@ contains
    end select
 
   end procedure write_output
+
+  subroutine csv_output (this, filename, iostat)
+    class(problem_discretization), intent(in) ::this
+    character(len=*), intent(in) :: filename
+    integer, intent(inout), optional :: iostat
+    character(len=132) :: iomsg
+    integer, dimension(0) :: v_list
+    integer  :: file_unit
+    integer ib
+
+    open(newunit=file_unit, file=filename)
+    write(file_unit,'(4("      ",a,:,",",5x))') "x","y","z","layer (phony)"
+    do ib=lbound(this%vertices,1), ubound(this%vertices,1)
+      call this%vertices(ib)%write_formatted(file_unit,'DT', v_list, iostat, iomsg)
+    end do
+  end subroutine
 
   subroutine vtk_output (this, filename, iostat)
     use vtk_datasets,   only : unstruct_grid
@@ -304,9 +322,110 @@ contains
 
   end procedure
 
+  module procedure initialize_from_cylinder_2D
+    use cylindrical_grid_interface, only : cylindrical_grid
+    integer, parameter :: lo_bound=1, up_bound=2 !! array indices corresponding to end points on 1D spatial interval
+    integer, parameter :: nx_min=2, ny_min=2, nz_min=2
+    integer n
+    type(cylindrical_grid) prototype
+      !! used only for dynamic type information about the grid type in the partitioning procedure
+
+    call this%partition( cylinder_2D_geometry%get_block_metadata_shape(), prototype )
+      !! partition a block-structured grids across images
+
+    associate( my_blocks => this%my_blocks() )
+
+      do n = my_blocks(lo_bound) , my_blocks(up_bound) ! TODO: make concurrent after Intel supports co_sum
+
+        call this%vertices(n)%set_block_identifier(n)
+
+        associate( ijk => this%block_map%block_indicial_coordinates(n) )
+
+          associate( metadata => cylinder_2D_geometry%get_block_metadatum(ijk))
+
+            call this%vertices(n)%set_metadata( metadata  )
+
+            associate( &
+              block => cylinder_2D_geometry%get_block_domain(ijk), &
+              max_spacing => metadata%get_max_spacing() &
+            )
+              associate( &
+                nx => max( nx_min, floor( abs(block(1,up_bound) - block(1,lo_bound))/max_spacing ) + 1 ), &
+                ny => max( ny_min, floor( abs(block(2,up_bound) - block(2,lo_bound))/max_spacing ) + 1 ), &
+                nz => max( nz_min, floor( abs(block(3,up_bound) - block(3,lo_bound))/max_spacing ) + 1 ) &
+              )
+                associate( &
+                  x => evenly_spaced_points(  block, [nx,ny,nz], direction=1 ), &
+                  y => evenly_spaced_points(  block, [nx,ny,nz], direction=2 ), &
+                  z => evenly_spaced_points(  block, [nx,ny,nz], direction=3 ) )
+                  call this%set_vertices(x,y,z,block_identifier=n)
+                end associate
+              end associate
+            end associate
+          end associate
+        end associate
+      end do
+
+    end associate
+
+    this%problem_geometry = cylinder_2D_geometry
+
+  end procedure
+
+  module procedure initialize_from_sphere_1D
+    use spherical_grid_interface, only : spherical_grid
+    integer, parameter :: lo_bound=1, up_bound=2 !! array indices corresponding to end points on 1D spatial interval
+    integer, parameter :: nr_min=2, ntheta_min=2, nphi_min=2
+    integer n
+    type(spherical_grid) prototype
+      !! used only for dynamic type information about the grid type in the partitioning procedure
+
+    call this%partition( sphere_1D_geometry%get_block_metadata_shape(), prototype )
+      !! partition a block-structured grids across images
+
+    associate( my_blocks => this%my_blocks() )
+
+      do n = my_blocks(lo_bound) , my_blocks(up_bound) ! TODO: make concurrent after Intel supports co_sum
+
+        call this%vertices(n)%set_block_identifier(n)
+
+        associate( ijk => this%block_map%block_indicial_coordinates(n) )
+
+          associate( metadata => sphere_1D_geometry%get_block_metadatum(ijk))
+
+            call this%vertices(n)%set_metadata( metadata  )
+
+            associate( &
+              block => sphere_1D_geometry%get_block_domain(ijk), &
+              max_spacing => metadata%get_max_spacing() &
+            )
+              associate( &
+                nr =>     max( nr_min, floor( abs(block(1,up_bound) - block(1,lo_bound))/max_spacing ) + 1 ), &
+                ntheta => 1, &
+                nphi =>   1 &
+              )
+                associate( &
+                  r =>     evenly_spaced_points(  block, [nr,ntheta,nphi], direction=1 ), &
+                  theta => evenly_spaced_points(  block, [nr,ntheta,nphi], direction=2 ), &
+                  phi =>   evenly_spaced_points(  block, [nr,ntheta,nphi], direction=3 ) )
+                  call this%set_vertices(r,theta,phi,block_identifier=n)
+                end associate
+              end associate
+            end associate
+          end associate
+        end associate
+      end do
+
+    end associate
+
+    this%end_time = sphere_1D_geometry%get_end_time()
+    this%problem_geometry = sphere_1D_geometry
+
+  end procedure
+
   module procedure partition
 
-    integer alloc_status, image
+    integer alloc_status, image, num_blocks
     character(len=max_errmsg_len) alloc_error
 
     allocate( this%block_map, stat=alloc_status, errmsg=alloc_error, mold=prototype )
@@ -439,6 +558,7 @@ contains
     integer b, f, alloc_status
     character(len=128) alloc_error
     class(structured_grid), allocatable :: exact_flux_div
+    type(package), allocatable, dimension(:,:,:) :: surface_packages
 
     call assert(allocated(this%scalar_fields), "set_scalar_flux_divergence: allocated(this%scalar_fields)")
     if (allocated(this%scalar_flux_divergence)) deallocate(this%scalar_flux_divergence)
@@ -449,15 +569,23 @@ contains
         allocate(this%scalar_flux_divergence(lbound(this%vertices,1) : ubound(this%vertices,1), num_fields ), &
           stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
         call assert( alloc_status==success, "set_scalar_flux_divergence: allocation", alloc_error )
+        do b = lbound(this%vertices,1), ubound(this%vertices,1)
+          do f = 1, num_fields
+            call this%scalar_flux_divergence(b,f)%set_scalar_identifier(f)
+            call this%scalar_flux_divergence(b,f)%set_block_identifier(b)
+          end do
+        end do
       end if
 
       if (present(exact_result)) &
         call assert(size(exact_result)==num_fields, "problem_discretization%set_scalar_flux_divergence: size(exact_result)")
 
         internal_values: &
-        do concurrent( b = lbound(this%vertices,1): ubound(this%vertices,1), f = 1: num_fields )
-          call this%scalar_fields(b,f)%set_up_div_scalar_flux( &
-            this%vertices(b), this%block_surfaces, this%scalar_flux_divergence(b,f) )
+        do b = lbound(this%vertices,1), ubound(this%vertices,1)
+          do f = 1, num_fields
+            call this%scalar_fields(b,f)%set_up_div_scalar_flux( &
+              this%vertices(b), this%block_surfaces, this%scalar_flux_divergence(b,f) )
+          end do
         end do internal_values
 
         sync all !! the above loop sets normal-flux data just inside each block boundary for communication in the loop below
@@ -495,10 +623,19 @@ contains
     if (assertions) call assert(allocated(this%vertices), "problem_discretization%set_analytical_scalars: allocated(this%vertices)")
 
     associate( num_scalars => size(scalar_setters) )
-      if (allocated(this%scalar_fields)) deallocate(this%scalar_fields)
-      allocate( this%scalar_fields(lbound(this%vertices,1) : ubound(this%vertices,1), num_scalars), &
-        stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
-      call assert( alloc_status==success, "set_analytical_scalars: scalar_field allocation", alloc_error)
+
+      if (.not. allocated(this%scalar_fields)) then
+        allocate( this%scalar_fields(lbound(this%vertices,1) : ubound(this%vertices,1), num_scalars), &
+          stat=alloc_status, errmsg=alloc_error, mold=this%vertices(lbound(this%vertices,1)) )
+        call assert( alloc_status==success, "set_analytical_scalars: scalar_field allocation", alloc_error)
+
+        do b = lbound(this%vertices,1), ubound(this%vertices,1)
+          do f = 1, num_scalars
+            call this%scalar_fields(b,f)%set_scalar_identifier(f)
+            call this%scalar_fields(b,f)%set_block_identifier(b)
+          end do
+        end do
+      end if
 
       loop_over_blocks: &
       do b = lbound(this%vertices,1), ubound(this%vertices,1)
@@ -516,10 +653,8 @@ contains
       call assert( allocated(this%problem_geometry), &
         "problem_discretization%set_analytical_scalars: allocated(this%problem_geometry)")
 
-      associate( my_blocks => this%my_blocks() )
-        call this%block_map%build_surfaces( this%problem_geometry, &
-          this%vertices(my_blocks(1))%space_dimension(), this%block_surfaces, this%block_partitions, num_scalars)
-      end associate
+      call this%block_map%build_surfaces( &
+        this%problem_geometry, this%vertices, this%block_surfaces, this%block_partitions, num_scalars)
     end associate
 
   end procedure
@@ -538,6 +673,19 @@ contains
     else
       num_divergences = 0
     end if
+  end procedure
+
+  module procedure solve_governing_equations
+    use spherical_1D_solver_module, only : spherical_1D_solver
+    use kind_parameters, only : r8k
+
+    type(spherical_1D_solver) conducting_sphere
+
+    call conducting_sphere%set_v( nr = 101, constants = [0._r8k, 1073.15_r8k] )
+    call conducting_sphere%set_expected_solution_size()
+    call conducting_sphere%set_material_properties_size()
+    call conducting_sphere%time_advance_heat_equation( duration = this%end_time )
+
   end procedure
 
 end submodule define_problem_discretization

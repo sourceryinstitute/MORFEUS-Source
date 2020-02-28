@@ -23,7 +23,7 @@ is provided and its components described along with instructions for
   - Setting up PDEs and integrating the solution forward in time, and
   - Writing outputs.
 
-![Sphere geometry and mesh for finite volume solver](https://user-images.githubusercontent.com/13108868/74580343-f5095500-4f57-11ea-9c18-5c5aec301642.png)
+![Sphere geometry and mesh for finite volume solver](../media/sphere.png)
 
 
 Solver Description
@@ -41,7 +41,7 @@ The morfeus solver consists of two parts:
 Numerical Algorithms
 --------------------
 
-Morfeus-FV solves transport equations using explicit finite-difference time advancement and cell-based finite-volume scheme spatial discretizations.  For a complete description of the alogorithms employed
+Morfeus-FV solves transport equations using explicit finite-difference time advancement and cell-based finite-volume scheme spatial discretizations.  For a complete description of the algorithms employed
 in Morfeus-FV, refer to the dissertation by S. [Toninel (2006)].  More recent work has involved modernization of the code using the modular and object-oriented programming (OOP) features of Fortran 2008,
 including
 
@@ -50,14 +50,29 @@ including
   - User-defined, type-bound operators, and
   - Submodules.
 
-[Toninel (2006)]: http://people.uniroma2.it/salvatore.filippone/nemo/toninel_phd.pdf
+[Toninel (2006)]: ../media/toninel_phd.pdf
 
 Input Files
 ------------
 
 Morfeus requires two input files. The first is a geometry file in GAMBIT neutral file format or in EXODUS II format; the second is a file called fast.json that contains the problem description, i.e. the description of materials, boundary conditions, solver parameters such as convergence criteria, and output parameters. The `fast.json` file should be present in the same folder as the mesh-file and the solver.   The next several sections describe different sections of a [sample json input file].
 
-[sample json input file]: https://github.com/sourceryinstitute/OpenCoarrays/files/4207672/fast.json.zip
+[sample json input file]: ../media/fast.json
+
+Example Program Flow
+--------------------
+
+A typical multi-physics application for dealing with heat transfer, solid mechanics, and various other physics would look something like the figure below:
+
+<img src="../media/Morfeus-FV-program-flow.png" id="responsive-image">
+
+It might not be immediately obvious how to connect these high-level concepts to the particular objects, classes and their methods listed below.
+The following figure provides a mapping to connect these abstract concepts to their more concrete realization.
+
+<img src="../media/Flowchart.png" id="responsive-image">
+
+Additional information about the objects, classes and their mothods (type bound procedures) shown on the right hand side of the preceding figure can be found below.
+This information includes direct links to the more detailed API documentation.
 
 High-Level Object Descriptions
 ------------------------------

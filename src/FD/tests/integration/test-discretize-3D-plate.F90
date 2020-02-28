@@ -7,7 +7,7 @@
 program main
   !! author: Damian Rouson and Karla Morris
   !! date: 9/9/2019
-  !! Test the initialization of a problem_discretization from json_file input
+  !! Test the initialization of a problem_discretization from a plate json_file input
 
   use assertions_interface, only : assert
   use plate_3D_interface, only : plate_3D
@@ -29,8 +29,7 @@ contains
 
     call plate_geometry%build( input ) !! read geometrical information
     call global_grid%initialize_from_geometry( plate_geometry ) !! partition block-structured grid & define grid vertex locations
-
-    call global_grid%write_output (output) !! TODO. Make more sophisticated to allow calling of other output types
+    call global_grid%write_output (output)
 
   end subroutine
 
