@@ -40,7 +40,7 @@ module cartesian_grid_interface
     end subroutine
 
     pure module subroutine div_scalar_flux(this, vertices, block_surfaces, div_flux)
-      !! comunicate scalar fluxes between block neighbors in a halo exchange; compute scalar flux divergence at block boundaries
+      !! communicate scalar fluxes between block neighbors in a halo exchange; compute scalar flux divergence at block boundaries
       implicit none
       class(cartesian_grid), intent(in) :: this
       class(structured_grid), intent(in) :: vertices
