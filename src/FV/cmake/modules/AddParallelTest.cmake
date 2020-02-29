@@ -59,17 +59,17 @@ function(add_parallel_test)
 
   add_test(NAME ${_test_name}
     COMMAND ${_test_launch})
-  set_property(TEST ${name}
+  set_property(TEST ${_test_name}
     APPEND
     PROPERTY LABELS "MORFEUS" "MORFEUS_FV" "integration-test")
-  set_property(TEST ${name}
+  set_property(TEST ${_test_name}
     APPEND
     PROPERTY PASS_REGULAR_EXPRESSION "[Tt]est [Pp]assed")
-  set_property(TEST ${name}
+  set_property(TEST ${_test_name}
     APPEND
     PROPERTY PROCESSORS ${APT_PROCESSES})
   if(APT_TEST_DIR)
-    set_property(TEST ${name}
+    set_property(TEST ${_test_name}
       APPEND
       PROPERTY WORKING_DIRECTORY ${APT_TEST_DIR})
   endif()
